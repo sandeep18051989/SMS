@@ -1,0 +1,26 @@
+﻿@model SMS.Models.CustomPageModel
+@{
+    ViewBag.Title = "Third Party Manufacturing";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("#main-menu li").removeClass('active');
+            $("#main-menu li:nth-child(4)").addClass('active');
+            $("fieldset div").each(function () {
+                $(this).css('width', '100% !important;');
+            });
+        });
+</script>
+@using (Html.BeginForm("ThirdPartyManufacturing", "Common", FormMethod.Get, new { enctype = "multipart/form-data", @class = "well form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <fieldset style="width:100%;display:block;">
+        <!-- Form Name -->
+        <legend>Third Party Manufacturing</legend>
+        <div class="htmlBody">
+            @Html.Raw(Model.BodyHtml)
+        </div>
+    </fieldset>
+}
+

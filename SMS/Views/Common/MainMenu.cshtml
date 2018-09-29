@@ -1,0 +1,22 @@
+﻿<!-- Fixed navbar -->
+<nav class="navbar navbar-default" id="nav">
+	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+	<div class="navbar-text social-media social-media-inline pull-right">
+		<a href="#"><i class="fa fa-twitter"></i></a>
+		<a href="#"><i class="fa fa-facebook"></i></a>
+		<a href="#"><i class="fa fa-linkedin"></i></a>
+		<a href="#"><i class="fa fa-google-plus"></i></a>
+	</div>
+	<div class="navbar-collapse collapse">
+		<ul class="nav navbar-nav" id="main-menu">
+			<li class="icon-link">
+				<a href="/"><i class="fa fa-home"></i></a>
+			</li>
+			<li><a class="active" href="@Url.RouteUrl("Root")">Home</a></li>
+			<li><a href="@Url.Action("List","Product", new { Area="" })">Our Products</a></li>
+			<li><a href="@Url.Action("Pharma","Common", new { Area="" })">Pharma PCD</a></li>
+			<li><a href="@Url.Action("ThirdPartyManufacturing","Common", new { Area="" })">Manufacturing</a></li>
+			<li><a href="@Url.Action("About","Common", new { Area="" })">About</a></li>
+		</ul>
+	</div>
+</nav><!--/.navbar -->

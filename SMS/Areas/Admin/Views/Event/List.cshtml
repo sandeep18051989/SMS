@@ -1,0 +1,137 @@
+﻿@model IEnumerable<SMS.Models.EventModel>
+@{
+	ViewBag.Title = "Events";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="list-form">
+			@using (Html.BeginForm())
+			{
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<div class="input-group pull-right">
+							@Html.ActionLink("Create Event", "Create", "Event", null, new { @class = "btn btn-primary" })
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<br />
+						<div class="form-group">
+							<table class="table custom-table" data-sorting="true" data-paging="true" data-page-size="10">
+								<thead>
+									<tr>
+										<th data-visible="false" data-sortable="false" data-class="expand"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+										<th data-title="Title" data-sort-ignore="true">Title</th>
+										<th data-breakpoints="xs sm md" data-title="Start Date">Start Date</th>
+										<th data-breakpoints="xs sm md" data-title="End Date">End Date</th>
+										<th data-breakpoints="xs sm md" data-title="Description" data-sortable="false" data-sort-ignore="true">Description</th>
+										<th data-breakpoints="xs sm md" data-title="Comments/Pictures/Videos" data-sortable="false" data-sort-ignore="true">Comments/Pictures/Videos</th>
+										<th data-sortable="false" data-sort-ignore="true">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var eve in Model)
+									{
+										<tr>
+											<td align="center"><input type="checkbox" id="@eve.EventId" value="@eve.EventId" /></td>
+											<td align="center"><a href="@eve.SystemName" title="@eve.Title">@eve.Title</a></td>
+											<td align="center">@eve.StartDate</td>
+											<td align="center">@eve.EndDate</td>
+											<td align="center">@(!String.IsNullOrEmpty(eve.Description) ? eve.Description.Length > 200 ? eve.Description.Substring(0, 200) : eve.Description : "")</td>
+											<td align="center">
+												<div id="other-related-stats" class="row">
+													<div class="col-md-3">
+														<span>
+															<i class="fa fa-2x fa-comment" aria-hidden="true"></i>
+															<span class="badge up badge-danger">@eve.Comments.Count</span>
+														</span>
+													</div>
+													<div class="col-md-3">
+														<span>
+															<i class="fa fa-2x fa-picture-o" aria-hidden="true"></i>
+															<span class="badge up badge-danger">@eve.Pictures.Count</span>
+														</span>
+													</div>
+													<div class="col-md-3">
+														<span>
+															<i class="fa fa-2x fa-video-camera" aria-hidden="true"></i>
+															<span class="badge up badge-danger">@eve.Videos.Count</span>
+														</span>
+													</div>
+												</div>
+											</td>
+											<td align="center"><a href="@Url.Action("Edit", "Event", new {eve.Id})" id="@("edit_" + eve.EventId)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="@("eventid_" + eve.EventId)" href="javascript:void(0);" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		// Initiallize Footable
+		$('table').DataTable({
+
+			"processing": true, // for show progress bar  
+			"serverSide": true, // for process server side  
+			"filter": true, // this is for disable filter (search box)  
+			"orderMulti": false, // for disable multiple column at once  
+			"pageLength": 5,
+
+			"ajax": {
+				"url": "/Demo/LoadData",
+				"type": "POST",
+				"datatype": "json"
+			},
+
+			"columnDefs":
+			[{
+					"targets": [0],
+					"visible": false,
+					"searchable": false
+				},
+				{
+					"targets": [7],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [8],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [9],
+					"searchable": false,
+					"orderable": false
+				}],
+
+			"columns": [
+				{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
+				{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+				{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
+				{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+				{ "data": "City", "name": "City", "autoWidth": true },
+				{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+				{ "data": "Country", "name": "Country", "autoWidth": true },
+				{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
+				{
+					"render": function (data, type, full, meta)
+						{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+				},
+				{
+					data: null, render: function (data, type, row) {
+						return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+					}
+				}
+			]
+		});
+	});
+</script>

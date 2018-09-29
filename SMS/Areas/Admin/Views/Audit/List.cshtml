@@ -1,0 +1,143 @@
+﻿@model SMS.Areas.Admin.Models.AuditModelListModel
+
+@{
+	ViewBag.Title = "Audit Log";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("List", "Audit", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	<div class="form-horizontal">
+		<div id="admin-page-header" class="col-xs-12 col-md-12">
+			<h3 class="admin-section-header pull-left" style="text-align:left;font-weight:bold;">Audit Log</h3>
+		</div>
+		<div class="clearfix"></div>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="form-group">
+			@Html.LabelFor(model => model.SelectedEntityName, "Select Entity", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-4">
+				@Html.DropDownListFor(model => model.SelectedEntityName, Model.Entities, new { @class = "form-control selectpicker", @tabindex = "2" })
+				@Html.ValidationMessageFor(model => model.SelectedEntityName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div id="audit-wrapper" class="form-group">
+			<div id="dvUpdate" class="col-md-12">
+				<table class="table custom-table" data-sorting="true" data-paging="true" data-page-size="10">
+					<thead>
+						<tr>
+							<th data-visible="false" data-class="expand" data-breakpoints="xs sm md" data-title="Type">Event Type</th>
+							<th data-breakpoints="xs sm md" data-title="Log Details" class="hidden-xs hidden-sm hidden-md" data-sortable="false" data-sort-ignore="true">Log Details</th>
+
+							<th data-sortable="false" data-sort-ignore="true">Date</th>
+							<th data-breakpoints="xs sm md" data-title="Name" data-sortable="false" data-sort-ignore="true">Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var eve in Model.AuditLogs)
+						{
+							<tr>
+								<td align="center">@eve.EventType</td>
+
+								<td data-breakpoints="xs sm md" data-title="Details" align="center">
+									<table class="table custom-table" data-sorting="true" data-paging="true" data-page-size="10">
+										<thead>
+											<tr>
+												<th>Property</th>
+												<th>New Value</th>
+												<th>Original Value</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var metaData in eve.LogDetails)
+											{
+												<tr>
+													<td>@metaData.PropertyName</td>
+													<td>@metaData.NewValue</td>
+													<td>@Convert.ToString(String.IsNullOrEmpty(metaData.OriginalValue) ? "Nil" : metaData.OriginalValue)</td>
+												</tr>
+											}
+										</tbody>
+									</table>
+								</td>
+								<td>@eve.EventDateUTC</td>
+								<td>@eve.TypeFullName</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+}
+<script type="text/javascript">
+	var selectedIds = [];
+	$(document).ready(function () {
+		// Initiallize Footable
+		$('table').DataTable({
+
+			"processing": true, // for show progress bar  
+			"serverSide": true, // for process server side  
+			"filter": true, // this is for disable filter (search box)  
+			"orderMulti": false, // for disable multiple column at once  
+			"pageLength": 5,
+
+			"ajax": {
+				"url": "/Demo/LoadData",
+				"type": "POST",
+				"datatype": "json"
+			},
+
+			"columnDefs":
+			[{
+				"targets": [0],
+				"visible": false,
+				"searchable": false
+			},
+			{
+				"targets": [7],
+				"searchable": false,
+				"orderable": false
+			},
+			{
+				"targets": [8],
+				"searchable": false,
+				"orderable": false
+			},
+			{
+				"targets": [9],
+				"searchable": false,
+				"orderable": false
+			}],
+
+			"columns": [
+				{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
+				{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+				{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
+				{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+				{ "data": "City", "name": "City", "autoWidth": true },
+				{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+				{ "data": "Country", "name": "Country", "autoWidth": true },
+				{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
+				{
+					"render": function (data, type, full, meta)
+					{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+				},
+				{
+					data: null, render: function (data, type, row) {
+						return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+					}
+				}
+			]
+		});  
+		$(".throbber").hide();
+		$(document).on('change', '#@Html.IdFor(m=>m.SelectedEntityName)', function (e) {
+			if ($(this).val() != "" && $(this).val() != 0) {
+				$(".throbber").show();
+				$("form").submit();
+				$(".throbber").hide();
+			}
+		});
+	});
+</script>

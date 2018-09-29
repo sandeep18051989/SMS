@@ -1,0 +1,126 @@
+﻿@model IEnumerable<SMS.Models.DataTokenModel>
+
+@{
+	ViewBag.Title = "Data Tokens";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="list-form">
+			@using (Html.BeginForm())
+			{
+				<div class="row">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<h3 class="section-heading mr-auto">DATA TOKENS</h3>
+						@Html.ActionLink("Create Data Token", "Create", "DataToken", null, new { @class = "btn btn-primary mr-auto" })
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<br />
+						<div class="form-group">
+							<table class="table custom-table" data-sorting="true" data-paging="true" data-page-size="10">
+								<thead>
+									<tr>
+										<th data-breakpoints="xs sm md" data-visible="false" data-sortable="false" data-class="expand"><input type="checkbox" id="allcheck" /></th>
+										<th>Name</th>
+										<th data-breakpoints="xs sm md" data-title="Value" data-sort-ignore="true">Value</th>
+										<th data-breakpoints="xs sm md" data-title="System" data-sortable="false" data-sort-ignore="true">System Defined</th>
+										<th data-sortable="false" data-sort-ignore="true">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var temp in Model)
+									{
+										<tr>
+											<td align="center"><input type="checkbox" id="@temp.Id" value="@temp.Id" /></td>
+											<td align="center">@(temp.Name)</td>
+											<td align="center">@(!string.IsNullOrEmpty(temp.Value) ? temp.Value.Length > 200 ? temp.Value.Substring(0, 200) : temp.Value : "")</td>
+											<td>
+												@if (temp.IsSystemDefined)
+												{
+													<i style="font-size: 24px;" class="fa fa-check fa-2x"></i>
+												}
+												else
+												{
+													<i style="font-size: 24px;" class="fa fa-remove fa-2x"></i>
+												}
+											</td>
+											<td align="center">
+												<a href="@Url.Action("Edit", "DataToken", new {temp.Id})" id="@("edit_" + temp.Id)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;
+												@if (!temp.IsSystemDefined)
+												{
+													<a id="@("tokenid_" + temp.Id)" href="@Url.Action("Delete", "DataToken", new {temp.Id})" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+												}
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('table').DataTable({
+
+			"processing": true, // for show progress bar  
+			"serverSide": true, // for process server side  
+			"filter": true, // this is for disable filter (search box)  
+			"orderMulti": false, // for disable multiple column at once  
+			"pageLength": 5,
+
+			"ajax": {
+				"url": "/Demo/LoadData",
+				"type": "POST",
+				"datatype": "json"
+			},
+
+			"columnDefs":
+			[{
+					"targets": [0],
+					"visible": false,
+					"searchable": false
+				},
+				{
+					"targets": [7],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [8],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [9],
+					"searchable": false,
+					"orderable": false
+				}],
+
+			"columns": [
+				{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
+				{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+				{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
+				{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+				{ "data": "City", "name": "City", "autoWidth": true },
+				{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+				{ "data": "Country", "name": "Country", "autoWidth": true },
+				{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
+				{
+					"render": function (data, type, full, meta)
+						{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+				},
+				{
+					data: null, render: function (data, type, row) {
+						return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+					}
+				}
+			]
+		});
+	});
+</script>

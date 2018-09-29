@@ -1,0 +1,307 @@
+﻿@model SMS.Areas.Admin.Models.LeftSideBarModel
+@using EF.Services.Service;
+@using EF.Core;
+@using EF.Core.Data;
+@using EF.Services.Context;
+@{
+	var _UserContext = EF.Core.ContextHelper.Current.Resolve<IUserContext>();
+	var _permissionService = EF.Core.ContextHelper.Current.Resolve<IPermissionService>();
+}
+<ul class="collapsible collapsible-accordion">
+
+	<li><a class="waves-effect" href="@Url.RouteUrl("Root")"><i class="fa fa-home"></i> Home</a></li>
+	@if (_permissionService.Authorize("ManageDashboard"))
+			{
+				<li><a class="waves-effect" href="@Url.Action("Index", "Dashboard", new { Area = "Admin" })"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageEvents") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-bitcoin"></i> Events
+				@if (_permissionService.Authorize("ManageEvents"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageEvents"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "Event", new { Area = "Admin" })" class="waves-effect">Events</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "Event", new { Area = "Admin" })" class="waves-effect">Create Event</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageProducts") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-product-hunt"></i> Products
+				@if (_permissionService.Authorize("ManageProducts"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageProducts"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "Product", new { Area = "Admin" })" class="waves-effect">Products</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "Product", new { Area = "Admin" })" class="waves-effect">Create Product</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManagePermissions") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-user-secret"></i> Permissions
+				@if (_permissionService.Authorize("ManagePermissions"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManagePermissions"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("PermissionsList", "Permission", new { Area = "Admin" })" class="waves-effect">Role Permissions</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "Permission", new { Area = "Admin" })" class="waves-effect">Create Permission</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageDataTokens") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-tags"></i> DataTokens
+				@if (_permissionService.Authorize("ManageDataTokens"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageDataTokens"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "DataToken", new { Area = "Admin" })" class="waves-effect">Data Tokens</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "DataToken", new { Area = "Admin" })" class="waves-effect">Create Data Token</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageTemplates") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-mail-reply-all"></i> Templates
+				@if (_permissionService.Authorize("ManageTemplates"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageTemplates"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("TemplateList", "Template", new { Area = "Admin" })" class="waves-effect">Templates</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "Template", new { Area = "Admin" })" class="waves-effect">Create Template</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageCustomPages") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-pagelines"></i> Custom Pages
+				@if (_permissionService.Authorize("ManageCustomPages"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageCustomPages"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "CustomPage", new { Area = "Admin" })" class="waves-effect">Custom Pages</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "CustomPage", new { Area = "Admin" })" class="waves-effect">Create Custom Page</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard") && _UserContext.CurrentUser.Roles.FirstOrDefault(x => x.Id == 1) != null)
+	{
+		<li>
+			<a href="@Url.Action("List", "Feedback", new { Area = "Admin" })" class="waves-effect"><i class="fa fa-question"></i> Queries</a>
+		</li>
+	}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageRoles") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-user-plus"></i> Roles
+				@if (_permissionService.Authorize("ManageRoles"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageRoles"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "Role", new { Area = "Admin" })" class="waves-effect">Roles</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "Role", new { Area = "Admin" })" class="waves-effect">Create Role</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageUsers") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-user"></i> Users
+				@if (_permissionService.Authorize("ManageUsers"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageUsers"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "User", new { Area = "Admin" })" class="waves-effect">Users</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "User", new { Area = "Admin" })" class="waves-effect">Create User</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageAudits") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-magic"></i> Audits
+				@if (_permissionService.Authorize("ManageAudits"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageAudits"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "Audit", new { Area = "Admin" })" class="waves-effect">Audit Log</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageLogs") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-assistive-listening-systems"></i> System Log
+				@if (_permissionService.Authorize("ManageLogs"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageLogs"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "Log", new { Area = "Admin" })" class="waves-effect">Log</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageEmployeeAttendance") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-bookmark"></i> Attendance
+				@if (_permissionService.Authorize("ManageEmployeeAttendance"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageEmployeeAttendance"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("EmployeeAttendanceList", "Attendance",new { @page = 1, @area = "Admin" })" class="waves-effect">Employee Attendance</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+			}
+	<li>
+		<a class="@(_permissionService.Authorize("ManageSettings") ? "collapsible-header" : "") waves-effect arrow-r">
+			<i class="fa fa-cogs"></i> Settings
+			@if (_permissionService.Authorize("ManageSettings"))
+			{
+				<i class="fa fa-angle-down rotate-icon"></i>
+			}
+		</a>
+		@if (_permissionService.Authorize("ManageSettings"))
+		{
+			<div class="collapsible-body" style="display:none;">
+				<ul>
+					@Html.Partial("~/Areas/Admin/Views/Common/AdminSettingsMenu.cshtml", Model.ActiveSettings)
+				</ul>
+			</div>
+		}
+	</li>
+</ul>

@@ -1,0 +1,144 @@
+﻿@model SMS.Areas.Admin.Models.SliderSettingsModel
+@{
+	ViewBag.Title = "Slider Settings";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="slider-setting-form">
+			@using (Html.BeginForm("Index", "Slider", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(model => model.Id)
+				<div class="row">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<h3 class="section-heading mr-auto">SLIDER SETTINGS</h3>
+						<input type="submit" value="Save" class="btn btn-primary" />&nbsp;<input type="button" id="btnShowPictures" class="btn btn-info" name="picturelist" value="Show Pictures List" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<hr />
+				<div class="row text-left">
+					<div class="col-md-12 mb-4">
+						<div class="md-form">
+							<i class="fa fa-camera prefix"></i>
+							@Html.EditorFor(model => model.MaxPictures, new { htmlAttributes = new { @class = "form-control", @type = "number", @value = "0", @onkeypress = "return checkNumber(event);" } })
+							@Html.LabelFor(model => model.MaxPictures, "Maximun Pictures :", new { @class = "control-label" })
+							@Html.ValidationMessageFor(model => model.MaxPictures, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-md-12 mb-4">
+						<div class="md-form">
+							<i class="fa fa-picture-o prefix"></i>
+							@Html.EditorFor(model => model.PictureId, "SliderPictureUpload.cshtml")
+							@Html.ValidationMessageFor(model => model.PictureId, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div id="picture-list" class="row" style="display:none;">
+					<div class="col-md-6 my-3 text-left">
+						<div class="card">
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table product-table">
+										<thead class="mdb-color lighten-5">
+											<tr>
+												<th style="text-align:center;" colspan="2">Pictures</th>
+											</tr>
+										</thead>
+										<tbody id="picture-grid-body"></tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-12 mb-4">
+						<div class="md-form">
+							<ul class="alert alert-info alert-hints">
+								<li>
+									<strong>Info!</strong> Please upload @(Model.MaxWidthSetting + "(Width) X (Height)" + Model.MaxHeightSetting) px image for best results.
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="pic-list" style="display:none;" class="jumbotron p-5 text-left text-md-left">
+					<h3 class="h3-responsive font-weight-bold dark-grey-text">Pictures</h3>
+					<hr />
+					<div class="row text-left">
+						<div class="col-xs-12 col-md-12">
+							<div id="updateDiv" class="md-form">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+	var selectedIds = [];
+	$(document).ready(function() {
+		GetPictures();
+	});
+
+	function DeletePictures() {
+		var postData = {
+			sliderId: $("#Id").val(),
+			selectedIds: selectedIds
+		};
+		addAntiForgeryToken(postData);
+		if (selectedIds.length > 0) {
+			$.ajax({
+				cache: false,
+				type: "POST",
+				url: "@(Url.Action("DeleteSelected", "Slider", new {area = "Admin"}))",
+			data: postData,
+			complete: function(data) {
+				alert("Pictures Deleted Successfully.");
+				GetPictures();
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError);
+			},
+			traditional: true
+				});
+		}
+		return false;
+	}
+
+	function TogglePictures() {
+		var postData = {
+			sliderId: $("#Id").val(),
+			selectedIds: selectedIds
+		};
+		addAntiForgeryToken(postData);
+
+		if (selectedIds.length > 0) {
+			$.ajax({
+				cache: false,
+				type: "POST",
+				url: "@(Url.Action("ToggleSelected", "Slider", new {area = "Admin"}))",
+				data: postData,
+				complete: function (data) {
+					alert("Picture Status Changed Successfully.");
+					GetPictures();
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert(thrownError);
+				},
+				traditional: true
+			});
+		}
+		return false;
+	}
+</script>

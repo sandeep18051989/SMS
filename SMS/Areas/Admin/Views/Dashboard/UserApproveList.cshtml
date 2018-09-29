@@ -1,0 +1,226 @@
+﻿@model SMS.Areas.Admin.Models.NotificationModel
+@using EF.Services
+@{
+	ViewBag.Title = "New Users";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+	ViewBag.Result = "";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="list-form">
+			@using (Html.BeginForm())
+			{
+				<div class="row">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<h3 class="section-heading mr-auto">USER APPROVAL/REJECTION</h3>
+						<button class="btn btn-primary mr-auto" type="button" id="approve-selected"><i class="fa fa-check-circle"></i> Approve</button>&nbsp;&nbsp;<button class="btn btn-danger" type="button" id="reject-selected"><i class="fa fa-close"></i>  Reject</button>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="col-xs-12 col-md-12">
+					<br />
+					<div id="users-table" class="form-group">
+						<table class="table custom-table" data-sorting="true" data-page-size="10">
+							<thead>
+								<tr>
+									<th><input type="checkbox" id="allcheck" value="allcheck" /></th>
+									<th data-sort-ignore="true">Username</th>
+									<th>Registration Date</th>
+									<th>Assign Role</th>
+									<th data-sort-ignore="true">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var eve in Model.Users)
+								{
+									<tr>
+										<td align="center"><input type="checkbox" id="@eve.UserId" class="checkboxGroups" value="@eve.UserId" /></td>
+										<td align="center">@eve.Username</td>
+										<td align="center">@eve.CreatedOn</td>
+										<td align="center">@Html.DropDownListFor(model => model.SelectedRoleId, Model.AvailableRoles, new { @class = "form-control" })</td>
+										<td data-id="@eve.UserId" align="center">
+											<a class="btn btn-success" href="javascript:void(0);" onclick="return ApproveRejectRequest(@eve.UserId,'approve');" id="@("edit_" + eve.UserId)" title="Approve"><i class="fa fa-check fa-2x"></i></a>
+											<a class="btn btn-danger" id="@("userid_" + eve.UserId)" onclick="return ApproveRejectRequest(@eve.UserId,'reject');" href="javascript:void(0);" title="Reject"><i class="fa fa-remove fa-2x"></i></a>
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('table').DataTable({
+
+			"processing": true, // for show progress bar  
+			"serverSide": true, // for process server side  
+			"filter": true, // this is for disable filter (search box)  
+			"orderMulti": false, // for disable multiple column at once  
+			"pageLength": 5,
+
+			"ajax": {
+				"url": "/Demo/LoadData",
+				"type": "POST",
+				"datatype": "json"
+			},
+
+			"columnDefs":
+			[{
+					"targets": [0],
+					"visible": false,
+					"searchable": false
+				},
+				{
+					"targets": [7],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [8],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [9],
+					"searchable": false,
+					"orderable": false
+				}],
+
+			"columns": [
+				{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
+				{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+				{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
+				{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+				{ "data": "City", "name": "City", "autoWidth": true },
+				{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+				{ "data": "Country", "name": "Country", "autoWidth": true },
+				{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
+				{
+					"render": function (data, type, full, meta)
+						{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+				},
+				{
+					data: null, render: function (data, type, row) {
+						return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+					}
+				}
+			]
+		});
+			//approve selected
+			$('#approve-selected').click(function (e) {
+				e.preventDefault();
+
+				var postData = {
+					selectedIds: selectedIds
+				};
+				addAntiForgeryToken(postData);
+
+				$.ajax({
+					cache: false,
+					type: "POST",
+					url: "@(Url.Action("ApproveSelected", "Dashboard"))",
+					data: postData,
+					complete: function (data) {
+						@ViewBag.Message = "Users Approved Successfully.";
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(thrownError);
+					},
+					traditional: true
+				});
+				return false;
+			});
+
+			//approve selected
+			$('#reject-selected').click(function (e) {
+				e.preventDefault();
+
+				var postData = {
+					selectedIds: selectedIds
+				};
+				addAntiForgeryToken(postData);
+
+				$.ajax({
+					cache: false,
+					type: "POST",
+					url: "@(Url.Action("RejectSelected", "Dashboard"))",
+					data: postData,
+					complete: function (data) {
+						@ViewBag.Message = "Users Rejected Successfully.";
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(thrownError);
+					},
+					traditional: true
+				});
+				return false;
+			});
+
+
+			$(document).on('click', '#allcheck', function () {
+				$('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
+			});
+
+			//wire up checkboxes.
+			$('#users-table').on('change', 'input[type=checkbox][id!=allcheck]', function (e) {
+				var $check = $(this);
+				if ($check.is(":checked") == true) {
+					var checked = jQuery.inArray($check.val(), selectedIds);
+					if (checked == -1) {
+						//add id to selectedIds.
+						selectedIds.push($check.val());
+					}
+				}
+				else {
+					var checked = jQuery.inArray($check.val(), selectedIds);
+					if (checked > -1) {
+						//remove id from selectedIds.
+						selectedIds = $.grep(selectedIds, function (item, index) {
+							return item != $check.val();
+						});
+					}
+				}
+				updateMasterCheckbox();
+			});
+
+		});
+
+		function updateMasterCheckbox() {
+			var numChkBoxes = $('#users-table input[type=checkbox][id!=allcheck]').length;
+			var numChkBoxesChecked = $('#users-table input[type=checkbox][id!=allcheck]:checked').length;
+			$('#allcheck').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+		}
+
+		function ApproveRejectRequest(id, act)
+		{
+			if($("#@Html.IdFor(m => m.SelectedRoleId)").val() != "" && $("#@Html.IdFor(m => m.SelectedRoleId)").val() != "0")
+			{
+				var postData = {
+					approvereject: act,
+					roleid: $("#@Html.IdFor(m => m.SelectedRoleId)").val(),
+					userid: id
+				};
+				addAntiForgeryToken(postData);
+
+				$.ajax({
+					cache: false,
+					type: "POST",
+					url: "@(Url.Action("ApproveReject", "Dashboard"))",
+					data: postData,
+					complete: function (data) {
+
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(thrownError);
+					},
+					traditional: true
+				});
+			}
+		}
+</script>
+@Html.DeleteConfirmation("approve-selected")
+@Html.DeleteConfirmation("reject-selected")

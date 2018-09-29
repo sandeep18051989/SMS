@@ -1,0 +1,303 @@
+﻿@model SMS.Models.InstallDatabaseModel
+@{
+	ViewBag.Title = "SMS Installation";
+	Layout = "~/Views/Shared/_Root.cshtml";
+}
+<style type="text/css">
+	.throbber-header{font-size: 145%;}.throbber {display: none;}.throbber .curtain {position: fixed;left: 0;top: 0;width: 100%;height: 100%;background-color: #3e4d45;opacity: 0.9;filter: alpha(opacity=90);}
+	.throbber .curtain-content {position: absolute;left: 25%;top: 10%;width: 100%;height: 100%;z-index: 9999;}
+	.throbber .curtain-content div {text-align: center;padding: 250px;color: #FFF;}
+	:required {background: url(/Content/images/asterisk-small.png) no-repeat;background-position-x: 0%;background-position-y: 0%;background-position: right top;}
+	.input-group .form-control{z-index: 0;}
+</style>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 mr-4">
+			<section class="install-form">
+				@using (Html.BeginForm("Index", "Install", FormMethod.Post, new { @id = "installation-form", @class = "form-horizontal" }))
+			{
+					@Html.AntiForgeryToken()
+					<div class="row text-center">
+						<div id="install-page-header" class="col-xs-12 col-md-12">
+							<h3 class="section-heading mr-auto">ONE CLICK INSTALLATION PAGE</h3>
+							<em>Default database connection settings not implemented, please provide connection settings manually</em>
+						</div>
+					</div>
+					<div class="row text-right">
+						<div class="col-xs-12 col-md-12">
+							<input type="submit" tabindex="25" title="Start Installation" value="Start Installation" class="btn btn-primary" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<hr />
+					<div class="row">
+						<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+							<h3 class="h3-responsive font-weight-bold dark-grey-text">Database Information</h3>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-server prefix"></i>
+										@Html.EditorFor(model => model.Datasource, new { htmlAttributes = new { @class = "form-control", @maxlength = "100", @tabindex = "1", @tite = "Enter Server Name/IP Address", @required = "required" } })
+										@Html.LabelFor(model => model.Datasource, "Data Source", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.Datasource, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-database prefix"></i>
+										@Html.EditorFor(model => model.Database, new { htmlAttributes = new { @class = "form-control no-special-char", @maxlength = "100", @tabindex = "2", @tite = "Enter Database Name", @required = "required" } })
+										@Html.LabelFor(model => model.Database, "Database", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.Database, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-user-secret prefix"></i>
+										@Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @tabindex = "3", @tite = "Server Username", @required = "required" } })
+										@Html.LabelFor(model => model.Username, "Database Username", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-key prefix"></i>
+										@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @maxlength = "50", @tabindex = "4", @tite = "Server Password", @required = "required" } })
+										@Html.LabelFor(model => model.Password, "Database Password", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+							<h3 class="h3-responsive font-weight-bold dark-grey-text">Website Administration</h3>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-4 mb-4">
+									<div class="md-form">
+										<i class="fa fa-user prefix"></i>
+										@Html.EditorFor(model => model.AdminUsername, new { htmlAttributes = new { @class = "form-control no-special-char", @maxlength = "50", @tabindex = "5", @tite = "Website Super Administrator", @required = "required" } })
+										@Html.LabelFor(model => model.AdminUsername, "Website Admin Username", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.AdminUsername, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-4 mb-4">
+									<div class="md-form">
+										<i class="fa fa-key prefix"></i>
+										@Html.EditorFor(model => model.AdminPassword, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @tabindex = "6", @type="password", @tite = "Website Super Administrator Password", @required = "required" } })
+										@Html.LabelFor(model => model.AdminPassword, "Website Admin Password", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.AdminPassword, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-4 mb-4">
+									<div class="md-form">
+										<i class="fa fa-graduation-cap prefix"></i>
+										@Html.EditorFor(model => model.School.AcadmicYearName, new { htmlAttributes = new { @class = "form-control no-special-char", @placeholder = "Acadmic Year(e.g. 2018-19)", @maxlength = "20", @tabindex = "7", @tite = "Acadmic Year(e.g. 2018-19)", @required = "required" } })
+										@Html.LabelFor(model => model.School.AcadmicYearName, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.AcadmicYearName, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+							<h3 class="h3-responsive font-weight-bold dark-grey-text">School Information</h3>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-4 mb-4">
+									<div class="md-form">
+										<i class="fa fa-university prefix"></i>
+										@Html.EditorFor(model => model.School.FullName, new { htmlAttributes = new { @class = "form-control", @maxlength = "250", @tabindex = "8", @tite = "Enter School Name", @required = "required" } })
+										@Html.LabelFor(model => model.School.FullName, "School Name", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.FullName, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-4 mb-4">
+									<div class="md-form">
+										<i class="fa fa-universal-access prefix"></i>
+										@Html.EditorFor(model => model.School.AffiliationNumber, new { htmlAttributes = new { @class = "form-control no-special-char", @maxlength = "100", @tabindex = "20", @tite = "Enter School Affiliation Number" } })
+										@Html.LabelFor(model => model.School.AffiliationNumber, "Affiliation Number", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.AffiliationNumber, "", new { @class = "text-danger" })
+									</div>
+								</div>
+                                <div class="col-xs-12 col-md-4 mb-4">
+                                    <div class="md-form">
+                                        <i class="fa fa-registered prefix"></i>
+                                        @Html.EditorFor(model => model.School.RegistrationNumber, new { htmlAttributes = new { @class = "form-control no-special-char", @maxlength = "100", @tabindex = "11", @tite = "Enter School Name" } })
+                                        @Html.LabelFor(model => model.School.RegistrationNumber, "Registration Number", htmlAttributes: new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(model => model.School.RegistrationNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+							</div>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-pin prefix"></i>
+										@Html.EditorFor(model => model.School.Latitude, new {htmlAttributes = new {@class = "form-control", @maxlength = "250", @tabindex = "12", @tite = "Enter Latitude"}})
+										@Html.LabelFor(model => model.School.Latitude, "Latitude", htmlAttributes: new {@class = "control-label"})
+										@Html.ValidationMessageFor(model => model.School.Latitude, "", new {@class = "text-danger"})
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-pin prefix"></i>
+										@Html.EditorFor(model => model.School.Longitude, new {htmlAttributes = new {@class = "form-control", @maxlength = "250", @tabindex = "13", @tite = "Enter Longitude"}})
+										@Html.LabelFor(model => model.School.Longitude, "Longitude", htmlAttributes: new {@class = "control-label"})
+										@Html.ValidationMessageFor(model => model.School.Longitude, "", new {@class = "text-danger"})
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+							<h3 class="h3-responsive font-weight-bold dark-grey-text">Address Information</h3>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-marker prefix"></i>
+										@Html.EditorFor(model => model.School.Street1, new { htmlAttributes = new { @class = "form-control", @maxlength = "200", @tabindex = "14", @tite = "Enter Address 1" } })
+										@Html.LabelFor(model => model.School.Street1, "Address Line 1", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.Street1, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-marker prefix"></i>
+										@Html.EditorFor(model => model.School.Street2, new { htmlAttributes = new { @class = "form-control", @maxlength = "150", @tabindex = "15", @tite = "Enter Address 2" } })
+										@Html.LabelFor(model => model.School.Street2, "Address Line 2", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.Street2, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-3 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-marker prefix"></i>
+										@Html.EditorFor(model => model.School.City, new { htmlAttributes = new { @class = "form-control", @maxlength = "100", @tabindex = "16", @tite = "Enter City" } })
+										@Html.LabelFor(model => model.School.City, "City", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.City, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-marker prefix"></i>
+										@Html.EditorFor(model => model.School.State, new { htmlAttributes = new { @class = "input-large form-control", @maxlength = "100", @tabindex = "17", @tite = "Enter State" } })
+										@Html.LabelFor(model => model.School.State, "State", htmlAttributes: new {@class = "control-label"})
+										@Html.ValidationMessageFor(model => model.School.State, "", new {@class = "text-danger"})
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-marker prefix"></i>
+										@Html.EditorFor(model => model.School.Landmark, new { htmlAttributes = new { @class = "form-control", @maxlength = "250", @tabindex = "18", @tite = "Enter Landmark" } })
+										@Html.LabelFor(model => model.School.Landmark, "Landmark", htmlAttributes: new {@class = "control-label"})
+										@Html.ValidationMessageFor(model => model.School.Landmark, "", new {@class = "text-danger"})
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-3 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-marker prefix"></i>
+										@Html.EditorFor(model => model.School.Country, new { htmlAttributes = new { @class = "input-large form-control", @maxlength = "100", @tabindex = "19", @tite = "Enter Country" } })
+										@Html.LabelFor(model => model.School.Country, "Country", htmlAttributes: new {@class = "control-label"})
+										@Html.ValidationMessageFor(model => model.School.Country, "", new {@class = "text-danger"})
+									</div>
+								</div>
+							</div>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-3 mb-4">
+									<div class="md-form">
+										<i class="fa fa-map-marker prefix"></i>
+										@Html.EditorFor(model => model.School.ZipCode, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @tabindex = "20", @tite = "Enter Zip Code" } })
+										@Html.LabelFor(model => model.School.Country, "Zip Code", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.Country, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+							<h3 class="h3-responsive font-weight-bold dark-grey-text">Social Media</h3>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-facebook-official prefix"></i>
+										@Html.EditorFor(model => model.School.FacebookLink, new { htmlAttributes = new { @class = "form-control", @maxlength = "500", @tabindex = "21", @tite = "Enter Facebook Link" } })
+										@Html.LabelFor(model => model.School.FacebookLink, "Facebook", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.FacebookLink, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-twitter prefix"></i>
+										@Html.EditorFor(model => model.School.TweeterLink, new { htmlAttributes = new { @class = "input-large form-control", @maxlength = "500", @tabindex = "22", @tite = "Enter Tweeter Link" } })
+										@Html.LabelFor(model => model.School.TweeterLink, "Twitter", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.TweeterLink, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
+							<div class="row text-left">
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-google-plus-official prefix"></i>
+										@Html.EditorFor(model => model.School.GooglePlusLink, new { htmlAttributes = new { @class = "form-control", @maxlength = "500", @tabindex = "23", @tite = "Enter Google Plus Link" } })
+										@Html.LabelFor(model => model.School.GooglePlusLink, "Google Plus", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.GooglePlusLink, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-6 mb-4">
+									<div class="md-form">
+										<i class="fa fa-instagram prefix"></i>
+										@Html.EditorFor(model => model.School.InstagramLink, new { htmlAttributes = new { @class = "input-large form-control", @maxlength = "500", @tabindex = "24", @tite = "Enter Instagram Link" } })
+										@Html.LabelFor(model => model.School.InstagramLink, "Instagram", htmlAttributes: new { @class = "control-label" })
+										@Html.ValidationMessageFor(model => model.School.InstagramLink, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			}
+			</section>
+		</div>
+	</div>
+	<div style="z-index:2;" class="throbber">
+		<div class="curtain">
+		</div>
+		<div class="curtain-content">
+			<div>
+				<p>
+					<img src="@Url.Content("~/content/images/throbber.gif")" alt="Please Wait..." />
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#installation-form').submit(function () {
+			if ($('#installation-form').valid()) {
+				window.setTimeout(function () {
+					$(".throbber").show();
+				}, 1000);
+				$('input[type=submit]', this).attr('disabled', 'disabled');
+			}
+		});
+
+		$('input.no-special-char').on('keypress', function (event) {
+			var regex = new RegExp("^[a-zA-Z0-9]+$");
+			var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+			if (!regex.test(key)) {
+				event.preventDefault();
+				return false;
+			}
+		});
+	});
+</script>
+

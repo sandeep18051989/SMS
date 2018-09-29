@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SMS.Models.EventModel>
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<h5 class="py-5">EVENTS</h5>
+<div class="row text-left">
+	<!--Grid column-->
+	@foreach (var eve in Model.ToList().OrderByDescending(x => x.StartDate).Take(3).ToList())
+	{
+		<div class="col-lg-4 col-md-12 mb-4">
+			<!--Card-->
+			<div class="card">
+				<!--Card image-->
+				<div class="view overlay">
+					<img src="@(eve.Pictures.Count > 0 && eve.Pictures.FirstOrDefault(x => x.IsDefault) != null ? eve.Pictures.FirstOrDefault(x => x.IsDefault).Picture.Src : (eve.Pictures.Count > 0 && eve.Pictures.FirstOrDefault() != null) ? eve.Pictures.FirstOrDefault().Picture.Src : string.Empty)" title="@eve.Title" class="img-fluid" alt="@eve.Title">
+					<a title="@eve.Title" href="@Url.RouteUrl("Event", new { name = eve.Url })">
+						<div class="mask rgba-white-slight waves-effect waves-light"></div>
+					</a>
+				</div>
+				<!--/.Card image-->
+				<!--Button-->
+				<a title="See Details" href="@Url.RouteUrl("Event", new { name = eve.Url })" class="btn-floating btn-action ml-auto mr-4 mdb-color lighten-3 waves-effect waves-light">
+					<i class="fa fa-chevron-right pl-1"></i>
+				</a>
+				<!--Card content-->
+				<div class="card-body">
+					<!--Title-->
+					<h4 class="card-title">@eve.Title</h4>
+					<hr>
+					<!--Text-->
+					<p class="font-small grey-dark-text mb-0">@Html.Raw(eve.Description)</p>
+				</div>
+				<!--/.Card content-->
+				<!-- Card footer -->
+				<div class="mdb-color lighten-3 text-center">
+					<ul class="list-unstyled list-inline font-small mt-3">
+						<li class="list-inline-item pr-2 white-text">
+							<i class="fa fa-clock-o pr-1"></i>@(eve.StartDate.HasValue ? @eve.StartDate.Value.ToString("dd MM yyyy") : "")
+						</li>
+						<li class="list-inline-item pr-2">
+							<a href="#" class="white-text">
+								<i class="fa fa-comments-o pr-1"></i>@eve.Comments.Count()
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!-- Card footer -->
+			</div>
+			<!--/.Card-->
+		</div>
+	}
+</div>

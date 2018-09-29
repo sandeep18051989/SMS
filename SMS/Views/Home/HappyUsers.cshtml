@@ -1,0 +1,18 @@
+﻿@model IEnumerable<SMS.Models.UserModel>
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="block block-pd-sm block-bg-grey-dark block-bg-overlay block-bg-overlay-6 text-center block-bg-img" data-block-bg-img="@basePath/Content/images/lab-bg3.jpg" data-stellar-background-ratio="0.3" style="background-image: url(&quot;https://picjumbo.imgix.net/HNCK1088.jpg?q=40&amp;w=1650&amp;sharp=30&quot;); background-position: 0px 1.01997px;">
+	<h2 class="h-xlg h1 m-a-0">
+		<span data-counter-up="">@Model.ToList().Count</span>
+	</h2>
+	<h3 class="h-lg m-t-0 m-b-lg">
+		Registered Users!
+	</h3>
+	<p>
+		<a href="/Account/Register" class="btn btn-more btn-lg i-right">Join today! <i class="fa fa-angle-right"></i></a>
+	</p>
+</div>
+

@@ -1,0 +1,166 @@
+﻿@model IEnumerable<SMS.Areas.Admin.Models.PicturesModel>
+@using SMS.Areas.Admin.Models;
+@using System.Web;
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="slider-picture-form">
+			@if (Model.ToList().Count > 0)
+			{
+				<div class="row">
+					<div id="admin-page-header" class="col-xs-12 col-md-12 text-right">
+						<button type="button" id="picture-toggle" onclick="TogglePictures();" class="btn btn-info"><i class="fa fa-refresh"></i> Active/Inactive</button>&nbsp;<button type="button" id="picture-delete" onclick="DeletePictures();" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</button>
+					</div>
+				</div>
+				<hr />
+				<div id="slider-pictures-grid" class="row text-left">
+					<div class="col-md-12 table-responsive">
+						<table id="slider-pictures" class="table custom-table" data-sorting="true" data-page-size="10">
+							<thead>
+								<tr>
+									<th data-visible="false" data-class="expand" data-sortable="false" align="center"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+									<th data-sort-ignore="true">Picture</th>
+									<th data-breakpoints="xs sm md" data-title="Caption">Caption/Alternate Text</th>
+									<th data-breakpoints="xs sm md" data-title="Display Order">Display Order</th>
+									<th data-breakpoints="xs sm md" data-title="Active/Inactive" data-sort-ignore="true">Active</th>
+									<th data-title="Actions" data-sort-ignore="true">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var picture in Model)
+								{
+									<tr scope="row">
+										<td align="center"><input type="checkbox" id="@picture.Id" class="checkboxGroups" value="@picture.Id" /></td>
+										<td style="vertical-align: bottom;position: relative;">
+											<img width="200" height="350" class="img-thumbnail z-depth-0" id="@("img_" + picture.PictureId)" src="@picture.PictureSrc.Replace("~", "../../")" alt="@picture.AlternateText" />
+										</td>
+										<td style="vertical-align: bottom;" align="center">
+											<div style="vertical-align: bottom;position:relative; display:block; padding: 10px 0;">
+												<textarea class="form-control md-textarea" id="@("alt_" + picture.PictureId)" rows="2" type="text" value="@picture.AlternateText">@picture.AlternateText</textarea>
+												<label for="@("alt_" + picture.PictureId)">Enter Caption</label>
+											</div>
+										</td>
+										<td style="vertical-align: bottom;" align="center">
+											<div style="vertical-align: bottom;position:relative;padding-top:30px; overflow: hidden;">
+												<input class="form-control" id="@("disp_" + picture.PictureId)" type="number" tabindex="3" value="@picture.DisplayOrder" />
+												<label for="@("disp_" + picture.PictureId)">Enter Display Order</label>
+											</div>
+										</td>
+										<td style="vertical-align: bottom;position: relative;" align="center">
+											@if (picture.IsActive)
+											{
+												<input type="checkbox" id="@("act_" + picture.PictureId)" name="@("act_" + picture.PictureId)" value="true" checked="checked" />
+												<label for="@("act_" + picture.PictureId)">Activated</label>
+											}
+											else
+											{
+												<input type="checkbox" id="@("act_" + picture.PictureId)" name="@("act_" + picture.PictureId)" value="false" />
+												<label for="@("act_" + picture.PictureId)">Deactivated</label>
+											}
+										</td>
+										<td style="vertical-align: bottom;" align="center">
+											<a onclick="UpdatePicture('@picture.PictureId', $('#alt_@picture.PictureId').val(), $('#disp_@picture.PictureId').val(), $('#act_@picture.PictureId').prop('checked'));" href="javascript:void(0);" id="@("edit_" + picture.PictureId)" title="Update"><i style="font-size: 20px;" class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="@("del_" + picture.PictureId)" onclick="DeletePicture('@picture.PictureId');" href="javascript:void(0);" title="Delete"><i style="font-size: 20px;" class="fa fa-trash-o"></i></a>
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+	var selectedIds = [];
+	$(document).ready(function () {
+		// Initiallize Footable
+		$('table#slider-pictures').DataTable({
+
+			"processing": true, // for show progress bar  
+			"serverSide": true, // for process server side  
+			"filter": true, // this is for disable filter (search box)  
+			"orderMulti": false, // for disable multiple column at once  
+			"pageLength": 5,
+
+			"ajax": {
+				"url": "/Demo/LoadData",
+				"type": "POST",
+				"datatype": "json"
+			},
+
+			"columnDefs":
+			[{
+					"targets": [0],
+					"visible": false,
+					"searchable": false
+				},
+				{
+					"targets": [7],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [8],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [9],
+					"searchable": false,
+					"orderable": false
+				}],
+
+			"columns": [
+				{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
+				{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+				{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
+				{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+				{ "data": "City", "name": "City", "autoWidth": true },
+				{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+				{ "data": "Country", "name": "Country", "autoWidth": true },
+				{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
+				{
+					"render": function (data, type, full, meta)
+						{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+				},
+				{
+					data: null, render: function (data, type, row) {
+						return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+					}
+				}
+			]
+		});
+		$(document).on('click', '#allcheck', function () {
+			$('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
+		});
+
+		//wire up checkboxes.
+		$('#slider-pictures').on('change', 'input[type=checkbox][id!=allcheck]', function (e) {
+			var $check = $(this);
+			if ($check.is(":checked") == true) {
+				var checked = jQuery.inArray($check.val(), selectedIds);
+				if (checked == -1) {
+					//add id to selectedIds.
+					selectedIds.push($check.val());
+				}
+			}
+			else {
+				var checked = jQuery.inArray($check.val(), selectedIds);
+				if (checked > -1) {
+					//remove id from selectedIds.
+					selectedIds = $.grep(selectedIds, function (item, index) {
+						return item != $check.val();
+					});
+				}
+			}
+			updateMasterCheckbox();
+			$('#slider-pictures').trigger('footable_redraw');
+		});
+	});
+
+	function updateMasterCheckbox() {
+		var numChkBoxes = $('#slider-pictures input[type=checkbox][id!=allcheck]').length;
+		var numChkBoxesChecked = $('#slider-pictures input[type=checkbox][id!=allcheck]:checked').length;
+		$('#allcheck').prop('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+	}
+</script>

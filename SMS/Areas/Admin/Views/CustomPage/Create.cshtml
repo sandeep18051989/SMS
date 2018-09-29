@@ -1,0 +1,125 @@
+﻿@model SMS.Models.CustomPageModel
+
+@{
+	ViewBag.Title = "Create Custom Page";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="create-form">
+			@using (Html.BeginForm())
+			{
+				@Html.AntiForgeryToken()
+				<div class="row">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<h3 class="section-heading mr-auto">CREATE PAGE</h3>
+						<input type="submit" value="Submit" class="btn btn-primary mr-auto" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<hr />
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-4 mb-4">
+						<div class="md-form">
+							<i class="fa fa-play-circle-o prefix"></i>
+							@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name", @tabindex = "1", @maxlength = "50" } })
+							@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+							@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-4 mb-4">
+						<div class="md-form">
+							@Html.DropDownListFor(model => model.TemplateId, Model.AvailableTemplates, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "2" })
+							@Html.LabelFor(model => model.TemplateId, "Template : ", htmlAttributes: new { @class = "control-label" })
+							@Html.ValidationMessageFor(model => model.TemplateId, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-4 mb-4">
+						<div class="md-form">
+							<i class="fa fa-link prefix"></i>
+							@Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Http://", @tabindex = "4", @maxlength = "200" } })
+							@Html.LabelFor(model => model.SystemName, htmlAttributes: new { @class = "control-label" })
+							@Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-7 mb-4">
+						<input type="checkbox" id="IsActive" tabindex="5" name="IsActive" value="@(Model.IsActive ? true : false)" checked="@(Model.IsActive ? "checked" : "")" />
+						@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+						@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-7 mb-4">
+						<input type="checkbox" id="IncludeInTopMenu" tabindex="6" name="IncludeInTopMenu" value="@(Model.IncludeInTopMenu ? true : false)" checked="@(Model.IncludeInTopMenu ? "checked" : "")" />
+						@Html.LabelFor(model => model.IncludeInTopMenu, "Include In Top", htmlAttributes: new { })
+						@Html.ValidationMessageFor(model => model.IncludeInTopMenu, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-7 mb-4">
+						<input type="checkbox" id="IncludeInFooterMenu" tabindex="7" name="IncludeInFooterMenu" value="@(Model.IncludeInFooterMenu ? true : false)" checked="@(Model.IncludeInFooterMenu ? "checked" : "")" />
+						@Html.LabelFor(model => model.IncludeInFooterMenu, "Include In Footer", htmlAttributes: new { })
+						@Html.ValidationMessageFor(model => model.IncludeInFooterMenu, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-4 mb-4">
+						<div class="md-form">
+							<i class="fa fa-sort-numeric-asc prefix"></i>
+							@Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control", @placeholder = "Display Order", @tabindex = "8", @maxlength = "10" } })
+							@Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label" })
+							@Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-12 mb-4">
+						<div class="md-form">
+							<div class="alert alert-info">
+								<strong>Info!</strong> System defined pages cannot be deleted and you cannot make them active or inactive.
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		if ($("#IsActive").val()) {
+			$("#IsActive").attr('checked', true).val(true);
+		}
+		else {
+			$("#IsActive").attr('checked', false).val(false);
+		}
+
+		$("#IsActive").change(function () {
+			if ($(this).prop('checked')) {
+				$(this).attr('checked', true).val(true);
+			}
+			else {
+				$(this).attr('checked', false).val(false);
+			}
+		});
+
+		$('#@Html.FieldIdFor(model => model.SystemName)').on('input propertychange paste', function () {
+			var parameters = {
+				entityId: '@Model.Id',
+				entityName: 'CustomPage',
+				systemName: $(this).val()
+         };
+			warningValidation('@Url.Action("UrlReservedWarning", "CustomPage")', '@Html.FieldNameFor(model => model.SystemName)', parameters);
+		});
+	});
+</script>

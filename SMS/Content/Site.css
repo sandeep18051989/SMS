@@ -1,0 +1,117 @@
+﻿body {
+	font-family: "HelveticaNeueLTPro-Roman", Arial,sans-serif;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #333;
+	background-color: #fff;
+	height: 100%;
+	width: 100%;
+}
+
+h1, h2, h3, h4 {
+	font-weight: 100;
+}
+
+h4, .h4 {
+	font-size: 18px;
+	font-family: "HelveticaNeueLTPro-MdCn",Arial,sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	line-height: 1;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+figcaption {
+	word-wrap: break-word;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 20px;
+    font-weight: bold;
+    border: 0;
+    padding: 0 10px;
+    display: inline-block;
+    width: auto;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+
+.field-validation-error {
+    color: #ff0000;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Custom Styles */
+
+div#login-form-wrapper {
+	margin-top:10px;
+}
+
+.green-text{color: #10a11c !important;}
+i.green-text{font-size:16px;}
+.md-form input[type=text], .md-form input[type=password]{padding-left: 3px;}
+.rgba-stylish-strong {
+	background-color: rgba(243, 244, 243, .5);
+}
+.mask.rgba-stylish-strong.flex-center ul li{margin-bottom:0;}
+.main-bg {
+	background: url("/Content/Images/login-bg.jpg")no-repeat center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 100%;
+}
+.common-layout section{padding:10px 0;}
+/*.form-control:focus ~ .floating-label, 
+.form-control:not(.empty) ~ .floating-label, 
+.form-control:-webkit-autofill ~ .floating-label {
+  top: -10px;
+  font-size: 10px;
+  opacity: 1;
+}*/
+/* Custom Styles End */

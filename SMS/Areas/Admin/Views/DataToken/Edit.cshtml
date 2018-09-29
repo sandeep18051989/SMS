@@ -1,0 +1,75 @@
+﻿@model SMS.Areas.Admin.Models.CreateTemplateModel.CreateDataTokensModel
+@using EF.Services;
+@{
+	ViewBag.Title = "Edit Data Token";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="edit-form">
+			@using (Html.BeginForm())
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(model => model.Id)
+				@Html.HiddenFor(model => model.IsSystemDefined)
+				<div class="row">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<h3 class="section-heading mr-auto">EDIT DATA TOKEN</h3>
+						<input type="submit" value="Save" class="btn btn-primary mr-auto" />&nbsp;<span id="token-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<hr />
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-12 mb-4">
+						<div class="md-form">
+							<ul class="alert alert-info alert-hints">
+								<li>
+									<strong>Info!</strong> Please make sure that you are appending - [ ] - these brackets after and before a data token you want to use. e.g [TokenName]
+								</li>
+								<li>
+									<strong>Info!</strong> System defined data tokens cannot be deleted and you cannot change their active status.
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-4 mb-4">
+						<div class="md-form">
+							<i class="fa fa-play-circle-o prefix"></i>
+							@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name", @tabindex = "1", @maxlength = "100" } })
+							@Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label" })
+							@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-8 mb-4">
+						<div class="md-form">
+							<i class="fa fa-link prefix"></i>
+							@Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @placeholder = "System Name", @tabindex = "2", @maxlength = "100" } })
+							@Html.LabelFor(model => model.SystemName, "System Name", htmlAttributes: new { @class = "control-label" })
+							@Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+				<div class="row text-left">
+					<div class="col-xs-12 col-md-8 mb-4">
+						<div class="md-form">
+							<i class="fa fa-html5 prefix"></i>
+							@Html.EditorFor(model => model.Value, "HtmlTemplate.cshtml")
+							@Html.LabelFor(model => model.Value, "Value", htmlAttributes: new { @class = "control-label" })
+							@Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+						</div>
+					</div>
+				</div>
+			}
+			@Html.DeleteConfirmation("token-delete")
+		</section>
+	</div>
+</div>

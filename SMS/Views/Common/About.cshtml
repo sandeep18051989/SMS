@@ -1,0 +1,26 @@
+﻿@model SMS.Models.CustomPageModel
+@{
+    ViewBag.Title = "About Us";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("#main-menu li").removeClass('active');
+            $("#main-menu li:nth-child(5)").addClass('active');
+            $("fieldset div").each(function () {
+                $(this).css('width','100% !important;');
+            });
+        });
+</script>
+@using (Html.BeginForm("About", "Common", FormMethod.Get, new { enctype = "multipart/form-data", @class = "well form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <fieldset style="width:100%;display:block;">
+        <!-- Form Name -->
+        <legend>About Us</legend>
+        <div class="htmlBody">
+            @Html.Raw(Model.BodyHtml)
+        </div>
+    </fieldset>
+}
+

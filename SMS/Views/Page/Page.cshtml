@@ -1,0 +1,14 @@
+﻿@model SMS.Models.CustomPageModel
+<div class="container page-block">
+	<div id="page-heading" class="row">
+		<div class="col text-center">
+			@if (!String.IsNullOrEmpty(Model.Name))
+			{
+				<h3>@Model.Name.ToUpper()</h3>
+			}
+		</div>
+	</div>
+	<div class="page-block-body">
+		@Html.Raw(Model.BodyHtml)
+	</div>
+</div>

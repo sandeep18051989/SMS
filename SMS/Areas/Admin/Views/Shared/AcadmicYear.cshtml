@@ -1,0 +1,16 @@
+﻿@model SMS.Models.AcadmicYearModel
+@if (Model.AvailableAcadmicYears.Count > 0)
+{
+	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Model.Name</a>
+	<div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+		@*<select class="form-control" name="Name" id="ddlAcadmicYear">*@
+		@foreach (SelectListItem item in Model.AvailableAcadmicYears)
+		{
+			if (!item.Selected)
+			{
+				<a class="dropdown-item" href="#">@item.Value</a>
+			}
+		}
+		@*</select>*@
+	</div>
+}

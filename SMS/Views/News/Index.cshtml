@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SMS.Models.NewsModel>
+@using EF.Services.Http;
+@using SMS.Models
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="container">
+	<div class="row section-row">
+		<div class="col section-row-header-center">
+			<h6><i class="fa fa-star-o"></i>WE ARE BEST<i class="fa fa-star-o"></i></h6>
+			<h1>LATEST NEWS</h1>
+			<p>Latest school news board</p>
+		</div>
+		@foreach (var n in Model.ToList())
+		{
+			<div class="col-sm col-md">
+				<div class="news-item-container">
+					<div class="news-img">
+						<img src="@if (n.Pictures != null)
+						          {
+							          NewsPictureModel first = null;
+							          foreach (var picture in n.Pictures)
+							          {
+								          first = picture;
+								          break;
+							          }
+							          if (first != null)
+							          {
+								          @first.Picture.Src
+							          }
+						          }" alt="@n.ShortName">
+						<div class="news-item-date">
+							<h6><i class="fa fa-calendar"></i>@n.Date.ToString("d MMM yyyy")</h6>
+						</div>
+					</div>
+					<div class="news-item">
+						<h5>@n.ShortName</h5>
+						<p>@Html.Raw(n.Description)</p>
+						<a href="@n.SystemName"><i class="fa fa-paper-plane"></i>VIEW DETAILS</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+	<div class="clearfix"></div>
+	<div class="view-all-link">
+		<a href="/news"><i class="fa fa-paper-plane"></i>VIEW ALL</a>
+	</div>
+</div>

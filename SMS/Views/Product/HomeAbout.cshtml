@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ArteryLabCms.Models.ProductModel>
+<div style="text-align:center;min-height:300px;" class="col-sm-4 home-thumbnails">
+    @if (Model.ToList().Count > 0)
+    {
+        if (Model.OrderByDescending(p => p.ProductId).FirstOrDefault().pictures.Count > 0)
+        {
+            foreach (var pic in Model.OrderByDescending(p => p.ProductId).FirstOrDefault().pictures)
+            {
+                <img style="display:inline-block;" class="img-circle img-responsive img-center" src="@pic.Url" alt="@pic.AlternateText" />
+                <h2>@Model.OrderByDescending(p => p.ProductId).FirstOrDefault().Name</h2>
+                <p>
+                    @if (Model.OrderByDescending(p => p.ProductId).FirstOrDefault().Description.Length > 200)
+                    {
+                        @Html.Raw(Model.OrderByDescending(p => p.ProductId).FirstOrDefault().Description.Substring(0, 200))
+                    }
+                    else
+                    {
+                        @Html.Raw(Model.OrderByDescending(p => p.ProductId).FirstOrDefault().Description)
+                    }
+                </p>
+            }
+        }
+    }
+    else
+    {
+        <text>No Products Found</text>
+    }
+</div>

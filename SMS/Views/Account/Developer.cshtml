@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Developers Page";
+    Layout = "~/Views/Shared/_devLayout.cshtml";
+}
+<link href="~/Content/ProfileCard.css" type="text/css" rel="stylesheet" />
+<br />
+@using (Html.BeginForm("Developer", "Account", FormMethod.Get, new { enctype = "multipart/form-data", @class = "well form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <!-- Form Name -->
+        <legend>Website Developer Corner</legend>
+        <!-- this is the markup. you can change the details (your own name, your own avatar etc.) but don’t change the basic structure! -->
+        <aside class="profile-card">
+            <header>
+                <!-- here’s the avatar -->
+                <a target="_blank" href="javascript:void(0);">
+                    <img src="~/Content/images/ava.gif">
+                </a>
+                <!-- the username -->
+                <h1 style="font-family: 'Lato', sans-serif;font-size:24px;">Sandeep Kumar</h1>
+                <h2 style="font-family: 'Lato', sans-serif;font-size:18px;line-height: 40px;">Software Developer</h2>
+            </header>
+            <!-- bit of a bio; who are you? -->
+            <div class="profile-bio">
+                <ul class="resume">
+                <li>C#</li>
+                <li>ASP.NET</li>
+                <li>MVC</li>
+                <li>NOP COMMERCE</li>
+                <li>ABLE COMMERCE</li>
+                </ul>
+            </div>
+            <!-- some social links to show off -->
+            <ul class="profile-social-links">
+                <!-- Google -->
+                <li>
+                    <a target="_blank" href="https://plus.google.com/u/0/109602002601959283904">
+                        <i class="fa fa-google-plus-square"></i>
+                    </a>
+                </li>
+                <!-- Linked In -->
+                <li>
+                    <a target="_blank" href="https://www.linkedin.com/in/sandeep-kumar-04a30998/">
+                        <i class="fa fa-linkedin-square"></i>
+                    </a>
+                </li>
+                <!-- Upwork -->
+                <li>
+                    <a target="_blank" href="javascript:void(0);">
+                        <i class="fa fa-suitcase"></i>
+                    </a>
+                </li>
+                <!-- Facebook -->
+                <li>
+                    <a target="_blank" href="javascript:void(0);">
+                        <i class="fa fa-facebook-official"></i>
+                    </a>
+                </li>
+                <!-- twitter - el clásico  -->
+                <li>
+                    <a target="_blank" href="javascript:void(0);">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                </li>
+                <!-- add or remove social profiles as you see fit -->
+            </ul>
+        </aside>
+    </fieldset>
+    <!-- that’s all folks! -->
+}
+

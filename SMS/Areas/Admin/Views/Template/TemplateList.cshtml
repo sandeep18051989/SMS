@@ -1,0 +1,150 @@
+﻿@model IEnumerable<SMS.Areas.Admin.Models.TemplateModel>
+
+@{
+    ViewBag.Title = "Templates List";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("List", "Template", FormMethod.Get, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+    <div class="col-xs-12 col-md-12">
+        <h3 style="text-align:left;font-weight:bold;">Templates</h3>
+        @if (!String.IsNullOrEmpty(ViewBag.Result))
+        {
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> @ViewBag.Result</div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12 col-md-12">
+        <div class="input-group pull-right">
+            @Html.ActionLink("Create Template", "Create", "Template", null, new { @class = "btn btn-info" })
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-12 col-md-12">
+        <br />
+        <div class="form-group">
+            <table class="table custom-table" data-sorting="true" data-paging="true" data-page-size="10">
+                <thead>
+                    <tr>
+                        <th data-visible="false" data-sortable="false" data-class="expand" ><input type="checkbox" id="allcheck" value="allcheck" /></th>
+                        <th>Name</th>
+                        <th data-breakpoints="xs sm md" data-title="HTML" data-sortable="false" data-sort-ignore="true">Html</th>
+                        <th data-breakpoints="xs sm md" data-title="Token" data-sortable="false" data-sort-ignore="true">Data Tokens</th>
+                        <th data-breakpoints="xs sm md" data-title="Active" data-sortable="false" data-sort-ignore="true">Active</th>
+                        <th data-breakpoints="xs sm md" data-title="System Defined" data-sortable="false" data-sort-ignore="true">System Defined</th>
+                        <th data-sortable="false" data-sort-ignore="true">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var temp in Model)
+                {
+                        <tr>
+                            <td align="center"><input type="checkbox" id="@temp.Id" value="@temp.Id" /></td>
+                            <td align="center">@temp.Name</td>
+                            <td align="center">@(!string.IsNullOrEmpty(temp.BodyHtml) ? temp.BodyHtml.Length > 200 ? temp.BodyHtml.Substring(0, 200) : temp.BodyHtml : "")</td>
+                            <td align="center">
+                                <div id="other-related-stats-template" class="row">
+                                    <div class="col-md-3 col-md-offset-3">
+                                        <div class="col-md-3">
+                                            <span>
+                                                <i class="fa fa-2x fa-comment" aria-hidden="true"></i>
+                                                <span class="badge up badge-danger">@temp.dataTokens.Count</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @if (temp.IsActive)
+                                { <i style="font-size:24px;" class="fa fa-check"></i> }
+                                else
+                                { <i style="font-size:24px;" class="fa fa-remove"></i> }
+                            </td>
+                            <td>
+                                @if (temp.IsSystemDefined)
+                                { <i style="font-size:24px;" class="fa fa-check"></i> }
+                                else
+                                { <i style="font-size:24px;" class="fa fa-remove"></i> }
+                            </td>
+                            <td align="center"><a href="@Url.Action("Edit", "Template", new { @templateId = temp.Id })" id="@("edit_" + temp.Id)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;@if (!temp.IsSystemDefined)
+									 {<a id="@("templateid_" + temp.Id)" href="@Url.Action("Delete", "Template", new { @id = temp.Id })" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="alert alert-info">
+        <strong>Info!</strong> System defined templates cannot be deleted and you cannot make them active or inactive.<br />
+        <strong>Info!</strong> "QuerySuccess" template is used to send emails to customers sending queries.<br />
+        <strong>Info!</strong> "About" template is used for the about us page.<br />
+        <strong>Info!</strong> "Pharma" template is used for the Pharma PCD page.<br />
+        <strong>Info!</strong> "Manufacturing" template is used for the 3rd Party Manufacturing page.<br />
+    </div>
+}
+<script type="text/javascript">
+        $(document).ready(function () {
+            // Initiallize Footable
+            $('table').DataTable({
+
+	            "processing": true, // for show progress bar  
+	            "serverSide": true, // for process server side  
+	            "filter": true, // this is for disable filter (search box)  
+	            "orderMulti": false, // for disable multiple column at once  
+	            "pageLength": 5,
+
+	            "ajax": {
+		            "url": "/Demo/LoadData",
+		            "type": "POST",
+		            "datatype": "json"
+	            },
+
+	            "columnDefs":
+	            [{
+			            "targets": [0],
+			            "visible": false,
+			            "searchable": false
+		            },
+		            {
+			            "targets": [7],
+			            "searchable": false,
+			            "orderable": false
+		            },
+		            {
+			            "targets": [8],
+			            "searchable": false,
+			            "orderable": false
+		            },
+		            {
+			            "targets": [9],
+			            "searchable": false,
+			            "orderable": false
+		            }],
+
+	            "columns": [
+		            { "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
+		            { "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+		            { "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
+		            { "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+		            { "data": "City", "name": "City", "autoWidth": true },
+		            { "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+		            { "data": "Country", "name": "Country", "autoWidth": true },
+		            { "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
+		            {
+			            "render": function (data, type, full, meta)
+				            { return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+		            },
+		            {
+			            data: null, render: function (data, type, row) {
+				            return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+			            }
+		            }
+	            ]
+            });
+        });
+</script>

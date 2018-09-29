@@ -1,0 +1,55 @@
+﻿@model SMS.Areas.Admin.Models.NotificationModel
+@using EF.Core;
+@using EF.Services.Http;
+@using EF.Services.Service;
+@{
+	var userService = EF.Core.ContextHelper.Current.Resolve<IUserService>();
+	//var userInfoService = EF.Core.ContextHelper.Current.Resolve<IUserInfoService>();
+}
+<a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle icon">
+	<i class="fa fa-bell-o fa-2x"></i>
+	<span class="label">@Model.NotificationCount</span>
+</a>
+<ul class="dropdown-menu media-list pull-right animated fadeInDown">
+	<li class="dropdown-header">Notifications (@Model.NotificationCount)</li>
+	@foreach (var usernotice in Model.Users)
+	{
+		<li class="media alert-success">
+			<a href="/admin/user/list">
+				<div class="media-left"><i class="ion-ios-close-empty media-object bg-red"></i></div>
+				<div class="media-body">
+					<h6 class="media-heading">@usernotice.Username just registered with us.</h6>
+					<div class="text-muted f-s-11">@CodeHelper.TimeAgo(usernotice.CreatedOn)</div>
+				</div>
+			</a>
+		</li>
+	}
+	@foreach (var auditnotice in Model.AuditRequests)
+	{
+		var _user = !String.IsNullOrEmpty(auditnotice.UserName) ? userService.GetUserByUsername(auditnotice.UserName).UserName : "";
+		<li class="media alert-info">
+			<a href="/admin/audit/list">
+				<div class="media-left"><i class="ion-ios-close-empty media-object bg-red"></i></div>
+				<div class="media-body">
+					<h6 class="media-heading">@(_user != "" ? _user : "") updated @auditnotice.TypeFullName.Substring(auditnotice.TypeFullName.LastIndexOf('.') + 1)</h6>
+					<div class="text-muted f-s-11">@CodeHelper.TimeAgo(auditnotice.EventDateUTC)</div>
+				</div>
+			</a>
+		</li>
+	}
+	@foreach (var lognotice in Model.SystemLogs)
+	{
+		<li class="media alert-danger">
+			<a href="admin/log/list">
+				<div class="media-left"><i class="ion-ios-close-empty media-object bg-red"></i></div>
+				<div class="media-body">
+					<h6 class="media-heading">@lognotice.Message</h6>
+					<div class="text-muted f-s-11">@CodeHelper.TimeAgo(lognotice.Date)</div>
+				</div>
+			</a>
+		</li>
+	}
+	@*<li class="dropdown-footer text-center">
+			<a href="javascript:;">View more</a>
+		</li>*@
+</ul>

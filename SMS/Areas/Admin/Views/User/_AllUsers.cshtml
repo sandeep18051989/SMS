@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SMS.Areas.Admin.Models.UserModel>
+<table class="table custom-table" data-sorting="true" data-paging="true" data-page-size="10">
+    <thead>
+        <tr>
+            <th data-sortable="false"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+            <th data-sort-ignore="true">Username</th>
+            <th data-sortable="false" data-sort-ignore="true">Active</th>
+            <th data-sortable="false" data-sort-ignore="true">Roles</th>
+            <th data-sortable="false">Approved</th>
+            <th data-sortable="false" data-sort-ignore="true">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td align="center"><input type="checkbox" id="@user.Id" class="checkboxGroups" value="@user.Id" /></td>
+                <td align="center">@user.Username</td>
+                <td>
+                    @if (user.IsActive)
+                    { <a class="act-user" onclick="ToggleUser(@user.Id,'Act');" style="cursor:pointer;" data-content="@user.Id" title="Activate User"><i style="font-size:24px;" class="glyphicon glyphicon-ok"></i></a> }
+                    else
+                    { <a class="act-user" onclick="ToggleUser(@user.Id,'DAct');" style="cursor:pointer;" title="Activate User"><i style="font-size:24px;" class="glyphicon glyphicon-remove"></i></a> }
+                </td>
+                <td align="center">@user.Roles.Count</td>
+                <td>
+                    @if (user.IsApproved)
+                    {
+                        <i style="font-size:24px;" class="glyphicon glyphicon-ok"></i>
+                    }
+                    else
+                    { <a class="app-user" onclick="ActDctUser(@user.Id,'Act');" style="cursor:pointer;" data-content="@user.Id" title="Approve User"><i style="font-size:24px;" class="glyphicon glyphicon-remove"></i></a> }
+                </td>
+                <td align="center"><a class="btn btn-primary" href="@Url.Action("Edit", "User", new { @id = user.Id })" id="@("edit_" + user.Id)" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>

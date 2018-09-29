@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SMS.Models.BlogModel>
+@using EF.Services.Http;
+@using System.Globalization;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+	var testimonial = Model.ToList().FirstOrDefault();
+}
+<div class="container">
+	<div class="row section-row">
+		<div class="col section-row-header-center">
+			<h6><i class="fa fa-star-o"></i>WE ARE BEST<i class="fa fa-star-o"></i></h6>
+			<h1>BLOG ACTIVITIES</h1>
+			<p>Our school blog activities</p>
+		</div>
+	</div>
+	<div class="row">
+		<!--Latest Blog posts-->
+		<!-- Blog posts -->
+		@if (Model.ToList().Count > 0)
+			{
+				foreach (var blog in Model.ToList())
+				{
+				<div class="media col-sm col-md">
+					<div class="media-left hidden-xs">
+						<!-- Date desktop -->
+						<div class="date-wrapper"> <span class="date-m">@blog.CreatedOn.Date.ToString("MMM", CultureInfo.InvariantCulture)</span> <span class="date-d">@blog.CreatedOn.Date.ToString("DD", CultureInfo.InvariantCulture)</span> </div>
+					</div>
+					<div class="media-body">
+						<h4 class="media-heading">
+							<a href="/blog/detail/@blog.Id" class="text-weight-strong">@blog.Subject</a>
+						</h4>
+						<!-- Meta details mobile -->
+						<ul class="list-inline meta text-muted visible-xs">
+							<li><i class="fa fa-calendar"></i> <span class="visible-md">Created:</span> @blog.CreatedOn.Date.ToString("MMM DD yyyy", CultureInfo.InvariantCulture)</li>
+							<li><i class="fa fa-user"></i> <a href="#">@blog.Email</a></li>
+						</ul>
+						<p>
+							@if (blog.BlogHtml.Length > 100)
+							{
+								<text>@(Html.Raw(blog.BlogHtml.Substring(0, 100)))</text>
+								<a href="/blog/detail/@blog.Id">Read more <i class="fa fa-angle-right"></i></a>
+							}
+							else
+							{
+								@Html.Raw(blog.BlogHtml)
+							}
+						</p>
+					</div>
+				</div>
+				}
+			}
+	</div>
+</div>

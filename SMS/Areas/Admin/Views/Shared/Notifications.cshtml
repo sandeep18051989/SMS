@@ -1,0 +1,61 @@
+﻿@using EF.Core.Enums;
+@{
+	//success messages
+	var successMessages = new List<string>();
+	if (TempData[string.Format("notifications.{0}", NotifyType.Success)] != null)
+	{
+		successMessages.AddRange(TempData[string.Format("notifications.{0}", NotifyType.Success)] as IList<string>);
+	}
+	if (ViewData[string.Format("notifications.{0}", NotifyType.Success)] != null)
+	{
+		successMessages.AddRange(ViewData[string.Format("notifications.{0}", NotifyType.Success)] as IList<string>);
+	}
+
+
+	//error messages
+	var errorMessages = new List<string>();
+	if (TempData[string.Format("notifications.{0}", NotifyType.Error)] != null)
+	{
+		errorMessages.AddRange(TempData[string.Format("notifications.{0}", NotifyType.Error)] as IList<string>);
+	}
+	if (ViewData[string.Format("notifications.{0}", NotifyType.Error)] != null)
+	{
+		errorMessages.AddRange(ViewData[string.Format("notifications.{0}", NotifyType.Error)] as IList<string>);
+	}
+}
+
+@foreach (var message in successMessages)
+{
+	<script type="text/javascript">
+	handleDashboardGritterNotification = function () {
+		$(window).load(function () {
+			setTimeout(function () {
+				$.gritter.add({
+					title: "Success",
+					text: "@Html.Raw(message)",
+					sticky: !0, time: "",
+					class_name: "my-sticky-class"
+				});
+			}, 1e3)
+		})
+	}
+	</script>
+}
+
+@foreach (var message in errorMessages)
+{
+	<script type="text/javascript">
+	handleDashboardGritterNotification = function () {
+		$(window).load(function () {
+			setTimeout(function () {
+				$.gritter.add({
+					title: "Failure",
+					text: "@Html.Raw(message)",
+					sticky: !0, time: "",
+					class_name: "my-sticky-class"
+				});
+			}, 1e3)
+		})
+	}
+	</script>
+}

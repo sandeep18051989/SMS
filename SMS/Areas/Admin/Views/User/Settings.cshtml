@@ -1,0 +1,32 @@
+﻿@model SMS.Areas.Admin.Models.UserSettingsModel
+
+@{
+    ViewBag.Title = "User Settings";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="col-xs-12 col-md-12">
+    <h3 style="text-align:center;font-weight:bold;">User Settings</h3>
+    @if (!String.IsNullOrEmpty(Model.Result))
+    {
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> @Model.Result</div>
+            </div>
+        </div>
+    }
+</div>
+<div class="clearfix"></div>
+<div class="col-xs-12 col-md-9">
+    <br />
+    @using (Html.BeginForm("Settings", "User", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-xs-12 col-md-12">
+            <div class="input-group pull-right">
+                <input type="submit" value="Save Settings" class="btn btn-info" />
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <br />
+    }
+</div>

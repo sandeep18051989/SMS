@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6E1F89D6-F39D-4550-9234-E07FAF830103}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EF.Data</RootNamespace>
+    <AssemblyName>EF.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EF.Core">
+      <HintPath>..\EF.Core\bin\Debug\EF.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TrackerEnabledDbContext">
+      <HintPath>..\packages\TrackerEnabledDbContext.3.6.1\lib\net45\TrackerEnabledDbContext.dll</HintPath>
+    </Reference>
+    <Reference Include="TrackerEnabledDbContext.Common">
+      <HintPath>..\packages\TrackerEnabledDbContext.Common.3.6.1\lib\net45\TrackerEnabledDbContext.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\CMSEntityTypeConfiguration.cs" />
+    <Compile Include="CreateDatabaseIfNotExists.cs" />
+    <Compile Include="CreateTablesIfNotExist.cs" />
+    <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="DataSettingsContext.cs" />
+    <Compile Include="EfContextExtensions.cs" />
+    <Compile Include="EfDataProviderManager.cs" />
+    <Compile Include="EFDbContext.cs" />
+    <Compile Include="EFRepository.cs" />
+    <Compile Include="IDbContext.cs" />
+    <Compile Include="Mapping\AcadmicYearMap.cs" />
+    <Compile Include="Mapping\AllowanceMap.cs" />
+    <Compile Include="Mapping\HolidayMap.cs" />
+    <Compile Include="Mapping\HouseMap.cs" />
+    <Compile Include="Mapping\ProductCategoryMappingMap.cs" />
+    <Compile Include="Mapping\ProductCategoryMap.cs" />
+    <Compile Include="Mapping\ProductPictureMap.cs" />
+    <Compile Include="Mapping\OptionMap.cs" />
+    <Compile Include="Mapping\AssessmentQuestionMap.cs" />
+    <Compile Include="Mapping\QuestionMap.cs" />
+    <Compile Include="Mapping\QuestionTypeMap.cs" />
+    <Compile Include="Mapping\NewsPictureMap.cs" />
+    <Compile Include="Mapping\BookIssueMap.cs" />
+    <Compile Include="Mapping\ClassExamMap.cs" />
+    <Compile Include="Mapping\ClassRoomMap.cs" />
+    <Compile Include="Mapping\BookMap.cs" />
+    <Compile Include="Mapping\BlogPictureMap.cs" />
+    <Compile Include="Mapping\EventPictureMap.cs" />
+    <Compile Include="Mapping\HomeworkMap.cs" />
+    <Compile Include="Mapping\ReactionMap.cs" />
+    <Compile Include="Mapping\StudentHomeworkMap.cs" />
+    <Compile Include="Mapping\DivisionHomeworkMap.cs" />
+    <Compile Include="Mapping\ClassHomeworkMap.cs" />
+    <Compile Include="Mapping\DivisionExamMap.cs" />
+    <Compile Include="Mapping\StudentAssessmentMap.cs" />
+    <Compile Include="Mapping\StudentExamMap.cs" />
+    <Compile Include="Mapping\SubjectExamMap.cs" />
+    <Compile Include="Mapping\TeacherExamMap.cs" />
+    <Compile Include="Mapping\CasteMap.cs" />
+    <Compile Include="Mapping\CategoryMap.cs" />
+    <Compile Include="Mapping\AssessmentMap.cs" />
+    <Compile Include="Mapping\ClassMap.cs" />
+    <Compile Include="Mapping\CustomPageMap.cs" />
+    <Compile Include="Mapping\TimeTableMap.cs" />
+    <Compile Include="Mapping\TimeTableSettingMap.cs" />
+    <Compile Include="Mapping\DesignationMap.cs" />
+    <Compile Include="Mapping\DivisionMap.cs" />
+    <Compile Include="Mapping\StudentClassDivisionMap.cs" />
+    <Compile Include="Mapping\DivisionSubjectMap.cs" />
+    <Compile Include="Mapping\EmployeeMap.cs" />
+    <Compile Include="Mapping\EmployeeAttendanceMap.cs" />
+    <Compile Include="Mapping\NewsMap.cs" />
+    <Compile Include="Mapping\ExamMap.cs" />
+    <Compile Include="Mapping\FeeCategoryMap.cs" />
+    <Compile Include="Mapping\FeeDetailMap.cs" />
+    <Compile Include="Mapping\MessageMap.cs" />
+    <Compile Include="Mapping\MessageGroupMap.cs" />
+    <Compile Include="Mapping\PaymentMap.cs" />
+    <Compile Include="Mapping\PermissionRecordMap.cs" />
+    <Compile Include="Mapping\ProductMap.cs" />
+    <Compile Include="Mapping\PurchaseMap.cs" />
+    <Compile Include="Mapping\QualificationMap.cs" />
+    <Compile Include="Mapping\ReligionMap.cs" />
+    <Compile Include="Mapping\ScheduleTaskMap.cs" />
+    <Compile Include="Mapping\StudentMap.cs" />
+    <Compile Include="Mapping\StudentAttendanceMap.cs" />
+    <Compile Include="Mapping\Student_MessageGroupMap.cs" />
+    <Compile Include="Mapping\SubjectMap.cs" />
+    <Compile Include="Mapping\TeacherMap.cs" />
+    <Compile Include="Mapping\TemplateMap.cs" />
+    <Compile Include="Mapping\DataTokenMap.cs" />
+    <Compile Include="Mapping\BlogMap.cs" />
+    <Compile Include="Mapping\CommentsMap.cs" />
+    <Compile Include="Mapping\EventMap.cs" />
+    <Compile Include="Mapping\FilesMap.cs" />
+    <Compile Include="Mapping\SliderPictureMap.cs" />
+    <Compile Include="Mapping\PicturesMap.cs" />
+    <Compile Include="Mapping\RepliesMap.cs" />
+    <Compile Include="Mapping\IPAddressMap.cs" />
+    <Compile Include="Mapping\CustomPageUrlMap.cs" />
+    <Compile Include="Mapping\SchoolMap.cs" />
+    <Compile Include="Mapping\SetingsMap.cs" />
+    <Compile Include="Mapping\FeedbackMap.cs" />
+    <Compile Include="Mapping\MenusMap.cs" />
+    <Compile Include="Mapping\SystemLogMap.cs" />
+    <Compile Include="Mapping\UserRoleMap.cs" />
+    <Compile Include="Mapping\UserMap.cs" />
+    <Compile Include="Mapping\VendorMap.cs" />
+    <Compile Include="Mapping\VideosMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlInitializer.cs" />
+    <Compile Include="SqlServerDataProvider.cs" />
+    <Compile Include="Track\EFContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

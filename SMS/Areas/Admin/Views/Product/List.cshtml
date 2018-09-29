@@ -1,0 +1,150 @@
+﻿@model IEnumerable<SMS.Models.ProductModel>
+
+@{
+	ViewBag.Title = "Products";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="col-xs-12 col-md-12">
+	<h3 style="text-align:left;font-weight:bold;">Products</h3>
+	@if (!String.IsNullOrEmpty(ViewBag.Result))
+	{
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> @ViewBag.Result</div>
+			</div>
+		</div>
+	}
+</div>
+<div class="clearfix"></div>
+<div class="col-xs-12 col-md-12">
+	<div class="input-group pull-right">
+		@Html.ActionLink("Create Product", "Create", "Product", null, new { @class = "btn btn-primary" })
+	</div>
+</div>
+<div class="clearfix"></div>
+<div class="col-xs-12 col-md-12">
+	<br />
+	@using (Html.BeginForm("List", "Product", FormMethod.Get, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+	{
+		<div class="form-group">
+			<table class="table custom-table" data-sorting="true" data-paging="true" data-page-size="10">
+				<thead>
+					<tr>
+						<th data-toggle="true" data-visible="false" data-class="expand"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+						<th>Title</th>
+						<th data-breakpoints="xs sm md" data-title="Description" data-sortable="false" data-sort-ignore="true">Description</th>
+						@*<th data-breakpoints="all" data-title="Seo Name" >Seo Name</th>*@
+						<th data-breakpoints="xs sm md" data-title="URL">Url</th>
+						<th data-breakpoints="xs sm md" data-title="Comments/Files/Pictures/Videos" data-sortable="false" data-sort-ignore="true">Comments&nbsp;/&nbsp;Files&nbsp;/&nbsp;Pictures&nbsp;/&nbsp;Videos</th>
+						<th data-sortable="false" data-sort-ignore="true">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var pro in Model)
+					{
+						<tr>
+							<td align="center"><input type="checkbox" id="@pro.ProductId" value="@pro.ProductId" /></td>
+							<td align="center">@Html.ActionLink(@pro.Name, "Detail", "Product", new { area = "", id = pro.GenerateSlug() }, new { @title = "Preview Product", @target = "_blank" })</td>
+							<td>@(!String.IsNullOrEmpty(pro.Description) ? pro.Description.Length > 200 ? pro.Description.Substring(0, 200) : pro.Description : "")</td>
+							@*<td align="center">@pro.SeoName</td>*@
+							<td align="center">@pro.GenerateSlug()</td>
+							<td align="center">
+								<div id="other-related-stats-product" class="row">
+									<div class="col-md-3">
+										<span>
+											<i class="fa fa-2x fa-comment" aria-hidden="true"></i>
+											<span class="badge up badge-danger">@pro.comments.Count</span>
+										</span>
+									</div>
+									<div class="col-md-3">
+										<span>
+											<i class="fa fa-2x fa-folder" aria-hidden="true"></i>
+											<span class="badge up badge-danger">@pro.files.Count</span>
+										</span>
+									</div>
+									<div class="col-md-3">
+										<span>
+											<i class="fa fa-2x fa-picture-o" aria-hidden="true"></i>
+											<span class="badge up badge-danger">@pro.pictures.Count</span>
+										</span>
+									</div>
+									<div class="col-md-3">
+										<span>
+											<i class="fa fa-2x fa-video-camera" aria-hidden="true"></i>
+											<span class="badge up badge-danger">@pro.videos.Count</span>
+										</span>
+									</div>
+								</div>
+							</td>
+							<td align="center">
+								<a href="@Url.Action("Edit","Product", new { @productId = pro.ProductId })" id="@("edit_" + pro.ProductId)" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+								&nbsp;
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	}
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		// Initiallize Footable
+		$('table').DataTable({
+
+			"processing": true, // for show progress bar  
+			"serverSide": true, // for process server side  
+			"filter": true, // this is for disable filter (search box)  
+			"orderMulti": false, // for disable multiple column at once  
+			"pageLength": 5,
+
+			"ajax": {
+				"url": "/Demo/LoadData",
+				"type": "POST",
+				"datatype": "json"
+			},
+
+			"columnDefs":
+			[{
+					"targets": [0],
+					"visible": false,
+					"searchable": false
+				},
+				{
+					"targets": [7],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [8],
+					"searchable": false,
+					"orderable": false
+				},
+				{
+					"targets": [9],
+					"searchable": false,
+					"orderable": false
+				}],
+
+			"columns": [
+				{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
+				{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+				{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
+				{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+				{ "data": "City", "name": "City", "autoWidth": true },
+				{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+				{ "data": "Country", "name": "Country", "autoWidth": true },
+				{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
+				{
+					"render": function (data, type, full, meta)
+						{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+				},
+				{
+					data: null, render: function (data, type, row) {
+						return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+					}
+				}
+			]
+		});
+	});
+</script>

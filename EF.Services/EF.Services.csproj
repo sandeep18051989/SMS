@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ED4F047D-7080-46E0-AE37-755C3D7C6C5F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EF.Services</RootNamespace>
+    <AssemblyName>EF.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EF.Core">
+      <HintPath>..\EF.Core\bin\Debug\EF.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EF.Data">
+      <HintPath>..\EF.Data\bin\Debug\EF.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\packages\FluentValidation.8.0.100\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc">
+      <HintPath>..\packages\FluentValidation.Mvc5.8.0.100\lib\net45\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleAnalyticsTracker.Core">
+      <HintPath>..\packages\GoogleAnalyticsTracker.Core.4.6.7\lib\portable45-net45+win8+wpa81\GoogleAnalyticsTracker.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleAnalyticsTracker.MVC5">
+      <HintPath>..\packages\GoogleAnalyticsTracker.MVC5.4.6.7\lib\net45\GoogleAnalyticsTracker.MVC5.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMaps.LocationServices">
+      <HintPath>..\packages\GoogleMaps.LocationServices.1.2.0.1\lib\net40\GoogleMaps.LocationServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.6\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TrackerEnabledDbContext">
+      <HintPath>..\packages\TrackerEnabledDbContext.3.6.1\lib\net45\TrackerEnabledDbContext.dll</HintPath>
+    </Reference>
+    <Reference Include="TrackerEnabledDbContext.Common">
+      <HintPath>..\packages\TrackerEnabledDbContext.Common.3.6.1\lib\net45\TrackerEnabledDbContext.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Wibci.CountryReverseGeocode">
+      <HintPath>..\packages\Wibci.CountryReverseGeocode.2.0.0\lib\netstandard1.0\Wibci.CountryReverseGeocode.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionConfirmationModel.cs" />
+    <Compile Include="BaseModelValidator.cs" />
+    <Compile Include="CMSController.cs" />
+    <Compile Include="BaseModel.cs" />
+    <Compile Include="ConfirmationForDeleteModel.cs" />
+    <Compile Include="Context\IWebContext.cs" />
+    <Compile Include="Context\WebContext.cs" />
+    <Compile Include="Culture\CultureHelper.cs" />
+    <Compile Include="Culture\ICutltureHelper.cs" />
+    <Compile Include="DecimalPropertyValidator.cs" />
+    <Compile Include="EFValidatorFactory.cs" />
+    <Compile Include="Http\IUrlHelper.cs" />
+    <Compile Include="Http\UrlExtensions.cs" />
+    <Compile Include="Http\UrlHelper.cs" />
+    <Compile Include="IAttribute.cs" />
+    <Compile Include="IPageModel.cs" />
+    <Compile Include="LoggingExtensions.cs" />
+    <Compile Include="MetadataProvider.cs" />
+    <Compile Include="PagedList\BasePageModel.cs" />
+    <Compile Include="PagedList\PagedList.cs" />
+    <Compile Include="PagedList\IPagedList.cs" />
+    <Compile Include="PagedList\Pager.cs" />
+    <Compile Include="PagerParams.cs" />
+    <Compile Include="Service\AuditService.cs" />
+    <Compile Include="Service\IRouteProvider.cs" />
+    <Compile Include="Service\IRouteRegistrar.cs" />
+    <Compile Include="Service\RouteRegistrar.cs" />
+    <Compile Include="Service\UrlService.cs" />
+    <Compile Include="Service\IUrlService.cs" />
+    <Compile Include="Service\NewsService.cs" />
+    <Compile Include="Service\IAuditService.cs" />
+    <Compile Include="Service\INewsService.cs" />
+    <Compile Include="Service\ISMSService.cs" />
+    <Compile Include="Service\SystemLogService.cs" />
+    <Compile Include="Service\ISystemLogService.cs" />
+    <Compile Include="Service\IInstallationService.cs" />
+    <Compile Include="Service\InstallationService.cs" />
+    <Compile Include="Service\SMSService.cs" />
+    <Compile Include="Tasks\DefaultMachineNameProvider.cs" />
+    <Compile Include="Tasks\IMachineNameProvider.cs" />
+    <Compile Include="Tasks\IScheduleTaskService.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\KeepAlive.cs" />
+    <Compile Include="Tasks\ScheduleTaskService.cs" />
+    <Compile Include="Tasks\Task.cs" />
+    <Compile Include="Tasks\TaskManager.cs" />
+    <Compile Include="Tasks\TaskThread.cs" />
+    <Compile Include="UserExtensions.cs" />
+    <Compile Include="EntityValidatorBase.cs" />
+    <Compile Include="Context\UserContext.cs" />
+    <Compile Include="EnumerableExtension.cs" />
+    <Compile Include="HtmlExtensions.cs" />
+    <Compile Include="Http\AutoHttpContext.cs" />
+    <Compile Include="FormsAuthenticationService.cs" />
+    <Compile Include="Http\AutoHttpRequest.cs" />
+    <Compile Include="Http\AutoHttpResponse.cs" />
+    <Compile Include="Http\AutoHttpSessionState.cs" />
+    <Compile Include="IAuthenticationService.cs" />
+    <Compile Include="BaseModelBinder.cs" />
+    <Compile Include="NoTrimAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ICustomPageService.cs" />
+    <Compile Include="Service\CustomPageService.cs" />
+    <Compile Include="Service\IPermissionService.cs" />
+    <Compile Include="Service\IRoleService.cs" />
+    <Compile Include="Service\PermissionService.cs" />
+    <Compile Include="Service\TemplateService.cs" />
+    <Compile Include="Service\BlogService.cs" />
+    <Compile Include="Service\CommentService.cs" />
+    <Compile Include="DependencyRegistrar.cs" />
+    <Compile Include="Service\EmailService.cs" />
+    <Compile Include="Service\ITemplateService.cs" />
+    <Compile Include="Service\IEmailService.cs" />
+    <Compile Include="Service\ProductService.cs" />
+    <Compile Include="Service\EventService.cs" />
+    <Compile Include="Service\IProductService.cs" />
+    <Compile Include="Service\IFileService.cs" />
+    <Compile Include="Service\ISliderService.cs" />
+    <Compile Include="Service\MenuService.cs" />
+    <Compile Include="Service\IBlogService.cs" />
+    <Compile Include="Service\ICommentService.cs" />
+    <Compile Include="Service\IEventService.cs" />
+    <Compile Include="Service\IMenuService.cs" />
+    <Compile Include="Service\IPictureService.cs" />
+    <Compile Include="Service\IReplyService.cs" />
+    <Compile Include="Service\IFeedbackService.cs" />
+    <Compile Include="Service\ISettingService.cs" />
+    <Compile Include="Service\IUserService.cs" />
+    <Compile Include="Service\IVideoService.cs" />
+    <Compile Include="Service\FileService.cs" />
+    <Compile Include="Service\PictureService.cs" />
+    <Compile Include="Service\ReplyService.cs" />
+    <Compile Include="Service\FeedbackService.cs" />
+    <Compile Include="Service\SettingService.cs" />
+    <Compile Include="Service\RoleService.cs" />
+    <Compile Include="Service\UserService.cs" />
+    <Compile Include="Service\SliderService.cs" />
+    <Compile Include="Service\VideoService.cs" />
+    <Compile Include="ValidatorExtensions .cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

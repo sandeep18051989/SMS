@@ -1,0 +1,89 @@
+﻿@model String
+@switch (Model)
+{
+	case "ConfigurationSettings":
+		{
+			@*<li class=""><i class="glyphicon glyphicon-heart"></i> <a href="@Url.Action("Index","Blog")">Blog Settings</a></li>
+				<li class=""><i class="glyphicon glyphicon-th"></i> <a href="@Url.Action("Index","Color")">Color Settings</a></li>*@
+			<li class="waves-effect active"><a href="@Url.Action("Settings", "Configuration")"><i class="glyphicon glyphicon-cog"></i><span>Configuration Settings</span></a></li>
+			<li class="waves-effect"><a href="@Url.Action("EmailSettings", "Email")"><i class="glyphicon glyphicon-envelope"></i><span>Email Settings</span></a></li>
+				@*<li class=""><i class="glyphicon glyphicon-list-alt"></i> <a href="@Url.Action("Index", "Menu")">Menu Settings</a></li>*@
+				<li class="waves-effect"><a href="@Url.Action("Settings", "Picture")"><i class="glyphicon glyphicon-picture"></i><span>Picture Settings</span></a></li>
+				<li class="waves-effect"><a href='@Url.Action("Index","Slider")'><i class="glyphicon glyphicon-play"></i><span>Slider Settings</span></a></li>
+				<li class="waves-effect"><a href="@Url.Action("Settings", "User")"><i class="glyphicon glyphicon-user"></i><span>User Settings</span></a></li>
+			break;
+		}
+	case "EmailSettings":
+		{
+			@*<li class=""><i class="glyphicon glyphicon-heart"></i> <a href="@Url.Action("Index","Blog")">Blog Settings</a></li>
+				<li class=""><i class="glyphicon glyphicon-th"></i> <a href="@Url.Action("Index","Color")">Color Settings</a></li>*@
+			<li class="waves-effect"><a href="@Url.Action("Settings", "Configuration")"><i class="glyphicon glyphicon-cog"></i><span>Configuration Settings</span></a></li>
+			<li class="waves-effect active"><a href="@Url.Action("EmailSettings", "Email")"><i class="glyphicon glyphicon-envelope"></i><span>Email Settings</span></a></li>
+			@*<li class=""><i class="glyphicon glyphicon-list-alt"></i> <a href="@Url.Action("Index", "Menu")">Menu Settings</a></li>*@
+			<li class="waves-effect"><a href="@Url.Action("Settings", "Picture")"><i class="glyphicon glyphicon-picture"></i><span>Picture Settings</span></a></li>
+				<li class="waves-effect"><a href='@Url.Action("Index","Slider")'><i class="glyphicon glyphicon-play"></i><span>Slider Settings</span></a></li>
+				<li class="waves-effect"><a href="@Url.Action("Settings", "User")"><i class="glyphicon glyphicon-user"></i><span>User Settings</span></a></li>
+			break;
+		}
+		@*case "MenuSettings":
+			{
+				 <li class=""><i class="glyphicon glyphicon-heart"></i> <a href="@Url.Action("Index","Blog")">Blog Settings</a></li>
+				 <li class=""><i class="glyphicon glyphicon-th"></i> <a href="@Url.Action("Index","Color")">Color Settings</a></li>
+				 <li class=""><i class="glyphicon glyphicon-cog"></i> <a href="@Url.Action("Settings", "Configuration")">Configuration Settings</a></li>
+				 <li class=""><i class="glyphicon glyphicon-envelope"></i> <a href="@Url.Action("EmailSettings", "Email")">Email Settings</a></li>
+				 <li class="active"><i class="glyphicon glyphicon-list-alt"></i> <a href="@Url.Action("Index", "Menu")">Menu Settings</a></li>
+				 <li class=""><i class="glyphicon glyphicon-picture"></i> <a href="@Url.Action("Settings", "Picture")">Picture Settings</a></li>
+				 <li class=""><i class="glyphicon glyphicon-play"></i> <a href='@Url.RouteUrl("SliderSettings")'>Slider Settings</a></li>
+				 <li class=""><i class="glyphicon glyphicon-user"></i> <a href="@Url.Action("Settings", "User")">User Settings</a></li>
+				 break;
+			}*@
+case "PictureSettings":
+	{
+		@*<li class=""><i class="glyphicon glyphicon-heart"></i> <a href="@Url.Action("Index","Blog")">Blog Settings</a></li>
+			<li class=""><i class="glyphicon glyphicon-th"></i> <a href="@Url.Action("Index","Color")">Color Settings</a></li>*@
+		<li class="waves-effect"><a href="@Url.Action("Settings", "Configuration")"><i class="glyphicon glyphicon-cog"></i><span>Configuration Settings</span></a></li>
+		<li class="waves-effect"><a href="@Url.Action("EmailSettings", "Email")"><i class="glyphicon glyphicon-envelope"></i><span>Email Settings</span></a></li>
+			@*<li class=""><i class="glyphicon glyphicon-list-alt"></i> <a href="@Url.Action("Index", "Menu")">Menu Settings</a></li>*@
+			<li class="waves-effect active"><a href="@Url.Action("Settings", "Picture")"><i class="glyphicon glyphicon-picture"></i><span>Picture Settings</span></a></li>
+			<li class="waves-effect"><a href='@Url.Action("Index","Slider")'><i class="glyphicon glyphicon-play"></i><span>Slider Settings</span></a></li>
+				<li class="waves-effect"><a href="@Url.Action("Settings", "User")"><i class="glyphicon glyphicon-user"></i><span>User Settings</span></a></li>
+		break;
+	}
+case "SliderSettings":
+	{
+		@*<li class=""><i class="glyphicon glyphicon-heart"></i> <a href="@Url.Action("Index","Blog")">Blog Settings</a></li>
+			<li class=""><i class="glyphicon glyphicon-th"></i> <a href="@Url.Action("Index","Color")">Color Settings</a></li>*@
+			<li class="waves-effect"><a href="@Url.Action("Settings", "Configuration")"><i class="glyphicon glyphicon-cog"></i><span>Configuration Settings</span></a></li>
+			<li class="waves-effect"><a href="@Url.Action("EmailSettings", "Email")"><i class="glyphicon glyphicon-envelope"></i><span>Email Settings</span></a></li>
+			@*<li class=""><i class="glyphicon glyphicon-list-alt"></i> <a href="@Url.Action("Index", "Menu")">Menu Settings</a></li>*@
+			<li class="waves-effect"><a href="@Url.Action("Settings", "Picture")"><i class="glyphicon glyphicon-picture"></i><span>Picture Settings</span></a></li>
+			<li class="waves-effect active"><a href='@Url.Action("Index","Slider")'><i class="glyphicon glyphicon-play"></i><span>Slider Settings</span></a></li>
+			<li class="waves-effect"><a href="@Url.Action("Settings", "User")"><i class="glyphicon glyphicon-user"></i><span>User Settings</span></a></li>
+			break;
+		}
+	case "UserSettings":
+		{
+			@*<li class=""><i class="glyphicon glyphicon-heart"></i> <a href="@Url.Action("Index","Blog")">Blog Settings</a></li>
+				<li class=""><i class="glyphicon glyphicon-th"></i> <a href="@Url.Action("Index","Color")">Color Settings</a></li>*@
+			<li class="waves-effect"><a href="@Url.Action("Settings", "Configuration")"><i class="glyphicon glyphicon-cog"></i><span>Configuration Settings</span></a></li>
+			<li class="waves-effect"><a href="@Url.Action("EmailSettings", "Email")"><i class="glyphicon glyphicon-envelope"></i><span>Email Settings</span></a></li>
+			@*<li class=""><i class="glyphicon glyphicon-list-alt"></i> <a href="@Url.Action("Index", "Menu")">Menu Settings</a></li>*@
+			<li class="waves-effect"><a href="@Url.Action("Settings", "Picture")"><i class="glyphicon glyphicon-picture"></i><span>Picture Settings</span></a></li>
+			<li class="waves-effect"><a href='@Url.Action("Index","Slider")'><i class="glyphicon glyphicon-play"></i><span>Slider Settings</span></a></li>
+			<li class="waves-effect active"><a href="@Url.Action("Settings", "User")"><i class="glyphicon glyphicon-user"></i><span>User Settings</span></a></li>
+			break;
+		}
+	default:
+		{
+			@*<li class=""><i class="glyphicon glyphicon-heart"></i> <a href="@Url.Action("Index","Blog")">Blog Settings</a></li>
+				<li class=""><i class="glyphicon glyphicon-th"></i> <a href="@Url.Action("Index","Color")">Color Settings</a></li>*@
+			<li class="waves-effect"><a href="@Url.Action("Settings", "Configuration")"><i class="glyphicon glyphicon-cog"></i><span>Configuration Settings</span></a></li>
+			<li class="waves-effect"><a href="@Url.Action("EmailSettings", "Email")"><i class="glyphicon glyphicon-envelope"></i><span>Email Settings</span></a></li>
+			@*<li class=""><i class="glyphicon glyphicon-list-alt"></i> <a href="@Url.Action("Index", "Menu")">Menu Settings</a></li>*@
+			<li class="waves-effect"><a href="@Url.Action("Settings", "Picture")"><i class="glyphicon glyphicon-picture"></i><span>Picture Settings</span></a></li>
+			<li class="waves-effect"><a href='@Url.Action("Index","Slider")'><i class="glyphicon glyphicon-play"></i><span>Slider Settings</span></a></li>
+			<li class="waves-effect"><a href="@Url.Action("Settings", "User")"><i class="glyphicon glyphicon-user"></i><span>User Settings</span></a></li>
+			break;
+		}
+
+}

@@ -1,0 +1,13 @@
+﻿@model SMS.Areas.Admin.Models.AdminHeaderModel
+@if (Model.pictures != null)
+{
+    if (@Model.LogoEnabled)
+    {
+        if (Model.pictures.IsLogo && Model.pictures.Url != null && Model.pictures.IsActive)
+        {
+            <a class="navbar-brand" href="/"><img src='~/Content/images/@Model.pictures.Url' alt='@Model.pictures.AlternateText' /></a>  }
+        else
+        {
+            <a class="navbar-brand" href="/"><img src="~/Content/images/LogoNotFound.png" alt="Logo Not Found" /></a>  }
+    }
+}

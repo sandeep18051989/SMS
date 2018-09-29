@@ -1,0 +1,173 @@
+﻿@model int
+@using System.Activities.Statements
+@using System.Web.Mvc;
+@using EF.Services.Http;
+@using EF.Services.Service;
+@{
+//register CSS and JS
+	<link rel="stylesheet" type="text/css" href="~/Areas/Admin/Content/fineuploader.min.css" />
+	<script type="text/javascript" src="~/Areas/Admin/Scripts/fineuploader.min.js"></script>
+	//other variables
+	var random = EF.Core.CodeHelper.GenerateRandomInteger();
+	var clientId = "picture" + random;
+	var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+	var pictureService = EF.Core.ContextHelper.Current.Resolve<IPictureService>();
+	var settingService = EF.Core.ContextHelper.Current.Resolve<ISettingService>();
+	var picture = pictureService.GetPictureById(Model);
+	var fileTypesAllowedSetting = settingService.GetSettingByKey("PictureTypesAllowed").Value;
+	var splitTypes = "";
+	foreach (string type in fileTypesAllowedSetting.Split(','))
+	{
+		splitTypes += "'" + type + "',";
+	}
+	var maxSizeAllowedSetting = settingService.GetSettingByKey("MaximumSizeAllowed").Value;
+}
+@*fine uploader container*@
+<div id="@clientId">
+	<noscript>
+		<p>
+			Please enable JavaScript to use file uploader.
+		</p>
+		<!-- or put a simple form for upload here -->
+	</noscript>
+</div>
+<input type="hidden" name="pictureids" id="pictureids" value="" />
+@*fine uploader template (keep it synchronized to \Content\fineuploader\templates\default.html)*@
+<script type="text/template" id="@(clientId)-qq-template">
+	<div class="row qq-uploader-selector qq-uploader">
+		<div class="col-md-3">
+			<div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+				<span>Drop Files</span>
+			</div>
+			<div class="qq-upload-button-selector qq-upload-button">
+				<div>Upload Picture</div>
+			</div>
+			<span class="qq-drop-processing-selector qq-drop-processing">
+				<span>Processing</span>
+				<span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+			</span>
+			<ul class="qq-upload-list-selector qq-upload-list">
+				<li>
+					<div class="qq-progress-bar-container-selector">
+						<div class="qq-progress-bar-selector qq-progress-bar"></div>
+					</div>
+					<span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+					<span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+					<span class="qq-upload-file-selector qq-upload-file"></span>
+					<input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+					<span class="qq-upload-size-selector qq-upload-size"></span>
+					<a class="qq-upload-cancel-selector qq-upload-cancel" href="#">Cancel</a>
+					<a class="qq-upload-retry-selector qq-upload-retry" href="#">Retry</a>
+					<a class="qq-upload-delete-selector qq-upload-delete" href="#">Delete</a>
+					<span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$("#@(clientId)").fineUploader({
+			request: {
+				endpoint: '@(Url.Action("AsyncEventPictureUpload", "Picture", new {Area = "admin"}))'
+			},
+			template: "@(clientId)-qq-template",
+			multiple: false,
+			allowedExtensions: [@Html.Raw(splitTypes)],
+			sizeLimit: @maxSizeAllowedSetting
+        }).on("complete", function(event, id, name, responseJSON, xhr) {
+			if (responseJSON.success) {
+				var cur_val = $('#pictureids').val();
+				if (cur_val)
+					$('#pictureids').val(cur_val + "," + responseJSON.EventPicture.PictureId);
+				else
+					$('#pictureids').val(responseJSON.EventPicture.PictureId);
+
+				var length = parseInt($(".picture-table > tbody#picture-grid-body > tr").length);
+				console.log(length);
+				var eventPicture = '<tr id="' + responseJSON.EventPicture.PictureId + '"><th scope="row"><img src="' + responseJSON.EventPicture.Picture.Src + '" alt="" class="img-fluid z-depth-0"><input type="hidden" id="evepictureid_' + responseJSON.EventPicture.PictureId + '" value="' + responseJSON.EventPicture.PictureId + '" name="Pictures[' + length + '].PictureId" /></th>';
+				// Start Date
+				//class = "form-control datepicker",  })
+				eventPicture += '<td class="eve-pic-startdate"><input type="text" class="form-control datepicker" placeholder="Start Date" id=evepicturestart_' + responseJSON.EventPicture.PictureId + ' name="Pictures[' + length + '].PicStartDate" /><label class="control-label" for="evepicturestart_' + responseJSON.EventPicture.PictureId + '"></label></td>';
+				// End Date
+				eventPicture += '<td class="eve-pic-enddate"><input type="text" class="form-control datepicker" placeholder="End Date" id=evepictureend_' + responseJSON.EventPicture.PictureId + ' name="Pictures[' + length + '].PicEndDate" /><label class="control-label" for="evepictureend_' + responseJSON.EventPicture.PictureId + '"></label></td>';
+				// Display Order
+				eventPicture += '<td><input type="number" class="form-control" placeholder="Display Order" id=evepicturedo_' + responseJSON.EventPicture.PictureId + ' name="Pictures[' + length + '].DisplayOrder" /></td>';
+				// Is Default
+				eventPicture += '<td class="set-default"><div class="form-check"><input type="radio" name="DefaultPictureId" class="filled-in form-check-input" id=evepicturedefault_' + responseJSON.EventPicture.PictureId + ' checked="checked" value="' + responseJSON.EventPicture.PictureId + '" /><label class="form-check-label" for=evepicturedefault_' + responseJSON.EventPicture.PictureId + '>Default</label></div></td>';
+				eventPicture += '<td><button type="button" class="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="" id="removepic_' + responseJSON.EventPicture.PictureId + '" data-original-title="Remove item">X</button></td>';
+				eventPicture += '</tr>';
+
+				$("#picture-grid-body").append(eventPicture);
+				length = parseInt(parseInt(length) + parseInt(1));
+				ApplyDatePicker($('.eve-pic-startdate [id^=evepicturestart_' + responseJSON.EventPicture.PictureId + ']'));
+			}
+		});
+
+	$(document).on("click",
+		"button[id^=removepic_]",
+		function(e) {
+			var picid = $(this).attr('id').split('_')[1];
+			$.ajax({
+				type: 'POST',
+				url: 'admin/event/DeleteEventPicture/' + picid,
+				contentType: 'application/json; charset=utf-8',
+				async: true,
+				context: this,
+				complete: function (jqXHR, status) {
+					if (status == 'success' || status == 'notmodified') {
+						var data = $.parseJSON(jqXHR.responseText);
+					}
+				},
+				success: function (data, result) {
+					if (data) {
+						$('#pictureids').val(removeValue($('#pictureids').val(), picid, ","));
+						$(this).closest('tr').remove();
+						setTimeout(function () {
+							$.gritter.add({
+								title: "Success",
+								text: "Picture deleted successfully",
+								sticky: true,
+								time: "",
+								class_name: "my-sticky-class"
+							});
+						},
+							100);
+					} else {
+						setTimeout(function() {
+								$.gritter.add({
+									title: "Failure",
+									text: "An error occurred while deleting picture, please try again",
+									sticky: true,
+									time: "",
+									class_name: "my-sticky-class"
+								});
+							},
+							100);
+					}
+				},
+				error: function (xhr, ajaxOptions, errorThrown) {
+					console.log(xhr.responseText);
+				}
+			});
+
+			return false;
+		});
+	});
+
+	var removeValue = function(list, value, separator) {
+		separator = separator || ",";
+		var values = list.split(separator);
+		for (var i = 0; i < values.length; i++) {
+			if (values[i] == value) {
+				values.splice(i, 1);
+				return values.join(separator);
+			}
+		}
+		return list;
+	}
+	
+
+</script>
