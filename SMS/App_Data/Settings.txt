@@ -1,2 +1,0 @@
-DataProvider: sqlserver
-DataConnectionString: Data Source=.;Initial Catalog=sms;User id=sa;pwd=ayush@123
