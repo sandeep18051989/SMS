@@ -44,11 +44,13 @@ namespace SMS.App_Start
 				 "~/Areas/Admin/Scripts/public.common.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/datetimepicker").Include(
-				 "~/Scripts/moment.min.js",
 				 "~/Scripts/bootstrap-datetimepicker.min.js"));
 
+			bundles.Add(new ScriptBundle("~/Scripts/moment").Include(
+				 "~/Scripts/moment.min.js"));
+
 			bundles.Add(new ScriptBundle("~/Scripts/home").Include(
-				 "~/Scripts/public.home.js"));
+				"~/Scripts/public.home.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/dzone").Include(
 				 "~/Scripts/dropzone/dropzone.min.js"));
