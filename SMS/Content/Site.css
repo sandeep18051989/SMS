@@ -107,11 +107,3 @@ i.green-text{font-size:16px;}
 	height: 100%;
 }
 .common-layout section{padding:10px 0;}
-/*.form-control:focus ~ .floating-label, 
-.form-control:not(.empty) ~ .floating-label, 
-.form-control:-webkit-autofill ~ .floating-label {
-  top: -10px;
-  font-size: 10px;
-  opacity: 1;
-}*/
-/* Custom Styles End */

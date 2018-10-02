@@ -3,63 +3,143 @@
 	@if (Model.Id > 0)
 	{
 		<div class="panel panel-default">
-			<div class="panel-body">
-				<table id="eventpictures-grid"></table>
+			<div class="panel-body table-responsive">
+				<table classs="table product-table" id="eventpictures-grid">
+					<thead class="mdb-color lighten-5">
+						<tr>
+							<th>&nbsp;</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th>Default</th>
+							<th>Display Order</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
 				<script type="text/javascript">
-					$('#eventpictures-grid').DataTable({
+					$("input[name^=default_]").change(function () {
+						if ($(this).prop('checked')) {
+							$("input[name^=default_]").attr("checked", false);
+							$(this).attr('checked', true).val(true);
+						}
+						else {
+							$(this).attr('checked', false).val(false);
+						}
+					});
+
+					// Initiallize Datatable
+					$('.custom-table').DataTable({
+						"paging": false,
+						"bLengthChange" : false, //thought this line could hide the LengthMenu
+						"bInfo":false,
 						"processing": true, // for show progress bar
 						"serverSide": true, // for process server side
-						"filter": true, // this is for disable filter (search box)
+						"filter": false, // this is for disable filter (search box)
 						"orderMulti": false, // for disable multiple column at once
-						"pageLength": 25,
-
 						"ajax": {
-							"url": "/Event/LoadGrid",
+							"url": "/Admin/Event/LoadPictureGrid/@(Model.Id)",
 							"type": "POST",
 							"datatype": "json"
 						},
-
-						"columnDefs":
-						[{
-							"targets": [0],
-							"visible": false,
-							"searchable": false
-						},
-						{
-							"targets": [7],
-							"searchable": false,
-							"orderable": false
-						},
-						{
-							"targets": [8],
-							"searchable": false,
-							"orderable": false
-						},
-						{
-							"targets": [9],
-							"searchable": false,
-							"orderable": false
-						}],
-
+						"aaSorting": [],
 						"columns": [
-							{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
-							{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
-							{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
-							{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
-							{ "data": "City", "name": "City", "autoWidth": true },
-							{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
-							{ "data": "Country", "name": "Country", "autoWidth": true },
-							{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
 							{
-								"render": function (data, type, full, meta)
-								{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+								"searchable": false,
+								"title": "",
+								"render": function (data, type, row) {
+									if (type === "display") {
+										return '<img src="' + row.PictureSrc + '" alt="" class="img-fluid z-depth-0">';
+									}
+									return data;
+								},
+								"orderable": false,
+								"className": 'text-center'
 							},
 							{
-								data: null, render: function (data, type, row) {
-									return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+							"data": "StartDate",
+							"title": "Start Date",
+							"render": function (data, type, row) {
+								if (type === "display") {
+									var dateTemplate = '<input type="text" id="start_';
+									dateTemplate += row.Id;
+									dateTemplate += ' value=';
+									dateTemplate += (row.StartDate != null && row.StartDate !== "" ? row.StartDate : "");
+									dateTemplate += ' aria - label="Display Order" class="form- control datepicker" style= "width: 100px"><script type="text/ javascript">';
+									dateTemplate += ' $(start_' + row.Id + ').pickadate({ format: "d MMM yyyy" });';
+									dateTemplate += 'var $input = $(start_' + row.Id + ').pickadate();';
+									dateTemplate += 'var picker = $input.pickadate("picker");';
+									dateTemplate += 'picker.on({close: function() {$(document.activeElement).blur();}});';
+									dateTemplate += '<\/script>';
+									return dateTemplate;
+								}
+								return data;
+							},
+							"className": "text-center",
+							"orderable": false
+							},
+							{
+							"data": "EndDate",
+							"title": "End Date",
+							"render": function (data, type, row) {
+								if (type === "display") {
+									var dateTemplate = '<input type="text" id="end_';
+									dateTemplate += row.Id;
+									dateTemplate += ' value=';
+									dateTemplate += (row.EndDate != null && row.EndDate !== "" ? row.EndDate : "");
+									dateTemplate += ' aria - label="Display Order" class="form- control datepicker" style= "width: 100px"><script type="text/ javascript">';
+									dateTemplate += ' $(start_' + row.Id + ').pickadate({ format: "d MMM yyyy" });';
+									dateTemplate += 'var $input = $(start_' + row.Id + ').pickadate();';
+									dateTemplate += 'var picker = $input.pickadate("picker");';
+									dateTemplate += 'picker.on({close: function() {$(document.activeElement).blur();}});';
+									dateTemplate += '<\/script>';
+									return dateTemplate;
+								}
+								return data;
+							},
+							"className": "text-center",
+							"orderable": false
+						},
+							{
+								"data": "IsDefault",
+								"title": "Default",
+								"render": function (data, type, row) {
+									if (type === "display") {
+										return '<div class="form-check"><input type="checkbox" name="defaultpicture" class="form-check-input" id="default_' + row.PictureId + '"><label class="form-check-label" for="' + row.PictureId + '"></label></div>';
+									}
+									return data;
+								},
+								"className": "text-center",
+								"orderable": false
+							},
+							{
+								"data": "DisplayOrder",
+								"title": "Display Order",
+								"render": function (data, type, row) {
+									if (type === "display") {
+											return '<input type="number" value="' + (row.DisplayOrder > 0 ? "0" : "") + '" aria-label="Display Order" class="form-control" style="width: 100px">';
+									}
+									return data;
+								},
+								"className": "text-center",
+								"orderable": false
+							},
+							{
+								"title": "Actions",
+								"orderable": false,
+								"className": 'text-center',
+								"render": function (data, type, row) {
+									if (type === "display") {
+										return '<a href="/Admin/Event/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="eventid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+									}
+									return data;
 								}
 							}
-						]
+						],
+						"select": {
+							"style": 'os',
+							"selector": 'td:first-child'
+						}
 					});
 				</script>
 				<div id="pager"></div>
@@ -74,10 +154,8 @@
 							var pictureId = $("#@Html.IdFor(model => model.InsertPictureModel.PictureId)").val();
 							var displayOrder = $("#@Html.IdFor(model => model.InsertPictureModel.DisplayOrder)").val();
 							var isDefault = $("#InsertPictureModel.IsDefault").val();
-							var startDate = $("#@Html.IdFor(model => model.InsertPictureModel.PicStartDate)").val();
-							var endDate = $("#@Html.IdFor(model => model.InsertPictureModel.PicEndDate)").val();
 
-							if (pictureId == 0) {
+							if (pictureId === 0) {
 								alert('Upload picture first');
 								return;
 							}
@@ -89,8 +167,8 @@
 								displayOrder: displayOrder,
 								isDefault: false,
 								eventId: @Model.Id,
-								startDate: startDate,
-								endDate: endDate
+								startDate: new Date(),
+								endDate: new Date()
 							};
 
 							addAntiForgeryToken(postData);
@@ -118,37 +196,6 @@
 						<div class="md-form">
 							@Html.EditorFor(model => model.InsertPictureModel.PictureId)
 							@Html.ValidationMessageFor(model => model.InsertPictureModel.PictureId)
-						</div>
-					</div>
-				</div>
-
-				<div class="row text-left">
-					<div class="col-md-6 mb-4">
-						<div class="md-form">
-							<i class="fa fa-calendar prefix"></i>
-							@Html.EditorFor(model => model.InsertPictureModel.PicStartDate)
-							@Html.LabelFor(model => model.InsertPictureModel.PicStartDate, "Start Date", htmlAttributes: new { @class = "control-label" })
-							@Html.ValidationMessageFor(model => model.InsertPictureModel.PicStartDate)
-						</div>
-					</div>
-				</div>
-				<div class="row text-left">
-					<div class="col-md-6 mb-4">
-						<div class="md-form">
-							<i class="fa fa-calendar prefix"></i>
-							@Html.EditorFor(model => model.InsertPictureModel.PicEndDate)
-							@Html.LabelFor(model => model.InsertPictureModel.PicEndDate, "End Date", htmlAttributes: new { @class = "control-label" })
-							@Html.ValidationMessageFor(model => model.InsertPictureModel.PicEndDate)
-						</div>
-					</div>
-				</div>
-				<div class="row text-left">
-					<div class="col-md-6 mb-4">
-						<div class="md-form">
-							<i class="fa fa-list-ol prefix"></i>
-							@Html.TextBoxFor(model => model.InsertPictureModel.DisplayOrder, htmlAttributes: new { @type = "number", @class = "form-control", @maxlength = "3", @Value = Model.InsertPictureModel.DisplayOrder > 0 ? Model.InsertPictureModel.DisplayOrder.ToString() : "" })
-							@Html.LabelFor(model => model.InsertPictureModel.DisplayOrder, "Display Order", htmlAttributes: new { @class = "control-label" })
-							@Html.ValidationMessageFor(model => model.InsertPictureModel.DisplayOrder)
 						</div>
 					</div>
 				</div>

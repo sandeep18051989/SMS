@@ -22,3 +22,28 @@ G:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Mvc.xml
 G:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.csproj.CopyComplete
 G:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.dll
 G:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.pdb
+D:\Repositories\SMS\EF.Core\bin\Debug\EF.Core.dll.config
+D:\Repositories\SMS\EF.Core\bin\Debug\EF.Core.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\EF.Core.pdb
+D:\Repositories\SMS\EF.Core\bin\Debug\Autofac.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\Autofac.Integration.Mvc.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\AutoMapper.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.SqlServer.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\Newtonsoft.Json.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\System.ValueTuple.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Mvc.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\Repositories\SMS\EF.Core\bin\Debug\Autofac.xml
+D:\Repositories\SMS\EF.Core\bin\Debug\Autofac.Integration.Mvc.xml
+D:\Repositories\SMS\EF.Core\bin\Debug\AutoMapper.pdb
+D:\Repositories\SMS\EF.Core\bin\Debug\AutoMapper.xml
+D:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.xml
+D:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.SqlServer.xml
+D:\Repositories\SMS\EF.Core\bin\Debug\System.ValueTuple.xml
+D:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Mvc.xml
+D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csprojResolveAssemblyReference.cache
+D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CoreCompileInputs.cache
+D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CopyComplete
+D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.dll
+D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.pdb

@@ -27,3 +27,31 @@ G:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.ValueTuple.xml
 G:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.csproj.CopyComplete
 G:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.dll
 G:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.pdb
+D:\Repositories\SMS\EF.Data\bin\Debug\EF.Data.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\EF.Data.pdb
+D:\Repositories\SMS\EF.Data\bin\Debug\EF.Core.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\EntityFramework.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\EntityFramework.SqlServer.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\TrackerEnabledDbContext.Common.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\TrackerEnabledDbContext.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\Autofac.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\AutoMapper.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\Autofac.Integration.Mvc.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\System.Web.Mvc.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\System.ValueTuple.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\Repositories\SMS\EF.Data\bin\Debug\EF.Core.pdb
+D:\Repositories\SMS\EF.Data\bin\Debug\EF.Core.dll.config
+D:\Repositories\SMS\EF.Data\bin\Debug\EntityFramework.xml
+D:\Repositories\SMS\EF.Data\bin\Debug\EntityFramework.SqlServer.xml
+D:\Repositories\SMS\EF.Data\bin\Debug\Autofac.xml
+D:\Repositories\SMS\EF.Data\bin\Debug\AutoMapper.pdb
+D:\Repositories\SMS\EF.Data\bin\Debug\AutoMapper.xml
+D:\Repositories\SMS\EF.Data\bin\Debug\Autofac.Integration.Mvc.xml
+D:\Repositories\SMS\EF.Data\bin\Debug\System.Web.Mvc.xml
+D:\Repositories\SMS\EF.Data\bin\Debug\System.ValueTuple.xml
+D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csprojResolveAssemblyReference.cache
+D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csproj.CoreCompileInputs.cache
+D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csproj.CopyComplete
+D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.dll
+D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.pdb

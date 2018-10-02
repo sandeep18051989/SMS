@@ -11346,7 +11346,7 @@ a.pswp__share--download:hover {
 		padding-left: 0
 	}
 
-select {
+select:not(select[name^=DataTables_Table_]) {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	display: none !important
 }

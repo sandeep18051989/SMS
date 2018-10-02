@@ -36,60 +36,72 @@ namespace SMS.Models
 
 	}
 
-    public partial class EventPictureModel : BaseEntityModel
-    {
-        public EventPictureModel()
-        {
-            Picture = new PictureModel();
-            Event = new EventModel();
-        }
+	public partial class EventPictureModel : BaseEntityModel
+	{
+		public EventPictureModel()
+		{
+			Picture = new PictureModel();
+			Event = new EventModel();
+		}
 
-        public int EventId { get; set; }
-        public int PictureId { get; set; }
-        public bool IsDefault { get; set; }
-        public int DisplayOrder { get; set; }
-        public DateTime? PicStartDate { get; set; }
-        public DateTime? PicEndDate { get; set; }
-        public EventModel Event { get; set; }
-        public PictureModel Picture { get; set; }
+		public int EventId { get; set; }
+		public int PictureId { get; set; }
+		public bool IsDefault { get; set; }
+		public int DisplayOrder { get; set; }
+		public DateTime? PicStartDate { get; set; }
+		public DateTime? PicEndDate { get; set; }
+		public EventModel Event { get; set; }
+		public PictureModel Picture { get; set; }
 
-    }
+	}
 
-    public partial class NewsPictureModel : BaseEntityModel
-    {
-        public NewsPictureModel()
-        {
-            Picture = new PictureModel();
-            News = new NewsModel();
-        }
+	public partial class EventPictureListModel
+	{
+		public int Id { get; set; }
+		public int EventId { get; set; }
+		public int PictureId { get; set; }
+		public bool IsDefault { get; set; }
+		public int DisplayOrder { get; set; }
+		public string StartDate { get; set; }
+		public string EndDate { get; set; }
+		public string PictureSrc { get; set; }
+	}
 
-        public int PictureId { get; set; }
-        public int NewsId { get; set; }
-        public bool IsDefault { get; set; }
-        public int DisplayOrder { get; set; }
-        public DateTime? PicStartDate { get; set; }
-        public DateTime? PicEndDate { get; set; }
-        public NewsModel News { get; set; }
-        public PictureModel Picture { get; set; }
+	public partial class NewsPictureModel : BaseEntityModel
+	{
+		public NewsPictureModel()
+		{
+			Picture = new PictureModel();
+			News = new NewsModel();
+		}
 
-    }
+		public int PictureId { get; set; }
+		public int NewsId { get; set; }
+		public bool IsDefault { get; set; }
+		public int DisplayOrder { get; set; }
+		public DateTime? PicStartDate { get; set; }
+		public DateTime? PicEndDate { get; set; }
+		public NewsModel News { get; set; }
+		public PictureModel Picture { get; set; }
 
-    public partial class ProductPictureModel : BaseEntityModel
-    {
-        public ProductPictureModel()
-        {
-            Picture = new PictureModel();
-            Product = new ProductModel();
-        }
+	}
 
-        public int PictureId { get; set; }
-        public int ProductId { get; set; }
-        public bool IsDefault { get; set; }
-        public int DisplayOrder { get; set; }
-        public DateTime? PicStartDate { get; set; }
-        public DateTime? PicEndDate { get; set; }
-        public ProductModel Product { get; set; }
-        public PictureModel Picture { get; set; }
+	public partial class ProductPictureModel : BaseEntityModel
+	{
+		public ProductPictureModel()
+		{
+			Picture = new PictureModel();
+			Product = new ProductModel();
+		}
 
-    }
+		public int PictureId { get; set; }
+		public int ProductId { get; set; }
+		public bool IsDefault { get; set; }
+		public int DisplayOrder { get; set; }
+		public DateTime? PicStartDate { get; set; }
+		public DateTime? PicEndDate { get; set; }
+		public ProductModel Product { get; set; }
+		public PictureModel Picture { get; set; }
+
+	}
 }

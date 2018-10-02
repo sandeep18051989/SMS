@@ -122,7 +122,7 @@ namespace SMS.Controllers
 					Title = e.Title,
 					StartDate = e.StartDate,
 					EndDate = e.EndDate,
-					EventId = e.Id,
+					Id = e.Id,
 					IsClosed = e.IsClosed,
 					Venue = e.Venue
 				}).ToList();

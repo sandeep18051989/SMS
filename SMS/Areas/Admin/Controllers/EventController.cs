@@ -73,9 +73,9 @@ namespace SMS.Areas.Admin.Controllers
 				var draw = Request.Form.GetValues("draw").FirstOrDefault();
 				var start = Request.Form.GetValues("start").FirstOrDefault();
 				var length = Request.Form.GetValues("length").FirstOrDefault();
-				var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
-				var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-				var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+				var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+				var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+				var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
 
 
 				//Paging Size (10,20,50,100)    
@@ -94,16 +94,100 @@ namespace SMS.Areas.Admin.Controllers
 				//Search    
 				if (!string.IsNullOrEmpty(searchValue))
 				{
-					eventData = eventData.Where(m => m.Title.Contains(searchValue));
+					eventData = eventData.Where(m => m.Title.Contains(searchValue) || m.Description.Contains(searchValue) || m.Venue.Contains(searchValue));
 				}
 
 				//total number of rows count     
 				recordsTotal = eventData.Count();
 				//Paging     
 				var data = eventData.Skip(skip).Take(pageSize).ToList();
-				//Returning Json Data    
-				return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
 
+				//Returning Json Data 
+				return new JsonResult()
+				{
+					Data = new
+					{
+						draw = draw,
+						recordsFiltered = recordsTotal,
+						recordsTotal = recordsTotal,
+						data = data.Select(x => new EventListModel()
+						{
+							Description = !string.IsNullOrEmpty(x.Description) ? x.Description : "",
+							Venue = !string.IsNullOrEmpty(x.Venue) ? x.Venue : "",
+							CommentsCount = x.Comments.Count,
+							Id = x.Id,
+							AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
+							Url = Url.RouteUrl("Event", new { name = x.GetSystemName() }, "http"),
+							EndDate = x.EndDate?.ToString("d MMM yyyy") ?? "",
+							IsActive = x.IsActive,
+							IsApproved = x.IsApproved,
+							PicturesCount = x.Pictures.Count,
+							ReactionsCount = x.Reactions.Count,
+							StartDate = x.StartDate?.ToString("d MMM yyyy") ?? "",
+							Title = x.Title,
+							VideosCount = x.Videos.Count
+						})
+					},
+					ContentEncoding = Encoding.Default,
+					ContentType = "application/json",
+					JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+					MaxJsonLength = int.MaxValue
+				};
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+
+		}
+
+		public ActionResult LoadPictureGrid(int id)
+		{
+			try
+			{
+				var draw = Request.Form.GetValues("draw").FirstOrDefault();
+				var start = Request.Form.GetValues("start").FirstOrDefault();
+				var length = Request.Form.GetValues("length").FirstOrDefault();
+				var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+				var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+				var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+				int pageSize = length != null ? Convert.ToInt32(length) : 0;
+				int skip = start != null ? Convert.ToInt32(start) : 0;
+				int recordsTotal = 0;
+
+				var eventData = (from associatedpicture in _pictureService.GetEventPictureByEventId(id) select associatedpicture);
+
+				//total number of rows count     
+				recordsTotal = eventData.Count();
+				//Paging     
+				var data = eventData.Skip(skip).Take(pageSize).ToList();
+
+				//Returning Json Data 
+				return new JsonResult()
+				{
+					Data = new
+					{
+						draw = draw,
+						recordsFiltered = recordsTotal,
+						recordsTotal = recordsTotal,
+						data = data.Select(x => new EventPictureListModel()
+						{
+							Id = x.Id,
+							DisplayOrder = x.DisplayOrder,
+							StartDate = x.StartDate?.ToString("d MMM yyyy") ?? "",
+							EndDate = x.EndDate?.ToString("d MMM yyyy") ?? "",
+							IsDefault = x.IsDefault,
+							EventId = id,
+							PictureId = x.PictureId,
+							PictureSrc = x.Picture?.PictureSrc
+						})
+					},
+					ContentEncoding = Encoding.Default,
+					ContentType = "application/json",
+					JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+					MaxJsonLength = int.MaxValue
+				};
 			}
 			catch (Exception ex)
 			{
@@ -262,11 +346,11 @@ namespace SMS.Areas.Admin.Controllers
 
 						if (eve.Pictures.All(x => x.PictureId != picId))
 						{
-							 eve.Pictures.Add(new EventPicture()
-							 {
-								 PictureId = picId,
-								 CreatedOn = DateTime.Now
-							 });
+							eve.Pictures.Add(new EventPicture()
+							{
+								PictureId = picId,
+								CreatedOn = DateTime.Now
+							});
 						}
 						else
 						{

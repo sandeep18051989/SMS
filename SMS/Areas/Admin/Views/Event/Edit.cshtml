@@ -167,31 +167,31 @@
 	function ApplyDatePicker(start_dateele) {
 		// Get the elements
 		var start_input = $(start_dateele).pickadate(),
-			start_picker = start_input.pickadate('picker')
+			start_picker = start_input.pickadate('picker');
 		var end_input = $(start_dateele).closest('td').next('td').find('input[type=text]').pickadate(),
-			end_picker = end_input.pickadate('picker')
+			end_picker = end_input.pickadate('picker');
 
 		if (start_picker.get('value')) {
-			end_picker.set('min', start_picker.get('select'))
+			end_picker.set('min', start_picker.get('select'));
 		}
 		if (end_picker.get('value')) {
-			start_picker.set('max', end_picker.get('select'))
+			start_picker.set('max', end_picker.get('select'));
 		}
 
 		$(document).on('set', start_picker, function (event) {
 			if (event.select) {
-				end_picker.set('min', start_picker.get('select'))
+				end_picker.set('min', start_picker.get('select'));
 			}
 			else if ('clear' in event) {
-				end_picker.set('min', false)
+				end_picker.set('min', false);
 			}
 		});
 		$(document).on('set', end_picker, function (event) {
 			if (event.select) {
-				start_picker.set('max', end_picker.get('select'))
+				start_picker.set('max', end_picker.get('select'));
 			}
 			else if ('clear' in event) {
-				start_picker.set('max', false)
+				start_picker.set('max', false);
 			}
 		});
 	}
