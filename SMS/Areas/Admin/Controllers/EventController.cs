@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Core.Data;
+using EF.Services;
 using EF.Services.Http;
 using EF.Services.Service;
 using SMS.Mappers;
@@ -141,46 +142,59 @@ namespace SMS.Areas.Admin.Controllers
 
 		}
 
+		[HttpPost]
 		public ActionResult LoadPictureGrid(int id)
 		{
 			try
 			{
-				var draw = Request.Form.GetValues("draw").FirstOrDefault();
-				var start = Request.Form.GetValues("start").FirstOrDefault();
-				var length = Request.Form.GetValues("length").FirstOrDefault();
-				var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
-				var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
-				var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
-
-				int pageSize = length != null ? Convert.ToInt32(length) : 0;
-				int skip = start != null ? Convert.ToInt32(start) : 0;
-				int recordsTotal = 0;
-
 				var eventData = (from associatedpicture in _pictureService.GetEventPictureByEventId(id) select associatedpicture);
-
-				//total number of rows count     
-				recordsTotal = eventData.Count();
-				//Paging     
-				var data = eventData.Skip(skip).Take(pageSize).ToList();
-
-				//Returning Json Data 
 				return new JsonResult()
 				{
 					Data = new
 					{
-						draw = draw,
-						recordsFiltered = recordsTotal,
-						recordsTotal = recordsTotal,
-						data = data.Select(x => new EventPictureListModel()
+						data = eventData.Select(x => new EventPictureListModel()
 						{
 							Id = x.Id,
 							DisplayOrder = x.DisplayOrder,
-							StartDate = x.StartDate?.ToString("d MMM yyyy") ?? "",
-							EndDate = x.EndDate?.ToString("d MMM yyyy") ?? "",
+							StartDate = x.StartDate?.ToString("yyyy/MM/dd") ?? "",
+							EndDate = x.EndDate?.ToString("yyyy/MM/dd") ?? "",
 							IsDefault = x.IsDefault,
 							EventId = id,
 							PictureId = x.PictureId,
 							PictureSrc = x.Picture?.PictureSrc
+						})
+					},
+					ContentEncoding = Encoding.Default,
+					ContentType = "application/json",
+					JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+					MaxJsonLength = int.MaxValue
+				};
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+
+		}
+
+		public ActionResult LoadVideoGrid(int id)
+		{
+			try
+			{
+				var eventData = (from associatedvideo in _videoService.GetEventVideosByEventId(id) select associatedvideo);
+				return new JsonResult()
+				{
+					Data = new
+					{
+						data = eventData.Select(x => new EventVideoListModel()
+						{
+							Id = x.Id,
+							DisplayOrder = x.DisplayOrder,
+							StartDate = x.StartDate?.ToString("yyyy/MM/dd") ?? "",
+							EndDate = x.EndDate?.ToString("yyyy/MM/dd") ?? "",
+							EventId = id,
+							VideoId = x.VideoId,
+							VideoSrc = x.Video?.VideoSrc
 						})
 					},
 					ContentEncoding = Encoding.Default,
@@ -304,10 +318,10 @@ namespace SMS.Areas.Admin.Controllers
 			return View(model);
 		}
 
-		[HttpPost]
+		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
 		[ValidateAntiForgeryToken]
 		[ValidateInput(false)]
-		public ActionResult Edit(EventModel model, FormCollection frm)
+		public ActionResult Edit(EventModel model, FormCollection frm, bool continueEditing)
 		{
 			if (!_permissionService.Authorize("ManageEvents"))
 				return AccessDeniedView();
@@ -333,31 +347,6 @@ namespace SMS.Areas.Admin.Controllers
 				eve.ModifiedOn = DateTime.Now;
 				eve.Title = model.Title;
 				eve.UserId = user.Id;
-
-				if (frm["uploadedfiles"] != null)
-				{
-					var pictureIds = frm["uploadedfiles"].ToString().Split(',');
-					eve.Pictures.Clear();
-
-					foreach (var pictureid in pictureIds)
-					{
-						int picId = 0;
-						int.TryParse(pictureid, out picId);
-
-						if (eve.Pictures.All(x => x.PictureId != picId))
-						{
-							eve.Pictures.Add(new EventPicture()
-							{
-								PictureId = picId,
-								CreatedOn = DateTime.Now
-							});
-						}
-						else
-						{
-
-						}
-					}
-				}
 				_eventService.Update(eve);
 
 				// Save URL Record
@@ -371,6 +360,10 @@ namespace SMS.Areas.Admin.Controllers
 			}
 
 			SuccessNotification("Event updated successfully.");
+			if (continueEditing)
+			{
+				return RedirectToAction("Edit", new { id = model.Id });
+			}
 			return RedirectToAction("List");
 		}
 
@@ -383,16 +376,17 @@ namespace SMS.Areas.Admin.Controllers
 			return View(model);
 		}
 
-		[HttpPost]
+		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
 		[ValidateAntiForgeryToken]
 		[ValidateInput(false)]
-		public ActionResult Create(EventModel model, FormCollection frm)
+		public ActionResult Create(EventModel model, FormCollection frm, bool continueEditing)
 		{
 			if (!_permissionService.Authorize("ManageEvents"))
 				return AccessDeniedView();
 
 			var currentUser = _userContext.CurrentUser;
 			// Check for duplicate event, if any
+			var newEvent = new Event();
 			var _event = _eventService.GetEventByName(model.Title);
 			if (_event != null)
 				ModelState.AddModelError("Title", "An Event with the same name already exists. Please choose a different name.");
@@ -403,7 +397,6 @@ namespace SMS.Areas.Admin.Controllers
 				model.CreatedOn = model.ModifiedOn = DateTime.Now;
 				model.AcadmicYearId = _userContext.CurrentAcadmicYear.Id;
 				model.Url = "";
-				var newEvent = new Event();
 				newEvent = model.ToEntity();
 
 				_eventService.Insert(newEvent);
@@ -419,6 +412,10 @@ namespace SMS.Areas.Admin.Controllers
 			}
 
 			SuccessNotification("Event created successfully.");
+			if (continueEditing)
+			{
+				return RedirectToAction("Edit", new { id = newEvent.Id });
+			}
 			return RedirectToAction("List");
 		}
 
@@ -449,7 +446,6 @@ namespace SMS.Areas.Admin.Controllers
 			if (pictureRecord != null)
 			{
 				_pictureService.DeleteEventPicture(pictureRecord.Id);
-				_pictureService.Delete(pictureRecord.PictureId);
 			}
 			else
 			{
@@ -459,6 +455,39 @@ namespace SMS.Areas.Admin.Controllers
 			}
 
 			SuccessNotification("Event picture deleted successfully");
+			return new JsonResult()
+			{
+				Data = true,
+				ContentEncoding = Encoding.Default,
+				ContentType = "application/json",
+				JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+				MaxJsonLength = int.MaxValue
+			};
+		}
+
+		[HttpPost]
+		public ActionResult DeleteEventVideo(int id)
+		{
+			if (!_permissionService.Authorize("ManageEvents"))
+				return AccessDeniedView();
+
+			if (id == 0)
+				throw new Exception("Video id not found");
+
+			var videoRecord = _videoService.GetEventVideoByVideoId(id);
+			if (videoRecord != null)
+			{
+				_videoService.DeleteEventVideo(videoRecord.Id);
+				_videoService.Delete(videoRecord.VideoId);
+			}
+			else
+			{
+				var video = _videoService.GetVideoById(id);
+				if (video != null)
+					_pictureService.Delete(video.Id);
+			}
+
+			SuccessNotification("Event video deleted successfully");
 			return new JsonResult()
 			{
 				Data = true,
@@ -540,6 +569,42 @@ namespace SMS.Areas.Admin.Controllers
 			return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
 		}
 
+		[ValidateInput(false)]
+		[HttpPost]
+		public virtual ActionResult EventVideoAdd(int videoId, int displayOrder, int eventId, DateTime? startDate, DateTime? endDate)
+		{
+			if (!_permissionService.Authorize("ManageEvents"))
+				return AccessDeniedView();
+
+			if (videoId == 0)
+				throw new ArgumentException();
+
+			var thisevent = _eventService.GetEventById(eventId);
+			if (thisevent == null)
+				throw new ArgumentException("No event found with the specified id");
+
+			var video = _videoService.GetVideoById(videoId);
+			if (video == null)
+				throw new ArgumentException("No video found with the specified id");
+
+			var eventVideoData = new EF.Core.Data.EventVideo();
+			eventVideoData.VideoId = videoId;
+			eventVideoData.EventId = eventId;
+			eventVideoData.DisplayOrder = displayOrder;
+			eventVideoData.UserId = _userContext.CurrentUser.Id;
+			eventVideoData.CreatedOn = eventVideoData.ModifiedOn = DateTime.Now;
+
+			if (startDate.HasValue)
+				eventVideoData.StartDate = Convert.ToDateTime(startDate.Value.ToString("yyyy-MM-dd"));
+
+			if (endDate.HasValue)
+				eventVideoData.EndDate = Convert.ToDateTime(endDate.Value.ToString("yyyy-MM-dd"));
+
+			_videoService.InsertEventVideo(eventVideoData);
+
+			return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
+		}
+
 		public JsonResult GetEventPictures(int id)
 		{
 			if (id == 0)
@@ -570,6 +635,37 @@ namespace SMS.Areas.Admin.Controllers
 				lstEventPictures.Add(eventpic);
 			}
 			return Json(lstEventPictures, JsonRequestBehavior.AllowGet);
+		}
+
+		public JsonResult GetEventVideos(int id)
+		{
+			if (id == 0)
+				throw new ArgumentNullException();
+
+			var lstEventVideos = new List<EventVideoModel>();
+			var result = _videoService.GetEventVideosByEventId(id);
+			foreach (var x in result)
+			{
+				var eventpic = x.ToModel();
+				eventpic.VidStartDate = x.StartDate;
+				eventpic.VidEndDate = x.EndDate;
+
+				if (x.VideoId > 0)
+				{
+					var picture = _videoService.GetVideoById(x.VideoId);
+					eventpic.Video = new VideoModel()
+					{
+						CreatedOn = picture.CreatedOn,
+						Id = picture.Id,
+						ModifiedOn = picture.ModifiedOn,
+						VideoSrc = picture.VideoSrc,
+						Url = picture.Url,
+						UserId = picture.UserId
+					};
+				}
+				lstEventVideos.Add(eventpic);
+			}
+			return Json(lstEventVideos, JsonRequestBehavior.AllowGet);
 		}
 
 	}

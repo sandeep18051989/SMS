@@ -157,8 +157,6 @@ namespace EF.Services.Service
 				var picture = _pictureRepository.Table.FirstOrDefault(pic => pic.Id == eventPicture.PictureId);
 				if (picture != null)
 					_pictureRepository.Delete(picture);
-
-				_eventPictureRepository.Delete(eventPicture);
 			}
 		}
 		public EventPicture GetEventPictureById(int id)
@@ -194,8 +192,6 @@ namespace EF.Services.Service
 				var picture = _pictureRepository.Table.FirstOrDefault(pic => pic.Id == blogPicture.PictureId);
 				if (picture != null)
 					_pictureRepository.Delete(picture);
-
-				_blogPictureRepository.Delete(blogPicture);
 			}
 		}
 		public BlogPicture GetBlogPictureById(int id)
@@ -231,8 +227,6 @@ namespace EF.Services.Service
 				var picture = _pictureRepository.Table.FirstOrDefault(pic => pic.Id == productPicture.PictureId);
 				if (picture != null)
 					_pictureRepository.Delete(picture);
-
-				_productPictureRepository.Delete(productPicture);
 			}
 		}
 		public ProductPicture GetProductPictureById(int id)
@@ -268,8 +262,6 @@ namespace EF.Services.Service
 				var picture = _pictureRepository.Table.FirstOrDefault(pic => pic.Id == newsPicture.PictureId);
 				if (picture != null)
 					_pictureRepository.Delete(picture);
-
-				_newsPictureRepository.Delete(newsPicture);
 			}
 		}
 		public NewsPicture GetNewsPictureById(int id)

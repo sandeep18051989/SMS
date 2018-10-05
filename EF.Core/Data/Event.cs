@@ -7,7 +7,7 @@ namespace EF.Core.Data
 	public partial class Event : BaseEntity, ISlugSupported
 	{
 		[NotMapped]
-		public virtual ICollection<Video> _Videos { get; set; }
+		public virtual ICollection<EventVideo> _Videos { get; set; }
 		[NotMapped]
 		public virtual ICollection<Comment> _Comments { get; set; }
 		[NotMapped]
@@ -21,9 +21,7 @@ namespace EF.Core.Data
 		public bool IsClosed { get; set; }
 		public bool IsApproved { get; set; }
 		public string Venue { get; set; }
-
 		public string SeoName { get; set; }
-
 		public string Latitude { get; set; }
 		public string Longitude { get; set; }
 		public bool IsDeleted { get; set; }
@@ -31,9 +29,9 @@ namespace EF.Core.Data
 		public int AcadmicYearId { get; set; }
 
 		#region Navigation Properties
-		public virtual ICollection<Video> Videos
+		public virtual ICollection<EventVideo> Videos
 		{
-			get { return _Videos ?? (_Videos = new List<Video>()); }
+			get { return _Videos ?? (_Videos = new List<EventVideo>()); }
 			protected set { _Videos = value; }
 		}
 

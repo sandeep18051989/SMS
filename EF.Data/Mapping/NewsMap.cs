@@ -12,7 +12,6 @@ namespace EF.Data.Mapping
 			this.HasKey(e => e.Id);
 
 			// Relationships
-			this.HasMany(e => e.Videos).WithMany(v => v.News).Map(m => m.ToTable("News_Video_Map").MapLeftKey("NewsId").MapRightKey("VideoId"));
 			this.HasMany(e => e.Comments).WithMany(c => c.News).Map(m => m.ToTable("News_Comment_Map").MapLeftKey("NewsId").MapRightKey("CommentId"));
 			this.HasMany(e => e.Files).WithMany(c => c.News).Map(m => m.ToTable("News_File_Map").MapLeftKey("NewsId").MapRightKey("FileId"));
 			this.HasMany(e => e.Users).WithMany(c => c.News).Map(m => m.ToTable("News_User_Map").MapLeftKey("NewsId").MapRightKey("UserId"));

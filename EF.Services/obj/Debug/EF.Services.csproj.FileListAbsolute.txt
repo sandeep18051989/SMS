@@ -70,7 +70,6 @@ D:\Repositories\SMS\EF.Services\bin\Debug\System.Web.WebPages.Razor.dll
 D:\Repositories\SMS\EF.Services\bin\Debug\TrackerEnabledDbContext.Common.dll
 D:\Repositories\SMS\EF.Services\bin\Debug\TrackerEnabledDbContext.dll
 D:\Repositories\SMS\EF.Services\bin\Debug\Wibci.CountryReverseGeocode.dll
-D:\Repositories\SMS\EF.Services\bin\Debug\Microsoft.Web.Infrastructure.dll
 D:\Repositories\SMS\EF.Services\bin\Debug\AutoMapper.dll
 D:\Repositories\SMS\EF.Services\bin\Debug\System.Data.SqlServerCe.dll
 D:\Repositories\SMS\EF.Services\bin\Debug\System.ValueTuple.dll

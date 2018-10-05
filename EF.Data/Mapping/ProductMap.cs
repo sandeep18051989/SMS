@@ -14,7 +14,6 @@ namespace EF.Data.Mapping
 			this.HasKey(pro => pro.Id);
 
 			// Relationships
-			this.HasMany(pro => pro.Videos).WithMany(p => p.Products).Map(m => m.ToTable("Product_Video_Map").MapLeftKey("ProductId").MapRightKey("VideoId"));
 			this.HasMany(pro => pro.Files).WithMany(p => p.Products).Map(m => m.ToTable("Product_File_Map").MapLeftKey("ProductId").MapRightKey("FileId"));
 			this.HasMany(pro => pro.Comments).WithMany(p => p.Products).Map(m => m.ToTable("Product_Comment_Map").MapLeftKey("ProductId").MapRightKey("CommentId"));
 

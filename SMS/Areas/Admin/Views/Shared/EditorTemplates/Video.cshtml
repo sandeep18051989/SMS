@@ -1,82 +1,68 @@
 ﻿@model int
 @using System.Web.Mvc;
 @using EF.Services.Http;
+@using EF.Services.Service;
 @{
-//register CSS and JS
-    <link rel="stylesheet" type="text/css" href="~/Areas/Admin/Content/fineuploader.min.css" />
-    <script type="text/javascript" src="~/Areas/Admin/Scripts/fineuploader.min.js"></script>
-    //other variables
-    var random = EF.Core.CodeHelper.GenerateRandomInteger();
-    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
-    var clientId = "video" + random;
-    //var picture = pictureService.GetPictureById(.GetPictureById(Model);
+	var random1 = EF.Core.CodeHelper.GenerateRandomInteger();
+	var basePath1 = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+	var clientId1 = "picture" + random1;
 }
-<div id="@(clientId + "video")">
-    <img width="80" src="" />
-</div>
-@Html.HiddenFor(x => x)
 @*fine uploader container*@
-<div id="@clientId">
-    <noscript>
-        <p>
-            Please enable JavaScript to use video uploader.
-        </p>
-        <!-- or put a simple form for upload here -->
-    </noscript>
-</div>
-@*fine uploader template (keep it synchronized to \Content\fineuploader\templates\default.html)*@
-<script type="text/template" id="@(clientId)-qq-template">
-    <div class="qq-uploader-selector qq-uploader">
-        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
-            <span>Drop Files</span>
-        </div>
-        <div class="qq-upload-button-selector qq-upload-button">
-            <div>Upload Video</div>
-        </div>
-        <span class="qq-drop-processing-selector qq-drop-processing">
-            <span>Processing</span>
-            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
-        </span>
-        <ul class="qq-upload-list-selector qq-upload-list">
-            <li>
-                <div class="qq-progress-bar-container-selector">
-                    <div class="qq-progress-bar-selector qq-progress-bar"></div>
-                </div>
-                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-                <span class="qq-edit-videoname-icon-selector qq-edit-videoname-icon"></span>
-                <span class="qq-upload-video-selector qq-upload-video"></span>
-                <input class="qq-edit-videoname-selector qq-edit-videoname" tabindex="0" type="text">
-                <span class="qq-upload-size-selector qq-upload-size"></span>
-                <a class="qq-upload-cancel-selector qq-upload-cancel" href="#">Cancel</a>
-                <a class="qq-upload-retry-selector qq-upload-retry" href="#">Retry</a>
-                <a class="qq-upload-delete-selector qq-upload-delete" href="#">Delete</a>
-                <span class="qq-upload-status-text-selector qq-upload-status-text"></span>
-            </li>
-        </ul>
-    </div>
+<span id="@clientId1">
+	<noscript>
+		<p>
+			Please enable JavaScript to use file uploader.
+		</p>
+		<!-- or put a simple form for upload here -->
+	</noscript>
+</span>
+<script type="text/template" id="@(clientId1)-qq-template">
+	<div class="row-fluid qq-uploader-selector qq-uploader">
+		<div class="col-md-12">
+			<div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+				<span>Drop Files</span>
+			</div>
+			<div class="qq-upload-button-selector qq-upload-button btn btn-primary waves-effect waves-light">
+				<div>Upload Video</div>
+			</div>
+			<span class="qq-drop-processing-selector qq-drop-processing">
+				<span>Processing</span>
+				<span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+			</span>
+			<ul class="qq-upload-list-selector qq-upload-list">
+				<li>
+					<div class="qq-progress-bar-container-selector">
+						<div class="qq-progress-bar-selector qq-progress-bar"></div>
+					</div>
+					<span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+					<span class="qq-edit-filename-icon-selector qq-edit-filename-icon"></span>
+					<span class="qq-upload-file-selector qq-upload-file"></span>
+					<input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+					<span class="qq-upload-size-selector qq-upload-size"></span>
+					<a class="qq-upload-cancel-selector qq-upload-cancel" href="#">Cancel</a>
+					<a class="qq-upload-retry-selector qq-upload-retry" href="#">Retry</a>
+					<a class="qq-upload-delete-selector qq-upload-delete" href="#">Delete</a>
+					<span class="qq-upload-status-text-selector qq-upload-status-text"></span>
+				</li>
+			</ul>
+		</div>
+	</div>
 </script>
-
+<div id="@(clientId1 + "value")">
+	@Html.HiddenFor(x => x)
+</div>
 <script type="text/javascript">
-    $(document).ready(function () {
-
-        $("#@(clientId)").fineUploader({
-            request: {
-                endpoint: '@(Url.Action("AsyncFileUpload","Picture", new { Area = "admin" }))'
-            },
-            template: "@(clientId)-qq-template",
-            multiple: false
-        }).on("complete", function (event, id, name, responseJSON, xhr) {
-            if (responseJSON.success) {
-                $("#@(clientId + "video")").html("<a style='display:none;cursor:pointer;' class='cross' id='@(clientId + "remove")'> Remove</a><img width='80' src='" + responseJSON.videoUrl.replace('~/', '../../') + "'/>");
-                $("input[id*=@Html.IdFor(model => model)]").val(responseJSON.pictureId);
-                $("#@(clientId + "remove")").show();
-            }
-        });
-
-        $("#@(clientId + "remove")").click(function (e) {
-            $("#@(clientId + "video")").html("<img width='80' src='@(basePath)/Content/videos/novideo.png' alt='Video Not Found' />");
-            $("input[id*=@Html.IdFor(model => model)]").val(0);
-            $(this).hide();
-        });
-    });
+	$(document).ready(function () {
+		$("#@(clientId1)").fineUploader({
+			request: {
+				endpoint: '@(Url.Action("AsyncUpload", "Video", new { Area="admin"}))'
+			},
+			template: "@(clientId1)-qq-template",
+			multiple: false
+		}).on("complete", function(event, id, name, responseJSON, xhr) {
+			if (responseJSON.success) {
+				$("#@(clientId1 + "value") input").val(responseJSON.VideoId);
+			}
+		});
+	});
 </script>

@@ -135,6 +135,7 @@
     <Compile Include="PagedList\IPagedList.cs" />
     <Compile Include="PagedList\Pager.cs" />
     <Compile Include="PagerParams.cs" />
+    <Compile Include="ParameterOnFormSubmitAttribute.cs" />
     <Compile Include="Service\AuditService.cs" />
     <Compile Include="Service\IRouteProvider.cs" />
     <Compile Include="Service\IRouteRegistrar.cs" />

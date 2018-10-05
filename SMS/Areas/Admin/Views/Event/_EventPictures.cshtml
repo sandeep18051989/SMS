@@ -4,14 +4,14 @@
 	{
 		<div class="panel panel-default">
 			<div class="panel-body table-responsive">
-				<table class="table table-responsive-md custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="eventpictures-grid">
+				<table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="eventpictures-grid">
 					<thead class="mdb-color lighten-5">
 						<tr>
 							<th>&nbsp;</th>
-							<th>Start Date</th>
-							<th>End Date</th>
+							<th class="text-left">Start Date</th>
+							<th class="text-left">End Date</th>
 							<th>Default</th>
-							<th>Display Order</th>
+							<th class="text-left">Display Order</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -19,6 +19,123 @@
 				</table>
 				<script type="text/javascript">
 					$(document).ready(function() {
+						// Initiallize Datatable
+						$('#eventpictures-grid').DataTable({
+							"paging": false,
+							"bLengthChange": false, //thought this line could hide the LengthMenu
+							"bInfo": false,
+							"processing": true, // for show progress bar
+							"serverSide": true, // for process server side
+							"filter": false, // this is for disable filter (search box)
+							"orderMulti": true, // for disable multiple column at once
+							"ajax": {
+								"url": "/Admin/Event/LoadPictureGrid/@(Model.Id)",
+								"type": "POST",
+								"datatype": "json"
+							},
+							"aaSorting": [],
+							"columns": [
+								{
+									"searchable": false,
+									"title": "",
+									"render": function (data, type, row) {
+										if (type === "display") {
+											return '<div class="thumb"><img style="max-width:100px;" src="' + row.PictureSrc + '" alt="" class="rounded-circle float-left"></div>';
+										}
+										return data;
+									},
+									"orderable": false,
+									"className": 'text-center'
+								},
+								{
+									"data": "StartDate",
+									"title": "Start Date",
+									"render": function(data, type, row) {
+										if (type === "display") {
+											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input type="text" id="startpic_' + row.Id + '"';
+                                            dateTemplate += ' data-value="' + (row.StartDate != null && row.StartDate !== "" ? row.StartDate : "") + '" value="' + (row.StartDate != null && row.StartDate !== "" ? row.StartDate : "") + '"';
+											dateTemplate +=
+                                                ' aria-label="Start Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
+                                            dateTemplate += ' $("#startpic_' + row.Id + '").pickadate({format: "dd mmmm, yyyy",min:new Date(),selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("DD MMM YYYY"))});';
+											dateTemplate += 'var $input = $("#startpic_' + row.Id + '").pickadate();';
+											dateTemplate += 'var picker = $input.pickadate("picker");';
+                                            dateTemplate += 'picker.on({close: function() {$(document.activeElement).blur();$("#endpic_' + row.Id + '").pickadate("picker").set("min", new Date(moment($("#startpic_' + row.Id + '").val()).format("DD MMM YYYY")));},set: function(context) {  }});';
+											dateTemplate += '});<\/script></div>';
+											return dateTemplate;
+										}
+										return data;
+									},
+									"className": "dt-body-center",
+									"orderable": false
+								},
+								{
+									"data": "EndDate",
+									"title": "End Date",
+									"render": function(data, type, row) {
+										if (type === "display") {
+											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input type="text" id="endpic_' + row.Id + '"';
+                                            dateTemplate += ' data-value="' + (row.EndDate != null && row.EndDate !== "" ? row.EndDate : "") + '" value="' + (row.EndDate != null && row.EndDate !== "" ? row.EndDate : "") + '"';
+                                            dateTemplate += ' aria-label="End Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
+                                            dateTemplate += ' $("#endpic_' + row.Id + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false,min:new Date(moment("' + row.StartDate + '").format("DD MMM YYYY"))});';
+											dateTemplate += 'var $input1 = $("#endpic_' + row.Id + '").pickadate();';
+											dateTemplate += 'var picker1 = $input1.pickadate("picker");';
+                                            dateTemplate += 'picker1.on({close: function() {$(document.activeElement).blur();$("#startpic_' + row.Id + '").pickadate("picker").set("max", new Date(moment($("#endpic_' + row.Id + '").val()).format("DD MMM YYYY")));},set: function(context) {  }});';
+											dateTemplate += '});<\/script></div>';
+											return dateTemplate;
+										}
+										return data;
+									},
+									"className": "dt-body-center",
+									"orderable": false
+								},
+								{
+									"data": "IsDefault",
+									"title": "Default",
+									"render": function(data, type, row) {
+										if (type === "display") {
+											return '<div class="md-form form-group form-check"><input type="checkbox" name="defaultpicture" class="form-check-input" id="defaultpic_' +
+												row.PictureId +
+												'"><label class="form-check-label" for="default_' +
+												row.PictureId +
+												'"></label></div>';
+										}
+										return data;
+									},
+									"className": "text-center",
+									"orderable": false
+								},
+								{
+									"data": "DisplayOrder",
+									"title": "Display Order",
+									"render": function(data, type, row) {
+										if (type === "display") {
+											return '<div class="md-form form-group"><i class="fa fa-sort-alpha-asc prefix"></i><input type="number" id="' + row.PictureId + '" value="' + (row.DisplayOrder > 0 ? "0" : "") +'" aria-label="Display Order" class="form-control" style="width:150px"></div>';
+										}
+										return data;
+									},
+									"className": "dt-body-center",
+									"orderable": false
+								},
+								{
+									"title": "Actions",
+									"orderable": false,
+									"className": 'text-center',
+									"render": function(data, type, row) {
+										if (type === "display") {
+											var dateTemplate = '<div class="md-form form-group"><button class="btn btn-info btn-rounded btn-sm my-0" id="picupd_' + row.PictureId + '" title="Update Picture"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
+											dateTemplate += '&nbsp;&nbsp;<button class="btn btn-danger btn-rounded btn-sm my-0" id="picdel_' + row.PictureId + '" title="Delete Picture"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
+											return dateTemplate;
+										}
+										return data;
+									}
+								}
+							],
+							"select": {
+								"style": 'os',
+								"selector": 'td:first-child'
+							}
+						});
+
 						$('#addPicture').click(function() {
 							var pictureId = $("#@Html.IdFor(model => model.InsertPictureModel.PictureId)").val();
 
@@ -47,12 +164,41 @@
 								data: postData,
 								success: function(data) {
 									$('#addEventPicture').attr('disabled', false);
+									$('.uploader').fineUploader('reset');
 									$('#eventpictures-grid').trigger('reloadGrid');
 								},
 								error: function(xhr, ajaxOptions, thrownError) {
 									console.log(xhr.responseText);
-									alert('Failed to add event picture.');
 									$('#addEventPicture').attr('disabled', false);
+								}
+							});
+						});
+
+						$(document).on("click", 'button[id^=picdel_]', function () {
+							var pictureId = parseInt($(this).attr('id').split('_')[1]);
+
+							if (pictureId === 0) {
+								alert('An error occurred while deleting picture!');
+								return;
+							}
+
+							var postData = {
+								id: pictureId
+							};
+
+							addAntiForgeryToken(postData);
+
+							$.ajax({
+								cache: false,
+								type: "POST",
+								url: "@(Url.Action("DeleteEventPicture", "Event"))",
+								data: postData,
+								success: function (data) {
+									$('#eventpictures-grid').trigger('reloadGrid');
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									console.log(xhr.responseText);
+									alert('Failed to delete event picture.');
 								}
 							});
 						});
@@ -65,142 +211,14 @@
 								$(this).attr('checked', false).val(false);
 							}
 						});
-
-						// Initiallize Datatable
-						$('#eventpictures-grid').DataTable({
-							"paging": false,
-							"bLengthChange": false, //thought this line could hide the LengthMenu
-							"bInfo": false,
-							"processing": true, // for show progress bar
-							"serverSide": true, // for process server side
-							"filter": false, // this is for disable filter (search box)
-							"orderMulti": false, // for disable multiple column at once
-							"ajax": {
-								"url": "/Admin/Event/LoadPictureGrid/@(Model.Id)",
-								"type": "POST",
-								"datatype": "json"
-							},
-							"aaSorting": [],
-							"columns": [
-								{
-									"searchable": false,
-									"title": "",
-									"render": function(data, type, row) {
-										if (type === "display") {
-											return '<img src="' + row.PictureSrc + '" alt="" class="img-fluid z-depth-0">';
-										}
-										return data;
-									},
-									"orderable": false,
-									"className": 'text-center'
-								},
-								{
-									"data": "StartDate",
-									"title": "Start Date",
-									"render": function(data, type, row) {
-										if (type === "display") {
-											var dateTemplate = '<input type="text" id="start_';
-											dateTemplate += row.Id;
-											dateTemplate += ' value=';
-											dateTemplate += (row.StartDate != null && row.StartDate !== "" ? row.StartDate : "");
-											dateTemplate +=
-												' aria - label="Display Order" class="form- control datepicker" style= "width: 100px"><script type="text/ javascript">';
-											dateTemplate += ' $(start_' + row.Id + ').pickadate({ format: "d MMM yyyy" });';
-											dateTemplate += 'var $input = $(start_' + row.Id + ').pickadate();';
-											dateTemplate += 'var picker = $input.pickadate("picker");';
-											dateTemplate += 'picker.on({close: function() {$(document.activeElement).blur();}});';
-											dateTemplate += '<\/script>';
-											return dateTemplate;
-										}
-										return data;
-									},
-									"className": "text-center",
-									"orderable": false
-								},
-								{
-									"data": "EndDate",
-									"title": "End Date",
-									"render": function(data, type, row) {
-										if (type === "display") {
-											var dateTemplate = '<input type="text" id="end_';
-											dateTemplate += row.Id;
-											dateTemplate += ' value=';
-											dateTemplate += (row.EndDate != null && row.EndDate !== "" ? row.EndDate : "");
-											dateTemplate +=
-												' aria - label="Display Order" class="form- control datepicker" style= "width: 100px"><script type="text/ javascript">';
-											dateTemplate += ' $(start_' + row.Id + ').pickadate({ format: "d MMM yyyy" });';
-											dateTemplate += 'var $input = $(start_' + row.Id + ').pickadate();';
-											dateTemplate += 'var picker = $input.pickadate("picker");';
-											dateTemplate += 'picker.on({close: function() {$(document.activeElement).blur();}});';
-											dateTemplate += '<\/script>';
-											return dateTemplate;
-										}
-										return data;
-									},
-									"className": "text-center",
-									"orderable": false
-								},
-								{
-									"data": "IsDefault",
-									"title": "Default",
-									"render": function(data, type, row) {
-										if (type === "display") {
-											return '<div class="form-check"><input type="checkbox" name="defaultpicture" class="form-check-input" id="default_' +
-												row.PictureId +
-												'"><label class="form-check-label" for="' +
-												row.PictureId +
-												'"></label></div>';
-										}
-										return data;
-									},
-									"className": "text-center",
-									"orderable": false
-								},
-								{
-									"data": "DisplayOrder",
-									"title": "Display Order",
-									"render": function(data, type, row) {
-										if (type === "display") {
-											return '<input type="number" value="' +
-												(row.DisplayOrder > 0 ? "0" : "") +
-												'" aria-label="Display Order" class="form-control" style="width: 100px">';
-										}
-										return data;
-									},
-									"className": "text-center",
-									"orderable": false
-								},
-								{
-									"title": "Actions",
-									"orderable": false,
-									"className": 'text-center',
-									"render": function(data, type, row) {
-										if (type === "display") {
-											return '<a href="/Admin/Event/Edit/' +
-												row.Id +
-												'" id="edit_' +
-												row.Id +
-												'" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="eventid_' +
-												row.Id +
-												'" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
-										}
-										return data;
-									}
-								}
-							],
-							"select": {
-								"style": 'os',
-								"selector": 'td:first-child'
-							}
-						});
 					});
 				</script>
-						@Html.EditorFor(model => model.InsertPictureModel.PictureId)
-						@Html.ValidationMessageFor(model => model.InsertPictureModel.PictureId)
-						&nbsp;
-			</div>		 
+				@Html.EditorFor(model => model.InsertPictureModel.PictureId)
+				@Html.ValidationMessageFor(model => model.InsertPictureModel.PictureId)
+				&nbsp;
+			</div>
 			<div class="panel-footer">
-				<button type="button" id="addPicture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i> Save Picrure</button>
+				<button type="button" id="addPicture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Event</button>
 			</div>
 		</div>
 	}

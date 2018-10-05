@@ -73,6 +73,9 @@
     <Compile Include="IDbContext.cs" />
     <Compile Include="Mapping\AcadmicYearMap.cs" />
     <Compile Include="Mapping\AllowanceMap.cs" />
+    <Compile Include="Mapping\NewsVideoMap.cs" />
+    <Compile Include="Mapping\ProductVideoMap.cs" />
+    <Compile Include="Mapping\EventVideoMap.cs" />
     <Compile Include="Mapping\HolidayMap.cs" />
     <Compile Include="Mapping\HouseMap.cs" />
     <Compile Include="Mapping\ProductCategoryMappingMap.cs" />

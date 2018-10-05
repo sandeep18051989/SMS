@@ -8,7 +8,7 @@ namespace EF.Core.Data
 	public partial class News : BaseEntity, ISlugSupported
 	{
 		[NotMapped]
-		public virtual ICollection<Video> _Videos { get; set; }
+		public virtual ICollection<NewsVideo> _Videos { get; set; }
 		[NotMapped]
 		public virtual ICollection<NewsPicture> _Pictures { get; set; }
 		[NotMapped]
@@ -44,9 +44,9 @@ namespace EF.Core.Data
 		}
 
 		#region Navigation Properties
-		public virtual ICollection<Video> Videos
+		public virtual ICollection<NewsVideo> Videos
 		{
-			get { return _Videos ?? (_Videos = new List<Video>()); }
+			get { return _Videos ?? (_Videos = new List<NewsVideo>()); }
 			protected set { _Videos = value; }
 		}
 

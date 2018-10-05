@@ -39,7 +39,6 @@ D:\Repositories\SMS\EF.Data\bin\Debug\AutoMapper.dll
 D:\Repositories\SMS\EF.Data\bin\Debug\Autofac.Integration.Mvc.dll
 D:\Repositories\SMS\EF.Data\bin\Debug\System.Web.Mvc.dll
 D:\Repositories\SMS\EF.Data\bin\Debug\System.ValueTuple.dll
-D:\Repositories\SMS\EF.Data\bin\Debug\Microsoft.Web.Infrastructure.dll
 D:\Repositories\SMS\EF.Data\bin\Debug\EF.Core.pdb
 D:\Repositories\SMS\EF.Data\bin\Debug\EF.Core.dll.config
 D:\Repositories\SMS\EF.Data\bin\Debug\EntityFramework.xml

@@ -13,7 +13,8 @@ namespace SMS.Models
 		public EventModel()
 		{
 			InsertPictureModel = new InsertPicturesModel();
-			Videos = new List<VideoModel>();
+			InsertVideoModel = new InsertVideoModel();
+			Videos = new List<EventVideoModel>();
 			Pictures = new List<EventPictureModel>();
 			Comments = new List<CommentModel>();
 			Reactions = new List<ReactionModel>();
@@ -33,12 +34,13 @@ namespace SMS.Models
 		public bool IsClosed { get; set; }
 		public string Venue { get; set; }
 		public string Url { get; set; }
-		public IList<VideoModel> Videos { get; set; }
+		public IList<EventVideoModel> Videos { get; set; }
 		public IList<EventPictureModel> Pictures { get; set; }
 		public IList<CommentModel> Comments { get; set; }
 		public IList<ReactionModel> Reactions { get; set; }
 
 		public InsertPicturesModel InsertPictureModel { get; set; }
+		public InsertVideoModel InsertVideoModel { get; set; }
 
 	}
 
@@ -60,7 +62,20 @@ namespace SMS.Models
 		[UIHint("DateRange")]
 		public DateTime? PicEndDate { get; set; }
 		public string AlternateText { get; set; }
+	}
 
+	public partial class InsertVideoModel : BaseEntityModel
+	{
+		[UIHint("Video")]
+		public int VideoId { get; set; }
+		public int DisplayOrder { get; set; }
+		public string Url { get; set; }
+		public string VideoSrc { get; set; }
+		public decimal Size { get; set; }
+		[UIHint("DateRange")]
+		public DateTime? VidStartDate { get; set; }
+		[UIHint("DateRange")]
+		public DateTime? VidEndDate { get; set; }
 	}
 
 	public partial class EventListModel

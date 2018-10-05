@@ -8,11 +8,11 @@ namespace EF.Core.Data
 		[NotMapped]
 		public virtual ICollection<Blog> _Blogs { get; set; }
 		[NotMapped]
-		public virtual ICollection<Product> _Products { get; set; }
+		public virtual ICollection<ProductVideo> _Products { get; set; }
 		[NotMapped]
-		public virtual ICollection<Event> _Events { get; set; }
+		public virtual ICollection<EventVideo> _Events { get; set; }
 		[NotMapped]
-		public virtual ICollection<News> _News { get; set; }
+		public virtual ICollection<NewsVideo> _News { get; set; }
 		[NotMapped]
 		public virtual ICollection<Reaction> _Reactions { get; set; }
 		public string Url { get; set; }
@@ -20,6 +20,7 @@ namespace EF.Core.Data
 		public int DisplayOrder { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsDeleted { get; set; }
+		public string VideoSrc { get; set; }
 
 		#region Navigation Properties
 		public virtual ICollection<Blog> Blogs
@@ -28,21 +29,21 @@ namespace EF.Core.Data
 			protected set { _Blogs = value; }
 		}
 
-		public virtual ICollection<Product> Products
+		public virtual ICollection<ProductVideo> Products
 		{
-			get { return _Products ?? (_Products = new List<Product>()); }
+			get { return _Products ?? (_Products = new List<ProductVideo>()); }
 			protected set { _Products = value; }
 		}
 
-		public virtual ICollection<Event> Events
+		public virtual ICollection<EventVideo> Events
 		{
-			get { return _Events ?? (_Events = new List<Event>()); }
+			get { return _Events ?? (_Events = new List<EventVideo>()); }
 			protected set { _Events = value; }
 		}
 
-		public virtual ICollection<News> News
+		public virtual ICollection<NewsVideo> News
 		{
-			get { return _News ?? (_News = new List<News>()); }
+			get { return _News ?? (_News = new List<NewsVideo>()); }
 			protected set { _News = value; }
 		}
 		public virtual ICollection<Reaction> Reactions

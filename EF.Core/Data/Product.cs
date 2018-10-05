@@ -9,7 +9,7 @@ namespace EF.Core.Data
 		public virtual ICollection<ProductPicture> _Pictures { get; set; }
 
 		[NotMapped]
-		public virtual ICollection<Video> _Videos { get; set; }
+		public virtual ICollection<ProductVideo> _Videos { get; set; }
 		[NotMapped]
 		public virtual ICollection<Comment> _Comments { get; set; }
 		[NotMapped]
@@ -34,9 +34,9 @@ namespace EF.Core.Data
 			get { return _Pictures ?? (_Pictures = new List<ProductPicture>()); }
 			protected set { _Pictures = value; }
 		}
-		public virtual ICollection<Video> Videos
+		public virtual ICollection<ProductVideo> Videos
 		{
-			get { return _Videos ?? (_Videos = new List<Video>()); }
+			get { return _Videos ?? (_Videos = new List<ProductVideo>()); }
 			protected set { _Videos = value; }
 		}
 		public virtual ICollection<Comment> Comments

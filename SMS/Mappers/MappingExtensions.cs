@@ -7,1345 +7,1402 @@ using SMS.Areas.Admin.Models;
 
 namespace SMS.Mappers
 {
-    public static class MappingExtensions
-    {
-        public static TDestination MapTo<TSource, TDestination>(this TSource source)
-        {
-            return AutoMapperConfiguration.Mapper.Map<TSource, TDestination>(source);
-        }
-
-        public static TDestination MapTo<TSource, TDestination>(this TSource source, TDestination destination)
-        {
-            return AutoMapperConfiguration.Mapper.Map(source, destination);
-        }
-        
-        #region Blog
-
-        public static BlogModel ToModel(this Blog entity)
-        {
-            return entity.MapTo<Blog, BlogModel>();
-        }
-
-        public static Blog ToEntity(this BlogModel model)
-        {
-            return model.MapTo<BlogModel, Blog>();
-        }
-
-        public static Blog ToEntity(this BlogModel model, Blog destination)
-        {
-            return model.MapTo(destination);
-        }
+	public static class MappingExtensions
+	{
+		public static TDestination MapTo<TSource, TDestination>(this TSource source)
+		{
+			return AutoMapperConfiguration.Mapper.Map<TSource, TDestination>(source);
+		}
+
+		public static TDestination MapTo<TSource, TDestination>(this TSource source, TDestination destination)
+		{
+			return AutoMapperConfiguration.Mapper.Map(source, destination);
+		}
 
-        #endregion
-
-        #region Acadmic Year
-
-        public static AcadmicYearModel ToModel(this AcadmicYear entity)
-        {
-            return entity.MapTo<AcadmicYear, AcadmicYearModel>();
-        }
-
-        public static AcadmicYear ToEntity(this AcadmicYearModel model)
-        {
-            return model.MapTo<AcadmicYearModel, AcadmicYear>();
-        }
-
-        public static AcadmicYear ToEntity(this AcadmicYearModel model, AcadmicYear destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region Blog
+
+		public static BlogModel ToModel(this Blog entity)
+		{
+			return entity.MapTo<Blog, BlogModel>();
+		}
+
+		public static Blog ToEntity(this BlogModel model)
+		{
+			return model.MapTo<BlogModel, Blog>();
+		}
+
+		public static Blog ToEntity(this BlogModel model, Blog destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #endregion
-
-        #region Allowance
-
-        public static AllowanceModel ToModel(this Allowance entity)
-        {
-            return entity.MapTo<Allowance, AllowanceModel>();
-        }
-
-        public static Allowance ToEntity(this AllowanceModel model)
-        {
-            return model.MapTo<AllowanceModel, Allowance>();
-        }
-
-        public static Allowance ToEntity(this AllowanceModel model, Allowance destination)
-        {
-            return model.MapTo(destination);
-        }
+		#endregion
 
-        #endregion
+		#region Acadmic Year
 
-        #region Assessment
-
-        public static AssessmentModel ToModel(this Assessment entity)
-        {
-            return entity.MapTo<Assessment, AssessmentModel>();
-        }
-
-        public static Assessment ToEntity(this AssessmentModel model)
-        {
-            return model.MapTo<AssessmentModel, Assessment>();
-        }
-
-        public static Assessment ToEntity(this AssessmentModel model, Assessment destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static AcadmicYearModel ToModel(this AcadmicYear entity)
+		{
+			return entity.MapTo<AcadmicYear, AcadmicYearModel>();
+		}
+
+		public static AcadmicYear ToEntity(this AcadmicYearModel model)
+		{
+			return model.MapTo<AcadmicYearModel, AcadmicYear>();
+		}
+
+		public static AcadmicYear ToEntity(this AcadmicYearModel model, AcadmicYear destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #endregion
+		#endregion
 
-        #region Assessment Question
-
-        public static AssessmentQuestionModel ToModel(this AssessmentQuestion entity)
-        {
-            return entity.MapTo<AssessmentQuestion, AssessmentQuestionModel>();
-        }
-
-        public static AssessmentQuestion ToEntity(this AssessmentQuestionModel model)
-        {
-            return model.MapTo<AssessmentQuestionModel, AssessmentQuestion>();
-        }
-
-        public static AssessmentQuestion ToEntity(this AssessmentQuestionModel model, AssessmentQuestion destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region Allowance
 
-        #endregion
+		public static AllowanceModel ToModel(this Allowance entity)
+		{
+			return entity.MapTo<Allowance, AllowanceModel>();
+		}
 
-        #region Student Assessment
+		public static Allowance ToEntity(this AllowanceModel model)
+		{
+			return model.MapTo<AllowanceModel, Allowance>();
+		}
+
+		public static Allowance ToEntity(this AllowanceModel model, Allowance destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static StudentAssessmentModel ToModel(this StudentAssessment entity)
-        {
-            return entity.MapTo<StudentAssessment, StudentAssessmentModel>();
-        }
-
-        public static StudentAssessment ToEntity(this StudentAssessmentModel model)
-        {
-            return model.MapTo<StudentAssessmentModel, StudentAssessment>();
-        }
-
-        public static StudentAssessment ToEntity(this StudentAssessmentModel model, StudentAssessment destination)
-        {
-            return model.MapTo(destination);
-        }
+		#endregion
 
-        #endregion
+		#region Assessment
 
-        #region Blog Picture
+		public static AssessmentModel ToModel(this Assessment entity)
+		{
+			return entity.MapTo<Assessment, AssessmentModel>();
+		}
 
-        public static BlogPictureModel ToModel(this BlogPicture entity)
-        {
-            return entity.MapTo<BlogPicture, BlogPictureModel>();
-        }
+		public static Assessment ToEntity(this AssessmentModel model)
+		{
+			return model.MapTo<AssessmentModel, Assessment>();
+		}
 
-        public static BlogPicture ToEntity(this BlogPictureModel model)
-        {
-            return model.MapTo<BlogPictureModel, BlogPicture>();
-        }
-
-        public static BlogPicture ToEntity(this BlogPictureModel model, BlogPicture destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static Assessment ToEntity(this AssessmentModel model, Assessment destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #endregion
+		#endregion
 
-        #region Book
+		#region Assessment Question
 
-        public static BookModel ToModel(this Book entity)
-        {
-            return entity.MapTo<Book, BookModel>();
-        }
+		public static AssessmentQuestionModel ToModel(this AssessmentQuestion entity)
+		{
+			return entity.MapTo<AssessmentQuestion, AssessmentQuestionModel>();
+		}
 
-        public static Book ToEntity(this BookModel model)
-        {
-            return model.MapTo<BookModel, Book>();
-        }
+		public static AssessmentQuestion ToEntity(this AssessmentQuestionModel model)
+		{
+			return model.MapTo<AssessmentQuestionModel, AssessmentQuestion>();
+		}
 
-        public static Book ToEntity(this BookModel model, Book destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static AssessmentQuestion ToEntity(this AssessmentQuestionModel model, AssessmentQuestion destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #endregion
+		#endregion
 
-        #region Book Issue
+		#region Student Assessment
 
-        public static BookIssueModel ToModel(this BookIssue entity)
-        {
-            return entity.MapTo<BookIssue, BookIssueModel>();
-        }
+		public static StudentAssessmentModel ToModel(this StudentAssessment entity)
+		{
+			return entity.MapTo<StudentAssessment, StudentAssessmentModel>();
+		}
 
-        public static BookIssue ToEntity(this BookIssueModel model)
-        {
-            return model.MapTo<BookIssueModel, BookIssue>();
-        }
+		public static StudentAssessment ToEntity(this StudentAssessmentModel model)
+		{
+			return model.MapTo<StudentAssessmentModel, StudentAssessment>();
+		}
 
-        public static BookIssue ToEntity(this BookIssueModel model, BookIssue destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static StudentAssessment ToEntity(this StudentAssessmentModel model, StudentAssessment destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #endregion
+		#endregion
 
-        #region Caste
+		#region Blog Picture
 
-        public static CasteModel ToModel(this Caste entity)
-        {
-            return entity.MapTo<Caste, CasteModel>();
-        }
+		public static BlogPictureModel ToModel(this BlogPicture entity)
+		{
+			return entity.MapTo<BlogPicture, BlogPictureModel>();
+		}
 
-        public static Caste ToEntity(this CasteModel model)
-        {
-            return model.MapTo<CasteModel, Caste>();
-        }
+		public static BlogPicture ToEntity(this BlogPictureModel model)
+		{
+			return model.MapTo<BlogPictureModel, BlogPicture>();
+		}
 
-        public static Caste ToEntity(this CasteModel model, Caste destination)
-        {
-            return model.MapTo(destination);
-        }
-        
-        #endregion
+		public static BlogPicture ToEntity(this BlogPictureModel model, BlogPicture destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #region Category
+		#endregion
 
-        public static CategoryModel ToModel(this Category entity)
-        {
-            return entity.MapTo<Category, CategoryModel>();
-        }
+		#region Book
 
-        public static Category ToEntity(this CategoryModel model)
-        {
-            return model.MapTo<CategoryModel, Category>();
-        }
+		public static BookModel ToModel(this Book entity)
+		{
+			return entity.MapTo<Book, BookModel>();
+		}
 
-        public static Category ToEntity(this CategoryModel model, Category destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static Book ToEntity(this BookModel model)
+		{
+			return model.MapTo<BookModel, Book>();
+		}
 
-        #endregion
+		public static Book ToEntity(this BookModel model, Book destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #region Class
+		#endregion
 
-        public static ClassModel ToModel(this Class entity)
-        {
-            return entity.MapTo<Class, ClassModel>();
-        }
+		#region Book Issue
 
-        public static Class ToEntity(this ClassModel model)
-        {
-            return model.MapTo<ClassModel, Class>();
-        }
+		public static BookIssueModel ToModel(this BookIssue entity)
+		{
+			return entity.MapTo<BookIssue, BookIssueModel>();
+		}
 
-        public static Class ToEntity(this ClassModel model, Class destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static BookIssue ToEntity(this BookIssueModel model)
+		{
+			return model.MapTo<BookIssueModel, BookIssue>();
+		}
 
-        #endregion
+		public static BookIssue ToEntity(this BookIssueModel model, BookIssue destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #region Class Exam
+		#endregion
 
-        public static ClassExamModel ToModel(this ClassExam entity)
-        {
-            return entity.MapTo<ClassExam, ClassExamModel>();
-        }
+		#region Caste
 
-        public static ClassExam ToEntity(this ClassExamModel model)
-        {
-            return model.MapTo<ClassExamModel, ClassExam>();
-        }
+		public static CasteModel ToModel(this Caste entity)
+		{
+			return entity.MapTo<Caste, CasteModel>();
+		}
 
-        public static ClassExam ToEntity(this ClassExamModel model, ClassExam destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static Caste ToEntity(this CasteModel model)
+		{
+			return model.MapTo<CasteModel, Caste>();
+		}
 
-        #endregion
+		public static Caste ToEntity(this CasteModel model, Caste destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #region Class Homework
+		#endregion
 
-        public static ClassHomeworkModel ToModel(this ClassHomework entity)
-        {
-            return entity.MapTo<ClassHomework, ClassHomeworkModel>();
-        }
+		#region Category
 
-        public static ClassHomework ToEntity(this ClassHomeworkModel model)
-        {
-            return model.MapTo<ClassHomeworkModel, ClassHomework>();
-        }
+		public static CategoryModel ToModel(this Category entity)
+		{
+			return entity.MapTo<Category, CategoryModel>();
+		}
 
-        public static ClassHomework ToEntity(this ClassHomeworkModel model, ClassHomework destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static Category ToEntity(this CategoryModel model)
+		{
+			return model.MapTo<CategoryModel, Category>();
+		}
 
-        #endregion
+		public static Category ToEntity(this CategoryModel model, Category destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #region Custom Page
+		#endregion
 
-        public static CustomPageModel ToModel(this CustomPage entity)
-        {
-            return entity.MapTo<CustomPage, CustomPageModel>();
-        }
+		#region Class
 
-        public static CustomPage ToEntity(this CustomPageModel model)
-        {
-            return model.MapTo<CustomPageModel, CustomPage>();
-        }
+		public static ClassModel ToModel(this Class entity)
+		{
+			return entity.MapTo<Class, ClassModel>();
+		}
 
-        public static CustomPage ToEntity(this CustomPageModel model, CustomPage destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static Class ToEntity(this ClassModel model)
+		{
+			return model.MapTo<ClassModel, Class>();
+		}
 
-        #endregion
+		public static Class ToEntity(this ClassModel model, Class destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        #region System Log
+		#endregion
 
-        public static SystemLogModel ToModel(this SystemLog entity)
-        {
-            return entity.MapTo<SystemLog, SystemLogModel>();
-        }
+		#region Class Exam
 
-        public static SystemLog ToEntity(this SystemLogModel model)
-        {
-            return model.MapTo<SystemLogModel, SystemLog>();
-        }
+		public static ClassExamModel ToModel(this ClassExam entity)
+		{
+			return entity.MapTo<ClassExam, ClassExamModel>();
+		}
 
-        public static SystemLog ToEntity(this SystemLogModel model, SystemLog destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static ClassExam ToEntity(this ClassExamModel model)
+		{
+			return model.MapTo<ClassExamModel, ClassExam>();
+		}
 
-        #endregion
-        
-        #region Class Room
+		public static ClassExam ToEntity(this ClassExamModel model, ClassExam destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static ClassRoomModel ToModel(this ClassRoom entity)
-        {
-            return entity.MapTo<ClassRoom, ClassRoomModel>();
-        }
+		#endregion
 
-        public static ClassRoom ToEntity(this ClassRoomModel model)
-        {
-            return model.MapTo<ClassRoomModel, ClassRoom>();
-        }
+		#region Class Homework
 
-        public static ClassRoom ToEntity(this ClassRoomModel model, ClassRoom destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
+		public static ClassHomeworkModel ToModel(this ClassHomework entity)
+		{
+			return entity.MapTo<ClassHomework, ClassHomeworkModel>();
+		}
 
-        #region Comment
+		public static ClassHomework ToEntity(this ClassHomeworkModel model)
+		{
+			return model.MapTo<ClassHomeworkModel, ClassHomework>();
+		}
 
-        public static CommentModel ToModel(this Comment entity)
-        {
-            return entity.MapTo<Comment, CommentModel>();
-        }
+		public static ClassHomework ToEntity(this ClassHomeworkModel model, ClassHomework destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static Comment ToEntity(this CommentModel model)
-        {
-            return model.MapTo<CommentModel, Comment>();
-        }
+		#endregion
 
-        public static Comment ToEntity(this CommentModel model, Comment destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region Custom Page
 
-        #endregion
+		public static CustomPageModel ToModel(this CustomPage entity)
+		{
+			return entity.MapTo<CustomPage, CustomPageModel>();
+		}
 
-        #region Data Token
+		public static CustomPage ToEntity(this CustomPageModel model)
+		{
+			return model.MapTo<CustomPageModel, CustomPage>();
+		}
 
-        public static DataTokenModel ToModel(this DataToken entity)
-        {
-            return entity.MapTo<DataToken, DataTokenModel>();
-        }
+		public static CustomPage ToEntity(this CustomPageModel model, CustomPage destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static DataToken ToEntity(this DataTokenModel model)
-        {
-            return model.MapTo<DataTokenModel, DataToken>();
-        }
+		#endregion
 
-        public static DataToken ToEntity(this DataTokenModel model, DataToken destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region System Log
 
-        #endregion
+		public static SystemLogModel ToModel(this SystemLog entity)
+		{
+			return entity.MapTo<SystemLog, SystemLogModel>();
+		}
 
-        #region Designation
+		public static SystemLog ToEntity(this SystemLogModel model)
+		{
+			return model.MapTo<SystemLogModel, SystemLog>();
+		}
 
-        public static DesignationModel ToModel(this Designation entity)
-        {
-            return entity.MapTo<Designation, DesignationModel>();
-        }
+		public static SystemLog ToEntity(this SystemLogModel model, SystemLog destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static Designation ToEntity(this DesignationModel model)
-        {
-            return model.MapTo<DesignationModel, Designation>();
-        }
+		#endregion
 
-        public static Designation ToEntity(this DesignationModel model, Designation destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region Class Room
 
-        #endregion
+		public static ClassRoomModel ToModel(this ClassRoom entity)
+		{
+			return entity.MapTo<ClassRoom, ClassRoomModel>();
+		}
 
-        #region Division
+		public static ClassRoom ToEntity(this ClassRoomModel model)
+		{
+			return model.MapTo<ClassRoomModel, ClassRoom>();
+		}
 
-        public static DivisionModel ToModel(this Division entity)
-        {
-            return entity.MapTo<Division, DivisionModel>();
-        }
+		public static ClassRoom ToEntity(this ClassRoomModel model, ClassRoom destination)
+		{
+			return model.MapTo(destination);
+		}
+		#endregion
 
-        public static Division ToEntity(this DivisionModel model)
-        {
-            return model.MapTo<DivisionModel, Division>();
-        }
+		#region Comment
 
-        public static Division ToEntity(this DivisionModel model, Division destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static CommentModel ToModel(this Comment entity)
+		{
+			return entity.MapTo<Comment, CommentModel>();
+		}
 
-        #endregion
+		public static Comment ToEntity(this CommentModel model)
+		{
+			return model.MapTo<CommentModel, Comment>();
+		}
 
-        #region Division Exam
+		public static Comment ToEntity(this CommentModel model, Comment destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static DivisionExamModel ToModel(this DivisionExam entity)
-        {
-            return entity.MapTo<DivisionExam, DivisionExamModel>();
-        }
+		#endregion
 
-        public static DivisionExam ToEntity(this DivisionExamModel model)
-        {
-            return model.MapTo<DivisionExamModel, DivisionExam>();
-        }
+		#region Data Token
 
-        public static DivisionExam ToEntity(this DivisionExamModel model, DivisionExam destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static DataTokenModel ToModel(this DataToken entity)
+		{
+			return entity.MapTo<DataToken, DataTokenModel>();
+		}
 
-        #endregion
+		public static DataToken ToEntity(this DataTokenModel model)
+		{
+			return model.MapTo<DataTokenModel, DataToken>();
+		}
 
-        #region Division Homework
+		public static DataToken ToEntity(this DataTokenModel model, DataToken destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static DivisionHomeworkModel ToModel(this DivisionHomework entity)
-        {
-            return entity.MapTo<DivisionHomework, DivisionHomeworkModel>();
-        }
+		#endregion
 
-        public static DivisionHomework ToEntity(this DivisionHomeworkModel model)
-        {
-            return model.MapTo<DivisionHomeworkModel, DivisionHomework>();
-        }
+		#region Designation
 
-        public static DivisionHomework ToEntity(this DivisionHomeworkModel model, DivisionHomework destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static DesignationModel ToModel(this Designation entity)
+		{
+			return entity.MapTo<Designation, DesignationModel>();
+		}
 
-        #endregion
+		public static Designation ToEntity(this DesignationModel model)
+		{
+			return model.MapTo<DesignationModel, Designation>();
+		}
 
-        #region Division Subject
+		public static Designation ToEntity(this DesignationModel model, Designation destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static DivisionSubjectModel ToModel(this DivisionSubject entity)
-        {
-            return entity.MapTo<DivisionSubject, DivisionSubjectModel>();
-        }
+		#endregion
 
-        public static DivisionSubject ToEntity(this DivisionSubjectModel model)
-        {
-            return model.MapTo<DivisionSubjectModel, DivisionSubject>();
-        }
+		#region Division
 
-        public static DivisionSubject ToEntity(this DivisionSubjectModel model, DivisionSubject destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static DivisionModel ToModel(this Division entity)
+		{
+			return entity.MapTo<Division, DivisionModel>();
+		}
 
-        #endregion
+		public static Division ToEntity(this DivisionModel model)
+		{
+			return model.MapTo<DivisionModel, Division>();
+		}
 
-        #region Employee
+		public static Division ToEntity(this DivisionModel model, Division destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static EmployeeModel ToModel(this Employee entity)
-        {
-            return entity.MapTo<Employee, EmployeeModel>();
-        }
+		#endregion
 
-        public static Employee ToEntity(this EmployeeModel model)
-        {
-            return model.MapTo<EmployeeModel, Employee>();
-        }
+		#region Division Exam
 
-        public static Employee ToEntity(this EmployeeModel model, Employee destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static DivisionExamModel ToModel(this DivisionExam entity)
+		{
+			return entity.MapTo<DivisionExam, DivisionExamModel>();
+		}
 
-        #endregion
+		public static DivisionExam ToEntity(this DivisionExamModel model)
+		{
+			return model.MapTo<DivisionExamModel, DivisionExam>();
+		}
 
-        #region Employee Attendance
+		public static DivisionExam ToEntity(this DivisionExamModel model, DivisionExam destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static EmployeeAttendanceModel ToModel(this EmployeeAttendance entity)
-        {
-            return entity.MapTo<EmployeeAttendance, EmployeeAttendanceModel>();
-        }
+		#endregion
 
-        public static EmployeeAttendance ToEntity(this EmployeeAttendanceModel model)
-        {
-            return model.MapTo<EmployeeAttendanceModel, EmployeeAttendance>();
-        }
+		#region Division Homework
 
-        public static EmployeeAttendance ToEntity(this EmployeeAttendanceModel model, EmployeeAttendance destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static DivisionHomeworkModel ToModel(this DivisionHomework entity)
+		{
+			return entity.MapTo<DivisionHomework, DivisionHomeworkModel>();
+		}
 
-        #endregion
+		public static DivisionHomework ToEntity(this DivisionHomeworkModel model)
+		{
+			return model.MapTo<DivisionHomeworkModel, DivisionHomework>();
+		}
 
-        #region Event
+		public static DivisionHomework ToEntity(this DivisionHomeworkModel model, DivisionHomework destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static EventModel ToModel(this Event entity)
-        {
-            return entity.MapTo<Event, EventModel>();
-        }
+		#endregion
 
-        public static Event ToEntity(this EventModel model)
-        {
-            return model.MapTo<EventModel, Event>();
-        }
+		#region Division Subject
 
-        public static Event ToEntity(this EventModel model, Event destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static DivisionSubjectModel ToModel(this DivisionSubject entity)
+		{
+			return entity.MapTo<DivisionSubject, DivisionSubjectModel>();
+		}
 
-        #endregion
+		public static DivisionSubject ToEntity(this DivisionSubjectModel model)
+		{
+			return model.MapTo<DivisionSubjectModel, DivisionSubject>();
+		}
 
-        #region Event Picture
+		public static DivisionSubject ToEntity(this DivisionSubjectModel model, DivisionSubject destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static EventPictureModel ToModel(this EventPicture entity)
-        {
-            return entity.MapTo<EventPicture, EventPictureModel>();
-        }
+		#endregion
 
-        public static EventPicture ToEntity(this EventPictureModel model)
-        {
-            return model.MapTo<EventPictureModel, EventPicture>();
-        }
+		#region Employee
 
-        public static EventPicture ToEntity(this EventPictureModel model, EventPicture destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static EmployeeModel ToModel(this Employee entity)
+		{
+			return entity.MapTo<Employee, EmployeeModel>();
+		}
 
-        #endregion
+		public static Employee ToEntity(this EmployeeModel model)
+		{
+			return model.MapTo<EmployeeModel, Employee>();
+		}
 
-        #region News
+		public static Employee ToEntity(this EmployeeModel model, Employee destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static NewsModel ToModel(this News entity)
-        {
-            return entity.MapTo<News, NewsModel>();
-        }
+		#endregion
 
-        public static News ToEntity(this NewsModel model)
-        {
-            return model.MapTo<NewsModel, News>();
-        }
+		#region Employee Attendance
 
-        public static News ToEntity(this NewsModel model, News destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static EmployeeAttendanceModel ToModel(this EmployeeAttendance entity)
+		{
+			return entity.MapTo<EmployeeAttendance, EmployeeAttendanceModel>();
+		}
 
-        #endregion
+		public static EmployeeAttendance ToEntity(this EmployeeAttendanceModel model)
+		{
+			return model.MapTo<EmployeeAttendanceModel, EmployeeAttendance>();
+		}
 
-        #region News Picture
+		public static EmployeeAttendance ToEntity(this EmployeeAttendanceModel model, EmployeeAttendance destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static NewsPictureModel ToModel(this NewsPicture entity)
-        {
-            return entity.MapTo<NewsPicture, NewsPictureModel>();
-        }
+		#endregion
 
-        public static NewsPicture ToEntity(this NewsPictureModel model)
-        {
-            return model.MapTo<NewsPictureModel, NewsPicture>();
-        }
+		#region Event
 
-        public static NewsPicture ToEntity(this NewsPictureModel model, NewsPicture destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static EventModel ToModel(this Event entity)
+		{
+			return entity.MapTo<Event, EventModel>();
+		}
 
-        #endregion
+		public static Event ToEntity(this EventModel model)
+		{
+			return model.MapTo<EventModel, Event>();
+		}
 
-        #region Exam
-        public static ExamModel ToModel(this Exam entity)
-        {
-            return entity.MapTo<Exam, ExamModel>();
-        }
+		public static Event ToEntity(this EventModel model, Event destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static Exam ToEntity(this ExamModel model)
-        {
-            return model.MapTo<ExamModel, Exam>();
-        }
+		#endregion
 
-        public static Exam ToEntity(this ExamModel model, Exam destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region Event Picture
 
-        #endregion
+		public static EventPictureModel ToModel(this EventPicture entity)
+		{
+			return entity.MapTo<EventPicture, EventPictureModel>();
+		}
 
-        #region Fee Category
+		public static EventPicture ToEntity(this EventPictureModel model)
+		{
+			return model.MapTo<EventPictureModel, EventPicture>();
+		}
 
-        public static FeeCategoryModel ToModel(this FeeCategory entity)
-        {
-            return entity.MapTo<FeeCategory, FeeCategoryModel>();
-        }
+		public static EventPicture ToEntity(this EventPictureModel model, EventPicture destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static FeeCategory ToEntity(this FeeCategoryModel model)
-        {
-            return model.MapTo<FeeCategoryModel, FeeCategory>();
-        }
+		#endregion
 
-        public static FeeCategory ToEntity(this FeeCategoryModel model, FeeCategory destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region Event Video
 
-        #endregion
+		public static EventVideoModel ToModel(this EventVideo entity)
+		{
+			return entity.MapTo<EventVideo, EventVideoModel>();
+		}
 
-        #region Feedback
+		public static EventVideo ToEntity(this EventVideoModel model)
+		{
+			return model.MapTo<EventVideoModel, EventVideo>();
+		}
 
-        public static FeedbackModel ToModel(this Feedback entity)
-        {
-            return entity.MapTo<Feedback, FeedbackModel>();
-        }
+		public static EventVideo ToEntity(this EventVideoModel model, EventVideo destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static Feedback ToEntity(this FeedbackModel model)
-        {
-            return model.MapTo<FeedbackModel, Feedback>();
-        }
+		#endregion
 
-        public static Feedback ToEntity(this FeedbackModel model, Feedback destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region News
 
-        #endregion
+		public static NewsModel ToModel(this News entity)
+		{
+			return entity.MapTo<News, NewsModel>();
+		}
 
-        #region Fee Detail
+		public static News ToEntity(this NewsModel model)
+		{
+			return model.MapTo<NewsModel, News>();
+		}
 
-        public static FeeDetailModel ToModel(this FeeDetail entity)
-        {
-            return entity.MapTo<FeeDetail, FeeDetailModel>();
-        }
+		public static News ToEntity(this NewsModel model, News destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static FeeDetail ToEntity(this FeeDetailModel model)
-        {
-            return model.MapTo<FeeDetailModel, FeeDetail>();
-        }
+		#endregion
 
-        public static FeeDetail ToEntity(this FeeDetailModel model, FeeDetail destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region News Picture
 
-        #endregion
+		public static NewsPictureModel ToModel(this NewsPicture entity)
+		{
+			return entity.MapTo<NewsPicture, NewsPictureModel>();
+		}
 
-        #region File
+		public static NewsPicture ToEntity(this NewsPictureModel model)
+		{
+			return model.MapTo<NewsPictureModel, NewsPicture>();
+		}
 
-        public static FilesModel ToModel(this File entity)
-        {
-            return entity.MapTo<File, FilesModel>();
-        }
+		public static NewsPicture ToEntity(this NewsPictureModel model, NewsPicture destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static File ToEntity(this FilesModel model)
-        {
-            return model.MapTo<FilesModel, File>();
-        }
+		#endregion
 
-        public static File ToEntity(this FilesModel model, File destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region News Video
 
-        #endregion
+		public static NewsVideoModel ToModel(this NewsVideo entity)
+		{
+			return entity.MapTo<NewsVideo, NewsVideoModel>();
+		}
 
-        #region Holiday
+		public static NewsVideo ToEntity(this NewsVideoModel model)
+		{
+			return model.MapTo<NewsVideoModel, NewsVideo>();
+		}
 
-        public static HolidayModel ToModel(this Holiday entity)
-        {
-            return entity.MapTo<Holiday, HolidayModel>();
-        }
+		public static NewsVideo ToEntity(this NewsVideoModel model, NewsVideo destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static Holiday ToEntity(this HolidayModel model)
-        {
-            return model.MapTo<HolidayModel, Holiday>();
-        }
+		#endregion
 
-        public static Holiday ToEntity(this HolidayModel model, Holiday destination)
-        {
-            return model.MapTo(destination);
-        }
+		#region Exam
+		public static ExamModel ToModel(this Exam entity)
+		{
+			return entity.MapTo<Exam, ExamModel>();
+		}
 
-        #endregion
+		public static Exam ToEntity(this ExamModel model)
+		{
+			return model.MapTo<ExamModel, Exam>();
+		}
 
-        #region Homework
+		public static Exam ToEntity(this ExamModel model, Exam destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static HomeworkModel ToModel(this Homework entity)
-        {
-            return entity.MapTo<Homework, HomeworkModel>();
-        }
+		#endregion
 
-        public static Homework ToEntity(this HomeworkModel model)
-        {
-            return model.MapTo<HomeworkModel, Homework>();
-        }
+		#region Fee Category
 
-        public static Homework ToEntity(this HomeworkModel model, Homework destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static FeeCategoryModel ToModel(this FeeCategory entity)
+		{
+			return entity.MapTo<FeeCategory, FeeCategoryModel>();
+		}
 
-        #endregion
+		public static FeeCategory ToEntity(this FeeCategoryModel model)
+		{
+			return model.MapTo<FeeCategoryModel, FeeCategory>();
+		}
 
-        #region Message
+		public static FeeCategory ToEntity(this FeeCategoryModel model, FeeCategory destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static MessageModel ToModel(this Message entity)
-        {
-            return entity.MapTo<Message, MessageModel>();
-        }
+		#endregion
 
-        public static Message ToEntity(this MessageModel model)
-        {
-            return model.MapTo<MessageModel, Message>();
-        }
+		#region Feedback
 
-        public static Message ToEntity(this MessageModel model, Message destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static FeedbackModel ToModel(this Feedback entity)
+		{
+			return entity.MapTo<Feedback, FeedbackModel>();
+		}
 
-        #endregion
+		public static Feedback ToEntity(this FeedbackModel model)
+		{
+			return model.MapTo<FeedbackModel, Feedback>();
+		}
 
-        #region Message Group
+		public static Feedback ToEntity(this FeedbackModel model, Feedback destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static MessageGroupModel ToModel(this MessageGroup entity)
-        {
-            return entity.MapTo<MessageGroup, MessageGroupModel>();
-        }
+		#endregion
 
-        public static MessageGroup ToEntity(this MessageGroupModel model)
-        {
-            return model.MapTo<MessageGroupModel, MessageGroup>();
-        }
+		#region Fee Detail
 
-        public static MessageGroup ToEntity(this MessageGroupModel model, MessageGroup destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static FeeDetailModel ToModel(this FeeDetail entity)
+		{
+			return entity.MapTo<FeeDetail, FeeDetailModel>();
+		}
 
-        #endregion
+		public static FeeDetail ToEntity(this FeeDetailModel model)
+		{
+			return model.MapTo<FeeDetailModel, FeeDetail>();
+		}
 
-        #region Option
+		public static FeeDetail ToEntity(this FeeDetailModel model, FeeDetail destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static OptionModel ToModel(this Option entity)
-        {
-            return entity.MapTo<Option, OptionModel>();
-        }
+		#endregion
 
-        public static Option ToEntity(this OptionModel model)
-        {
-            return model.MapTo<OptionModel, Option>();
-        }
+		#region File
 
-        public static Option ToEntity(this OptionModel model, Option destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static FilesModel ToModel(this File entity)
+		{
+			return entity.MapTo<File, FilesModel>();
+		}
 
-        #endregion
+		public static File ToEntity(this FilesModel model)
+		{
+			return model.MapTo<FilesModel, File>();
+		}
 
-        #region Payment
+		public static File ToEntity(this FilesModel model, File destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static PaymentModel ToModel(this Payment entity)
-        {
-            return entity.MapTo<Payment, PaymentModel>();
-        }
+		#endregion
 
-        public static Payment ToEntity(this PaymentModel model)
-        {
-            return model.MapTo<PaymentModel, Payment>();
-        }
+		#region Holiday
 
-        public static Payment ToEntity(this PaymentModel model, Payment destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static HolidayModel ToModel(this Holiday entity)
+		{
+			return entity.MapTo<Holiday, HolidayModel>();
+		}
 
-        #endregion
+		public static Holiday ToEntity(this HolidayModel model)
+		{
+			return model.MapTo<HolidayModel, Holiday>();
+		}
 
-        #region Permission Record
+		public static Holiday ToEntity(this HolidayModel model, Holiday destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static PermissionRecordModel ToModel(this PermissionRecord entity)
-        {
-            return entity.MapTo<PermissionRecord, PermissionRecordModel>();
-        }
+		#endregion
 
-        public static PermissionRecord ToEntity(this PermissionRecordModel model)
-        {
-            return model.MapTo<PermissionRecordModel, PermissionRecord>();
-        }
+		#region Homework
 
-        public static PermissionRecord ToEntity(this PermissionRecordModel model, PermissionRecord destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static HomeworkModel ToModel(this Homework entity)
+		{
+			return entity.MapTo<Homework, HomeworkModel>();
+		}
 
-        #endregion
+		public static Homework ToEntity(this HomeworkModel model)
+		{
+			return model.MapTo<HomeworkModel, Homework>();
+		}
 
-        #region Picture
+		public static Homework ToEntity(this HomeworkModel model, Homework destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static PictureModel ToModel(this Picture entity)
-        {
-            return entity.MapTo<Picture, PictureModel>();
-        }
+		#endregion
 
-        public static Picture ToEntity(this PictureModel model)
-        {
-            return model.MapTo<PictureModel, Picture>();
-        }
+		#region Message
 
-        public static Picture ToEntity(this PictureModel model, Picture destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static MessageModel ToModel(this Message entity)
+		{
+			return entity.MapTo<Message, MessageModel>();
+		}
 
-        #endregion
+		public static Message ToEntity(this MessageModel model)
+		{
+			return model.MapTo<MessageModel, Message>();
+		}
 
-        #region Product Category
+		public static Message ToEntity(this MessageModel model, Message destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static ProductCategoryModel ToModel(this ProductCategory entity)
-        {
-            return entity.MapTo<ProductCategory, ProductCategoryModel>();
-        }
+		#endregion
 
-        public static ProductCategory ToEntity(this ProductCategoryModel model)
-        {
-            return model.MapTo<ProductCategoryModel, ProductCategory>();
-        }
+		#region Message Group
 
-        public static ProductCategory ToEntity(this ProductCategoryModel model, ProductCategory destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static MessageGroupModel ToModel(this MessageGroup entity)
+		{
+			return entity.MapTo<MessageGroup, MessageGroupModel>();
+		}
 
-        #endregion
+		public static MessageGroup ToEntity(this MessageGroupModel model)
+		{
+			return model.MapTo<MessageGroupModel, MessageGroup>();
+		}
 
-        #region Product
+		public static MessageGroup ToEntity(this MessageGroupModel model, MessageGroup destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static ProductModel ToModel(this Product entity)
-        {
-            return entity.MapTo<Product, ProductModel>();
-        }
+		#endregion
 
-        public static Product ToEntity(this ProductModel model)
-        {
-            return model.MapTo<ProductModel, Product>();
-        }
+		#region Option
 
-        public static Product ToEntity(this ProductModel model, Product destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static OptionModel ToModel(this Option entity)
+		{
+			return entity.MapTo<Option, OptionModel>();
+		}
 
-        #endregion
+		public static Option ToEntity(this OptionModel model)
+		{
+			return model.MapTo<OptionModel, Option>();
+		}
 
-        #region Product Picture
+		public static Option ToEntity(this OptionModel model, Option destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static ProductPictureModel ToModel(this ProductPicture entity)
-        {
-            return entity.MapTo<ProductPicture, ProductPictureModel>();
-        }
+		#endregion
 
-        public static ProductPicture ToEntity(this ProductPictureModel model)
-        {
-            return model.MapTo<ProductPictureModel, ProductPicture>();
-        }
+		#region Payment
 
-        public static ProductPicture ToEntity(this ProductPictureModel model, ProductPicture destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static PaymentModel ToModel(this Payment entity)
+		{
+			return entity.MapTo<Payment, PaymentModel>();
+		}
 
-        #endregion
+		public static Payment ToEntity(this PaymentModel model)
+		{
+			return model.MapTo<PaymentModel, Payment>();
+		}
 
-        #region Purchase
+		public static Payment ToEntity(this PaymentModel model, Payment destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static PurchaseModel ToModel(this Purchase entity)
-        {
-            return entity.MapTo<Purchase, PurchaseModel>();
-        }
+		#endregion
 
-        public static Purchase ToEntity(this PurchaseModel model)
-        {
-            return model.MapTo<PurchaseModel, Purchase>();
-        }
+		#region Permission Record
 
-        public static Purchase ToEntity(this PurchaseModel model, Purchase destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static PermissionRecordModel ToModel(this PermissionRecord entity)
+		{
+			return entity.MapTo<PermissionRecord, PermissionRecordModel>();
+		}
 
-        #endregion
+		public static PermissionRecord ToEntity(this PermissionRecordModel model)
+		{
+			return model.MapTo<PermissionRecordModel, PermissionRecord>();
+		}
 
-        #region Qualification
+		public static PermissionRecord ToEntity(this PermissionRecordModel model, PermissionRecord destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static QualificationModel ToModel(this Qualification entity)
-        {
-            return entity.MapTo<Qualification, QualificationModel>();
-        }
+		#endregion
 
-        public static Qualification ToEntity(this QualificationModel model)
-        {
-            return model.MapTo<QualificationModel, Qualification>();
-        }
+		#region Picture
 
-        public static Qualification ToEntity(this QualificationModel model, Qualification destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static PictureModel ToModel(this Picture entity)
+		{
+			return entity.MapTo<Picture, PictureModel>();
+		}
 
-        #endregion
+		public static Picture ToEntity(this PictureModel model)
+		{
+			return model.MapTo<PictureModel, Picture>();
+		}
 
-        #region Question
+		public static Picture ToEntity(this PictureModel model, Picture destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static QuestionModel ToModel(this Question entity)
-        {
-            return entity.MapTo<Question, QuestionModel>();
-        }
+		#endregion
 
-        public static Question ToEntity(this QuestionModel model)
-        {
-            return model.MapTo<QuestionModel, Question>();
-        }
+		#region Product Category
 
-        public static Question ToEntity(this QuestionModel model, Question destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static ProductCategoryModel ToModel(this ProductCategory entity)
+		{
+			return entity.MapTo<ProductCategory, ProductCategoryModel>();
+		}
 
-        #endregion
+		public static ProductCategory ToEntity(this ProductCategoryModel model)
+		{
+			return model.MapTo<ProductCategoryModel, ProductCategory>();
+		}
 
-        #region Question type
+		public static ProductCategory ToEntity(this ProductCategoryModel model, ProductCategory destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static QuestionTypeModel ToModel(this QuestionType entity)
-        {
-            return entity.MapTo<QuestionType, QuestionTypeModel>();
-        }
+		#endregion
 
-        public static QuestionType ToEntity(this QuestionTypeModel model)
-        {
-            return model.MapTo<QuestionTypeModel, QuestionType>();
-        }
+		#region Product
 
-        public static QuestionType ToEntity(this QuestionTypeModel model, QuestionType destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static ProductModel ToModel(this Product entity)
+		{
+			return entity.MapTo<Product, ProductModel>();
+		}
 
-        #endregion
+		public static Product ToEntity(this ProductModel model)
+		{
+			return model.MapTo<ProductModel, Product>();
+		}
 
-        #region Reaction
+		public static Product ToEntity(this ProductModel model, Product destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static ReactionModel ToModel(this Reaction entity)
-        {
-            return entity.MapTo<Reaction, ReactionModel>();
-        }
+		#endregion
 
-        public static Reaction ToEntity(this ReactionModel model)
-        {
-            return model.MapTo<ReactionModel, Reaction>();
-        }
+		#region Product Picture
 
-        public static Reaction ToEntity(this ReactionModel model, Reaction destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static ProductPictureModel ToModel(this ProductPicture entity)
+		{
+			return entity.MapTo<ProductPicture, ProductPictureModel>();
+		}
 
-        #endregion
+		public static ProductPicture ToEntity(this ProductPictureModel model)
+		{
+			return model.MapTo<ProductPictureModel, ProductPicture>();
+		}
 
-        #region Religion
+		public static ProductPicture ToEntity(this ProductPictureModel model, ProductPicture destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static ReligionModel ToModel(this Religion entity)
-        {
-            return entity.MapTo<Religion, ReligionModel>();
-        }
+		#endregion
 
-        public static Religion ToEntity(this ReligionModel model)
-        {
-            return model.MapTo<ReligionModel, Religion>();
-        }
+		#region Product Video
 
-        public static Religion ToEntity(this ReligionModel model, Religion destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static ProductVideoModel ToModel(this ProductVideo entity)
+		{
+			return entity.MapTo<ProductVideo, ProductVideoModel>();
+		}
 
-        #endregion
+		public static ProductVideo ToEntity(this ProductVideoModel model)
+		{
+			return model.MapTo<ProductVideoModel, ProductVideo>();
+		}
 
-        #region Reply
+		public static ProductVideo ToEntity(this ProductVideoModel model, ProductVideo destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static ReplyModel ToModel(this Reply entity)
-        {
-            return entity.MapTo<Reply, ReplyModel>();
-        }
+		#endregion
 
-        public static Reply ToEntity(this ReplyModel model)
-        {
-            return model.MapTo<ReplyModel, Reply>();
-        }
+		#region Purchase
 
-        public static Reply ToEntity(this ReplyModel model, Reply destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static PurchaseModel ToModel(this Purchase entity)
+		{
+			return entity.MapTo<Purchase, PurchaseModel>();
+		}
 
-        #endregion
+		public static Purchase ToEntity(this PurchaseModel model)
+		{
+			return model.MapTo<PurchaseModel, Purchase>();
+		}
 
-        #region School
+		public static Purchase ToEntity(this PurchaseModel model, Purchase destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static SchoolModel ToModel(this School entity)
-        {
-            return entity.MapTo<School, SchoolModel>();
-        }
+		#endregion
 
-        public static School ToEntity(this SchoolModel model)
-        {
-            return model.MapTo<SchoolModel, School>();
-        }
+		#region Qualification
 
-        public static School ToEntity(this SchoolModel model, School destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static QualificationModel ToModel(this Qualification entity)
+		{
+			return entity.MapTo<Qualification, QualificationModel>();
+		}
 
-        #endregion
+		public static Qualification ToEntity(this QualificationModel model)
+		{
+			return model.MapTo<QualificationModel, Qualification>();
+		}
 
-        #region Student
+		public static Qualification ToEntity(this QualificationModel model, Qualification destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static StudentModel ToModel(this Student entity)
-        {
-            return entity.MapTo<Student, StudentModel>();
-        }
+		#endregion
 
-        public static Student ToEntity(this StudentModel model)
-        {
-            return model.MapTo<StudentModel, Student>();
-        }
+		#region Question
 
-        public static Student ToEntity(this StudentModel model, Student destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static QuestionModel ToModel(this Question entity)
+		{
+			return entity.MapTo<Question, QuestionModel>();
+		}
 
-        #endregion
+		public static Question ToEntity(this QuestionModel model)
+		{
+			return model.MapTo<QuestionModel, Question>();
+		}
 
-        #region Student Message Group
+		public static Question ToEntity(this QuestionModel model, Question destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static Student_MessageGroupModel ToModel(this Student_MessageGroup entity)
-        {
-            return entity.MapTo<Student_MessageGroup, Student_MessageGroupModel>();
-        }
+		#endregion
 
-        public static Student_MessageGroup ToEntity(this Student_MessageGroupModel model)
-        {
-            return model.MapTo<Student_MessageGroupModel, Student_MessageGroup>();
-        }
+		#region Question type
 
-        public static Student_MessageGroup ToEntity(this Student_MessageGroupModel model, Student_MessageGroup destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static QuestionTypeModel ToModel(this QuestionType entity)
+		{
+			return entity.MapTo<QuestionType, QuestionTypeModel>();
+		}
 
-        #endregion
+		public static QuestionType ToEntity(this QuestionTypeModel model)
+		{
+			return model.MapTo<QuestionTypeModel, QuestionType>();
+		}
 
-        #region Student Attendance
+		public static QuestionType ToEntity(this QuestionTypeModel model, QuestionType destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static StudentAttendanceModel ToModel(this StudentAttendance entity)
-        {
-            return entity.MapTo<StudentAttendance, StudentAttendanceModel>();
-        }
+		#endregion
 
-        public static StudentAttendance ToEntity(this StudentAttendanceModel model)
-        {
-            return model.MapTo<StudentAttendanceModel, StudentAttendance>();
-        }
+		#region Reaction
 
-        public static StudentAttendance ToEntity(this StudentAttendanceModel model, StudentAttendance destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static ReactionModel ToModel(this Reaction entity)
+		{
+			return entity.MapTo<Reaction, ReactionModel>();
+		}
 
-        #endregion
+		public static Reaction ToEntity(this ReactionModel model)
+		{
+			return model.MapTo<ReactionModel, Reaction>();
+		}
 
-        #region Student Exam
+		public static Reaction ToEntity(this ReactionModel model, Reaction destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static StudentExamModel ToModel(this StudentExam entity)
-        {
-            return entity.MapTo<StudentExam, StudentExamModel>();
-        }
+		#endregion
 
-        public static StudentExam ToEntity(this StudentExamModel model)
-        {
-            return model.MapTo<StudentExamModel, StudentExam>();
-        }
+		#region Religion
 
-        public static StudentExam ToEntity(this StudentExamModel model, StudentExam destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static ReligionModel ToModel(this Religion entity)
+		{
+			return entity.MapTo<Religion, ReligionModel>();
+		}
 
-        #endregion
+		public static Religion ToEntity(this ReligionModel model)
+		{
+			return model.MapTo<ReligionModel, Religion>();
+		}
 
-        #region Student Homework
+		public static Religion ToEntity(this ReligionModel model, Religion destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static StudentHomeworkModel ToModel(this StudentHomework entity)
-        {
-            return entity.MapTo<StudentHomework, StudentHomeworkModel>();
-        }
+		#endregion
 
-        public static StudentHomework ToEntity(this StudentHomeworkModel model)
-        {
-            return model.MapTo<StudentHomeworkModel, StudentHomework>();
-        }
+		#region Reply
 
-        public static StudentHomework ToEntity(this StudentHomeworkModel model, StudentHomework destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static ReplyModel ToModel(this Reply entity)
+		{
+			return entity.MapTo<Reply, ReplyModel>();
+		}
 
-        #endregion
+		public static Reply ToEntity(this ReplyModel model)
+		{
+			return model.MapTo<ReplyModel, Reply>();
+		}
 
-        #region Subject
+		public static Reply ToEntity(this ReplyModel model, Reply destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static SubjectModel ToModel(this Subject entity)
-        {
-            return entity.MapTo<Subject, SubjectModel>();
-        }
+		#endregion
 
-        public static Subject ToEntity(this SubjectModel model)
-        {
-            return model.MapTo<SubjectModel, Subject>();
-        }
+		#region School
 
-        public static Subject ToEntity(this SubjectModel model, Subject destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static SchoolModel ToModel(this School entity)
+		{
+			return entity.MapTo<School, SchoolModel>();
+		}
 
-        #endregion
+		public static School ToEntity(this SchoolModel model)
+		{
+			return model.MapTo<SchoolModel, School>();
+		}
 
-        #region Subject Exam
+		public static School ToEntity(this SchoolModel model, School destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static SubjectExamModel ToModel(this SubjectExam entity)
-        {
-            return entity.MapTo<SubjectExam, SubjectExamModel>();
-        }
+		#endregion
 
-        public static SubjectExam ToEntity(this SubjectExamModel model)
-        {
-            return model.MapTo<SubjectExamModel, SubjectExam>();
-        }
+		#region Student
 
-        public static SubjectExam ToEntity(this SubjectExamModel model, SubjectExam destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static StudentModel ToModel(this Student entity)
+		{
+			return entity.MapTo<Student, StudentModel>();
+		}
 
-        #endregion
+		public static Student ToEntity(this StudentModel model)
+		{
+			return model.MapTo<StudentModel, Student>();
+		}
 
-        #region Teacher
+		public static Student ToEntity(this StudentModel model, Student destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static TeacherModel ToModel(this Teacher entity)
-        {
-            return entity.MapTo<Teacher, TeacherModel>();
-        }
+		#endregion
 
-        public static Teacher ToEntity(this TeacherModel model)
-        {
-            return model.MapTo<TeacherModel, Teacher>();
-        }
+		#region Student Message Group
 
-        public static Teacher ToEntity(this TeacherModel model, Teacher destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static Student_MessageGroupModel ToModel(this Student_MessageGroup entity)
+		{
+			return entity.MapTo<Student_MessageGroup, Student_MessageGroupModel>();
+		}
 
-        #endregion
+		public static Student_MessageGroup ToEntity(this Student_MessageGroupModel model)
+		{
+			return model.MapTo<Student_MessageGroupModel, Student_MessageGroup>();
+		}
 
-        #region Teacher Exam
+		public static Student_MessageGroup ToEntity(this Student_MessageGroupModel model, Student_MessageGroup destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static TeacherExamModel ToModel(this TeacherExam entity)
-        {
-            return entity.MapTo<TeacherExam, TeacherExamModel>();
-        }
+		#endregion
 
-        public static TeacherExam ToEntity(this TeacherExamModel model)
-        {
-            return model.MapTo<TeacherExamModel, TeacherExam>();
-        }
+		#region Student Attendance
 
-        public static TeacherExam ToEntity(this TeacherExamModel model, TeacherExam destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static StudentAttendanceModel ToModel(this StudentAttendance entity)
+		{
+			return entity.MapTo<StudentAttendance, StudentAttendanceModel>();
+		}
 
-        #endregion
+		public static StudentAttendance ToEntity(this StudentAttendanceModel model)
+		{
+			return model.MapTo<StudentAttendanceModel, StudentAttendance>();
+		}
 
-        #region Template
+		public static StudentAttendance ToEntity(this StudentAttendanceModel model, StudentAttendance destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static TemplateModel ToModel(this Template entity)
-        {
-            return entity.MapTo<Template, TemplateModel>();
-        }
+		#endregion
 
-        public static Template ToEntity(this TemplateModel model)
-        {
-            return model.MapTo<TemplateModel, Template>();
-        }
+		#region Student Exam
 
-        public static Template ToEntity(this TemplateModel model, Template destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static StudentExamModel ToModel(this StudentExam entity)
+		{
+			return entity.MapTo<StudentExam, StudentExamModel>();
+		}
 
-        #endregion
+		public static StudentExam ToEntity(this StudentExamModel model)
+		{
+			return model.MapTo<StudentExamModel, StudentExam>();
+		}
 
-        #region Time table
+		public static StudentExam ToEntity(this StudentExamModel model, StudentExam destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static TimeTableModel ToModel(this TimeTable entity)
-        {
-            return entity.MapTo<TimeTable, TimeTableModel>();
-        }
+		#endregion
 
-        public static TimeTable ToEntity(this TimeTableModel model)
-        {
-            return model.MapTo<TimeTableModel, TimeTable>();
-        }
+		#region Student Homework
 
-        public static TimeTable ToEntity(this TimeTableModel model, TimeTable destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static StudentHomeworkModel ToModel(this StudentHomework entity)
+		{
+			return entity.MapTo<StudentHomework, StudentHomeworkModel>();
+		}
 
-        #endregion
+		public static StudentHomework ToEntity(this StudentHomeworkModel model)
+		{
+			return model.MapTo<StudentHomeworkModel, StudentHomework>();
+		}
 
-        #region Time Table Setting
+		public static StudentHomework ToEntity(this StudentHomeworkModel model, StudentHomework destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static TimeTableSettingModel ToModel(this TimeTableSetting entity)
-        {
-            return entity.MapTo<TimeTableSetting, TimeTableSettingModel>();
-        }
+		#endregion
 
-        public static TimeTableSetting ToEntity(this TimeTableSettingModel model)
-        {
-            return model.MapTo<TimeTableSettingModel, TimeTableSetting>();
-        }
+		#region Subject
 
-        public static TimeTableSetting ToEntity(this TimeTableSettingModel model, TimeTableSetting destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static SubjectModel ToModel(this Subject entity)
+		{
+			return entity.MapTo<Subject, SubjectModel>();
+		}
 
-        #endregion
+		public static Subject ToEntity(this SubjectModel model)
+		{
+			return model.MapTo<SubjectModel, Subject>();
+		}
 
-        #region User
+		public static Subject ToEntity(this SubjectModel model, Subject destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static UserModel ToModel(this User entity)
-        {
-            return entity.MapTo<User, UserModel>();
-        }
+		#endregion
 
-        public static User ToEntity(this UserModel model)
-        {
-            return model.MapTo<UserModel, User>();
-        }
+		#region Subject Exam
 
-        public static User ToEntity(this UserModel model, User destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static SubjectExamModel ToModel(this SubjectExam entity)
+		{
+			return entity.MapTo<SubjectExam, SubjectExamModel>();
+		}
 
-        #endregion
+		public static SubjectExam ToEntity(this SubjectExamModel model)
+		{
+			return model.MapTo<SubjectExamModel, SubjectExam>();
+		}
 
-        #region User Role
+		public static SubjectExam ToEntity(this SubjectExamModel model, SubjectExam destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static RoleModel ToModel(this UserRole entity)
-        {
-            return entity.MapTo<UserRole, RoleModel>();
-        }
+		#endregion
 
-        public static UserRole ToEntity(this RoleModel model)
-        {
-            return model.MapTo<RoleModel, UserRole>();
-        }
+		#region Teacher
 
-        public static UserRole ToEntity(this RoleModel model, UserRole destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static TeacherModel ToModel(this Teacher entity)
+		{
+			return entity.MapTo<Teacher, TeacherModel>();
+		}
 
-        #endregion
+		public static Teacher ToEntity(this TeacherModel model)
+		{
+			return model.MapTo<TeacherModel, Teacher>();
+		}
 
-        #region Vendor
+		public static Teacher ToEntity(this TeacherModel model, Teacher destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static VendorModel ToModel(this Vendor entity)
-        {
-            return entity.MapTo<Vendor, VendorModel>();
-        }
+		#endregion
 
-        public static Vendor ToEntity(this VendorModel model)
-        {
-            return model.MapTo<VendorModel, Vendor>();
-        }
+		#region Teacher Exam
 
-        public static Vendor ToEntity(this VendorModel model, Vendor destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static TeacherExamModel ToModel(this TeacherExam entity)
+		{
+			return entity.MapTo<TeacherExam, TeacherExamModel>();
+		}
 
-        #endregion
+		public static TeacherExam ToEntity(this TeacherExamModel model)
+		{
+			return model.MapTo<TeacherExamModel, TeacherExam>();
+		}
 
-        #region Video
+		public static TeacherExam ToEntity(this TeacherExamModel model, TeacherExam destination)
+		{
+			return model.MapTo(destination);
+		}
 
-        public static VideoModel ToModel(this Video entity)
-        {
-            return entity.MapTo<Video, VideoModel>();
-        }
+		#endregion
 
-        public static Video ToEntity(this VideoModel model)
-        {
-            return model.MapTo<VideoModel, Video>();
-        }
+		#region Template
 
-        public static Video ToEntity(this VideoModel model, Video destination)
-        {
-            return model.MapTo(destination);
-        }
+		public static TemplateModel ToModel(this Template entity)
+		{
+			return entity.MapTo<Template, TemplateModel>();
+		}
 
-        #endregion
+		public static Template ToEntity(this TemplateModel model)
+		{
+			return model.MapTo<TemplateModel, Template>();
+		}
 
-    }
+		public static Template ToEntity(this TemplateModel model, Template destination)
+		{
+			return model.MapTo(destination);
+		}
+
+		#endregion
+
+		#region Time table
+
+		public static TimeTableModel ToModel(this TimeTable entity)
+		{
+			return entity.MapTo<TimeTable, TimeTableModel>();
+		}
+
+		public static TimeTable ToEntity(this TimeTableModel model)
+		{
+			return model.MapTo<TimeTableModel, TimeTable>();
+		}
+
+		public static TimeTable ToEntity(this TimeTableModel model, TimeTable destination)
+		{
+			return model.MapTo(destination);
+		}
+
+		#endregion
+
+		#region Time Table Setting
+
+		public static TimeTableSettingModel ToModel(this TimeTableSetting entity)
+		{
+			return entity.MapTo<TimeTableSetting, TimeTableSettingModel>();
+		}
+
+		public static TimeTableSetting ToEntity(this TimeTableSettingModel model)
+		{
+			return model.MapTo<TimeTableSettingModel, TimeTableSetting>();
+		}
+
+		public static TimeTableSetting ToEntity(this TimeTableSettingModel model, TimeTableSetting destination)
+		{
+			return model.MapTo(destination);
+		}
+
+		#endregion
+
+		#region User
+
+		public static UserModel ToModel(this User entity)
+		{
+			return entity.MapTo<User, UserModel>();
+		}
+
+		public static User ToEntity(this UserModel model)
+		{
+			return model.MapTo<UserModel, User>();
+		}
+
+		public static User ToEntity(this UserModel model, User destination)
+		{
+			return model.MapTo(destination);
+		}
+
+		#endregion
+
+		#region User Role
+
+		public static RoleModel ToModel(this UserRole entity)
+		{
+			return entity.MapTo<UserRole, RoleModel>();
+		}
+
+		public static UserRole ToEntity(this RoleModel model)
+		{
+			return model.MapTo<RoleModel, UserRole>();
+		}
+
+		public static UserRole ToEntity(this RoleModel model, UserRole destination)
+		{
+			return model.MapTo(destination);
+		}
+
+		#endregion
+
+		#region Vendor
+
+		public static VendorModel ToModel(this Vendor entity)
+		{
+			return entity.MapTo<Vendor, VendorModel>();
+		}
+
+		public static Vendor ToEntity(this VendorModel model)
+		{
+			return model.MapTo<VendorModel, Vendor>();
+		}
+
+		public static Vendor ToEntity(this VendorModel model, Vendor destination)
+		{
+			return model.MapTo(destination);
+		}
+
+		#endregion
+
+		#region Video
+
+		public static VideoModel ToModel(this Video entity)
+		{
+			return entity.MapTo<Video, VideoModel>();
+		}
+
+		public static Video ToEntity(this VideoModel model)
+		{
+			return model.MapTo<VideoModel, Video>();
+		}
+
+		public static Video ToEntity(this VideoModel model, Video destination)
+		{
+			return model.MapTo(destination);
+		}
+
+		#endregion
+
+	}
 }

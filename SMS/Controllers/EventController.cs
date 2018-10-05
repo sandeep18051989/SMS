@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using EF.Core;
 using EF.Services.Http;
 using EF.Services.Service;
+using SMS.Mappers;
 using SMS.Models;
 
 namespace SMS.Controllers
@@ -142,15 +143,7 @@ namespace SMS.Controllers
 
                         foreach (var v in eve.Videos)
                         {
-                            var videoModel = new VideoModel()
-                            {
-                                IsActive = v.IsActive,
-                                Size = v.Size,
-                                Url = v.Url,
-                                Id = v.Id
-                            };
-
-                            eventModel.Videos.Add(videoModel);
+                            eventModel.Videos.Add(v.ToModel());
                         }
                     }
 

@@ -82,6 +82,9 @@
     <Compile Include="CodeHelper.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="DatabaseSettings.cs" />
+    <Compile Include="Data\NewsVideo.cs" />
+    <Compile Include="Data\ProductVideo.cs" />
+    <Compile Include="Data\EventVideo.cs" />
     <Compile Include="Data\House.cs" />
     <Compile Include="Data\ProductCategory.cs" />
     <Compile Include="Data\Question.cs" />

@@ -1,0 +1,224 @@
+﻿@model SMS.Models.EventModel
+<div class="panel-group">
+	@if (Model.Id > 0)
+	{
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				<table class="table table-responsive-md custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="eventvideos-grid">
+					<thead class="mdb-color lighten-5">
+						<tr>
+							<th>&nbsp;</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th>Display Order</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$('#addVideo').click(function() {
+							var videoId = $("#@Html.IdFor(model => model.InsertVideoModel.VideoId)").val();
+
+							if (videoId === 0) {
+								alert('Upload video first');
+								return;
+							}
+
+							$('#addEventVideo').attr('disabled', true);
+
+							var postData = {
+								videoId: videoId,
+								displayOrder: 0,
+								isDefault: false,
+								eventId: @Model.Id,
+								startDate: moment(new Date()).format("DD MMM YYYY"),
+								endDate: moment(new Date()).format("DD MMM YYYY")
+							};
+
+							addAntiForgeryToken(postData);
+
+							$.ajax({
+								cache: false,
+								type: "POST",
+								url: "@(Url.Action("EventVideoAdd", "Event"))",
+								data: postData,
+								success: function(data) {
+									$('#addEventVideo').attr('disabled', false);
+									$('#eventvideos-grid').trigger('reloadGrid');
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									console.log(xhr.responseText);
+									alert('Failed to add event video.');
+									$('#addEventVideo').attr('disabled', false);
+								}
+							});
+						});
+
+						$(document).on("click", '#addVideo', function() {
+							var videoId = $("#@Html.IdFor(model => model.InsertVideoModel.VideoId)").val();
+
+							if (videoId === 0) {
+								alert('Upload video first');
+								return;
+							}
+
+							$('#addEventVideo').attr('disabled', true);
+
+							var postData = {
+								videoId: videoId,
+								displayOrder: 0,
+								isDefault: false,
+								eventId: @Model.Id,
+								startDate: moment(new Date()).format("DD MMM YYYY"),
+								endDate: moment(new Date()).format("DD MMM YYYY")
+							};
+
+							addAntiForgeryToken(postData);
+
+							$.ajax({
+								cache: false,
+								type: "POST",
+								url: "@(Url.Action("EventVideoAdd", "Event"))",
+								data: postData,
+								success: function(data) {
+									$('#addEventVideo').attr('disabled', false);
+									$('#eventvideos-grid').trigger('reloadGrid');
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									console.log(xhr.responseText);
+									alert('Failed to add event video.');
+									$('#addEventVideo').attr('disabled', false);
+								}
+							});
+						});
+
+						// Initiallize Datatable
+						$('#eventvideos-grid').DataTable({
+							"paging": false,
+							"bLengthChange": false, //thought this line could hide the LengthMenu
+							"bInfo": false,
+							"processing": true, // for show progress bar
+							"serverSide": true, // for process server side
+							"filter": false, // this is for disable filter (search box)
+							"orderMulti": false, // for disable multiple column at once
+							"ajax": {
+								"url": "/Admin/Event/LoadVideoGrid/@(Model.Id)",
+								"type": "POST",
+								"datatype": "json"
+							},
+							"aaSorting": [],
+							"columns": [
+								{
+									"searchable": false,
+									"title": "",
+                                    "render": function (data, type, row) {
+										if (type === "display") {
+											return '<img src="' + row.VideoSrc + '" alt="" class="img-fluid z-depth-0">';
+										}
+										return data;
+									},
+									"orderable": false,
+									"className": 'text-center'
+								},
+								{
+									"data": "StartDate",
+									"title": "Start Date",
+									"render": function(data, type, row) {
+										if (type === "display") {
+                                            var dateTemplate = '<input type="text" id="start_' + row.Id + '"';
+                                            dateTemplate += ' data-value="' + (row.StartDate != null && row.StartDate !== "" ? row.StartDate : "") + '" value="' + (row.StartDate != null && row.StartDate !== "" ? row.StartDate : "") + '"';
+											dateTemplate +=
+                                                ' aria-label="Start Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
+                                            dateTemplate += ' $("#start_' + row.Id + '").pickadate({format: "dd mmmm, yyyy",min:new Date(),selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("DD MMM YYYY"))});';
+											dateTemplate += 'var $input = $("#start_' + row.Id + '").pickadate();';
+											dateTemplate += 'var picker = $input.pickadate("picker");';
+                                            dateTemplate += 'picker.on({close: function() {$(document.activeElement).blur();$("#end_' + row.Id + '").pickadate("picker").set("min", new Date(moment($("#start_' + row.Id + '").val()).format("DD MMM YYYY")));},set: function(context) {  }});';
+											dateTemplate += '});<\/script>';
+											return dateTemplate;
+										}
+										return data;
+									},
+									"className": "text-center",
+									"orderable": false
+								},
+								{
+									"data": "EndDate",
+									"title": "End Date",
+									"render": function(data, type, row) {
+										if (type === "display") {
+                                            var dateTemplate = '<input type="text" id="end_' + row.Id + '"';
+                                            dateTemplate += ' data-value="' + (row.EndDate != null && row.EndDate !== "" ? row.EndDate : "") + '" value="' + (row.EndDate != null && row.EndDate !== "" ? row.EndDate : "") + '"';
+                                            dateTemplate += ' aria-label="End Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
+                                            dateTemplate += ' $("#end_' + row.Id + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false,min:new Date(moment("' + row.StartDate + '").format("DD MMM YYYY"))});';
+											dateTemplate += 'var $input1 = $("#end_' + row.Id + '").pickadate();';
+											dateTemplate += 'var picker1 = $input1.pickadate("picker");';
+                                            dateTemplate += 'picker1.on({close: function() {$(document.activeElement).blur();$("#start_' + row.Id + '").pickadate("picker").set("max", new Date(moment($("#end_' + row.Id + '").val()).format("DD MMM YYYY")));},set: function(context) {  }});';
+											dateTemplate += '});<\/script>';
+											return dateTemplate;
+										}
+										return data;
+									},
+									"className": "text-center",
+									"orderable": false
+								},
+								{
+									"data": "DisplayOrder",
+									"title": "Display Order",
+									"render": function(data, type, row) {
+										if (type === "display") {
+											return '<input type="number" value="' +
+												(row.DisplayOrder > 0 ? "0" : "") +
+												'" aria-label="Display Order" class="form-control" style="width: 100px">';
+										}
+										return data;
+									},
+									"className": "text-center",
+									"orderable": false
+								},
+								{
+									"title": "Actions",
+									"orderable": false,
+									"className": 'text-center',
+									"render": function(data, type, row) {
+										if (type === "display") {
+											return '<a href="/Admin/Event/Edit/' +
+												row.Id +
+												'" id="edit_' +
+												row.Id +
+												'" title="Update"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="eventid_' +
+												row.Id +
+												'" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+										}
+										return data;
+									}
+								}
+							],
+							"select": {
+								"style": 'os',
+								"selector": 'td:first-child'
+							}
+						});
+					});
+				</script>
+				@Html.EditorFor(model => model.InsertVideoModel.VideoId)
+				@Html.ValidationMessageFor(model => model.InsertVideoModel.VideoId)
+				&nbsp;
+			</div>
+			<div class="panel-footer">
+				<button type="button" id="addVideo" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i> Save Video</button>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="alert alert-info" role="alert">
+					<strong>Heads up!</strong> Please save event first to upload videos.
+				</div>
+			</div>
+		</div>
+	}
+</div>
