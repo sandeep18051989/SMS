@@ -52,7 +52,7 @@ namespace SMS.Controllers
 		{
 			var user = _userContext.CurrentUser;
 			var model = new List<ProductModel>();
-			var lstProduct = _productService.GetActiveProduct();
+			var lstProduct = _productService.GetActiveProducts(true);
 			if (lstProduct.Count > 0)
 			{
 				foreach (var record in lstProduct)
@@ -293,7 +293,7 @@ namespace SMS.Controllers
 		public ActionResult FooterProductListColumn1()
 		{
 			var model = new List<ProductModel>();
-			var lstProducts = _productService.GetActiveProduct();
+			var lstProducts = _productService.GetActiveProducts(true);
 			if (lstProducts.Count > 0)
 			{
 				foreach (var record in lstProducts)
@@ -313,7 +313,7 @@ namespace SMS.Controllers
 		public ActionResult FooterProductListColumn2()
 		{
 			var model = new List<ProductModel>();
-			var lstProducts = _productService.GetActiveProduct();
+			var lstProducts = _productService.GetActiveProducts(true);
 			if (lstProducts.Count > 0)
 			{
 				foreach (var record in lstProducts)

@@ -427,7 +427,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Blog id is missing");
 
-			return _blogPictureRepository.Table.Where(x => x.BlogId != id).OrderBy(x => x.DisplayOrder).ToList();
+			return _blogPictureRepository.Table.Where(x => x.BlogId == id).OrderBy(x => x.DisplayOrder).ToList();
 
 		}
 
@@ -436,7 +436,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Product id is missing");
 
-			return _productPictureRepository.Table.Where(x => x.ProductId != id).OrderBy(x => x.DisplayOrder).ToList();
+			return _productPictureRepository.Table.Where(x => x.ProductId == id).OrderBy(x => x.DisplayOrder).ToList();
 
 		}
 
@@ -445,7 +445,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("News id is missing");
 
-			return _newsPictureRepository.Table.Where(x => x.NewsId != id).OrderBy(x => x.DisplayOrder).ToList();
+			return _newsPictureRepository.Table.Where(x => x.NewsId == id).OrderBy(x => x.DisplayOrder).ToList();
 
 		}
 

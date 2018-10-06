@@ -49,9 +49,9 @@ namespace EF.Services.Service
             return _productRepository.Table.OrderByDescending(a => a.CreatedOn).ToList();
         }
 
-        public IList<Product> GetActiveProduct()
+        public IList<Product> GetActiveProducts(bool? onlyActive=null)
         {
-            return _productRepository.Table.Where(a => a.IsActive == true).OrderByDescending(a => a.CreatedOn).ToList();
+            return _productRepository.Table.Where(a => (!onlyActive.HasValue || !onlyActive.Value) || a.IsActive).OrderByDescending(a => a.CreatedOn).ToList();
         }
         public Product GetProductById(int productId)
         {

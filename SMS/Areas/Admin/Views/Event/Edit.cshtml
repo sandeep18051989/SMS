@@ -9,6 +9,8 @@
 		<section class="edit-form">
 			@using (Html.BeginForm())
 			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(model => model.Id)
 				<div class="row">
 					<div id="admin-page-header" class="col-xs-12 col-md-12">
 						<h3 class="section-heading mr-auto">EDIT EVENT</h3>
@@ -46,8 +48,6 @@
 						</div>
 						<div class="tab-content card">
 							<div class="tab-pane fade in show active" id="create-event" role="tabpanel">
-								@Html.AntiForgeryToken()
-								@Html.HiddenFor(model => model.Id)
 								<div class="row">
 									<div class="col-md-12">
 										@Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -178,36 +178,36 @@
 		});
 	});
 
-	function ApplyDatePicker(start_dateele) {
-		// Get the elements
-		var start_input = $(start_dateele).pickadate(),
-			start_picker = start_input.pickadate('picker');
-		var end_input = $(start_dateele).closest('td').next('td').find('input[type=text]').pickadate(),
-			end_picker = end_input.pickadate('picker');
+	// Get the elements
+	var from_input = $('.start-date input[type=text]').pickadate(),
+		from_picker = from_input.pickadate('picker');
+	var to_input = $('.end-date input[type=text]').pickadate(),
+		to_picker = to_input.pickadate('picker');
 
-		if (start_picker.get('value')) {
-			end_picker.set('min', start_picker.get('select'));
-		}
-		if (end_picker.get('value')) {
-			start_picker.set('max', end_picker.get('select'));
-		}
-
-		$(document).on('set', start_picker, function (event) {
-			if (event.select) {
-				end_picker.set('min', start_picker.get('select'));
-			}
-			else if ('clear' in event) {
-				end_picker.set('min', false);
-			}
-		});
-		$(document).on('set', end_picker, function (event) {
-			if (event.select) {
-				start_picker.set('max', end_picker.get('select'));
-			}
-			else if ('clear' in event) {
-				start_picker.set('max', false);
-			}
-		});
+	// Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+	if (from_picker.get('value')) {
+		to_picker.set('min', from_picker.get('select'));
 	}
+	if (to_picker.get('value')) {
+		from_picker.set('max', to_picker.get('select'));
+	}
+
+	// Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+	from_picker.on('set',
+		function (event) {
+			if (event.select) {
+				to_picker.set('min', from_picker.get('select'));
+			} else if ('clear' in event) {
+				to_picker.set('min', false);
+			}
+		});
+	to_picker.on('set',
+		function (event) {
+			if (event.select) {
+				from_picker.set('max', to_picker.get('select'));
+			} else if ('clear' in event) {
+				from_picker.set('max', false);
+			}
+		});
 </script>
 @Html.DeleteConfirmation("event-delete")

@@ -66,10 +66,12 @@ namespace SMS.Models
 
 	}
 
-	public partial class EventVideoListModel
+	public partial class VideoListModel
 	{
 		public int Id { get; set; }
 		public int EventId { get; set; }
+		public int NewsId { get; set; }
+		public int ProductId { get; set; }
 		public int VideoId { get; set; }
 		public int DisplayOrder { get; set; }
 		public string StartDate { get; set; }

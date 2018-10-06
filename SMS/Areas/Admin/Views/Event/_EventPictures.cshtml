@@ -130,8 +130,8 @@
 									"className": 'text-center',
 									"render": function(data, type, row) {
 										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><button class="btn btn-info btn-rounded btn-sm my-0" data-picture="' + row.PictureId + '" data-event="' + row.EventId + '" id="picupd_' + row.PictureId + '" title="Update Picture"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
-											dateTemplate += '&nbsp;&nbsp;<button class="btn btn-danger btn-rounded btn-sm my-0" id="picdel_' + row.PictureId + '" title="Delete Picture"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
+											var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-info btn-rounded btn-sm my-0" data-picture="' + row.PictureId + '" data-event="' + row.EventId + '" id="picupd_' + row.PictureId + '" title="Update Picture"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
+											dateTemplate += '&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="picdel_' + row.PictureId + '" title="Delete Picture"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
 											return dateTemplate;
 										}
 										return data;

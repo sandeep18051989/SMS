@@ -25,8 +25,6 @@ namespace SMS.Areas.Admin.Controllers
 			this._videoService = videoService;
 		}
 
-		Process _ffmpeg;
-
 		[HttpPost]
 		public ActionResult AsyncVideoUpload()
 		{

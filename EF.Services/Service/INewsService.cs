@@ -16,6 +16,6 @@ namespace EF.Services.Service
 		IList<News> GetAllNewsByStatus(NewsStatus newsStatus);
 		void Delete(int id);
 		int GetNewsCountByCreatedDate(DateTime createddate);
-
+		News GetNewsByShortName(string name);
 	}
 }

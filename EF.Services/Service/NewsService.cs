@@ -82,6 +82,14 @@ namespace EF.Services.Service
 
 		}
 
+		public News GetNewsByShortName(string name)
+		{
+			if (!string.IsNullOrEmpty(name))
+				return _newsRepository.Table.FirstOrDefault(a => a.ShortName.Trim().ToLower() == name.ToLower() && a.IsDeleted == false);
+
+			return null;
+		}
+
 		#endregion
 	}
 }

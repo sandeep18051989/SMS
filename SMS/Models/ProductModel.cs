@@ -22,14 +22,20 @@ namespace SMS.Models
 			Reactions = new List<ReactionModel>();
 			ProductCategory = new ProductCategoryModel();
 			Vendor = new VendorModel();
+			InsertPictureModel = new InsertPicturesModel();
+			InsertVideoModel = new InsertVideoModel();
 		}
 		public string Name { get; set; }
 		public string SystemName { get; set; }
 		[AllowHtml]
+		[UIHint("HtmlEditor")]
 		public string Description { get; set; }
 		public string Url { get; set; }
 		public string SeoName { get; set; }
+		[UIHint("File")]
+		public int FileId { get; set; }
 		public bool IsInValidState { get; set; }
+		public bool IsActive { get; set; }
 		public PostCommentsModel postCommentModel { get; set; }
 		public ProductCategoryModel ProductCategory { get; set; }
 		public IList<VideoModel> Videos { get; set; }
@@ -37,6 +43,8 @@ namespace SMS.Models
 		public IList<FilesModel> Files { get; set; }
 		public IList<CommentModel> Comments { get; set; }
 		public IList<ReactionModel> Reactions { get; set; }
+		public InsertPicturesModel InsertPictureModel { get; set; }
+		public InsertVideoModel InsertVideoModel { get; set; }
 
 		public VendorModel Vendor { get; set; }
 
@@ -76,5 +84,24 @@ namespace SMS.Models
 
 		}
 
+	}
+
+	public partial class ProductListModel
+	{
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public string SystemName { get; set; }
+		public string AcadmicYear { get; set; }
+		public string Description { get; set; }
+		public bool IsActive { get; set; }
+		public bool IsDeleted { get; set; }
+		public bool IsApproved { get; set; }
+		public bool IsClosed { get; set; }
+		public string Url { get; set; }
+		public int FilesCount { get; set; }
+		public int VideosCount { get; set; }
+		public int PicturesCount { get; set; }
+		public int CommentsCount { get; set; }
+		public int ReactionsCount { get; set; }
 	}
 }

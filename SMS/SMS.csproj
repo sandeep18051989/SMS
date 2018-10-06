@@ -976,6 +976,15 @@
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Areas\Admin\Views\Event\_EventVideos.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\_ProductVideos.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\_ProductPictures.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\ProductPicture.cshtml" />
+    <Content Include="Areas\Admin\Views\News\_NewsPictures.cshtml" />
+    <Content Include="Areas\Admin\Views\News\_NewsVideos.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\NewsPicture.cshtml" />
+    <Content Include="Areas\Admin\Views\News\List.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1386,6 +1395,7 @@
     <Compile Include="Areas\Admin\Controllers\CustomPageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuditController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LogController.cs" />
     <Compile Include="Areas\Admin\Controllers\PermissionController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />

@@ -59,6 +59,16 @@
 			request: {
 				endpoint: '@(Url.Action("AsyncPictureUpload","Picture", new { Area="admin"}))'
 			},
+			failedUploadTextDisplay: {
+				mode: 'custom',
+				maxChars: 40,
+				responseProperty: 'error',
+				enableTooltip: true
+			},
+			validation: {
+				allowedExtensions: ['jpg', 'jpeg','png','gif','bmp'],
+				sizeLimit: 5100000
+			},
 			template: "@(clientId)-qq-template",
 			multiple: false
 		}).on("complete", function(event, id, name, responseJSON, xhr) {

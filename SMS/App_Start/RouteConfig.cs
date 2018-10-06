@@ -60,20 +60,6 @@ namespace SMS
 						 namespaces: new string[] { "SMS.Controllers" }
 				  ).DataTokens.Remove("area");
 
-			//routes.MapFriendlyRoute(
-			//			 name: "FooterProductListColumn1",
-			//			 url: "Product/FooterProductListColumn1",
-			//			 defaults: new { controller = "Product", action = "FooterProductListColumn1" },
-			//			 namespaces: new string[] { "SMS.Controllers" }
-			//	  ).DataTokens.Remove("area");
-
-			//routes.MapFriendlyRoute(
-			//			 name: "FooterProductListColumn2",
-			//			 url: "product/footerproductlistcolumn2",
-			//			 defaults: new { controller = "Product", action = "FooterProductListColumn2" },
-			//			 namespaces: new string[] { "SMS.Controllers" }
-			//	  ).DataTokens.Remove("area");
-
 			routes.MapFriendlyRoute(
 						 name: "Developer",
 						 url: "account/developer",
@@ -199,6 +185,20 @@ namespace SMS
 						 defaults: new { controller = "User", action = "List" },
 						 namespaces: new string[] { "SMS.Areas.Admin.Controllers" }
 				  ).DataTokens.Add("area", "Admin");
+
+			routes.MapFriendlyRoute(
+				name: "admin/news/index",
+				url: "admin/news/index",
+				defaults: new { controller = "News", action = "Index" },
+				namespaces: new string[] { "SMS.Areas.Admin.Controllers" }
+			).DataTokens["area"] = "Admin";
+
+			routes.MapFriendlyRoute(
+				name: "news/index",
+				url: "news/index",
+				defaults: new { controller = "News", action = "Index" },
+				namespaces: new string[] { "SMS.Controllers" }
+			).DataTokens["area"] = "";
 
 			routes.MapRoute(name: "Installation", url: "install", defaults: new { controller = "Install", action = "Index" }, namespaces: new string[] { "SMS.Controllers" }).DataTokens.Remove("area");
 

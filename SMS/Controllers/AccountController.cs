@@ -167,7 +167,6 @@ namespace SMS.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		[ValidateAntiForgeryToken()]
 		public ActionResult Login(LoginModel model)
 		{
 			ViewData["ReturnUrl"] = model.ReturnUrl;

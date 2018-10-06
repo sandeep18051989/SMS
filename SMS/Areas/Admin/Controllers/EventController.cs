@@ -152,7 +152,7 @@ namespace SMS.Areas.Admin.Controllers
 				{
 					Data = new
 					{
-						data = eventData.Select(x => new EventPictureListModel()
+						data = eventData.Select(x => new PictureListModel()
 						{
 							Id = x.Id,
 							DisplayOrder = x.DisplayOrder,
@@ -186,7 +186,7 @@ namespace SMS.Areas.Admin.Controllers
 				{
 					Data = new
 					{
-						data = eventData.Select(x => new EventVideoListModel()
+						data = eventData.Select(x => new VideoListModel()
 						{
 							Id = x.Id,
 							DisplayOrder = x.DisplayOrder,
@@ -211,6 +211,8 @@ namespace SMS.Areas.Admin.Controllers
 		}
 
 		#endregion
+
+		#region Event Methods
 
 		public ActionResult List()
 		{
@@ -365,6 +367,11 @@ namespace SMS.Areas.Admin.Controllers
 			SuccessNotification("Event deleted successfully");
 			return RedirectToAction("List");
 		}
+
+
+		#endregion
+
+		#region Event Picture
 
 		[HttpPost]
 		public ActionResult DeleteEventPicture(int id)
@@ -683,6 +690,6 @@ namespace SMS.Areas.Admin.Controllers
 			return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
 		}
 
-
+		#endregion
 	}
 }

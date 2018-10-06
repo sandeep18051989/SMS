@@ -55,18 +55,6 @@ namespace SMS.Models
 
 	}
 
-	public partial class EventPictureListModel
-	{
-		public int Id { get; set; }
-		public int EventId { get; set; }
-		public int PictureId { get; set; }
-		public bool IsDefault { get; set; }
-		public int DisplayOrder { get; set; }
-		public string StartDate { get; set; }
-		public string EndDate { get; set; }
-		public string PictureSrc { get; set; }
-	}
-
 	public partial class NewsPictureModel : BaseEntityModel
 	{
 		public NewsPictureModel()
@@ -84,6 +72,20 @@ namespace SMS.Models
 		public NewsModel News { get; set; }
 		public PictureModel Picture { get; set; }
 
+	}
+
+	public partial class PictureListModel
+	{
+		public int Id { get; set; }
+		public int EventId { get; set; }
+		public int NewsId { get; set; }
+		public int ProductId { get; set; }
+		public int PictureId { get; set; }
+		public bool IsDefault { get; set; }
+		public int DisplayOrder { get; set; }
+		public string StartDate { get; set; }
+		public string EndDate { get; set; }
+		public string PictureSrc { get; set; }
 	}
 
 	public partial class ProductPictureModel : BaseEntityModel

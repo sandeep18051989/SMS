@@ -11,9 +11,9 @@
 
 	<li><a class="waves-effect" href="@Url.RouteUrl("Root")"><i class="fa fa-home"></i> Home</a></li>
 	@if (_permissionService.Authorize("ManageDashboard"))
-			{
-				<li><a class="waves-effect" href="@Url.Action("Index", "Dashboard", new { Area = "Admin" })"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-			}
+	{
+		<li><a class="waves-effect" href="@Url.Action("Index", "Dashboard", new { Area = "Admin" })"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -38,7 +38,32 @@
 				</div>
 			}
 		</li>
+	}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
+			<a class="@(_permissionService.Authorize("ManageNews") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-bitcoin"></i> News
+				@if (_permissionService.Authorize("ManageNews"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageNews"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "News", new { Area = "Admin" })" class="waves-effect">News</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "News", new { Area = "Admin" })" class="waves-effect">Create News</a>
+						</li>
+					</ul>
+				</div>
 			}
+		</li>
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -63,7 +88,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -88,7 +113,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -113,7 +138,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
@@ -139,7 +164,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -164,7 +189,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	@if (_permissionService.Authorize("ManageDashboard") && _UserContext.CurrentUser.Roles.FirstOrDefault(x => x.Id == 1) != null)
 	{
 		<li>
@@ -195,7 +220,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -220,7 +245,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -242,7 +267,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -264,7 +289,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
@@ -286,7 +311,7 @@
 				</div>
 			}
 		</li>
-			}
+	}
 	<li>
 		<a class="@(_permissionService.Authorize("ManageSettings") ? "collapsible-header" : "") waves-effect arrow-r">
 			<i class="fa fa-cogs"></i> Settings

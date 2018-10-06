@@ -12,7 +12,7 @@ namespace SMS.Models
 		public ProductCategoryModel()
 		{
 			Picture = new PictureModel();
-            ProductCategory = new ProductCategoryModel();
+            ProductCategory = new ProductSubCategoryModel();
         }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -27,7 +27,23 @@ namespace SMS.Models
 
         public PictureModel Picture { get; set; }
 
-        public ProductCategoryModel ProductCategory { get; set; }
+        public ProductSubCategoryModel ProductCategory { get; set; }
 
     }
+
+	public partial class ProductSubCategoryModel : BaseEntityModel
+	{
+		public string Name { get; set; }
+		public string Description { get; set; }
+		public int ParentCategoryId { get; set; }
+		public int PictureId { get; set; }
+		public bool IncludeInTopMenu { get; set; }
+		public bool IsActive { get; set; }
+		public bool IsDeleted { get; set; }
+		public int DisplayOrder { get; set; }
+
+		public string SystemName { get; set; }
+
+		public PictureModel Picture { get; set; }
+	}
 }

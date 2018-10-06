@@ -106,7 +106,7 @@ namespace EF.Services.Service
 		public virtual void InitConnectionFactory()
 		{
 			var connectionFactory = new SqlConnectionFactory();
-#pragma warning disable 0618
+			#pragma warning disable 0618
 			Database.DefaultConnectionFactory = connectionFactory;
 		}
 
@@ -167,6 +167,7 @@ namespace EF.Services.Service
 			_MangeUserPermission.ModifiedOn = DateTime.Now;
 			_MangeUserPermission.CreatedOn = DateTime.Now;
 			_MangeUserPermission.IsActive = true;
+			_MangeUserPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_MangeUserPermission);
 
 			var _ManageUserProfilePermission = new PermissionRecord();
@@ -178,6 +179,7 @@ namespace EF.Services.Service
 			_ManageUserProfilePermission.ModifiedOn = DateTime.Now;
 			_ManageUserProfilePermission.CreatedOn = DateTime.Now;
 			_ManageUserProfilePermission.IsActive = true;
+			_ManageUserProfilePermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageUserProfilePermission);
 
 			var _ManagePicturePermission = new PermissionRecord();
@@ -189,6 +191,7 @@ namespace EF.Services.Service
 			_ManagePicturePermission.ModifiedOn = DateTime.Now;
 			_ManagePicturePermission.CreatedOn = DateTime.Now;
 			_ManagePicturePermission.IsActive = true;
+			_ManagePicturePermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManagePicturePermission);
 
 			var _ManageVideoPermission = new PermissionRecord();
@@ -200,6 +203,7 @@ namespace EF.Services.Service
 			_ManageVideoPermission.ModifiedOn = DateTime.Now;
 			_ManageVideoPermission.CreatedOn = DateTime.Now;
 			_ManageVideoPermission.IsActive = true;
+			_ManageVideoPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageVideoPermission);
 
 			var _ManageEventPermission = new PermissionRecord();
@@ -211,7 +215,20 @@ namespace EF.Services.Service
 			_ManageEventPermission.ModifiedOn = DateTime.Now;
 			_ManageEventPermission.CreatedOn = DateTime.Now;
 			_ManageEventPermission.IsActive = true;
+			_ManageEventPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageEventPermission);
+
+			var _ManageNewsPermission = new PermissionRecord();
+			_ManageNewsPermission.Name = "Manage News";
+			_ManageNewsPermission.SystemName = "ManageNews";
+			_ManageNewsPermission.IsDeleted = false;
+			_ManageNewsPermission.Category = "News";
+			_ManageNewsPermission.IsSystemDefined = true;
+			_ManageNewsPermission.ModifiedOn = DateTime.Now;
+			_ManageNewsPermission.CreatedOn = DateTime.Now;
+			_ManageNewsPermission.IsActive = true;
+			_ManageNewsPermission.UserId = _user.Id;
+			_permissionRecordRepository.Insert(_ManageNewsPermission);
 
 			var _ManageBlogPermission = new PermissionRecord();
 			_ManageBlogPermission.Name = "Manage Blogs";
@@ -222,6 +239,7 @@ namespace EF.Services.Service
 			_ManageBlogPermission.ModifiedOn = DateTime.Now;
 			_ManageBlogPermission.CreatedOn = DateTime.Now;
 			_ManageBlogPermission.IsActive = true;
+			_ManageBlogPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageBlogPermission);
 
 			var _ManageFilePermission = new PermissionRecord();
@@ -233,6 +251,7 @@ namespace EF.Services.Service
 			_ManageFilePermission.ModifiedOn = DateTime.Now;
 			_ManageFilePermission.CreatedOn = DateTime.Now;
 			_ManageFilePermission.IsActive = true;
+			_ManageFilePermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageFilePermission);
 
 			var _ManageSliderPermission = new PermissionRecord();
@@ -244,6 +263,7 @@ namespace EF.Services.Service
 			_ManageSliderPermission.ModifiedOn = DateTime.Now;
 			_ManageSliderPermission.CreatedOn = DateTime.Now;
 			_ManageSliderPermission.IsActive = true;
+			_ManageSliderPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSliderPermission);
 
 			var _ManageSettingsPermission = new PermissionRecord();
@@ -255,6 +275,7 @@ namespace EF.Services.Service
 			_ManageSettingsPermission.ModifiedOn = DateTime.Now;
 			_ManageSettingsPermission.CreatedOn = DateTime.Now;
 			_ManageSettingsPermission.IsActive = true;
+			_ManageSettingsPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSettingsPermission);
 
 			var _ManageTemplatePermission = new PermissionRecord();
@@ -266,6 +287,7 @@ namespace EF.Services.Service
 			_ManageTemplatePermission.ModifiedOn = DateTime.Now;
 			_ManageTemplatePermission.CreatedOn = DateTime.Now;
 			_ManageTemplatePermission.IsActive = true;
+			_ManageTemplatePermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageTemplatePermission);
 
 			var _ManageCustomPagePermission = new PermissionRecord();
@@ -277,6 +299,7 @@ namespace EF.Services.Service
 			_ManageCustomPagePermission.ModifiedOn = DateTime.Now;
 			_ManageCustomPagePermission.CreatedOn = DateTime.Now;
 			_ManageCustomPagePermission.IsActive = true;
+			_ManageCustomPagePermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageCustomPagePermission);
 
 			var _ManageTokensPermission = new PermissionRecord();
@@ -288,6 +311,7 @@ namespace EF.Services.Service
 			_ManageTokensPermission.ModifiedOn = DateTime.Now;
 			_ManageTokensPermission.CreatedOn = DateTime.Now;
 			_ManageTokensPermission.IsActive = true;
+			_ManageTokensPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageTokensPermission);
 
 			var _ManageRolesPermission = new PermissionRecord();
@@ -299,6 +323,7 @@ namespace EF.Services.Service
 			_ManageRolesPermission.ModifiedOn = DateTime.Now;
 			_ManageRolesPermission.CreatedOn = DateTime.Now;
 			_ManageRolesPermission.IsActive = true;
+			_ManageRolesPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageRolesPermission);
 
 			var _ManageProductPermission = new PermissionRecord();
@@ -310,6 +335,7 @@ namespace EF.Services.Service
 			_ManageProductPermission.ModifiedOn = DateTime.Now;
 			_ManageProductPermission.CreatedOn = DateTime.Now;
 			_ManageProductPermission.IsActive = true;
+			_ManageProductPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageProductPermission);
 
 			var _ManageCommentsPermission = new PermissionRecord();
@@ -321,6 +347,7 @@ namespace EF.Services.Service
 			_ManageCommentsPermission.ModifiedOn = DateTime.Now;
 			_ManageCommentsPermission.CreatedOn = DateTime.Now;
 			_ManageCommentsPermission.IsActive = true;
+			_ManageCommentsPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageCommentsPermission);
 
 			var _MangeDashboardPermission = new PermissionRecord();
@@ -332,6 +359,7 @@ namespace EF.Services.Service
 			_MangeDashboardPermission.ModifiedOn = DateTime.Now;
 			_MangeDashboardPermission.CreatedOn = DateTime.Now;
 			_MangeDashboardPermission.IsActive = true;
+			_MangeDashboardPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_MangeDashboardPermission);
 
 			var _MangePermissions = new PermissionRecord();
@@ -343,6 +371,7 @@ namespace EF.Services.Service
 			_MangePermissions.ModifiedOn = DateTime.Now;
 			_MangePermissions.CreatedOn = DateTime.Now;
 			_MangePermissions.IsActive = true;
+			_MangePermissions.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_MangePermissions);
 
 			var _MangeConfiguration = new PermissionRecord();
@@ -354,6 +383,7 @@ namespace EF.Services.Service
 			_MangeConfiguration.ModifiedOn = DateTime.Now;
 			_MangeConfiguration.CreatedOn = DateTime.Now;
 			_MangeConfiguration.IsActive = true;
+			_MangeConfiguration.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_MangeConfiguration);
 
 			var _ManageAudit = new PermissionRecord();
@@ -365,6 +395,7 @@ namespace EF.Services.Service
 			_ManageAudit.ModifiedOn = DateTime.Now;
 			_ManageAudit.CreatedOn = DateTime.Now;
 			_ManageAudit.IsActive = true;
+			_ManageAudit.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageAudit);
 
 			var _ManageSystemLogs = new PermissionRecord();
@@ -376,6 +407,7 @@ namespace EF.Services.Service
 			_ManageSystemLogs.ModifiedOn = DateTime.Now;
 			_ManageSystemLogs.CreatedOn = DateTime.Now;
 			_ManageSystemLogs.IsActive = true;
+			_ManageSystemLogs.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSystemLogs);
 
 			var _ManageSMS = new PermissionRecord();
@@ -387,6 +419,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -398,6 +431,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -409,6 +443,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -420,6 +455,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -431,6 +467,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -442,6 +479,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -453,6 +491,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -464,6 +503,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -475,6 +515,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -486,6 +527,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			_ManageSMS = new PermissionRecord();
@@ -497,6 +539,7 @@ namespace EF.Services.Service
 			_ManageSMS.ModifiedOn = DateTime.Now;
 			_ManageSMS.CreatedOn = DateTime.Now;
 			_ManageSMS.IsActive = true;
+			_ManageSMS.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
 			#endregion
