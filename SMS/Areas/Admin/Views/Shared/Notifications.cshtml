@@ -28,16 +28,18 @@
 {
 	<script type="text/javascript">
 	handleDashboardGritterNotification = function () {
-		$(window).load(function () {
-			setTimeout(function () {
-				$.gritter.add({
-					title: "Success",
-					text: "@Html.Raw(message)",
-					sticky: !0, time: "",
-					class_name: "my-sticky-class"
-				});
-			}, 1e3)
-		})
+		$(window).load(function() {
+			setTimeout(function() {
+					$.gritter.add({
+						title: "Success",
+						text: "@Html.Raw(message)",
+						sticky: !0,
+						time: "",
+						class_name: "my-sticky-class"
+					});
+				},
+				1e3);
+		});
 	}
 	</script>
 }
@@ -47,15 +49,17 @@
 	<script type="text/javascript">
 	handleDashboardGritterNotification = function () {
 		$(window).load(function () {
-			setTimeout(function () {
-				$.gritter.add({
-					title: "Failure",
-					text: "@Html.Raw(message)",
-					sticky: !0, time: "",
-					class_name: "my-sticky-class"
-				});
-			}, 1e3)
-		})
+			setTimeout(function() {
+					$.gritter.add({
+						title: "Failure",
+						text: "@Html.Raw(message)",
+						sticky: !0,
+						time: "",
+						class_name: "my-sticky-class"
+					});
+				},
+				1e3);
+		});
 	}
 	</script>
 }

@@ -52,14 +52,15 @@
 									"title": "Start Date",
 									"render": function(data, type, row) {
 										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input type="text" id="startpic_' + row.Id + '"';
-                                            dateTemplate += ' data-value="' + (row.StartDate != null && row.StartDate !== "" ? row.StartDate : "") + '" value="' + (row.StartDate != null && row.StartDate !== "" ? row.StartDate : "") + '"';
+											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="startpic_' + row.PictureId + '"';
+											dateTemplate += ' data-value="' + moment(row.StartDate).format("YYYY/MM/DD") + '"';
 											dateTemplate +=
                                                 ' aria-label="Start Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
-                                            dateTemplate += ' $("#startpic_' + row.Id + '").pickadate({format: "dd mmmm, yyyy",min:new Date(),selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("DD MMM YYYY"))});';
-											dateTemplate += 'var $input = $("#startpic_' + row.Id + '").pickadate();';
-											dateTemplate += 'var picker = $input.pickadate("picker");';
-                                            dateTemplate += 'picker.on({close: function() {$(document.activeElement).blur();$("#endpic_' + row.Id + '").pickadate("picker").set("min", new Date(moment($("#startpic_' + row.Id + '").val()).format("DD MMM YYYY")));},set: function(context) {  }});';
+											dateTemplate += ' $("#startpic_' + row.PictureId + '").pickadate({format: "dd mmmm, yyyy",min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD")),selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("YYYY/MM/DD"))});';
+											dateTemplate += 'var $input' + row.PictureId + ' = $("#startpic_' + row.PictureId + '").pickadate();';
+											dateTemplate += 'var picker' + row.PictureId + ' = $input' + row.PictureId + '.pickadate("picker");';
+											dateTemplate += 'picker' + row.PictureId + '.set("select", "' + (row.StartDate != null && row.StartDate !== "" ? new Date(moment(row.StartDate).format("YYYY/MM/DD")) : "") + '");';
+											dateTemplate += 'picker' + row.PictureId + '.on({close: function() {$(document.activeElement).blur();$("#endpic_' + row.PictureId + '").pickadate("picker").set("min", new Date(moment($("#startpic_' + row.PictureId + '").val()).format("YYYY/MM/DD")));}});';
 											dateTemplate += '});<\/script></div>';
 											return dateTemplate;
 										}
@@ -73,13 +74,14 @@
 									"title": "End Date",
 									"render": function(data, type, row) {
 										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input type="text" id="endpic_' + row.Id + '"';
-                                            dateTemplate += ' data-value="' + (row.EndDate != null && row.EndDate !== "" ? row.EndDate : "") + '" value="' + (row.EndDate != null && row.EndDate !== "" ? row.EndDate : "") + '"';
-                                            dateTemplate += ' aria-label="End Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
-                                            dateTemplate += ' $("#endpic_' + row.Id + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false,min:new Date(moment("' + row.StartDate + '").format("DD MMM YYYY"))});';
-											dateTemplate += 'var $input1 = $("#endpic_' + row.Id + '").pickadate();';
-											dateTemplate += 'var picker1 = $input1.pickadate("picker");';
-                                            dateTemplate += 'picker1.on({close: function() {$(document.activeElement).blur();$("#startpic_' + row.Id + '").pickadate("picker").set("max", new Date(moment($("#endpic_' + row.Id + '").val()).format("DD MMM YYYY")));},set: function(context) {  }});';
+											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="endpic_' + row.PictureId + '"';
+											dateTemplate += ' data-value="' + moment(row.EndDate).format("DD MMMM, YYYY") + '" value="' + moment(row.EndDate).format("YYYY/MM/DD") + '"';
+											dateTemplate += ' aria-label="End Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
+											dateTemplate += ' $("#endpic_' + row.PictureId + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false,min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD"))});';
+											dateTemplate += 'var $inputend' + row.PictureId + ' = $("#endpic_' + row.PictureId + '").pickadate();';
+											dateTemplate += 'var pickerend' + row.PictureId + ' = $inputend' + row.PictureId + '.pickadate("picker");';
+											dateTemplate += '$("#endpic_' + row.PictureId + '").val($("#endpic_' + row.PictureId + '").attr("data-value"));';
+											dateTemplate += 'pickerend' + row.PictureId + '.on({close: function() {$(document.activeElement).blur();$("#startpic_' + row.PictureId + '").pickadate("picker").set("max", new Date(moment($("#endpic_' + row.PictureId + '").val()).format("YYYY/MM/DD")));}});';
 											dateTemplate += '});<\/script></div>';
 											return dateTemplate;
 										}
@@ -93,11 +95,17 @@
 									"title": "Default",
 									"render": function(data, type, row) {
 										if (type === "display") {
-											return '<div class="md-form form-group form-check"><input type="checkbox" name="defaultpicture" class="form-check-input" id="defaultpic_' +
+											var templateHtml = '<div class="md-form form-group form-check"><input type="checkbox" value="' +
+												(row.IsDefault ? true : false) +
+												'" name="defaultpicture" class="form-control form-check-input" id="defaultpic_' +
 												row.PictureId +
-												'"><label class="form-check-label" for="default_' +
-												row.PictureId +
-												'"></label></div>';
+												'"';
+
+											if (row.IsDefault)
+												templateHtml += ' checked="checked" ';
+
+											templateHtml += '><label class="form-check-label" for="defaultpic_' + row.PictureId + '"></label></div>';
+											return templateHtml;
 										}
 										return data;
 									},
@@ -109,7 +117,7 @@
 									"title": "Display Order",
 									"render": function(data, type, row) {
 										if (type === "display") {
-											return '<div class="md-form form-group"><i class="fa fa-sort-alpha-asc prefix"></i><input type="number" id="' + row.PictureId + '" value="' + (row.DisplayOrder > 0 ? "0" : "") +'" aria-label="Display Order" class="form-control" style="width:150px"></div>';
+											return '<div class="md-form form-group"><i class="fa fa-sort-alpha-asc prefix"></i><input min="1" max="1000" data-val-required="true" type="number" id="picOrder_' + row.PictureId + '" value="' + (row.DisplayOrder > 0 ? row.DisplayOrder : "") +'" aria-label="Display Order" class="form-control" style="width:150px"></div>';
 										}
 										return data;
 									},
@@ -122,7 +130,7 @@
 									"className": 'text-center',
 									"render": function(data, type, row) {
 										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><button class="btn btn-info btn-rounded btn-sm my-0" id="picupd_' + row.PictureId + '" title="Update Picture"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
+											var dateTemplate = '<div class="md-form form-group"><button class="btn btn-info btn-rounded btn-sm my-0" data-picture="' + row.PictureId + '" data-event="' + row.EventId + '" id="picupd_' + row.PictureId + '" title="Update Picture"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
 											dateTemplate += '&nbsp;&nbsp;<button class="btn btn-danger btn-rounded btn-sm my-0" id="picdel_' + row.PictureId + '" title="Delete Picture"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
 											return dateTemplate;
 										}
@@ -140,7 +148,15 @@
 							var pictureId = $("#@Html.IdFor(model => model.InsertPictureModel.PictureId)").val();
 
 							if (pictureId === 0) {
-								alert('Upload picture first');
+								setTimeout(function () {
+									$.gritter.add({
+										title: "Failure",
+										text: "Please upload picture!",
+										sticky: !0,
+										time: "",
+										class_name: "my-sticky-class"
+									});
+								}, 1e3);
 								return;
 							}
 
@@ -162,10 +178,19 @@
 								type: "POST",
 								url: "@(Url.Action("EventPictureAdd", "Event"))",
 								data: postData,
-								success: function(data) {
+								success: function (data) {
 									$('#addEventPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
 									$('#eventpictures-grid').trigger('reloadGrid');
+									setTimeout(function () {
+										$.gritter.add({
+											title: "Success",
+											text: "Picture added to event!",
+											sticky: !0,
+											time: "",
+											class_name: "my-sticky-class"
+										});
+									}, 1e3);
 								},
 								error: function(xhr, ajaxOptions, thrownError) {
 									console.log(xhr.responseText);
@@ -178,7 +203,15 @@
 							var pictureId = parseInt($(this).attr('id').split('_')[1]);
 
 							if (pictureId === 0) {
-								alert('An error occurred while deleting picture!');
+								setTimeout(function () {
+									$.gritter.add({
+										title: "Failure",
+										text: "An error occurred while deleting picture!",
+										sticky: !0,
+										time: "",
+										class_name: "my-sticky-class"
+									});
+								}, 1e3);
 								return;
 							}
 
@@ -195,17 +228,116 @@
 								data: postData,
 								success: function (data) {
 									$('#eventpictures-grid').trigger('reloadGrid');
+									setTimeout(function () {
+										$.gritter.add({
+											title: "Success",
+											text: "Picture deleted successfully!",
+											sticky: !0,
+											time: "",
+											class_name: "my-sticky-class"
+										});
+									}, 1e3);
 								},
 								error: function(xhr, ajaxOptions, thrownError) {
 									console.log(xhr.responseText);
-									alert('Failed to delete event picture.');
+									setTimeout(function () {
+										$.gritter.add({
+											title: "Failure",
+											text: "Failed to delete event picture!",
+											sticky: !0,
+											time: "",
+											class_name: "my-sticky-class"
+										});
+									}, 1e3);
 								}
 							});
 						});
 
-						$("input[name^=default_]").change(function() {
+						$(document).on("click", 'button[id^=picupd_]', function () {
+							var pictureId = parseInt($(this).attr('id').split('_')[1]);
+							var eventId = parseInt($(this).attr("data-event"));
+							var startDate = moment($("#startpic_" + pictureId).val()).format("DD MMMM, YYYY");
+							var endDate = moment($("#endpic_" + pictureId).val()).format("DD MMMM, YYYY");
+							var defaultPic = $("#defaultpic_" + pictureId).val();
+							var order = $("#picOrder_" + pictureId).val();
+
+							if (pictureId === 0) {
+								setTimeout(function () {
+									$.gritter.add({
+										title: "Failure",
+										text: "An error occurred while updating picture!",
+										sticky: !0,
+										time: "",
+										class_name: "my-sticky-class"
+									});
+								},1e3);
+								return;
+							}
+
+							if ((startDate == null || startDate === "") ||
+								(endDate == null || endDate === "") ||
+								(order == null || order === "")) {
+								setTimeout(function () {
+								$.gritter.add({
+									title: "Failure",
+									text: "Please enter mandatory fields!",
+									sticky: !0,
+									time: "",
+									class_name: "my-sticky-class"
+									});
+								},1e3);
+								return;
+							}
+
+							var postData = {
+								eventId: eventId,
+								pictureId: pictureId,
+								startDay: moment(startDate).format("DD"),
+								startMonth: moment(startDate).format("MM"),
+								startYear: moment(startDate).format("YYYY"),
+								endDay: moment(endDate).format("DD"),
+								endMonth: moment(endDate).format("MM"),
+								endYear: moment(endDate).format("YYYY"),
+								isDefault: defaultPic,
+								displayOrder: order
+							};
+							addAntiForgeryToken(postData);
+
+							$.ajax({
+								cache: false,
+								type: "POST",
+								url: "@(Url.Action("UpdateEventPicture", "Event"))",
+								data: postData,
+								success: function (data) {
+									$('#eventpictures-grid').trigger('reloadGrid');
+									setTimeout(function () {
+										$.gritter.add({
+											title: "Success",
+											text: "Picture updated successfully!",
+											sticky: !0,
+											time: "",
+											class_name: "my-sticky-class"
+										});
+									}, 1e3);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									console.log(xhr.responseText);
+									setTimeout(function () {
+										$.gritter.add({
+											title: "Failure",
+											text: "Failed to update event picture!",
+											sticky: !0,
+											time: "",
+											class_name: "my-sticky-class"
+										});
+									},1e3);
+								}
+							});
+						});
+
+						$(document).on("change", "input[type=checkbox][name=defaultpicture]",function() {
 							if ($(this).prop('checked')) {
-								$("input[name^=default_]").attr("checked", false);
+								$("input[name=defaultpicture]").prop("checked", false);
 								$(this).attr('checked', true).val(true);
 							} else {
 								$(this).attr('checked', false).val(false);

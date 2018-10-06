@@ -474,6 +474,7 @@
     <Content Include="Content\images\slide5.jpg" />
     <Content Include="Content\images\slide6.jpg" />
     <Content Include="Content\images\trash.gif" />
+    <Content Include="Content\images\video-poster.png" />
     <Content Include="Content\images\waiting-generic.png" />
     <Content Include="Content\jquery.dataTables.multiselect.css" />
     <Content Include="Content\jquery.jqGrid\ellipsis-xbl.xml" />

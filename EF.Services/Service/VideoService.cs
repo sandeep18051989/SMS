@@ -148,8 +148,6 @@ namespace EF.Services.Service
 				var video = _videoRepository.Table.FirstOrDefault(pic => pic.Id == eventVideo.VideoId);
 				if (video != null)
 					_videoRepository.Delete(video);
-
-				_eventVideoRepository.Delete(eventVideo);
 			}
 		}
 		public EventVideo GetEventVideoById(int id)
@@ -189,8 +187,6 @@ namespace EF.Services.Service
 				var video = _videoRepository.Table.FirstOrDefault(pic => pic.Id == productVideo.VideoId);
 				if (video != null)
 					_videoRepository.Delete(video);
-
-				_productVideoRepository.Delete(productVideo);
 			}
 		}
 		public ProductVideo GetProductVideoById(int id)
@@ -230,8 +226,6 @@ namespace EF.Services.Service
 				var video = _videoRepository.Table.FirstOrDefault(pic => pic.Id == newsVideo.VideoId);
 				if (video != null)
 					_videoRepository.Delete(video);
-
-				_newsVideoRepository.Delete(newsVideo);
 			}
 		}
 		public NewsVideo GetNewsVideoById(int id)

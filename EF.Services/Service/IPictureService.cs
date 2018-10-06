@@ -50,13 +50,13 @@ namespace EF.Services.Service
 		NewsPicture GetNewsPictureById(int id);
 		NewsPicture GetNewsPictureByPictureId(int id);
 
-		EventPicture GetDefaultEventPicture();
+		EventPicture GetDefaultEventPicture(int eventId);
 
-		BlogPicture GetDefaultBlogPicture();
+		BlogPicture GetDefaultBlogPicture(int blogId);
 
-		ProductPicture GetDefaultProductPicture();
+		ProductPicture GetDefaultProductPicture(int productId);
 
-		NewsPicture GetDefaultNewsPicture();
+		NewsPicture GetDefaultNewsPicture(int newsId);
 
 		void ToggleEventPictureDefault(int id, int pictureid);
 

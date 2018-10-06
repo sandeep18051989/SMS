@@ -5,10 +5,10 @@
 @{
 	var random1 = EF.Core.CodeHelper.GenerateRandomInteger();
 	var basePath1 = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
-	var clientId1 = "picture" + random1;
+	var clientId1 = "video" + random1;
 }
 @*fine uploader container*@
-<span id="@clientId1">
+<span class="upload-video" id="@clientId1">
 	<noscript>
 		<p>
 			Please enable JavaScript to use file uploader.
@@ -55,7 +55,17 @@
 	$(document).ready(function () {
 		$("#@(clientId1)").fineUploader({
 			request: {
-				endpoint: '@(Url.Action("AsyncUpload", "Video", new { Area="admin"}))'
+				endpoint: '@(Url.Action("AsyncVideoUpload", "Video", new { Area="admin"}))'
+			},
+			failedUploadTextDisplay: {
+				mode: 'custom',
+				maxChars: 40,
+				responseProperty: 'error',
+				enableTooltip: true
+			},
+			validation: {
+				allowedExtensions: ['mp4', 'flv'],
+				sizeLimit: 1e+8
 			},
 			template: "@(clientId1)-qq-template",
 			multiple: false

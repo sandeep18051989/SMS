@@ -281,24 +281,24 @@ namespace EF.Services.Service
 
 		}
 
-		public EventPicture GetDefaultEventPicture()
+		public EventPicture GetDefaultEventPicture(int eventId)
 		{
-			return _eventPictureRepository.Table.FirstOrDefault(x => x.IsDefault);
+			return _eventPictureRepository.Table.Where(x => x.EventId == eventId).FirstOrDefault(x => x.IsDefault);
 		}
 
-		public BlogPicture GetDefaultBlogPicture()
+		public BlogPicture GetDefaultBlogPicture(int blogId)
 		{
-			return _blogPictureRepository.Table.FirstOrDefault(x => x.IsDefault);
+			return _blogPictureRepository.Table.Where(x => x.BlogId == blogId).FirstOrDefault(x => x.IsDefault);
 		}
 
-		public ProductPicture GetDefaultProductPicture()
+		public ProductPicture GetDefaultProductPicture(int productId)
 		{
-			return _productPictureRepository.Table.FirstOrDefault(x => x.IsDefault);
+			return _productPictureRepository.Table.Where(x => x.ProductId == productId).FirstOrDefault(x => x.IsDefault);
 		}
 
-		public NewsPicture GetDefaultNewsPicture()
+		public NewsPicture GetDefaultNewsPicture(int newsId)
 		{
-			return _newsPictureRepository.Table.FirstOrDefault(x => x.IsDefault);
+			return _newsPictureRepository.Table.Where(x => x.NewsId == newsId).FirstOrDefault(x => x.IsDefault);
 		}
 
 		public void ToggleEventPictureDefault(int id, int pictureid)
@@ -320,7 +320,7 @@ namespace EF.Services.Service
 					_eventPictureRepository.Update(pic);
 				}
 
-				var defaultPicture = GetDefaultEventPicture();
+				var defaultPicture = GetDefaultEventPicture(id);
 				if (defaultPicture != null)
 				{
 					firstPicture.IsDefault = true;
@@ -348,7 +348,7 @@ namespace EF.Services.Service
 					_blogPictureRepository.Update(pic);
 				}
 
-				var defaultPicture = GetDefaultEventPicture();
+				var defaultPicture = GetDefaultBlogPicture(id);
 				if (defaultPicture != null)
 				{
 					firstPicture.IsDefault = true;
@@ -376,7 +376,7 @@ namespace EF.Services.Service
 					_productPictureRepository.Update(pic);
 				}
 
-				var defaultPicture = GetDefaultEventPicture();
+				var defaultPicture = GetDefaultProductPicture(id);
 				if (defaultPicture != null)
 				{
 					firstPicture.IsDefault = true;
@@ -404,7 +404,7 @@ namespace EF.Services.Service
 					_newsPictureRepository.Update(pic);
 				}
 
-				var defaultPicture = GetDefaultEventPicture();
+				var defaultPicture = GetDefaultNewsPicture(id);
 				if (defaultPicture != null)
 				{
 					firstPicture.IsDefault = true;

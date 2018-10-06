@@ -3,9 +3,9 @@
 <script type="text/javascript">
 	$(function () {
 		$('#@Html.IdFor(model => model)').pickadate({ format: 'dd mmmm yyyy' });
-		var $input = $('#@Html.IdFor(model => model)').pickadate();
-		var picker = $input.pickadate('picker');
-		picker.on({
+		var $baseinput = $('#@Html.IdFor(model => model)').pickadate();
+		var basepicker = $baseinput.pickadate('picker');
+		basepicker.on({
 			close: function() {
 				$(document.activeElement).blur();
 			}

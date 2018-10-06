@@ -147,7 +147,7 @@ namespace SMS.Areas.Admin.Controllers
 		{
 			try
 			{
-				var eventData = (from associatedpicture in _pictureService.GetEventPictureByEventId(id) select associatedpicture);
+				var eventData = (from associatedpicture in _pictureService.GetEventPictureByEventId(id) select associatedpicture).OrderByDescending(eve => eve.CreatedOn).ToList();
 				return new JsonResult()
 				{
 					Data = new
@@ -219,73 +219,6 @@ namespace SMS.Areas.Admin.Controllers
 
 			var user = _userContext.CurrentUser;
 			var model = new List<EventModel>();
-			var lstEvents = _eventService.GetAllEvents(true).Where(x => x.UserId == user.Id).OrderByDescending(x => x.CreatedOn).ToList();
-			if (lstEvents.Count > 0)
-			{
-				foreach (var eve in lstEvents)
-				{
-					// Fill Event Model
-					var eventModel = eve.ToModel();
-
-					if (eve.Comments.Count > 0)
-					{
-						foreach (var comment in eve.Comments)
-						{
-							eventModel.Comments.Add(comment.ToModel());
-						}
-					}
-
-					foreach (var p in eve.Pictures)
-					{
-						var evepicture = new EventPictureModel();
-						evepicture.Id = p.Id;
-						evepicture.PictureId = p.PictureId;
-						evepicture.DisplayOrder = p.DisplayOrder;
-						evepicture.PicEndDate = p.EndDate;
-						evepicture.IsDefault = p.IsDefault;
-						evepicture.PicStartDate = p.StartDate;
-
-						if (p.PictureId > 0)
-						{
-							var evepic = _pictureService.GetPictureById(p.PictureId);
-							if (evepic != null)
-								evepicture.Picture = new PictureModel()
-								{
-									AlternateText = evepic.AlternateText,
-									CreatedOn = evepic.CreatedOn,
-									Id = evepic.Id,
-									Height = evepic.Height,
-									ModifiedOn = evepic.ModifiedOn,
-									Src = evepic.PictureSrc,
-									Url = evepic.Url,
-									UserId = evepic.UserId
-								};
-						}
-
-						eventModel.Pictures.Add(evepicture);
-					}
-
-					if (eve.Reactions.Count > 0)
-					{
-						foreach (var reaction in eve.Reactions)
-						{
-							eventModel.Reactions.Add(reaction.ToModel());
-						}
-					}
-
-					if (eve.Videos.Count > 0)
-					{
-						foreach (var video in eve.Videos)
-						{
-							eventModel.Videos.Add(video.ToModel());
-						}
-					}
-
-					eventModel.Pictures = eventModel.Pictures.OrderBy(p => p.DisplayOrder).ToList();
-					model.Add(eventModel);
-				}
-			}
-
 			return View(model);
 		}
 
@@ -310,7 +243,7 @@ namespace SMS.Areas.Admin.Controllers
 					Title = eve.Title,
 					UserId = eve.UserId,
 					Venue = eve.Venue,
-					SystemName = Url.RouteUrl("Event", new { name = eve.GetSystemName() }, "http"),
+					SystemName = eve.GetSystemName(),
 					Id = eve.Id
 				};
 			}
@@ -478,7 +411,6 @@ namespace SMS.Areas.Admin.Controllers
 			if (videoRecord != null)
 			{
 				_videoService.DeleteEventVideo(videoRecord.Id);
-				_videoService.Delete(videoRecord.VideoId);
 			}
 			else
 			{
@@ -565,6 +497,53 @@ namespace SMS.Areas.Admin.Controllers
 				eventPictureData.EndDate = Convert.ToDateTime(endDate.Value.ToString("yyyy-MM-dd"));
 
 			_pictureService.InsertEventPicture(eventPictureData);
+
+			return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
+		}
+
+		[ValidateInput(false)]
+		[HttpPost]
+		public virtual ActionResult UpdateEventPicture(int eventId, int pictureId, int displayOrder, bool isDefault, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear)
+		{
+			if (!_permissionService.Authorize("ManageEvents"))
+				return AccessDeniedView();
+
+			if (pictureId == 0)
+				throw new ArgumentException();
+
+			var thisevent = _eventService.GetEventById(eventId);
+			if (thisevent == null)
+				throw new ArgumentException("No event found with the specified id");
+
+			var picture = _pictureService.GetPictureById(pictureId);
+			if (picture == null)
+				throw new ArgumentException("No picture found with the specified id");
+
+			var eventPictureData = _pictureService.GetEventPictureByPictureId(pictureId);
+			if (eventPictureData != null)
+			{
+				eventPictureData.DisplayOrder = displayOrder;
+				eventPictureData.IsDefault = isDefault;
+				eventPictureData.ModifiedOn = DateTime.Now;
+
+				if (eventPictureData.IsDefault)
+				{
+					var eventDefaultPicture = _pictureService.GetDefaultEventPicture(eventId);
+					if (eventDefaultPicture != null && eventDefaultPicture.PictureId != eventPictureData.PictureId)
+					{
+						eventDefaultPicture.IsDefault = false;
+						_pictureService.UpdateEventPicture(eventDefaultPicture);
+					}
+				}
+
+				DateTime picStartDate = new DateTime(startYear, startMonth, startDay);
+				eventPictureData.StartDate = picStartDate;
+
+				DateTime picEndDate = new DateTime(endYear, endMonth, endDay);
+				eventPictureData.EndDate = picEndDate;
+
+				_pictureService.UpdateEventPicture(eventPictureData);
+			}
 
 			return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
 		}
@@ -667,6 +646,43 @@ namespace SMS.Areas.Admin.Controllers
 			}
 			return Json(lstEventVideos, JsonRequestBehavior.AllowGet);
 		}
+
+		[ValidateInput(false)]
+		[HttpPost]
+		public virtual ActionResult UpdateEventVideo(int eventId, int videoId, int displayOrder, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear)
+		{
+			if (!_permissionService.Authorize("ManageEvents"))
+				return AccessDeniedView();
+
+			if (videoId == 0)
+				throw new ArgumentException();
+
+			var thisevent = _eventService.GetEventById(eventId);
+			if (thisevent == null)
+				throw new ArgumentException("No event found with the specified id");
+
+			var video = _videoService.GetVideoById(videoId);
+			if (video == null)
+				throw new ArgumentException("No video found with the specified id");
+
+			var eventVideoData = _videoService.GetEventVideoByVideoId(videoId);
+			if (eventVideoData != null)
+			{
+				eventVideoData.DisplayOrder = displayOrder;
+				eventVideoData.ModifiedOn = DateTime.Now;
+
+				DateTime picStartDate = new DateTime(startYear, startMonth, startDay);
+				eventVideoData.StartDate = picStartDate;
+
+				DateTime picEndDate = new DateTime(endYear, endMonth, endDay);
+				eventVideoData.EndDate = picEndDate;
+
+				_videoService.UpdateEventVideo(eventVideoData);
+			}
+
+			return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
+		}
+
 
 	}
 }

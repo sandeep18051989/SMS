@@ -187,6 +187,9 @@ namespace EF.Services.Service
 							EntityName = entityName,
 							Slug = slug,
 							IsActive = true,
+							CreatedOn = DateTime.Now,
+							ModifiedOn = DateTime.Now,
+							UserId = entity.UserId
 						};
 						InsertCustomPageUrl(urlRecord);
 
