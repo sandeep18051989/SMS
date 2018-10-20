@@ -92,6 +92,31 @@
 	@if (_permissionService.Authorize("ManageDashboard"))
 	{
 		<li>
+			<a class="@(_permissionService.Authorize("ManageVendors") ? "collapsible-header" : "") waves-effect arrow-r">
+				<i class="fa fa-user"></i> Vendors
+				@if (_permissionService.Authorize("ManageVendors"))
+				{
+					<i class="fa fa-angle-down rotate-icon"></i>
+				}
+			</a>
+			@if (_permissionService.Authorize("ManageVendors"))
+			{
+				<div class="collapsible-body" style="display:none;">
+					<ul>
+						<li>
+							<a href="@Url.Action("List", "Vendor", new { Area = "Admin" })" class="waves-effect">Vendors</a>
+						</li>
+						<li>
+							<a href="@Url.Action("Create", "Vendor", new { Area = "Admin" })" class="waves-effect">Create Vendor</a>
+						</li>
+					</ul>
+				</div>
+			}
+		</li>
+	}
+	@if (_permissionService.Authorize("ManageDashboard"))
+	{
+		<li>
 			<a class="@(_permissionService.Authorize("ManagePermissions") ? "collapsible-header" : "") waves-effect arrow-r">
 				<i class="fa fa-user-secret"></i> Permissions
 				@if (_permissionService.Authorize("ManagePermissions"))

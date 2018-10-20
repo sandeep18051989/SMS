@@ -21,9 +21,10 @@ namespace SMS.Models
 			postCommentModel = new PostCommentsModel();
 			Reactions = new List<ReactionModel>();
 			ProductCategory = new ProductCategoryModel();
-			Vendor = new VendorModel();
 			InsertPictureModel = new InsertPicturesModel();
 			InsertVideoModel = new InsertVideoModel();
+			AvailableVendors = new List<SelectListItem>();
+			DefaultPicture = new PictureModel();
 		}
 		public string Name { get; set; }
 		public string SystemName { get; set; }
@@ -34,9 +35,12 @@ namespace SMS.Models
 		public string SeoName { get; set; }
 		[UIHint("File")]
 		public int FileId { get; set; }
+		public int VendorId { get; set; }
 		public bool IsInValidState { get; set; }
 		public bool IsActive { get; set; }
+		public bool Selected { get; set; }
 		public PostCommentsModel postCommentModel { get; set; }
+		public PictureModel DefaultPicture { get; set; }
 		public ProductCategoryModel ProductCategory { get; set; }
 		public IList<VideoModel> Videos { get; set; }
 		public IList<ProductPictureModel> Pictures { get; set; }
@@ -45,9 +49,7 @@ namespace SMS.Models
 		public IList<ReactionModel> Reactions { get; set; }
 		public InsertPicturesModel InsertPictureModel { get; set; }
 		public InsertVideoModel InsertVideoModel { get; set; }
-
-		public VendorModel Vendor { get; set; }
-
+		public IList<SelectListItem> AvailableVendors { get; set; }
 	}
 
 	[Validator(typeof(PostCommentModelValidator))]

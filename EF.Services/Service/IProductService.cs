@@ -44,6 +44,8 @@ namespace EF.Services.Service
 		string[] GetNotExistingCategories(string[] categoryNames);
 
 		IDictionary<int, int[]> GetProductCategoryIds(int[] productIds);
+		IList<Product> GetProductsByVendor(int vendorId);
+
 		#endregion
 	}
 }

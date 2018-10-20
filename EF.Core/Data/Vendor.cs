@@ -5,8 +5,8 @@ namespace EF.Core.Data
 	public partial class Vendor : BaseEntity
 	{
 		public int RegNumber { get; set; }
-		public string VendorName { get; set; }
-		public string VendorAddress { get; set; }
+		public string Name { get; set; }
+		public string Address { get; set; }
 		public string OfficeContact { get; set; }
 		public string MobileContact { get; set; }
 		public DateTime Date { get; set; }

@@ -5,9 +5,9 @@ namespace EF.Core.Data
 {
 	public partial class Product : BaseEntity, ISlugSupported
 	{
+		#region Collections
 		[NotMapped]
 		public virtual ICollection<ProductPicture> _Pictures { get; set; }
-
 		[NotMapped]
 		public virtual ICollection<ProductVideo> _Videos { get; set; }
 		[NotMapped]
@@ -18,6 +18,7 @@ namespace EF.Core.Data
 		public virtual ICollection<Reaction> _Reactions { get; set; }
 		[NotMapped]
 		public virtual ICollection<ProductCategoryMapping> _ProductCategories { get; set; }
+		#endregion
 
 		public int VendorId { get; set; }
 		public string Name { get; set; }

@@ -1,6 +1,6 @@
-﻿@model IEnumerable<SMS.Models.NewsModel>
+﻿@model SMS.Models.StudentListModel
 @{
-	ViewBag.Title = "News";
+	ViewBag.Title = "Students";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
@@ -11,7 +11,7 @@
 				<div class="row">
 					<div class="col-xs-12 col-md-12">
 						<div class="input-group pull-right">
-							@Html.ActionLink("Create News", "Create", "News", null, new { @class = "btn btn-primary" })
+							@Html.ActionLink("Create Student", "Create", "Student", null, new { @class = "btn btn-primary" })
 						</div>
 					</div>
 				</div>
@@ -23,15 +23,11 @@
 								<thead>
 									<tr>
 										<th class="no-sort"><input type="checkbox" id="allcheck" value="allcheck" /></th>
-										<th>Short Name</th>
-										<th>Start Date</th>
-										<th>End Date</th>
-										<th>Author</th>
-										<th class="text-center">Active</th>
-										<th class="text-center">Comments</th>
-										<th class="text-center">Pictures</th>
-										<th class="text-center">Videos</th>
-										<th class="text-center">Reactions</th>
+										<th>&nbsp;</th>
+										<th>Roll No.</th>
+										<th>Full Name</th>
+										<th>Date Of Birth</th>
+										<th>Fathers Name</th>
 										<th class="text-center">Actions</th>
 									</tr>
 								</thead>
@@ -77,7 +73,7 @@
 			"pageLength": 25,
 			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			"ajax": {
-				"url": "/Admin/News/LoadGrid",
+				"url": "/Admin/Student/LoadGrid",
 				"type": "POST",
 				"datatype": "json"
 			},
@@ -96,10 +92,26 @@
 					"orderable": false,
 					"className": 'text-center'
 				},
-				{ "data": "ShortName", "title": "Short Name", "name": "Short Name", "autoWidth": true },
+				{ "data": "Title", "title": "Name", "name": "Title", "autoWidth": true },
 				{ "data": "StartDate", "title": "Start Date", "name": "StartDate", "autoWidth": true, "orderable": false },
 				{ "data": "EndDate", "title": "End Date", "name": "EndDate", "autoWidth": true, "orderable": false },
-				{ "data": "Author", "title": "Author", "name": "Author", "autoWidth": true, "orderable": true },
+				{ "data": "Venue", "title": "Location", "name": "Venue", "autoWidth": true, "orderable": true },
+				{
+					"data": "IsApproved",
+					"title": "Approved",
+					"render": function (data, type, row) {
+						if (type === "display") {
+							if (row.IsApproved) {
+								return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+							} else {
+								return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+							}
+						}
+						return data;
+					},
+					"className": "text-center",
+					"orderable": false
+				},
 				{
 					"data": "IsActive",
 					"title": "Active",
@@ -166,7 +178,7 @@
 					"className": 'text-center',
 					"render": function (data, type, row) {
 						if (type === "display") {
-							return '<a href="/Admin/News/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="newsid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+							return '<a href="/Admin/Event/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="eventid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
 						}
 						return data;
 					}

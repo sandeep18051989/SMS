@@ -45,7 +45,8 @@
 										return data;
 									},
 									"orderable": false,
-									"className": 'text-center'
+									"className": 'text-center',
+									"defaultContent": ""
 								},
 								{
 									"data": "StartDate",
@@ -67,7 +68,8 @@
 										return data;
 									},
 									"className": "dt-body-center",
-									"orderable": false
+									"orderable": false,
+									"defaultContent": ""
 								},
 								{
 									"data": "EndDate",
@@ -88,7 +90,8 @@
 										return data;
 									},
 									"className": "dt-body-center",
-									"orderable": false
+									"orderable": false,
+									"defaultContent": ""
 								},
 								{
 									"data": "IsDefault",
@@ -110,7 +113,8 @@
 										return data;
 									},
 									"className": "text-center",
-									"orderable": false
+									"orderable": false,
+									"defaultContent": ""
 								},
 								{
 									"data": "DisplayOrder",
@@ -122,7 +126,8 @@
 										return data;
 									},
 									"className": "dt-body-center",
-									"orderable": false
+									"orderable": false,
+									"defaultContent": ""
 								},
 								{
 									"title": "Actions",
@@ -135,7 +140,8 @@
 											return dateTemplate;
 										}
 										return data;
-									}
+									},
+									"defaultContent": ""
 								}
 							],
 							"select": {
@@ -181,7 +187,7 @@
 								success: function (data) {
 									$('#addEventPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
-									$('#eventpictures-grid').trigger('reloadGrid');
+									$('#eventpictures-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -227,7 +233,7 @@
 								url: "@(Url.Action("DeleteEventPicture", "Event"))",
 								data: postData,
 								success: function (data) {
-									$('#eventpictures-grid').trigger('reloadGrid');
+									$('#eventpictures-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -309,7 +315,7 @@
 								url: "@(Url.Action("UpdateEventPicture", "Event"))",
 								data: postData,
 								success: function (data) {
-									$('#eventpictures-grid').trigger('reloadGrid');
+									$('#eventpictures-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

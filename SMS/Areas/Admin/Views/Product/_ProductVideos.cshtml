@@ -48,7 +48,8 @@
 										return data;
 									},
 									"orderable": false,
-									"className": 'text-center'
+									"className": 'text-center',
+									"defaultContent": ""
 								},
 								{
 									"data": "StartDate",
@@ -69,7 +70,8 @@
 										return data;
 									},
 									"className": "text-center",
-									"orderable": false
+									"orderable": false,
+									"defaultContent": ""
 								},
 								{
 									"data": "EndDate",
@@ -90,7 +92,8 @@
 										return data;
 									},
 									"className": "text-center",
-									"orderable": false
+									"orderable": false,
+									"defaultContent": ""
 								},
 								{
 									"data": "DisplayOrder",
@@ -102,7 +105,8 @@
 										return data;
 									},
 									"className": "dt-body-center",
-									"orderable": false
+									"orderable": false,
+									"defaultContent": ""
 								},
 								{
 									"title": "Actions",
@@ -115,7 +119,8 @@
 											return dateTemplate;
 										}
 										return data;
-									}
+									},
+									"defaultContent": ""
 								}
 							],
 							"select": {
@@ -160,7 +165,7 @@
 								success: function (data) {
 									$('#addProductVideo').attr('disabled', false);
 									$('.upload-video').fineUploader('reset');
-									$('#productvideos-grid').trigger('reloadGrid');
+									$('#productvideos-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -206,7 +211,7 @@
 								url: "@(Url.Action("DeleteProductVideo", "Product"))",
 								data: postData,
 								success: function (data) {
-									$('#productvideos-grid').trigger('reloadGrid');
+									$('#productvideos-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -286,7 +291,7 @@
 								url: "@(Url.Action("UpdateProductVideo", "Product"))",
 								data: postData,
 								success: function (data) {
-									$('#productvideos-grid').trigger('reloadGrid');
+									$('#productvideos-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

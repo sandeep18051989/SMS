@@ -95,9 +95,19 @@
 										</div>
 										<div class="row">
 											<div class="col-md-7 mb-4">
-												<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" checked="@(Model.IsActive ? "checked" : "")" />
+												<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" tabindex="5" checked="@(Model.IsActive ? "checked" : "")" />
 												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+											</div>
+										</div>
+										<div class="row text-left">
+											<div class="col-md-6 mb-4">
+												<div class="md-form">
+													<i class="fa fa-user prefix"></i>
+													@Html.DropDownListFor(model => model.VendorId, Model.AvailableVendors, "Select Vendor", new { htmlAttributes = new { @class = "mdb-select", @tabindex = "6", @maxlength = "50" } })
+													@Html.LabelFor(model => model.VendorId, htmlAttributes: new { @class = "control-label col-md-2" })
+													@Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+												</div>
 											</div>
 										</div>
 									</div>

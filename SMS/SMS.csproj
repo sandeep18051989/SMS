@@ -985,6 +985,14 @@
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\NewsPicture.cshtml" />
     <Content Include="Areas\Admin\Views\News\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendor\_VendorProducts.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendor\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendor\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Vendor\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Student\_StudentFiles.cshtml" />
+    <Content Include="Areas\Admin\Views\Student\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Student\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Student\List.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1395,6 +1403,8 @@
     <Compile Include="Areas\Admin\Controllers\CustomPageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuditController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StudentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VendorController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LogController.cs" />
     <Compile Include="Areas\Admin\Controllers\PermissionController.cs" />
@@ -1714,9 +1724,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\files\" />
-    <Folder Include="Uploads\images\" />
     <Folder Include="Uploads\thumbnails\" />
-    <Folder Include="Uploads\videos\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

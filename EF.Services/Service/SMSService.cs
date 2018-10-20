@@ -1336,7 +1336,7 @@ namespace EF.Services.Service
 				_vendorRepository.Update(vendor);
 			}
 		}
-		public IList<Vendor> GetAllVendors(bool? active)
+		public IList<Vendor> GetAllVendors(bool? active=null)
 		{
 			var query = _vendorRepository.Table.ToList();
 
@@ -1352,17 +1352,13 @@ namespace EF.Services.Service
 
 			return _vendorRepository.Table.FirstOrDefault(x => x.Id == id);
 		}
-		public IList<Vendor> GetVendorsByName(string name, bool? active)
+		public Vendor GetVendorsByName(string name)
 		{
 			if (string.IsNullOrEmpty(name))
 				throw new Exception("Vendor Name is Missing.");
 
-			var query = _vendorRepository.Table.Where(a => (a.VendorName.ToLower().Contains(name.ToLower())) && a.IsDeleted == false).ToList();
-
-			if (active.HasValue)
-				query = query.Where(x => x.IsActive == active).ToList();
-
-			return query.OrderBy(x => x.VendorName).ToList();
+			return _vendorRepository.Table.FirstOrDefault(a => (string.Equals(a.VendorName.Trim().ToLower(), name.Trim().ToLower(),
+				                                          StringComparison.Ordinal)) && a.IsDeleted == false);
 		}
 		public IList<Vendor> SearchVendors(bool? active, string religion = null, string designation = null, int? acedemicyearid = null)
 		{
@@ -1374,10 +1370,9 @@ namespace EF.Services.Service
 			if (acedemicyearid.HasValue)
 				query = query.Where(s => s.AcadmicYearId == acedemicyearid.Value).ToList();
 
-			return query.OrderBy(s => s.VendorName).ToList();
+			return query.OrderBy(s => s.Name).ToList();
 
 		}
-
 		#endregion
 		#region Purchase
 		public void InsertPurchase(Purchase purchase)

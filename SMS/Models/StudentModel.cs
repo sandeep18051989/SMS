@@ -87,7 +87,15 @@ namespace SMS.Models
 		public HouseModel House { get; set; }
 
 		public Division_Class_StudentModel Division_Class_Student { get; set; }
+	}
 
+	public partial class StudentListModel
+	{
+		public StudentListModel()
+		{
+			Students = new List<StudentModel>();
+		}
 
+		public IList<StudentModel> Students { get; set; }
 	}
 }

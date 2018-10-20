@@ -245,7 +245,19 @@ namespace EF.Services.Service
 			return _productPictureRepository.Table.FirstOrDefault(x => x.PictureId == id);
 
 		}
+		public ProductPicture GetDefaultProductPicture(int id)
+		{
+			if (id == 0)
+				throw new Exception("Product id is missing!");
 
+			var query = _productPictureRepository.Table.FirstOrDefault(x => x.ProductId == id && x.IsDefault);
+
+			if (query == null)
+				return _productPictureRepository.Table.FirstOrDefault(x => x.ProductId == id);
+			else
+				return query;
+
+		}
 		public void InsertNewsPicture(NewsPicture newsPicture)
 		{
 			_newsPictureRepository.Insert(newsPicture);
@@ -281,24 +293,43 @@ namespace EF.Services.Service
 
 		}
 
-		public EventPicture GetDefaultEventPicture(int eventId)
+		public EventPicture GetDefaultEventPicture(int id)
 		{
-			return _eventPictureRepository.Table.Where(x => x.EventId == eventId).FirstOrDefault(x => x.IsDefault);
+			if (id == 0)
+				throw new Exception("Event id is missing!");
+
+			var query = _eventPictureRepository.Table.FirstOrDefault(x => x.EventId == id && x.IsDefault);
+
+			if (query == null)
+				return _eventPictureRepository.Table.FirstOrDefault(x => x.EventId == id);
+			else
+				return query;
 		}
 
-		public BlogPicture GetDefaultBlogPicture(int blogId)
+		public BlogPicture GetDefaultBlogPicture(int id)
 		{
-			return _blogPictureRepository.Table.Where(x => x.BlogId == blogId).FirstOrDefault(x => x.IsDefault);
+			if (id == 0)
+				throw new Exception("Blog id is missing!");
+
+			var query = _blogPictureRepository.Table.FirstOrDefault(x => x.BlogId == id && x.IsDefault);
+
+			if (query == null)
+				return _blogPictureRepository.Table.FirstOrDefault(x => x.BlogId == id);
+			else
+				return query;
 		}
 
-		public ProductPicture GetDefaultProductPicture(int productId)
+		public NewsPicture GetDefaultNewsPicture(int id)
 		{
-			return _productPictureRepository.Table.Where(x => x.ProductId == productId).FirstOrDefault(x => x.IsDefault);
-		}
+			if (id == 0)
+				throw new Exception("Blog id is missing!");
 
-		public NewsPicture GetDefaultNewsPicture(int newsId)
-		{
-			return _newsPictureRepository.Table.Where(x => x.NewsId == newsId).FirstOrDefault(x => x.IsDefault);
+			var query = _newsPictureRepository.Table.FirstOrDefault(x => x.NewsId == id && x.IsDefault);
+
+			if (query == null)
+				return _newsPictureRepository.Table.FirstOrDefault(x => x.NewsId == id);
+			else
+				return query;
 		}
 
 		public void ToggleEventPictureDefault(int id, int pictureid)

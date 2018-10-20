@@ -189,9 +189,9 @@ namespace EF.Services.Service
 		void InsertVendor(Vendor vendor);
 		void UpdateVendor(Vendor vendor);
 		void DeleteVendor(int id);
-		IList<Vendor> GetAllVendors(bool? active);
+		IList<Vendor> GetAllVendors(bool? active=null);
 		Vendor GetVendorById(int id);
-		IList<Vendor> GetVendorsByName(string name, bool? active);
+		Vendor GetVendorsByName(string name);
 		IList<Vendor> SearchVendors(bool? active, string religion = null, string designation = null, int? acedemicyearid = null);
 		#endregion
 		#region Purchase

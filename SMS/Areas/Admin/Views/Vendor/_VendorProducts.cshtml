@@ -1,0 +1,158 @@
+﻿@using EF.Services.Http
+@model SMS.Models.VendorModel
+@{
+	var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+}
+<div class="panel-group">
+	@if (Model.Id > 0)
+	{
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				<table class="table table-responsive-md custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="vendorproduct-grid">
+					<thead class="mdb-color lighten-5">
+						<tr>
+							<th>&nbsp;</th>
+							<th>Name</th>
+							<th>Description</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<script type="text/javascript">
+					$(document).ready(function () {
+						// Initiallize Datatable
+						$('#vendorproducts-grid').DataTable({
+							"paging": false,
+							"bLengthChange": false, //thought this line could hide the LengthMenu
+							"bInfo": false,
+							"processing": true, // for show progress bar
+							"serverSide": true, // for process server side
+							"filter": false, // this is for disable filter (search box)
+							"orderMulti": false, // for disable multiple column at once
+							"ajax": {
+								"url": "/Admin/Vendor/LoadProductsGrid/@(Model.Id)",
+								"type": "POST",
+								"datatype": "json"
+							},
+							"aaSorting": [],
+							"columns": [
+								{
+									"searchable": false,
+									"title": "",
+									"render": function (data, type, row) {
+										if (type === "display") {
+											return '<div class="thumb"><img style="max-width:100px;" src="' + row.DefaultPicture.Src + '" alt="" class="rounded-circle float-left"></div>';
+										}
+										return data;
+									},
+									"orderable": false,
+									"className": 'text-center',
+									"defaultContent": ""
+								},
+								{
+									"data": "Name",
+									"title": "Name",
+									"className": "dt-body-center",
+									"orderable": false,
+									"defaultContent": ""
+								},
+								{
+									"data": "Description",
+									"title": "Description",
+									"className": "dt-body-left",
+									"orderable": false,
+									"defaultContent": ""
+								},
+								{
+									"title": "Actions",
+									"orderable": false,
+									"className": 'text-center',
+									"render": function(data, type, row) {
+										if (type === "display") {
+											if (row.Selected)
+												return '<a id="product_' + row.Id + '" title="' + row.Name + '" href="javascript:void(0);"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+											else
+												return '<a id="product_' + row.Id + '" title="' + row.Name + '" href="javascript:void(0);"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+										}
+										return data;
+									},
+									"defaultContent": ""
+								}
+							],
+							"select": {
+								"style": 'os',
+								"selector": 'td:first-child'
+							}
+						});
+
+						$(document).on("click", 'button[id^=product_]', function () {
+							var productId = parseInt($(this).attr('id').split('_')[1]);
+
+							if (productId === 0) {
+								setTimeout(function () {
+									$.gritter.add({
+										title: "Failure",
+										text: "An error occurred while assigning product!",
+										sticky: !0,
+										time: "",
+										class_name: "my-sticky-class"
+									});
+								}, 1e3);
+								return;
+							}
+
+							var postData = {
+								Id: @(Model.Id),
+								productId: productId
+							};
+
+							addAntiForgeryToken(postData);
+
+							$.ajax({
+								cache: false,
+								type: "POST",
+								url: "@(Url.Action("AssignProduct", "Vendor"))",
+								data: postData,
+								success: function (data) {
+									$('#vendorproducts-grid').data.reload();
+									setTimeout(function () {
+										$.gritter.add({
+											title: "Success",
+											text: "Product assigned successfully!",
+											sticky: !0,
+											time: "",
+											class_name: "my-sticky-class"
+										});
+									}, 1e3);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									console.log(xhr.responseText);
+									setTimeout(function () {
+										$.gritter.add({
+											title: "Failure",
+											text: "Failed to assign product!",
+											sticky: !0,
+											time: "",
+											class_name: "my-sticky-class"
+										});
+									}, 1e3);
+								}
+							});
+						});
+					});
+				</script>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="alert alert-info" role="alert">
+					<strong>Heads up!</strong> Please save vendor first to assign products.
+				</div>
+			</div>
+		</div>
+	}
+</div>
