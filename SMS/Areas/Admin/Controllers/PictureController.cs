@@ -748,7 +748,10 @@ namespace SMS.Areas.Admin.Controllers
 					case ".xlsx":
 						contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 						break;
-					default:
+                    case ".txt":
+                        contentType = "text";
+                        break;
+                    default:
 						break;
 				}
 			}
@@ -767,6 +770,7 @@ namespace SMS.Areas.Admin.Controllers
 			{
 				Src = _urlHelper.GetLocation(false) + "Uploads/files/" + fileName,
 				Title = "",
+                Type = contentType,
 				UserId = _userContext.CurrentUser.Id,
 				CreatedOn = DateTime.Now,
 				ModifiedOn = DateTime.Now,

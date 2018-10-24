@@ -1,17 +1,16 @@
-﻿@model SMS.Models.EventModel
+﻿@model SMS.Models.StudentModel
 <div class="panel-group">
 	@if (Model.Id > 0)
 	{
 		<div class="panel panel-default">
 			<div class="panel-body table-responsive">
-				<table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="eventpictures-grid">
+				<table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="studentfiles-grid">
 					<thead class="mdb-color lighten-5">
 						<tr>
 							<th>&nbsp;</th>
-							<th class="text-left">Start Date</th>
-							<th class="text-left">End Date</th>
-							<th>Default</th>
-							<th class="text-left">Display Order</th>
+							<th class="text-left">Title</th>
+							<th class="text-left">Type</th>
+							<th>Size</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -20,7 +19,7 @@
 				<script type="text/javascript">
 					$(document).ready(function() {
 						// Initiallize Datatable
-						$('#eventpictures-grid').DataTable({
+						$('#studentfiles-grid').DataTable({
 							"paging": false,
 							"bLengthChange": false, //thought this line could hide the LengthMenu
 							"bInfo": false,
@@ -29,7 +28,7 @@
 							"filter": false, // this is for disable filter (search box)
 							"orderMulti": true, // for disable multiple column at once
 							"ajax": {
-								"url": "/Admin/Event/LoadPictureGrid/@(Model.Id)",
+								"url": "/Admin/Student/LoadFileGrid/@(Model.Id)",
 								"type": "POST",
 								"datatype": "json"
 							},
@@ -39,8 +38,8 @@
 									"searchable": false,
 									"title": "",
 									"render": function (data, type, row) {
-										if (type === "display") {
-											return '<div class="thumb"><img style="max-width:100px;" src="' + row.PictureSrc + '" alt="" class="rounded-circle float-left"></div>';
+                                        if (type === "display") {
+                                            return '<div class="thumb"><a href="' + row.FileSrc + '" alt="' + row.Title + '">' + row.Title + '</a></div>';
 										}
 										return data;
 									},
@@ -49,66 +48,11 @@
 									"defaultContent": ""
 								},
 								{
-									"data": "StartDate",
-									"title": "Start Date",
+									"data": "Title",
+									"title": "Title",
 									"render": function(data, type, row) {
 										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="startpic_' + row.PictureId + '"';
-											dateTemplate += ' data-value="' + moment(row.StartDate).format("YYYY/MM/DD") + '"';
-											dateTemplate +=
-                                                ' aria-label="Start Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
-											dateTemplate += ' $("#startpic_' + row.PictureId + '").pickadate({format: "dd mmmm, yyyy",min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD")),selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("YYYY/MM/DD"))});';
-											dateTemplate += 'var $input' + row.PictureId + ' = $("#startpic_' + row.PictureId + '").pickadate();';
-											dateTemplate += 'var picker' + row.PictureId + ' = $input' + row.PictureId + '.pickadate("picker");';
-											dateTemplate += 'picker' + row.PictureId + '.set("select", "' + (row.StartDate != null && row.StartDate !== "" ? new Date(moment(row.StartDate).format("YYYY/MM/DD")) : "") + '");';
-											dateTemplate += 'picker' + row.PictureId + '.on({close: function() {$(document.activeElement).blur();$("#endpic_' + row.PictureId + '").pickadate("picker").set("min", new Date(moment($("#startpic_' + row.PictureId + '").val()).format("YYYY/MM/DD")));}});';
-											dateTemplate += '});<\/script></div>';
-											return dateTemplate;
-										}
-										return data;
-									},
-									"className": "dt-body-center",
-									"orderable": false,
-									"defaultContent": ""
-								},
-								{
-									"data": "EndDate",
-									"title": "End Date",
-									"render": function(data, type, row) {
-										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="endpic_' + row.PictureId + '"';
-											dateTemplate += ' data-value="' + moment(row.EndDate).format("DD MMMM, YYYY") + '" value="' + moment(row.EndDate).format("YYYY/MM/DD") + '"';
-											dateTemplate += ' aria-label="End Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
-											dateTemplate += ' $("#endpic_' + row.PictureId + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false,min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD"))});';
-											dateTemplate += 'var $inputend' + row.PictureId + ' = $("#endpic_' + row.PictureId + '").pickadate();';
-											dateTemplate += 'var pickerend' + row.PictureId + ' = $inputend' + row.PictureId + '.pickadate("picker");';
-											dateTemplate += '$("#endpic_' + row.PictureId + '").val($("#endpic_' + row.PictureId + '").attr("data-value"));';
-											dateTemplate += 'pickerend' + row.PictureId + '.on({close: function() {$(document.activeElement).blur();$("#startpic_' + row.PictureId + '").pickadate("picker").set("max", new Date(moment($("#endpic_' + row.PictureId + '").val()).format("YYYY/MM/DD")));}});';
-											dateTemplate += '});<\/script></div>';
-											return dateTemplate;
-										}
-										return data;
-									},
-									"className": "dt-body-center",
-									"orderable": false,
-									"defaultContent": ""
-								},
-								{
-									"data": "IsDefault",
-									"title": "Default",
-									"render": function(data, type, row) {
-										if (type === "display") {
-											var templateHtml = '<div class="md-form form-group form-check"><input type="checkbox" value="' +
-												(row.IsDefault ? true : false) +
-												'" name="defaultpicture" class="form-control form-check-input" id="defaultpic_' +
-												row.PictureId +
-												'"';
-
-											if (row.IsDefault)
-												templateHtml += ' checked="checked" ';
-
-											templateHtml += '><label class="form-check-label" for="defaultpic_' + row.PictureId + '"></label></div>';
-											return templateHtml;
+                                            return '<div class="md-form form-group"><input data-val-required="true" type="text" id="fileTitle_' + row.Id + '" value="' + ((row.Title != null && row.Title != "") ? row.Title : "") + '" aria-label="Title" class="form-control" style="width:150px"></div>';
 										}
 										return data;
 									},
@@ -121,7 +65,7 @@
 									"title": "Display Order",
 									"render": function(data, type, row) {
 										if (type === "display") {
-											return '<div class="md-form form-group"><i class="fa fa-sort-alpha-asc prefix"></i><input min="1" max="1000" data-val-required="true" type="number" id="picOrder_' + row.PictureId + '" value="' + (row.DisplayOrder > 0 ? row.DisplayOrder : "") +'" aria-label="Display Order" class="form-control" style="width:150px"></div>';
+                                            return '<div class="md-form form-group"><input data-val-required="true" type="text" id="fileType_' + row.Id + '" value="' + ((row.Type != null && row.Type != "") ? row.Type : "") + '" aria-label="Type" class="form-control" style="width:150px"></div>';
 										}
 										return data;
 									},
@@ -135,8 +79,8 @@
 									"className": 'text-center',
 									"render": function(data, type, row) {
 										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-info btn-rounded btn-sm my-0" data-picture="' + row.PictureId + '" data-event="' + row.EventId + '" id="picupd_' + row.PictureId + '" title="Update Picture"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
-											dateTemplate += '&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="picdel_' + row.PictureId + '" title="Delete Picture"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
+											var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-info btn-rounded btn-sm my-0" data-file="' + row.FileId + '" data-student="' + row.StudentId + '" id="fileupd_' + row.FileId + '" title="Update File"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
+											dateTemplate += '&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="filedel_' + row.FileId + '" title="Delete File"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
 											return dateTemplate;
 										}
 										return data;
@@ -150,14 +94,14 @@
 							}
 						});
 
-						$('#addPicture').click(function() {
-							var pictureId = $("#@Html.IdFor(model => model.InsertPictureModel.PictureId)").val();
-
-							if (pictureId === 0) {
+						$('#addFile').click(function() {
+							var fileId = $("#@Html.IdFor(model => model.FileId)").val();
+                            var studentId = $("#@Html.IdFor(model => model.Id)").val();
+							if (fileId === 0) {
 								setTimeout(function () {
 									$.gritter.add({
 										title: "Failure",
-										text: "Please upload picture!",
+										text: "Please upload file!",
 										sticky: !0,
 										time: "",
 										class_name: "my-sticky-class"
@@ -166,15 +110,13 @@
 								return;
 							}
 
-							$('#addEventPicture').attr('disabled', true);
+							$('#addStudentFile').attr('disabled', true);
 
-							var postData = {
-								pictureId: pictureId,
-								displayOrder: 0,
-								isDefault: false,
-								eventId: @Model.Id,
-								startDate: moment(new Date()).format("DD MMM YYYY"),
-								endDate: moment(new Date()).format("DD MMM YYYY")
+                            var postData = {
+                                studentId: studentId, 
+								fileId: fileId,
+                                title: "",
+                                type=""
 							};
 
 							addAntiForgeryToken(postData);
@@ -182,16 +124,16 @@
 							$.ajax({
 								cache: false,
 								type: "POST",
-								url: "@(Url.Action("EventPictureAdd", "Event"))",
+								url: "@(Url.Action("StudentFileAddUpdate", "Student"))",
 								data: postData,
 								success: function (data) {
-									$('#addEventPicture').attr('disabled', false);
+									$('#addStudentFile').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
-									$('#eventpictures-grid').data.reload();
+									$('#studentfiles-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
-											text: "Picture added to event!",
+											text: "File added to student!",
 											sticky: !0,
 											time: "",
 											class_name: "my-sticky-class"
@@ -200,19 +142,19 @@
 								},
 								error: function(xhr, ajaxOptions, thrownError) {
 									console.log(xhr.responseText);
-									$('#addEventPicture').attr('disabled', false);
+									$('#addStudentFile').attr('disabled', false);
 								}
 							});
 						});
 
-						$(document).on("click", 'button[id^=picdel_]', function () {
-							var pictureId = parseInt($(this).attr('id').split('_')[1]);
+						$(document).on("click", 'button[id^=filedel_]', function () {
+							var fileId = parseInt($(this).attr('id').split('_')[1]);
 
-							if (pictureId === 0) {
+							if (fileId === 0) {
 								setTimeout(function () {
 									$.gritter.add({
 										title: "Failure",
-										text: "An error occurred while deleting picture!",
+										text: "An error occurred while deleting file!",
 										sticky: !0,
 										time: "",
 										class_name: "my-sticky-class"
@@ -222,7 +164,7 @@
 							}
 
 							var postData = {
-								id: pictureId
+								id: fileId
 							};
 
 							addAntiForgeryToken(postData);
@@ -230,14 +172,14 @@
 							$.ajax({
 								cache: false,
 								type: "POST",
-								url: "@(Url.Action("DeleteEventPicture", "Event"))",
+								url: "@(Url.Action("DeleteStudentFile", "Student"))",
 								data: postData,
 								success: function (data) {
-									$('#eventpictures-grid').data.reload();
+									$('#studentfiles-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
-											text: "Picture deleted successfully!",
+											text: "File deleted successfully!",
 											sticky: !0,
 											time: "",
 											class_name: "my-sticky-class"
@@ -249,7 +191,7 @@
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Failure",
-											text: "Failed to delete event picture!",
+											text: "Failed to delete student file!",
 											sticky: !0,
 											time: "",
 											class_name: "my-sticky-class"
@@ -259,19 +201,17 @@
 							});
 						});
 
-						$(document).on("click", 'button[id^=picupd_]', function () {
-							var pictureId = parseInt($(this).attr('id').split('_')[1]);
-							var eventId = parseInt($(this).attr("data-event"));
-							var startDate = moment($("#startpic_" + pictureId).val()).format("DD MMMM, YYYY");
-							var endDate = moment($("#endpic_" + pictureId).val()).format("DD MMMM, YYYY");
-							var defaultPic = $("#defaultpic_" + pictureId).val();
-							var order = $("#picOrder_" + pictureId).val();
+						$(document).on("click", 'button[id^=fileupd_]', function () {
+							var fileId = parseInt($(this).attr('id').split('_')[1]);
+							var studentId = parseInt($(this).attr("data-student"));
+                            var title = $("#fileTitle_" + fileId).val();
+                            var type = $("#fileType_" + fileId).val();
 
-							if (pictureId === 0) {
+							if (fileId === 0) {
 								setTimeout(function () {
 									$.gritter.add({
 										title: "Failure",
-										text: "An error occurred while updating picture!",
+										text: "An error occurred while updating file!",
 										sticky: !0,
 										time: "",
 										class_name: "my-sticky-class"
@@ -280,9 +220,7 @@
 								return;
 							}
 
-							if ((startDate == null || startDate === "") ||
-								(endDate == null || endDate === "") ||
-								(order == null || order === "")) {
+                            if ((type == null || type === "") || (title == null || title === "")) {
 								setTimeout(function () {
 								$.gritter.add({
 									title: "Failure",
@@ -296,30 +234,24 @@
 							}
 
 							var postData = {
-								eventId: eventId,
-								pictureId: pictureId,
-								startDay: moment(startDate).format("DD"),
-								startMonth: moment(startDate).format("MM"),
-								startYear: moment(startDate).format("YYYY"),
-								endDay: moment(endDate).format("DD"),
-								endMonth: moment(endDate).format("MM"),
-								endYear: moment(endDate).format("YYYY"),
-								isDefault: defaultPic,
-								displayOrder: order
+								studentId: studentId,
+								fileId: fileId,
+								title: title,
+								type: type
 							};
 							addAntiForgeryToken(postData);
 
 							$.ajax({
 								cache: false,
 								type: "POST",
-								url: "@(Url.Action("UpdateEventPicture", "Event"))",
+								url: "@(Url.Action("StudentFileAddUpdate", "Student"))",
 								data: postData,
 								success: function (data) {
-									$('#eventpictures-grid').data.reload();
+									$('#studentfiles-grid').data.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
-											text: "Picture updated successfully!",
+											text: "File updated successfully!",
 											sticky: !0,
 											time: "",
 											class_name: "my-sticky-class"
@@ -331,7 +263,7 @@
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Failure",
-											text: "Failed to update event picture!",
+											text: "Failed to update student file!",
 											sticky: !0,
 											time: "",
 											class_name: "my-sticky-class"
@@ -340,23 +272,14 @@
 								}
 							});
 						});
-
-						$(document).on("change", "input[type=checkbox][name=defaultpicture]",function() {
-							if ($(this).prop('checked')) {
-								$("input[name=defaultpicture]").prop("checked", false);
-								$(this).attr('checked', true).val(true);
-							} else {
-								$(this).attr('checked', false).val(false);
-							}
-						});
 					});
 				</script>
-				@Html.EditorFor(model => model.InsertPictureModel.PictureId)
-				@Html.ValidationMessageFor(model => model.InsertPictureModel.PictureId)
+				@Html.EditorFor(model => model.FileId)
+				@Html.ValidationMessageFor(model => model.FileId)
 				&nbsp;
 			</div>
 			<div class="panel-footer">
-				<button type="button" id="addPicture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Event</button>
+				<button type="button" id="addFile" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add File To Student</button>
 			</div>
 		</div>
 	}
@@ -365,7 +288,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="alert alert-info" role="alert">
-					<strong>Heads up!</strong> Please save event first to upload picture.
+					<strong>Heads up!</strong> Please save student first to upload files.
 				</div>
 			</div>
 		</div>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EF.Core;
 using EF.Core.Data;
@@ -26,9 +27,17 @@ namespace EF.Services.Service
 			_fileRepository.Update(files);
 		}
 
-		#endregion
+        public void Delete(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("File");
 
-		public IList<File> GetAllFiles()
+            _fileRepository.Delete(id);
+        }
+
+        #endregion
+
+        public IList<File> GetAllFiles()
 		{
 			return _fileRepository.Table.OrderByDescending(a => a.CreatedOn).ToList();
 		}
@@ -57,7 +66,15 @@ namespace EF.Services.Service
 			return null;
 		}
 
-		public File GetFileById(int fileId)
+        public IList<File> GetAllFilesByStudent(int studentId)
+        {
+            if (studentId == 0)
+                throw new System.Exception("Student Id Is Missing!");
+
+            return _fileRepository.Table.Where(a => a.Students.Any(y => y.Id == studentId)).OrderByDescending(a => a.CreatedOn).ToList();
+        }
+
+        public File GetFileById(int fileId)
 		{
 			if (fileId == 0)
 				return null;

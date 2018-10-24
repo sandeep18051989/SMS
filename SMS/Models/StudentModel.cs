@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using EF.Core.Data;
 using EF.Services;
 using FluentValidation.Attributes;
@@ -14,11 +16,13 @@ namespace SMS.Models
 		{
 			Division_Class_Student = new Division_Class_StudentModel();
 			Files = new List<FilesModel>();
-			Religion = new ReligionModel();
 			StudentPicture = new PictureModel();
 			FatherPicture = new PictureModel();
 			MotherPicture = new PictureModel();
-		}
+            AvailableCastes = new List<SelectListItem>();
+            AvailableReligions = new List<SelectListItem>();
+            AvailableHouses = new List<SelectListItem>();
+        }
 		public string FName { get; set; }
 		public string IdentityNumber { get; set; }
 		public string MName { get; set; }
@@ -29,18 +33,24 @@ namespace SMS.Models
 		public string MotherFName { get; set; }
 		public string MotherMName { get; set; }
 		public string MotherLName { get; set; }
+        [UIHint("Date")]
 		public DateTime DateOfBirth { get; set; }
 		public double Weight { get; set; }
 		public double Height { get; set; }
 		public string RelName { get; set; }
-		public string Caste { get; set; }
-		public string BusFacility { get; set; }
-		public string MotherTounge { get; set; }
+		public int? CasteId { get; set; }
+        public int? ReligionId { get; set; }
+        [UIHint("File")]
+        public int FileId { get; set; }
+        public int? HouseId { get; set; }
+        public bool BusFacility { get; set; }
+        public bool IsActive { get; set; }
+        public string MotherTounge { get; set; }
 		public string BirthMark { get; set; }
 		public string Disease { get; set; }
-		public string Student_BusNo_RNo { get; set; }
-		public string Bus_NoSchool { get; set; }
-		public string AadharCardNo { get; set; }
+        public string BusNumber { get; set; }
+        public string RouteNumber { get; set; }
+        public string AadharCardNo { get; set; }
 		public string Pre_Institute_Name { get; set; }
 		public string Pre_Institute_Address { get; set; }
 		public string E_Phisician_Name { get; set; }
@@ -68,26 +78,23 @@ namespace SMS.Models
 		public string Sex { get; set; }
 		public string SeoUrl { get; set; }
 		public DateTime AdmissionDate { get; set; }
-		public string FromYY { get; set; }
-		public string ToYY { get; set; }
-		public int Installments { get; set; }
+        [UIHint("Picture")]
 		public int PictureId { get; set; }
-		public int FatherPictureId { get; set; }
-		public int MotherPictureId { get; set; }
-		public int HouseId { get; set; }
+        [UIHint("Picture")]
+        public int FatherPictureId { get; set; }
+        [UIHint("Picture")]
+        public int MotherPictureId { get; set; }
 		public string SystemName { get; set; }
-		public int AcadmicYearId { get; set; }
-		public virtual AcadmicYear AcadmicYear { get; set; }
 		public IList<FilesModel> Files { get; set; }
-
-		public ReligionModel Religion { get; set; }
 		public PictureModel StudentPicture { get; set; }
 		public PictureModel FatherPicture { get; set; }
 		public PictureModel MotherPicture { get; set; }
-		public HouseModel House { get; set; }
 
 		public Division_Class_StudentModel Division_Class_Student { get; set; }
-	}
+        public IList<SelectListItem> AvailableCastes { get; set; }
+        public IList<SelectListItem> AvailableReligions { get; set; }
+        public IList<SelectListItem> AvailableHouses { get; set; }
+    }
 
 	public partial class StudentListModel
 	{
@@ -98,4 +105,13 @@ namespace SMS.Models
 
 		public IList<StudentModel> Students { get; set; }
 	}
+
+    public partial class FileListModel
+    {
+        public int Id { get; set; }
+        public int StudentId { get; set; }
+        public string Title { get; set; }
+        public string Type { get; set; }
+        public string FileSrc { get; set; }
+    }
 }

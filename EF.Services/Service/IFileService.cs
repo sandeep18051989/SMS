@@ -7,11 +7,16 @@ namespace EF.Services.Service
 	{
 		void Insert(File files);
 		void Update(File files);
-		IList<File> GetAllFiles();
+        void Delete(int id);
+
+        IList<File> GetAllFiles();
 		File GetFileById(int fileId);
 		IList<File> GetFiles(bool active = true);
 		IList<File> GetAllFilesByUser(int userId);
 		IList<File> GetAllFilesByProduct(int productId);
 
-	}
+        IList<File> GetAllFilesByStudent(int studentId);
+
+
+    }
 }

@@ -16,7 +16,6 @@ namespace SMS.Models
 		public DateTime FromDate { get; set; }
 		public DateTime ToDate { get; set; }
 		public string Bonafied_Status { get; set; }
-		public string IC_Status { get; set; }
 		public StudentModel Student { get; set; }
 		public ClassModel Class { get; set; }
 		public DivisionModel Division { get; set; }

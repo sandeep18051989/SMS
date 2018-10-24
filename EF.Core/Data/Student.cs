@@ -24,15 +24,14 @@ namespace EF.Core.Data
 		public double? Weight { get; set; }
 		public double? Height { get; set; }
 		public int? ReligionId { get; set; }
-		public string RelName { get; set; }
-		public string Caste { get; set; }
-		public string BusFacility { get; set; }
+		public int? CasteId { get; set; }
+		public bool BusFacility { get; set; }
 		public string MotherTounge { get; set; }
 		public string BirthMark { get; set; }
 		public string Disease { get; set; }
-		public string Student_BusNo_RNo { get; set; }
-		public string Bus_NoSchool { get; set; }
-		public string AadharCardNo { get; set; }
+		public string BusNumber { get; set; }
+        public string RouteNumber { get; set; }
+        public string AadharCardNo { get; set; }
 		public string Pre_Institute_Name { get; set; }
 		public string Pre_Institute_Address { get; set; }
 		public string E_Phisician_Name { get; set; }
@@ -60,9 +59,6 @@ namespace EF.Core.Data
 		public string Sex { get; set; }
 		public string SeoUrl { get; set; }
 		public DateTime? AdmissionDate { get; set; }
-		public string FromYY { get; set; }
-		public string ToYY { get; set; }
-		public int Installments { get; set; }
 		public int StudentPictureId { get; set; }
 		public int FatherPictureId { get; set; }
 		public int MotherPictureId { get; set; }

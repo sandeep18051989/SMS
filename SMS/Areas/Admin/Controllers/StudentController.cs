@@ -27,12 +27,13 @@ namespace SMS.Areas.Admin.Controllers
 		private readonly IPermissionService _permissionService;
 		private readonly IAuditService _auditService;
 		private readonly ISMSService _smsService;
+        private readonly IFileService _fileService;
 
-		#endregion Fileds
+        #endregion Fileds
 
-		#region Constructor
+        #region Constructor
 
-		public StudentController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, IAuditService auditService, ISMSService smsService)
+        public StudentController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, IAuditService auditService, ISMSService smsService, IFileService fileService)
 		{
 			this._userService = userService;
 			this._pictureService = pictureService;
@@ -43,6 +44,7 @@ namespace SMS.Areas.Admin.Controllers
 			this._permissionService = permissionService;
 			this._auditService = auditService;
 			this._smsService = smsService;
+            this._fileService = fileService;
 		}
 
 		#endregion
@@ -103,11 +105,43 @@ namespace SMS.Areas.Admin.Controllers
 
 		}
 
-		#endregion
+        [HttpPost]
+        public ActionResult LoadFileGrid(int id)
+        {
+            try
+            {
+                var fileData = (from associatedfile in _fileService.GetAllFilesByStudent(id) select associatedfile).OrderByDescending(eve => eve.CreatedOn).ToList();
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        data = fileData.Select(x => new FileListModel()
+                        {
+                            Id = x.Id,
+                            Title = !string.IsNullOrEmpty(x.Title) ? x.Title.Trim() : "",
+                            Type = !string.IsNullOrEmpty(x.Type) ? x.Type.Trim() : "",
+                            StudentId = id,
+                            FileSrc = !string.IsNullOrEmpty(x.Src) ? x.Src.Trim() : "",
+                        })
+                    },
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
-		#region Action Methods
+        }
 
-		public ActionResult List()
+        #endregion
+
+        #region Action Methods
+
+        public ActionResult List()
 		{
 			if (!_permissionService.Authorize("ManageStudents"))
 				return AccessDeniedView();
@@ -128,7 +162,6 @@ namespace SMS.Areas.Admin.Controllers
 			var model = new StudentModel()
 			{
 				Id = student.Id,
-				AcadmicYear = student.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(student.AcadmicYearId) : null,
 				UserId = student.UserId,
 			};
 
@@ -213,20 +246,6 @@ namespace SMS.Areas.Admin.Controllers
 			return RedirectToAction("List");
 		}
 
-		//[HttpPost]
-		//public ActionResult DeleteSelected(ICollection<int> selectedIds)
-		//{
-		//	if (!_permissionService.Authorize("ManageStudents"))
-		//		return AccessDeniedView();
-
-		//	if (selectedIds != null)
-		//	{
-		//		_smsService.DeleteStudents(_smsService.GetStudentsByIds(selectedIds.ToArray()).ToList());
-		//	}
-
-		//	return Json(new { Result = true });
-		//}
-
 		public ActionResult Delete(int id)
 		{
 			if (!_permissionService.Authorize("ManageStudents"))
@@ -242,7 +261,73 @@ namespace SMS.Areas.Admin.Controllers
 			return RedirectToAction("List");
 		}
 
-		#endregion
+        #region Student Files
 
-	}
+        [ValidateInput(false)]
+        [HttpPost]
+        public virtual ActionResult StudentFileAddUpdate(int studentId,int fileId, string title, string type)
+        {
+            if (!_permissionService.Authorize("ManageStudents"))
+                return AccessDeniedView();
+
+            if (fileId == 0)
+                throw new ArgumentException();
+
+            var thisstudent = _smsService.GetStudentById(studentId);
+            if (thisstudent == null)
+                throw new ArgumentException("No student found with the specified id");
+
+            var file = _fileService.GetFileById(fileId);
+            if (file == null)
+                throw new ArgumentException("No file found with the specified id");
+
+            if(!string.IsNullOrEmpty(title) && !thisstudent.Files.Any(x => x.Title.Trim().ToLower() == title.Trim().ToLower()))
+            {
+                file.Title = title;
+                file.Type = type;
+                thisstudent.Files.Add(file);
+                _smsService.UpdateStudent(thisstudent);
+            }
+            else if (fileId > 0 && !thisstudent.Files.Any(x => x.Id == fileId))
+            {
+                file.Title = title;
+                file.Type = type;
+                thisstudent.Files.Add(file);
+                _smsService.UpdateStudent(thisstudent);
+            }
+
+            return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteStudentFile(int id)
+        {
+            if (!_permissionService.Authorize("ManageStudents"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new Exception("File id not found");
+
+            var fileRecord = _fileService.GetFileById(id);
+            if (fileRecord != null)
+            {
+                _fileService.Delete(fileRecord.Id);
+            }
+
+            SuccessNotification("Student file deleted successfully");
+            return new JsonResult()
+            {
+                Data = true,
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+        }
+
+        #endregion
+
+        #endregion
+
+    }
 }
