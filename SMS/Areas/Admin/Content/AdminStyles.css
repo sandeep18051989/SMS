@@ -1695,3 +1695,4 @@ span.badge.badge-notify {
 	padding: 5px;
 	border-radius: 4px;
 }
+select.mdb-select.initialized{display:none;}

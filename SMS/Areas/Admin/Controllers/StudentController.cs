@@ -82,15 +82,30 @@ namespace SMS.Areas.Admin.Controllers
 				//Paging     
 				var data = studentData.Skip(skip).Take(pageSize).ToList();
 
-				//Returning Json Data 
-				return new JsonResult()
-				{
-					Data = new
-					{
-						draw = draw,
-						recordsFiltered = recordsTotal,
-						recordsTotal = recordsTotal,
-						data = data.Select(x => x.ToModel())
+                //Returning Json Data 
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        draw = draw,
+                        recordsFiltered = recordsTotal,
+                        recordsTotal = recordsTotal,
+                        data = data.Select(x => new StudentDataTable()
+                        {
+                            Id = x.Id,
+                            Name = x.FName + (!string.IsNullOrEmpty(x.MName) ? (" " + x.MName) : "") + (!string.IsNullOrEmpty(x.LName) ? (" " + x.LName) : ""),
+                            FatherName = x.FatherFName + (!string.IsNullOrEmpty(x.FatherMName) ? (" " + x.FatherMName) : "") + (!string.IsNullOrEmpty(x.FatherLName) ? (" " + x.FatherLName) : ""),
+                            AdmissionDate = x.AdmissionDate.Value.ToString("dd MMM yyyy"),
+                            BusFacility = x.BusFacility,
+                            DateOfBirth = x.DateOfBirth.Value.ToString("dd MMM yyyy"),
+                            EmailAddress = !string.IsNullOrEmpty(x.EmailAddress) ? x.EmailAddress : "",
+                            FatherContact = !string.IsNullOrEmpty(x.Father_Contact) ? x.Father_Contact : "",
+                            IsActive = x.IsActive,
+                            PictureSrc = x.StudentPictureId > 0 ? _pictureService.GetPictureById(x.StudentPictureId)?.PictureSrc : "",
+                            Sex = x.Sex,
+                            Url = Url.RouteUrl("Student", new { name = x.GetSystemName() }, "http"),
+                            Username = !string.IsNullOrEmpty(x.UserName) ? x.UserName.Trim() : ""
+                        })
 					},
 					ContentEncoding = Encoding.Default,
 					ContentType = "application/json",

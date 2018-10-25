@@ -22,7 +22,6 @@ namespace SMS.Validations
 			RuleFor(x => x.SystemName).NotEmpty().WithMessage("Please enter short url name");
 			RuleFor(x => x.PictureId).NotEmpty().WithMessage("Please upload students latest picture");
 			RuleFor(x => x.Username).NotEmpty().WithMessage("Please enter unique student username");
-			RuleFor(x => x.AcadmicYear).NotEmpty().WithMessage("Please choose academic year");
 		}
 	}
 }

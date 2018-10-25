@@ -20,14 +20,13 @@ namespace EF.Data.Mapping
 			this.Property(b => b.Height).IsOptional();
 
 			this.Property(b => b.ReligionId).IsOptional();
-			this.Property(b => b.RelName).IsOptional();
-			this.Property(b => b.Caste).IsOptional();
+			this.Property(b => b.CasteId).IsOptional();
 			this.Property(b => b.BusFacility).IsOptional();
 			this.Property(b => b.MotherTounge).IsOptional();
 
 			this.Property(b => b.Disease).IsOptional();
-			this.Property(b => b.Student_BusNo_RNo).IsOptional();
-			this.Property(b => b.Bus_NoSchool).IsOptional();
+			this.Property(b => b.BusNumber).IsOptional();
+			this.Property(b => b.RouteNumber).IsOptional();
 			this.Property(b => b.Pre_Institute_Name).IsOptional();
 			this.Property(b => b.Pre_Institute_Address).IsOptional();
 
@@ -51,9 +50,6 @@ namespace EF.Data.Mapping
 
 			this.Property(b => b.DistrictTemp).IsOptional();
 			this.Property(b => b.PinTemp).IsOptional();
-			this.Property(b => b.FromYY).IsOptional();
-			this.Property(b => b.ToYY).IsOptional();
-			this.Property(b => b.Installments).IsOptional();
 
 			this.Property(b => b.FatherPictureId).IsOptional();
 			this.Property(b => b.MotherPictureId).IsOptional();

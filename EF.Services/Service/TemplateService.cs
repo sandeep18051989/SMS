@@ -314,7 +314,7 @@ namespace EF.Services.Service
 		public virtual void AddProductTokens(IList<DataToken> tokens, Product product)
 		{
 			tokens.Add(new DataToken() { Name = "Product Name", SystemName = "ProductName", Value = product.Name });
-			tokens.Add(new DataToken() { Name = "Product Vendor", SystemName = "ProductVendorName", Value = product.Vendor.VendorName });
+			tokens.Add(new DataToken() { Name = "Product Vendor", SystemName = "ProductVendorName", Value = product.Vendor.Name });
 			tokens.Add(new DataToken() { Name = "Product Id", SystemName = "ProductId", Value = product.Id.ToString() });
 			tokens.Add(new DataToken() { Name = "Product Description", SystemName = "ProductDescription", Value = product.Description });
 			tokens.Add(new DataToken() { Name = "Product Url", SystemName = "ProductUrl", Value = product.GetSystemName() });

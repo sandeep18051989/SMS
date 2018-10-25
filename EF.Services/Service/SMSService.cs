@@ -1357,7 +1357,7 @@ namespace EF.Services.Service
 			if (string.IsNullOrEmpty(name))
 				throw new Exception("Vendor Name is Missing.");
 
-			return _vendorRepository.Table.FirstOrDefault(a => (string.Equals(a.VendorName.Trim().ToLower(), name.Trim().ToLower(),
+			return _vendorRepository.Table.FirstOrDefault(a => (string.Equals(a.Name.Trim().ToLower(), name.Trim().ToLower(),
 				                                          StringComparison.Ordinal)) && a.IsDeleted == false);
 		}
 		public IList<Vendor> SearchVendors(bool? active, string religion = null, string designation = null, int? acedemicyearid = null)

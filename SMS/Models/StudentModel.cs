@@ -34,7 +34,7 @@ namespace SMS.Models
 		public string MotherMName { get; set; }
 		public string MotherLName { get; set; }
         [UIHint("Date")]
-		public DateTime DateOfBirth { get; set; }
+		public DateTime? DateOfBirth { get; set; }
 		public double Weight { get; set; }
 		public double Height { get; set; }
 		public string RelName { get; set; }
@@ -77,7 +77,8 @@ namespace SMS.Models
 		public string Username { get; set; }
 		public string Sex { get; set; }
 		public string SeoUrl { get; set; }
-		public DateTime AdmissionDate { get; set; }
+        [UIHint("Date")]
+		public DateTime? AdmissionDate { get; set; }
         [UIHint("Picture")]
 		public int PictureId { get; set; }
         [UIHint("Picture")]
@@ -100,10 +101,10 @@ namespace SMS.Models
 	{
 		public StudentListModel()
 		{
-			Students = new List<StudentModel>();
+			Students = new List<StudentDataTable>();
 		}
 
-		public IList<StudentModel> Students { get; set; }
+		public IList<StudentDataTable> Students { get; set; }
 	}
 
     public partial class FileListModel
@@ -113,5 +114,26 @@ namespace SMS.Models
         public string Title { get; set; }
         public string Type { get; set; }
         public string FileSrc { get; set; }
+    }
+
+    public partial class StudentDataTable
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string IdentityNumber { get; set; }
+        public string FatherName { get; set; }
+        public string MotherName { get; set; }
+        public string DateOfBirth { get; set; }
+        public bool BusFacility { get; set; }
+        public bool IsActive { get; set; }
+        public string EmailAddress { get; set; }
+        public string FatherContact { get; set; }
+        public string Username { get; set; }
+        public string Sex { get; set; }
+        public string Url { get; set; }
+        public string AdmissionDate { get; set; }
+        public string SystemName { get; set; }
+        public string PictureSrc { get; set; }
+
     }
 }

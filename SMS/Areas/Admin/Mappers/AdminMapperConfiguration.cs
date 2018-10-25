@@ -180,14 +180,14 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
                     .ForMember(dest => dest.InsertPictureModel, mo => mo.Ignore())
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
-	                .ForMember(dest => dest.Url, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
-						  .ForMember(dest => dest.Pictures, mo => mo.Ignore())
+                    .ForMember(dest => dest.Url, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
+                          .ForMember(dest => dest.Pictures, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore());
                 cfg.CreateMap<EventModel, Event>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore())
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
-						  .ForMember(dest => dest.Videos, mo => mo.Ignore());
+                          .ForMember(dest => dest.Videos, mo => mo.Ignore());
 
                 cfg.CreateMap<EventPicture, EventPictureModel>()
                     .ForMember(dest => dest.Event, mo => mo.Ignore())
@@ -271,7 +271,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.postCommentModel, mo => mo.Ignore())
                     .ForMember(dest => dest.ProductCategory, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
-                    .ForMember(dest => dest.Vendor, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableVendors, mo => mo.Ignore())
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore());
                 cfg.CreateMap<ProductModel, Product>()
@@ -351,10 +351,13 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Division_Class_Student, mo => mo.Ignore())
                     .ForMember(dest => dest.FatherPicture, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
-                    .ForMember(dest => dest.Religion, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableReligions, mo => mo.Ignore())
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
-                    .ForMember(dest => dest.House, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableHouses, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableCastes, mo => mo.Ignore())
+                    .ForMember(dest => dest.MotherPicture, mo => mo.Ignore())
                     .ForMember(dest => dest.StudentPicture, mo => mo.Ignore());
+
                 cfg.CreateMap<StudentModel, Student>()
                     .ForMember(dest => dest.AdmissionStatus, mo => mo.Ignore())
                     .ForMember(dest => dest.Assessments, mo => mo.Ignore())
