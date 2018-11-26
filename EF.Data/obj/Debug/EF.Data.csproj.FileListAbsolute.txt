@@ -54,3 +54,27 @@ D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csproj.CoreCompileInputs.cache
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csproj.CopyComplete
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.dll
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.pdb
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Data.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Data.pdb
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Core.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\TrackerEnabledDbContext.Common.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\TrackerEnabledDbContext.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\AutoMapper.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.Integration.Mvc.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.Mvc.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.ValueTuple.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Core.pdb
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\AutoMapper.pdb
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\AutoMapper.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.Integration.Mvc.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.Mvc.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.ValueTuple.xml
+E:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.csprojResolveAssemblyReference.cache
+E:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.dll
+E:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.pdb

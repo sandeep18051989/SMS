@@ -7,474 +7,451 @@
     var _UserContext = EF.Core.ContextHelper.Current.Resolve<IUserContext>();
     var _permissionService = EF.Core.ContextHelper.Current.Resolve<IPermissionService>();
 }
-<ul class="nav metismenu nav-bordered nav-inverse" data-plugin="metismenu">
-    <li><a class="waves-effect" href="@Url.RouteUrl("Root")"><i class="fa fa-home"></i> Home</a></li>
+<ul class="nav">
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.RouteUrl("Root")">
+            <span class="nav-icon">
+                <i class="fa fa-home"></i>
+            </span>
+            <span class="nav-title"> Home</span>
+        </a>
+    </li>
     @if (_permissionService.Authorize("ManageDashboard"))
     {
-        <li>
-            <a class="waves-effect" aria-expanded="false" href="@Url.Action("Index", "Dashboard", new { Area = "Admin" })">
+        <li class="nav-item active">
+            <a class="nav-link" aria-expanded="false" href="@Url.Action("Index", "Dashboard", new {Area = "Admin"})">
                 <span class="nav-icon">
                     <i class="fa fa-dashboard"></i>
                 </span>
                 <span class="nav-title">Dashboard</span>
             </a>
         </li>
-    }
-    <li class="nav-divider"></li>
-    @if (_permissionService.Authorize("ManageDashboard"))
-    {
-        <li>
-            <a class="@(_permissionService.Authorize("ManageEvents") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageEvents") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon">
+                    <i class="fa fa-bitcoin"></i>
+                </span>
                 <span class="nav-title">
                     Events
+                    <span class="nav-tools">
+                        <i class="fa fa-fw arrow"></i>
+                        <span class="label label-notify">New (1)</span>
+                    </span>
+                    @if (_permissionService.Authorize("ManageNews"))
+                    {
+                    <i class="fa fa-angle-down rotate-icon pull=right"></i>
+                    }
                 </span>
-                <span class="nav-tools">
-                    <i class="fa fa-fw arrow"></i>
-                    <span class="label label-notify">New (1)</span>
-                </span>
-                @if (_permissionService.Authorize("ManageEvents"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageEvents"))
-            {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "Event", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Events
-                            <span class="nav-tools">
-                                <span class="label label-notify">(6)</span>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "Event", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
-                            Create
-                        </a>
-                    </li>
-                </ul>
+                {
+            <div class="dropdown-container">
+                <a class="nav-link" href="@Url.Action("List", "Event", new {Area = "Admin"})">
+                    <span class="nav-title">
+                        List
+                    </span>
+                </a>
+                <a class="nav-link" href="@Url.Action("Create", "Event", new {Area = "Admin"})">
+                    <span class="nav-title">
+                        Create
+                    </span>
+                </a>
+            </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageNews") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageNews") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon">
+                    <i class="fa fa-newspaper-o"></i>
+                </span>
                 <span class="nav-title">
                     News
+                    <span class="nav-tools">
+                        <i class="fa fa-fw arrow"></i>
+                        <span class="label label-notify">New (1)</span>
+                    </span>
+                    @if (_permissionService.Authorize("ManageNews"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon pull=right"></i>
+                    }
                 </span>
-                <span class="nav-tools">
-                    <i class="fa fa-fw arrow"></i>
-                    <span class="label label-notify">New (1)</span>
-                </span>
-                @if (_permissionService.Authorize("ManageNews"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageNews"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "News", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            News
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "News", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
                             <span class="nav-tools">
                                 <span class="label label-notify">(6)</span>
                             </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "News", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "News", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageVendors") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon">
+                    <i class="fa fa-user-secret"></i>
+                </span>
                 <span class="nav-title">
                     Vendors
+                    @if (_permissionService.Authorize("ManageVendors"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon pull=right"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageVendors"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageVendors"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "Vendor", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Vendors
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "Vendor", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Vendor", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Vendor", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageProducts") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageProducts") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-product-hunt"></i> </span>
                 <span class="nav-title">
                     Products
+                    <span class="nav-tools">
+                        <i class="fa fa-fw arrow"></i>
+                        <span class="label label-notify">New (1)</span>
+                    </span>
+                    @if (_permissionService.Authorize("ManageProducts"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                <span class="nav-tools">
-                    <i class="fa fa-fw arrow"></i>
-                    <span class="label label-notify">New (1)</span>
-                </span>
-                @if (_permissionService.Authorize("ManageProducts"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageProducts"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "Product", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Products
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Product", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
                             <span class="nav-tools">
                                 <span class="label label-notify">(6)</span>
                             </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "Product", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Product", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li class="nav-divider"></li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageStudents") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageStudents") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-circle-o"></i> </span>
                 <span class="nav-title">
                     Students
+                    @if (_permissionService.Authorize("ManageStudents"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageStudents"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageStudents"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "Student", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Students
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "Student", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Student", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Student", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageEmployeeAttendance") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageEmployeeAttendance") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-folder-open-o"></i> </span>
                 <span class="nav-title">
                     Attendance
+                    @if (_permissionService.Authorize("ManageEmployeeAttendance"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageEmployeeAttendance"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageEmployeeAttendance"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("EmployeeAttendanceList", "Attendance", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("EmployeeAttendanceList", "Attendance", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Employee Attendance
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("CreateEmployeeAttendance", "Attendance", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("CreateEmployeeAttendance", "Attendance", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Add Employee Attendance
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li class="nav-divider"></li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageDataTokens") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageDataTokens") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-paperclip"></i> </span>
                 <span class="nav-title">
                     Data Tokens
+                    @if (_permissionService.Authorize("ManageDataTokens"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageDataTokens"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageDataTokens"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "DataToken", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Data Tokens
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "DataToken", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "DataToken", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "DataToken", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageTemplates") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageTemplates") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-object-group"></i> </span>
                 <span class="nav-title">
                     Templates
+                    @if (_permissionService.Authorize("ManageTemplates"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageTemplates"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageTemplates"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "Template", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Templates
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "Template", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("TemplateList", "Template", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Template", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageCustomPages") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageCustomPages") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-magic"></i> </span>
                 <span class="nav-title">
                     Custom Pages
+                    @if (_permissionService.Authorize("ManageCustomPages"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageCustomPages"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageCustomPages"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "CustomPage", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Custom Pages
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "CustomPage", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "CustomPage", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "CustomPage", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageRoles") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageRoles") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-suitcase"></i> </span>
                 <span class="nav-title">
                     Roles
+                    @if (_permissionService.Authorize("ManageRoles"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageRoles"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageRoles"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "Role", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Custom Pages
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "Role", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Role", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Role", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManagePermissions") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManagePermissions") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-times"></i> </span>
                 <span class="nav-title">
                     Permissions
+                    @if (_permissionService.Authorize("ManagePermissions"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManagePermissions"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManagePermissions"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("PermissionsList", "Permission", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Permissions
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "Permission", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("PermissionsList", "Permission", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Permission", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageUsers") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageUsers") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-plus"></i> </span>
                 <span class="nav-title">
                     Users
+                    @if (_permissionService.Authorize("ManageUsers"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageUsers"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageUsers"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "User", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
-                            Custom Pages
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Create", "User", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-envelope-open"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "User", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "User", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Create
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li class="nav-divider"></li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageAudits") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageAudits") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-area-chart"></i> </span>
                 <span class="nav-title">
                     Audit Log
+                    @if (_permissionService.Authorize("ManageAudits"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageAudits"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageAudits"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "Audit", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Audit", new {Area = "Admin"})">
+                        <span class="nav-title">
                             Audit Log
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageLogs") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageLogs") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-bar-chart-o"></i> </span>
                 <span class="nav-title">
                     System Log
+                    @if (_permissionService.Authorize("ManageLogs"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageLogs"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageLogs"))
             {
-                <ul class="nav nav-sub collapse" aria-expanded="false">
-                    <li>
-                        <a href="@Url.Action("List", "Log", new { Area = "Admin" })" aria-expanded="false">
-                            <i class="fa fa-inbox"></i>
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Log", new {Area = "Admin"})">
+                        <span class="nav-title">
                             System Log
-                        </a>
-                    </li>
-                </ul>
+                        </span>
+                    </a>
+                </div>
             }
         </li>
-        <li>
-            <a class="collapsible-header waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-commenting"></i> </span>
                 <span class="nav-title">
                     Feedbacks
+                    <i class="fa fa-angle-down rotate-icon"></i>
                 </span>
-                <i class="fa fa-angle-down rotate-icon"></i>
             </a>
-            <ul class="nav nav-sub collapse" aria-expanded="false">
-                <li>
-                    <a href="@Url.Action("List", "Feedback", new { Area = "Admin" })" aria-expanded="false">
-                        <i class="fa fa-inbox"></i>
-                        Feedbacks
-                    </a>
-                </li>
-            </ul>
+            <div class="dropdown-container">
+                <a class="nav-link" href="@Url.Action("List", "Feedback", new {Area = "Admin"})">
+                    <span class="nav-title">
+                        List
+                    </span>
+                </a>
+            </div>
         </li>
-        <li class="nav-divider"></li>
-        <li>
-            <a class="@(_permissionService.Authorize("ManageSettings") ? "collapsible-header" : "") waves-effect arrow-r" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-bitcoin"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageSettings") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon">
+                    <i class="fa fa-wrench"></i>
+                </span>
                 <span class="nav-title">
                     Settings
+                    @if (_permissionService.Authorize("ManageSettings"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
                 </span>
-                @if (_permissionService.Authorize("ManageSettings"))
-                {
-                    <i class="fa fa-angle-down rotate-icon"></i>
-                }
             </a>
             @if (_permissionService.Authorize("ManageSettings"))
             {
-                <ul>
+                <div class="dropdown-container">
                     @Html.Partial("~/Areas/Admin/Views/Common/AdminSettingsMenu.cshtml", Model.ActiveSettings)
-                </ul>
+                </div>
             }
         </li>
     }

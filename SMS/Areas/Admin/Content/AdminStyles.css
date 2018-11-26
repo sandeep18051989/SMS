@@ -411,19 +411,12 @@ a {
 		padding: 5px 15px;
 	}
 
-.sidebar, .sidebar-bg {
+.sidebar-bg {
 	background: #222;
 	left: 0;
 	bottom: 0;
 	width: 220px;
 	top: 0;
-}
-
-.sidebar {
-	position: absolute;
-	padding-top: 54px;
-	z-index: 1010;
-	-webkit-transform: translateZ(0);
 }
 
 #page-loader, .page-sidebar-fixed .sidebar, .page-with-two-sidebar.page-sidebar-fixed .sidebar.sidebar-right {
@@ -549,15 +542,6 @@ sidebar .nav > li.nav-profile .info small {
 	clear: both;
 	display: table;
 }
-
-.sidebar .nav > li > a {
-	padding: 7px 20px;
-	line-height: 20px;
-	color: #aaa;
-	line-height: 20px;
-	color: #aaa;
-}
-
 .nav > li > a {
 	color: #6e7179;
 }
@@ -567,35 +551,29 @@ sidebar .nav > li.nav-profile .info small {
 	color: #fff !important;
 }
 
-.sidebar .nav > li > a .icon-img, .sidebar .nav > li > a i {
-	float: left;
-	width: 26px;
-	border-radius: 6px;
-	margin: -3px 12px -3px 0;
+.perfect-scrollbar-on .main-panel, .perfect-scrollbar-on .sidebar {
+    height: 100%;
+    max-height: 100%;
 }
-
-.sidebar .nav > li > a i {
-	text-align: center;
-	line-height: 26px;
-	font-size: 16px;
-	color: #fff;
-	background: url(../img/transparent/white-0.2.png);
-	background: rgba(255,255,255,.2);
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 260px;
+    background: #fff;
+    box-shadow: 0 16px 38px -12px rgba(0,0,0,.56),0 4px 25px 0 rgba(0,0,0,.12),0 8px 10px -5px rgba(0,0,0,.2);
 }
-
-.sidebar-bg {
-	position: fixed;
-	z-index: 1000;
+.sidebar .logo::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+    height: 1px;
+    width: calc(100% - 30px);
+    background-color: hsla(0,0%,71%,.3);
 }
-
-.sidebar, .sidebar-bg {
-	background: #222;
-	left: 0;
-	bottom: 0;
-	width: 220px;
-	top: 0;
-}
-
 ol, ul {
 	margin-top: 0;
 	margin-bottom: 10px;
@@ -1696,4 +1674,187 @@ span.badge.badge-notify {
 	border-radius: 4px;
 }
 select.mdb-select.initialized{display:none;}
+.sidebar .logo {
+    padding-top: 70px;
+    padding-bottom: 10px;
+    margin: 0;
+    display: block;
+    position: relative;
+    z-index: 4;
+}
+.sidebar .logo .simple-text {
+    text-transform: uppercase;
+    padding:15px 0;
+    display: inline-block;
+    font-size:20px;
+    color: #3c4858;
+    white-space: nowrap;
+    font-weight: 400;
+    line-height: 30px;
+    overflow: hidden;
+    text-align: center;
+    display: block;
+}
+.sidebar .sidebar-wrapper {
+    position: relative;
+    height: calc(100vh - 75px);
+    overflow: auto;
+    width: 260px;
+    z-index: 4;
+    padding-bottom: 30px;
+}
+.ps-container {
+    -ms-touch-action: auto;
+    touch-action: auto;
+    overflow: hidden !important;
+    -ms-overflow-style: none;
+}
+.main-panel, .sidebar, .sidebar-wrapper {
+    transition-property: top,bottom,width;
+    transition-duration: .2s,.2s,.35s;
+    transition-timing-function: linear,linear,ease;
+    -webkit-overflow-scrolling: touch;
+}
+.sidebar .nav {
+    display: block;
+}
+.sidebar[data-color="purple"] li.active > a {
+    background-color: #9c27b0;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14),0 7px 10px -5px rgba(156,39,176,.4);
+}
+.sidebar .nav li.active > a, .sidebar .nav li.active > a i {
+    color: #fff;
+}
+.sidebar .nav li:first-child > a {
+    margin: 0 15px;
+}
+.sidebar .nav li .dropdown-menu a, .sidebar .nav li a {
+    margin: 10px 15px 0;
+    border-radius: 3px;
+    color: #3c4858;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-transform: capitalize;
+    font-size: 13px;
+    padding:5px;
+}
+.caret, .sidebar a {
+    transition: all .15s ease-in;
+}
+.nav-link {
+    display: block;
+    padding: .5rem 1rem;
+}
+.sidebar .nav li.active > a, .sidebar .nav li.active > a i {
+    color: #fff;
+}
+.sidebar .nav i:not(.fa-angle-down) {
+    font-size: 24px;
+    float: left;
+    margin-right: 15px;
+    text-align: center;
+    color: #a9afbb;
+}
+.sidebar .nav i.fa-angle-down{
+    float: right;
+    position: absolute;
+    right: 30px;
+    bottom: 4px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.sidebar .nav span.label.label-notify {
+    background-color: #9c27b0;
+    color: #fff;
+    font-weight: normal;
+    letter-spacing: 1px;
+    padding: 2px;
+    border-radius: 3px;
+    margin-left: 3px;
+    font-size: 8px;
+    line-height: 30px;
+}
+a .material-icons {
+    vertical-align: middle;
+}
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -moz-font-feature-settings: 'liga';
+    -moz-osx-font-smoothing: grayscale;
+}
+.animation-transition-general, .sidebar .nav p, .sidebar .sidebar-wrapper .user .user-info [data-toggle="collapse"] ~ div > ul > li > a span, .sidebar .sidebar-wrapper > .nav [data-toggle="collapse"] ~ div > ul > li > a span {
+    transition: all .3s linear;
+}
+.sidebar .nav .nav-title {
+    margin: 0;
+    line-height: 30px;
+    font-size: 14px;
+    position: relative;
+    display: block;
+    height: auto;
+    white-space: nowrap;
+}
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
 
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+    color: #f1f1f1;
+}
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+}
+.sidebar .nav li .dropdown-container a {
+    margin: 0;
+    border-radius: 3px; 
+    color: #818181;
+    text-transform: capitalize;
+    font-size: 13px;
+    padding:0px 15px;
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+.sidebar .nav li .dropdown-container .nav-title{background-color: #f1f1f1;padding-left: 5px;}
+.sidebar .nav li .dropdown-container .nav-link:hover .nav-title{color: #fff;background-color: #9c27b0;}
+.navbar-toggler {
+    padding: .25rem .75rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+}
+.navbar-toggler:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.navbar-toggler {
+    cursor: pointer;
+    outline: 0;
+}

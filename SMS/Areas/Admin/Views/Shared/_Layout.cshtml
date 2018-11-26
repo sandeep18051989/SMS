@@ -1,6 +1,6 @@
 ﻿@using System.Web.Optimization;
 <!DOCTYPE html>
-<html>
+<html class="perfect-scrollbar-on">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,32 +37,25 @@
 </head>
 <body class="fixed-sn light-blue-skin">
     <div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
-    <header class="app mgscd-menu">
+    <header class="app">
         <nav class="navbar navbar-expand-lg navbar-dark double-nav fixed-top scrolling-navbar">
-            <div class="float-left">
-                <a href="#" data-activates="slide-out" class="button-collapse">
-                    <i class="fa fa-bars"></i>
-                </a>
-            </div>
             <div class="breadcrumb-dn mr-auto">
                 @Html.Partial("~/Areas/Admin/Views/Common/Breadcrumb.cshtml")
             </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
             @Html.Action("TopLinks", "Dashboard")
         </nav>
-        <aside class="app-side">
-            <div class="side-content">
-                <div class="user-panel">
-                    <div class="user-image">
-                        <a href="#" class="pl-0">
-                            <img src="~/Content/images/logo.png" alt="SMS ADMIN" />
-                        </a>
-                    </div>
-                </div>
-                <nav class="dmvertical-menu side-nav">
-                    @Html.Action("SideBar", "Dashboard", null)
-                </nav>
-            </div><div class="p-t-15 p-b-10 p-h-15 side-footer"><p><i class="fa fa-users"></i> Site Visitors</p><div class="is-xs progress"><div class="progress-bar progress-bar-success" aria-valuemax="100" aria-valuemin="0" aria-valuenow="82" role="progressbar" style="width:82%"><span class="sr-only">82% Complete</span></div></div><p><i class="fa fa-registered"></i> Registered Members</p><div class="is-xs progress"><div class="progress-bar progress-bar-warning" aria-valuemax="100" aria-valuemin="0" aria-valuenow="65" role="progressbar" style="width:65%"><span class="sr-only">65% Complete</span></div></div></div>
-        </aside>
+        <div class="sidebar" data-color="purple" data-background-color="white">
+            <div class="logo">
+                <a class="simple-text logo-normal" href="/">SMS</a>
+            </div>
+            <div class="sidebar-wrapper">
+                @Html.Action("SideBar", "Dashboard", null)
+            </div>
+        </div>
     </header>
     <main>
         @Html.Partial("Notifications")
@@ -82,6 +75,22 @@
             $(document).ajaxStop(function () {
                 $(".throbber").hide();
             });
+
+            //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+
+            for (i = 0; i < dropdown.length; i++) {
+                dropdown[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                    } else {
+                        dropdownContent.style.display = "block";
+                    }
+                });
+            }
         });
     </script>
     <div class="throbber">

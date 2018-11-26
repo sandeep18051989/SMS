@@ -20,8 +20,9 @@ namespace SMS
 
                 if (!string.IsNullOrEmpty(stringValue))
                 {
+                    var guidValue = new Guid();
 
-					return Guid.TryParse(stringValue, out Guid guidValue) &&
+                    return Guid.TryParse(stringValue, out guidValue) &&
 						 (_allowEmpty || guidValue != Guid.Empty);
 				}
             }
