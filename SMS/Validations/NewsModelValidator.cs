@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace SMS.Validations
 {
-	public partial class NewsModelValidator : EntityValidatorBase<NewsModel>
+	public partial class NewsModelValidator : BaseModelValidator<NewsModel>
 	{
 		public NewsModelValidator()
 		{

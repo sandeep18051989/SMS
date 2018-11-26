@@ -131,7 +131,6 @@ namespace SMS.Controllers
             try
             {
                 // TODO: Add update logic here
-
                 return RedirectToAction("Index");
             }
             catch
