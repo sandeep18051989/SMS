@@ -45,7 +45,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Products')").closest("li").addClass("active");
+
 		$('#allcheck').on('click', function () {
 			var rows = table.rows({ 'search': 'applied' }).nodes();
 			$('input[type="checkbox"]', rows).prop('checked', this.checked);

@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace SMS.Models
 {
+    [Validator(typeof(CreateDataTokenModelValidator))]
     public partial class DataTokenModel : BaseEntityModel
     {
         public string Name { get; set; }

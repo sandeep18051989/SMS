@@ -123,9 +123,9 @@ namespace EF.Services.Service
             }
         }
 
-        public IList<PermissionRecord> GetAllPermissions(bool? active)
+        public IList<PermissionRecord> GetAllPermissions(bool? onlyActive=null, bool? showSystemDefined = null)
         {
-            return _permissionRepository.Table.Where(x=> (!active.HasValue || x.IsActive == active.Value) && x.IsDeleted == false).OrderBy(x=>x.SystemName).ToList();
+            return _permissionRepository.Table.Where(x=> ((!onlyActive.HasValue || x.IsActive == onlyActive.Value) && (!showSystemDefined.HasValue || x.IsSystemDefined == showSystemDefined.Value)) && x.IsDeleted == false).OrderBy(x=>x.Name).ToList();
         }
 
         public virtual void DeletePermissions(IList<PermissionRecord> permissions)

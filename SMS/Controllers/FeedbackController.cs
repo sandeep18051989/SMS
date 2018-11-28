@@ -72,26 +72,26 @@ namespace SMS.Controllers
 				{
 					_feedbackService.Insert(new Feedback()
 					{
-						Contact = model.ContactNumber,
+						Contact = model.Contact,
 						CreatedOn = DateTime.Now,
 						Description = model.Description,
-						Email = model.EmailAddress,
-						FullName = model.Name,
+						Email = model.Email,
+						FullName = model.FullName,
 						Location = model.Location,
 						ModifiedOn = DateTime.Now
 					});
 
 					var settingTeplate = _settingService.GetSettingByKey("RequestQuote");
-					var Template = _templateService.GetTemplateByName(settingTeplate.Value);
-					if (Template != null)
+					var template = _templateService.GetTemplateByName(settingTeplate.Value);
+					if (template != null)
 					{
-						foreach (var dt in _templateService.GetAllDataTokensByTemplate(Template.Id).Where(x => x.IsActive).ToList())
+						foreach (var dt in _templateService.GetAllDataTokensByTemplate(template.Id).Where(x => x.IsActive).ToList())
 						{
-							Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+							template.BodyHtml = EF.Core.CodeHelper.Replace(template.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
 						}
 					}
 
-					model.SentSuccess = _emailService.SendMail(model.EmailAddress, "Artery Labs", Template != null ? Template.BodyHtml : "Thanks For Sending Us The Request.");
+					model.SentSuccess = _emailService.SendMail(model.Email, "SMS", template != null ? template.BodyHtml : "Thanks For Sending Us The Request.");
 					if (model.SentSuccess)
 					{
 						// Refresh Model

@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core;
+using EF.Core.Data;
 using EF.Services.Service;
 using SMS.Areas.Admin.Models;
+using SMS.Mappers;
 using SMS.Models;
 
 namespace SMS.Areas.Admin.Controllers
@@ -52,9 +56,67 @@ namespace SMS.Areas.Admin.Controllers
 			this._permissionService = permissionService;
 		}
 
-		#endregion
+        #endregion
 
-		public ActionResult List()
+	    #region Utilities
+
+	    public ActionResult LoadGrid()
+	    {
+	        try
+	        {
+	            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+	            var start = Request.Form.GetValues("start").FirstOrDefault();
+	            var length = Request.Form.GetValues("length").FirstOrDefault();
+	            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+	            var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+	            var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+	            //Paging Size (10,20,50,100)    
+	            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+	            int skip = start != null ? Convert.ToInt32(start) : 0;
+	            int recordsTotal = 0;
+
+	            // Getting all data    
+	            var feedbackData = (from tempfeedbacks in _feedbackService.GetFeedbacks() select tempfeedbacks);
+
+	            //Search    
+	            if (!string.IsNullOrEmpty(searchValue))
+	            {
+	                feedbackData = feedbackData.Where(m => m.FullName.Contains(searchValue) || m.Description.Contains(searchValue) || m.Email.Contains(searchValue) || m.Location.Contains(searchValue));
+	            }
+
+	            //total number of rows count     
+	            var lstFeedbacks = feedbackData as Feedback[] ?? feedbackData.ToArray();
+	            recordsTotal = lstFeedbacks.Count();
+	            //Paging     
+	            var data = lstFeedbacks.Skip(skip).Take(pageSize);
+
+	            //Returning Json Data 
+	            return new JsonResult()
+	            {
+	                Data = new
+	                {
+	                    draw = draw,
+	                    recordsFiltered = recordsTotal,
+	                    recordsTotal = recordsTotal,
+	                    data = data.Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList()
+	                },
+	                ContentEncoding = Encoding.Default,
+	                ContentType = "application/json",
+	                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+	                MaxJsonLength = int.MaxValue
+	            };
+	        }
+	        catch (Exception ex)
+	        {
+	            throw new Exception(ex.Message);
+	        }
+
+	    }
+
+	    #endregion
+
+        public ActionResult List()
 		{
 			if (!_permissionService.Authorize("ManageUsers"))
 				return AccessDeniedView();
@@ -68,12 +130,12 @@ namespace SMS.Areas.Admin.Controllers
 					var feedModel = new FeedbackModel
 					{
 						Description = feed.Description,
-						EmailAddress = feed.Email,
-						ContactNumber = feed.Contact,
+						Email = feed.Email,
+						Contact = feed.Contact,
 						Id = feed.Id,
 						Location = feed.Location,
 						Date = feed.CreatedOn,
-						Name = feed.FullName
+						FullName = feed.FullName
 					};
 					model.Add(feedModel);
 				}

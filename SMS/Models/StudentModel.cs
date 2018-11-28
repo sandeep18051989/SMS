@@ -35,13 +35,13 @@ namespace SMS.Models
 		public string MotherLName { get; set; }
         [UIHint("Date")]
 		public DateTime? DateOfBirth { get; set; }
-		public double Weight { get; set; }
-		public double Height { get; set; }
+		public double? Weight { get; set; }
+		public double? Height { get; set; }
 		public string RelName { get; set; }
 		public int? CasteId { get; set; }
         public int? ReligionId { get; set; }
         [UIHint("File")]
-        public int FileId { get; set; }
+        public int? FileId { get; set; }
         public int? HouseId { get; set; }
         public bool BusFacility { get; set; }
         public bool IsActive { get; set; }
@@ -70,13 +70,24 @@ namespace SMS.Models
 		public string Permanent_Address { get; set; }
 		public string TalukaPer { get; set; }
 		public string DistrictPer { get; set; }
-		public int PinPer { get; set; }
+		public int? PinPer { get; set; }
 		public string TalukaTemp { get; set; }
 		public string DistrictTemp { get; set; }
-		public int PinTemp { get; set; }
+		public int? PinTemp { get; set; }
 		public string Username { get; set; }
 		public string Sex { get; set; }
 		public string SeoUrl { get; set; }
+
+	    [UIHint("Picture")]
+        public int CoverPictureId { get; set; }
+	    public string FacebookLink { get; set; }
+	    public string TweeterLink { get; set; }
+	    public string InstagramLink { get; set; }
+	    public string GooglePlusLink { get; set; }
+	    public string PInterestLink { get; set; }
+	    public string LinkedInLink { get; set; }
+	    public string Hi5Link { get; set; }
+
         [UIHint("Date")]
 		public DateTime? AdmissionDate { get; set; }
         [UIHint("Picture")]

@@ -1,4 +1,4 @@
-﻿@model SMS.Areas.Admin.Models.CreateRoleModel
+﻿@model SMS.Models.RoleModel
 
 @{
 	ViewBag.Title = "Create Role";
@@ -10,18 +10,18 @@
 			@using (Html.BeginForm())
 			{
 				@Html.AntiForgeryToken()
-				<div class="row">
-					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">CREATE ROLE</h3>
-						<input type="submit" value="Submit" class="btn btn-primary mr-auto" />
-					</div>
-				</div>
+			    <div class="row">
+			        <div id="admin-page-header" class="col-xs-12 col-md-12">
+			            <h3 class="section-heading mr-auto">CREATE ROLE</h3>
+			            <input type="submit" value="Save Role" class="btn btn-primary" />
+			        </div>
+			    </div>
+			    <hr />
 				<div class="row">
 					<div class="col-md-12">
 						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 					</div>
 				</div>
-				<hr />
 				<div class="row text-left">
 					<div class="col-xs-12 col-md-4 mb-4">
 						<div class="md-form">
@@ -33,7 +33,7 @@
 				</div>
 				<div class="row text-left">
 					<div class="col-md-7 mb-4">
-						<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" checked="@(Model.IsActive ? "checked" : "")" />
+						<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" @(Model.IsActive ? "checked=checked" : "") />
 						@Html.LabelFor(model => model.IsActive,"Active", htmlAttributes: new { @class = "form-check-label", @tabindex = "2" })
 						@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 					</div>
@@ -43,7 +43,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Roles')").closest("li").addClass("active");
+
 		if ($("#IsActive").val()) {
 			$("#IsActive").attr('checked', true).val(true);
 		}

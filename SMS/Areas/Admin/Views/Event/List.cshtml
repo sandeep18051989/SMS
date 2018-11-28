@@ -16,7 +16,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xs-12 col-md-12">
+					<div class="col-md-12">
 						<br />
 						<div class="form-group">
 							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
@@ -46,7 +46,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Events')").closest("li").addClass("active");
+
 		$('#allcheck').on('click', function () {
 			var rows = table.rows({ 'search': 'applied' }).nodes();
 			$('input[type="checkbox"]', rows).prop('checked', this.checked);
@@ -95,12 +98,25 @@
 						return data;
 					},
 					"orderable": false,
-					"className": 'text-center'
+					"className": 'text-center',
+					"defaultContent": ""
 				},
-				{ "data": "Title", "title": "Name", "name": "Title", "autoWidth": true },
-				{ "data": "StartDate", "title": "Start Date", "name": "StartDate", "autoWidth": true, "orderable": false },
-				{ "data": "EndDate", "title": "End Date", "name": "EndDate", "autoWidth": true, "orderable": false },
-				{ "data": "Venue", "title": "Location", "name": "Venue", "autoWidth": true, "orderable": true },
+				{
+				    "data": "Title", "title": "Name", "name": "Title", "autoWidth": true,
+				    "defaultContent": ""
+				},
+				{
+				    "data": "StartDate", "title": "Start Date", "name": "StartDate", "autoWidth": true, "orderable": false,
+				    "defaultContent": ""
+				},
+				{
+				    "data": "EndDate", "title": "End Date", "name": "EndDate", "autoWidth": true, "orderable": false,
+				    "defaultContent": ""
+				},
+				{
+				    "data": "Venue", "title": "Location", "name": "Venue", "autoWidth": true, "orderable": true,
+				    "defaultContent": ""
+				},
 				{
 					"data": "IsApproved",
 					"title": "Approved",
@@ -115,7 +131,8 @@
 						return data;
 					},
 					"className": "text-center",
-					"orderable": false
+					"orderable": false,
+					"defaultContent": ""
 				},
 				{
 					"data": "IsActive",
@@ -131,7 +148,8 @@
 						return data;
 					},
 					"className": "text-center",
-					"orderable": false
+					"orderable": false,
+					"defaultContent": ""
 				},
 				{
 					"title": "Comments",
@@ -142,7 +160,8 @@
 							return '<div id="other-related-stats"><span><i class="fa fa-2x fa-comment" aria-hidden="true"></i><span class="badge up badge-danger">' + row.CommentsCount + '</span></span>';
 						}
 						return data;
-					}
+					},
+					"defaultContent": ""
 				},
 				{
 					"title": "Pictures",
@@ -153,7 +172,8 @@
 							return '<span><i class="fa fa-2x fa-picture-o" aria-hidden="true"></i><span class="badge up badge-danger">' + row.PicturesCount + '</span></span>';
 						}
 						return data;
-					}
+					},
+					"defaultContent": ""
 				},
 				{
 					"title": "Videos",
@@ -164,7 +184,8 @@
 							return '<span><i class="fa fa-2x fa-video-camera" aria-hidden="true"></i><span class="badge up badge-danger">' + row.VideosCount + '</span></span>';
 						}
 						return data;
-					}
+					},
+					"defaultContent": ""
 				},
 				{
 					"title": "Reactions",
@@ -175,7 +196,8 @@
 							return '<span><i class="fa fa-2x fa fa-comments-o" aria-hidden="true"></i><span class="badge up badge-danger">' + row.ReactionsCount + '</span></span></div>';
 						}
 						return data;
-					}
+					},
+					"defaultContent": ""
 				},
 				{
 					"title": "Actions",
@@ -186,7 +208,8 @@
 							return '<a href="/Admin/Event/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="eventid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
 						}
 						return data;
-					}
+					},
+					"defaultContent": ""
 				}
 			],
 			"select": {

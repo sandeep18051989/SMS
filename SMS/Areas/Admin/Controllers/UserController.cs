@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Core.Data;
@@ -8,6 +9,7 @@ using EF.Core.Enums;
 using EF.Services;
 using EF.Services.Service;
 using SMS.Areas.Admin.Models;
+using SMS.Mappers;
 using SMS.Models;
 
 namespace SMS.Areas.Admin.Controllers
@@ -42,35 +44,86 @@ namespace SMS.Areas.Admin.Controllers
 			this._auditService = auditService;
 		}
 
-		#endregion
+        #endregion
 
-		#region Action Methods
+	    #region Utilities
 
-		public ActionResult List()
+	    public ActionResult LoadGrid()
+	    {
+	        try
+	        {
+	            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+	            var start = Request.Form.GetValues("start").FirstOrDefault();
+	            var length = Request.Form.GetValues("length").FirstOrDefault();
+	            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+	            var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+	            var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+
+	            //Paging Size (10,20,50,100)    
+	            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+	            int skip = start != null ? Convert.ToInt32(start) : 0;
+	            int recordsTotal = 0;
+
+	            // Getting all data    
+	            var userData = (from tempusers in _userService.GetAllUsers().Where(x => x.Id != 1) select tempusers);
+
+	            //Search    
+	            if (!string.IsNullOrEmpty(searchValue))
+	            {
+	                userData = userData.Where(m => m.SeoName.Contains(searchValue) || m.UserName.Contains(searchValue));
+	            }
+
+	            //total number of rows count     
+	            var lstUsers = userData as User[] ?? userData.ToArray();
+	            recordsTotal = lstUsers.Count();
+	            //Paging     
+	            var data = lstUsers.Skip(skip).Take(pageSize);
+
+	            //Returning Json Data 
+	            return new JsonResult()
+	            {
+	                Data = new
+	                {
+	                    draw = draw,
+	                    recordsFiltered = recordsTotal,
+	                    recordsTotal = recordsTotal,
+	                    data = data.Select(x => new UserModel()
+	                    {
+	                      IsActive  = x.IsActive,
+                          UserId = x.UserId,
+                          Username = x.UserName,
+                          AvailableRoles = x.Roles.Select(y => new RoleModel()
+                          {
+                              RoleName = y.RoleName
+                          }).ToList(),
+                          IsApproved = x.IsApproved,
+                          Id = x.Id
+	                    }).OrderBy(x => x.Username).ToList()
+	                },
+	                ContentEncoding = Encoding.Default,
+	                ContentType = "application/json",
+	                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+	                MaxJsonLength = int.MaxValue
+	            };
+	        }
+	        catch (Exception ex)
+	        {
+	            throw new Exception(ex.Message);
+	        }
+
+	    }
+
+	    #endregion
+
+        #region Action Methods
+
+        public ActionResult List()
 		{
 			if (!_permissionService.Authorize("ManageUsers"))
 				return AccessDeniedView();
 
 			var model = new List<UserModel>();
-			model = _userService.GetAllUsers().Where(x => x.IsDeleted == false && x.Id != 1).ToList().Select(x => new UserModel()
-			{
-				CreatedOn = x.CreatedOn,
-				Id = x.Id,
-				//IsActive = x.IsActive,
-				IsApproved = x.IsApproved,
-				//ChangePassword = new ChangePasswordModel() { Id = x.Id },
-				//AvailableRoles = x.Roles.Select(r => new RoleModel()
-				//{
-				//	Id = r.Id,
-				//	IsActive = r.IsActive,
-				//	IsDeleted = r.IsDeleted,
-				//	RoleName = r.RoleName,
-				//	IsSystemDefined = r.IsSystemDefined
-				//}).ToList(),
-				Username = x.UserName,
-				Email = x.Email
-			}).ToList();
-
 			return View(model);
 		}
 

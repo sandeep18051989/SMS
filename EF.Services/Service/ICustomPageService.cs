@@ -10,8 +10,7 @@ namespace EF.Services.Service
 		void Update(CustomPage customPage);
 
 		void Delete(int id);
-
-		IList<CustomPage> GetAllCustomPages(bool active = false);
+	    IList<CustomPage> GetAllCustomPages(bool? onlyActive = null, bool? showSystemDefined = null);
 		CustomPage GetCustomPageById(int pageId);
 
 		CustomPage GetCustomPageByName(string pageName);

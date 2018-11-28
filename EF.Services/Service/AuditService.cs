@@ -42,11 +42,7 @@ namespace EF.Services
 			if (String.IsNullOrEmpty(entityName))
 				throw new Exception("Entity Name Not Specified.");
 
-			var query = _auditRepository.GetLogs(entityName);
-
-			var audits = query.ToList();
-
-			return audits;
+			return _auditRepository.GetLogs(entityName).ToList();
 		}
 
 		public virtual IList<AuditLog> GetAllAuditsByUser(string userid)

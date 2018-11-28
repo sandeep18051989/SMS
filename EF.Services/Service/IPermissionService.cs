@@ -11,7 +11,7 @@ namespace EF.Services.Service
 
         void Delete(int id);
 
-        IList<PermissionRecord> GetAllPermissions(bool? active);
+        IList<PermissionRecord> GetAllPermissions(bool? onlyActive = null, bool? showSystemDefined = null);
 
         IList<PermissionRecord> GetPermissionsByUserId(int userId);
 

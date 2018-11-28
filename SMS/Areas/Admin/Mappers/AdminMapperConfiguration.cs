@@ -450,6 +450,11 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<TemplateModel, Template>()
                     .ForMember(dest => dest.Tokens, mo => mo.Ignore());
 
+                cfg.CreateMap<DataToken, DataTokenModel>()
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<DataTokenModel, DataToken>()
+                    .ForMember(dest => dest.user, mo => mo.Ignore());
+
                 cfg.CreateMap<TimeTable, TimeTableModel>()
                     .ForMember(dest => dest.AvailableWeekDays, mo => mo.Ignore())
                     .ForMember(dest => dest.Subject, mo => mo.Ignore())

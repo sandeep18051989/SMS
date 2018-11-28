@@ -194,11 +194,11 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new ArgumentNullException("user");
 
-			var _user = _userRepository.Table.Where(x => x.Id == id && x.Id != 1).FirstOrDefault();
-			if (_user != null)
+			var user = _userRepository.Table.FirstOrDefault(x => x.Id == id && x.Id != 1);
+			if (user != null)
 			{
-				_user.IsActive = !_user.IsActive;
-				_userRepository.Update(_user);
+				user.IsActive = !user.IsActive;
+				_userRepository.Update(user);
 			}
 
 		}

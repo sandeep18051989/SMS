@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core.Data;
 using EF.Services.Service;
@@ -8,6 +9,7 @@ using SMS.Areas.Admin.Models;
 using EF.Services;
 using TrackerEnabledDbContext.Common.Models;
 using EF.Core;
+using SMS.Models;
 
 namespace SMS.Areas.Admin.Controllers
 {
@@ -38,74 +40,119 @@ namespace SMS.Areas.Admin.Controllers
         }
 
         #endregion
+
+        #region Utilities
+
+        public ActionResult LoadGrid(string entityname=null)
+        {
+            try
+            {
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+                var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+
+                //Paging Size (10,20,50,100)    
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+
+                if (string.IsNullOrEmpty(entityname))
+                {
+                    //Returning Json Data 
+                    return new JsonResult()
+                    {
+                        Data = new
+                        {
+                            draw = draw,
+                            recordsFiltered = recordsTotal,
+                            recordsTotal = recordsTotal,
+                            data = new List<AuditListModel>()
+                        },
+                        ContentEncoding = Encoding.Default,
+                        ContentType = "application/json",
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                        MaxJsonLength = int.MaxValue
+                    };
+                }
+
+                // Getting all data    
+                var auditData = (from tempaudits in _auditService.GetAllAudits(entityname.Trim()) select tempaudits);
+
+                //Search    
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    auditData = auditData.Where(m => m.TypeFullName.Contains(searchValue) || m.UserName.Contains(searchValue));
+                }
+
+                //total number of rows count     
+                var auditLogs = auditData as AuditLog[] ?? auditData.ToArray();
+                recordsTotal = auditLogs.Count();
+                //Paging     
+                var data = auditLogs.Skip(skip).Take(pageSize);
+
+                //Returning Json Data 
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        draw = draw,
+                        recordsFiltered = recordsTotal,
+                        recordsTotal = recordsTotal,
+                        data = data.Select(x => new AuditModel()
+                        {
+                            UserName = x.UserName.Trim(),
+                            AuditLogId = x.AuditLogId,
+                            EntityName = x.TypeFullName,
+                            TypeFullName = x.TypeFullName,
+                            EventDateString = x.EventDateUTC.ToString("U"),
+                            EventType = x.EventType,
+                            RecordId = x.RecordId,
+                            LogDetails = x.LogDetails.Select(z => new AuditLogDetail()
+                            {
+                                Id = z.Id,
+                                AuditLogId = z.AuditLogId,
+                                NewValue = z.NewValue,
+                                OriginalValue = z.OriginalValue,
+                                PropertyName = z.PropertyName
+                            }).ToList()
+                        }).OrderByDescending(y => y.EventDateUTC).ToList()
+                    },
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        #endregion
         public ActionResult List()
         {
             if (!_permissionService.Authorize("ManageAudits"))
                 return AccessDeniedView();
 
-            var model = new AuditModelListModel();
+            var model = new AuditListModel();
 
             // Get All Entities
-            var AllEntities = FindSubClassesOf<BaseEntity>();
-
-            model.Entities.Add(new SelectListItem { Text = "-- Select Entity --", Value = "0", Selected = true });
-            if (AllEntities.Count() > 0)
+            var allEntities = FindSubClassesOf<BaseEntity>();
+            var enumerable = allEntities as Type[] ?? allEntities.ToArray();
+            if (enumerable.Any())
             {
-                foreach (var cls in AllEntities)
+                foreach (var cls in enumerable)
                 {
                     if (cls.Name.ToLower() != "feedbacks" && cls.Name.ToLower() != "installdatabase" && cls.Name.ToLower() != "irepository" && cls.Name.ToLower() != "iusercontext" && cls.Name.ToLower() != "replies" && cls.Name.ToLower() != "comments" && cls.Name.ToLower() != "scheduletask" && cls.Name.ToLower() != "slider" && cls.Name.ToLower() != "systemlog" && cls.Name.ToLower() != "videos" && cls.Name.ToLower() != "pictures" && cls.Name.ToLower() != "files")
                         model.Entities.Add(new SelectListItem { Text = cls.Name, Value = cls.FullName });
                 }
             }
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult List(AuditModelListModel model)
-        {
-            if (!_permissionService.Authorize("ManageAudits"))
-                return AccessDeniedView();
-
-            if (String.IsNullOrEmpty(model.SelectedEntityName))
-                throw new Exception("Entity name not found.");
-
-            var user = _userContext.CurrentUser;
-            var lstAuditLogs = _auditService.GetAllAudits(model.SelectedEntityName);
-            if (lstAuditLogs.Count > 0)
-            {
-                foreach (var eve in lstAuditLogs)
-                {
-                    model.AuditLogs.Add(new AuditLog
-                    {
-                        AuditLogId = eve.AuditLogId,
-                        EventDateUTC = eve.EventDateUTC,
-                        EventType = eve.EventType,
-                        LogDetails = eve.LogDetails,
-                        Metadata = eve.Metadata,
-                        RecordId = eve.RecordId,
-                        TypeFullName = eve.TypeFullName,
-                        UserName = eve.UserName
-                    });
-                }
-            }
-
-            // Get All Entities
-            model.Entities.Add(new SelectListItem { Text = "-- Select Entity --", Value = "0", Selected = true });
-            var AllEntities = FindSubClassesOf<BaseEntity>();
-            if (AllEntities.Count() > 0)
-            {
-                foreach (var cls in AllEntities)
-                {
-                    if (cls.Name.ToLower() != "feedbacks" && cls.Name.ToLower() != "installdatabase" && cls.Name.ToLower() != "irepository" && cls.Name.ToLower() != "iusercontext" && cls.Name.ToLower() != "replies" && cls.Name.ToLower() != "comments" && cls.Name.ToLower() != "scheduletask" && cls.Name.ToLower() != "slider" && cls.Name.ToLower() != "systemlog" && cls.Name.ToLower() != "videos" && cls.Name.ToLower() != "pictures" && cls.Name.ToLower() != "files")
-                        model.Entities.Add(new SelectListItem { Text = cls.Name, Value = cls.FullName });
-                }
-            }
-
-            model.Entities = model.Entities.OrderBy(x => x.Text).ToList();
-
-            model.Entities.ToList().ForEach(u => u.Selected = false);
-            model.Entities.FirstOrDefault(ss => ss.Value == model.SelectedEntityName).Selected = true;
 
             return View(model);
         }

@@ -20,6 +20,7 @@ var seq2 = 0,
 var navbar_menu_visible = 0;
 var active_collapse = true;
 var disabled_collapse_init = 0;
+var sidebar_mini_active = false;
 $(document).ready(function () {
     var $sidebar = $('.sidebar');
     var windowWidth = $(window).width();
@@ -28,6 +29,7 @@ $(document).ready(function () {
     var $fullPage = $('.full-page');
     var $sidebarResponsive = $('body > .navbar-collapse');
     var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
+    var $sidebarWrapper = $('.sidebar-wrapper');
 
     if (isWindows) {
         // if we are on windows OS we activate the perfectScrollbar function
@@ -43,12 +45,12 @@ $(document).ready(function () {
 
     $('#minimizeSidebar').click(function () {
         var $btn = $(this);
-        if (md.misc.sidebar_mini_active === true) {
+        if (sidebar_mini_active === true) {
             $('body').removeClass('sidebar-mini');
-            md.misc.sidebar_mini_active = false;
+            sidebar_mini_active = false;
         } else {
             $('body').addClass('sidebar-mini');
-            md.misc.sidebar_mini_active = true;
+            sidebar_mini_active = true;
         }
 
         // we simulate the window Resize so the charts will get updated in realtime.
@@ -114,8 +116,43 @@ $(document).ready(function () {
 
     // activate collapse right menu when the windows is resized
     $(window).resize(function () {
-        md.initSidebarsCheck();
-        // reset the seq for charts drawing animations
+        if ($(window).width() <= 991) {
+            if ($sidebar.length !== 0) {
+                debounce(function () {
+                    if (!mobile_menu_initialized) {
+                        var $navbar = $('nav').find('.navbar-collapse').children('.navbar-nav');
+                        var mobileMenuContent = '';
+                        var navContent = $navbar.html();
+                        navContent = '<ul class="nav navbar-nav nav-mobile-menu">' + navContent + '</ul>';
+                        var navbarForm = $('nav').find('.navbar-form').get(0).outerHTML;
+                        var $sidebarNav = $sidebarWrapper.find(' > .nav');
+
+                        // insert the navbar form before the sidebar list
+                        var $navContent = $(navContent);
+                        var $navbarForm = $(navbarForm);
+                        $navContent.insertBefore($sidebarNav);
+                        $navbarForm.insertBefore($navContent);
+
+                        $(".sidebar-wrapper .dropdown .dropdown-menu > li > a").click(function (event) {
+                            event.stopPropagation();
+                        });
+
+                        // simulate resize so all the charts/maps will be redrawn
+                        window.dispatchEvent(new Event('resize'));
+
+                        mobile_menu_initialized = true;
+                    } else {
+                        if ($(window).width() > 991) {
+                            // reset all the additions that we made for the sidebar wrapper only if the screen is bigger than 991px
+                            $sidebarWrapper.find('.navbar-form').remove();
+                            $sidebarWrapper.find('.nav-mobile-menu').remove();
+
+                            mobile_menu_initialized = false;
+                        }
+                    }
+                }, 200);
+            }
+        }
         seq = seq2 = 0;
     });
 });

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Core.Data;
@@ -57,9 +58,68 @@ namespace SMS.Areas.Admin.Controllers
 			this._urlService = urlService;
 		}
 
-		#endregion
+        #endregion
 
-		public ActionResult List()
+        #region Utilities
+
+	    public ActionResult LoadGrid()
+	    {
+	        try
+	        {
+	            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+	            var start = Request.Form.GetValues("start").FirstOrDefault();
+	            var length = Request.Form.GetValues("length").FirstOrDefault();
+	            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+	            var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+	            var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+
+	            //Paging Size (10,20,50,100)    
+	            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+	            int skip = start != null ? Convert.ToInt32(start) : 0;
+	            int recordsTotal = 0;
+
+	            // Getting all data    
+	            var pagesData = (from temppages in _customPageService.GetAllCustomPages(showSystemDefined: false) select temppages);
+
+	            //Search    
+	            if (!string.IsNullOrEmpty(searchValue))
+	            {
+	                pagesData = pagesData.Where(m => m.Name.Contains(searchValue) || m.SystemName.Contains(searchValue));
+	            }
+
+	            //total number of rows count     
+	            var customPages = pagesData as CustomPage[] ?? pagesData.ToArray();
+	            recordsTotal = customPages.Count();
+	            //Paging     
+	            var data = customPages.Skip(skip).Take(pageSize);
+
+	            //Returning Json Data 
+	            return new JsonResult()
+	            {
+	                Data = new
+	                {
+	                    draw = draw,
+	                    recordsFiltered = recordsTotal,
+	                    recordsTotal = recordsTotal,
+	                    data = data.Select(x => x.ToModel()).OrderBy(x => x.Name).ToList()
+	                },
+	                ContentEncoding = Encoding.Default,
+	                ContentType = "application/json",
+	                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+	                MaxJsonLength = int.MaxValue
+	            };
+	        }
+	        catch (Exception ex)
+	        {
+	            throw new Exception(ex.Message);
+	        }
+
+	    }
+
+        #endregion
+
+        public ActionResult List()
 		{
 			if (!_permissionService.Authorize("ManageCustomPages"))
 				return AccessDeniedView();

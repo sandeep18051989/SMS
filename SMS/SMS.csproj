@@ -763,7 +763,7 @@
     <Content Include="Areas\Admin\Views\Shared\_CaptionEditorView.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Caption.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\HtmlTemplate.cshtml" />
-    <Content Include="Areas\Admin\Views\Template\TemplateList.cshtml" />
+    <Content Include="Areas\Admin\Views\Template\List.cshtml" />
     <Content Include="Areas\Admin\Views\Template\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Template\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DataToken\List.cshtml" />
@@ -781,7 +781,7 @@
     <Content Include="Areas\Admin\Views\Role\List.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Permission\PermissionsList.cshtml" />
+    <Content Include="Areas\Admin\Views\Permission\List.cshtml" />
     <Content Include="Areas\Admin\Views\Permission\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Permission\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Permission\RolePermissions.cshtml" />
@@ -1424,7 +1424,7 @@
     <Compile Include="Areas\Admin\Models\AdminCommentsModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminPictureModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />
-    <Compile Include="Areas\Admin\Models\AuditModelListModel.cs" />
+    <Compile Include="Areas\Admin\Models\AuditListModel.cs" />
     <Compile Include="Models\ColorSettingsModel.cs" />
     <Compile Include="Areas\Admin\Models\CreatePermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\CreateTemplateModel.cs" />
@@ -1625,6 +1625,8 @@
     <Compile Include="Validations\SubjectModelValidator.cs" />
     <Compile Include="Validations\TeacherExamModelValidator.cs" />
     <Compile Include="Validations\TeacherModelValidator.cs" />
+    <Compile Include="Validations\RoleValidation.cs" />
+    <Compile Include="Validations\PermissionRecordValidation.cs" />
     <Compile Include="Validations\VendorModelValidator.cs" />
     <Compile Include="Validations\UserValidation.cs" />
   </ItemGroup>

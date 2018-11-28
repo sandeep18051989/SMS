@@ -41,7 +41,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Students')").closest("li").addClass("active");
+
 		// Initiallize Datatable
 		$('.custom-table').DataTable({
 			"processing": true, // for show progress bar

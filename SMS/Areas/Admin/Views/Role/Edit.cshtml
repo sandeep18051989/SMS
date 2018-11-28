@@ -1,4 +1,4 @@
-﻿@model SMS.Areas.Admin.Models.CreateRoleModel
+﻿@model SMS.Models.RoleModel
 @using EF.Services;
 @{
 	ViewBag.Title = "Edit Role";
@@ -45,7 +45,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Roles')").closest("li").addClass("active");
+
 		if ($("#IsActive").val()) {
 			$("#IsActive").attr('checked', true).val(true);
 		}

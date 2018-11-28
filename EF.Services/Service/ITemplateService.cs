@@ -17,8 +17,12 @@ namespace EF.Services.Service
 
 		void DeleteToken(int id);
 
+	    void DeleteTemplates(IList<Template> templates);
 
-		IList<Template> GetAllTemplates(bool active = false);
+	    IList<Template> GetTemplatesByIds(int[] templateIds);
+
+
+        IList<Template> GetAllTemplates(bool? onlyActive = null);
 
 		DataToken GetDataTokenById(int tokenId);
 
@@ -28,8 +32,10 @@ namespace EF.Services.Service
 		IList<DataToken> GetAllDataTokensByTemplate(int templateId);
 
 		Template GetTemplateById(int templateId);
+  
+	    void ToggleTemplate(int id);
 
-		Template GetTemplateByCustomPage(int customPageId);
+        Template GetTemplateByCustomPage(int customPageId);
 
 		Template GetTemplateByName(string templateName);
 

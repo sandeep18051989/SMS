@@ -13,7 +13,8 @@ namespace SMS.Models
 		}
 		public long AuditLogId { get; set; }
 		public DateTime EventDateUTC { get; set; }
-		public EventType EventType { get; set; }
+	    public string EventDateString { get; set; }
+        public EventType EventType { get; set; }
 		public IList<AuditLogDetail> LogDetails { get; set; }
 		public IList<LogMetadata> Metadata { get; set; }
 

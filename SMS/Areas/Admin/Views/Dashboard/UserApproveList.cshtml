@@ -1,226 +1,311 @@
 ﻿@model SMS.Areas.Admin.Models.NotificationModel
 @using EF.Services
 @{
-	ViewBag.Title = "New Users";
-	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-	ViewBag.Result = "";
+    ViewBag.Title = "New Users";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Result = "";
 }
 <div class="row">
-	<div class="col-md-12 mr-4">
-		<section class="list-form">
-			@using (Html.BeginForm())
-			{
-				<div class="row">
-					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">USER APPROVAL/REJECTION</h3>
-						<button class="btn btn-primary mr-auto" type="button" id="approve-selected"><i class="fa fa-check-circle"></i> Approve</button>&nbsp;&nbsp;<button class="btn btn-danger" type="button" id="reject-selected"><i class="fa fa-close"></i>  Reject</button>
-					</div>
-				</div>
-				<div class="clearfix"></div>
-				<div class="col-xs-12 col-md-12">
-					<br />
-					<div id="users-table" class="form-group">
-						<table class="table custom-table" data-sorting="true" data-page-size="10">
-							<thead>
-								<tr>
-									<th><input type="checkbox" id="allcheck" value="allcheck" /></th>
-									<th data-sort-ignore="true">Username</th>
-									<th>Registration Date</th>
-									<th>Assign Role</th>
-									<th data-sort-ignore="true">Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach (var eve in Model.Users)
-								{
-									<tr>
-										<td align="center"><input type="checkbox" id="@eve.UserId" class="checkboxGroups" value="@eve.UserId" /></td>
-										<td align="center">@eve.Username</td>
-										<td align="center">@eve.CreatedOn</td>
-										<td align="center">@Html.DropDownListFor(model => model.SelectedRoleId, Model.AvailableRoles, new { @class = "form-control" })</td>
-										<td data-id="@eve.UserId" align="center">
-											<a class="btn btn-success" href="javascript:void(0);" onclick="return ApproveRejectRequest(@eve.UserId,'approve');" id="@("edit_" + eve.UserId)" title="Approve"><i class="fa fa-check fa-2x"></i></a>
-											<a class="btn btn-danger" id="@("userid_" + eve.UserId)" onclick="return ApproveRejectRequest(@eve.UserId,'reject');" href="javascript:void(0);" title="Reject"><i class="fa fa-remove fa-2x"></i></a>
-										</td>
-									</tr>
-								}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			}
-		</section>
-	</div>
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group pull-right">
+                            <button class="btn btn-primary" type="button" id="approve-selected"><i class="fa fa-check-circle"></i> Approve</button>&nbsp;&nbsp;<button class="btn btn-danger" type="button" id="reject-selected"><i class="fa fa-close"></i>  Reject</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+                                        <th class="text-center">Username</th>
+                                        <th class="text-center">Registration Date</th>
+                                        <th class="text-center">Assign Role</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>}
+        </section>
+    </div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
-		$('table').DataTable({
+    var selectedIds = [];
+    $(document).ready(function () {
+        // Initiallize Footable
+        $('.custom-table').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax": {
+                "url": "/Dashboard/LoadUserApproveList",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "aaSorting": [],
+            "columns": [
+                {
+                    'searchable': false,
+                    "title": "",
+                    "data": "",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input checkboxGroups" value="' +
+                                row.Id +
+                                '" id="' +
+                                row.Id +
+                                '"><label class="form-check-label" for="' +
+                                row.Id +
+                                '"></label></div>';
+                        }
+                        return data;
+                    },
+                    "orderable": false,
+                    "className": 'text-center',
+                    "defaultContent": ""
+                },
+                {
+                    "data": "Username",
+                    "title": "User",
+                    "name": "Username",
+                    "autoWidth": true,
+                    "defaultContent": "",
+                    'searchable': true,
+                    "orderable": true
+                },
+                {
+                    "data": "CreatedOn",
+                    "title": "Registered On",
+                    "name": "CreatedOn",
+                    "autoWidth": true,
+                    "defaultContent": "",
+                    'searchable': true,
+                    "orderable": true
+                },
+                {
+                    "data": "",
+                    "title": "Roles",
+                    "autoWidth": true,
+                    "defaultContent": "",
+                    'searchable': false,
+                    "orderable": false,
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            var htmlTemplate = '<select id="selectroleforuser_' + row.Id + '" class="form-control">';
+                            htmlTemplate += '<option selected="selected" value="">Select Role</option>';
+                            for (var i = 0; i < row.AvailableRoles.length; i++) {
+                                htmlTemplate += '<option selected="selected" value="' + row.AvailableRoles[i].Id + '">' + row.AvailableRoles[i].RoleName + '</option>';
+                            }
+                            htmlTemplate += '</select>';
+                            return htmlTemplate;
+                        }
+                        return data;
+                    }
+                },
+                {
+                    "title": "Actions",
+                    "data": "",
+                    "orderable": false,
+                    "className": 'text-center',
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            var htmlTemplate = '';
+                            htmlTemplate += '<a class="btn btn-success" href="javascript:void(0);" onclick="return ApproveRejectRequest(' + row.id + ',"approve");" id="edit_' + row.id + '" title="Approve"><i class="fa fa-check fa-2x"></i></a>&nbsp;&nbsp;<a class="btn btn-danger" id="userid_' + row.id + '" onclick="return ApproveRejectRequest(' + row.id + ',"reject");" href="javascript:void(0);" title="Reject"><i class="fa fa-remove fa-2x"></i></a>';
+                            return htmlTemplate;
+                        }
+                        return data;
+                    },
+                    "defaultContent": ""
+                }
+            ],
+            "select": {
+                "style": 'os',
+                "selector": 'td:first-child'
+            }
+        });
 
-			"processing": true, // for show progress bar  
-			"serverSide": true, // for process server side  
-			"filter": true, // this is for disable filter (search box)  
-			"orderMulti": false, // for disable multiple column at once  
-			"pageLength": 5,
+        //approve selected
+        $('#approve-selected').click(function (e) {
+            e.preventDefault();
 
-			"ajax": {
-				"url": "/Demo/LoadData",
-				"type": "POST",
-				"datatype": "json"
-			},
+            var postData = {
+                selectedIds: selectedIds
+            };
+            addAntiForgeryToken(postData);
 
-			"columnDefs":
-			[{
-					"targets": [0],
-					"visible": false,
-					"searchable": false
-				},
-				{
-					"targets": [7],
-					"searchable": false,
-					"orderable": false
-				},
-				{
-					"targets": [8],
-					"searchable": false,
-					"orderable": false
-				},
-				{
-					"targets": [9],
-					"searchable": false,
-					"orderable": false
-				}],
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("ApproveSelected", "Dashboard"))",
+                data: postData,
+                success: function (data, result) {
+                    if (result === "success") {
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Success",
+                                text: "Users Approved Successfully!",
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        }, 1e3);
+                        $('.custom-table').data.reload();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: xhr.responseText,
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                },
+                traditional: true
+            });
+            return false;
+        });
 
-			"columns": [
-				{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
-				{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
-				{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
-				{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
-				{ "data": "City", "name": "City", "autoWidth": true },
-				{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
-				{ "data": "Country", "name": "Country", "autoWidth": true },
-				{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
-				{
-					"render": function (data, type, full, meta)
-						{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
-				},
-				{
-					data: null, render: function (data, type, row) {
-						return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
-					}
-				}
-			]
-		});
-			//approve selected
-			$('#approve-selected').click(function (e) {
-				e.preventDefault();
+        //approve selected
+        $('#reject-selected').click(function (e) {
+            e.preventDefault();
+            var postData = {
+                selectedIds: selectedIds
+            };
+            addAntiForgeryToken(postData);
 
-				var postData = {
-					selectedIds: selectedIds
-				};
-				addAntiForgeryToken(postData);
-
-				$.ajax({
-					cache: false,
-					type: "POST",
-					url: "@(Url.Action("ApproveSelected", "Dashboard"))",
-					data: postData,
-					complete: function (data) {
-						@ViewBag.Message = "Users Approved Successfully.";
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(thrownError);
-					},
-					traditional: true
-				});
-				return false;
-			});
-
-			//approve selected
-			$('#reject-selected').click(function (e) {
-				e.preventDefault();
-
-				var postData = {
-					selectedIds: selectedIds
-				};
-				addAntiForgeryToken(postData);
-
-				$.ajax({
-					cache: false,
-					type: "POST",
-					url: "@(Url.Action("RejectSelected", "Dashboard"))",
-					data: postData,
-					complete: function (data) {
-						@ViewBag.Message = "Users Rejected Successfully.";
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(thrownError);
-					},
-					traditional: true
-				});
-				return false;
-			});
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("RejectSelected", "Dashboard"))",
+                data: postData,
+                success: function (data, result) {
+                    if (result === "success") {
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Success",
+                                text: "Users Rejected Successfully!",
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        }, 1e3);
+                        $('.custom-table').data.reload();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: xhr.responseText,
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                },
+                traditional: true
+            });
+            return false;
+        });
 
 
-			$(document).on('click', '#allcheck', function () {
-				$('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
-			});
+        $(document).on('click', '#allcheck', function () {
+            $('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
+        });
 
-			//wire up checkboxes.
-			$('#users-table').on('change', 'input[type=checkbox][id!=allcheck]', function (e) {
-				var $check = $(this);
-				if ($check.is(":checked") == true) {
-					var checked = jQuery.inArray($check.val(), selectedIds);
-					if (checked == -1) {
-						//add id to selectedIds.
-						selectedIds.push($check.val());
-					}
-				}
-				else {
-					var checked = jQuery.inArray($check.val(), selectedIds);
-					if (checked > -1) {
-						//remove id from selectedIds.
-						selectedIds = $.grep(selectedIds, function (item, index) {
-							return item != $check.val();
-						});
-					}
-				}
-				updateMasterCheckbox();
-			});
+        //wire up checkboxes.
+        $('#users-table').on('change', 'input[type=checkbox][id!=allcheck]', function (e) {
+            var $check = $(this);
+            var checked;
+            if ($check.is(":checked") === true) {
+                checked = jQuery.inArray($check.val(), selectedIds);
+                if (checked === -1) {
+                    //add id to selectedIds.
+                    selectedIds.push($check.val());
+                }
+            }
+            else {
+                checked = jQuery.inArray($check.val(), selectedIds);
+                if (checked > -1) {
+                    //remove id from selectedIds.
+                    selectedIds = $.grep(selectedIds, function (item, index) {
+                        return item !== $check.val();
+                    });
+                }
+            }
+            updateMasterCheckbox();
+        });
 
-		});
+    });
 
-		function updateMasterCheckbox() {
-			var numChkBoxes = $('#users-table input[type=checkbox][id!=allcheck]').length;
-			var numChkBoxesChecked = $('#users-table input[type=checkbox][id!=allcheck]:checked').length;
-			$('#allcheck').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
-		}
+    function updateMasterCheckbox() {
+        var numChkBoxes = $('#users-table input[type=checkbox][id!=allcheck]').length;
+        var numChkBoxesChecked = $('#users-table input[type=checkbox][id!=allcheck]:checked').length;
+        $('#allcheck').attr('checked', numChkBoxes === numChkBoxesChecked && numChkBoxes > 0);
+    }
 
-		function ApproveRejectRequest(id, act)
-		{
-			if($("#@Html.IdFor(m => m.SelectedRoleId)").val() != "" && $("#@Html.IdFor(m => m.SelectedRoleId)").val() != "0")
-			{
-				var postData = {
-					approvereject: act,
-					roleid: $("#@Html.IdFor(m => m.SelectedRoleId)").val(),
-					userid: id
-				};
-				addAntiForgeryToken(postData);
+    function ApproveRejectRequest(id, act) {
+        if ($("#@Html.IdFor(m => m.SelectedRoleId)").val() !== "" && $("#@Html.IdFor(m => m.SelectedRoleId)").val() !== "0") {
+            var postData = {
+                approvereject: act,
+                roleid: $("#selectroleforuser_" + id).val(),
+                userid: id
+            };
+            addAntiForgeryToken(postData);
 
-				$.ajax({
-					cache: false,
-					type: "POST",
-					url: "@(Url.Action("ApproveReject", "Dashboard"))",
-					data: postData,
-					complete: function (data) {
-
-					},
-					error: function (xhr, ajaxOptions, thrownError) {
-						alert(thrownError);
-					},
-					traditional: true
-				});
-			}
-		}
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("ApproveReject", "Dashboard"))",
+                data: postData,
+                success: function (data, result) {
+                    if (result === "success") {
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Success",
+                                text: "Users " + (act === "approve" ? "Approved" : "Rejected") + " Successfully!",
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        }, 1e3);
+                        $('.custom-table').data.reload();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: xhr.responseText,
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                },
+                traditional: true
+            });
+        }
+    }
 </script>
 @Html.DeleteConfirmation("approve-selected")
 @Html.DeleteConfirmation("reject-selected")

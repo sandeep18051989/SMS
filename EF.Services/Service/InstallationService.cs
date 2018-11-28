@@ -338,7 +338,19 @@ namespace EF.Services.Service
 			_ManageProductPermission.UserId = _user.Id;
 			_permissionRecordRepository.Insert(_ManageProductPermission);
 
-			var _ManageCommentsPermission = new PermissionRecord();
+		    var _ManageVendorPermission = new PermissionRecord();
+		    _ManageVendorPermission.Name = "Manage Vendors";
+		    _ManageVendorPermission.SystemName = "ManageVendors";
+		    _ManageVendorPermission.IsDeleted = false;
+		    _ManageVendorPermission.IsSystemDefined = true;
+		    _ManageVendorPermission.Category = "Vendor";
+		    _ManageVendorPermission.ModifiedOn = DateTime.Now;
+		    _ManageVendorPermission.CreatedOn = DateTime.Now;
+		    _ManageVendorPermission.IsActive = true;
+		    _ManageVendorPermission.UserId = _user.Id;
+		    _permissionRecordRepository.Insert(_ManageVendorPermission);
+
+            var _ManageCommentsPermission = new PermissionRecord();
 			_ManageCommentsPermission.Name = "Manage Comments";
 			_ManageCommentsPermission.SystemName = "ManageComments";
 			_ManageCommentsPermission.Category = "User";

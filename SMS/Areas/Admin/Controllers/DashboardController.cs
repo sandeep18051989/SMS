@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core;
+using EF.Core.Data;
 using EF.Services;
 using EF.Services.Culture;
 using EF.Services.Service;
 using SMS.Areas.Admin.Models;
+using SMS.Mappers;
 using SMS.Models;
 
 namespace SMS.Areas.Admin.Controllers
@@ -53,8 +56,82 @@ namespace SMS.Areas.Admin.Controllers
 			this._smsService = smsService;
 		}
 
-		#endregion
-		public ActionResult Index()
+        #endregion
+
+	    #region Utilities
+
+	    public ActionResult LoadUserApproveList()
+	    {
+	        try
+	        {
+	            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+	            var start = Request.Form.GetValues("start").FirstOrDefault();
+	            var length = Request.Form.GetValues("length").FirstOrDefault();
+	            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+	            var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+	            var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+
+	            //Paging Size (10,20,50,100)    
+	            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+	            int skip = start != null ? Convert.ToInt32(start) : 0;
+	            int recordsTotal = 0;
+
+	            // Getting all data    
+	            var usersData = (from tempusers in _userService.GetAllUsers(true, false) select tempusers);
+
+	            //Search    
+	            if (!string.IsNullOrEmpty(searchValue))
+	            {
+	                usersData = usersData.Where(m => m.UserName.Contains(searchValue) || m.Email.Contains(searchValue) || m.SeoName.Contains(searchValue));
+	            }
+
+	            //total number of rows count     
+	            var customUsers = usersData as User[] ?? usersData.ToArray();
+	            recordsTotal = customUsers.Count();
+	            //Paging     
+	            var data = customUsers.Skip(skip).Take(pageSize);
+
+	            //Returning Json Data 
+	            return new JsonResult()
+	            {
+	                Data = new
+	                {
+	                    draw = draw,
+	                    recordsFiltered = recordsTotal,
+	                    recordsTotal = recordsTotal,
+	                    data = data.Select(x => new UserModel()
+	                    {
+	                       AvailableRoles = _roleService.GetAllRoles(true).Select(y => new RoleModel()
+	                       {
+	                           RoleName = y.RoleName.Trim(),
+                               Id = y.Id
+	                       }).ToList(),
+                           Username = x.UserName.Trim(),
+                           Id = x.Id,
+                           IsActive = x.IsActive,
+                           UserId = x.UserId,
+                           CreatedOn = x.CreatedOn,
+                           IsApproved = x.IsApproved,
+                           Email = x.Email
+                        }).OrderBy(x => x.Username).ToList()
+	                },
+	                ContentEncoding = Encoding.Default,
+	                ContentType = "application/json",
+	                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+	                MaxJsonLength = int.MaxValue
+	            };
+	        }
+	        catch (Exception ex)
+	        {
+	            throw new Exception(ex.Message);
+	        }
+
+	    }
+
+	    #endregion
+
+        public ActionResult Index()
 		{
 			if (!_permissionService.Authorize("ManageDashboard"))
 				return AccessDeniedView();
@@ -432,18 +509,6 @@ namespace SMS.Areas.Admin.Controllers
 				return AccessDeniedView();
 
 			var model = new NotificationModel();
-			model.Users = _userService.GetAllUsers(true, false).Select(x => new UserModel()
-			{
-				UserId = x.Id,
-				Username = x.UserName,
-				CreatedOn = x.CreatedOn
-			}).ToList();
-
-			// Load Available Roles
-			model.AvailableRoles.Add(new SelectListItem { Text = "-- Select Template --", Value = "0" });
-			foreach (var t in _roleService.GetAllRoles())
-				model.AvailableRoles.Add(new SelectListItem { Text = t.RoleName, Value = t.Id.ToString() });
-
 			return View(model);
 		}
 

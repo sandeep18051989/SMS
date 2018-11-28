@@ -10,8 +10,7 @@ namespace EF.Services.Service
         void Update(UserRole user);
 
         void Delete(int id);
-
-        IList<UserRole> GetAllRoles(bool active=false);
+        IList<UserRole> GetAllRoles(bool? onlyActive = null, bool? showSystemDefined = null);
         UserRole GetRoleById(int roleId);
         IList<UserRole> GetRolesByUserId(int userId);
 

@@ -1,47 +1,75 @@
-﻿@model SMS.Areas.Admin.Models.CreatePermissionModel
+﻿@model SMS.Models.PermissionRecordModel
 @{
 	ViewBag.Title="Create Permission";
 	Layout="~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
-	<div class="col-md-12 mr-4">
-		<section class="create-form">
-			@using (Html.BeginForm())
-			{
-				@Html.AntiForgeryToken()
-				<div class="row">
-					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">CREATE PERMISSION</h3>
-						<input type="submit" value="Submit" class="btn btn-primary mr-auto" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						@Html.ValidationSummary(true, "", new { @class="text-danger" })
-					</div>
-				</div>
-				<hr />
-				<div class="row text-left">
-					<div class="col-xs-12 col-md-4 mb-4">
-						<div class="md-form">
-							<i class="fa fa-play-circle-o prefix"></i>
-							@Html.EditorFor(model => model.Name, new { htmlAttributes=new { @class="form-control", @tabindex="1", @maxlength="50" } })
-							@Html.LabelFor(model => model.Name, htmlAttributes: new { @class="control-label" })
-							@Html.ValidationMessageFor(model => model.Name, "", new { @class="text-danger" })
-						</div>
-					</div>
-				</div>
-				<div class="row text-left">
-					<div class="col-xs-12 col-md-4 mb-4">
-						<div class="md-form">
-							<i class="fa fa-tag prefix"></i>
-							@Html.EditorFor(model => model.Category, new { htmlAttributes=new { @class="form-control", @tabindex="2", @maxlength="50" } })
-							@Html.LabelFor(model => model.Category, htmlAttributes: new { @class="control-label" })
-							@Html.ValidationMessageFor(model => model.Category, "", new { @class="text-danger" })
-						</div>
-					</div>
-				</div>
-			}
-		</section>
-	</div>
+    <div class="col-md-12 mr-4">
+        <section class="create-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <h3 class="section-heading mr-auto">CREATE PERMISSION</h3>
+                        <input type="submit" value="Save Permission" class="btn btn-primary mr-auto" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.ValidationSummary(true, "", new { @class="text-danger" })
+                    </div>
+                </div>
+                <hr />
+                <div class="row text-left">
+                    <div class="col-xs-12 col-md-4 mb-4">
+                        <div class="md-form">
+                            <i class="fa fa-play-circle-o prefix"></i>
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes=new { @class="form-control", @tabindex="1", @maxlength="50" } })
+                            @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class="control-label" })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class="text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <div class="col-xs-12 col-md-4 mb-4">
+                        <div class="md-form">
+                            <i class="fa fa-tag prefix"></i>
+                            @Html.EditorFor(model => model.Category, new { htmlAttributes=new { @class="form-control", @tabindex="2", @maxlength="50" } })
+                            @Html.LabelFor(model => model.Category, "Category", htmlAttributes: new { @class="control-label" })
+                            @Html.ValidationMessageFor(model => model.Category, "", new { @class="text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <div class="col-md-7 mb-4">
+                        <input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" @(Model.IsActive ? "checked=checked" : "") />
+                        @Html.LabelFor(model => model.IsActive,"Active", htmlAttributes: new { @class = "form-check-label", @tabindex = "3" })
+                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Permissions')").closest("li").addClass("active");
+
+        if ($("#IsActive").val()) {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+    });
+</script>

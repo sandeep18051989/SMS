@@ -99,29 +99,29 @@
 				<div id="users-line-chart" class="morris-inverse" style="height: 260px; position: relative;">
 					@* Users Registerations By Month *@
 					<script type="text/javascript">
-						handleVisitorsLineChart = function () {
-							Morris.Line({
-								element: "users-line-chart",
-								data: [],
-								xkey: "x",
-								ykeys: ["y"],
-								xLabelFormat: function (e) {
-									return (e = getMonthName(e.getMonth())).toString()
-								},
-								labels: ["Page Views", "Users"],
-								lineColors: ["#5AC8FA", "#007aff"],
-								pointFillColors: ["#63a4c1", "#3086e4"],
-								lineWidth: "2px",
-								pointStrokeColors: ["rgba(0,0,0,0.6)", "rgba(0,0,0,0.6)"],
-								resize: !0,
-								gridTextFamily: "inherit",
-								gridTextColor: "rgba(255,255,255,0.4)",
-								gridTextWeight: "normal",
-								gridTextSize: "12px",
-								gridLineColor: "rgba(255,255,255,0.15)",
-								hideHover: "auto"
-							})
-						}
+					    handleVisitorsLineChart = function () {
+					        Morris.Line({
+					            element: "users-line-chart",
+					            data: [],
+					            xkey: "x",
+					            ykeys: ["y"],
+					            xLabelFormat: function (e) {
+					                return (e = getMonthName(e.getMonth())).toString()
+					            },
+					            labels: ["Page Views", "Users"],
+					            lineColors: ["#5AC8FA", "#007aff"],
+					            pointFillColors: ["#63a4c1", "#3086e4"],
+					            lineWidth: "2px",
+					            pointStrokeColors: ["rgba(0,0,0,0.6)", "rgba(0,0,0,0.6)"],
+					            resize: !0,
+					            gridTextFamily: "inherit",
+					            gridTextColor: "rgba(255,255,255,0.4)",
+					            gridTextWeight: "normal",
+					            gridTextSize: "12px",
+					            gridLineColor: "rgba(255,255,255,0.15)",
+					            hideHover: "auto"
+					        })
+					    }
 					</script>
 				</div>
 			</div>
@@ -135,18 +135,18 @@
 				</div>
 				<div id="users-donut-chart" style="height: 160px">
 					<script type="text/javascript">
-							handleVisitorsDonutChart = function () {
-								Morris.Donut({
-									element: "users-donut-chart",
-									data: [{ label: "New Users", value: @Model.RegisteredUsersChartModels.Sum(x => x.RegisteredUsers.Count) },
-									{ label: "Return Users", value: 0 }],
-									colors: ["#5AC8FA", "#007aff"],
-									labelFamily: "inherit",
-									labelColor: "rgba(255,255,255,0.4)",
-									labelTextSize: "12px",
-									backgroundColor: "#111"
-								})
-							}
+					    handleVisitorsDonutChart = function () {
+					        Morris.Donut({
+					            element: "users-donut-chart",
+					            data: [{ label: "New Users", value: @Model.RegisteredUsersChartModels.Sum(x => x.RegisteredUsers.Count) },
+					                { label: "Return Users", value: 0 }],
+					            colors: ["#5AC8FA", "#007aff"],
+					            labelFamily: "inherit",
+					            labelColor: "rgba(255,255,255,0.4)",
+					            labelTextSize: "12px",
+					            backgroundColor: "#111"
+					        })
+					    }
 					</script>
 					<ul class="chart-legend">
 						<li><i class="fa fa-circle-o fa-fw text-info m-r-5"></i> @(total > 0 ? (Model.RegisteredUsersChartModels.Sum(x => x.RegisteredUsers.Count) / total * 100) : 0)% <span>Unique Users</span></li>
@@ -171,19 +171,19 @@
 </div>
 <div class="clearfix"></div>
 <div id="dashboard-section-two" class="row">
-	<!-- begin col-4 -->
-	<div class="col-md-4 ui-sortable">
-		<!-- begin panel -->
-		<div class="panel panel-inverse" data-sortable-id="index-2">
-			<div class="panel-heading">
-				<h4 class="panel-title">Chat History <span class="label label-primary pull-right">@(Model.Comments.Count) message</span></h4>
-			</div>
-			<div class="panel-body">
-				<div data-scrollbar="true">
-					@if (Model.Comments.Count > 0)
-					{
-						foreach (var comment in Model.Comments)
-						{
+    <!-- begin col-4 -->
+    <div class="col-md-4 ui-sortable">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="index-2">
+            <div class="panel-heading">
+                <h4 class="panel-title">Chat History <span class="label label-primary pull-right">@(Model.Comments.Count) message</span></h4>
+            </div>
+            <div class="panel-body">
+                <div data-scrollbar="true">
+                    @if (Model.Comments.Count > 0)
+                    {
+                        foreach (var comment in Model.Comments)
+                        {
 							@*var userinfo = userInfoService.GetUserInformationByUserId(comment.UserId);
 								if (userinfo != null && userinfo.ProfilePictureId > 0)
 								{
@@ -218,53 +218,53 @@
 										}
 									}
 								</ul>*@
-						}
-					}
-				</div>
-			</div>
-			<div class="panel-footer">
-				<form name="send_message_form" data-id="message-form">
-					<div class="input-group">
-						<input class="form-control input-sm" name="message" placeholder="Enter your message here." type="text">
-						<span class="input-group-btn">
-							<button class="btn btn-primary btn-sm" type="button">Send</button>
-						</span>
-					</div>
-				</form>
-			</div>
-		</div>
-		<!-- end panel -->
-	</div>
-	<!-- end col-4 -->
-	<!-- begin col-4 -->
-	<div class="col-md-4 ui-sortable">
-		<!-- begin panel -->
-		<div class="panel panel-inverse" data-sortable-id="index-3">
-			<div class="panel-heading">
-				<h4 class="panel-title">Today's Schedule</h4>
-			</div>
-			<div id="schedule-calendar" class="bootstrap-calendar"><div class="calendar" id="cal_1zxc"><table class="table header"><tbody><tr></tr></tbody><td><i class="icon-arrow-left"></i></td><td colspan="5" class="year span6"><div class="visualmonthyear">January 2018</div></td><td><i class="icon-arrow-right"></i></td></table><table class="daysmonth table table"><tbody><tr class="week_days"><td class="first">S</td><td>M</td><td>T</td><td>W</td><td>T</td><td>F</td><td class="last">S</td></tr><tr><td class="invalid first"></td><td id="cal_1zxc_1_1_2018"><a>1</a></td><td id="cal_1zxc_2_1_2018" class="event event_popover"><a data-original-title="Popover Title" data-trigger="manual" class="manual_popover" rel="popover" data-content="Some contents here" style="background-color: rgb(0, 122, 255);">2</a></td><td id="cal_1zxc_3_1_2018"><a>3</a></td><td id="cal_1zxc_4_1_2018"><a>4</a></td><td id="cal_1zxc_5_1_2018" class="event event_tooltip"><a data-original-title="Tooltip with link" href="http://www.seantheme.com/color-admin-v1.3" rel="tooltip" style="background-color: rgb(34, 34, 34);">5</a></td><td id="cal_1zxc_6_1_2018" class="last"><a>6</a></td></tr><tr><td id="cal_1zxc_7_1_2018" class="first"><a>7</a></td><td id="cal_1zxc_8_1_2018"><a>8</a></td><td id="cal_1zxc_9_1_2018"><a>9</a></td><td id="cal_1zxc_10_1_2018"><a>10</a></td><td id="cal_1zxc_11_1_2018"><a>11</a></td><td id="cal_1zxc_12_1_2018"><a>12</a></td><td id="cal_1zxc_13_1_2018" class="last"><a>13</a></td></tr><tr><td id="cal_1zxc_14_1_2018" class="first"><a>14</a></td><td id="cal_1zxc_15_1_2018"><a>15</a></td><td id="cal_1zxc_16_1_2018"><a>16</a></td><td id="cal_1zxc_17_1_2018"><a>17</a></td><td id="cal_1zxc_18_1_2018" class="event event_popover"><a data-original-title="Popover with HTML Content" data-trigger="manual" class="manual_popover" rel="popover" data-content="Some contents here <div class=&quot;text-right&quot;><a href=&quot;http://www.google.com&quot;>view more >>></a></div>" style="background-color: rgb(34, 34, 34);">18</a></td><td id="cal_1zxc_19_1_2018"><a>19</a></td><td id="cal_1zxc_20_1_2018" class="last"><a>20</a></td></tr><tr><td id="cal_1zxc_21_1_2018" class="first"><a>21</a></td><td id="cal_1zxc_22_1_2018"><a>22</a></td><td id="cal_1zxc_23_1_2018"><a>23</a></td><td id="cal_1zxc_24_1_2018"><a>24</a></td><td id="cal_1zxc_25_1_2018"><a>25</a></td><td id="cal_1zxc_26_1_2018"><a>26</a></td><td id="cal_1zxc_27_1_2018" class="last"><a>27</a></td></tr><tr><td id="cal_1zxc_28_1_2018" class="first event event_tooltip"><a data-original-title="Color Admin V1.3 Launched" href="http://www.seantheme.com/color-admin-v1.3" rel="tooltip" style="background-color: rgb(34, 34, 34);">28</a></td><td id="cal_1zxc_29_1_2018"><a>29</a></td><td id="cal_1zxc_30_1_2018"><a>30</a></td><td id="cal_1zxc_31_1_2018"><a>31</a></td><td class="invalid"></td><td class="invalid"></td><td class="invalid last"></td></tr></tbody></table></div></div>
-			<div class="list-group">
-				<a href="#" class="list-group-item text-ellipsis">
-					<span class="badge badge-primary">9:00 am</span> Sales Reporting
-				</a>
-				<a href="#" class="list-group-item text-ellipsis">
-					<span class="badge badge-aqua">2:45 pm</span> Have a meeting with sales team
-				</a>
-			</div>
-		</div>
-		<!-- end panel -->
-	</div>
-	<!-- end col-4 -->
-	<!-- begin col-4 -->
-	<div class="col-md-4 ui-sortable">
-		<!-- begin panel -->
-		<div class="panel panel-inverse" data-sortable-id="index-4">
-			<div class="panel-heading">
-				<h4 class="panel-title">New Registered Users <span class="pull-right label label-primary">@(Model.RegisteredUsers.Count) new user</span></h4>
-			</div>
-			<ul class="registered-users-list clearfix">
-				@*@foreach (var user in Model.RegisteredUsers)
+                        }
+                    }
+                </div>
+            </div>
+            <div class="panel-footer">
+                <form name="send_message_form" data-id="message-form">
+                    <div class="input-group">
+                        <input class="form-control input-sm" name="message" placeholder="Enter your message here." type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary btn-sm" type="button">Send</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-4 -->
+    <!-- begin col-4 -->
+    <div class="col-md-4 ui-sortable">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="index-3">
+            <div class="panel-heading">
+                <h4 class="panel-title">Today's Schedule</h4>
+            </div>
+            <div id="schedule-calendar" class="bootstrap-calendar"><div class="calendar" id="cal_1zxc"><table class="table header"><tbody><tr></tr></tbody><td><i class="icon-arrow-left"></i></td><td colspan="5" class="year span6"><div class="visualmonthyear">January 2018</div></td><td><i class="icon-arrow-right"></i></td></table><table class="daysmonth table table"><tbody><tr class="week_days"><td class="first">S</td><td>M</td><td>T</td><td>W</td><td>T</td><td>F</td><td class="last">S</td></tr><tr><td class="invalid first"></td><td id="cal_1zxc_1_1_2018"><a>1</a></td><td id="cal_1zxc_2_1_2018" class="event event_popover"><a data-original-title="Popover Title" data-trigger="manual" class="manual_popover" rel="popover" data-content="Some contents here" style="background-color: rgb(0, 122, 255);">2</a></td><td id="cal_1zxc_3_1_2018"><a>3</a></td><td id="cal_1zxc_4_1_2018"><a>4</a></td><td id="cal_1zxc_5_1_2018" class="event event_tooltip"><a data-original-title="Tooltip with link" href="http://www.seantheme.com/color-admin-v1.3" rel="tooltip" style="background-color: rgb(34, 34, 34);">5</a></td><td id="cal_1zxc_6_1_2018" class="last"><a>6</a></td></tr><tr><td id="cal_1zxc_7_1_2018" class="first"><a>7</a></td><td id="cal_1zxc_8_1_2018"><a>8</a></td><td id="cal_1zxc_9_1_2018"><a>9</a></td><td id="cal_1zxc_10_1_2018"><a>10</a></td><td id="cal_1zxc_11_1_2018"><a>11</a></td><td id="cal_1zxc_12_1_2018"><a>12</a></td><td id="cal_1zxc_13_1_2018" class="last"><a>13</a></td></tr><tr><td id="cal_1zxc_14_1_2018" class="first"><a>14</a></td><td id="cal_1zxc_15_1_2018"><a>15</a></td><td id="cal_1zxc_16_1_2018"><a>16</a></td><td id="cal_1zxc_17_1_2018"><a>17</a></td><td id="cal_1zxc_18_1_2018" class="event event_popover"><a data-original-title="Popover with HTML Content" data-trigger="manual" class="manual_popover" rel="popover" data-content="Some contents here <div class=&quot;text-right&quot;><a href=&quot;http://www.google.com&quot;>view more >>></a></div>" style="background-color: rgb(34, 34, 34);">18</a></td><td id="cal_1zxc_19_1_2018"><a>19</a></td><td id="cal_1zxc_20_1_2018" class="last"><a>20</a></td></tr><tr><td id="cal_1zxc_21_1_2018" class="first"><a>21</a></td><td id="cal_1zxc_22_1_2018"><a>22</a></td><td id="cal_1zxc_23_1_2018"><a>23</a></td><td id="cal_1zxc_24_1_2018"><a>24</a></td><td id="cal_1zxc_25_1_2018"><a>25</a></td><td id="cal_1zxc_26_1_2018"><a>26</a></td><td id="cal_1zxc_27_1_2018" class="last"><a>27</a></td></tr><tr><td id="cal_1zxc_28_1_2018" class="first event event_tooltip"><a data-original-title="Color Admin V1.3 Launched" href="http://www.seantheme.com/color-admin-v1.3" rel="tooltip" style="background-color: rgb(34, 34, 34);">28</a></td><td id="cal_1zxc_29_1_2018"><a>29</a></td><td id="cal_1zxc_30_1_2018"><a>30</a></td><td id="cal_1zxc_31_1_2018"><a>31</a></td><td class="invalid"></td><td class="invalid"></td><td class="invalid last"></td></tr></tbody></table></div></div>
+            <div class="list-group">
+                <a href="#" class="list-group-item text-ellipsis">
+                    <span class="badge badge-primary">9:00 am</span> Sales Reporting
+                </a>
+                <a href="#" class="list-group-item text-ellipsis">
+                    <span class="badge badge-aqua">2:45 pm</span> Have a meeting with sales team
+                </a>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-4 -->
+    <!-- begin col-4 -->
+    <div class="col-md-4 ui-sortable">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="index-4">
+            <div class="panel-heading">
+                <h4 class="panel-title">New Registered Users <span class="pull-right label label-primary">@(Model.RegisteredUsers.Count) new user</span></h4>
+            </div>
+            <ul class="registered-users-list clearfix">
+                @*@foreach (var user in Model.RegisteredUsers)
 					{
 						var userinfo = userInfoService.GetUserInformationByUserId(user.Id);
 						if (userinfo != null && userinfo.ProfilePictureId > 0)
@@ -280,15 +280,21 @@
 							</h4>
 						</li>
 					}*@
-			</ul>
-			<div class="panel-footer text-center">
-				<a href="/admin/user/list" class="text-inverse">View All</a>
-			</div>
-		</div>
-		<!-- end panel -->
-	</div>
-	<!-- end col-4 -->
+            </ul>
+            <div class="panel-footer text-center">
+                <a href="/admin/user/list" class="text-inverse">View All</a>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-4 -->
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Dashboard')").closest("li").addClass("active");
+    });
+</script>
 
 
 							}

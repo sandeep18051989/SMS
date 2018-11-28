@@ -52,10 +52,10 @@ namespace EF.Core.Data
 		public string Permanent_Address { get; set; }
 		public string TalukaPer { get; set; }
 		public string DistrictPer { get; set; }
-		public int PinPer { get; set; }
+		public int? PinPer { get; set; }
 		public string TalukaTemp { get; set; }
 		public string DistrictTemp { get; set; }
-		public int PinTemp { get; set; }
+		public int? PinTemp { get; set; }
 		public string Sex { get; set; }
 		public string SeoUrl { get; set; }
 		public DateTime? AdmissionDate { get; set; }

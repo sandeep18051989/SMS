@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EF.Services;
+using FluentValidation.Attributes;
+using SMS.Areas.Admin.Models;
+using SMS.Areas.Admin.Validations;
+using SMS.Validations;
 
 namespace SMS.Models
 {
-
-	public partial class UserModel : BaseEntityModel
+    [Validator(typeof(AdminUserModelValidation))]
+    public partial class UserModel : BaseEntityModel
 	{
 		public UserModel()
 		{
@@ -15,7 +19,6 @@ namespace SMS.Models
 		}
 
 		public string Username { get; set; }
-		[EmailAddress]
 		public string Email { get; set; }
 
 		[DataType(DataType.Password)]

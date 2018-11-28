@@ -13,15 +13,16 @@ namespace SMS.Models
 	[Validator(typeof(FeedbackModelValidator))]
 	public partial class FeedbackModel : BaseEntityModel
 	{
-		public string Name { get; set; }
-		public string EmailAddress { get; set; }
-		public string ContactNumber { get; set; }
+	    public string FullName { get; set; }
+	    public string Email { get; set; }
+	    public string Contact { get; set; }
+	    public string Description { get; set; }
+	    public string Location { get; set; }
 
-		public DateTime Date { get; set; }
-		[AllowHtml]
+	    public DateTime? Date { get; set; }
+
+	    [AllowHtml]
 		[UIHint("HtmlEditor")]
-		public string Description { get; set; }
 		public bool SentSuccess { get; set; }
-		public string Location { get; set; }
 	}
 }

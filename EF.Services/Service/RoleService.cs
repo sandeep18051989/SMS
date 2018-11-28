@@ -6,11 +6,11 @@ using EF.Core.Data;
 
 namespace EF.Services.Service
 {
-	public class RoleService : IRoleService
+    public class RoleService : IRoleService
     {
-		#region Fields
+        #region Fields
 
-		public readonly IRepository<UserRole> _roleRepository;
+        public readonly IRepository<UserRole> _roleRepository;
         public readonly IRepository<User> _userRepository;
 
         #endregion
@@ -28,14 +28,14 @@ namespace EF.Services.Service
         #region IRole Members
 
         public void Insert(UserRole role)
-		{
+        {
             _roleRepository.Insert(role);
-		}
+        }
 
-		public void Update(UserRole role)
-		{
+        public void Update(UserRole role)
+        {
             _roleRepository.Update(role);
-		}
+        }
 
         public void Delete(int id)
         {
@@ -56,23 +56,23 @@ namespace EF.Services.Service
         #region Main Utilities
 
         public IList<UserRole> GetRolesByUserId(int userId)
-		{
-			if (userId > 0)
-			{
-				return _userRepository.Table.Where(x=>x.Id == userId).FirstOrDefault().Roles.ToList();
-			}
-			else
-			{
-				return new List<UserRole>();
-			}
-		}
+        {
+            if (userId > 0)
+            {
+                return _userRepository.Table.Where(x => x.Id == userId).FirstOrDefault().Roles.ToList();
+            }
+            else
+            {
+                return new List<UserRole>();
+            }
+        }
 
         public UserRole GetRoleById(int id)
         {
             if (id > 0)
             {
                 var role = from r in _roleRepository.Table
-                            where r.Id == id
+                           where r.Id == id
                            select r;
 
                 var query = role.FirstOrDefault();
@@ -85,14 +85,9 @@ namespace EF.Services.Service
             }
         }
 
-        public IList<UserRole> GetAllRoles(bool active = false)
+        public IList<UserRole> GetAllRoles(bool? onlyActive = null, bool? showSystemDefined = null)
         {
-            var query = _roleRepository.Table.ToList().Where(x=>x.IsDeleted == false).ToList();
-
-            if (active)
-                query = query.Where(x => x.IsActive == true).ToList();
-
-            return query;
+            return _roleRepository.Table.ToList().Where(x => x.IsDeleted == false && ((!onlyActive.HasValue || onlyActive.Value == x.IsActive) && (!showSystemDefined.HasValue || x.IsSystemDefined == showSystemDefined.Value))).ToList();
         }
 
         public UserRole GetRoleByName(string roleName)
@@ -120,7 +115,7 @@ namespace EF.Services.Service
 
             foreach (var _role in roles)
             {
-                if(!_role.IsSystemDefined)
+                if (!_role.IsSystemDefined)
                     _role.IsDeleted = true;
 
                 _roleRepository.Update(_role);

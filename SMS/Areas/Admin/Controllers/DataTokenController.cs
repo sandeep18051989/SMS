@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Core.Data;
@@ -53,24 +54,74 @@ namespace SMS.Areas.Admin.Controllers
 			this._permissionService = permissionService;
 		}
 
-		#endregion
+        #endregion
 
-		public ActionResult List()
+        #region Utilities
+
+        [HttpPost]
+	    public ActionResult LoadGrid()
+	    {
+	        try
+	        {
+	            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+	            var start = Request.Form.GetValues("start").FirstOrDefault();
+	            var length = Request.Form.GetValues("length").FirstOrDefault();
+	            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+	            var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+	            var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+
+	            //Paging Size (10,20,50,100)    
+	            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+	            int skip = start != null ? Convert.ToInt32(start) : 0;
+	            int recordsTotal = 0;
+
+	            // Getting all data    
+	            var datatokensData = (from tempdatatokens in _templateService.GetAllDataTokens(showSystemDefined: false) select tempdatatokens);
+
+	            //Search    
+	            if (!string.IsNullOrEmpty(searchValue))
+	            {
+	                datatokensData = datatokensData.Where(m => m.Name.Contains(searchValue) || m.SystemName.Contains(searchValue));
+	            }
+
+	            //total number of rows count     
+	            var customDataTokens = datatokensData as DataToken[] ?? datatokensData.ToArray();
+	            recordsTotal = customDataTokens.Count();
+	            //Paging     
+	            var data = customDataTokens.Skip(skip).Take(pageSize);
+
+	            //Returning Json Data 
+	            return new JsonResult()
+	            {
+	                Data = new
+	                {
+	                    draw = draw,
+	                    recordsFiltered = recordsTotal,
+	                    recordsTotal = recordsTotal,
+	                    data = data.Select(x => x.ToModel()).OrderBy(x => x.Name).ToList()
+	                },
+	                ContentEncoding = Encoding.Default,
+	                ContentType = "application/json",
+	                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+	                MaxJsonLength = int.MaxValue
+	            };
+	        }
+	        catch (Exception ex)
+	        {
+	            throw new Exception(ex.Message);
+	        }
+
+	    }
+
+        #endregion
+
+        public ActionResult List()
 		{
 			if (!_permissionService.Authorize("ManageDataTokens"))
 				return AccessDeniedView();
 
-			var model = new List<DataTokenModel>();
-			var user = _userContext.CurrentUser;
-			var lstDataTokens = _templateService.GetAllDataTokens().Where(x => !x.IsSystemDefined).OrderByDescending(x => x.CreatedOn).ToList();
-			if (lstDataTokens.Count > 0)
-			{
-				foreach (var temp in lstDataTokens)
-				{
-					model.Add(temp.ToModel());
-				}
-			}
-
+			var model = new DataTokenModel();
 			return View(model);
 		}
 

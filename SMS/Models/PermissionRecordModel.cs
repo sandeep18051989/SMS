@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using FluentValidation.Attributes;
+using SMS.Validations;
 
 namespace SMS.Models
 {
+    [Validator(typeof(PermissionRecordValidation))]
     public partial class PermissionRecordModel  : BaseEntityModel
     {
         public PermissionRecordModel()

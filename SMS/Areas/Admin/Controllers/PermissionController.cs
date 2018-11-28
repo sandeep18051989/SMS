@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Core.Data;
 using EF.Services.Service;
 using SMS.Areas.Admin.Models;
+using SMS.Models;
 
 namespace SMS.Areas.Admin.Controllers
 {
@@ -45,11 +47,79 @@ namespace SMS.Areas.Admin.Controllers
 			this._roleService = roleService;
 		}
 
-		#endregion
+        #endregion
 
-		#region Security Actions
+	    #region Utilities
 
-		public ActionResult AccessDenied()
+	    public ActionResult LoadGrid()
+	    {
+	        try
+	        {
+	            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+	            var start = Request.Form.GetValues("start").FirstOrDefault();
+	            var length = Request.Form.GetValues("length").FirstOrDefault();
+	            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+	            var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+	            var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+
+	            //Paging Size (10,20,50,100)    
+	            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+	            int skip = start != null ? Convert.ToInt32(start) : 0;
+	            int recordsTotal = 0;
+
+	            // Getting all data    
+	            var userData = (from temppermissions in _permissionService.GetAllPermissions(showSystemDefined:false) select temppermissions);
+
+	            //Search    
+	            if (!string.IsNullOrEmpty(searchValue))
+	            {
+	                userData = userData.Where(m => m.Name.Contains(searchValue) || m.Category.Contains(searchValue) || m.SystemName.Contains(searchValue));
+	            }
+
+	            //total number of rows count     
+	            var lstUsers = userData as PermissionRecord[] ?? userData.ToArray();
+	            recordsTotal = lstUsers.Count();
+	            //Paging     
+	            var data = lstUsers.Skip(skip).Take(pageSize);
+
+	            //Returning Json Data 
+	            return new JsonResult()
+	            {
+	                Data = new
+	                {
+	                    draw = draw,
+	                    recordsFiltered = recordsTotal,
+	                    recordsTotal = recordsTotal,
+	                    data = data.Select(x => new PermissionRecordModel()
+	                    {
+	                        IsActive = x.IsActive,
+	                        UserId = x.UserId,
+	                        Category = x.Category.Trim(),
+                            IsSystemDefined = x.IsSystemDefined,
+                            Name = x.Name.Trim(),
+                            SystemName = x.SystemName.Trim(),
+	                        Id = x.Id
+	                    }).OrderBy(x => x.Name).ToList()
+	                },
+	                ContentEncoding = Encoding.Default,
+	                ContentType = "application/json",
+	                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+	                MaxJsonLength = int.MaxValue
+	            };
+	        }
+	        catch (Exception ex)
+	        {
+	            throw new Exception(ex.Message);
+	        }
+
+	    }
+
+	    #endregion
+
+        #region Security Actions
+
+        public ActionResult AccessDenied()
 		{
 			var currentUser = _userContext.CurrentUser;
 			if (currentUser == null && !_userContext.IsAdmin)
@@ -66,30 +136,12 @@ namespace SMS.Areas.Admin.Controllers
 
 
 		#endregion
-		public ActionResult PermissionsList()
+		public ActionResult List()
 		{
 			if (!_permissionService.Authorize("ManagePermissions"))
 				return AccessDeniedView();
 
-			var model = new List<PermissionModel>();
-			var lstPermissions = _permissionService.GetAllPermissions(true).OrderByDescending(x => x.CreatedOn).ToList();
-			lstPermissions = lstPermissions.OrderByDescending(x => x.CreatedOn).ToList();
-
-			if (lstPermissions.Count > 0)
-			{
-				foreach (var eve in lstPermissions)
-				{
-					model.Add(new PermissionModel
-					{
-						Id = eve.Id,
-						Category = eve.Category,
-						SystemName = eve.SystemName,
-						IsSystemDefined = eve.IsSystemDefined,
-						Name = eve.Name
-					});
-				}
-			}
-
+			var model = new PermissionRecordModel();
 			return View(model);
 		}
 
@@ -98,18 +150,18 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManagePermissions"))
 				return AccessDeniedView();
 
-			var model = new CreatePermissionModel();
+			var model = new PermissionRecordModel();
 			if (id == 0)
 				throw new Exception("Permission Id Missing");
 
 			var eve = _permissionService.GetPermissionById(id);
 			if (eve != null)
 			{
-				model = new CreatePermissionModel
-				{
+				model = new PermissionRecordModel
+                {
 					Id = id,
 					Name = eve.Name,
-					SystemName = eve.SystemName,
+                    IsActive = eve.IsActive,
 					IsSystemDefined = eve.IsSystemDefined,
 					Category = eve.Category
 				};
@@ -121,14 +173,14 @@ namespace SMS.Areas.Admin.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[ValidateInput(false)]
-		public ActionResult Edit(CreatePermissionModel model)
+		public ActionResult Edit(PermissionRecordModel model)
 		{
 			if (!_permissionService.Authorize("ManagePermissions"))
 				return AccessDeniedView();
 
 			// Check for duplicate permission, if any
-			var _permission = _permissionService.GetPermissionsByName(model.Name.Trim());
-			if (_permission != null && _permission.Id != model.Id)
+			var permission = _permissionService.GetPermissionsByName(model.Name.Trim());
+			if (permission != null && permission.Id != model.Id)
 				ModelState.AddModelError("PermissionName", "A Permission with the same name already exists. Please choose a different name.");
 
 			if (ModelState.IsValid)
@@ -136,11 +188,10 @@ namespace SMS.Areas.Admin.Controllers
 				var eve = _permissionService.GetPermissionById(model.Id);
 				if (eve != null)
 				{
-					eve.CreatedOn = DateTime.Now;
-					eve.Name = model.Name;
-					eve.SystemName = model.Name.Trim();
-					eve.Category = model.Category;
 					eve.ModifiedOn = DateTime.Now;
+					eve.Name = model.Name;
+					eve.IsActive = model.IsActive;
+					eve.Category = model.Category;
 					_permissionService.Update(eve);
 				}
 			}
@@ -158,32 +209,33 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManagePermissions"))
 				return AccessDeniedView();
 
-			var model = new CreatePermissionModel();
+			var model = new PermissionRecordModel();
 			return View(model);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[ValidateInput(false)]
-		public ActionResult Create(CreatePermissionModel model)
+		public ActionResult Create(PermissionRecordModel model)
 		{
 			if (!_permissionService.Authorize("ManagePermissions"))
 				return AccessDeniedView();
 
 			// Check for duplicate permission, if any
-			var _permission = _permissionService.GetPermissionsByName(model.Name);
-			if (_permission != null)
-				ModelState.AddModelError("PermissionName", "An Permission with same name already exists. Please choose a different name.");
+			var permission = _permissionService.GetPermissionsByName(model.Name);
+			if (permission != null)
+				ModelState.AddModelError("PermissionName", "A Permission with same name already exists. Please choose a different name.");
 
 			if (ModelState.IsValid)
 			{
 				var newPermission = new PermissionRecord()
 				{
 					CreatedOn = DateTime.Now,
-					IsSystemDefined = model.IsSystemDefined,
+					IsSystemDefined = false,
 					ModifiedOn = DateTime.Now,
 					IsDeleted = false,
-					Name = model.Name
+					Name = model.Name,
+                    IsActive = model.IsActive
 				};
 				_permissionService.Insert(newPermission);
 			}

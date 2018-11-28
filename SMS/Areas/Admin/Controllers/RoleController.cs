@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Core.Data;
@@ -10,7 +11,7 @@ using SMS.Models;
 
 namespace SMS.Areas.Admin.Controllers
 {
-	public class RoleController : AdminAreaController
+    public class RoleController : AdminAreaController
     {
 
         #region Fields
@@ -47,32 +48,77 @@ namespace SMS.Areas.Admin.Controllers
         }
 
         #endregion
+
+        #region Utilities
+
+        public ActionResult LoadGrid()
+        {
+            try
+            {
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+                var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
+
+
+                //Paging Size (10,20,50,100)    
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+
+                // Getting all data    
+                var roleData = (from temproles in _roleService.GetAllRoles(showSystemDefined: false) select temproles);
+
+                //Search    
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    roleData = roleData.Where(m => m.RoleName.Contains(searchValue));
+                }
+
+                //total number of rows count     
+                var lstRoles = roleData as UserRole[] ?? roleData.ToArray();
+                recordsTotal = lstRoles.Count();
+                //Paging     
+                var data = lstRoles.Skip(skip).Take(pageSize);
+
+                //Returning Json Data 
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        draw = draw,
+                        recordsFiltered = recordsTotal,
+                        recordsTotal = recordsTotal,
+                        data = data.Select(x => new RoleModel()
+                        {
+                            IsActive = x.IsActive,
+                            UserId = x.UserId,
+                            RoleName = x.RoleName.Trim(),
+                            IsSystemDefined = x.IsSystemDefined,
+                            Id = x.Id
+                        }).OrderBy(x => x.RoleName).ToList()
+                    },
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        #endregion
         public ActionResult List()
         {
-            var model = new List<RoleModel>();
-            var user = _userContext.CurrentUser;
             if (!_permissionService.Authorize("ManageRoles"))
                 return AccessDeniedView();
-
-            var lstRoles = _roleService.GetAllRoles().OrderByDescending(x => x.CreatedOn).ToList();
-
-            if (!user.Roles.Any(r => r.Id == 1))
-                lstRoles = lstRoles.Where(x => user.Roles.Any(r => r.Id == x.Id)).OrderByDescending(x => x.CreatedOn).ToList();
-
-            if (lstRoles.Count > 0)
-            {
-                foreach (var eve in lstRoles)
-                {
-                    model.Add(new RoleModel
-                    {
-                        Id = eve.Id,
-                        IsActive = eve.IsActive,
-                        IsDeleted = eve.IsDeleted,
-                        IsSystemDefined = eve.IsSystemDefined,
-                        RoleName = eve.RoleName
-                    });
-                }
-            }
+            var model = new RoleModel();
 
             return View(model);
         }
@@ -106,8 +152,8 @@ namespace SMS.Areas.Admin.Controllers
 
             var user = _userContext.CurrentUser;
             // Check for duplicate role, if any
-            var _role = _roleService.GetRoleByName(model.RoleName);
-            if (_role != null && _role.Id != model.Id)
+            var role = _roleService.GetRoleByName(model.RoleName);
+            if (role != null && role.Id != model.Id)
                 ModelState.AddModelError("RoleName", "A Role with the same name already exists. Please choose a different name.");
 
             if (ModelState.IsValid)
@@ -148,8 +194,8 @@ namespace SMS.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             // Check for duplicate role, if any
-            var _role = _roleService.GetRoleByName(model.RoleName);
-            if (_role != null)
+            var role = _roleService.GetRoleByName(model.RoleName);
+            if (role != null)
                 ModelState.AddModelError("RoleName", "An Role with same name already exists. Please choose a different name.");
 
             if (ModelState.IsValid)

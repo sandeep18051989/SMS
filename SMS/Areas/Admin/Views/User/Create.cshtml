@@ -1,4 +1,4 @@
-﻿@model SMS.Areas.Admin.Models.UserModel
+﻿@model SMS.Models.UserModel
 
 @{
 	ViewBag.Title = "Create User";
@@ -123,7 +123,10 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Users')").closest("li").addClass("active");
+
 		if ($("#IsActive").val()) {
 			$("#IsActive").attr('checked', true).val(true);
 		}

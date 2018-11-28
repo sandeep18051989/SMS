@@ -199,7 +199,16 @@
 									}, 1e3);
 								},
 								error: function(xhr, ajaxOptions, thrownError) {
-									console.log(xhr.responseText);
+								    console.log(xhr.responseText);
+								    setTimeout(function () {
+								        $.gritter.add({
+								            title: "Failure",
+								            text: xhr.responseText,
+								            sticky: !0,
+								            time: "",
+								            class_name: "my-sticky-class"
+								        });
+								    }, 1e3);
 									$('#addEventPicture').attr('disabled', false);
 								}
 							});

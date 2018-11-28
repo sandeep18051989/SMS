@@ -18,7 +18,7 @@
     </li>
     @if (_permissionService.Authorize("ManageDashboard"))
     {
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" aria-expanded="false" href="@Url.Action("Index", "Dashboard", new {Area = "Admin"})">
                 <span class="nav-icon">
                     <i class="fa fa-dashboard"></i>
@@ -185,7 +185,7 @@
                 </div>
             }
         </li>
-        <li class="nav-item">
+        @*<li class="nav-item">
             <a class="@(_permissionService.Authorize("ManageEmployeeAttendance") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="nav-icon"><i class="fa fa-folder-open-o"></i> </span>
                 <span class="nav-title">
@@ -204,14 +204,14 @@
                             Employee Attendance
                         </span>
                     </a>
-                    <a class="nav-link" href="@Url.Action("CreateEmployeeAttendance", "Attendance", new {Area = "Admin"})">
+                    <a class="nav-link" href="@Url.Action("EmployeeAttendance", "Attendance", new {Area = "Admin"})">
                         <span class="nav-title">
                             Add Employee Attendance
                         </span>
                     </a>
                 </div>
             }
-        </li>
+        </li>*@
         <li class="nav-item">
             <a class="@(_permissionService.Authorize("ManageDataTokens") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="nav-icon"><i class="fa fa-paperclip"></i> </span>
@@ -253,7 +253,7 @@
             @if (_permissionService.Authorize("ManageTemplates"))
             {
                 <div class="dropdown-container">
-                    <a class="nav-link" href="@Url.Action("TemplateList", "Template", new {Area = "Admin"})">
+                    <a class="nav-link" href="@Url.Action("List", "Template", new {Area = "Admin"})">
                         <span class="nav-title">
                             List
                         </span>
@@ -334,7 +334,7 @@
             @if (_permissionService.Authorize("ManagePermissions"))
             {
                 <div class="dropdown-container">
-                    <a class="nav-link" href="@Url.Action("PermissionsList", "Permission", new {Area = "Admin"})">
+                    <a class="nav-link" href="@Url.Action("List", "Permission", new {Area = "Admin"})">
                         <span class="nav-title">
                             List
                         </span>

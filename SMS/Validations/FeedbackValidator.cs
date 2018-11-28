@@ -5,13 +5,13 @@ using SMS.Models;
 
 namespace SMS.Validations
 {
-    public partial class FeedbackModelValidator : EntityValidatorBase<FeedbackModel>
+    public partial class FeedbackModelValidator : AbstractValidator<FeedbackModel>
     {
         public FeedbackModelValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter name");
-            RuleFor(x => x.EmailAddress).NotEmpty().EmailAddress().WithMessage("Invalid email address");
-            RuleFor(x => x.ContactNumber).NotEmpty().WithMessage("Please enter contact number");
+            RuleFor(x => x.FullName).NotEmpty().WithMessage("Please enter name");
+            RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Invalid email address");
+            RuleFor(x => x.Contact).NotEmpty().WithMessage("Please enter contact number");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Please enter discription");
 
         }

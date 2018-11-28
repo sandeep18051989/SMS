@@ -7,15 +7,18 @@ using SMS.Models;
 
 namespace SMS.Areas.Admin.Validations
 {
-	public class AdminUserModelValidation : EntityValidatorBase<UserModel>
+	public class AdminUserModelValidation : AbstractValidator<UserModel>
 	{
 		public AdminUserModelValidation()
 		{
 			RuleFor(x => x.Username).NotEmpty().WithMessage("Please enter username");
-			RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Please enter email address");
-			RuleFor(x => x.Password).NotEmpty().Length(6, 50).WithMessage("Password should be of 6 or more characters");
-			RuleFor(x => x.ConfirmPassword).NotEmpty().Equal(x => x.Password).WithMessage("Both passwords must match");
-			RuleFor(x => x.SelectedRoleIds).Cascade(CascadeMode.StopOnFirstFailure).NotNull().WithMessage("A user must need a role on creation to get started!").Must(NotEqualZero).WithMessage("Please select atleast one role");
+			RuleFor(x => x.Email).NotEmpty().WithMessage("Please enter email address");
+		    RuleFor(x => x.Email).EmailAddress().WithMessage("Please enter valid email address");
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Please enter password");
+		    RuleFor(x => x.Password).Length(6, 50).WithMessage("Password must be of 6 or more characters");
+            RuleFor(x => x.ConfirmPassword).NotEmpty().WithMessage("Please re-type password");
+		    RuleFor(x => x.ConfirmPassword).Equal(x => x.Password).WithMessage("Both passwords must match");
+            RuleFor(x => x.SelectedRoleIds).Cascade(CascadeMode.StopOnFirstFailure).NotNull().WithMessage("A user must need a role on creation to get started!").Must(NotEqualZero).WithMessage("Please select atleast one role");
 		}
 
 		private bool NotEqualZero(int[] ints)

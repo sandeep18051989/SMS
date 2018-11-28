@@ -209,20 +209,20 @@ namespace SMS.Areas.Admin.Controllers
 			var user = _userContext.CurrentUser;
 			// Check for duplicate vendor, if any
 			var vendor = _smsService.GetVendorsByName(model.Name);
-			if (vendor != null && vendor.Id != model.Id)
-				ModelState.AddModelError("Title", "An Vendor with the same name already exists. Please choose a different name.");
+			if (vendor != null)
+			{
+			    if (vendor.Id != model.Id)
+			        ModelState.AddModelError("Title", "An Vendor with the same name already exists. Please choose a different name.");
+			}
 
-			if (ModelState.IsValid)
+		    if (ModelState.IsValid)
 			{
 				var eve = _smsService.GetVendorById(model.Id);
-
 				if (eve == null || eve.IsDeleted)
 					return RedirectToAction("List");
 
-				eve.CreatedOn = DateTime.Now;
 				eve = model.ToEntity();
-				eve.ModifiedOn = DateTime.Now;
-				eve.UserId = user.Id;
+                eve.ModifiedOn = DateTime.Now;
 				_smsService.UpdateVendor(eve);
 			}
 			else
