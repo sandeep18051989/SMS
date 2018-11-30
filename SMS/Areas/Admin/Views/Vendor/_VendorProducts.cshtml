@@ -115,7 +115,7 @@
 								url: "@(Url.Action("AssignProduct", "Vendor"))",
 								data: postData,
 								success: function (data) {
-									$('#vendorproducts-grid').data.reload();
+									$('#vendorproducts-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

@@ -32,8 +32,9 @@ namespace EF.Services.Service
 		IList<User> GetUnApprovedUsers();
 
 		int GetUserCountByLoginDate(DateTime logindate);
+	    int GetPendingUserCount();
 
-		LocationInfo GetCountryByLocation(double latitude, double longitude);
+        LocationInfo GetCountryByLocation(double latitude, double longitude);
 		IList<Location> GetUserLocationsByCountry(string country);
 		IList<Location> GetAllUserLocations();
 	}

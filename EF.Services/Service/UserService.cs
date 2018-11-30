@@ -208,20 +208,27 @@ namespace EF.Services.Service
 			if (logindate == null)
 				throw new ArgumentNullException("user");
 
-			var query = _userRepository.Table.ToList();
-			var lstUsers = new List<User>();
-			foreach (var q in query)
-			{
-				if (q.LastLoginDate.HasValue)
-				{
-					if (q.LastLoginDate.Value.Date == logindate.Date)
-						lstUsers.Add(q);
-				}
-			}
-			return lstUsers.ToList().Count;
+		    int userCount = 0;
+			var users = _userRepository.Table.ToList();
+
+		    foreach (var q in users)
+		    {
+		        DateTime dtUser = q.LastLoginDate.Value;
+                if (Equals(dtUser.Date.Day, logindate.Date.Day) && Equals(dtUser.Date.Month, logindate.Date.Month) && dtUser.Date.Year == logindate.Date.Year)
+                {
+                    userCount += 1;
+                }
+		    }
+
+		    return userCount;
 		}
 
-		public LocationInfo GetCountryByLocation(double latitude, double longitude)
+	    public int GetPendingUserCount()
+	    {
+	        return _userRepository.Table.Count(q => !q.IsApproved);
+	    }
+
+        public LocationInfo GetCountryByLocation(double latitude, double longitude)
 		{
 			return _reverseLocationService.FindCountry(new GeoLocation() { Latitude = latitude, Longitude = longitude, Description = "" });
 		}

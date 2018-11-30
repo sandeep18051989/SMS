@@ -58,5 +58,7 @@ namespace EF.Services.Service
         /// <param name="customer">The customer to associate log record with</param>
         /// <returns>A SystemLog item</returns>
         SystemLog InsertSystemLog(LogLevel Level, string Message, string StackTrace = "", User user = null);
+
+        int GetLogCountTillDate();
     }
 }

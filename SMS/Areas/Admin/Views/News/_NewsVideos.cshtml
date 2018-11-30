@@ -165,7 +165,7 @@
 								success: function (data) {
 									$('#addNewsVideo').attr('disabled', false);
 									$('.upload-video').fineUploader('reset');
-									$('#newsvideos-grid').data.reload();
+									$('#newsvideos-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -211,7 +211,7 @@
 								url: "@(Url.Action("DeleteNewsVideo", "News"))",
 								data: postData,
 								success: function (data) {
-									$('#newsvideos-grid').data.reload();
+									$('#newsvideos-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -291,7 +291,7 @@
 								url: "@(Url.Action("UpdateNewsVideo", "News"))",
 								data: postData,
 								success: function (data) {
-									$('#newsvideos-grid').data.reload();
+									$('#newsvideos-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

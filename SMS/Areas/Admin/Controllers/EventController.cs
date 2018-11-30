@@ -219,8 +219,7 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageEvents"))
 				return AccessDeniedView();
 
-			var user = _userContext.CurrentUser;
-			var model = new List<EventModel>();
+            var model = new List<EventModel>();
 			return View(model);
 		}
 

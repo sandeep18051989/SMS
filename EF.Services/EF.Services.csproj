@@ -123,6 +123,7 @@
     <Compile Include="Culture\ICutltureHelper.cs" />
     <Compile Include="DecimalPropertyValidator.cs" />
     <Compile Include="EFValidatorFactory.cs" />
+    <Compile Include="EnumExtensions.cs" />
     <Compile Include="Http\IUrlHelper.cs" />
     <Compile Include="Http\UrlExtensions.cs" />
     <Compile Include="Http\UrlHelper.cs" />

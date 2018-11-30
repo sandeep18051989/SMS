@@ -97,20 +97,22 @@ namespace EF.Services.Service
 		public int GetFeedbackCountByCreatedDate(DateTime createddate)
 		{
 			if (createddate == null)
-				throw new ArgumentNullException("created date empty.");
+				throw new ArgumentNullException("createddate");
 
-			var query = _feedbackRepository.Table.ToList();
-			var lstFeedbacks = new List<Feedback>();
-			foreach (var q in query)
-			{
-				if (q.CreatedOn.Date == createddate.Date)
-				{
-					lstFeedbacks.Add(q);
-				}
-			}
-			return lstFeedbacks.ToList().Count;
+		    int feedbackCount = 0;
+		    var feedbacks = _feedbackRepository.Table.ToList();
 
-		}
+		    foreach (var q in feedbacks)
+		    {
+		        DateTime dtfeedback = q.CreatedOn;
+		        if (Equals(dtfeedback.Date.Day, createddate.Date.Day) && Equals(dtfeedback.Date.Month, createddate.Date.Month) && dtfeedback.Date.Year == createddate.Date.Year)
+		        {
+		            feedbackCount += 1;
+		        }
+		    }
+
+		    return feedbackCount;
+        }
 
 		#endregion
 	}

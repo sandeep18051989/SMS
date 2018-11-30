@@ -52,20 +52,22 @@ namespace EF.Services.Service
 		public int GetCommentCountByCreatedDate(DateTime createddate)
 		{
 			if (createddate == null)
-				throw new ArgumentNullException("created date empty.");
+				throw new ArgumentNullException("createddate");
 
-			IList<Comment> lstComments = new List<Comment>();
-			var query = _commentRepository.Table.ToList();
+		    int commentCount = 0;
+		    var comments = _commentRepository.Table.ToList();
 
-			foreach (var q in query)
-			{
-				if (q.CreatedOn.Date == createddate.Date)
-					lstComments.Add(q);
-			}
+		    foreach (var q in comments)
+		    {
+		        DateTime dtcomment = q.CreatedOn;
+		        if (Equals(dtcomment.Date.Day, createddate.Date.Day) && Equals(dtcomment.Date.Month, createddate.Date.Month) && dtcomment.Date.Year == createddate.Date.Year)
+		        {
+		            commentCount += 1;
+		        }
+		    }
 
-			return lstComments.ToList().Count;
-
-		}
+		    return commentCount;
+        }
 
 		public IList<Comment> GetCommentsByManualDate(DateTime date)
 		{

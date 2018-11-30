@@ -147,37 +147,39 @@ namespace SMS.Areas.Admin.Controllers
 			model.EventsToday = _eventService.GetEventCountByCreatedDate(DateTime.Now);
 			model.CommentsToday = _commentService.GetCommentCountByCreatedDate(DateTime.Now);
 			model.FeedbacksToday = _feedbackService.GetFeedbackCountByCreatedDate(DateTime.Now);
-			//model.ReturnUsers = _userService.GetAllUserLocations().GroupBy(j => j.UserId).Where(g => g.Count() > 1 && g.FirstOrDefault().UserId != 0).Select(u => new IPAddress() {
-			//	Address = u.FirstOrDefault().Address,
-			//	CreatedOn = u.FirstOrDefault().CreatedOn,
-			//	Location = u.FirstOrDefault().Location.Trim().Replace(",", ""),
-			//	Latitude = u.FirstOrDefault().Latitude,
-			//	Longitude = u.FirstOrDefault().Longitude,
-			//	Id = u.FirstOrDefault().Id,
-			//	UserId = u.FirstOrDefault().UserId
-			//}).ToList();
+		    model.PendingUsersCount = _userService.GetPendingUserCount();
+		    model.LogsCount = _systemLogService.GetLogCountTillDate();
+            //model.ReturnUsers = _userService.GetAllUserLocations().GroupBy(j => j.UserId).Where(g => g.Count() > 1 && g.FirstOrDefault().UserId != 0).Select(u => new IPAddress() {
+            //	Address = u.FirstOrDefault().Address,
+            //	CreatedOn = u.FirstOrDefault().CreatedOn,
+            //	Location = u.FirstOrDefault().Location.Trim().Replace(",", ""),
+            //	Latitude = u.FirstOrDefault().Latitude,
+            //	Longitude = u.FirstOrDefault().Longitude,
+            //	Id = u.FirstOrDefault().Id,
+            //	UserId = u.FirstOrDefault().UserId
+            //}).ToList();
 
-			//model.UniqueUsers = _userService.GetAllUserLocations().GroupBy(j => j.UserId).Where(g => g.Count() == 1 || g.FirstOrDefault().UserId == 0).Select(u => new IPAddress()
-			//{
-			//	Address = u.FirstOrDefault().Address,
-			//	CreatedOn = u.FirstOrDefault().CreatedOn,
-			//	Location = u.FirstOrDefault().Location.Trim().Replace(",",""),
-			//	Latitude = u.FirstOrDefault().Latitude,
-			//	Longitude = u.FirstOrDefault().Longitude,
-			//	Id = u.FirstOrDefault().Id,
-			//	UserId = u.FirstOrDefault().UserId
-			//}).ToList();
+            //model.UniqueUsers = _userService.GetAllUserLocations().GroupBy(j => j.UserId).Where(g => g.Count() == 1 || g.FirstOrDefault().UserId == 0).Select(u => new IPAddress()
+            //{
+            //	Address = u.FirstOrDefault().Address,
+            //	CreatedOn = u.FirstOrDefault().CreatedOn,
+            //	Location = u.FirstOrDefault().Location.Trim().Replace(",",""),
+            //	Latitude = u.FirstOrDefault().Latitude,
+            //	Longitude = u.FirstOrDefault().Longitude,
+            //	Id = u.FirstOrDefault().Id,
+            //	UserId = u.FirstOrDefault().UserId
+            //}).ToList();
 
-			//var lstAddresses = new List<IPAddress>();
-			//lstAddresses.AddRange(model.ReturnUsers);
-			//lstAddresses.AddRange(model.UniqueUsers);
-			//model.ConsolidateUserModel = lstAddresses.GroupBy(mu => mu.CreatedOn.Date).Select(mu => new ConsolidateUserModel() {
-			//	ReturnCount = mu.Intersect(model.ReturnUsers).Count(),
-			//	UniqueCount = mu.Intersect(model.UniqueUsers).Count(),
-			//	Date = mu.Key,
-			//}).ToList();
+            //var lstAddresses = new List<IPAddress>();
+            //lstAddresses.AddRange(model.ReturnUsers);
+            //lstAddresses.AddRange(model.UniqueUsers);
+            //model.ConsolidateUserModel = lstAddresses.GroupBy(mu => mu.CreatedOn.Date).Select(mu => new ConsolidateUserModel() {
+            //	ReturnCount = mu.Intersect(model.ReturnUsers).Count(),
+            //	UniqueCount = mu.Intersect(model.UniqueUsers).Count(),
+            //	Date = mu.Key,
+            //}).ToList();
 
-			model.Comments = _commentService.GetCommentsByManualDate(DateTime.Now).Select(c => new AdminCommentsModel()
+            model.Comments = _commentService.GetCommentsByManualDate(DateTime.Now).Select(c => new AdminCommentsModel()
 			{
 				CommentDate = c.CreatedOn,
 				CommentHtml = c.CommentHtml,

@@ -12,16 +12,7 @@ namespace SMS.Models
 		public ConfigurationSettingsModel()
 		{
 			AvailableLocations = new List<SelectListItem>();
-			AvailableForgotPasswordTemplates = new List<SelectListItem>();
-			AvailableVisitorQueryTemplates = new List<SelectListItem>();
-			AvailableCommentOnEventTemplates = new List<SelectListItem>();
-			AvailableCommentOnProductTemplates = new List<SelectListItem>();
-			AvailableProductAddedTemplates = new List<SelectListItem>();
-			AvailableReplyOnCommentTemplates = new List<SelectListItem>();
-			AvailableNewUserRegisterTemplates = new List<SelectListItem>();
-			AvailableUserSignInAttemptTemplates = new List<SelectListItem>();
-			AvailableRequestQuoteTemplates = new List<SelectListItem>();
-			AvailableCommentOnBlogTemplates = new List<SelectListItem>();
+		    AvailableTemplates = new List<SelectListItem>();
 		}
 		public int ItemsPerPage { get; set; }
 		public string PagerLocation { get; set; }
@@ -30,17 +21,7 @@ namespace SMS.Models
 
 		public IList<SelectListItem> AvailableLocations { get; set; }
 
-		public IList<SelectListItem> AvailableForgotPasswordTemplates { get; set; }
-		public IList<SelectListItem> AvailableVisitorQueryTemplates { get; set; }
-		public IList<SelectListItem> AvailableCommentOnEventTemplates { get; set; }
-		public IList<SelectListItem> AvailableCommentOnProductTemplates { get; set; }
-		public IList<SelectListItem> AvailableProductAddedTemplates { get; set; }
-		public IList<SelectListItem> AvailableReplyOnCommentTemplates { get; set; }
-		public IList<SelectListItem> AvailableNewUserRegisterTemplates { get; set; }
-		public IList<SelectListItem> AvailableUserSignInAttemptTemplates { get; set; }
-		public IList<SelectListItem> AvailableRequestQuoteTemplates { get; set; }
-		public IList<SelectListItem> AvailableCommentOnBlogTemplates { get; set; }
-
+		public IList<SelectListItem> AvailableTemplates { get; set; }
 		public string SelectedVisitorQueryTemplate { get; set; }
 		public string SelectedCommentOnBlogTemplate { get; set; }
 		public string CommentOnEventTemplate { get; set; }

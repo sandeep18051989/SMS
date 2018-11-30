@@ -7,7 +7,7 @@
 function GetPictures() {
     $.ajax({
         type: "GET",
-        url: "../../Admin/Slider/GetSliderPicturesList",
+        url: "/Admin/Slider/GetSliderPicturesList",
         data: {},
         async: true,
         context: this,

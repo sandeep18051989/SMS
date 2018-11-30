@@ -116,7 +116,7 @@
                                 studentId: studentId, 
 								fileId: fileId,
                                 title: "",
-                                type=""
+                                type:""
 							};
 
 							addAntiForgeryToken(postData);
@@ -129,7 +129,7 @@
 								success: function (data) {
 									$('#addStudentFile').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
-									$('#studentfiles-grid').data.reload();
+									$('#studentfiles-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -175,7 +175,7 @@
 								url: "@(Url.Action("DeleteStudentFile", "Student"))",
 								data: postData,
 								success: function (data) {
-									$('#studentfiles-grid').data.reload();
+									$('#studentfiles-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -247,7 +247,7 @@
 								url: "@(Url.Action("StudentFileAddUpdate", "Student"))",
 								data: postData,
 								success: function (data) {
-									$('#studentfiles-grid').data.reload();
+									$('#studentfiles-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

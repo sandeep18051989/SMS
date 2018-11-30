@@ -48,8 +48,9 @@ namespace SMS.Models
 		public int TotalStudents { get; set; }
 		public int AcadmicYearId { get; set; }
 		public string AcadmicYearName { get; set; }
-		public virtual AcadmicYear AcadmicYear { get; set; }
-		public PictureModel ProfilePicture { get; set; }
+
+	    public AcadmicYear AcadmicYear { get; set; }
+        public PictureModel ProfilePicture { get; set; }
 		public PictureModel CoverPicture { get; set; }
 		public bool IsActive { get; set; }
 

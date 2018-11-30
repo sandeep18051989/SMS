@@ -1,0 +1,230 @@
+﻿@model SMS.Models.SliderModel
+<div class="panel-group">
+    @if (Model.Id > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body table-responsive">
+                <table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="sliderpictures-grid">
+                    <thead class="mdb-color lighten-5">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        // Initiallize Datatable
+                        $('#sliderpictures-grid').DataTable({
+                            "paging": false,
+                            "bLengthChange": false, //thought this line could hide the LengthMenu
+                            "bInfo": false,
+                            "processing": true, // for show progress bar
+                            "serverSide": true, // for process server side
+                            "filter": false, // this is for disable filter (search box)
+                            "orderMulti": true, // for disable multiple column at once
+                            "ajax": {
+                                "url": "/Admin/Slider/LoadPictureGrid/@(Model.Id)",
+                                "type": "POST",
+                                "datatype": "json"
+                            },
+                            "aaSorting": [],
+                            "columns": [
+					            {
+					                "searchable": false,
+					                "title": "",
+					                "render": function(data, type, row) {
+					                    if (type === "display") {
+					                        return '<div class="thumb"><img src="' +
+					                            row.Src +
+					                            '" alt="" class="img-thumbnail float-left"></div>';
+					                    }
+					                    return data;
+					                },
+					                "orderable": false,
+					                "className": 'text-center',
+					                "defaultContent": ""
+					            },
+					            {
+					                "title": "Actions",
+					                "orderable": false,
+					                "className": 'text-center',
+					                "render": function(data, type, row) {
+					                    if (type === "display") {
+					                        var dateTemplate = '<div class="md-form form-group">';
+					                        dateTemplate +=
+					                            '<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="picdel_' +
+					                            row.PictureId +
+					                            '" title="Delete Picture"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
+					                        return dateTemplate;
+					                    }
+					                    return data;
+					                },
+					                "defaultContent": ""
+					            }
+                            ],
+                            "select": {
+                                "style": 'os',
+                                "selector": 'td:first-child'
+                            }
+                        });
+
+                        $('#addPicture').click(function() {
+                            var maxPictures =
+                                (typeof($("#@Html.IdFor(model => model.MaxPictures)")) != typeof(undefined) &&
+                                        $("#@Html.IdFor(model => model.MaxPictures)").val() != null &&
+                                        $("#@Html.IdFor(model => model.MaxPictures)").val() !== "")
+                                    ? parseInt($("#@Html.IdFor(model => model.MaxPictures)").val())
+                                    : 0;
+
+                            if ($("#sliderpictures-grid tbody tr").length <= maxPictures) {
+                                var pictureId = $("#@Html.IdFor(model => model.PictureId)").val();
+
+                                if (pictureId === 0) {
+                                    setTimeout(function() {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Please upload picture!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    },
+                                        1e3);
+                                    return;
+                                }
+                                if (confirm("Are you sure you want to add this picture to slider ?")) {
+                                    $('#addPicture').attr('disabled', true);
+
+                                    var postData = {
+                                        pictureId: pictureId,
+                                        sliderId: @Model.Id
+                                        };
+
+                                    addAntiForgeryToken(postData);
+
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("SliderPictureAdd", "Slider"))",
+                                        data: postData,
+                                        success: function(data, result) {
+                                            $('#addPicture').attr('disabled', false);
+                                            $('.uploader').fineUploader('reset');
+                                            $('#sliderpictures-grid').DataTable().ajax.reload();
+                                            setTimeout(function() {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Picture added to slider!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            },
+                                                1e3);
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            console.log(xhr.responseText);
+                                            setTimeout(function() {
+                                                $.gritter.add({
+                                                    title: "Failure",
+                                                    text: xhr.responseText,
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            },1e3);
+                                            $('#addPicture').attr('disabled', false);
+                                        }
+                                    });
+                                }
+                            } else {
+                                setTimeout(function() {
+                                    $.gritter.add({
+                                        title: "Failure",
+                                        text: "You have reached to the maximum limit of pictures for this slider!",
+                                        sticky: !0,
+                                        time: "",
+                                        class_name: "my-sticky-class"
+                                    });
+                                },1e3);
+                            }
+                        });
+
+                        $(document).on("click", 'button[id^=picdel_]', function () {
+                            var pictureId = parseInt($(this).attr('id').split('_')[1]);
+
+                            if (pictureId === 0) {
+                                setTimeout(function () {
+                                    $.gritter.add({
+                                        title: "Failure",
+                                        text: "An error occurred while deleting picture!",
+                                        sticky: !0,
+                                        time: "",
+                                        class_name: "my-sticky-class"
+                                    });
+                                }, 1e3);
+                                return;
+                            }
+
+                            var postData = {
+                                id: pictureId,
+                                sliderid: @Model.Id
+                                };
+
+                            addAntiForgeryToken(postData);
+
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("DeleteSliderPicture", "Slider"))",
+                                data: postData,
+                                success: function (data) {
+                                    $('#sliderpictures-grid').DataTable().ajax.reload();
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Success",
+                                            text: "Picture deleted successfully!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr.responseText);
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Failed to delete slider picture!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                }
+                            });
+                        });
+                    });
+                </script>
+                @Html.EditorFor(model => model.PictureId)
+                @Html.ValidationMessageFor(model => model.PictureId)
+                &nbsp;
+            </div>
+            <div class="panel-footer">
+                <button type="button" id="addPicture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Slider</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="alert alert-info" role="alert">
+                    <strong>Heads up!</strong> Please save slider first to upload picture.
+                </div>
+            </div>
+        </div>
+    }
+</div>

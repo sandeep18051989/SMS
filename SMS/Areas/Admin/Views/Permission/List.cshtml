@@ -169,7 +169,7 @@
                                                 });
                                             },
                                                 1e3);
-                                            $('.custom-table').data.reload();
+                                            $('.custom-table').DataTable().ajax.reload();
                                         }
                                     },
                                     error: function (xhr, ajaxOptions, thrownError) {

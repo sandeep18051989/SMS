@@ -67,7 +67,11 @@ namespace SMS.Areas.Admin.Models
 
 		public int BlogsToday { get; set; }
 
-		public IList<AdminCommentsModel> Comments { get; set; }
+	    public int LogsCount { get; set; }
+
+	    public int PendingUsersCount { get; set; }
+
+        public IList<AdminCommentsModel> Comments { get; set; }
 
 		public IList<Location> UniqueUsers { get; set; }
 		public IList<Location> ReturnUsers { get; set; }

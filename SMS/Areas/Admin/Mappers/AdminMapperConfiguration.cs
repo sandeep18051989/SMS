@@ -465,6 +465,13 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Teacher, mo => mo.Ignore())
                     .ForMember(dest => dest.WeekDay, mo => mo.Ignore());
 
+                cfg.CreateMap<Slider, SliderModel>()
+                    .ForMember(dest => dest.AvailableAreas, mo => mo.Ignore())
+                    .ForMember(dest => dest.Pictures, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<SliderModel, Slider>()
+                    .ForMember(dest => dest.Pictures, mo => mo.Ignore());
+
             };
             return action;
         }

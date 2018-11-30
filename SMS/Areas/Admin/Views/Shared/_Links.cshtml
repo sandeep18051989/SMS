@@ -185,33 +185,33 @@
                 </div>
             }
         </li>
-        @*<li class="nav-item">
-            <a class="@(_permissionService.Authorize("ManageEmployeeAttendance") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-folder-open-o"></i> </span>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageSlider") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-video-camera"></i> </span>
                 <span class="nav-title">
-                    Attendance
-                    @if (_permissionService.Authorize("ManageEmployeeAttendance"))
+                    Sliders
+                    @if (_permissionService.Authorize("ManageSlider"))
                     {
                         <i class="fa fa-angle-down rotate-icon"></i>
                     }
                 </span>
             </a>
-            @if (_permissionService.Authorize("ManageEmployeeAttendance"))
+            @if (_permissionService.Authorize("ManageSlider"))
             {
                 <div class="dropdown-container">
-                    <a class="nav-link" href="@Url.Action("EmployeeAttendanceList", "Attendance", new {Area = "Admin"})">
+                    <a class="nav-link" href="@Url.Action("List", "Slider", new {Area = "Admin"})">
                         <span class="nav-title">
-                            Employee Attendance
+                            List
                         </span>
                     </a>
-                    <a class="nav-link" href="@Url.Action("EmployeeAttendance", "Attendance", new {Area = "Admin"})">
+                    <a class="nav-link" href="@Url.Action("Create", "Slider", new {Area = "Admin"})">
                         <span class="nav-title">
-                            Add Employee Attendance
+                            Create
                         </span>
                     </a>
                 </div>
             }
-        </li>*@
+        </li>
         <li class="nav-item">
             <a class="@(_permissionService.Authorize("ManageDataTokens") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="nav-icon"><i class="fa fa-paperclip"></i> </span>
@@ -322,7 +322,7 @@
         </li>
         <li class="nav-item">
             <a class="@(_permissionService.Authorize("ManagePermissions") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="nav-icon"><i class="fa fa-user-times"></i> </span>
+                <span class="nav-icon"><i class="fa fa-cogs"></i> </span>
                 <span class="nav-title">
                     Permissions
                     @if (_permissionService.Authorize("ManagePermissions"))
@@ -390,7 +390,7 @@
                 <div class="dropdown-container">
                     <a class="nav-link" href="@Url.Action("List", "Audit", new {Area = "Admin"})">
                         <span class="nav-title">
-                            Audit Log
+                            List
                         </span>
                     </a>
                 </div>
@@ -412,7 +412,7 @@
                 <div class="dropdown-container">
                     <a class="nav-link" href="@Url.Action("List", "Log", new {Area = "Admin"})">
                         <span class="nav-title">
-                            System Log
+                            List
                         </span>
                     </a>
                 </div>

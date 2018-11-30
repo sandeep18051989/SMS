@@ -8,7 +8,7 @@ namespace EF.Services.Service
 	{
 		void Insert(Event events);
 		void Update(Event events);
-		IList<Event> GetAllEvents(bool? active);
+		IList<Event> GetAllEvents(bool? onlyActive=null);
 		IList<Event> GetActiveEvents();
 		Event GetEventById(int eventId);
 		IList<Event> GetAllEventsByUser(int userId);

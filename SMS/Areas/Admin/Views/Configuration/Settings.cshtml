@@ -34,7 +34,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.PagerLocation, Model.AvailableLocations, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="2" })
+	                        @Html.DropDownListFor(model => model.PagerLocation, Model.AvailableLocations, new { @class="mdb-select colorful-select dropdown-primary", @tabindex="2" })
 	                        @Html.LabelFor(model => model.PagerLocation, "Pager Location :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.PagerLocation, "", new { @class="text-danger" })
 	                    </div>
@@ -43,7 +43,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.SelectedEmailTemplateForForgotPassword, Model.AvailableForgotPasswordTemplates,"Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="3" })
+	                        @Html.DropDownListFor(model => model.SelectedEmailTemplateForForgotPassword, Model.AvailableTemplates,"Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="3" })
 	                        @Html.LabelFor(model => model.SelectedEmailTemplateForForgotPassword, "Forgot Password Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.SelectedEmailTemplateForForgotPassword, "", new { @class="text-danger" })
 	                    </div>
@@ -52,7 +52,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.SelectedVisitorQueryTemplate, Model.AvailableVisitorQueryTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="4" })
+	                        @Html.DropDownListFor(model => model.SelectedVisitorQueryTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="4" })
 	                        @Html.LabelFor(model => model.SelectedVisitorQueryTemplate, "Visitor Query Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.SelectedVisitorQueryTemplate, "", new { @class="text-danger" })
 	                    </div>
@@ -61,7 +61,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.CommentOnEventTemplate, Model.AvailableCommentOnEventTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="5" })
+	                        @Html.DropDownListFor(model => model.CommentOnEventTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="5" })
 	                        @Html.LabelFor(model => model.CommentOnEventTemplate, "Comment On Event Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.CommentOnEventTemplate, "", new { @class="text-danger" })
 	                    </div>
@@ -70,7 +70,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.CommentOnProductTemplate, Model.AvailableCommentOnProductTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="6" })
+	                        @Html.DropDownListFor(model => model.CommentOnProductTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="6" })
 	                        @Html.LabelFor(model => model.CommentOnProductTemplate, "Comment On Product Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.CommentOnProductTemplate, "", new { @class="text-danger" })
 	                    </div>
@@ -79,7 +79,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.NewUserRegisterTemplate, Model.AvailableNewUserRegisterTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="7" })
+	                        @Html.DropDownListFor(model => model.NewUserRegisterTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="7" })
 	                        @Html.LabelFor(model => model.NewUserRegisterTemplate, "New User Register Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.NewUserRegisterTemplate, "", new { @class="text-danger" })
 	                    </div>
@@ -88,7 +88,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.ProductAddedTemplate, Model.AvailableProductAddedTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="8" })
+	                        @Html.DropDownListFor(model => model.ProductAddedTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="8" })
 	                        @Html.LabelFor(model => model.ProductAddedTemplate, "Product Added Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.ProductAddedTemplate, "", new { @class="text-danger" })
 	                    </div>
@@ -97,7 +97,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.ReplyOnCommentTemplate, Model.AvailableReplyOnCommentTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="9" })
+	                        @Html.DropDownListFor(model => model.ReplyOnCommentTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="9" })
 	                        @Html.LabelFor(model => model.ReplyOnCommentTemplate, "Reply On Comment Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.ReplyOnCommentTemplate, "", new { @class="text-danger" })
 	                    </div>
@@ -106,7 +106,7 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.RequestQuoteTemplate, Model.AvailableRequestQuoteTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="10" })
+	                        @Html.DropDownListFor(model => model.RequestQuoteTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="10" })
 	                        @Html.LabelFor(model => model.RequestQuoteTemplate, "Request Quote Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.RequestQuoteTemplate, "", new { @class="text-danger" })
 	                    </div>
@@ -115,9 +115,18 @@
 	            <div class="row text-left">
 	                <div class="col-xs-12 col-md-4 mb-4">
 	                    <div class="md-form">
-	                        @Html.DropDownListFor(model => model.UserSignInAttemptTemplate, Model.AvailableUserSignInAttemptTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="11" })
+	                        @Html.DropDownListFor(model => model.UserSignInAttemptTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="11" })
 	                        @Html.LabelFor(model => model.UserSignInAttemptTemplate, "User Signed In Template :", new { @class="control-label" })
 	                        @Html.ValidationMessageFor(model => model.UserSignInAttemptTemplate, "", new { @class="text-danger" })
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="row text-left">
+	                <div class="col-xs-12 col-md-4 mb-4">
+	                    <div class="md-form">
+	                        @Html.DropDownListFor(model => model.SelectedCommentOnBlogTemplate, Model.AvailableTemplates, "Select", new { @class="mdb-select colorful-select dropdown-primary", @tabindex="11" })
+	                        @Html.LabelFor(model => model.SelectedCommentOnBlogTemplate, "Comment On Blog Template :", new { @class="control-label" })
+	                        @Html.ValidationMessageFor(model => model.SelectedCommentOnBlogTemplate, "", new { @class="text-danger" })
 	                    </div>
 	                </div>
 	            </div>

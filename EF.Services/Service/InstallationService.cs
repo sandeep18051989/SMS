@@ -613,12 +613,21 @@ namespace EF.Services.Service
 			#endregion
 
 			#region Settings
+
 			// Slider
 			Slider newSlider = new Slider();
 			newSlider.CreatedOn = DateTime.Now;
 			newSlider.ModifiedOn = DateTime.Now;
 			newSlider.IsActive = true;
-			newSlider.UserId = _user.Id;
+		    newSlider.DisplayArea = 1;
+		    newSlider.DisplayOrder = 0;
+		    newSlider.MaxPictures = 5;
+		    newSlider.Name = "Default Slider";
+		    newSlider.ShowCaption = true;
+		    newSlider.ShowNextPrevIndicators = true;
+		    newSlider.ShowThumbnails = true;
+		    newSlider.IsSystemDefined = true;
+            newSlider.UserId = _user.Id;
 			newSlider.Pictures.Add(new Picture()
 			{
 				AlternateText = "",
@@ -1273,101 +1282,101 @@ namespace EF.Services.Service
 			blogToken.UserId = _user.Id;
 			_tokenRepository.Insert(blogToken);
 
-			blogToken = new DataToken();
-			blogToken.SystemName = "BlogEmail";
-			blogToken.Name = "Blog Email";
-			blogToken.Value = "#";
-			blogToken.IsSystemDefined = true;
-			blogToken.CreatedOn = DateTime.Now;
-			blogToken.IsActive = true;
-			blogToken.IsDeleted = false;
-			blogToken.ModifiedOn = DateTime.Now;
-			blogToken.UserId = _user.Id;
-			_tokenRepository.Insert(blogToken);
+			var blogEmailToken = new DataToken();
+		    blogEmailToken.SystemName = "BlogEmail";
+		    blogEmailToken.Name = "Blog Email";
+		    blogEmailToken.Value = "#";
+		    blogEmailToken.IsSystemDefined = true;
+		    blogEmailToken.CreatedOn = DateTime.Now;
+		    blogEmailToken.IsActive = true;
+		    blogEmailToken.IsDeleted = false;
+		    blogEmailToken.ModifiedOn = DateTime.Now;
+		    blogEmailToken.UserId = _user.Id;
+			_tokenRepository.Insert(blogEmailToken);
 
-			blogToken = new DataToken();
-			blogToken.SystemName = "BlogId";
-			blogToken.Name = "Blog Id";
-			blogToken.Value = "#";
-			blogToken.IsSystemDefined = true;
-			blogToken.CreatedOn = DateTime.Now;
-			blogToken.IsActive = true;
-			blogToken.IsDeleted = false;
-			blogToken.ModifiedOn = DateTime.Now;
-			blogToken.UserId = _user.Id;
-			_tokenRepository.Insert(blogToken);
+			var blogIdToken = new DataToken();
+		    blogIdToken.SystemName = "BlogId";
+		    blogIdToken.Name = "Blog Id";
+		    blogIdToken.Value = "#";
+		    blogIdToken.IsSystemDefined = true;
+		    blogIdToken.CreatedOn = DateTime.Now;
+		    blogIdToken.IsActive = true;
+		    blogIdToken.IsDeleted = false;
+		    blogIdToken.ModifiedOn = DateTime.Now;
+		    blogIdToken.UserId = _user.Id;
+			_tokenRepository.Insert(blogIdToken);
 
-			blogToken = new DataToken();
-			blogToken.SystemName = "BlogUserId";
-			blogToken.Name = "Blog User Id";
-			blogToken.Value = "#";
-			blogToken.IsSystemDefined = true;
-			blogToken.CreatedOn = DateTime.Now;
-			blogToken.IsActive = true;
-			blogToken.IsDeleted = false;
-			blogToken.ModifiedOn = DateTime.Now;
-			blogToken.UserId = _user.Id;
-			_tokenRepository.Insert(blogToken);
+			var blogUserIdToken = new DataToken();
+		    blogUserIdToken.SystemName = "BlogUserId";
+		    blogUserIdToken.Name = "Blog User Id";
+		    blogUserIdToken.Value = "#";
+		    blogUserIdToken.IsSystemDefined = true;
+		    blogUserIdToken.CreatedOn = DateTime.Now;
+		    blogUserIdToken.IsActive = true;
+		    blogUserIdToken.IsDeleted = false;
+		    blogUserIdToken.ModifiedOn = DateTime.Now;
+		    blogUserIdToken.UserId = _user.Id;
+			_tokenRepository.Insert(blogUserIdToken);
 
-			blogToken = new DataToken();
-			blogToken.SystemName = "BlogName";
-			blogToken.Name = "Blog Name";
-			blogToken.Value = "#";
-			blogToken.IsSystemDefined = true;
-			blogToken.CreatedOn = DateTime.Now;
-			blogToken.IsActive = true;
-			blogToken.IsDeleted = false;
-			blogToken.ModifiedOn = DateTime.Now;
-			blogToken.UserId = _user.Id;
-			_tokenRepository.Insert(blogToken);
+			var blogNameToken = new DataToken();
+		    blogNameToken.SystemName = "BlogName";
+		    blogNameToken.Name = "Blog Name";
+		    blogNameToken.Value = "#";
+		    blogNameToken.IsSystemDefined = true;
+		    blogNameToken.CreatedOn = DateTime.Now;
+		    blogNameToken.IsActive = true;
+		    blogNameToken.IsDeleted = false;
+		    blogNameToken.ModifiedOn = DateTime.Now;
+		    blogNameToken.UserId = _user.Id;
+			_tokenRepository.Insert(blogNameToken);
 
-			blogToken = new DataToken();
-			blogToken.SystemName = "BlogActive";
-			blogToken.Name = "Blog Active";
-			blogToken.Value = "#";
-			blogToken.IsSystemDefined = true;
-			blogToken.CreatedOn = DateTime.Now;
-			blogToken.IsActive = true;
-			blogToken.IsDeleted = false;
-			blogToken.ModifiedOn = DateTime.Now;
-			blogToken.UserId = _user.Id;
-			_tokenRepository.Insert(blogToken);
+			var blogActiveToken = new DataToken();
+		    blogActiveToken.SystemName = "BlogActive";
+		    blogActiveToken.Name = "Blog Active";
+		    blogActiveToken.Value = "#";
+		    blogActiveToken.IsSystemDefined = true;
+		    blogActiveToken.CreatedOn = DateTime.Now;
+		    blogActiveToken.IsActive = true;
+		    blogActiveToken.IsDeleted = false;
+		    blogActiveToken.ModifiedOn = DateTime.Now;
+		    blogActiveToken.UserId = _user.Id;
+			_tokenRepository.Insert(blogActiveToken);
 
-			blogToken = new DataToken();
-			blogToken.SystemName = "BlogUrl";
-			blogToken.Name = "Blog Url";
-			blogToken.Value = "#";
-			blogToken.IsSystemDefined = true;
-			blogToken.CreatedOn = DateTime.Now;
-			blogToken.IsActive = true;
-			blogToken.IsDeleted = false;
-			blogToken.ModifiedOn = DateTime.Now;
-			blogToken.UserId = _user.Id;
-			_tokenRepository.Insert(blogToken);
+			var blogUrlToken = new DataToken();
+		    blogUrlToken.SystemName = "BlogUrl";
+		    blogUrlToken.Name = "Blog Url";
+		    blogUrlToken.Value = "#";
+		    blogUrlToken.IsSystemDefined = true;
+		    blogUrlToken.CreatedOn = DateTime.Now;
+		    blogUrlToken.IsActive = true;
+		    blogUrlToken.IsDeleted = false;
+		    blogUrlToken.ModifiedOn = DateTime.Now;
+		    blogUrlToken.UserId = _user.Id;
+			_tokenRepository.Insert(blogUrlToken);
 
-			blogToken = new DataToken();
-			blogToken.SystemName = "BlogSubject";
-			blogToken.Name = "Blog Subject";
-			blogToken.Value = "#";
-			blogToken.IsSystemDefined = true;
-			blogToken.CreatedOn = DateTime.Now;
-			blogToken.IsActive = true;
-			blogToken.IsDeleted = false;
-			blogToken.ModifiedOn = DateTime.Now;
-			blogToken.UserId = _user.Id;
-			_tokenRepository.Insert(blogToken);
+			var blogSubjectToken = new DataToken();
+		    blogSubjectToken.SystemName = "BlogSubject";
+		    blogSubjectToken.Name = "Blog Subject";
+		    blogSubjectToken.Value = "#";
+		    blogSubjectToken.IsSystemDefined = true;
+		    blogSubjectToken.CreatedOn = DateTime.Now;
+		    blogSubjectToken.IsActive = true;
+		    blogSubjectToken.IsDeleted = false;
+		    blogSubjectToken.ModifiedOn = DateTime.Now;
+		    blogSubjectToken.UserId = _user.Id;
+			_tokenRepository.Insert(blogSubjectToken);
 
-			blogToken = new DataToken();
-			blogToken.SystemName = "BlogApproved";
-			blogToken.Name = "Blog Approved";
-			blogToken.Value = "#";
-			blogToken.IsSystemDefined = true;
-			blogToken.CreatedOn = DateTime.Now;
-			blogToken.IsActive = true;
-			blogToken.IsDeleted = false;
-			blogToken.ModifiedOn = DateTime.Now;
-			blogToken.UserId = _user.Id;
-			_tokenRepository.Insert(blogToken);
+			var blogApprovedToken = new DataToken();
+		    blogApprovedToken.SystemName = "BlogApproved";
+		    blogApprovedToken.Name = "Blog Approved";
+		    blogApprovedToken.Value = "#";
+		    blogApprovedToken.IsSystemDefined = true;
+		    blogApprovedToken.CreatedOn = DateTime.Now;
+		    blogApprovedToken.IsActive = true;
+		    blogApprovedToken.IsDeleted = false;
+		    blogApprovedToken.ModifiedOn = DateTime.Now;
+		    blogApprovedToken.UserId = _user.Id;
+			_tokenRepository.Insert(blogApprovedToken);
 
 			#endregion
 
@@ -1752,7 +1761,6 @@ namespace EF.Services.Service
 			defaultTemplate.Tokens.Add(productSeoToken);
 			defaultTemplate.Tokens.Add(productTitleToken);
 			defaultTemplate.Tokens.Add(productUserToken);
-
 			defaultTemplate.Tokens.Add(commentIdToken);
 			defaultTemplate.Tokens.Add(commentHtmlToken);
 			defaultTemplate.Tokens.Add(commentUserToken);
@@ -1846,11 +1854,50 @@ namespace EF.Services.Service
 
 			_templateRepository.Insert(defaultTemplate);
 
-			#endregion
+		    defaultTemplate = new Template();
+		    defaultTemplate.Name = "ForgetPassword";
+		    defaultTemplate.IsActive = true;
+		    defaultTemplate.IsDeleted = false;
+		    defaultTemplate.IsSystemDefined = true;
+		    defaultTemplate.ModifiedOn = DateTime.Now;
+		    defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[UserEmail]</td></tr></tbody></table>";
+		    defaultTemplate.CreatedOn = DateTime.Now;
+		    defaultTemplate.UserId = _user.Id;
 
-			#region Scheduled Tasks
+		    defaultTemplate.Tokens.Add(usercreationdateToken);
+		    defaultTemplate.Tokens.Add(useridToken);
+		    defaultTemplate.Tokens.Add(usermailToken);
+		    defaultTemplate.Tokens.Add(userpasswordToken);
 
-			_scheduleTaskRepository.Insert(new ScheduleTask
+		    _templateRepository.Insert(defaultTemplate);
+
+		    defaultTemplate = new Template();
+		    defaultTemplate.Name = "CommentOnBlog";
+		    defaultTemplate.IsActive = true;
+		    defaultTemplate.IsDeleted = false;
+		    defaultTemplate.IsSystemDefined = true;
+		    defaultTemplate.ModifiedOn = DateTime.Now;
+		    defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[BlogName]</td></tr></tbody></table>";
+		    defaultTemplate.CreatedOn = DateTime.Now;
+		    defaultTemplate.UserId = _user.Id;
+
+		    defaultTemplate.Tokens.Add(blogActiveToken);
+		    defaultTemplate.Tokens.Add(blogApprovedToken);
+		    defaultTemplate.Tokens.Add(blogEmailToken);
+		    defaultTemplate.Tokens.Add(blogIdToken);
+
+		    defaultTemplate.Tokens.Add(blogNameToken);
+		    defaultTemplate.Tokens.Add(blogSubjectToken);
+		    defaultTemplate.Tokens.Add(blogUrlToken);
+		    defaultTemplate.Tokens.Add(blogUserIdToken);
+
+            _templateRepository.Insert(defaultTemplate);
+
+            #endregion
+
+            #region Scheduled Tasks
+
+            _scheduleTaskRepository.Insert(new ScheduleTask
 			{
 				Name = "Keep alive",
 				Seconds = 300,

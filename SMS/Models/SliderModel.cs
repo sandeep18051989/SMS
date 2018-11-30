@@ -1,22 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using EF.Core.Enums;
+using EF.Services;
+using FluentValidation.Attributes;
+using SMS.Validations;
 
 namespace SMS.Models
 {
-    public partial class SliderModel
+    [Validator(typeof(SliderValidation))]
+    public partial class SliderModel : BaseEntityModel
     {
         public SliderModel()
         {
             Pictures = new List<PictureModel>();
-            Setings = new SettingsModel();
+            AvailableAreas = new List<SelectListItem>();
         }
-        public int SliderId { get; set; }
-        public int MaxPictures { get; set; }
-        public bool CaptionOff { get; set; }
-        public IList<PictureModel> Pictures { get; set; }
+        public bool IsActive { get; set; }
 
-        public SettingsModel Setings { get; set; }
+        public string Name { get; set; }
+
+        public bool ShowNextPrevIndicators { get; set; }
+
+        public bool ShowCaption { get; set; }
+
+        public int DisplayArea { get; set; }
+
+        public string DisplayAreaString { get; set; }
+
+        [UIHint("Picture")]
+        public int PictureId { get; set; }
+
+        public int? DisplayOrder { get; set; }
+
+        public int? MaxPictures { get; set; }
+
+        public bool ShowThumbnails { get; set; }
+        public IList<PictureModel> Pictures { get; set; }
+        public IList<SelectListItem> AvailableAreas { get; set; }
+
     }
 }

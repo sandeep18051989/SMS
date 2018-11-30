@@ -34,14 +34,9 @@ namespace EF.Services.Service
 
 		#region Methods
 
-		public IList<Event> GetAllEvents(bool? active)
+		public IList<Event> GetAllEvents(bool? onlyActive=null)
 		{
-			var events = _eventRepository.Table.ToList();
-
-			if (active.HasValue)
-				events = events.Where(e => e.IsActive == active.Value).ToList();
-
-			return events.OrderByDescending(a => a.CreatedOn).ToList();
+			return _eventRepository.Table.Where(e => !onlyActive.HasValue || e.IsActive == onlyActive.Value).OrderByDescending(a => a.CreatedOn).ToList();
 		}
 
 		public IList<Event> GetActiveEvents()
@@ -76,17 +71,7 @@ namespace EF.Services.Service
 			if (createddate == null)
 				throw new ArgumentNullException("created date empty.");
 
-			var query = _eventRepository.Table.ToList();
-			var lstEvents = new List<Event>();
-			foreach (var q in query)
-			{
-				if (q.CreatedOn.Date == createddate.Date)
-				{
-					lstEvents.Add(q);
-				}
-			}
-			return lstEvents.ToList().Count;
-
+			return _eventRepository.Table.Count(e => (e.StartDate.Value >= createddate) && (e.EndDate.Value <= createddate));
 		}
 
 		#endregion

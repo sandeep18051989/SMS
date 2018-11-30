@@ -16,7 +16,9 @@ namespace SMS.Models
 		public bool IsActive { get; set; }
 		public string AlternateText { get; set; }
 		public bool CaptionOff { get; set; }
-	}
+
+	    public string CreatedDateString { get; set; }
+    }
 
 	public partial class BlogPictureModel : BaseEntityModel
 	{

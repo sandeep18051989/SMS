@@ -184,10 +184,10 @@
 								type: "POST",
 								url: "@(Url.Action("EventPictureAdd", "Event"))",
 								data: postData,
-								success: function (data) {
+								success: function (data, result) {
 									$('#addEventPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
-									$('#eventpictures-grid').data.reload();
+									$('#eventpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -242,7 +242,7 @@
 								url: "@(Url.Action("DeleteEventPicture", "Event"))",
 								data: postData,
 								success: function (data) {
-									$('#eventpictures-grid').data.reload();
+									$('#eventpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -324,7 +324,7 @@
 								url: "@(Url.Action("UpdateEventPicture", "Event"))",
 								data: postData,
 								success: function (data) {
-									$('#eventpictures-grid').data.reload();
+									$('#eventpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

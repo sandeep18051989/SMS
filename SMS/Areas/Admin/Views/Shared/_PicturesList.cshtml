@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SMS.Areas.Admin.Models.PicturesModel>
+﻿@model IEnumerable<SMS.Models.PictureModel>
 @using SMS.Areas.Admin.Models;
 @using System.Web;
 <div class="row">
@@ -31,34 +31,34 @@
 									<tr scope="row">
 										<td align="center"><input type="checkbox" id="@picture.Id" class="checkboxGroups" value="@picture.Id" /></td>
 										<td style="vertical-align: bottom;position: relative;">
-											<img width="200" height="350" class="img-thumbnail z-depth-0" id="@("img_" + picture.PictureId)" src="@picture.PictureSrc.Replace("~", "../../")" alt="@picture.AlternateText" />
+											<img width="200" height="350" class="img-thumbnail z-depth-0" id="@("img_" + picture.Id)" src="@picture.Src.Replace("~", "../../")" alt="@picture.AlternateText" />
 										</td>
 										<td style="vertical-align: bottom;" align="center">
 											<div style="vertical-align: bottom;position:relative; display:block; padding: 10px 0;">
-												<textarea class="form-control md-textarea" id="@("alt_" + picture.PictureId)" rows="2" type="text" value="@picture.AlternateText">@picture.AlternateText</textarea>
-												<label for="@("alt_" + picture.PictureId)">Enter Caption</label>
+												<textarea class="form-control md-textarea" id="@("alt_" + picture.Id)" rows="2" type="text" value="@picture.AlternateText">@picture.AlternateText</textarea>
+												<label for="@("alt_" + picture.Id)">Enter Caption</label>
 											</div>
 										</td>
 										<td style="vertical-align: bottom;" align="center">
 											<div style="vertical-align: bottom;position:relative;padding-top:30px; overflow: hidden;">
-												<input class="form-control" id="@("disp_" + picture.PictureId)" type="number" tabindex="3" value="@picture.DisplayOrder" />
-												<label for="@("disp_" + picture.PictureId)">Enter Display Order</label>
+												<input class="form-control" id="@("disp_" + picture.Id)" type="number" tabindex="3" value="@picture.Id" />
+												<label for="@("disp_" + picture.Id)">Enter Display Order</label>
 											</div>
 										</td>
 										<td style="vertical-align: bottom;position: relative;" align="center">
 											@if (picture.IsActive)
 											{
-												<input type="checkbox" id="@("act_" + picture.PictureId)" name="@("act_" + picture.PictureId)" value="true" checked="checked" />
-												<label for="@("act_" + picture.PictureId)">Activated</label>
+												<input type="checkbox" id="@("act_" + picture.Id)" name="@("act_" + picture.Id)" value="true" checked="checked" />
+												<label for="@("act_" + picture.Id)">Activated</label>
 											}
 											else
 											{
-												<input type="checkbox" id="@("act_" + picture.PictureId)" name="@("act_" + picture.PictureId)" value="false" />
-												<label for="@("act_" + picture.PictureId)">Deactivated</label>
+												<input type="checkbox" id="@("act_" + picture.Id)" name="@("act_" + picture.Id)" value="false" />
+												<label for="@("act_" + picture.Id)">Deactivated</label>
 											}
 										</td>
 										<td style="vertical-align: bottom;" align="center">
-											<a onclick="UpdatePicture('@picture.PictureId', $('#alt_@picture.PictureId').val(), $('#disp_@picture.PictureId').val(), $('#act_@picture.PictureId').prop('checked'));" href="javascript:void(0);" id="@("edit_" + picture.PictureId)" title="Update"><i style="font-size: 20px;" class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="@("del_" + picture.PictureId)" onclick="DeletePicture('@picture.PictureId');" href="javascript:void(0);" title="Delete"><i style="font-size: 20px;" class="fa fa-trash-o"></i></a>
+											<a onclick="UpdatePicture('@picture.Id', $('#alt_@picture.Id').val(), $('#disp_@picture.Id').val(), $('#act_@picture.Id').prop('checked'));" href="javascript:void(0);" id="@("edit_" + picture.Id)" title="Update"><i style="font-size: 20px;" class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="@("del_" + picture.Id)" onclick="DeletePicture('@picture.Id');" href="javascript:void(0);" title="Delete"><i style="font-size: 20px;" class="fa fa-trash-o"></i></a>
 										</td>
 									</tr>
 								}

@@ -229,7 +229,6 @@ namespace SMS.Areas.Admin.Controllers
             if (!_roleService.GetRoleById(id).IsSystemDefined)
             {
                 _roleService.Delete(id);
-                ViewBag.Result = "Role deleted successfully";
             }
 
             SuccessNotification("Role deleted successfully.");

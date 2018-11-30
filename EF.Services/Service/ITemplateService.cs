@@ -22,7 +22,7 @@ namespace EF.Services.Service
 	    IList<Template> GetTemplatesByIds(int[] templateIds);
 
 
-        IList<Template> GetAllTemplates(bool? onlyActive = null);
+        IList<Template> GetAllTemplates(bool? onlyActive = null, bool? showSystemDefined = null);
 
 		DataToken GetDataTokenById(int tokenId);
 

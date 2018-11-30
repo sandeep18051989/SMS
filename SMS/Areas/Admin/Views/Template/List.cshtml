@@ -200,7 +200,7 @@
                                 type: "POST",
                                 url: "@(Url.Action("DeleteSelected", "Template"))",
                                 data: postData,
-                                complete: function (data, result) {
+                                success: function (data, result) {
                                     if (result === "success") {
                                         setTimeout(function () {
                                             $.gritter.add({
@@ -211,7 +211,7 @@
                                                 class_name: "my-sticky-class"
                                             });
                                         }, 1e3);
-                                        $('.custom-table').data.reload();
+                                        $('.custom-table').DataTable().ajax.reload();
                                     }
                                 },
                                 error: function (xhr, ajaxOptions, thrownError) {
@@ -296,7 +296,7 @@
                                             class_name: "my-sticky-class"
                                         });
                                     }, 1e3);
-                                    $('.custom-table').data.reload();
+                                    $('.custom-table').DataTable().ajax.reload();
                                 }
                             },
                             error: function (xhr, ajaxOptions, thrownError) {

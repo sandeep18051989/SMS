@@ -1,0 +1,294 @@
+﻿@model SMS.Areas.Admin.Models.SystemLogModel
+@{
+    ViewBag.Title = "System Log";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group pull-right">
+                            <button class="btn btn-danger" type="button" id="delete-selected"><i class="fa fa-remove"></i>&nbsp;&nbsp;&nbsp;Delete</button>
+                            <button class="btn btn-danger" type="button" id="clear-log"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;Clear Log</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><input type="checkbox" id="allcheck" /></th>
+                                        <th class="text-center">Url</th>
+                                        <th class="text-center">Ip Address</th>
+                                        <th class="text-center">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    var selectedIds = [];
+                    $(document).ready(function () {
+                        $("li.nav-item").removeClass("active");
+                        $("span.nav-title:contains('System Log')").closest("li").addClass("active");
+
+                        // Initiallize Footable
+                        var table = $('.custom-table').DataTable({
+                            "processing": true, // for show progress bar
+                            "serverSide": true, // for process server side
+                            "filter": true, // this is for disable filter (search box)
+                            "orderMulti": false, // for disable multiple column at once
+                            "pageLength": 25,
+                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            "ajax": {
+                                "url": "/Admin/Log/LoadGrid",
+                                "type": "POST",
+                                "datatype": "json"
+                            },
+                            "aaSorting": [],
+                            "columns": [
+                                {
+                                    'searchable': false,
+                                    "title": "",
+                                    "data": "",
+                                    "render": function (data, type, row) {
+                                        if (type === "display") {
+                                            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input checkboxGroups" value="' +
+                                                row.Id +
+                                                '" id="' +
+                                                row.Id +
+                                                '"><label class="form-check-label" for="' +
+                                                row.Id +
+                                                '"></label><span class="show-detail"></span></div>';
+                                        }
+                                        return data;
+                                    },
+                                    "orderable": false,
+                                    "className": 'details-control text-center',
+                                    "defaultContent": ""
+                                },
+                                {
+                                    "data": "Url",
+                                    "title": "Url",
+                                    "name": "Url",
+                                    "className": 'text-center',
+                                    "autoWidth": true,
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true,
+                                    "render": function (data, type, row) {
+                                        if (type === "display") {
+                                            return '<span title="' + row.Url + '" class="log-url">' + row.Url + '</div>';
+                                        }
+                                        return data;
+                                    }
+                                },
+                                {
+                                    "data": "IpAddress",
+                                    "title": "IP Address",
+                                    "name": "IpAddress",
+                                    "className": 'text-center',
+                                    "autoWidth": true,
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true
+                                },
+                                {
+                                    "data": "LogDateString",
+                                    "title": "Date",
+                                    "name": "Date",
+                                    "autoWidth": true,
+                                    "className": 'text-center',
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true
+                                }
+                            ],
+                            "select": {
+                                "style": 'os',
+                                "selector": 'td:first-child'
+                            }
+                        });
+
+                        // Add event listener for opening and closing details
+                        $('.custom-table tbody').on('click',
+                            'td.details-control',
+                            function () {
+                                var tr = $(this).closest('tr');
+                                var row = table.row(tr);
+                                if (row.child.isShown()) {
+                                    row.child.hide();
+                                    tr.removeClass('shown');
+                                } else {
+                                    row.child(format(row.data())).show();
+                                    tr.addClass('shown');
+                                }
+                            });
+
+                        //delete selected
+                        $('#delete-selected').click(function (e) {
+                            if (selectedIds.length > 0) {
+                                if (confirm("Are you sure you want to clear log?")) {
+                                    e.preventDefault();
+                                    var postData = {
+                                        selectedIds: selectedIds
+                                    };
+                                    addAntiForgeryToken(postData);
+
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("DeleteSelected", "Log"))",
+                                        data: postData,
+                                        success: function (data, result) {
+                                            if (result === "success") {
+                                                setTimeout(function () {
+                                                    $.gritter.add({
+                                                        title: "Success",
+                                                        text: "Selected entries deleted successfully.",
+                                                        sticky: !0,
+                                                        time: "",
+                                                        class_name: "my-sticky-class"
+                                                    });
+                                                }, 1e3);
+                                                $('.custom-table').DataTable().ajax.reload();
+                                            }
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            console.log(xhr.responseText);
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Failure",
+                                                    text: xhr.responseText,
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            },
+                                                1e3);
+                                        },
+                                        traditional: true
+                                    });
+                                }
+                            }
+                            else {
+                                setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Please select atleast one record",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    },
+                                    1e3);
+                            }
+                            return false;
+                        });
+
+                        //delete selected
+                        $('#clear-log').click(function (e) {
+                            if (confirm("Are you sure you want to clear log?")) {
+                                e.preventDefault();
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("ClearLog", "Log"))",
+                                    data: {},
+                                    success: function (data, result) {
+                                        if (result === "success") {
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "System Log Cleared Successfully..",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                            $('.custom-table').DataTable().ajax.reload();
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: xhr.responseText,
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    },
+                                    traditional: true
+                                });
+                            }
+                            return false;
+                        });
+
+                        $(document).on('click',
+                            '#allcheck',
+                            function () {
+                                $('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
+                            });
+
+                        //wire up checkboxes.
+                        $('.custom-table').on('change',
+                            'input[type=checkbox][id!=allcheck]',
+                            function (e) {
+                                var $check = $(this);
+                                var checked;
+                                if ($check.is(":checked") === true) {
+                                    checked = jQuery.inArray($check.val(), selectedIds);
+                                    if (checked === -1) {
+                                        //add id to selectedIds.
+                                        selectedIds.push($check.val());
+                                    }
+                                } else {
+                                    checked = jQuery.inArray($check.val(), selectedIds);
+                                    if (checked > -1) {
+                                        //remove id from selectedIds.
+                                        selectedIds = $.grep(selectedIds,
+                                            function (item, index) {
+                                                return item !== $check.val();
+                                            });
+                                    }
+                                }
+                                updateMasterCheckbox();
+                            });
+                    });
+
+                    function updateMasterCheckbox() {
+                        var numChkBoxes = $('#query-tbl input[type=checkbox][id!=allcheck]').length;
+                        var numChkBoxesChecked = $('#query-tbl input[type=checkbox][id!=allcheck]:checked').length;
+                        $('#allcheck').attr('checked', numChkBoxes === numChkBoxesChecked && numChkBoxes > 0);
+                    }
+
+                    function format(d) {
+                        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                            '<tr>' +
+                            '<td colspan="2">Message</td>' +
+                            '<td style="white-space: pre-wrap;" colspan="3"><span class="log-message">' + d.Message + '</span></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td colspan="2">Stack Trace</td>' +
+                            '<td style="white-space: pre-wrap;" colspan="3"><span class="log-trace">' + d.StackTrace + '</span></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '</tr>' +
+                            '</table>';
+                    }
+                </script>
+            }
+        </section>
+    </div>
+</div>

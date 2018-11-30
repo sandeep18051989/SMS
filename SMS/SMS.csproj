@@ -454,6 +454,8 @@
     <Content Include="Content\images\bg_noise-bg.png" />
     <Content Include="Content\images\buildings.png" />
     <Content Include="Content\images\continue.gif" />
+    <Content Include="Content\images\details_close.png" />
+    <Content Include="Content\images\details_open.png" />
     <Content Include="Content\images\edit.gif" />
     <Content Include="Content\images\HNCK1088.jpg" />
     <Content Include="Content\images\coverplaceholder.png" />
@@ -993,6 +995,10 @@
     <Content Include="Areas\Admin\Views\Student\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Student\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Student\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\_SliderPictures.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\List.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1627,6 +1633,7 @@
     <Compile Include="Validations\TeacherModelValidator.cs" />
     <Compile Include="Validations\RoleValidation.cs" />
     <Compile Include="Validations\PermissionRecordValidation.cs" />
+    <Compile Include="Validations\SliderValidation.cs" />
     <Compile Include="Validations\VendorModelValidator.cs" />
     <Compile Include="Validations\UserValidation.cs" />
   </ItemGroup>

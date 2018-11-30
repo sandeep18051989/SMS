@@ -1,307 +1,479 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Core.Data;
 using EF.Core.Enums;
+using EF.Services;
 using EF.Services.Service;
+using SMS.Mappers;
 using SMS.Models;
 
 namespace SMS.Areas.Admin.Controllers
 {
-	public class SliderController : AdminAreaController
-	{
+    public class SliderController : AdminAreaController
+    {
 
-		#region Fields
+        #region Fields
 
-		private readonly IUserService _userService;
-		private readonly IPictureService _pictureService;
-		private readonly IUserContext _userContext;
-		private readonly ISliderService _sliderService;
-		public readonly ISettingService _settingService;
-		private readonly IPermissionService _permissionService;
+        private readonly IUserService _userService;
+        private readonly IPictureService _pictureService;
+        private readonly IUserContext _userContext;
+        private readonly ISliderService _sliderService;
+        public readonly ISettingService _settingService;
+        private readonly IPermissionService _permissionService;
 
-		#endregion Fileds
+        #endregion Fileds
 
-		#region Constructor
+        #region Constructor
 
-		public SliderController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IPermissionService permissionService)
-		{
-			this._userService = userService;
-			this._pictureService = pictureService;
-			this._userContext = userContext;
-			this._sliderService = sliderService;
-			this._settingService = settingService;
-			this._permissionService = permissionService;
-		}
+        public SliderController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IPermissionService permissionService)
+        {
+            this._userService = userService;
+            this._pictureService = pictureService;
+            this._userContext = userContext;
+            this._sliderService = sliderService;
+            this._settingService = settingService;
+            this._permissionService = permissionService;
+        }
 
-		#endregion
+        #endregion
 
-		public ActionResult Index()
-		{
-			if (!_permissionService.Authorize("ManageConfiguration"))
-				return AccessDeniedView();
+        #region Utilities
 
-			var model = new SliderSettingsModel();
-			model.ActiveSettings = "SliderSettings";
-			var activeSlider = _sliderService.GetSlider(true);
-			var MaxWidthAllowedForSliderThumbnails = _settingService.GetSettingByKey("MaxWidthAllowedForSliderThumbnails");
-			if (MaxWidthAllowedForSliderThumbnails != null)
-			{
-				model.MaxWidthSetting = MaxWidthAllowedForSliderThumbnails.Value;
-			}
+        public ActionResult LoadGrid()
+        {
+            try
+            {
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]")?.FirstOrDefault() + "][name]")?.FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]")?.FirstOrDefault();
+                var searchValue = Request.Form.GetValues("search[value]")?.FirstOrDefault();
 
-			var MaxHeightAllowedForSliderThumbnails = _settingService.GetSettingByKey("MaxHeightAllowedForSliderThumbnails");
-			if (MaxHeightAllowedForSliderThumbnails != null)
-			{
-				model.MaxHeightSetting = MaxHeightAllowedForSliderThumbnails.Value;
-			}
 
-			model.Slider = activeSlider;
-			model.Id = activeSlider.Id;
-			var maxPictureSetting = _settingService.GetSettingByKey("MaxPictures");
-			if (maxPictureSetting != null)
-			{
-				model.MaxPictures = maxPictureSetting.Value;
-			}
-			if (activeSlider.Pictures.Count > 0)
-			{
-				model.Pictures = activeSlider.Pictures.Select(item => new PictureModel
-				{
-					Id = item.Id,
-					AlternateText = item.AlternateText,
-					Height = item.Height,
-					IsActive = item.IsActive,
-					IsLogo = item.IsLogo,
-					Src = item.PictureSrc,
-					Url = item.Url,
-					UserId = item.UserId
-				}).ToList();
-			}
+                //Paging Size (10,20,50,100)    
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
 
-			return View(model);
-		}
+                // Getting all data    
+                var sliderData = (from tempsliders in _sliderService.GetAllSliders(showSystemDefined: false) select tempsliders);
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Index(SliderSettingsModel model, FormCollection frm)
-		{
-			if (!_permissionService.Authorize("ManageConfiguration"))
-				return AccessDeniedView();
+                //Search    
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    sliderData = sliderData.Where(m => m.Name.Contains(searchValue));
+                }
 
-			var user = _userContext.CurrentUser;
+                //total number of rows count     
+                var enumerable = sliderData as Slider[] ?? sliderData.ToArray();
+                recordsTotal = enumerable.Count();
+                //Paging     
+                var data = enumerable.Skip(skip).Take(pageSize);
 
-			if (ModelState.IsValid)
-			{
-				var activeSlider = _sliderService.GetSlider(true);
-				if (activeSlider != null)
-				{
-					model.Slider = activeSlider;
-					var sliderSettings = _settingService.GetSettingsByEntityId(activeSlider.Id).ToList();
-					var maxPictureSetting = _settingService.GetSettingByKey("MaxPictures");
-					if (maxPictureSetting != null)
-					{
-						maxPictureSetting.Value = model.MaxPictures;
-						maxPictureSetting.ModifiedOn = DateTime.Now;
-						_settingService.Update(maxPictureSetting);
-					}
+                //Returning Json Data 
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        draw = draw,
+                        recordsFiltered = recordsTotal,
+                        recordsTotal = recordsTotal,
+                        data = data.Select(x => new SliderModel()
+                        {
+                            IsActive = x.IsActive,
+                            Id = x.Id,
+                            Name = x.Name.Trim(),
+                            UserId = x.UserId,
+                            CreatedOn = x.CreatedOn,
+                            DisplayArea = x.DisplayArea,
+                            DisplayAreaString = x.DisplayArea > 0 ? Enum.GetValues(typeof(DisplayAreas)).GetValue(x.DisplayArea).ToString() : "",
+                            DisplayOrder = x.DisplayOrder,
+                            MaxPictures = x.MaxPictures,
+                            ShowCaption = x.ShowCaption,
+                            ShowNextPrevIndicators = x.ShowNextPrevIndicators,
+                            ShowThumbnails = x.ShowThumbnails
+                        }).OrderBy(x => x.Name).ToList()
+                    },
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
-					if (frm.Keys.Count > 0)
-					{
-						var pictureids = frm["pictureids"]?.ToString().Split(',');
-						if (pictureids?.Length > 0)
-						{
-							foreach (var picid in pictureids)
-							{
-								int pictureid = Convert.ToInt32(picid);
-								var picture = _pictureService.GetPictureById(pictureid);
-								if (picture != null)
-								{
-									activeSlider.Pictures.Add(picture);
-								}
-							}
-						}
-					}
+        }
 
-					SuccessNotification("Slider settings saved successfully.");
-					model.ActiveSettings = "SliderSettings";
-					return View(model);
-				}
-			}
-			model.ActiveSettings = "SliderSettings";
-			return View(model);
-		}
+        [HttpPost]
+        public ActionResult LoadPictureGrid(int id)
+        {
+            try
+            {
+                var eventData = (from associatedpicture in _sliderService.GetAllSliderPicturesBySliderId(id) select associatedpicture).OrderByDescending(eve => eve.CreatedOn).ToList();
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        data = eventData.Select(x => new PictureModel()
+                        {
+                            Id = x.Id,
+                            Src = x.PictureSrc,
+                            IsActive = x.IsActive,
+                            UserId = x.UserId,
+                            CreatedDateString = x.CreatedOn.ToString("U"),
+                            AlternateText = x.AlternateText
+                        })
+                    },
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
-		[HttpPost]
-		[ValidateInput(false)]
-		public JsonResult UpdatePicture(int pictureId, string alternateText, string displayOrder, bool active)
-		{
-			if (pictureId > 0)
-			{
-				var sliderSettings = _settingService.GetSettingsByType(SettingTypeEnum.SliderSetting).ToList();
-				var picture = _pictureService.GetPictureById(pictureId);
-				if (picture != null)
-				{
-					picture.AlternateText = alternateText;
-					picture.DisplayOrder = Convert.ToInt32(displayOrder);
-					picture.IsActive = active;
-					_pictureService.Update(picture);
-				}
-				else
-				{
-					return Json(new { Success = "False", Message = "Picture Id Does Not Exists In The Database" }, JsonRequestBehavior.AllowGet);
-				}
-			}
-			else
-			{
-				return Json(new { Success = "False", Message = "Picture Id Not Found!" }, JsonRequestBehavior.AllowGet);
-			}
+        }
 
-			return Json(new { Success = "True", Message = "Picture Updated Succesfully" }, JsonRequestBehavior.AllowGet);
-		}
+        [HttpPost]
+        public ActionResult DeleteSliderPicture(int id, int sliderid)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
 
-		[HttpPost]
-		public JsonResult DeletePicture(int pictureId)
-		{
-			var user = _userContext.CurrentUser;
-			if (pictureId > 0)
-			{
-				if (user != null)
-				{
-					var activeSlider = _sliderService.GetSlider(true);
-					if (activeSlider != null)
-					{
-						var sliderSettings = _settingService.GetSettingsByType(SettingTypeEnum.SliderSetting).ToList();
-						var _picture = _pictureService.GetPictureById(pictureId);
-						if (_picture != null)
-						{
-							activeSlider.Pictures.Remove(_picture);
-							_sliderService.Update(activeSlider);
-						}
-						else
-						{
-							return Json(new { Success = "False", Message = "Picture Id Does Not Exists In The Database" }, JsonRequestBehavior.AllowGet);
-						}
-					}
-				}
-				else
-				{
-					return Json(new { Success = "False", Message = "Access Denied!" });
-				}
-			}
-			else
-			{
-				return Json(new { Success = "False", Message = "Picture Id Not Found!" });
-			}
+            if (id == 0 || sliderid == 0)
+                throw new Exception("Picture id not found");
 
-			return Json(new { Success = "True", Message = "Picture Deleted Succesfully" });
-		}
+            var slider = _sliderService.GetSliderById(sliderid);
+            if (slider != null)
+            {
+                var picture = slider.Pictures.FirstOrDefault(x => x.Id == id);
+                if (picture != null)
+                    slider.Pictures.Remove(picture);
 
-		public PartialViewResult GetSliderPicturesList()
-		{
-			var model = new List<PictureModel>();
-			var user = _userContext.CurrentUser;
-			if (user != null)
-			{
-				var activeSlider = _sliderService.GetSlider(true);
-				if (activeSlider != null)
-				{
-					model = activeSlider.Pictures.Select(item => new PictureModel
-					{
-						AlternateText = item.AlternateText,
-						Height = item.Height,
-						IsActive = item.IsActive,
-						IsLogo = item.IsLogo,
-						Src = item.PictureSrc,
-						Url = item.Url,
-						UserId = item.UserId,
-						Id = item.Id
-					}).ToList();
-				}
-			}
+                _sliderService.Update(slider);
+            }
 
-			return PartialView("_PicturesList", model);
-		}
+            SuccessNotification("Slider picture deleted successfully");
+            return new JsonResult()
+            {
+                Data = true,
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+        }
 
-		public PartialViewResult GetPicturesList()
-		{
-			var pictureList = _pictureService.GetAllPictures().ToList();
-			var model = pictureList.Select(item => new PictureModel
-			{
-				AlternateText = item.AlternateText,
-				Height = item.Height,
-				IsActive = item.IsActive,
-				IsLogo = item.IsLogo,
-				Src = item.PictureSrc,
-				Url = item.Url,
-				UserId = item.UserId,
-				Id = item.Id
-			}).ToList();
-			return PartialView("_PicturesList", model);
-		}
+        [ValidateInput(false)]
+        [HttpPost]
+        public virtual ActionResult SliderPictureAdd(int pictureId, int sliderId)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
 
-		// To render user links
-		[ChildActionOnly]
-		public ActionResult UserLinks()
-		{
-			var user = _userContext.CurrentUser;
+            if (pictureId == 0)
+                throw new ArgumentException();
 
-			if (user == null)
-			{
-				var model = new UserLinksModel
-				{
-					IsAuthenticated = false
-					//Links = "<ul class='nav nav-pills'><li><a href='#'><i class='fa fa-icon-cog'></i>Login</a></li></ul>"
-				};
+            var thisslider = _sliderService.GetSliderById(sliderId);
+            if (thisslider == null)
+                throw new ArgumentException("No slider found with the specified id");
 
-				return PartialView(model);
-			}
-			else
-			{
-				var model = new UserLinksModel
-				{
-					IsAuthenticated = true,
-					user = user
-					//Links = "<ul class='nav nav-pills'><li>Welcome <a href='#'><i class='fa fa-icon-user'></i>" + user.UserName + "</a></li></ul>"
-				};
+            var picture = _pictureService.GetPictureById(pictureId);
+            if (picture == null)
+                throw new ArgumentException("No picture found with the specified id");
 
-				return PartialView(model);
-			}
-		}
+            thisslider.Pictures.Add(picture);
+            _sliderService.Update(thisslider);
 
-		[HttpPost]
-		public ActionResult DeleteSelected(int sliderId, ICollection<int> selectedIds)
-		{
-			if (!_permissionService.Authorize("ManageSlider"))
-				return AccessDeniedView();
+            return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
+        }
 
-			if (sliderId == 0)
-				throw new Exception("Slider ID Missing");
 
-			var _slider = _sliderService.GetSlider(sliderId);
+        #endregion
 
-			if (_slider != null)
-				_sliderService.DeleteSliderPictures(_slider, _sliderService.GetPicturesByIds(selectedIds.ToArray()).ToList());
+        #region Action Methods
 
-			return Json(new { Result = true });
-		}
+        public ActionResult List()
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
 
-		[HttpPost]
-		public ActionResult ToggleSelected(int sliderId, ICollection<int> selectedIds)
-		{
-			if (!_permissionService.Authorize("ManageSlider"))
-				return AccessDeniedView();
+            var model = new SliderModel();
+            return View(model);
+        }
 
-			if (sliderId == 0)
-				throw new Exception("Slider ID Missing");
+        public ActionResult Edit(int id)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
 
-			var _slider = _sliderService.GetSlider(sliderId);
+            var model = new SliderModel();
+            if (id == 0)
+                throw new Exception("Slider Id Missing");
 
-			if (_slider != null)
-				_sliderService.TogglePictures(_slider, _sliderService.GetPicturesByIds(selectedIds.ToArray()).ToList());
+            var eve = _sliderService.GetSliderById(id);
+            if (eve != null)
+            {
+                model = eve.ToModel();
+            }
 
-			return Json(new { Result = true });
-		}
-	}
+            // Bind Display Areas
+            var displayAreasList = new Dictionary<int, string>();
+            foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
+            {
+                displayAreasList.Add((int)item, Enum.GetName(typeof(DisplayAreas), item));
+            }
+            model.AvailableAreas.Add(new SelectListItem() { Text = "Select Display Area", Value = "0", Selected = true });
+            foreach (var item in displayAreasList)
+            {
+                model.AvailableAreas.Add(new SelectListItem() { Text = item.Value, Value = item.Key.ToString() });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Edit(SliderModel model, FormCollection frm, bool continueEditing)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            var user = _userContext.CurrentUser;
+            // Check for duplicate slider, if any
+            var slider = _sliderService.GetSliderByName(model.Name);
+            if (slider != null && slider.Id != model.Id)
+                ModelState.AddModelError("Title", "An Slider with the same name already exists. Please choose a different name.");
+
+            if (ModelState.IsValid)
+            {
+                slider = model.ToEntity();
+                slider.ModifiedOn = DateTime.Now;
+                _sliderService.Update(slider);
+            }
+            else
+            {
+                ErrorNotification("An error occured while updating slider. Please try again.");
+                // Bind Display Areas
+                var displayAreasList = new Dictionary<int, string>();
+                foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
+                {
+                    displayAreasList.Add((int)item, Enum.GetName(typeof(DisplayAreas), item));
+                }
+                model.AvailableAreas.Clear();
+                model.AvailableAreas.Add(new SelectListItem() { Text = "Select Display Area", Value = "0", Selected = true });
+                foreach (var item in displayAreasList)
+                {
+                    model.AvailableAreas.Add(new SelectListItem() { Text = item.Value, Value = item.Key.ToString() });
+                }
+                return View(model);
+            }
+
+            SuccessNotification("Slider updated successfully.");
+            if (continueEditing)
+            {
+                return RedirectToAction("Edit", new { id = model.Id });
+            }
+            return RedirectToAction("List");
+        }
+
+        public ActionResult Create()
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            var model = new SliderModel();
+            // Bind Display Areas
+            var displayAreasList = new Dictionary<int, string>();
+            foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
+            {
+                displayAreasList.Add((int)item, Enum.GetName(typeof(DisplayAreas), item));
+            }
+            model.AvailableAreas.Add(new SelectListItem() { Text = "Select Display Area", Value = "0", Selected = true });
+            foreach (var item in displayAreasList)
+            {
+                model.AvailableAreas.Add(new SelectListItem() { Text = item.Value, Value = item.Key.ToString() });
+            }
+            return View(model);
+        }
+
+        [HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Create(SliderModel model, FormCollection frm, bool continueEditing)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            var currentUser = _userContext.CurrentUser;
+            // Check for duplicate slider, if any
+            var slider = _sliderService.GetSliderByName(model.Name);
+            if (slider != null)
+                ModelState.AddModelError("Title", "An Slider with the same name already exists. Please choose a different name.");
+
+            model.UserId = currentUser.Id;
+            if (ModelState.IsValid)
+            {
+                slider = model.ToEntity();
+                slider.ModifiedOn = DateTime.Now;
+                slider.CreatedOn = DateTime.Now;
+                _sliderService.Insert(slider);
+            }
+            else
+            {
+                ErrorNotification("An error occured while creating slider. Please try again.");
+                // Bind Display Areas
+                var displayAreasList = new Dictionary<int, string>();
+                foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
+                {
+                    displayAreasList.Add((int)item, Enum.GetName(typeof(DisplayAreas), item));
+                }
+                model.AvailableAreas.Clear();
+                model.AvailableAreas.Add(new SelectListItem() { Text = "Select Display Area", Value = "0", Selected = true });
+                foreach (var item in displayAreasList)
+                {
+                    model.AvailableAreas.Add(new SelectListItem() { Text = item.Value, Value = item.Key.ToString() });
+                }
+                return View(model);
+            }
+
+            SuccessNotification("Slider created successfully.");
+            if (continueEditing)
+            {
+                return RedirectToAction("Edit", new { id = slider.Id });
+            }
+            return RedirectToAction("List");
+        }
+
+        #endregion
+
+        public ActionResult Delete(int id)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new Exception("Id Not Found");
+
+            if (!_sliderService.GetSliderById(id).IsSystemDefined)
+            {
+                _sliderService.Delete(id);
+            }
+
+            SuccessNotification("Slider deleted successfully.");
+            return RedirectToAction("List");
+        }
+
+        public PartialViewResult GetPicturesList()
+        {
+            var pictureList = _pictureService.GetAllPictures().ToList();
+            var model = pictureList.Select(item => new PictureModel
+            {
+                AlternateText = item.AlternateText,
+                Height = item.Height,
+                IsActive = item.IsActive,
+                IsLogo = item.IsLogo,
+                Src = item.PictureSrc,
+                Url = item.Url,
+                UserId = item.UserId,
+                Id = item.Id
+            }).ToList();
+            return PartialView("_PicturesList", model);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteSelected(ICollection<int> selectedIds)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            if (selectedIds != null)
+            {
+                _sliderService.DeleteSliders(_sliderService.GetSliderByIds(selectedIds.ToArray()).ToList());
+            }
+
+            SuccessNotification("Roles deleted successfully.");
+            return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public ActionResult ToggleActiveStatus(int id)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var slider = _sliderService.GetSliderById(id);
+
+            if (slider != null)
+                _sliderService.ToggleActiveStatus(id);
+
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult ToggleCaptionStatus(int id)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var slider = _sliderService.GetSliderById(id);
+
+            if (slider != null)
+                _sliderService.ToggleCaptionStatus(id);
+
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult ToggleIndicatorStatus(int id)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var slider = _sliderService.GetSliderById(id);
+
+            if (slider != null)
+                _sliderService.ToggleIndicatorStatus(id);
+
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult ToggleThumbnailStatus(int id)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var slider = _sliderService.GetSliderById(id);
+
+            if (slider != null)
+                _sliderService.ToggleThumbnailStatus(id);
+
+            return Json(new { Result = true });
+        }
+    }
 }

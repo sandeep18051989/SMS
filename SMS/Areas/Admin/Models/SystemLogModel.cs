@@ -14,7 +14,8 @@ namespace SMS.Areas.Admin.Models
         public int Level { get; set; }
         public bool IsFixed { get; set; }
         public int EntityId { get; set; }
-			public DateTime Date { get; set; }
+        public DateTime Date { get; set; }
+        public string LogDateString { get; set; }
         public string Url { get; set; }
 
         public string IpAddress { get; set; }

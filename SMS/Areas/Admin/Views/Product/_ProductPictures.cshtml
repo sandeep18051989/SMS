@@ -187,7 +187,7 @@
 								success: function (data) {
 									$('#addProductPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
-									$('#productpictures-grid').data.reload();
+									$('#productpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -233,7 +233,7 @@
 								url: "@(Url.Action("DeleteProductPicture", "Product"))",
 								data: postData,
 								success: function (data) {
-									$('#productpictures-grid').data.reload();
+									$('#productpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -315,7 +315,7 @@
 								url: "@(Url.Action("UpdateProductPicture", "Product"))",
 								data: postData,
 								success: function (data) {
-									$('#productpictures-grid').data.reload();
+									$('#productpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

@@ -81,6 +81,7 @@
                                     "data": "FullName",
                                     "title": "Name",
                                     "name": "FullName",
+                                    "className": 'text-center',
                                     "autoWidth": true,
                                     "defaultContent": "",
                                     'searchable': true,
@@ -90,6 +91,7 @@
                                     "data": "Location",
                                     "title": "Location",
                                     "name": "Location",
+                                    "className": 'text-center',
                                     "autoWidth": true,
                                     "defaultContent": "",
                                     'searchable': true,
@@ -99,6 +101,7 @@
                                     "data": "Email",
                                     "title": "Email",
                                     "name": "Email",
+                                    "className": 'text-center',
                                     "autoWidth": true,
                                     "defaultContent": "",
                                     'searchable': true,
@@ -108,6 +111,7 @@
                                     "data": "Contact",
                                     "title": "Contact",
                                     "name": "Contact",
+                                    "className": 'text-center',
                                     "autoWidth": true,
                                     "defaultContent": "",
                                     'searchable': true,
@@ -116,6 +120,7 @@
                                 {
                                     "data": "Description",
                                     "title": "Description",
+                                    "className": 'text-center',
                                     "name": "Description",
                                     "autoWidth": true,
                                     "defaultContent": "",
@@ -125,6 +130,7 @@
                                 {
                                     "data": "CreatedOn",
                                     "title": "Date",
+                                    "className": 'text-center',
                                     "name": "Date",
                                     "autoWidth": true,
                                     "defaultContent": "",
@@ -152,11 +158,30 @@
                                     type: "POST",
                                     url: "@(Url.Action("DeleteSelected", "Feedback"))",
                                     data: postData,
-                                    complete: function (data) {
-                                        location.reload();
+                                    success: function (data, result) {
+                                        if (result === "success") {
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Selected entries deleted successfully.",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                        }
                                     },
                                     error: function (xhr, ajaxOptions, thrownError) {
-                                        alert(thrownError);
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: xhr.responseText,
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
                                     },
                                     traditional: true
                                 });

@@ -63,9 +63,9 @@ namespace EF.Services.Service
 
         #endregion
 
-        public IList<Template> GetAllTemplates(bool? onlyActive = null)
+        public IList<Template> GetAllTemplates(bool? onlyActive = null, bool? showSystemDefined = null)
         {
-            return _templateRepository.Table.Where(x => !onlyActive.HasValue || onlyActive.Value == x.IsActive).ToList();
+            return _templateRepository.Table.Where(x => (!onlyActive.HasValue || onlyActive.Value == x.IsActive) && (!showSystemDefined.HasValue || showSystemDefined.Value == x.IsSystemDefined) && x.IsDeleted == false).ToList();
         }
 
         public DataToken GetDataTokenById(int tokenId)

@@ -5,100 +5,79 @@
 @using EF.Services.Service;
 @using EF.Core.Data;
 @{
-	ViewBag.Title = "Admin Dashboard";
-	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-	var _permissionService = ContextHelper.Current.Resolve<IUserContext>();
-	var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
-	var pictureService = EF.Core.ContextHelper.Current.Resolve<IPictureService>();
-	var userService = EF.Core.ContextHelper.Current.Resolve<IUserService>();
-	//var userInfoService = EF.Core.ContextHelper.Current.Resolve<IUserInfoService>();
-	var avtarpicture = basePath + "Content/images/avatarnotfound.png";
-	var avtarpicture1 = basePath + "Content/images/avatarnotfound.png";
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var _permissionService = ContextHelper.Current.Resolve<IUserContext>();
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+    var pictureService = EF.Core.ContextHelper.Current.Resolve<IPictureService>();
+    var userService = EF.Core.ContextHelper.Current.Resolve<IUserService>();
+    //var userInfoService = EF.Core.ContextHelper.Current.Resolve<IUserInfoService>();
+    var avtarpicture = basePath + "Content/images/avatarnotfound.png";
+    var avtarpicture1 = basePath + "Content/images/avatarnotfound.png";
 }
 <section class="mb-5">
-	<div id="widget-zone" class="row">
-		<div class="col-md-3 col-sm-6 card card-cascade narrower">
-			<div class="view py-3 gradient-card-header info-color-dark">
-				<h5 class="mb-0">TODAY'S VISITS</h5>
-			</div>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-md-12 mb-12 widget widget-stats bg-white text-inverse">
-						<div class="p-2 m-2 fa-lg stats-number">
-							@Model.VisitsToday
-							<span class="p-2 m-2 fa-lg stats-icon stats-icon-lg stats-icon-square bg-gradient-blue badge">
-								<i class="fa fa-user" aria-hidden="true"></i>
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 col-sm-6 card card-cascade narrower">
-			<div class="view py-3 gradient-card-header info-color-dark">
-				<h5 class="mb-0">FEEDBACKS/QUERIES</h5>
-			</div>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-md-12 mb-12 widget widget-stats bg-white text-inverse">
-						<div class="p-2 m-2 fa-lg stats-number">
-							@Model.FeedbacksChartModels.Count
-							<span class="p-2 m-2 fa-lg stats-icon stats-icon-lg stats-icon-square bg-gradient-blue badge">
-								<i class="fa fa-hand-peace-o" aria-hidden="true"></i>
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 col-sm-6 card card-cascade narrower">
-			<div class="view py-3 gradient-card-header info-color-dark">
-				<h5 class="mb-0">TODAY'S EVENTS</h5>
-			</div>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-md-12 mb-12 widget widget-stats bg-white text-inverse">
-						<div class="p-2 m-2 fa-lg stats-number">
-							@Model.EventsChartModels.Count
-							<span class="p-2 m-2 fa-lg stats-icon stats-icon-lg stats-icon-square bg-gradient-blue badge">
-								<i class="fa fa-paint-brush" aria-hidden="true"></i>
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 col-sm-6 card card-cascade narrower">
-			<div class="view py-3 gradient-card-header info-color-dark">
-				<h5 class="mb-0">TODAY'S COMMENTS</h5>
-			</div>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-md-12 mb-12 widget widget-stats bg-white text-inverse">
-						<div class="p-2 m-2 fa-lg stats-number">
-							@Model.CommentsToday
-							<span class="p-2 m-2 fa-lg stats-icon stats-icon-lg stats-icon-square bg-gradient-blue badge">
-								<i class="fa fa-comments-o" aria-hidden="true"></i>
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div id="widget-zone" class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon">
+                        <i class="fa fa-4x fa-user-circle-o"></i>
+                    </div>
+                    <p class="card-category">Active Users</p>
+                    <h3 class="card-title">@Model.VisitsToday</h3>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                    <div class="card-icon">
+                        <i class="fa fa-4x fa-hand-peace-o"></i>
+                    </div>
+                    <p class="card-category">Feedbacks</p>
+                    <h3 class="card-title">@Model.FeedbacksChartModels.Count</h3>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                    <div class="card-icon">
+                        <i class="fa fa-4x fa-exclamation-circle"></i>
+                    </div>
+                    <p class="card-category">Log Till Date</p>
+                    <h3 class="card-title">@Model.LogsCount</h3>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="fa fa-4x fa-user-plus"></i>
+                    </div>
+                    <p class="card-category">Pending Users</p>
+                    <h3 class="card-title">@Model.PendingUsersCount</h3>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <div class="clearfix"></div>
 <div id="dashboard-section-one" class="row">
-	<div class="col-md-8">
-		<div class="widget-chart with-sidebar bg-black">
-			<div class="widget-chart-content">
-				<h4 class="chart-title">
-					Users Analytics
-					<small>Where do our users come from</small>
-				</h4>
-				<div id="users-line-chart" class="morris-inverse" style="height: 260px; position: relative;">
-					@* Users Registerations By Month *@
-					<script type="text/javascript">
+    <div class="col-md-8">
+        <div class="widget-chart with-sidebar bg-black">
+            @*<div class="widget-chart-content">
+                <h4 class="chart-title">
+                    Users Analytics
+                    <small>Where do our users come from</small>
+                </h4>
+                <div id="users-line-chart" class="morris-inverse" style="height: 260px; position: relative;">
+                    <script type="text/javascript">
 					    handleVisitorsLineChart = function () {
 					        Morris.Line({
 					            element: "users-line-chart",
@@ -106,7 +85,7 @@
 					            xkey: "x",
 					            ykeys: ["y"],
 					            xLabelFormat: function (e) {
-					                return (e = getMonthName(e.getMonth())).toString()
+					                return (e = getMonthName(e.getMonth())).toString();
 					            },
 					            labels: ["Page Views", "Users"],
 					            lineColors: ["#5AC8FA", "#007aff"],
@@ -122,19 +101,19 @@
 					            hideHover: "auto"
 					        })
 					    }
-					</script>
-				</div>
-			</div>
-			<div class="widget-chart-sidebar bg-black-darker">
-				<div class="chart-number">
-					@{
+                    </script>
+                </div>
+            </div>
+            <div class="widget-chart-sidebar bg-black-darker">
+                <div class="chart-number">
+                    @{
 						int total = Model.RegisteredUsersChartModels.Sum(x => x.RegisteredUsers.Count);
-					}
-					@total
-					<small>registered users</small>
-				</div>
-				<div id="users-donut-chart" style="height: 160px">
-					<script type="text/javascript">
+                    }
+                    @total
+                    <small>registered users</small>
+                </div>
+                <div id="users-donut-chart" style="height: 160px">
+                    <script type="text/javascript">
 					    handleVisitorsDonutChart = function () {
 					        Morris.Donut({
 					            element: "users-donut-chart",
@@ -145,36 +124,35 @@
 					            labelColor: "rgba(255,255,255,0.4)",
 					            labelTextSize: "12px",
 					            backgroundColor: "#111"
-					        })
+					        });
 					    }
-					</script>
-					<ul class="chart-legend">
-						<li><i class="fa fa-circle-o fa-fw text-info m-r-5"></i> @(total > 0 ? (Model.RegisteredUsersChartModels.Sum(x => x.RegisteredUsers.Count) / total * 100) : 0)% <span>Unique Users</span></li>
-						<li><i class="fa fa-circle-o fa-fw text-primary m-r-5"></i> @(total > 0 ? 0 : 0)% <span>Return Users</span></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-4 ui-sortable">
-		<div class="panel panel-inverse" data-sortable-id="index-1">
-			<div class="panel-heading">
-				<h4 class="panel-title">
-					Users Origin
-				</h4>
-			</div>
-			<div id="users-map" class="bg-black" style="height: 181px;">
-				@* Google Map With Registered Users Country *@
-			</div>
-		</div>
-	</div>
+                    </script>
+                    <ul class="chart-legend">
+                        <li><i class="fa fa-circle-o fa-fw text-info m-r-5"></i> @(total > 0 ? (Model.RegisteredUsersChartModels.Sum(x => x.RegisteredUsers.Count) / total * 100) : 0)% <span>Unique Users</span></li>
+                        <li><i class="fa fa-circle-o fa-fw text-primary m-r-5"></i> @(total > 0 ? 0 : 0)% <span>Return Users</span></li>
+                    </ul>
+                </div>
+            </div>*@
+        </div>
+    </div>
+    <div class="col-md-4 ui-sortable">
+        @*<div class="panel panel-inverse" data-sortable-id="index-1">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Users Origin
+                </h4>
+            </div>
+            <div id="users-map" class="bg-black" style="height: 181px;">
+            </div>
+        </div>*@
+    </div>
 </div>
 <div class="clearfix"></div>
 <div id="dashboard-section-two" class="row">
     <!-- begin col-4 -->
     <div class="col-md-4 ui-sortable">
         <!-- begin panel -->
-        <div class="panel panel-inverse" data-sortable-id="index-2">
+        @*<div class="panel panel-inverse" data-sortable-id="index-2">
             <div class="panel-heading">
                 <h4 class="panel-title">Chat History <span class="label label-primary pull-right">@(Model.Comments.Count) message</span></h4>
             </div>
@@ -184,40 +162,40 @@
                     {
                         foreach (var comment in Model.Comments)
                         {
-							@*var userinfo = userInfoService.GetUserInformationByUserId(comment.UserId);
-								if (userinfo != null && userinfo.ProfilePictureId > 0)
-								{
-									avtarpicture = pictureService.GetPictureById(userinfo.ProfilePictureId).PictureSrc;
-								}
-								<ul class="chats">
-									<li class="left">
-										<span class="date-time">@CodeHelper.TimeAgo(comment.CommentDate)</span>
-										<a href="/admin/user/edit/@comment.UserId" class="name">@comment.UserName</a>
-										<a href="/admin/user/edit/@comment.UserId" class="image"><img alt="@comment.UserName" src="@avtarpicture"></a>
-										<div class="message">
-											@Html.Raw(comment.CommentHtml)
-										</div>
-									</li>
-									@if (comment.Replies.Count > 0)
-									{
-										foreach (var reply in comment.Replies)
-										{
-											var userinfo1 = userInfoService.GetUserInformationByUserId(reply.UserId);
-											if (userinfo1 != null && userinfo1.ProfilePictureId > 0)
-											{
-												avtarpicture1 = pictureService.GetPictureById(userinfo1.ProfilePictureId).PictureSrc;
-											}
-											<li class="right">
-												<span class="date-time">@CodeHelper.TimeAgo(reply.ReplyDate)</span>
-												<a href="/admin/user/edit/@reply.UserId" class="name"><span class="label label-primary">@reply.UserName</span>@(reply.UserName.Trim().ToLower() == "admin" ? "ME" : "")</a>
-												<a href="/admin/user/edit/@reply.UserId" class="image"><img alt="@reply.UserName" src="@avtarpicture1"></a>
-												<div class="message">
-													@Html.Raw(reply.ReplyHtml)
-												</div>
-											</li>
-										}
-									}
-								</ul>*@
+                    @*var userinfo = userInfoService.GetUserInformationByUserId(comment.UserId);
+                        if (userinfo != null && userinfo.ProfilePictureId > 0)
+                        {
+                            avtarpicture = pictureService.GetPictureById(userinfo.ProfilePictureId).PictureSrc;
+                        }
+                        <ul class="chats">
+                            <li class="left">
+                                <span class="date-time">@CodeHelper.TimeAgo(comment.CommentDate)</span>
+                                <a href="/admin/user/edit/@comment.UserId" class="name">@comment.UserName</a>
+                                <a href="/admin/user/edit/@comment.UserId" class="image"><img alt="@comment.UserName" src="@avtarpicture"></a>
+                                <div class="message">
+                                    @Html.Raw(comment.CommentHtml)
+                                </div>
+                            </li>
+                            @if (comment.Replies.Count > 0)
+                            {
+                                foreach (var reply in comment.Replies)
+                                {
+                                    var userinfo1 = userInfoService.GetUserInformationByUserId(reply.UserId);
+                                    if (userinfo1 != null && userinfo1.ProfilePictureId > 0)
+                                    {
+                                        avtarpicture1 = pictureService.GetPictureById(userinfo1.ProfilePictureId).PictureSrc;
+                                    }
+                                    <li class="right">
+                                        <span class="date-time">@CodeHelper.TimeAgo(reply.ReplyDate)</span>
+                                        <a href="/admin/user/edit/@reply.UserId" class="name"><span class="label label-primary">@reply.UserName</span>@(reply.UserName.Trim().ToLower() == "admin" ? "ME" : "")</a>
+                                        <a href="/admin/user/edit/@reply.UserId" class="image"><img alt="@reply.UserName" src="@avtarpicture1"></a>
+                                        <div class="message">
+                                            @Html.Raw(reply.ReplyHtml)
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
                         }
                     }
                 </div>
@@ -232,14 +210,14 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>*@
         <!-- end panel -->
     </div>
     <!-- end col-4 -->
     <!-- begin col-4 -->
     <div class="col-md-4 ui-sortable">
         <!-- begin panel -->
-        <div class="panel panel-inverse" data-sortable-id="index-3">
+        @*<div class="panel panel-inverse" data-sortable-id="index-3">
             <div class="panel-heading">
                 <h4 class="panel-title">Today's Schedule</h4>
             </div>
@@ -252,39 +230,39 @@
                     <span class="badge badge-aqua">2:45 pm</span> Have a meeting with sales team
                 </a>
             </div>
-        </div>
+        </div>*@
         <!-- end panel -->
     </div>
     <!-- end col-4 -->
     <!-- begin col-4 -->
     <div class="col-md-4 ui-sortable">
         <!-- begin panel -->
-        <div class="panel panel-inverse" data-sortable-id="index-4">
+        @*<div class="panel panel-inverse" data-sortable-id="index-4">
             <div class="panel-heading">
                 <h4 class="panel-title">New Registered Users <span class="pull-right label label-primary">@(Model.RegisteredUsers.Count) new user</span></h4>
             </div>
             <ul class="registered-users-list clearfix">
-                @*@foreach (var user in Model.RegisteredUsers)
-					{
-						var userinfo = userInfoService.GetUserInformationByUserId(user.Id);
-						if (userinfo != null && userinfo.ProfilePictureId > 0)
-						{
-							avtarpicture = pictureService.GetPictureById(userinfo.ProfilePictureId).PictureSrc;
-						}
+                @foreach (var user in Model.RegisteredUsers)
+                    {
+                        var userinfo = userInfoService.GetUserInformationByUserId(user.Id);
+                        if (userinfo != null && userinfo.ProfilePictureId > 0)
+                        {
+                            avtarpicture = pictureService.GetPictureById(userinfo.ProfilePictureId).PictureSrc;
+                        }
 
-						<li>
-							<a href="admin/user/edit/@user.Id"><img src="@avtarpicture" alt="@user.UserName"></a>
-							<h4 class="username text-ellipsis">
-								@user.UserName
-								<small>@CodeHelper.TimeAgo(user.CreatedOn)</small>
-							</h4>
-						</li>
-					}*@
+                        <li>
+                            <a href="admin/user/edit/@user.Id"><img src="@avtarpicture" alt="@user.UserName"></a>
+                            <h4 class="username text-ellipsis">
+                                @user.UserName
+                                <small>@CodeHelper.TimeAgo(user.CreatedOn)</small>
+                            </h4>
+                        </li>
+                    }
             </ul>
             <div class="panel-footer text-center">
                 <a href="/admin/user/list" class="text-inverse">View All</a>
             </div>
-        </div>
+        </div>*@
         <!-- end panel -->
     </div>
     <!-- end col-4 -->
@@ -295,6 +273,3 @@
         $("span.nav-title:contains('Dashboard')").closest("li").addClass("active");
     });
 </script>
-
-
-							}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -86,114 +87,6 @@ namespace EF.Services
 			return MvcHtmlString.Create(window.ToString());
 		}
 
-		public static MvcHtmlString OverrideStoreCheckboxFor<TModel, TValue>(this HtmlHelper<TModel> helper,
-			 Expression<Func<TModel, bool>> expression,
-			 Expression<Func<TModel, TValue>> forInputExpression,
-			 int activeStoreScopeConfiguration)
-		{
-			var dataInputIds = new List<string>();
-			dataInputIds.Add(helper.FieldIdFor(forInputExpression));
-			return OverrideStoreCheckboxFor(helper, expression, activeStoreScopeConfiguration, null, dataInputIds.ToArray());
-		}
-		public static MvcHtmlString OverrideStoreCheckboxFor<TModel, TValue1, TValue2>(this HtmlHelper<TModel> helper,
-			 Expression<Func<TModel, bool>> expression,
-			 Expression<Func<TModel, TValue1>> forInputExpression1,
-			 Expression<Func<TModel, TValue2>> forInputExpression2,
-			 int activeStoreScopeConfiguration)
-		{
-			var dataInputIds = new List<string>();
-			dataInputIds.Add(helper.FieldIdFor(forInputExpression1));
-			dataInputIds.Add(helper.FieldIdFor(forInputExpression2));
-			return OverrideStoreCheckboxFor(helper, expression, activeStoreScopeConfiguration, null, dataInputIds.ToArray());
-		}
-		public static MvcHtmlString OverrideStoreCheckboxFor<TModel, TValue1, TValue2, TValue3>(this HtmlHelper<TModel> helper,
-			 Expression<Func<TModel, bool>> expression,
-			 Expression<Func<TModel, TValue1>> forInputExpression1,
-			 Expression<Func<TModel, TValue2>> forInputExpression2,
-			 Expression<Func<TModel, TValue3>> forInputExpression3,
-			 int activeStoreScopeConfiguration)
-		{
-			var dataInputIds = new List<string>();
-			dataInputIds.Add(helper.FieldIdFor(forInputExpression1));
-			dataInputIds.Add(helper.FieldIdFor(forInputExpression2));
-			dataInputIds.Add(helper.FieldIdFor(forInputExpression3));
-			return OverrideStoreCheckboxFor(helper, expression, activeStoreScopeConfiguration, null, dataInputIds.ToArray());
-		}
-		public static MvcHtmlString OverrideStoreCheckboxFor<TModel>(this HtmlHelper<TModel> helper,
-			 Expression<Func<TModel, bool>> expression,
-			 string parentContainer,
-			 int activeStoreScopeConfiguration)
-		{
-			return OverrideStoreCheckboxFor(helper, expression, activeStoreScopeConfiguration, parentContainer);
-		}
-		private static MvcHtmlString OverrideStoreCheckboxFor<TModel>(this HtmlHelper<TModel> helper,
-			 Expression<Func<TModel, bool>> expression,
-			 int activeStoreScopeConfiguration,
-			 string parentContainer = null,
-			 params string[] datainputIds)
-		{
-			if (String.IsNullOrEmpty(parentContainer) && datainputIds == null)
-				throw new ArgumentException("Specify at least one selector");
-
-			var result = new StringBuilder();
-			if (activeStoreScopeConfiguration > 0)
-			{
-				//render only when a certain store is chosen
-				const string cssClass = "multi-store-override-option";
-				string dataInputSelector = "";
-				if (!String.IsNullOrEmpty(parentContainer))
-				{
-					dataInputSelector = "#" + parentContainer + " input, #" + parentContainer + " textarea, #" + parentContainer + " select";
-				}
-				if (datainputIds != null && datainputIds.Length > 0)
-				{
-					dataInputSelector = "#" + String.Join(", #", datainputIds);
-				}
-				var onClick = string.Format("checkOverriddenStoreValue(this, '{0}')", dataInputSelector);
-				result.Append(helper.CheckBoxFor(expression, new Dictionary<string, object>
-					 {
-						  { "class", cssClass },
-						  { "onclick", onClick },
-						  { "data-for-input-selector", dataInputSelector },
-					 }));
-			}
-			return MvcHtmlString.Create(result.ToString());
-		}
-
-		/// <summary>
-		/// Render CSS styles of selected index 
-		/// </summary>
-		/// <param name="helper">HTML helper</param>
-		/// <param name="currentTabName">Current tab name (where appropriate CSS style should be rendred)</param>
-		/// <param name="content">Tab content</param>
-		/// <param name="isDefaultTab">Indicates that the tab is default</param>
-		/// <param name="tabNameToSelect">Tab name to select</param>
-		/// <returns>MvcHtmlString</returns>
-		public static MvcHtmlString RenderBootstrapTabContent(this HtmlHelper helper, string currentTabName,
-			 HelperResult content, bool isDefaultTab = false, string tabNameToSelect = "")
-		{
-			if (helper == null)
-				throw new ArgumentNullException("helper");
-
-			if (string.IsNullOrEmpty(tabNameToSelect))
-				tabNameToSelect = helper.GetSelectedTabName();
-
-			if (string.IsNullOrEmpty(tabNameToSelect) && isDefaultTab)
-				tabNameToSelect = currentTabName;
-
-			var tag = new TagBuilder("div")
-			{
-				InnerHtml = content.ToHtmlString(),
-				Attributes =
-					 {
-						  new KeyValuePair<string, string>("class", string.Format("tab-pane{0}", tabNameToSelect == currentTabName ? " active" : "")),
-						  new KeyValuePair<string, string>("id", string.Format("{0}", currentTabName))
-					 }
-			};
-
-			return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
-		}
-
 		/// <summary>
 		/// Gets a selected tab name (used in admin area to store selected tab name)
 		/// </summary>
@@ -274,7 +167,7 @@ namespace EF.Services
 			return MvcHtmlString.Create(result.ToString());
 		}
 
-		public static MvcHtmlString CustomTextAreaFor<TModel, TValue>(this HtmlHelper<TModel> helper,
+        public static MvcHtmlString CustomTextAreaFor<TModel, TValue>(this HtmlHelper<TModel> helper,
 			 Expression<Func<TModel, TValue>> expression, object htmlAttributes = null,
 			 bool renderFormControlClass = true, int rows = 4, int columns = 20)
 		{

@@ -187,7 +187,7 @@
 								success: function (data) {
 									$('#addNewsPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
-									$('#newspictures-grid').data.reload();
+									$('#newspictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -233,7 +233,7 @@
 								url: "@(Url.Action("DeleteNewsPicture", "News"))",
 								data: postData,
 								success: function (data) {
-									$('#newspictures-grid').data.reload();
+									$('#newspictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -315,7 +315,7 @@
 								url: "@(Url.Action("UpdateNewsPicture", "News"))",
 								data: postData,
 								success: function (data) {
-									$('#newspictures-grid').data.reload();
+									$('#newspictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

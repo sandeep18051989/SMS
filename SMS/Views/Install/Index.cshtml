@@ -15,7 +15,7 @@
 		<div class="col-md-12 mr-4">
 			<section class="install-form">
 				@using (Html.BeginForm("Index", "Install", FormMethod.Post, new { @id = "installation-form", @class = "form-horizontal" }))
-			{
+			    {
 					@Html.AntiForgeryToken()
 					<div class="row text-center">
 						<div id="install-page-header" class="col-xs-12 col-md-12">

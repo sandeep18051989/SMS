@@ -57,12 +57,14 @@
             </div>
         </div>
     </header>
-    <main>
+    <div class="main-panel">
         @Html.Partial("Notifications")
-        <div class="container-fluid">
-            @RenderBody()
+        <div class="content">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
         </div>
-    </main>
+    </div>
     <div class="clearfix"></div>
     <footer class="page-footer center-on-small-only"></footer>
     <script type="text/javascript">

@@ -158,6 +158,7 @@
     <Compile Include="Data\InstallDatabase.cs" />
     <Compile Include="Enums\BookStatus.cs" />
     <Compile Include="Enums\DifficultyLevel.cs" />
+    <Compile Include="Enums\DisplayAreas.cs" />
     <Compile Include="Enums\StudentHouse.cs" />
     <Compile Include="Enums\MessageStatus.cs" />
     <Compile Include="Enums\ContractType.cs" />

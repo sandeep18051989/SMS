@@ -19,9 +19,28 @@ namespace SMS.Mappers
 			return AutoMapperConfiguration.Mapper.Map(source, destination);
 		}
 
-		#region Blog
+	    #region Slider
 
-		public static BlogModel ToModel(this Blog entity)
+	    public static SliderModel ToModel(this Slider entity)
+	    {
+	        return entity.MapTo<Slider, SliderModel>();
+	    }
+
+	    public static Slider ToEntity(this SliderModel model)
+	    {
+	        return model.MapTo<SliderModel, Slider>();
+	    }
+
+	    public static Slider ToEntity(this SliderModel model, Slider destination)
+	    {
+	        return model.MapTo(destination);
+	    }
+
+	    #endregion
+
+        #region Blog
+
+        public static BlogModel ToModel(this Blog entity)
 		{
 			return entity.MapTo<Blog, BlogModel>();
 		}

@@ -165,7 +165,7 @@
 								success: function (data) {
 									$('#addEventVideo').attr('disabled', false);
 									$('.upload-video').fineUploader('reset');
-									$('#eventvideos-grid').data.reload();
+									$('#eventvideos-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -211,7 +211,7 @@
 								url: "@(Url.Action("DeleteEventVideo", "Event"))",
 								data: postData,
 								success: function (data) {
-									$('#eventvideos-grid').data.reload();
+									$('#eventvideos-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",
@@ -291,7 +291,7 @@
 								url: "@(Url.Action("UpdateEventVideo", "Event"))",
 								data: postData,
 								success: function (data) {
-									$('#eventvideos-grid').data.reload();
+									$('#eventvideos-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
 											title: "Success",

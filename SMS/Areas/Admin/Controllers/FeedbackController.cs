@@ -121,25 +121,7 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageUsers"))
 				return AccessDeniedView();
 
-			var model = new List<FeedbackModel>();
-			var lstFeedbacks = _feedbackService.GetFeedbacks().OrderByDescending(x => x.CreatedOn).ToList();
-			if (lstFeedbacks.Count > 0)
-			{
-				foreach (var feed in lstFeedbacks)
-				{
-					var feedModel = new FeedbackModel
-					{
-						Description = feed.Description,
-						Email = feed.Email,
-						Contact = feed.Contact,
-						Id = feed.Id,
-						Location = feed.Location,
-						Date = feed.CreatedOn,
-						FullName = feed.FullName
-					};
-					model.Add(feedModel);
-				}
-			}
+			var model = new FeedbackModel();
 			return View(model);
 
 		}
@@ -149,7 +131,6 @@ namespace SMS.Areas.Admin.Controllers
 		{
 			if (selectedIds != null)
 			{
-
 				_feedbackService.DeleteQueries(_feedbackService.GetQueriesByIds(selectedIds.ToArray()).ToList());
 			}
 

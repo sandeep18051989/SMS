@@ -3,7 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using EF.Data;
 using System;
+using System.Linq.Dynamic;
+using System.Web.Mvc;
 using EF.Core;
+using EF.Core.Enums;
 
 namespace EF.Services.Service
 {
@@ -30,20 +33,62 @@ namespace EF.Services.Service
             _sliderRepository.Update(slider);
         }
 
+        public void Delete(int id)
+        {
+            _sliderRepository.Delete(id);
+        }
+
         #endregion
 
         #region Utilities
-        public Slider GetSlider(bool active = true)
+
+        public IList<Slider> GetAllSliders(bool? onlyActive = null, bool? showSystemDefined = null)
         {
-            return _sliderRepository.Table.FirstOrDefault();
+            return _sliderRepository.Table.Where(e => (!showSystemDefined.HasValue || e.IsSystemDefined == showSystemDefined.Value) && (!onlyActive.HasValue || e.IsActive == onlyActive.Value)).OrderByDescending(a => a.CreatedOn).ToList();
         }
 
-        public Slider GetSlider(int id)
+        public IList<Picture> GetAllSliderPicturesBySliderId(int id, bool? onlyActive = null)
+        {
+            return _sliderRepository.Table.FirstOrDefault(x => x.Id == id)?.Pictures.OrderByDescending(a => a.CreatedOn).ToList();
+        }
+
+        public Slider GetSliderById(int id)
         {
             if (id == 0)
                 throw new Exception("Slider Id Missing");
 
             return _sliderRepository.Table.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Slider GetSliderByName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new Exception("Slider Name Missing!");
+
+            return _sliderRepository.Table.FirstOrDefault(x => x.Name.Trim().ToLower() == name.Trim().ToLower());
+        }
+
+        public Slider GetSliderByDisplayArea(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            var displayAreasList = new List<SelectListItem>();
+            foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
+            {
+                var id = (int) item;
+                displayAreasList.Add(new SelectListItem()
+                {
+                    Text = Enum.GetName(typeof(DisplayAreas), item),
+                    Value = id.ToString()
+                });
+            }
+            return _sliderRepository.Table.FirstOrDefault(x => displayAreasList.Any(y => y.Text.Trim().ToLower() == name.Trim().ToLower() && y.Value == x.DisplayArea.ToString()));
+        }
+
+        public Slider GetDefaultSlider()
+        {
+            return _sliderRepository.Table.FirstOrDefault(x => x.IsSystemDefined);
         }
 
         public virtual void DeleteSliderPictures(Slider slider, IList<Picture> pictures)
@@ -95,6 +140,99 @@ namespace EF.Services.Service
             }
 
         }
+
+        public virtual void DeleteSliders(IList<Slider> sliders)
+        {
+            if (sliders == null)
+                throw new ArgumentNullException("sliders");
+
+            foreach (var slider in sliders)
+            {
+                if (!slider.IsSystemDefined)
+                    _sliderRepository.Delete(slider.Id);
+            }
+        }
+
+        public virtual IList<Slider> GetSliderByIds(int[] sliderIds)
+        {
+            if (sliderIds == null)
+                return new List<Slider>();
+
+            if (sliderIds.Length == 0)
+                return new List<Slider>();
+
+            var query = from r in _sliderRepository.Table
+                        where sliderIds.Contains(r.Id) && r.IsSystemDefined == false
+                        select r;
+
+            var sliders = query.ToList();
+
+            var sortedSliders = new List<Slider>();
+            foreach (int id in sliderIds)
+            {
+                var slider = sliders.Find(x => x.Id == id);
+                if (slider != null)
+                    sortedSliders.Add(slider);
+            }
+            return sortedSliders;
+        }
+
+        public void ToggleActiveStatus(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var slider = _sliderRepository.Table.FirstOrDefault(x => x.Id == id && x.IsSystemDefined != true);
+            if (slider != null)
+            {
+                slider.IsActive = !slider.IsActive;
+                _sliderRepository.Update(slider);
+            }
+
+        }
+
+        public void ToggleCaptionStatus(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var slider = _sliderRepository.Table.FirstOrDefault(x => x.Id == id && x.IsSystemDefined != true);
+            if (slider != null)
+            {
+                slider.ShowCaption = !slider.ShowCaption;
+                _sliderRepository.Update(slider);
+            }
+
+        }
+
+        public void ToggleIndicatorStatus(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var slider = _sliderRepository.Table.FirstOrDefault(x => x.Id == id && x.IsSystemDefined != true);
+            if (slider != null)
+            {
+                slider.ShowNextPrevIndicators = !slider.ShowNextPrevIndicators;
+                _sliderRepository.Update(slider);
+            }
+
+        }
+
+        public void ToggleThumbnailStatus(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var slider = _sliderRepository.Table.FirstOrDefault(x => x.Id == id && x.IsSystemDefined != true);
+            if (slider != null)
+            {
+                slider.ShowThumbnails = !slider.ShowThumbnails;
+                _sliderRepository.Update(slider);
+            }
+
+        }
+
 
         #endregion
     }

@@ -185,6 +185,12 @@ namespace EF.Services.Service
 			return systemlog;
 		}
 
-		#endregion
-	}
+	    public int GetLogCountTillDate()
+	    {
+	        return _systemlogRepository.Table.Count();
+	    }
+
+
+        #endregion
+    }
 }

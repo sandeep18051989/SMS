@@ -3,11 +3,12 @@ using System.Linq;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Services.Service;
+using SMS.Mappers;
 using SMS.Models;
 
 namespace SMS.Controllers
 {
-	public class SliderController : PublicHttpController
+    public class SliderController : PublicHttpController
     {
 
         #region Fields
@@ -38,50 +39,25 @@ namespace SMS.Controllers
         public ActionResult Index()
         {
             var model = new SliderModel();
-            var activeSlider = _sliderService.GetSlider(true);
+            var activeSlider = _sliderService.GetDefaultSlider();
             if (activeSlider != null)
             {
-                model.SliderId = activeSlider.Id;
-
-                var sliderSettings = _settingService.GetSettingsByEntityId(activeSlider.Id).ToList();
-                if (sliderSettings.Count > 0)
+                model = activeSlider.ToModel();
+                foreach (var picture in activeSlider.Pictures.Where(x => x.IsActive == true))
                 {
-                    foreach (var setting in sliderSettings)
+                    model.Pictures.Add(new PictureModel()
                     {
-                        if (setting.Name == "MaxPictures" && setting.EntityId == activeSlider.Id)
-                        {
-                            model.MaxPictures = Convert.ToInt32(setting.Value);
-                        }
-                        if (setting.Name == "SliderCaptionOff" && setting.EntityId == activeSlider.Id)
-                        {
-                            model.CaptionOff = setting.Value == "True" ? true : false;
-                        }
-                    }
+                        AlternateText = picture.AlternateText,
+                        IsActive = picture.IsActive,
+                        Id = picture.Id,
+                        Src = picture.PictureSrc,
+                        Size = picture.Size,
+                        Url = picture.Url,
+                        CaptionOff = model.ShowCaption,
+                        Width = picture.Width,
+                        Height = picture.Height
+                    });
                 }
-
-                if (activeSlider.Pictures.Count > 0)
-                {
-                    foreach (var picture in activeSlider.Pictures.Where(x => x.IsActive == true))
-                    {
-                        model.Pictures.Add(new PictureModel()
-                        {
-                            AlternateText = picture.AlternateText,
-                            IsActive = picture.IsActive,
-                            Id = picture.Id,
-                            Src = picture.PictureSrc,
-                            Size = picture.Size,
-                            Url = picture.Url,
-                            CaptionOff = model.CaptionOff,
-                            Width = picture.Width,
-                            Height = picture.Height
-                        });
-                    }
-                }
-
-                // Limit Pictures According to Setting
-                if (model.Pictures.Count > model.MaxPictures)
-                    model.Pictures = model.Pictures.Take(model.MaxPictures).ToList();
-
             }
             return PartialView("~/Views/Slider/Index.cshtml", model);
         }

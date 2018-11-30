@@ -67,3 +67,4 @@ E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.ValueTuple.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.pdb
+E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.csprojResolveAssemblyReference.cache
