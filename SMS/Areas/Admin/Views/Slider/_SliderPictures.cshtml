@@ -8,6 +8,7 @@
                     <thead class="mdb-color lighten-5">
                         <tr>
                             <th>&nbsp;</th>
+                            <th>Caption</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -46,6 +47,19 @@
 					                "className": 'text-center',
 					                "defaultContent": ""
 					            },
+                                {
+                                    "data": "AlternateText",
+                                    "title": "Caption",
+                                    "render": function(data, type, row) {
+                                        if (type === "display") {
+                                            return '<div class="md-form form-group"><textarea type="text" placeholder="Enter Caption" id="picCaption_' + row.Id + '" aria-label="Alternate Text" class="form-control comment-box" rows="3" style="height:70px;overflow:hidden;font-size:12px;">' + ((row.AlternateText != null && row.AlternateText !== "") ? row.AlternateText : "") + '</textarea></div>';
+                                        }
+                                        return data;
+                                    },
+                                    "className": "text-center",
+                                    "orderable": false,
+                                    "defaultContent": ""
+                                },
 					            {
 					                "title": "Actions",
 					                "orderable": false,
@@ -53,9 +67,10 @@
 					                "render": function(data, type, row) {
 					                    if (type === "display") {
 					                        var dateTemplate = '<div class="md-form form-group">';
+					                        dateTemplate += '<button type="button" class="btn btn-info btn-rounded btn-sm my-0" data-picture="' + row.Id + '" data-slider="' + row.SliderId + '" id="picupd_' + row.Id + '" title="Update Picture"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
 					                        dateTemplate +=
-					                            '<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="picdel_' +
-					                            row.PictureId +
+					                            '&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="picdel_' +
+					                            row.Id +
 					                            '" title="Delete Picture"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
 					                        return dateTemplate;
 					                    }
@@ -99,8 +114,9 @@
 
                                     var postData = {
                                         pictureId: pictureId,
-                                        sliderId: @Model.Id
-                                        };
+                                        sliderId: @Model.Id,
+                                        captionText: ((typeof($("#picCaption_" + pictureId).val()) != typeof(undefined) && $("#picCaption_" + pictureId).val() != null) ? $("#picCaption_" + pictureId).val() : "")
+                                    };
 
                                     addAntiForgeryToken(postData);
 
@@ -134,7 +150,8 @@
                                                     time: "",
                                                     class_name: "my-sticky-class"
                                                 });
-                                            },1e3);
+                                            },
+                                                1e3);
                                             $('#addPicture').attr('disabled', false);
                                         }
                                     });
@@ -148,64 +165,134 @@
                                         time: "",
                                         class_name: "my-sticky-class"
                                     });
-                                },1e3);
+                                },
+                                    1e3);
                             }
                         });
 
-                        $(document).on("click", 'button[id^=picdel_]', function () {
-                            var pictureId = parseInt($(this).attr('id').split('_')[1]);
+                        $(document).on("click",
+                            'button[id^=picdel_]',
+                            function() {
+                                var pictureId = parseInt($(this).attr('id').split('_')[1]);
 
-                            if (pictureId === 0) {
-                                setTimeout(function () {
-                                    $.gritter.add({
-                                        title: "Failure",
-                                        text: "An error occurred while deleting picture!",
-                                        sticky: !0,
-                                        time: "",
-                                        class_name: "my-sticky-class"
-                                    });
-                                }, 1e3);
-                                return;
-                            }
-
-                            var postData = {
-                                id: pictureId,
-                                sliderid: @Model.Id
-                                };
-
-                            addAntiForgeryToken(postData);
-
-                            $.ajax({
-                                cache: false,
-                                type: "POST",
-                                url: "@(Url.Action("DeleteSliderPicture", "Slider"))",
-                                data: postData,
-                                success: function (data) {
-                                    $('#sliderpictures-grid').DataTable().ajax.reload();
-                                    setTimeout(function () {
-                                        $.gritter.add({
-                                            title: "Success",
-                                            text: "Picture deleted successfully!",
-                                            sticky: !0,
-                                            time: "",
-                                            class_name: "my-sticky-class"
-                                        });
-                                    }, 1e3);
-                                },
-                                error: function(xhr, ajaxOptions, thrownError) {
-                                    console.log(xhr.responseText);
-                                    setTimeout(function () {
+                                if (pictureId === 0) {
+                                    setTimeout(function() {
                                         $.gritter.add({
                                             title: "Failure",
-                                            text: "Failed to delete slider picture!",
+                                            text: "An error occurred while deleting picture!",
                                             sticky: !0,
                                             time: "",
                                             class_name: "my-sticky-class"
                                         });
-                                    }, 1e3);
+                                    },
+                                        1e3);
+                                    return;
+                                }
+
+                                if (confirm("Are you sure you want to delete this picture from slider ?")) {
+                                    var postData = {
+                                        id: pictureId,
+                                        sliderid: @Model.Id
+                                        };
+
+                                    addAntiForgeryToken(postData);
+
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("DeleteSliderPicture", "Slider"))",
+                                        data: postData,
+                                        success: function(data) {
+                                            $('#sliderpictures-grid').DataTable().ajax.reload();
+                                            setTimeout(function() {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Picture deleted successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            },
+                                                1e3);
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            console.log(xhr.responseText);
+                                            setTimeout(function() {
+                                                $.gritter.add({
+                                                    title: "Failure",
+                                                    text: "Failed to delete slider picture!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            },
+                                                1e3);
+                                        }
+                                    });
                                 }
                             });
-                        });
+
+                        $(document).on("click",
+                            'button[id^=picupd_]',
+                            function() {
+                                var pictureId = parseInt($(this).attr('id').split('_')[1]);
+                                if (pictureId === 0) {
+                                    setTimeout(function() {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "An error occurred while updating picture!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    },
+                                        1e3);
+                                    return;
+                                }
+
+                                if (confirm("Are you sure you want to update caption for this picture?")) {
+                                    var postData = {
+                                        pictureId: pictureId,
+                                        captionText: ((
+                                                typeof($("#picCaption_" + pictureId).val()) != typeof(undefined) &&
+                                                    $("#picCaption_" + pictureId).val() != null)
+                                            ? $("#picCaption_" + pictureId).val()
+                                            : "")
+                                    };
+                                    addAntiForgeryToken(postData);
+
+                                    $.ajax({
+                                        cache: false,
+                                        type: "POST",
+                                        url: "@(Url.Action("UpdateSliderPicture", "Slider"))",
+                                        data: postData,
+                                        success: function (data) {
+                                            $('#sliderpictures-grid').DataTable().ajax.reload();
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Picture updated successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            console.log(xhr.responseText);
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Failure",
+                                                    text: "Failed to update slider picture!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            },1e3);
+                                        }
+                                    });
+                                }
+                            });
                     });
                 </script>
                 @Html.EditorFor(model => model.PictureId)

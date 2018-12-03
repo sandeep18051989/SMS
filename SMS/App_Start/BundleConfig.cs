@@ -23,9 +23,7 @@ namespace SMS.App_Start
 			bundles.Add(new ScriptBundle("~/Scripts/pace").Include(
 							"~/Areas/Admin/Scripts/pace.min.js"));
 
-			bundles.Add(new ScriptBundle("~/Scripts/boot").Include(
-												  "~/Scripts/umd/popper.js",
-												  "~/Scripts/bootstrap/bootstrap.js"));
+			bundles.Add(new ScriptBundle("~/Scripts/boot").Include("~/Scripts/umd/popper.js","~/Scripts/bootstrap/bootstrap.min.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/datatable").Include(
 				 "~/Scripts/DataTables/jquery.dataTables.min.js",
@@ -106,6 +104,22 @@ namespace SMS.App_Start
 					 "~/Scripts/waypoints.min.js",
 					 "~/Scripts/counter.min.js",
 					 "~/Scripts/colortoggle.min.js"));
-		}
+
+            bundles.Add(new ScriptBundle("~/Scripts/Dev").Include(
+		        "~/Scripts/owl.carousel.min.js",
+		        "~/Scripts/Developer/js/loadimages.min.js",
+		        "~/Scripts/Developer/js/textrotate.min.js",
+		        "~/Scripts/Developer/js/isotope.min.js",
+		        "~/Scripts/Developer/js/Onepagenav.min.js",
+                "~/Scripts/waypoints.min.js",
+		        "~/Scripts/counter.min.js",
+                "~/Scripts/Developer/js/developer.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/Dev").Include(
+		        "~/Content/OwlCarousel/owl.carousel.css",
+                "~/Scripts/Developer/css/textrotate.min.css",
+		        "~/Scripts/Developer/css/developer.min.css",
+                "~/Scripts/Developer/css/responsive.min.css"));
+        }
 	}
 }

@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_devLayout.cshtml";
+}
+<!-- Banner Start -->
+<div id="tcd-banner" class="tcd-banner freelancer">
+    <div class="banner-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="banner-content">
+                        @Html.Action("Banner", "Developer")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner End -->
+<!-- About Me Start-->
+<div id="tcd-about" class="tcd-about sec-spacer">
+    <div class="container">
+        @Html.Action("Biography", "Developer")
+    </div>
+</div>
+<!-- About Me End-->
+<!-- What I Do Start-->
+<div id="tcd-services" class="tcd-services bg-p3 bg-light-gray sec-spacer">
+    <div class="container">
+        <div class="row">
+            @Html.Action("Services", "Developer")
+        </div>
+    </div>
+</div>
+<!-- What I Do End-->
+<!-- Counter Start -->
+<div class="tcd-counter sec-spacer">
+    <div class="container">
+        <div class="row">
+            @Html.Action("Counter", "Developer")
+        </div>
+    </div>
+</div>
+<!-- Counter End -->
+<!-- Portfolio Section Start -->
+<div id="tcd-portfolio" class="tcd-portfolio bg-light-gray sec-spacer">
+    <div class="container">
+        @Html.Action("Portfolio", "Developer")
+    </div>
+
+</div>
+<!-- Portfolio Section End -->
+<!-- Team Section Start -->
+<div class="tcd-team sec-spacer">
+    <div class="container">
+        @Html.Action("Team", "Developer")
+    </div>
+</div>
+<!-- Team Section End -->
+<!-- Testimonial Section Start -->
+<div class="tcd-testimonial sec-spacer bg-p bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                @Html.Action("Testimonial", "Developer")
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Testimonial Section End -->
+<!-- My Latest Story start -->
+<div id="tcd-blog" class="tcd-blog sec-spacer">
+    <div class="container">
+        @Html.Action("Blogs", "Developer")
+    </div>
+</div>
+<!-- My Latest Story end -->
+<!-- Contact Form Here -->
+<div id="tcd-contact" class="tcd-contact-form sec-spacer bg-p">
+    <div class="container">
+        @Html.Action("Contact", "Developer")
+    </div>
+</div>
+<!-- Contact Form Here -->
+<!-- Footer Start -->
+<div class="tcd-footer">
+    <div class="container">
+        <div class="row">
+            @Html.Action("Footer", "Developer")
+        </div>
+    </div>
+</div>
+<!-- Footer End -->

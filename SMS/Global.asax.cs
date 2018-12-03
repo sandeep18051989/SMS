@@ -35,7 +35,7 @@ namespace SMS
             routes.MapRoute(
                      "Default", // Route name
                      "{controller}/{action}/{id}", // URL with parameters
-                     new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                     new { controller = "Developer", action = "Index", id = UrlParameter.Optional },
                      new[] { "Nop.Web.Controllers" }
                 );
 
@@ -163,12 +163,11 @@ namespace SMS
                 if (exception is System.Threading.ThreadAbortException)
                     return;
 
-                string Message = exception == null ? string.Empty : exception.ToString();
-                systemLogger.InsertSystemLog(LogLevel.Error, exception.Message, Message, currentUserContext.CurrentUser);
+                string message = exception.ToString();
+                systemLogger.InsertSystemLog(LogLevel.Error, exception.Message, message, currentUserContext.CurrentUser);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message.ToString());
                 //don't throw new exception if occurs
             }
 

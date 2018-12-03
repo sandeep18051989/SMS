@@ -1,0 +1,87 @@
+﻿@model SMS.Models.SliderModel
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="tcd-title tcd-title-center mb50">
+    <h2>My Creative <span>Portfolio</span></h2>
+    <p>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula porttitor <br>euconsequat vitae eleifend ac enim porttitor.</p>
+</div>
+
+<div class="portfolio-filter text-center">
+    <button data-toggle="tooltip" data-placement="top" title="" class="active" data-filter="*" data-original-title="06">ALL Project</button>
+    <button data-toggle="tooltip" data-placement="top" title="" data-filter=".filter1" data-original-title="03">Web Design</button>
+    <button data-toggle="tooltip" data-placement="top" title="" data-filter=".filter2" data-original-title="03">Development</button>
+    <button data-toggle="tooltip" data-placement="top" title="" data-filter=".filter3" data-original-title="02">Graphic Design</button>
+    <button data-toggle="tooltip" data-placement="top" title="" data-filter=".filter4" data-original-title="01">Marketing</button>
+</div>
+
+<div class="row grid" style="position: relative; height: 585px;">
+    <!-- portfolio item start -->
+    <div class="col-lg-4 col-md-6 col-sm-6 grid-item filter1" style="position: absolute; left: 0%; top: 0px;">
+        <div class="portfolio-item">
+            <img src="/Content/Images/1.jpg" alt="Portfolio Image">
+            <div class="portfolio-content">
+                <h4 class="title"><a href="portfolio-details.html"> Content Writing</a></h4>
+                <span class="post">Marketing</span>
+            </div>
+        </div>
+    </div>
+    <!-- portfolio item end -->
+    <!-- portfolio item start -->
+    <div class="col-lg-4 col-md-6 col-sm-6 grid-item filter1" style="position: absolute; left: 33.3333%; top: 0px;">
+        <div class="portfolio-item">
+            <img src="/Content/Images/2.jpg" alt="Portfolio Image">
+            <div class="portfolio-content">
+                <h4 class="title"><a href="portfolio-details.html">Logo Sketch</a></h4>
+                <span class="post">Web Design</span>
+            </div>
+        </div>
+    </div>
+    <!-- portfolio item end -->
+    <!-- portfolio item start -->
+    <div class="col-lg-4 col-md-6 col-sm-6 grid-item filter2 filter3" style="position: absolute; left: 66.6667%; top: 0px;">
+        <div class="portfolio-item">
+            <img src="/Content/Images/3.jpg" alt="Portfolio Image">
+            <div class="portfolio-content">
+                <h4 class="title"><a href="portfolio-details.html">WodrPress Themes</a></h4>
+                <span class="post">Development</span>
+            </div>
+        </div>
+    </div>
+    <!-- portfolio item end -->
+    <!-- portfolio item start -->
+    <div class="col-lg-4 col-md-6 col-sm-6 grid-item filter1 filter3" style="position: absolute; left: 0%; top: 292px;">
+        <div class="portfolio-item">
+            <img src="/Content/Images/4.jpg" alt="Portfolio Image">
+            <div class="portfolio-content">
+                <h4 class="title"><a href="portfolio-details.html">Office Presentation</a></h4>
+                <span class="post">Graphic Design</span>
+            </div>
+        </div>
+    </div>
+    <!-- portfolio item end -->
+    <!-- portfolio item start -->
+    <div class="col-lg-4 col-md-6 col-sm-6 grid-item filter2 filter4" style="position: absolute; left: 33.3333%; top: 292px;">
+        <div class="portfolio-item">
+            <img src="/Content/Images/5.jpg" alt="Portfolio Image">
+            <div class="portfolio-content">
+                <h4 class="title"><a href="portfolio-details.html">Retina Ready</a></h4>
+                <span class="post">Development</span>
+            </div>
+        </div>
+    </div>
+    <!-- portfolio item end -->
+    <!-- portfolio item start -->
+    <div class="col-lg-4 col-md-6 col-sm-6 grid-item filter2" style="position: absolute; left: 66.6667%; top: 292px;">
+        <div class="portfolio-item">
+            <img src="/Content/Images/6.jpg" alt="Portfolio Image">
+            <div class="portfolio-content">
+                <h4 class="title"><a href="portfolio-details.html">Quality Product</a></h4>
+                <span class="post">Development</span>
+            </div>
+        </div>
+    </div>
+    <!-- portfolio item end -->
+</div>

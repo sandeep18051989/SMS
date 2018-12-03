@@ -61,7 +61,7 @@ namespace SMS.Areas.Admin.Controllers
                 int recordsTotal = 0;
 
                 // Getting all data    
-                var sliderData = (from tempsliders in _sliderService.GetAllSliders(showSystemDefined: false) select tempsliders);
+                var sliderData = (from tempsliders in _sliderService.GetAllSliders() select tempsliders);
 
                 //Search    
                 if (!string.IsNullOrEmpty(searchValue))
@@ -177,7 +177,7 @@ namespace SMS.Areas.Admin.Controllers
 
         [ValidateInput(false)]
         [HttpPost]
-        public virtual ActionResult SliderPictureAdd(int pictureId, int sliderId)
+        public virtual ActionResult SliderPictureAdd(int pictureId, int sliderId, string captionText = null)
         {
             if (!_permissionService.Authorize("ManageSlider"))
                 return AccessDeniedView();
@@ -193,8 +193,31 @@ namespace SMS.Areas.Admin.Controllers
             if (picture == null)
                 throw new ArgumentException("No picture found with the specified id");
 
+            picture.AlternateText = !string.IsNullOrEmpty(captionText) ? captionText.Trim() : "";
+            _pictureService.Update(picture);
+
             thisslider.Pictures.Add(picture);
             _sliderService.Update(thisslider);
+
+            return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        [ValidateInput(false)]
+        [HttpPost]
+        public virtual ActionResult UpdateSliderPicture(int pictureId, string captionText=null)
+        {
+            if (!_permissionService.Authorize("ManageSlider"))
+                return AccessDeniedView();
+
+            if (pictureId == 0)
+                throw new ArgumentException();
+
+            var picture = _pictureService.GetPictureById(pictureId);
+            if (picture == null)
+                throw new ArgumentException("No picture found with the specified id");
+
+            picture.AlternateText = !string.IsNullOrEmpty(captionText) ? captionText.Trim() : "";
+            _pictureService.Update(picture);
 
             return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
         }
@@ -329,6 +352,7 @@ namespace SMS.Areas.Admin.Controllers
                 slider = model.ToEntity();
                 slider.ModifiedOn = DateTime.Now;
                 slider.CreatedOn = DateTime.Now;
+                slider.UserId = _userContext.CurrentUser.Id;
                 _sliderService.Insert(slider);
             }
             else
@@ -404,7 +428,7 @@ namespace SMS.Areas.Admin.Controllers
                 _sliderService.DeleteSliders(_sliderService.GetSliderByIds(selectedIds.ToArray()).ToList());
             }
 
-            SuccessNotification("Roles deleted successfully.");
+            SuccessNotification("Sliders deleted successfully.");
             return RedirectToAction("List");
         }
 

@@ -1,0 +1,84 @@
+﻿@model SMS.Models.SliderModel
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="col-lg-4 col-md-6">
+    <div class="service-item">
+        <div class="service-icon">
+            <i class="fa fa-globe"></i>
+        </div>
+        <div class="service-content">
+            <h4 class="title"><a href="#">Web Design</a></h4>
+            <p class="description">
+                Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-md-6">
+    <div class="service-item">
+        <div class="service-icon">
+            <i class="fa fa-briefcase"></i>
+        </div>
+        <div class="service-content">
+            <h4 class="title"><a href="#">Web Development</a></h4>
+            <p class="description">
+                Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-md-6">
+    <div class="service-item">
+        <div class="service-icon">
+            <i class="fa fa-diamond"></i>
+        </div>
+        <div class="service-content">
+            <h4 class="title"><a href="#">Apps Development</a></h4>
+            <p class="description">
+                Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-md-6">
+    <div class="service-item">
+        <div class="service-icon">
+            <i class="fa fa-paper-plane-o"></i>
+        </div>
+        <div class="service-content">
+            <h4 class="title"><a href="#">Email Marketing</a></h4>
+            <p class="description">
+                Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-md-6">
+    <div class="service-item">
+        <div class="service-icon">
+            <i class="fa fa-gg-circle"></i>
+        </div>
+        <div class="service-content">
+            <h4 class="title"><a href="#">Web Photography</a></h4>
+            <p class="description">
+                Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 col-md-6">
+    <div class="service-item">
+        <div class="service-icon">
+            <i class="fa fa-photo"></i>
+        </div>
+        <div class="service-content">
+            <h4 class="title"><a href="#">Graphies Design</a></h4>
+            <p class="description">
+                Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris.
+            </p>
+        </div>
+    </div>
+</div>

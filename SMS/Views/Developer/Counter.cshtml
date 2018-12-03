@@ -1,0 +1,50 @@
+﻿@model SMS.Models.SliderModel
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="col-lg-3 col-md-3 col-sm-6">
+    <div class="single-counter">
+        <div class="count-icon">
+            <i class="fa fa-users"></i>
+        </div>
+        <div class="count-box">
+            <h2 class="counter-number">1200</h2>
+            <h4 class="counter-title">Happy Clients</h4>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6">
+    <div class="single-counter">
+        <div class="count-icon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <div class="count-box">
+            <h2 class="counter-number">10</h2>
+            <h4 class="counter-title">Years of Experience</h4>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6">
+    <div class="single-counter">
+        <div class="count-icon">
+            <i class="fa fa-thumbs-up"></i>
+        </div>
+        <div class="count-box">
+            <h2 class="counter-number">1500</h2>
+            <h4 class="counter-title">Projects Completed</h4>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6">
+    <div class="single-counter">
+        <div class="count-icon">
+            <i class="fa fa-star-o"></i>
+        </div>
+        <div class="count-box">
+            <h2 class="counter-number">2400</h2>
+            <h4 class="counter-title">Positive Feedbacks</h4>
+        </div>
+    </div>
+</div>

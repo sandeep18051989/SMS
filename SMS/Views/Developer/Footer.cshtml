@@ -1,0 +1,41 @@
+﻿@model SMS.Models.SchoolModel
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="col-lg-3 col-md-4">
+    <div class="footer-logo">
+        <img src="/Content/Images/logo.png" alt="Sandeep Kumar">
+    </div>
+</div>
+<div class="col-lg-3 col-md-4">
+    <div class="footer-widget">
+        <h4 class="footer-title">My Services</h4>
+        <ul class="footer-menu">
+            @*<li><a href="#">Affiliate</a></li>
+            <li><a href="#">Web Design</a></li>*@
+            <li><a href="#">Website Development</a></li>
+        </ul>
+    </div>
+</div>
+<div class="col-lg-3 col-md-4">
+    <div class="footer-widget">
+        <h4 class="footer-title">Support</h4>
+        <ul class="footer-menu">
+            @*<li><a href="#">Help Center</a></li>
+            <li><a href="#">Partner Program</a></li>
+            <li><a href="#">Privacy Policy</a></li>*@
+        </ul>
+    </div>
+</div>
+<div class="col-lg-3 col-md-4 d-sm-block d-md-none d-lg-block">
+    <div class="footer-widget">
+        <h4 class="footer-title">Quick Contact</h4>
+        <ul class="footer-menu">
+            <li><a href="mailto:sandeep725@gmail.com">sandeep725@gmail.com</a></li>
+            <li><a href="tel:+919996943996">+91 9996943996</a></li>
+            <li><a href="@Url.Action("Index","Developer", new { @Area = "" })"></a></li>
+        </ul>
+    </div>
+</div>

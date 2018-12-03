@@ -81,7 +81,7 @@
 							            </div>
 							            <div class="row text-left">
 							                <div class="col-md-6">
-							                    <input type="checkbox" tabindex="4" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" @(Model.IsActive ? "checked=checked" : "") />
+							                    <input type="checkbox" tabindex="4" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 							                    @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
 							                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 							                </div>
@@ -96,21 +96,21 @@
 							            </div>
 							            <div class="row text-left">
 							                <div class="col-md-6">
-							                    <input type="checkbox" tabindex="6" id="ShowCaption" name="ShowCaption" value="@(Model.ShowCaption ? true : false)" @(Model.ShowCaption ? "checked=checked" : "") />
+							                    <input type="checkbox" tabindex="6" id="ShowCaption" name="ShowCaption" value="@(Model.ShowCaption ? "True" : "False")" @(Model.ShowCaption ? "checked=checked" : "") />
 							                    @Html.LabelFor(model => model.ShowCaption, "Show Caption", htmlAttributes: new { })
 							                    @Html.ValidationMessageFor(model => model.ShowCaption, "", new { @class = "text-danger" })
 							                </div>
 							            </div>
 							            <div class="row text-left">
 							                <div class="col-md-6">
-							                    <input type="checkbox" tabindex="7" id="ShowNextPrevIndicators" name="ShowNextPrevIndicators" value="@(Model.ShowNextPrevIndicators ? true : false)" @(Model.ShowNextPrevIndicators ? "checked=checked" : "") />
+							                    <input type="checkbox" tabindex="7" id="ShowNextPrevIndicators" name="ShowNextPrevIndicators" value="@(Model.ShowNextPrevIndicators ? "True" : "False")" @(Model.ShowNextPrevIndicators ? "checked=checked" : "") />
 							                    @Html.LabelFor(model => model.ShowNextPrevIndicators, "Show Indicators", htmlAttributes: new { })
 							                    @Html.ValidationMessageFor(model => model.ShowNextPrevIndicators, "", new { @class = "text-danger" })
 							                </div>
 							            </div>
 							            <div class="row text-left">
 							                <div class="col-md-6">
-							                    <input type="checkbox" tabindex="8" id="ShowThumbnails" name="ShowThumbnails" value="@(Model.ShowThumbnails ? true : false)" @(Model.ShowThumbnails ? "checked=checked" : "") />
+							                    <input type="checkbox" tabindex="8" id="ShowThumbnails" name="ShowThumbnails" value="@(Model.ShowThumbnails ? "True" : "False")" @(Model.ShowThumbnails ? "checked=checked" : "") />
 							                    @Html.LabelFor(model => model.ShowThumbnails, "Show Thumbnails", htmlAttributes: new { })
 							                    @Html.ValidationMessageFor(model => model.ShowThumbnails, "", new { @class = "text-danger" })
 							                </div>
@@ -133,23 +133,23 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('Sliders')").closest("li").addClass("active");
 
-		if ($("#IsActive").val()) {
-			$("#IsActive").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsActive").attr('checked', false).val(false);
-		}
+        if ($("#IsActive").val() === "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
 
-		$("#IsActive").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
 
-        if ($("#ShowCaption").val()) {
+        if ($("#ShowCaption").val() === "True") {
             $("#ShowCaption").attr('checked', true).val(true);
         }
         else {
@@ -165,7 +165,7 @@
             }
         });
 
-        if ($("#ShowNextPrevIndicators").val()) {
+        if ($("#ShowNextPrevIndicators").val() === "True") {
             $("#ShowNextPrevIndicators").attr('checked', true).val(true);
         }
         else {
@@ -181,7 +181,7 @@
             }
         });
 
-        if ($("#ShowThumbnails").val()) {
+        if ($("#ShowThumbnails").val() === "True") {
             $("#ShowThumbnails").attr('checked', true).val(true);
         }
         else {

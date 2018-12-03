@@ -1,0 +1,164 @@
+﻿@model SMS.Models.BlogModel
+@using EF.Services.Http;
+@{
+    var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+    var basePath = urlHelperService.GetLocation(false);
+}
+<div class="tcd-title tcd-title-center mb50">
+    <h2>My Latest <span>Story</span></h2>
+    <p>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula porttitor <br>euconsequat vitae eleifend ac enim porttitor.</p>
+</div>
+<div class="owl-wrapper">
+    <div class="owl-carousel blog-carousel owl-loaded owl-drag">
+        <div class="item" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/Images/Blog/3.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        30 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">12 Brochure Free Download</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/2.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        30 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">Tips &amp; Trics For Developer</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/4.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        02 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">Graphic Designer Secrets</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item active" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/1.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        20 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">10 Best Brochure 2018</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item active" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/3.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        30 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">12 Brochure Free Download</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item active" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/2.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        30 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">Tips &amp; Trics For Developer</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/4.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        02 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">Graphic Designer Secrets</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/1.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        20 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">10 Best Brochure 2018</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/3.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        30 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">12 Brochure Free Download</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 350px; margin-right: 30px;">
+            <div class="single-blog">
+                <img src="/Content/images/Blog/2.jpg" alt="">
+                <div class="blog-content">
+                    <div class="meta">
+                        30 May 2018
+                    </div>
+                    <h4 class="post-title"><a href="blog-details.html">Tips &amp; Trics For Developer</a></h4>
+                    <p class="description">
+                        Lorem ipsum dolor sit amet, consectetur elit. A ad adipisci pariatur euconsequat vitae...
+                    </p>
+                    <a class="read-more" href="blog-details.html"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -75,17 +75,17 @@ namespace EF.Data
 			}
 		}
 
-		public IEnumerable<T> GetAll()
+		public virtual IEnumerable<T> GetAll()
 		{
 			return this.Entity.ToList();
 		}
 
-		public T GetByID(int Id)
+		public virtual T GetByID(int Id)
 		{
 			return Entity.Find(Id);
 		}
 
-		public void Insert(T entity)
+		public virtual void Insert(T entity)
 		{
 			try
 			{
@@ -128,7 +128,7 @@ namespace EF.Data
 			}
 		}
 
-		public void Update(T entity)
+		public virtual void Update(T entity)
 		{
 			//_context.Entry(this.Entity).State = EntityState.Modified;
 			try
@@ -147,19 +147,37 @@ namespace EF.Data
 						msg += Environment.NewLine + string.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
 
 				var fail = new Exception(msg, dbEx);
-				//Debug.WriteLine(fail.Message, fail);
 				throw fail;
 			}
 		}
 
-		#endregion
+	    /// <summary>
+	    /// Update entities
+	    /// </summary>
+	    /// <param name="entities">Entities</param>
+	    public virtual void Update(IEnumerable<T> entities)
+	    {
+	        try
+	        {
+	            if (entities == null)
+	                throw new ArgumentNullException("entities");
 
-		#region Properties
+	            this._context.SaveChanges();
+	        }
+	        catch (DbEntityValidationException dbEx)
+	        {
+	            throw new Exception(GetFullErrorText(dbEx), dbEx);
+	        }
+	    }
 
-		/// <summary>
-		/// Gets a table
-		/// </summary>
-		public virtual IQueryable<T> Table
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets a table
+        /// </summary>
+        public virtual IQueryable<T> Table
 		{
 			get
 			{

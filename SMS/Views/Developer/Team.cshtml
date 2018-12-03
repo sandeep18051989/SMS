@@ -1,0 +1,350 @@
+﻿@model SMS.Models.SliderModel
+@using EF.Services.Http;
+@{
+    var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+    var basePath = urlHelperService.GetLocation(false);
+}
+<div class="tcd-title tcd-title-center mb50">
+    <h2>Creative <span>Team</span></h2>
+    <p>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula porttitor <br>euconsequat vitae eleifend ac enim porttitor.</p>
+</div>
+<div class="owl-wrapper">
+    <div class="owl-carousel team-carousel">
+        <div class="item" style="width: 255px;margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/3.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Kyle Philips</h3>
+                    <span class="member-role">Sr. Manager</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/4.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Mukhiz Luamp</h3>
+                    <span class="member-role">Content Writer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/5.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Ashis James</h3>
+                    <span class="member-role">Designer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/6.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Alex Munna</h3>
+                    <span class="member-role">Programmer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item active" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/1.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Robert J. Smith</h3>
+                    <span class="member-role">Developer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item active" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/2.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Michel Virat</h3>
+                    <span class="member-role">UI/UX Designer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item active" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/3.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Kyle Philips</h3>
+                    <span class="member-role">Sr. Manager</span>
+                </div>
+            </div>
+        </div>
+        <div class="item active" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/4.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Mukhiz Luamp</h3>
+                    <span class="member-role">Content Writer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/5.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Ashis James</h3>
+                    <span class="member-role">Designer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/6.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Alex Munna</h3>
+                    <span class="member-role">Programmer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/1.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Robert J. Smith</h3>
+                    <span class="member-role">Developer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/2.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Michel Virat</h3>
+                    <span class="member-role">UI/UX Designer</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/3.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Kyle Philips</h3>
+                    <span class="member-role">Sr. Manager</span>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="width: 255px; margin-right: 30px;">
+            <div class="team-item">
+                <div class="member-photo">
+                    <img src="/Content/Images/Team/4.jpg" alt="Robert J. Smith">
+                    <div class="member-icons">
+                        <a href="#" title="twitter" class="member-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" title="google plus" class="member-icon">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a href="#" title="facebook" class="member-icon">
+                            <i class="fa fa-facebook"></i>
+                        </a><a href="#" title="tumblr" class="member-icon">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Mukhiz Luamp</h3>
+                    <span class="member-role">Content Writer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

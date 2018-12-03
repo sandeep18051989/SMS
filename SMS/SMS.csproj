@@ -446,13 +446,30 @@
     <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.svg" />
     <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.svg" />
     <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.svg" />
+    <Content Include="Content\images\1.jpg" />
+    <Content Include="Content\images\2.jpg" />
+    <Content Include="Content\images\3.jpg" />
+    <Content Include="Content\images\4.jpg" />
+    <Content Include="Content\images\5.jpg" />
+    <Content Include="Content\images\6.jpg" />
     <Content Include="Content\images\asterisk-small.png" />
     <Content Include="Content\images\bg-img2.jpg" />
     <Content Include="Content\images\bg-img3.jpg" />
     <Content Include="Content\images\bg-img6.jpg" />
+    <Content Include="Content\images\bg1.png" />
+    <Content Include="Content\images\bg3.png" />
     <Content Include="Content\images\bg_footer-map.png" />
     <Content Include="Content\images\bg_noise-bg.png" />
+    <Content Include="Content\images\Blog\1.jpg" />
+    <Content Include="Content\images\Blog\2.jpg" />
+    <Content Include="Content\images\Blog\3.jpg" />
+    <Content Include="Content\images\Blog\4.jpg" />
     <Content Include="Content\images\buildings.png" />
+    <Content Include="Content\images\certificate1.jpg" />
+    <Content Include="Content\images\certificate2.jpg" />
+    <Content Include="Content\images\Clients\1.jpg" />
+    <Content Include="Content\images\Clients\2.jpg" />
+    <Content Include="Content\images\Clients\3.jpg" />
     <Content Include="Content\images\continue.gif" />
     <Content Include="Content\images\details_close.png" />
     <Content Include="Content\images\details_open.png" />
@@ -475,6 +492,12 @@
     <Content Include="Content\images\slide4.jpg" />
     <Content Include="Content\images\slide5.jpg" />
     <Content Include="Content\images\slide6.jpg" />
+    <Content Include="Content\images\Team\1.jpg" />
+    <Content Include="Content\images\Team\2.jpg" />
+    <Content Include="Content\images\Team\3.jpg" />
+    <Content Include="Content\images\Team\4.jpg" />
+    <Content Include="Content\images\Team\5.jpg" />
+    <Content Include="Content\images\Team\6.jpg" />
     <Content Include="Content\images\trash.gif" />
     <Content Include="Content\images\video-poster.png" />
     <Content Include="Content\images\waiting-generic.png" />
@@ -482,6 +505,11 @@
     <Content Include="Content\jquery.jqGrid\ellipsis-xbl.xml" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\mdb.min.css" />
+    <Content Include="Content\OwlCarousel\AjaxLoader.gif" />
+    <Content Include="Content\OwlCarousel\grabbing.png" />
+    <Content Include="Content\OwlCarousel\owl.carousel.css" />
+    <Content Include="Content\OwlCarousel\owl.theme.css" />
+    <Content Include="Content\OwlCarousel\owl.transitions.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\svgicons.css" />
     <Content Include="Content\font-awesome.css" />
@@ -615,6 +643,13 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\Developer\css\developer.min.css" />
+    <Content Include="Scripts\Developer\css\responsive.min.css" />
+    <Content Include="Scripts\Developer\css\textrotate.min.css" />
+    <Content Include="Scripts\Developer\js\developer.min.js" />
+    <Content Include="Scripts\Developer\js\isotope.min.js" />
+    <Content Include="Scripts\Developer\js\loadimages.min.js" />
+    <Content Include="Scripts\Developer\js\Onepagenav.min.js" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
     <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
@@ -1128,6 +1163,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\Developer\js\textrotate.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1222,6 +1258,8 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\new-year.js" />
+    <Content Include="Scripts\owl.carousel.js" />
+    <Content Include="Scripts\owl.carousel.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -1377,6 +1415,7 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\waypoints.min.js" />
+    <Content Include="Scripts\waypoints\jquery.waypoints.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1431,6 +1470,7 @@
     <Compile Include="Areas\Admin\Models\AdminPictureModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />
     <Compile Include="Areas\Admin\Models\AuditListModel.cs" />
+    <Compile Include="Controllers\DeveloperController.cs" />
     <Compile Include="Models\ColorSettingsModel.cs" />
     <Compile Include="Areas\Admin\Models\CreatePermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\CreateTemplateModel.cs" />
@@ -1723,6 +1763,18 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Developer\Banner.cshtml" />
+    <Content Include="Views\Developer\Biography.cshtml" />
+    <Content Include="Views\Developer\Services.cshtml" />
+    <Content Include="Views\Developer\Counter.cshtml" />
+    <Content Include="Views\Developer\Portfolio.cshtml" />
+    <Content Include="Views\Developer\Team.cshtml" />
+    <Content Include="Views\Developer\Testimonial.cshtml" />
+    <Content Include="Views\Developer\Blogs.cshtml" />
+    <Content Include="Views\Developer\Contact.cshtml" />
+    <Content Include="Views\Developer\Footer.cshtml" />
+    <Content Include="Views\Developer\Copyright.cshtml" />
+    <Content Include="Views\Developer\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

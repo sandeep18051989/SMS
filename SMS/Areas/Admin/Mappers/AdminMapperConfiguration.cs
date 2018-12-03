@@ -422,6 +422,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Picture, mo => mo.Ignore())
                     .ForMember(dest => dest.Qualification, mo => mo.Ignore())
                     .ForMember(dest => dest.Subjects, mo => mo.Ignore())
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
                     .ForMember(dest => dest.Classes, mo => mo.Ignore());
                 cfg.CreateMap<TeacherModel, Teacher>()
                     .ForMember(dest => dest.Qualification, mo => mo.Ignore())
@@ -468,6 +469,7 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<Slider, SliderModel>()
                     .ForMember(dest => dest.AvailableAreas, mo => mo.Ignore())
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
+                    .ForMember(dest => dest.UserId, mo => mo.Ignore())
                     .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
                 cfg.CreateMap<SliderModel, Slider>()
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore());

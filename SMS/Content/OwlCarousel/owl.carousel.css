@@ -1,0 +1,126 @@
+/* 
+ * 	Core Owl Carousel CSS File
+ *	v1.3.3
+ */
+
+/* clearfix */
+.owl-carousel .owl-wrapper:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+/* display none until init */
+.owl-carousel{
+    display: none;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    z-index: 1;
+}
+.owl-carousel .owl-wrapper{
+	display: none;
+	position: relative;
+	-webkit-transform: translate3d(0px, 0px, 0px);
+}
+.owl-carousel .owl-wrapper-outer{
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+.owl-carousel .owl-wrapper-outer.autoHeight{
+	-webkit-transition: height 500ms ease-in-out;
+	-moz-transition: height 500ms ease-in-out;
+	-ms-transition: height 500ms ease-in-out;
+	-o-transition: height 500ms ease-in-out;
+	transition: height 500ms ease-in-out;
+}
+	
+.owl-carousel .owl-item{
+	float: left;
+}
+.owl-controls .owl-page,
+.owl-controls .owl-buttons div{
+	cursor: pointer;
+}
+.owl-controls {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* mouse grab icon */
+.grabbing { 
+    cursor:url(grabbing.png) 8 8, move;
+}
+
+/* fix */
+.owl-carousel  .owl-wrapper,
+.owl-carousel  .owl-item{
+    position: relative;
+    min-height: 1px;
+    float: left;
+    -webkit-backface-visibility: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+.owl-wrapper-outer {
+    position: relative;
+    overflow: hidden;
+    -webkit-transform: translate3d(0px, 0px, 0px);
+}
+.owl-wrapper {
+    position: relative;
+    -ms-touch-action: pan-Y;
+    -moz-backface-visibility: hidden;
+}
+.owl-wrapper .owl-controls .owl-buttons{}
+.owl-wrapper .owl-controls .owl-buttons .owl-prev{left: 40px;opacity:0;}
+.owl-wrapper .owl-controls .owl-buttons .owl-next{right: 40px;opacity:0;}
+.owl-wrapper .owl-controls .owl-buttons [class*="owl-"]:hover {
+    background: #5bbc2e;
+    border-color: #5bbc2e;
+    color: #ffffff;
+}
+.owl-wrapper .owl-controls .owl-buttons [class*="owl-"] {
+    position: absolute;
+    top: 40%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    font-size: 26px;
+    background: #232323;
+    color: #ffffff;
+    width: 46px;
+    height: 46px;
+    line-height: 44px;
+    border-radius: 50%;
+    text-align: center;
+    -webkit-transition: 0.3s all ease;
+    transition: 0.3s all ease;
+    opacity: 0;
+}
+.owl-wrapper .owl-controls .owl-buttons .owl-prev, .owl-wrapper .owl-controls .owl-buttons .owl-next {
+    cursor: pointer;
+    cursor: hand;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.owl-wrapper .owl-controls .owl-buttons [class*="owl-"] i {
+    line-height: 0;
+}
+.owl-carousel:hover .owl-buttons .owl-prev {
+    left: 40px;
+    opacity: 1;
+}
+.owl-carousel:hover .owl-buttons .owl-next {
+    right: 40px;
+    opacity: 1;
+}

@@ -18,8 +18,8 @@ namespace EF.Data
     public class EFDbContext : TrackerContext, IDbContext
     {
         public EFDbContext(string nameOrConnectionString): base(nameOrConnectionString){
-            //((IObjectContextAdapter)this).ObjectContext.ContextOptions.LazyLoadingEnabled = String.IsNullOrEmpty(nameOrConnectionString);
         }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
@@ -34,10 +34,6 @@ namespace EF.Data
             }
 
             base.OnModelCreating(modelBuilder);
-
-            // Configure Code First to ignore PluralizingTableName convention 
-            // If you keep this convention then the generated tables will have pluralized names. 
-            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
         object GetPrimaryKeyValue(DbEntityEntry entry)

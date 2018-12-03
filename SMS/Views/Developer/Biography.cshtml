@@ -1,0 +1,131 @@
+﻿@model SMS.Models.SliderModel
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="tcd-title tcd-title-center mb50">
+    <h2>About <span>Me</span></h2>
+    <p>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula porttitor <br>euconsequat vitae eleifend ac enim porttitor.</p>
+</div>
+
+<!-- Tabs Start -->
+<div class="tcd-tabs mt-25">
+    <!-- Tabs Nav Start -->
+    <ul class="nav nav-tabs nav-center">
+        <li><a class="active" data-toggle="tab" href="#biography"><i class="fa fa-user"></i>Biography</a></li>
+        <li><a data-toggle="tab" href="#education"><i class="fa fa-book"></i>Education</a></li>
+        <li><a data-toggle="tab" href="#experience"><i class="fa fa-coffee"></i>Experience</a></li>
+        <li><a data-toggle="tab" href="#skills"><i class="fa fa-diamond"></i>Skills</a></li>
+        <li><a data-toggle="tab" href="#certifications"><i class="fa fa-certificate"></i>Certifications</a></li>
+    </ul>
+    <!-- Tabs Nav End -->
+    <!-- Tabs Content Start -->
+    <div class="tab-content">
+        <!-- Item 1 -->
+        <div id="biography" class="tab-pane fade show active">
+            <div class="about-bio">
+                <p class="lead-text">I've 6+ Years Professional Experience on Web Development (PHP, Laravel, Javascript, Node JS, React Js, Webpack, Bootstrap)</p>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.</p>
+
+                <p>Whether article spirits new her covered hastily sitting her. Money witty books nor son add. Chicken age had evening believe but proceed pretend mrs. At missed it no HTML5. Miss told ham dull knew see she spot near can. Spirit her entire her called.</p>
+
+                <p>Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat.</p>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div id="education" class="tab-pane fade">
+            <div class="about-edu">
+                <div class="edu-item">
+                    <h3 class="degree">MSc in Computer Science and Engineering</h3>
+                    <div class="campus">University of Brishead<span class="date">2002 - 2004</span></div>
+                    <div class="desc">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, quae! In cum molestiae possimus voluptate doloribus ratione, officiis suscipit, corporis fugit consequuntur pariatur soluta, eaque quas dolorem natus nesciunt optio. Aenean leo ligula porttitor uconsequat vitae eleifend ac enim porttitor. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Ligula porttitor uconsequat vitae eleifend ac enim porttitor.
+                    </div>
+                </div>
+
+                <div class="edu-item">
+                    <h3 class="degree">B.SC in Computer Science and Engineering</h3>
+                    <div class="campus">University of Capetown<span class="date">1998 - 2002</span></div>
+                    <div class="desc">
+                        Manga ipsum dolor sit amet, consectetur adipisicing elit. Ab, quae! In cum molestiae possimus voluptate doloribus ratione, officiis suscipit, corporis fugit consequuntur pariatur soluta, eaque quas dolorem natus nesciunt optio. Aenean leo ligula porttitor uconsequat vitae eleifend ac enim porttitor. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Ligula porttitor uconsequat vitae eleifend ac enim lister.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div id="experience" class="tab-pane fade">
+            <div class="about-exprnc">
+                <div class="exprnc-item">
+                    <h3 class="title">Sr. Web Application Developer</h3>
+                    <div class="company">Soft Tech LLC, New York<span class="date">2017 - Present</span></div>
+                    <div class="desc">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, quae! In cum molestiae possimus voluptate doloribus ratione, officiis suscipit, corporis fugit consequuntur pariatur soluta, eaque quas dolorem natus nesciunt optio. Aenean leo ligula porttitor uconsequat vitae eleifend ac enim porttitor. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Ligula porttitor uconsequat vitae eleifend ac enim porttitor.
+                    </div>
+                </div>
+
+                <div class="exprnc-item">
+                    <h3 class="title">Web Application Developer</h3>
+                    <div class="company">Genius Soft IT, London<span class="date">2012 - 2015</span></div>
+                    <div class="desc">
+                        Manga ipsum dolor sit amet, consectetur adipisicing elit. Ab, quae! In cum molestiae possimus voluptate doloribus ratione, officiis suscipit, corporis fugit consequuntur pariatur soluta, eaque quas dolorem natus nesciunt optio. Aenean leo ligula porttitor uconsequat vitae eleifend ac enim porttitor. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Ligula porttitor uconsequat vitae eleifend ac enim lister.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div id="skills" class="tab-pane fade">
+            <div class="about-skills">
+                <h3>My Skills</h3>
+                <p>In cum molestiae possimus voluptate doloribus ratione, officiis suscipit, corporis fugit consequuntur pariatur soluta, eaque quas dolorem natus nesciunt optio. Aenean leo ligula porttitor uconsequat vitae eleifend ac enim porttitor.</p>
+                <div class="spacer5"></div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:92%">
+                        <span class="pb-label">HTML5 + CSS3</span>
+                        <span class="pb-percent">92%</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:85%">
+                        <span class="pb-label">React JS</span>
+                        <span class="pb-percent">85%</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:78%">
+                        <span class="pb-label">Laravel</span>
+                        <span class="pb-percent">78%</span>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:73%">
+                        <span class="pb-label">Node JS</span>
+                        <span class="pb-percent">73%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div id="certifications" class="tab-pane fade">
+            <div class="about-cfication">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="/Content/Images/certificate1.jpg" alt="certificate1">
+                    </div>
+                    <div class="col-md-6">
+                        <img src="/Content/Images/certificate2.jpg" alt="certificate2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Tabs Content End -->
+
+</div>
+<!-- Tabs End -->
+
