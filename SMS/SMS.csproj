@@ -478,6 +478,7 @@
     <Content Include="Content\images\coverplaceholder.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\login-bg.jpg" />
+    <Content Include="Content\images\Me\me1.png" />
     <Content Include="Content\images\news-lg3.jpg" />
     <Content Include="Content\images\news-sm1.jpg" />
     <Content Include="Content\images\news-sm2.jpg" />

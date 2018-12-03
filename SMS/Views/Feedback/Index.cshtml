@@ -16,7 +16,7 @@
 			@using (Html.BeginForm("Index", "Feedback", FormMethod.Post, new { enctype = "multipart/form-data", @class = "well form-horizontal" }))
 			{
 				@Html.AntiForgeryToken()
-    <!-- Success message -->
+                <!-- Success message -->
 				if (Model.SentSuccess)
 				{
 					<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you shortly.</div>

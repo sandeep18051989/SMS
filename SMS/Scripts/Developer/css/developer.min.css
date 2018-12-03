@@ -798,27 +798,8 @@ span#nav-close:hover {
 .tcd-banner .banner-wrapper .banner-content .banner-btn:hover {
     background: #494949;
 }
-.tcd-banner.freelancer {
-    background-image: url(/Content/images/1.jpg);
-}
-.tcd-banner.gym {
-    background-image: url(../images/slider/gym/1.jpg);
-    height: 100vh;
-}
-.tcd-banner.gym .banner-wrapper {
-    top: calc(50% + 40px);
-}
-.tcd-banner.gym .banner-content {
-    text-align: center;
-}
-.tcd-banner.gym .banner-content h4 {
-    color: #fff;
-}
-.tcd-banner.gym .banner-content h3 {
-    color: #fff;
-}
-.tcd-banner.gym .banner-content h1 {
-    color: #fff;
+.tcd-banner.developer {
+    background-image: url(/Content/images/Me/me1.png);
 }
 #tcd-slider .slide-item {
     position: relative;
