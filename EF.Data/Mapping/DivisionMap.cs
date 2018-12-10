@@ -11,9 +11,10 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Division");
 			this.HasKey(b => b.Id);
-			this.HasRequired(all => all.Class).WithMany().HasForeignKey(all => all.ClassId);
-			this.HasRequired(ca => ca.ClassRoom).WithMany().HasForeignKey(ca => ca.ClassRoomId);
-			EntityTracker.TrackAllProperties<Division>().Except(x => x.Class).And(x => x.CreatedOn).And(x => x.ClassRoom).And(x => x.ModifiedOn);
+            this.Property(b => b.Description).IsOptional();
+            this.Property(b => b.Name).IsRequired();
+
+            EntityTracker.TrackAllProperties<Division>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

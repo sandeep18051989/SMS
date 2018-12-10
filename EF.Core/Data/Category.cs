@@ -8,7 +8,7 @@ namespace EF.Core.Data
 	{
 		[NotMapped]
 		public virtual ICollection<Caste> _Castes { get; set; }
-		public string CategoryName { get; set; }
+		public string Name { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 

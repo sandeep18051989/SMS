@@ -65,7 +65,7 @@ namespace SMS.Controllers
 							ModifiedOn = x.ModifiedOn,
 							DisplayOrder = x.DisplayOrder,
 							Username = x.Username,
-							Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new RepliesModel()
+							Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new ReplyModel()
 							{
 								Id = r.Id,
 								DisplayOrder = r.DisplayOrder,
@@ -175,7 +175,7 @@ namespace SMS.Controllers
 						ModifiedOn = x.ModifiedOn,
 						DisplayOrder = x.DisplayOrder,
 						Username = x.Username,
-						Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new RepliesModel()
+						Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new ReplyModel()
 						{
 							Id = r.Id,
 							DisplayOrder = r.DisplayOrder,
@@ -293,7 +293,7 @@ namespace SMS.Controllers
 						ModifiedOn = x.ModifiedOn,
 						DisplayOrder = x.DisplayOrder,
 						Username = x.Username,
-						Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new RepliesModel()
+						Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new ReplyModel()
 						{
 							Id = r.Id,
 							DisplayOrder = r.DisplayOrder,

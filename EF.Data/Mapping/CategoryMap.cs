@@ -11,9 +11,10 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Category");
 			this.HasKey(b => b.Id);
+            this.Property(b => b.Name).IsRequired();
 
-			// Relationships
-			this.HasMany(pro => pro.Castes).WithMany(p => p.Categories).Map(m => m.ToTable("Category_Caste_Map").MapLeftKey("CategoryId").MapRightKey("CasteId"));
+            // Relationships
+            this.HasMany(pro => pro.Castes).WithMany(p => p.Categories).Map(m => m.ToTable("Category_Caste_Map").MapLeftKey("CategoryId").MapRightKey("CasteId"));
 			EntityTracker.TrackAllProperties<Category>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}

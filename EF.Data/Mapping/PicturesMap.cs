@@ -9,7 +9,14 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Picture");
 			this.HasKey(p => p.Id);
-			this.Property(p => p.UserId);
-		}
+            this.Property(b => b.AlternateText).IsOptional();
+            this.Property(b => b.AcadmicYearId).IsOptional();
+            this.Property(b => b.DisplayOrder).IsOptional();
+            this.Property(b => b.Height).IsOptional();
+            this.Property(b => b.PictureSrc).IsRequired();
+            this.Property(b => b.Size).IsOptional();
+            this.Property(b => b.Url).IsOptional();
+            this.Property(b => b.Width).IsOptional();
+        }
 	}
 }

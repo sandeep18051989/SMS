@@ -14,7 +14,7 @@ namespace EF.Core.Data
 		[NotMapped]
 		public virtual ICollection<Class> _Classes { get; set; }
 
-		public string GroupName { get; set; }
+		public string Name { get; set; }
 		public string Description { get; set; }
 
 		#region Navigation Properties

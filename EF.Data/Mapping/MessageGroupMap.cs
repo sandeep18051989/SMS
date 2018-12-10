@@ -11,9 +11,11 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("MessageGroup");
 			this.HasKey(b => b.Id);
+            this.Property(e => e.Description).IsOptional();
+            this.Property(e => e.Name).IsRequired();
 
-			// Relationships
-			this.HasMany(e => e.Classes).WithMany(p => p.MessageGroups).Map(m => m.ToTable("MessageGroup_Class_Map").MapLeftKey("MessageGroupId").MapRightKey("ClassId"));
+            // Relationships
+            this.HasMany(e => e.Classes).WithMany(p => p.MessageGroups).Map(m => m.ToTable("MessageGroup_Class_Map").MapLeftKey("MessageGroupId").MapRightKey("ClassId"));
 			this.HasMany(e => e.Students).WithMany(p => p.MessageGroups).Map(m => m.ToTable("MessageGroup_Student_Map").MapLeftKey("MessageGroupId").MapRightKey("StudentId"));
 			this.HasMany(e => e.Divisions).WithMany(p => p.MessageGroups).Map(m => m.ToTable("MessageGroup_Division_Map").MapLeftKey("MessageGroupId").MapRightKey("DivisionId"));
 			this.HasMany(e => e.Teachers).WithMany(p => p.MessageGroups).Map(m => m.ToTable("MessageGroup_Teacher_Map").MapLeftKey("MessageGroupId").MapRightKey("TeacherId"));

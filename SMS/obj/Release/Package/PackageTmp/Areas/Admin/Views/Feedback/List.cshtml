@@ -1,0 +1,245 @@
+﻿@model SMS.Models.FeedbackModel
+@{
+    ViewBag.Title = "Feedbacks/Queries";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group pull-right">
+                            <button class="btn btn-danger" type="button" id="delete-selected"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;&nbsp;Delete</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><input type="checkbox" id="allcheck" /></th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Location</th>
+                                        <th class="text-center">Email Address</th>
+                                        <th class="text-center">Contact</th>
+                                        <th class="text-center">Comments</th>
+                                        <th class="text-center">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    var selectedIds = [];
+                    $(document).ready(function () {
+                        $("li.nav-item").removeClass("active");
+                        $("span.nav-title:contains('Feedbacks')").closest("li").addClass("active");
+
+                        // Initiallize Footable
+                        $('.custom-table').DataTable({
+                            "processing": true, // for show progress bar
+                            "serverSide": true, // for process server side
+                            "filter": true, // this is for disable filter (search box)
+                            "orderMulti": false, // for disable multiple column at once
+                            "pageLength": 25,
+                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            "ajax": {
+                                "url": "/Admin/Feedback/LoadGrid",
+                                "type": "POST",
+                                "datatype": "json"
+                            },
+                            "aaSorting": [],
+                            "columns": [
+                                {
+                                    'searchable': false,
+                                    "title": "",
+                                    "data": "",
+                                    "render": function (data, type, row) {
+                                        if (type === "display") {
+                                            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input checkboxGroups" value="' +
+                                                row.Id +
+                                                '" id="' +
+                                                row.Id +
+                                                '"><label class="form-check-label" for="' +
+                                                row.Id +
+                                                '"></label></div>';
+                                        }
+                                        return data;
+                                    },
+                                    "orderable": false,
+                                    "className": 'text-center',
+                                    "defaultContent": ""
+                                },
+                                {
+                                    "data": "FullName",
+                                    "title": "Name",
+                                    "name": "FullName",
+                                    "className": 'text-center',
+                                    "autoWidth": true,
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true
+                                },
+                                {
+                                    "data": "Location",
+                                    "title": "Location",
+                                    "name": "Location",
+                                    "className": 'text-center',
+                                    "autoWidth": true,
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true
+                                },
+                                {
+                                    "data": "Email",
+                                    "title": "Email",
+                                    "name": "Email",
+                                    "className": 'text-center',
+                                    "autoWidth": true,
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true
+                                },
+                                {
+                                    "data": "Contact",
+                                    "title": "Contact",
+                                    "name": "Contact",
+                                    "className": 'text-center',
+                                    "autoWidth": true,
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true
+                                },
+                                {
+                                    "data": "Description",
+                                    "title": "Description",
+                                    "className": 'text-center',
+                                    "name": "Description",
+                                    "autoWidth": true,
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true
+                                },
+                                {
+                                    "data": "CreatedOn",
+                                    "title": "Date",
+                                    "className": 'text-center',
+                                    "name": "Date",
+                                    "autoWidth": true,
+                                    "defaultContent": "",
+                                    'searchable': true,
+                                    "orderable": true
+                                }
+                            ],
+                            "select": {
+                                "style": 'os',
+                                "selector": 'td:first-child'
+                            }
+                        });
+
+                        //delete selected
+                        $('#delete-selected').click(function (e) {
+                            if (selectedIds.length > 0) {
+                                e.preventDefault();
+                                var postData = {
+                                    selectedIds: selectedIds
+                                };
+                                addAntiForgeryToken(postData);
+
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("DeleteSelected", "Feedback"))",
+                                    data: postData,
+                                    success: function (data, result) {
+                                        if (result === "success") {
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Selected entries deleted successfully.",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: xhr.responseText,
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    },
+                                    traditional: true
+                                });
+                            }
+                            else {
+                                setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Please select atleast one record",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    },
+                                    1e3);
+                            }
+                            return false;
+                        });
+
+                        $(document).on('click',
+                            '#allcheck',
+                            function () {
+                                $('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
+                            });
+
+                        //wire up checkboxes.
+                        $('#query-tbl').on('change',
+                            'input[type=checkbox][id!=allcheck]',
+                            function (e) {
+                                var $check = $(this);
+                                var checked;
+                                if ($check.is(":checked") === true) {
+                                    checked = jQuery.inArray($check.val(), selectedIds);
+                                    if (checked === -1) {
+                                        //add id to selectedIds.
+                                        selectedIds.push($check.val());
+                                    }
+                                } else {
+                                    checked = jQuery.inArray($check.val(), selectedIds);
+                                    if (checked > -1) {
+                                        //remove id from selectedIds.
+                                        selectedIds = $.grep(selectedIds,
+                                            function (item, index) {
+                                                return item !== $check.val();
+                                            });
+                                    }
+                                }
+                                updateMasterCheckbox();
+                            });
+                    });
+
+                    function updateMasterCheckbox() {
+                        var numChkBoxes = $('#query-tbl input[type=checkbox][id!=allcheck]').length;
+                        var numChkBoxesChecked = $('#query-tbl input[type=checkbox][id!=allcheck]:checked').length;
+                        $('#allcheck').attr('checked', numChkBoxes === numChkBoxesChecked && numChkBoxes > 0);
+                    }
+                </script>
+            }
+        </section>
+    </div>
+</div>

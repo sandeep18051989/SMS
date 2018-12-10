@@ -1,0 +1,155 @@
+﻿@model SMS.Models.PictureSettingsModel
+
+@{
+	ViewBag.Title = "Picture Settings";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="setting-form">
+			@using (Html.BeginForm())
+			{
+				@Html.AntiForgeryToken()
+				<div class="row">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<h3 class="section-heading mr-auto">PICTURE SETTINGS</h3>
+						<input type="submit" value="Save Settings" class="btn btn-primary mr-auto" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+						<h3 class="h3-responsive font-weight-bold dark-grey-text">Large Thumbnail Setting</h3>
+						<hr />
+						<div class="row text-left">
+							<div class="col-xs-12 col-md-6">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaxWidthAllowedForLargeThumbnails, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "1", @maxlength = "4", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaxWidthAllowedForLargeThumbnails, "Max Width Allowed For Large Thumbnails", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaxWidthAllowedForLargeThumbnails, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaxHeightAllowedForLargeThumbnails, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "2", @maxlength = "4", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaxHeightAllowedForLargeThumbnails, "Max Height Allowed For Large Thumbnails", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaxHeightAllowedForLargeThumbnails, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+						<h3 class="h3-responsive font-weight-bold dark-grey-text">Medium Thumbnail Setting</h3>
+						<hr />
+						<div class="row text-left">
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaxWidthAllowedForMediumThumbnails, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "3", @maxlength = "4", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaxWidthAllowedForMediumThumbnails, "Max Width Allowed For Medium Thumbnails(For Event, News Pictures)", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaxWidthAllowedForMediumThumbnails, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaxHeightAllowedForMediumThumbnails, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "4", @maxlength = "4", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaxHeightAllowedForMediumThumbnails, "Max Height Allowed For Medium Thumbnails(For Event, News Pictures)", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaxHeightAllowedForMediumThumbnails, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+						<h3 class="h3-responsive font-weight-bold dark-grey-text">Small Thumbnail Setting</h3>
+						<hr />
+						<div class="row text-left">
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaxWidthAllowedForSmallThumbnails, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "5", @maxlength = "4", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaxWidthAllowedForSmallThumbnails, "Max Width Allowed For Small Thumbnails(For General Pictures)", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaxWidthAllowedForSmallThumbnails, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaxHeightAllowedForSmallThumbnails, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "6", @maxlength = "4", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaxHeightAllowedForSmallThumbnails, "Max Height Allowed For Small Thumbnails(For General Pictures)", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaxHeightAllowedForSmallThumbnails, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+						<h3 class="h3-responsive font-weight-bold dark-grey-text">Slider Picture Setting</h3>
+						<hr />
+						<div class="row text-left">
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaxWidthAllowedForSliderThumbnails, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "7", @maxlength = "4", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaxWidthAllowedForSliderThumbnails, "Max Width Allowed For Slider Thumbnails(For Slider Pictures)", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaxWidthAllowedForSliderThumbnails, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaxHeightAllowedForSliderThumbnails, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "8", @maxlength = "4", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaxHeightAllowedForSliderThumbnails, "Max Height Allowed For Slider Thumbnails(For Slider Pictures)", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaxHeightAllowedForSliderThumbnails, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 jumbotron p-5 text-left text-md-left">
+						<h3 class="h3-responsive font-weight-bold dark-grey-text">Other Settings</h3>
+						<hr />
+						<div class="row text-left">
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									<select name="SelectedPictureTypes" tabindex="9" id="SelectedPictureTypes" class="mdb-select colorful-select dropdown-primary" multiple searchable="Search here..">
+										<option value="" disabled selected>Choose Picture Types</option>
+										<option @(Model.SelectedPictureTypes.Contains("bmp") ? "selected=selected" : "") value="bmp">BMP</option>
+										<option @(Model.SelectedPictureTypes.Contains("gif") ? "selected=selected" : "") value="gif">GIF</option>
+										<option @(Model.SelectedPictureTypes.Contains("jpeg") ? "selected=selected" : "") value="jpeg">JPEG</option>
+										<option @(Model.SelectedPictureTypes.Contains("jpg") ? "selected=selected" : "") value="jpg">JPG</option>
+										<option @(Model.SelectedPictureTypes.Contains("jpe") ? "selected=selected" : "") value="jpe">JPE</option>
+										<option @(Model.SelectedPictureTypes.Contains("jfif") ? "selected=selected" : "") value="jfif">JFIF</option>
+										<option @(Model.SelectedPictureTypes.Contains("pjpeg") ? "selected=selected" : "") value="pjpeg">PJPEG</option>
+										<option @(Model.SelectedPictureTypes.Contains("pjp") ? "selected=selected" : "") value="pjp">PJP</option>
+										<option @(Model.SelectedPictureTypes.Contains("png") ? "selected=selected" : "") value="png">PNG</option>
+										<option @(Model.SelectedPictureTypes.Contains("tiff") ? "selected=selected" : "") value="tiff">TIFF</option>
+										<option @(Model.SelectedPictureTypes.Contains("tif") ? "selected=selected" : "") value="tif">TIF</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-6 mb-4">
+								<div class="md-form">
+									@Html.EditorFor(model => model.MaximumSizeAllowed, new { htmlAttributes = new { @class = "form-control", @type = "number", @tabindex = "10", @maxlength = "10", @min = "1", @onkeypress = "return checkNumber(event);" } })
+									@Html.LabelFor(model => model.MaximumSizeAllowed, "Maximum Picture Size Allowed(In Bytes e.g 1 KB = 1000 Bytes)", htmlAttributes: new { @class = "control-label" })
+									@Html.ValidationMessageFor(model => model.MaximumSizeAllowed, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Settings')").closest("li").addClass("active");
+    });
+</script>

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using EF.Core.Data;
 using EF.Services;
 using FluentValidation.Attributes;
@@ -11,19 +13,26 @@ namespace SMS.Models
 	{
 		public DivisionModel()
 		{
-			Class = new ClassModel();
-			ClassRoom = new ClassRoomModel();
-		}
+		    AvailableAcadmicYears = new List<SelectListItem>();
+		    AvailableClasses = new List<SelectListItem>();
+		    AvailableRooms = new List<SelectListItem>();
+        }
 		public int ClassId { get; set; }
-		public string DivisionName { get; set; }
+		public string Name { get; set; }
 		public string Description { get; set; }
-		public ClassModel Class { get; set; }
 		public int ClassRoomId { get; set; }
-		public ClassRoomModel ClassRoom { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
-		public virtual AcadmicYear AcadmicYear { get; set; }
-	}
+        public string AcadmicYear { get; set; }
+        public int DisplayOrder { get; set; }
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+	    public IList<SelectListItem> AvailableClasses { get; set; }
+	    public IList<SelectListItem> AvailableRooms { get; set; }
+        public bool Selected { get; set; }
+        public string CreatedOnString { get; set; }
+	    public string ModifiedOnString { get; set; }
+
+    }
 
 }

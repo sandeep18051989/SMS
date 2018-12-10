@@ -1,0 +1,135 @@
+﻿@model SMS.Models.SchoolModel
+@using System.Web.Mvc;
+@using EF.Services.Http;
+@using EF.Services.Service;
+@{
+	ViewBag.Title = !String.IsNullOrEmpty(Model.FullName) ? Model.FullName : "Details";
+	Layout = "~/Views/Shared/_InnerLayout.cshtml";
+
+	var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+	var profilePlaceholderImage = basePath + "Content/images/profileplaceholder.jpg";
+	var coverPlaceholderImage = basePath + "Content/images/coverplaceholder.png";
+}
+<section class="features">
+	<div class="row-fluid justify-content-md-center">
+		<div style="background:url('@(Model.CoverPicture != null ? Model.CoverPicture.Src : coverPlaceholderImage)');background-size:cover;background-repeat:no-repeat;" class="mbr-white col-md-12 position-relative cover-picture">
+			<!-- Cover Picture -->
+			<div class="col-md-1 justify-content-center cover-pic-content">
+				<img src="@(Model.ProfilePicture != null ? Model.ProfilePicture.Src : profilePlaceholderImage)" class="img-thumbnail justify-content-center position-absolute" title="@Model.FullName" />
+				<div class="profile-pic-upload-link">
+					<a class="pic-upload-link" href="#"><i class="fa fa-camera"></i> Upload Picture</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="clearfix hidden-sm-up"></div>
+<section class="features">
+	<div class="container">
+		<div class="media-container-row">
+			<div class="card p-3 col-12 col-md-6 col-lg-4">
+				<div class="card-img pb-3">
+					<span class="mbr-iconfont mbri-users" style="color: rgb(0, 0, 0);" media-simple="true"></span>
+				</div>
+				<div class="card-box">
+					<h4 class="card-title py-3 mbr-fonts-style display-5">
+						@Model.TotalStudents
+						<em> Students</em>
+					</h4>
+					<p class="mbr-text mbr-fonts-style display-7">
+						Mobirise is an easy website builder - just drop site elements to your page, add content and style it to look the way you like.
+					</p>
+				</div>
+			</div>
+			<div class="card p-3 col-12 col-md-6 col-lg-4">
+				<div class="card-img pb-3">
+					<span class="mbr-iconfont mbri-globe" style="color: rgb(0, 0, 0);" media-simple="true"></span>
+				</div>
+				<div class="card-box">
+					<h4 class="card-title py-3 mbr-fonts-style display-5">
+						@Model.TotalTeachers
+						<em> Teachers</em>
+					</h4>
+					<p class="mbr-text mbr-fonts-style display-7">
+						All sites you make with Mobirise are mobile-friendly. You don't have to create a special mobile version of your site.
+					</p>
+				</div>
+			</div>
+			<div class="card p-3 col-12 col-md-6 col-lg-4">
+				<div class="card-img pb-3">
+					<span class="mbr-iconfont mbri-smile-face" style="color: rgb(0, 0, 0);" media-simple="true"></span>
+				</div>
+				<div class="card-box">
+					<h4 class="card-title py-3 mbr-fonts-style display-5">
+						@Model.Events.Count
+						<em> Events</em>
+					</h4>
+					<p class="mbr-text mbr-fonts-style display-7">
+						Mobirise offers many site blocks in several themes, and though these blocks are pre-made, they are flexible.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="news-section">
+	<div class="container mb-5">
+		<div class="media-container-row">
+			<div class="col-12 align-center">
+				<h2 class="mbr-section-title pb-3 mbr-fonts-style display-2">
+					Latest News
+				</h2>
+				<h3 class="mbr-section-subtitle mbr-light mbr-fonts-style display-5">
+					Donec malesuada vestibulum dolor, eu mollis enim lacinia id.
+				</h3>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div id="newsCarousel" class="carousel slide">
+			<!-- Carousel items -->
+			<div class="carousel-inner carousel-wrapper-outer">
+				@if (Model.News.ToList().Count > 0)
+				{
+					for (int i = 0; i <= Model.News.ToList().Count() / 4; i++)
+					{
+						<div class="item @(i==0 ? "active" : "" )">
+							@foreach (var news in Model.News.ToList().Skip(i * 4).Take(4))
+							{
+								<div class="row">
+									<div class="col-md-12">
+
+										@if (news.Pictures.ToList().Count > 0)
+										{
+											var picture = news.Pictures.FirstOrDefault();
+											<a href="/News/Details/@news.SystemName" class="overlay-wrapper">
+												<img title="@news.ShortName" class="img-responsive underlay" src="@picture.Url" alt="@picture.AlternateText" />
+												<span class="overlay">
+													<span class="overlay-content"><span class="h4">@news.ShortName</span> </span>
+												</span>
+											</a>
+										}
+
+										<div class="item-details bg-noise">
+											<h4 class="item-title">
+												<a href="/Product/Detail/@news.ShortName">@news.ShortName</a>
+											</h4>
+											<a href="/Product/Detail/@news.ShortName" class="btn btn-more"><i class="fa fa-plus"></i>Read more</a>
+										</div>
+									</div>
+								</div>
+							}
+						</div>
+					}
+					<div class="owl-controls clickable">
+						<div class="owl-buttons">
+							<a data-slide="prev" href="#newsCarousel" class="left carousel-control owl-prev"></a>
+							<a data-slide="next" href="#newsCarousel" class="right carousel-control owl-next"></a>
+						</div>
+					</div>
+				}
+			</div><!--.carousel-inner-->
+		</div><!--.Carousel-->
+	</div>
+</section>
+<div class="clearfix hidden-sm-up"></div>

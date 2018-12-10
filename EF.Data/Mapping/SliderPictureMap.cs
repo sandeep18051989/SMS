@@ -10,8 +10,14 @@ namespace EF.Data.Mapping
         {
             this.ToTable("Slider");
             this.HasKey(sl => sl.Id);
-            this.Property(sl => sl.IsActive);
-            this.Property(sl => sl.UserId);
+            this.Property(sl => sl.IsActive).IsOptional();
+            this.Property(sl => sl.DisplayArea).IsOptional();
+            this.Property(sl => sl.DisplayOrder).IsOptional();
+            this.Property(sl => sl.MaxPictures).IsOptional();
+            this.Property(sl => sl.Name).IsRequired();
+            this.Property(b => b.ShowCaption).IsOptional();
+            this.Property(b => b.ShowNextPrevIndicators).IsOptional();
+            this.Property(b => b.ShowThumbnails).IsOptional();
 
             this.HasMany(sl => sl.Pictures).
                 WithMany()

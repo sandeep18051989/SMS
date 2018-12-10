@@ -85,7 +85,9 @@ namespace EF.Core.Data
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
 
-		[NotMapped]
+        public int ClassDivisionId { get; set; }
+
+        [NotMapped]
 		public AdmissionStatus AdmissionStatus
 		{
 			get

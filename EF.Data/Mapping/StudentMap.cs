@@ -74,13 +74,13 @@ namespace EF.Data.Mapping
 			this.Property(b => b.HouseId).IsOptional();
 			this.Property(b => b.IsDeleted).IsOptional();
 			this.Property(b => b.TweeterLink).IsOptional();
+            this.Property(b => b.ClassDivisionId).IsRequired();
 
-			this.HasRequired(all => all.Class).WithMany().HasForeignKey(all => all.ClassId);
-			//this.HasOptional(all => all.Division).WithMany().HasForeignKey(all => all.DivisionId);
+            this.HasRequired(all => all.Class).WithMany().HasForeignKey(all => all.ClassId);
 			this.HasOptional(all => all.House).WithMany().HasForeignKey(all => all.HouseId);
 
-			// Relationships
-			this.HasMany(pro => pro.Files).WithMany(p => p.Students).Map(m => m.ToTable("Student_File_Map").MapLeftKey("StudentId").MapRightKey("FileId"));
+            // Relationships
+            this.HasMany(pro => pro.Files).WithMany(p => p.Students).Map(m => m.ToTable("Student_File_Map").MapLeftKey("StudentId").MapRightKey("FileId"));
 			EntityTracker.TrackAllProperties<Student>().Except(x => x.Class).And(x => x.House).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}

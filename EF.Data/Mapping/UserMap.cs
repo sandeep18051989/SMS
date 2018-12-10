@@ -11,8 +11,11 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Users");
 			this.HasKey(u => u.Id);
-			this.Property(u => u.UserName).HasMaxLength(400);
-			this.Property(u => u.Password).HasMaxLength(30);
+            this.Property(b => b.Email).IsRequired();
+            this.Property(b => b.LastLoginDate).IsOptional();
+            this.Property(b => b.SeoName).IsOptional();
+            this.Property(u => u.UserName).IsRequired().HasMaxLength(400);
+			this.Property(u => u.Password).IsRequired().HasMaxLength(30);
 			// Relationships
 			this.HasMany(u => u.Roles)
 				 .WithMany()

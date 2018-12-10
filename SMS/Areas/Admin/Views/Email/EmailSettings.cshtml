@@ -73,14 +73,14 @@
                 </div>
                 <div class="row">
                     <div class="col-md-7 mb-4">
-                        <input type="checkbox" id="EnableSSL" name="EnableSSL" value="@(Model.EnableSSL ? true : false)" checked="@(Model.EnableSSL ? "checked" : "")" />
+                        <input type="checkbox" id="EnableSSL" name="EnableSSL" value="@(Model.EnableSSL ? true : false)" @(Model.EnableSSL ? "checked=checked" : "") />
                         @Html.LabelFor(model => model.EnableSSL, "Enable SSL", new { @class = "control-label" })
                         @Html.ValidationMessageFor(model => model.EnableSSL, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-7 mb-4">
-                        <input type="checkbox" id="UseDefaultCredentials" name="UseDefaultCredentials" value="@(Model.UseDefaultCredentials ? true : false)" checked="@(Model.UseDefaultCredentials ? "checked" : "")" />
+                        <input type="checkbox" id="UseDefaultCredentials" name="UseDefaultCredentials" value="@(Model.UseDefaultCredentials ? true : false)" @(Model.UseDefaultCredentials ? "checked=checked" : "") />
                         @Html.LabelFor(model => model.UseDefaultCredentials, "Use Default Credentials", new { @class = "control-label" })
                         @Html.ValidationMessageFor(model => model.UseDefaultCredentials, "", new { @class = "text-danger" })
                     </div>
@@ -92,10 +92,23 @@
     $(document).ready(function () {
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('Settings')").closest("li").addClass("active");
-        $("#EnableSSL").attr('checked', false).val(false);
-        $("#UseDefaultCredentials").attr('checked', false).val(false);
+
+        if ('@Model.EnableSSL' === 'True') {
+            $("#EnableSSL").attr('checked', true).val(true);
+        }
+        else {
+            $("#EnableSSL").attr('checked', false).val(false);
+        }
+
+        if ('@Model.UseDefaultCredentials' === 'True') {
+            $("#UseDefaultCredentials").attr('checked', true).val(true);
+        }
+        else {
+            $("#UseDefaultCredentials").attr('checked', false).val(false);
+        }
+
         $("#EnableSSL").change(function () {
-            if ($(this).prop('checked')) {
+            if ($(this).attr('checked')) {
                 $(this).attr('checked', true).val(true);
             }
             else {
@@ -104,7 +117,7 @@
         });
 
         $("#UseDefaultCredentials").change(function () {
-            if ($(this).prop('checked')) {
+            if ($(this).attr('checked')) {
                 $(this).attr('checked', true).val(true);
             }
             else {

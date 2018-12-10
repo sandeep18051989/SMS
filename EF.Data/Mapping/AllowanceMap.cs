@@ -17,8 +17,12 @@ namespace EF.Data.Mapping
 			this.Property(b => b.PF).IsOptional();
 			this.Property(b => b.TA).IsOptional();
 			this.Property(b => b.TDS).IsOptional();
+            this.Property(b => b.AcadmicYearId).IsRequired();
+            this.Property(b => b.BasicPay).IsRequired();
+            this.Property(b => b.DesignationId).IsOptional();
+            this.Property(b => b.TotalSalary).IsRequired();
 
-			this.HasRequired(all => all.Designation).WithMany().HasForeignKey(all => all.DesignationId);
+            this.HasRequired(all => all.Designation).WithMany().HasForeignKey(all => all.DesignationId);
 			EntityTracker.TrackAllProperties<Allowance>().Except(x => x.Designation).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}

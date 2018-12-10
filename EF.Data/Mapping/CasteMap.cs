@@ -11,8 +11,10 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Caste");
 			this.HasKey(b => b.Id);
+            this.Property(b => b.CasteName).IsRequired();
+            this.Property(b => b.ReligionId).IsRequired();
 
-			this.HasRequired(all => all.Religion).WithMany().HasForeignKey(all => all.ReligionId);
+            this.HasRequired(all => all.Religion).WithMany().HasForeignKey(all => all.ReligionId);
 			EntityTracker.TrackAllProperties<Caste>().Except(x => x.Religion).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}

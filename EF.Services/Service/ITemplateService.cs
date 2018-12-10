@@ -41,7 +41,10 @@ namespace EF.Services.Service
 
 		void AddUserTokens(IList<DataToken> tokens, User user);
 
-		void AddEventTokens(IList<DataToken> tokens, Event events);
+	    void AddFeedbackTokens(IList<DataToken> tokens, Feedback feedback);
+
+
+        void AddEventTokens(IList<DataToken> tokens, Event events);
 
 		void AddBlogTokens(IList<DataToken> tokens, Blog blog);
 		void AddAssessmentTokens(IList<DataToken> tokens, Assessment assessment);

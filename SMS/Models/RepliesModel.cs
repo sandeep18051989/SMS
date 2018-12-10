@@ -18,7 +18,10 @@ namespace SMS.Models
 		public UserModel User { get; set; }
 
 		public string Type { get; set; }
-		public IList<ReactionModel> Reactions { get; set; }
+        public string CreatedOnString { get; set; }
+        public string ModifiedOnString { get; set; }
+
+        public IList<ReactionModel> Reactions { get; set; }
 
 	}
 }

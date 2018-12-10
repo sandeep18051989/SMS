@@ -1,0 +1,26 @@
+﻿@model SMS.Models.ProductModel.PostCommentsModel
+@{
+    var random = EF.Core.CodeHelper.GenerateRandomInteger();
+}
+<script type="text/javascript" src="~/Scripts/public.comment.js"></script>
+<h3>Write your comment</h3>
+<br />
+@using (Html.BeginForm("PostComment", "Comment", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal comment-post-form" }))
+{
+    if (!String.IsNullOrEmpty(Model.Username))
+    {
+        @Html.HiddenFor(model => model.Username)
+    }
+    else
+    {
+        @Html.HiddenFor(model => model.Username, new { @value = random })
+    }
+    @Html.HiddenFor(model => model.Type)
+    @Html.HiddenFor(model => model.EntityId)
+    @Html.EditorFor(model => model.CommentHtml, "HtmlEditor.cshtml")
+    @Html.ValidationMessageFor(model => model.CommentHtml, "Please enter comment.", new { @class = "field-validation-error" })
+    <br />
+    <div>
+        <input type="submit" class="btn btn-info" value="Post" />
+    </div>
+}

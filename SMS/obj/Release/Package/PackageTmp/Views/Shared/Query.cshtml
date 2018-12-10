@@ -1,0 +1,120 @@
+﻿@model SMS.Models.QueryModel
+<div class="form">
+	<h4 class="text-uppercase">
+		Online Enquiry
+	</h4>
+	<div style="display:none;" class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Thanks for contacting us, we will get back to you shortly.</div>
+	<div style="display:none;" class="alert alert-danger" role="alert" id="error_message">Error <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp;&nbsp;<span id="errortxt"></span></div>
+	<form id="queryForm" class="contactForm query-form-home">
+		<div class="form-group">
+			@Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Your name", @tabindex = "1", @maxlength = "100" } })
+			<span class="validation" style="color:red;display:none;" id="nameError">&nbsp;&nbsp;Please enter name</span>
+		</div>
+		<div class="form-group">
+			@Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Your Location", @tabindex = "2", @maxlength = "200" } })
+			<span class="validation" style="color:red;display:none;" id="locError">&nbsp;&nbsp;Please enter location</span>
+		</div>
+		<div class="form-group">
+			@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Emailaddress", @type = "Email", @tabindex = "3", @maxlength = "200" } })
+			<span style="color:red;display:none;" id="emailError">&nbsp;&nbsp;Invalid email address</span>
+		</div>
+		<div class="form-group">
+			@Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control", @placeholder = "Your contact number", @tabindex = "4", @onkeypress = "return checkNumber(event);", @maxlength = "10" } })
+			<span style="color:red;display:none;" id="contactError">&nbsp;&nbsp;Please enter contact</span>
+		</div>
+		<div class="form-group">
+			@Html.TextAreaFor(model => model.Description, 3, 1, new { @class = "form-control", @placeholder = "Your Comments", @tabindex = "5", @maxlength = "500" })
+			<span style="color:red;display:none;" id="commentError">&nbsp;&nbsp;Please enter comments</span>
+		</div>
+		<div class="text-center"><button type="button" id="btnSend">Send <span class="glyphicon glyphicon-send"></span></button></div>
+	</form>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#btnSend").click(function (e) {
+				if (ValidateFields()) {
+					$.ajax({
+						url: '@Url.Action("Query", "Feedback")',
+						type: "POST",
+						dataType: "json",
+						contentType: "application/json; charset=utf-8",
+						data: JSON.stringify({ "name": $("#@Html.IdFor(model => model.FullName)").val(), "description": $("#@Html.IdFor(model => model.Description)").val(), "email": $("#@Html.IdFor(model => model.Email)").val(), "contact": $("#@Html.IdFor(model => model.Contact)").val(), "location": $("#@Html.IdFor(model => model.Location)").val() }),
+						success: function (result) {
+							if (result.Success == "True") {
+								$("#success_message").show();
+								$("#error_message").hide();
+								$("#nameError").hide();
+								$("#locError").hide();
+								$("#emailError").hide();
+								$("#contactError").hide();
+								$("#commentError").hide();
+								$('#success_message').delay(5000).fadeOut();
+							}
+							else {
+								$("#success_message").hide();
+								$("#errortxt").text(result.Message);
+								$("#error_message").show();
+								$('#error_message').delay(5000).fadeOut();
+							}
+						},
+						error: function (result) {
+
+						}
+					});
+					e.preventDefault();
+				}
+			});
+		});
+
+		function ValidateFields() {
+			if ($("#@Html.IdFor(model => model.FullName)").val() == "") {
+				$("#nameError").show();
+				$("#locError").hide();
+				$("#emailError").hide();
+				$("#contactError").hide();
+				$("#commentError").hide();
+				return false;
+			}
+			else if ($("#@Html.IdFor(model => model.Location)").val() == "") {
+				$("#locError").show();
+				$("#nameError").hide();
+				$("#emailError").hide();
+				$("#contactError").hide();
+				$("#commentError").hide();
+				return false;
+			}
+			else if ($("#@Html.IdFor(model => model.Email)").val() == "" || !isValidEmailAddress($("#@Html.IdFor(model => model.Email)").val())) {
+				$("#emailError").show();
+				$("#locError").hide();
+				$("#nameError").hide();
+				$("#contactError").hide();
+				$("#commentError").hide();
+				return false;
+			}
+			else if ($("#@Html.IdFor(model => model.Contact)").val() == "") {
+				$("#contactError").show();
+				$("#locError").hide();
+				$("#nameError").hide();
+				$("#emailError").hide();
+				$("#commentError").hide();
+				return false;
+			}
+			else if ($("#@Html.IdFor(model => model.Description)").val().length == 0) {
+				$("#commentError").show();
+				$("#locError").hide();
+				$("#nameError").hide();
+				$("#emailError").hide();
+				$("#commentError").hide();
+				return false;
+			}
+			else {
+				$("#nameError").hide();
+				$("#emailError").hide();
+				$("#contactError").hide();
+				$("#commentError").hide();
+				$("#locError").hide();
+				return true;
+			}
+		}
+
+	</script>
+</div>

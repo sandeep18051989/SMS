@@ -1,0 +1,95 @@
+﻿@model SMS.Models.LoginModel
+@{
+	ViewBag.Title = "Login";
+	Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+<style type="text/css">
+	.main-bg {
+		background: url("/Content/Images/login-bg.jpg")no-repeat center center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		height: 100%;
+	}
+
+		.main-bg .mask {
+			height: 100%;
+		}
+
+	.card {
+		background-color: rgba(229, 228, 255, 0.2);
+	}
+
+	.md-form label {
+		color: #ffffff;
+	}
+
+	.md-form input[type=text]:focus:not([readonly]), .md-form input[type=password]:focus:not([readonly]) {
+		border-bottom: 1px solid #8EDEF8;
+		box-shadow: 0 1px 0 0 #8EDEF8;
+	}
+
+		.md-form input[type=text]:focus:not([readonly]) + label, .md-form input[type=password]:focus:not([readonly]) + label {
+			color: #8EDEF8;
+		}
+
+	.md-form .form-control {
+		color: #fff;
+	}
+</style>
+<section>
+	<div class="container">
+		<div class="row mt-2 no-gutters">
+			<div id="login-form-wrapper" class="col">
+				@using (Html.BeginForm("Login", "Account", new { Area = "" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+				{
+					<!--Form with header-->
+					<div class="card wow fadeIn" data-wow-delay="0.3s">
+						<div class="card-body">
+							<!--Header-->
+							<div class="form-header green-gradient">
+								<h3><i class="fa fa-user mt-2 mb-2"></i>&nbsp;LOGIN</h3>
+							</div>
+							<!--Body-->
+							<div class="md-form">
+								<i class="fa fa-envelope prefix green-text"></i>
+								@Html.TextBoxFor(model => model.Email, new { @class = "form-control", @tabindex = "1", @Placeholder = "Username" })
+								<label for="orangeForm-email">Your email</label>
+								@Html.ValidationMessageFor(model => model.Email, "Please Enter Email Address", new { @class = "custom-val-error" }, "div")
+							</div>
+							<div class="md-form pb-3">
+								<i class="fa fa-lock prefix green-text"></i>
+								@Html.TextBoxFor(model => model.Password, new { @class = "form-control", @tabindex = "2", @Placeholder = "Password", @type = "Password" })
+								<label for="orangeForm-pass">Your password</label>
+								@Html.ValidationMessageFor(model => model.Password, "Please Enter Password", new { @class = "custom-val-error" }, "div")
+								@*<div class="form-check my-4">
+										@Html.CheckBoxFor(model => model.RememberMe, new { @tabindex = "3", @class = "form-check-input" })
+										<label for="defaultCheck12" class="green-text">Remember Me</label>
+									</div>*@
+							</div>
+							<div class="row d-flex align-items-center">
+								<div class="col-md-12 col-md-12 text-center">
+									<button type="submit" class="btn green-gradient btn-lg waves-effect waves-light">Sign In&nbsp;<i class="fa fa-paper-plane-o ml-2"></i></button>
+									<hr />
+								</div>
+								<div class="col-md-12 col-md-12 text-center">
+									<div class="row d-flex align-items-center">
+										<div class="col-md-3 col-md-6 text-center">
+											<a class="p-2 m-2 fa-lg" href="javascript:void(0);" id="fogot-link"><i class="fa fa-key green-text"></i> </a>
+											<a class="p-2 m-2 fa-lg" href="@Url.Action("Index","Feedback")"><i class="fa fa-phone green-text"></i></a>
+										</div>
+										<div class="col-md-6">
+											<a class="p-2 m-2 fa-lg tw-ic"><i class="fa fa-twitter green-text"></i></a>
+											<a class="p-2 m-2 fa-lg li-ic"><i class="fa fa-linkedin green-text"> </i></a>
+											<a class="p-2 m-2 fa-lg ins-ic"><i class="fa fa-instagram green-text"> </i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+</section>
+@Html.Partial("_ForgotPassword", Model.ForgotPassword)

@@ -1,0 +1,36 @@
+﻿@model SMS.Models.SliderModel
+@if (Model.Pictures.Count > 0)
+{
+	<div id="myCarousel" class="carousel slide no-gutters" data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			@foreach (var pic in Model.Pictures)
+				{
+					int index = Model.Pictures.IndexOf(pic);
+				<li data-target="#myCarousel" data-slide-to="@index"></li>
+				}
+		</ol>
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner" role="listbox">
+			@foreach (var pic in Model.Pictures)
+				{
+					int hyt = (int)Math.Round(pic.Height);
+				<div class="carousel-item item">
+					<img height="@hyt" width="100%" class="img-fluid center-block" src="@pic.Src">
+					<div class="carousel-caption d-none d-md-block">
+						<p>@Html.Raw(pic.AlternateText.Length > 200 ? pic.AlternateText.Substring(0, 197) + "..." : pic.AlternateText)</p>
+					</div>
+				</div>
+				}
+		</div>
+
+		<!-- Slide Controls -->
+		<a class="carousel-control-prev left" href="#myCarousel" data-slide="prev">
+			<span class="prev"><i class="fa fa-arrow-circle-left fa-3x"></i></span>
+		</a>
+		<a class="carousel-control-next" href="#myCarousel" data-slide="next">
+			<span class="next"><i class="fa fa-arrow-circle-right fa-3x"></i></span>
+		</a>
+	</div>
+}

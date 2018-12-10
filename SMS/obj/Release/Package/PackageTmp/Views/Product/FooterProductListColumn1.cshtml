@@ -1,0 +1,10 @@
+﻿@model IEnumerable<SMS.Models.ProductModel>
+@if (Model.ToList().Count > 0)
+{
+    foreach (var pro in Model.OrderByDescending(p => p.ProductId).Take(6))
+    {
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <ul class="footer-menu"><li><a href="@Url.Action("Detail", "Product", new { id = @pro.GenerateSlug() })" style="font-size:14px">@pro.Name</a></li></ul>
+        </div>
+    }
+}

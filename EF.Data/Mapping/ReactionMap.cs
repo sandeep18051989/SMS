@@ -9,7 +9,16 @@ namespace EF.Data.Mapping
         {
             this.ToTable("Reaction");
             this.HasKey(p => p.Id);
-            this.Property(p => p.UserId);
+            this.Property(b => b.BlogId).IsOptional();
+            this.Property(b => b.CommentId).IsOptional();
+            this.Property(b => b.EventId).IsOptional();
+            this.Property(b => b.NewsId).IsOptional();
+            this.Property(b => b.PictureId).IsOptional();
+            this.Property(b => b.ProductId).IsOptional();
+            this.Property(b => b.Rating).IsOptional();
+            this.Property(b => b.ReplyId).IsOptional();
+            this.Property(b => b.VideoId).IsOptional();
+            this.Property(b => b.Username).IsOptional();
 
             this.HasOptional(react => react.Blog).WithMany(c => c.Reactions).HasForeignKey(react => react.BlogId);
             this.HasOptional(react => react.Comment).WithMany(c => c.Reactions).HasForeignKey(react => react.CommentId);

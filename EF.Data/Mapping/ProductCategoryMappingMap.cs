@@ -10,6 +10,9 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Product_Category_Mapping");
 			this.HasKey(pro => pro.Id);
+            this.Property(b => b.DisplayOrder).IsOptional();
+            this.Property(b => b.ProductCategoryId).IsRequired();
+            this.Property(b => b.ProductId).IsRequired();
 
             this.HasRequired(pc => pc.ProductCategory)
                 .WithMany()

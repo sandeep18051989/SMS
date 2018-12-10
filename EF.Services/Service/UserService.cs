@@ -9,260 +9,273 @@ using Wibci.CountryReverseGeocode.Models;
 
 namespace EF.Services.Service
 {
-	public class UserService : IUserService
-	{
-		#region Fields
+    public class UserService : IUserService
+    {
+        #region Fields
 
-		public readonly IRepository<User> _userRepository;
-		public readonly IRepository<Location> _locationRepository;
-		public readonly ICountryReverseGeocodeService _reverseLocationService;
+        public readonly IRepository<User> _userRepository;
+        public readonly IRepository<Location> _locationRepository;
+        public readonly ICountryReverseGeocodeService _reverseLocationService;
 
-		#endregion
+        #endregion
 
-		#region Const
+        #region Const
 
-		public UserService(IRepository<User> userRepository, IRepository<Location> locationRepository, ICountryReverseGeocodeService reverseLocationService)
-		{
-			this._userRepository = userRepository;
-			this._locationRepository = locationRepository;
-			this._reverseLocationService = reverseLocationService;
-		}
-		#endregion
+        public UserService(IRepository<User> userRepository, IRepository<Location> locationRepository, ICountryReverseGeocodeService reverseLocationService)
+        {
+            this._userRepository = userRepository;
+            this._locationRepository = locationRepository;
+            this._reverseLocationService = reverseLocationService;
+        }
+        #endregion
 
 
-		#region IUser Members
+        #region IUser Members
 
-		public void Insert(User user)
-		{
-			_userRepository.Insert(user);
-		}
+        public void Insert(User user)
+        {
+            _userRepository.Insert(user);
+        }
 
-		public void Update(User user)
-		{
-			_userRepository.Update(user);
-		}
+        public void Update(User user)
+        {
+            _userRepository.Update(user);
+        }
 
-		public void Delete(int id)
-		{
-			_userRepository.Delete(id);
-		}
+        public void Delete(int id)
+        {
+            _userRepository.Delete(id);
+        }
 
-		public void InsertLocation(Location location)
-		{
-			_locationRepository.Insert(location);
-		}
+        public void InsertLocation(Location location)
+        {
+            _locationRepository.Insert(location);
+        }
 
-		#endregion
+        #endregion
 
-		#region Main Utilities
+        #region Main Utilities
 
-		public virtual User GetUserByGuid(Guid userGuid)
-		{
-			if (userGuid == Guid.Empty)
-				return null;
+        public virtual User GetUserByGuid(Guid userGuid)
+        {
+            if (userGuid == Guid.Empty)
+                return null;
 
-			var query = from c in _userRepository.Table
-							where c.UserGuid == userGuid
-							orderby c.Id
-							select c;
+            var query = from c in _userRepository.Table
+                        where c.UserGuid == userGuid
+                        orderby c.Id
+                        select c;
 
-			var user = query.FirstOrDefault();
-			return user;
-		}
+            var user = query.FirstOrDefault();
+            return user;
+        }
 
-		public User GetUserByUsername(string username)
-		{
-			if (string.IsNullOrEmpty(username))
-				throw new Exception("Username is missing");
+        public User GetUserByUsername(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+                throw new Exception("Username is missing");
 
-			var user = from c in _userRepository.Table
-						  orderby c.Id
-						  where c.UserName.Trim().ToLower() == username.Trim().ToLower()
-						  select c;
-			var query = user.FirstOrDefault();
-			return query;
-		}
+            var user = from c in _userRepository.Table
+                       orderby c.Id
+                       where c.UserName.Trim().ToLower() == username.Trim().ToLower()
+                       select c;
+            var query = user.FirstOrDefault();
+            return query;
+        }
 
-		public User GetUserByEmail(string email)
-		{
-			if (string.IsNullOrEmpty(email))
-				throw new Exception("Email address is missing");
+        public string GetUsernameByUser(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
 
-			var user = from c in _userRepository.Table
-						  orderby c.Id
-						  where c.Email.Trim().ToLower() == email.Trim().ToLower()
-						  select c;
-			var query = user.FirstOrDefault();
-			return query;
-		}
+            return _userRepository.Table.FirstOrDefault(u => u.Id == id)?.UserName;
+        }
 
-		public User GetUserById(int userid)
-		{
-			if (userid > 0)
-			{
-				return _userRepository.Table.FirstOrDefault(u => u.Id == userid);
-			}
-			else
-			{
-				return null;
-			}
-		}
+        public bool CheckUsernameExists(string username, int? id = null)
+        {
+            return _userRepository.Table.Any(u => u.UserName.Trim().ToLower() == username.Trim().ToLower() && (!id.HasValue || u.Id != id));
+        }
 
-		public IList<User> GetAllUsers(bool? active = null, bool? approved = null)
-		{
-			var allUsers = _userRepository.Table.Where(x => x.IsDeleted == false).ToList();
+        public User GetUserByEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                throw new Exception("Email address is missing");
 
-			if (active.HasValue)
-				allUsers = allUsers.Where(x => x.IsActive == active).ToList();
+            var user = from c in _userRepository.Table
+                       orderby c.Id
+                       where c.Email.Trim().ToLower() == email.Trim().ToLower()
+                       select c;
+            var query = user.FirstOrDefault();
+            return query;
+        }
 
-			if (approved.HasValue)
-				allUsers = allUsers.Where(x => x.IsApproved == approved).ToList();
+        public User GetUserById(int userid)
+        {
+            if (userid > 0)
+            {
+                return _userRepository.Table.FirstOrDefault(u => u.Id == userid);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-			return allUsers;
-		}
+        public IList<User> GetAllUsers(bool? active = null, bool? approved = null)
+        {
+            var allUsers = _userRepository.Table.Where(x => x.IsDeleted == false).ToList();
 
-		public IList<User> GetUnApprovedUsers()
-		{
-			return _userRepository.Table.Where(x => x.IsDeleted == false && !x.IsApproved).ToList();
-		}
+            if (active.HasValue)
+                allUsers = allUsers.Where(x => x.IsActive == active).ToList();
 
-		public virtual void ApproveUsers(IList<User> users)
-		{
-			if (users == null)
-				throw new ArgumentNullException("users");
+            if (approved.HasValue)
+                allUsers = allUsers.Where(x => x.IsApproved == approved).ToList();
 
-			foreach (var _us in users)
-			{
-				_us.IsApproved = true;
-				_userRepository.Update(_us);
+            return allUsers;
+        }
 
-			}
-		}
+        public IList<User> GetUnApprovedUsers()
+        {
+            return _userRepository.Table.Where(x => x.IsDeleted == false && !x.IsApproved).ToList();
+        }
 
-		public virtual void RejectUsers(IList<User> users)
-		{
-			if (users == null)
-				throw new ArgumentNullException("users");
+        public virtual void ApproveUsers(IList<User> users)
+        {
+            if (users == null)
+                throw new ArgumentNullException("users");
 
-			foreach (var _us in users)
-			{
-				_us.IsApproved = false;
-				_us.IsDeleted = true;
-				_userRepository.Update(_us);
+            foreach (var _us in users)
+            {
+                _us.IsApproved = true;
+                _userRepository.Update(_us);
 
-			}
-		}
+            }
+        }
 
-		public virtual IList<User> GetUsersByIds(int[] userIds)
-		{
-			if (userIds == null || userIds.Length == 0)
-				return new List<User>();
+        public virtual void RejectUsers(IList<User> users)
+        {
+            if (users == null)
+                throw new ArgumentNullException("users");
 
-			var query = from r in _userRepository.Table
-							where userIds.Contains(r.Id)
-							select r;
+            foreach (var _us in users)
+            {
+                _us.IsApproved = false;
+                _us.IsDeleted = true;
+                _userRepository.Update(_us);
 
-			var users = query.ToList();
+            }
+        }
 
-			var sortedUsers = new List<User>();
-			foreach (int id in userIds)
-			{
-				var _user = users.Find(x => x.Id == id);
-				if (_user != null)
-					sortedUsers.Add(_user);
-			}
-			return sortedUsers;
-		}
+        public virtual IList<User> GetUsersByIds(int[] userIds)
+        {
+            if (userIds == null || userIds.Length == 0)
+                return new List<User>();
 
-		public virtual void DeleteUsers(IList<User> users)
-		{
-			if (users == null)
-				throw new ArgumentNullException("users");
+            var query = from r in _userRepository.Table
+                        where userIds.Contains(r.Id)
+                        select r;
 
-			foreach (var _user in users)
-			{
-				if (_user.Id != 1)
-					_user.IsDeleted = true;
+            var users = query.ToList();
 
-				_userRepository.Update(_user);
+            var sortedUsers = new List<User>();
+            foreach (int id in userIds)
+            {
+                var _user = users.Find(x => x.Id == id);
+                if (_user != null)
+                    sortedUsers.Add(_user);
+            }
+            return sortedUsers;
+        }
 
-			}
-		}
+        public virtual void DeleteUsers(IList<User> users)
+        {
+            if (users == null)
+                throw new ArgumentNullException("users");
 
-		public void ToggleUser(int id)
-		{
-			if (id == 0)
-				throw new ArgumentNullException("user");
+            foreach (var _user in users)
+            {
+                if (_user.Id != 1)
+                    _user.IsDeleted = true;
 
-			var user = _userRepository.Table.FirstOrDefault(x => x.Id == id && x.Id != 1);
-			if (user != null)
-			{
-				user.IsActive = !user.IsActive;
-				_userRepository.Update(user);
-			}
+                _userRepository.Update(_user);
 
-		}
+            }
+        }
 
-		public int GetUserCountByLoginDate(DateTime logindate)
-		{
-			if (logindate == null)
-				throw new ArgumentNullException("user");
+        public void ToggleUser(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("user");
 
-		    int userCount = 0;
-			var users = _userRepository.Table.ToList();
+            var user = _userRepository.Table.FirstOrDefault(x => x.Id == id && x.Id != 1);
+            if (user != null)
+            {
+                user.IsActive = !user.IsActive;
+                _userRepository.Update(user);
+            }
 
-		    foreach (var q in users)
-		    {
-		        DateTime dtUser = q.LastLoginDate.Value;
-                if (Equals(dtUser.Date.Day, logindate.Date.Day) && Equals(dtUser.Date.Month, logindate.Date.Month) && dtUser.Date.Year == logindate.Date.Year)
-                {
-                    userCount += 1;
-                }
-		    }
+        }
 
-		    return userCount;
-		}
+        public int GetUserCountByLoginDate(DateTime logindate)
+        {
+            if (logindate == null)
+                throw new ArgumentNullException("user");
 
-	    public int GetPendingUserCount()
-	    {
-	        return _userRepository.Table.Count(q => !q.IsApproved);
-	    }
+            int userCount = 0;
+            var users = _userRepository.Table.ToList();
+
+            foreach (var q in users)
+            {
+                if (q.LastLoginDate != null)
+                    if (Equals(q.LastLoginDate.Value.Date.Day, logindate.Date.Day) && Equals(q.LastLoginDate.Value.Date.Month, logindate.Date.Month) && q.LastLoginDate.Value.Date.Year == logindate.Date.Year)
+                    {
+                        userCount += 1;
+                    }
+            }
+
+            return userCount;
+        }
+
+        public int GetPendingUserCount()
+        {
+            return _userRepository.Table.Count(q => !q.IsApproved);
+        }
 
         public LocationInfo GetCountryByLocation(double latitude, double longitude)
-		{
-			return _reverseLocationService.FindCountry(new GeoLocation() { Latitude = latitude, Longitude = longitude, Description = "" });
-		}
+        {
+            return _reverseLocationService.FindCountry(new GeoLocation() { Latitude = latitude, Longitude = longitude, Description = "" });
+        }
 
-		public IList<Location> GetUserLocationsByCountry(string country)
-		{
-			if (String.IsNullOrEmpty(country))
-				throw new Exception("Country is missing.");
+        public IList<Location> GetUserLocationsByCountry(string country)
+        {
+            if (String.IsNullOrEmpty(country))
+                throw new Exception("Country is missing.");
 
-			var _locations = _locationRepository.Table.ToList().Where(l => l.UserId != 0 && l.Area.Contains(country)).GroupBy(l => l.UserId).Select(l => new Location()
-			{
-				Address = l.FirstOrDefault().Address,
-				CreatedOn = l.FirstOrDefault().CreatedOn,
-				Host = l.FirstOrDefault().Host,
-				Id = l.FirstOrDefault().Id,
-				Latitude = l.FirstOrDefault().Latitude,
-				Area = l.FirstOrDefault().Area,
-				Longitude = l.FirstOrDefault().Longitude,
-				UserId = l.Key
-			}).ToList();
+            var _locations = _locationRepository.Table.ToList().Where(l => l.UserId != 0 && l.Area.Contains(country)).GroupBy(l => l.UserId).Select(l => new Location()
+            {
+                Address = l.FirstOrDefault().Address,
+                CreatedOn = l.FirstOrDefault().CreatedOn,
+                Host = l.FirstOrDefault().Host,
+                Id = l.FirstOrDefault().Id,
+                Latitude = l.FirstOrDefault().Latitude,
+                Area = l.FirstOrDefault().Area,
+                Longitude = l.FirstOrDefault().Longitude,
+                UserId = l.Key
+            }).ToList();
 
-			return _locations;
-		}
+            return _locations;
+        }
 
-		public IList<Location> GetAllUserLocations()
-		{
-			return _locationRepository.Table.ToList();
-		}
+        public IList<Location> GetAllUserLocations()
+        {
+            return _locationRepository.Table.ToList();
+        }
 
-		#endregion
+        #endregion
 
-		#region Analytics
+        #region Analytics
 
 
-		#endregion
-	}
+        #endregion
+    }
 }

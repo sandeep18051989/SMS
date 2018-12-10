@@ -21,7 +21,9 @@ namespace SMS.Models
 		public string Database { get; set; }
 		public string Username { get; set; }
 
-		[DataType(DataType.Password)]
+        public string Email { get; set; }
+
+        [DataType(DataType.Password)]
 		public string Password { get; set; }
 
 		public string AdminUsername { get; set; }

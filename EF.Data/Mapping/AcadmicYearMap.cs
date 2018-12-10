@@ -11,7 +11,9 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("AcadamicYear");
 			this.HasKey(b => b.Id);
-			this.HasRequired(all => all.User).WithMany().HasForeignKey(all => all.UserId);
+            this.Property(b => b.Name).IsRequired();
+
+            this.HasRequired(all => all.User).WithMany().HasForeignKey(all => all.UserId);
 			EntityTracker.TrackAllProperties<AcadmicYear>().Except(x => x.User).And(x => x.CreatedOn).And(x => x.ModifiedOn);
  		}
 	}

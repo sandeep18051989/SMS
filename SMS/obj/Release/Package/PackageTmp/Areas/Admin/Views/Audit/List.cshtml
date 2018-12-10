@@ -1,0 +1,144 @@
+﻿@model SMS.Areas.Admin.Models.AuditListModel
+
+@{
+    ViewBag.Title = "Audit Logs";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm("List", "Audit", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-12 mr-4">
+                        <div class="md-form">
+                            <div class="col pull-left">
+                                <div class="text-center">
+                                    <h3 class="h3-responsive">Audit Logs</h3>
+                                </div>
+                            </div>
+                            <div class="col pull-right">
+                                <div class="md-form">
+                                    @Html.DropDownListFor(model => model.SelectedEntityName, Model.Entities, new {@class = "mdb-select", @tabindex = "1", @title = "Select Entity"})
+                                    @Html.ValidationMessageFor(model => model.SelectedEntityName, "", new {@class = "text-danger"})
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Event Type</th>
+                                        <th class="text-center">Log Details</th>
+                                        <th class="text-center">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+            <script type="text/javascript">
+                var selectedIds = [];
+                $(document).ready(function () {
+                    $("li.nav-item").removeClass("active");
+                    $("span.nav-title:contains('Audit Log')").closest("li").addClass("active");
+
+                    // Initiallize Footable
+                    $('.custom-table').DataTable({
+                        "processing": true, // for show progress bar
+                        "serverSide": true, // for process server side
+                        "filter": true, // this is for disable filter (search box)
+                        "orderMulti": false, // for disable multiple column at once
+                        "pageLength": 25,
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        "ajax": {
+                            "url": "/Admin/Audit/LoadGrid",
+                            "type": "POST",
+                            "datatype": "json",
+                            "data":function (d) {
+                                d.entityname = document.getElementById("SelectedEntityName").value;
+                            }
+                        },
+                        "aaSorting": [],
+                        "columns": [
+                            {
+                                'searchable': true,
+                                "title": "Event Type",
+                                "data": "TypeFullName",
+                                "orderable": true,
+                                "className": 'text-center',
+                                "defaultContent": ""
+                            },
+                            {
+                                'searchable': true,
+                                "title": "Details",
+                                "render": function (data, type, row) {
+                                    if (type === "display" && row.LogDetails != null && row.LogDetails.length > 0) {
+                                        var dateTemplate = '';
+                                        dateTemplate += '<table cellspacing="0" class="table display table-bordered w-auto text-nowrap" style="width: 100%;">';
+                                        dateTemplate += '<thead>';
+                                        dateTemplate += '<tr>';
+                                        dateTemplate += '<th>Property</th>';
+                                        dateTemplate += '<th>Old Value</th>';
+                                        dateTemplate += '<th>New Value</th>';
+                                        dateTemplate += '</tr>';
+                                        dateTemplate += '</thead>';
+                                        dateTemplate += '<tbody>';
+
+                                        for (var i = 0; i < row.LogDetails.length; i++) {
+                                            dateTemplate += '<tr>';
+                                            dateTemplate += '<td>' + row.LogDetails[i].PropertyName + '</td>';
+                                            dateTemplate += '<td>' + ((row.LogDetails[i].OriginalValue == null || row.LogDetails[i].OriginalValue === "") ? "" : row.LogDetails[i].OriginalValue) + '</td>';
+                                            dateTemplate += '<td>' + row.LogDetails[i].NewValue + '</td>';
+                                            dateTemplate += '</tr>';
+                                        }
+                                        dateTemplate += '</tbody>';
+                                        dateTemplate += '</table>';
+
+                                        return dateTemplate;
+                                    }
+                                    return data;
+                                },
+                                "className": "text-center",
+                                "orderable": false,
+                                "defaultContent": ""
+                            },
+                            {
+                                "title": "Date",
+                                "data": "",
+                                "orderable": true,
+                                "className": 'text-center',
+                                "defaultContent": "",
+                                "render": function (data, type, row) {
+                                    if (type === "display" && row.LogDetails != null && row.LogDetails.length > 0) {
+                                        var dateTemplate = row.EventDateString;
+                                        return dateTemplate;
+                                    }
+                                    return data;
+                                }
+                            }
+                        ],
+                        "select": {
+                            "style": 'os',
+                            "selector": 'td:first-child'
+                        }
+                    });
+
+                    $(document).on('change', '#@Html.IdFor(m=>m.SelectedEntityName)', function (e) {
+                        if ($(this).val() != null && $(this).val() !== "" && $(this).val() !== 0) {
+                            $('.custom-table').DataTable().ajax.reload();
+                        }
+                    });
+                });
+            </script>
+        </section>
+    </div>
+</div>

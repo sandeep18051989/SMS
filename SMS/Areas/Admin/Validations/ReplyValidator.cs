@@ -1,6 +1,7 @@
 ﻿using SMS.Areas.Admin.Models;
 using EF.Services;
 using FluentValidation;
+using SMS.Models;
 
 namespace SMS.Areas.Admin.Validations
 {

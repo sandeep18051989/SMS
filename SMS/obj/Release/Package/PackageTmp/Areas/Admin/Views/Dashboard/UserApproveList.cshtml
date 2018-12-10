@@ -1,0 +1,311 @@
+﻿@model SMS.Areas.Admin.Models.NotificationModel
+@using EF.Services
+@{
+    ViewBag.Title = "New Users";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Result = "";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group pull-right">
+                            <button class="btn btn-primary" type="button" id="approve-selected"><i class="fa fa-check-circle"></i> Approve</button>&nbsp;&nbsp;<button class="btn btn-danger" type="button" id="reject-selected"><i class="fa fa-close"></i>  Reject</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+                                        <th class="text-center">Username</th>
+                                        <th class="text-center">Registration Date</th>
+                                        <th class="text-center">Assign Role</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>}
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    var selectedIds = [];
+    $(document).ready(function () {
+        // Initiallize Footable
+        $('.custom-table').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax": {
+                "url": "/Dashboard/LoadUserApproveList",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "aaSorting": [],
+            "columns": [
+                {
+                    'searchable': false,
+                    "title": "",
+                    "data": "",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input checkboxGroups" value="' +
+                                row.Id +
+                                '" id="' +
+                                row.Id +
+                                '"><label class="form-check-label" for="' +
+                                row.Id +
+                                '"></label></div>';
+                        }
+                        return data;
+                    },
+                    "orderable": false,
+                    "className": 'text-center',
+                    "defaultContent": ""
+                },
+                {
+                    "data": "Username",
+                    "title": "User",
+                    "name": "Username",
+                    "autoWidth": true,
+                    "defaultContent": "",
+                    'searchable': true,
+                    "orderable": true
+                },
+                {
+                    "data": "CreatedOn",
+                    "title": "Registered On",
+                    "name": "CreatedOn",
+                    "autoWidth": true,
+                    "defaultContent": "",
+                    'searchable': true,
+                    "orderable": true
+                },
+                {
+                    "data": "",
+                    "title": "Roles",
+                    "autoWidth": true,
+                    "defaultContent": "",
+                    'searchable': false,
+                    "orderable": false,
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            var htmlTemplate = '<select id="selectroleforuser_' + row.Id + '" class="form-control">';
+                            htmlTemplate += '<option selected="selected" value="">Select Role</option>';
+                            for (var i = 0; i < row.AvailableRoles.length; i++) {
+                                htmlTemplate += '<option selected="selected" value="' + row.AvailableRoles[i].Id + '">' + row.AvailableRoles[i].RoleName + '</option>';
+                            }
+                            htmlTemplate += '</select>';
+                            return htmlTemplate;
+                        }
+                        return data;
+                    }
+                },
+                {
+                    "title": "Actions",
+                    "data": "",
+                    "orderable": false,
+                    "className": 'text-center',
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            var htmlTemplate = '';
+                            htmlTemplate += '<a class="btn btn-success" href="javascript:void(0);" onclick="return ApproveRejectRequest(' + row.id + ',"approve");" id="edit_' + row.id + '" title="Approve"><i class="fa fa-check fa-2x"></i></a>&nbsp;&nbsp;<a class="btn btn-danger" id="userid_' + row.id + '" onclick="return ApproveRejectRequest(' + row.id + ',"reject");" href="javascript:void(0);" title="Reject"><i class="fa fa-remove fa-2x"></i></a>';
+                            return htmlTemplate;
+                        }
+                        return data;
+                    },
+                    "defaultContent": ""
+                }
+            ],
+            "select": {
+                "style": 'os',
+                "selector": 'td:first-child'
+            }
+        });
+
+        //approve selected
+        $('#approve-selected').click(function (e) {
+            e.preventDefault();
+
+            var postData = {
+                selectedIds: selectedIds
+            };
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("ApproveSelected", "Dashboard"))",
+                data: postData,
+                success: function (data, result) {
+                    if (result === "success") {
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Success",
+                                text: "Users Approved Successfully!",
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        }, 1e3);
+                        $('.custom-table').DataTable().ajax.reload();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: xhr.responseText,
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                },
+                traditional: true
+            });
+            return false;
+        });
+
+        //approve selected
+        $('#reject-selected').click(function (e) {
+            e.preventDefault();
+            var postData = {
+                selectedIds: selectedIds
+            };
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("RejectSelected", "Dashboard"))",
+                data: postData,
+                success: function (data, result) {
+                    if (result === "success") {
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Success",
+                                text: "Users Rejected Successfully!",
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        }, 1e3);
+                        $('.custom-table').DataTable().ajax.reload();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: xhr.responseText,
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                },
+                traditional: true
+            });
+            return false;
+        });
+
+
+        $(document).on('click', '#allcheck', function () {
+            $('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
+        });
+
+        //wire up checkboxes.
+        $('#users-table').on('change', 'input[type=checkbox][id!=allcheck]', function (e) {
+            var $check = $(this);
+            var checked;
+            if ($check.is(":checked") === true) {
+                checked = jQuery.inArray($check.val(), selectedIds);
+                if (checked === -1) {
+                    //add id to selectedIds.
+                    selectedIds.push($check.val());
+                }
+            }
+            else {
+                checked = jQuery.inArray($check.val(), selectedIds);
+                if (checked > -1) {
+                    //remove id from selectedIds.
+                    selectedIds = $.grep(selectedIds, function (item, index) {
+                        return item !== $check.val();
+                    });
+                }
+            }
+            updateMasterCheckbox();
+        });
+
+    });
+
+    function updateMasterCheckbox() {
+        var numChkBoxes = $('#users-table input[type=checkbox][id!=allcheck]').length;
+        var numChkBoxesChecked = $('#users-table input[type=checkbox][id!=allcheck]:checked').length;
+        $('#allcheck').attr('checked', numChkBoxes === numChkBoxesChecked && numChkBoxes > 0);
+    }
+
+    function ApproveRejectRequest(id, act) {
+        if ($("#@Html.IdFor(m => m.SelectedRoleId)").val() !== "" && $("#@Html.IdFor(m => m.SelectedRoleId)").val() !== "0") {
+            var postData = {
+                approvereject: act,
+                roleid: $("#selectroleforuser_" + id).val(),
+                userid: id
+            };
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("ApproveReject", "Dashboard"))",
+                data: postData,
+                success: function (data, result) {
+                    if (result === "success") {
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Success",
+                                text: "Users " + (act === "approve" ? "Approved" : "Rejected") + " Successfully!",
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        }, 1e3);
+                        $('.custom-table').DataTable().ajax.reload();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: xhr.responseText,
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                },
+                traditional: true
+            });
+        }
+    }
+</script>
+@Html.DeleteConfirmation("approve-selected")
+@Html.DeleteConfirmation("reject-selected")

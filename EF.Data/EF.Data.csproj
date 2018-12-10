@@ -73,6 +73,7 @@
     <Compile Include="IDbContext.cs" />
     <Compile Include="Mapping\AcadmicYearMap.cs" />
     <Compile Include="Mapping\AllowanceMap.cs" />
+    <Compile Include="Mapping\ClassDivisionMap.cs" />
     <Compile Include="Mapping\NewsVideoMap.cs" />
     <Compile Include="Mapping\ProductVideoMap.cs" />
     <Compile Include="Mapping\EventVideoMap.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="Mapping\TimeTableSettingMap.cs" />
     <Compile Include="Mapping\DesignationMap.cs" />
     <Compile Include="Mapping\DivisionMap.cs" />
-    <Compile Include="Mapping\StudentClassDivisionMap.cs" />
     <Compile Include="Mapping\DivisionSubjectMap.cs" />
     <Compile Include="Mapping\EmployeeMap.cs" />
     <Compile Include="Mapping\EmployeeAttendanceMap.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="Mapping\FilesMap.cs" />
     <Compile Include="Mapping\SliderPictureMap.cs" />
     <Compile Include="Mapping\PicturesMap.cs" />
-    <Compile Include="Mapping\RepliesMap.cs" />
+    <Compile Include="Mapping\ReplyMap.cs" />
     <Compile Include="Mapping\IPAddressMap.cs" />
     <Compile Include="Mapping\CustomPageUrlMap.cs" />
     <Compile Include="Mapping\SchoolMap.cs" />

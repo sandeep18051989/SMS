@@ -1,0 +1,31 @@
+﻿@model SMS.Areas.Admin.Models.DashboardModel.RegisteredActiveInactiveUsers
+<div class="row chart-space">
+    <div id="activeinactivechart" style="height:400px;width:300px;margin:0 auto;"></div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.jqplot.config.enablePlugins = true;
+            var data = [['Active', @Model.ActiveUsers.Count], ['Inactive', @Model.InActiveUsers.Count]];
+            var plot1 = jQuery.jqplot('activeinactivechart', [data],
+              {
+                  title: 'Active/Inactive Users',
+                  seriesDefaults: {
+                      // make this a donut chart.
+                      renderer: $.jqplot.DonutRenderer,
+                      rendererOptions: {
+                          // Donut's can be cut into slices like pies.
+                          sliceMargin: 3,
+                          // Pies and donuts can start at any arbitrary angle.
+                          startAngle: -90,
+                          showDataLabels: true,
+                          // By default, data labels show the percentage of the donut/pie.
+                          // You can show the data 'value' or data 'label' instead.
+                          dataLabels: 'value',
+                          // "totalLabel=true" uses the centre of the donut for the total amount
+                          totalLabel: true
+                      }
+                  },
+                  legend: { show: true, location: 'e' }
+              });
+        });
+    </script>
+</div>

@@ -11,7 +11,11 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("House");
 			this.HasKey(b => b.Id);
-			EntityTracker.TrackAllProperties<House>().Except(x => x.Picture).And(x => x.CreatedOn).And(x => x.ModifiedOn);
+            this.Property(e => e.AcadmicYearId).IsRequired();
+            this.Property(e => e.Description).IsOptional();
+            this.Property(e => e.Name).IsRequired();
+
+            EntityTracker.TrackAllProperties<House>().Except(x => x.Picture).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

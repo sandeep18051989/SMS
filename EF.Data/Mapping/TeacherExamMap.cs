@@ -12,9 +12,22 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Teacher_Exam");
 			this.HasKey(b => b.Id);
+            this.Property(b => b.AcadmicYearId).IsRequired();
+            this.Property(b => b.BreakAllowed).IsOptional();
+            this.Property(b => b.BreakTime).IsOptional();
+            this.Property(b => b.ClassRoomId).IsRequired();
+            this.Property(b => b.EndDate).IsOptional();
+            this.Property(b => b.EndTime).IsOptional();
+            this.Property(b => b.ExamId).IsRequired();
+            this.Property(b => b.GradeSystemId).IsOptional();
+            this.Property(b => b.MarksObtained).IsOptional();
+            this.Property(b => b.ResultStatusId).IsOptional();
+            this.Property(b => b.StartDate).IsOptional();
+            this.Property(b => b.StartTime).IsOptional();
+            this.Property(b => b.TeacherId).IsRequired();
 
-			// Relationships
-			this.HasRequired(ca => ca.Teacher).WithMany().HasForeignKey(ca => ca.TeacherId);
+            // Relationships
+            this.HasRequired(ca => ca.Teacher).WithMany().HasForeignKey(ca => ca.TeacherId);
 			this.HasRequired(ca => ca.Exam).WithMany().HasForeignKey(ca => ca.ExamId);
 			this.HasRequired(ca => ca.ClassRoom).WithMany().HasForeignKey(ca => ca.ClassRoomId);
 			EntityTracker.TrackAllProperties<TeacherExam>().Except(x => x.CreatedOn).And(x => x.ModifiedOn).And(x => x.ClassRoom).And(x => x.Teacher).And(x => x.Exam);

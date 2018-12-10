@@ -12,6 +12,12 @@ namespace EF.Data.Mapping
             this.HasKey(e => e.Id);
             this.Property(e => e.StartDate).IsOptional();
             this.Property(e => e.EndDate).IsOptional();
+            this.Property(b => b.Description).IsOptional();
+            this.Property(b => b.Latitude).IsOptional();
+            this.Property(b => b.Longitude).IsOptional();
+            this.Property(b => b.SeoName).IsOptional();
+            this.Property(b => b.Title).IsRequired();
+            this.Property(b => b.Venue).IsOptional();
 
             // Relationships
             this.HasMany(e => e.Comments).WithMany(c=>c.Events).Map(m => m.ToTable("Event_Comment_Map").MapLeftKey("EventId").MapRightKey("CommentId"));

@@ -1,0 +1,207 @@
+﻿@model IEnumerable<SMS.Models.ProductModel>
+
+@{
+	ViewBag.Title = "Products";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="list-form">
+			@using (Html.BeginForm())
+			{
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<div class="input-group pull-right">
+							@Html.ActionLink("Create Product", "Create", "Product", null, new { @class = "btn btn-primary" })
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<br />
+						<div class="form-group">
+							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+								<thead>
+									<tr>
+										<th class="no-sort"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+										<th>Name</th>
+										<th>Description</th>
+										<th>Active</th>
+										<th>Comments</th>
+										<th>Files</th>
+										<th>Pictures</th>
+										<th>Videos</th>
+										<th>Reactions</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Products')").closest("li").addClass("active");
+
+		$('#allcheck').on('click', function () {
+			var rows = table.rows({ 'search': 'applied' }).nodes();
+			$('input[type="checkbox"]', rows).prop('checked', this.checked);
+		});
+		$('.custom-table tbody').on('change', 'input[type="checkbox"]', function () {
+			if (!this.checked) {
+				var el = $('#allcheck').get(0);
+				if (el && el.checked && ('indeterminate' in el)) {
+					el.indeterminate = true;
+				}
+			}
+		});
+
+		$("input[name=selectedids]").change(function () {
+			if ($(this).prop('checked')) {
+				$(this).attr('checked', true).val(true);
+			}
+			else {
+				$(this).attr('checked', false).val(false);
+			}
+		});
+
+		// Initiallize Datatable
+		$('.custom-table').DataTable({
+			"processing": true, // for show progress bar
+			"serverSide": true, // for process server side
+			"filter": true, // this is for disable filter (search box)
+			"orderMulti": false, // for disable multiple column at once
+			"pageLength": 25,
+			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			"ajax": {
+				"url": "/Admin/Product/LoadGrid",
+				"type": "POST",
+				"datatype": "json"
+			},
+			"aaSorting": [],
+			"columns": [
+				{
+					'searchable': false,
+					"title": "",
+					"data": "",
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input" id="' + row.Id + '"><label class="form-check-label" for="' + row.Id + '"></label></div>';
+						}
+						return data;
+					},
+					"orderable": false,
+					"className": 'text-center'
+				},
+				{
+					"data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "render": function (data, type, row) {
+						if (type === "display") {
+							return '<a href="' + row.Url + '" target="_blank" title="' + row.Name + '" >' + row.Name + '</a>';
+						}
+						return data;
+					}
+				},
+				{
+					"data": "Description", "title": "Description", "name": "Description", "autoWidth": true, "orderable": true, "render": function (data, type, row) {
+						if (type === "display") {
+							return '<p style="text-align:justify;">' + row.Description + '</p>';
+						}
+						return data;
+					}
+				},
+				{
+					"data": "IsActive",
+					"title": "Active",
+					"render": function (data, type, row) {
+						if (type === "display") {
+							if (row.IsActive) {
+								return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+							} else {
+								return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+							}
+						}
+						return data;
+					},
+					"className": "text-center",
+					"orderable": false
+				},
+				{
+					"title": "Comments",
+					"orderable": false,
+					"className": 'text-center',
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<div id="other-related-stats"><span><i class="fa fa-2x fa-comment" aria-hidden="true"></i><span class="badge up badge-danger">' + row.CommentsCount + '</span></span>';
+						}
+						return data;
+					}
+				},
+				{
+					"title": "Files",
+					"orderable": false,
+					"className": 'text-center',
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<div id="other-related-stats"><span><i class="fa fa-2x fa-file" aria-hidden="true"></i><span class="badge up badge-danger">' + row.FilesCount + '</span></span>';
+						}
+						return data;
+					}
+				},
+				{
+					"title": "Pictures",
+					"orderable": false,
+					"className": 'text-center',
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<span><i class="fa fa-2x fa-picture-o" aria-hidden="true"></i><span class="badge up badge-danger">' + row.PicturesCount + '</span></span>';
+						}
+						return data;
+					}
+				},
+				{
+					"title": "Videos",
+					"orderable": false,
+					"className": 'text-center',
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<span><i class="fa fa-2x fa-video-camera" aria-hidden="true"></i><span class="badge up badge-danger">' + row.VideosCount + '</span></span>';
+						}
+						return data;
+					}
+				},
+				{
+					"title": "Reactions",
+					"orderable": false,
+					"className": 'text-center',
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<span><i class="fa fa-2x fa fa-comments-o" aria-hidden="true"></i><span class="badge up badge-danger">' + row.ReactionsCount + '</span></span></div>';
+						}
+						return data;
+					}
+				},
+				{
+					"title": "Actions",
+					"orderable": false,
+					"className": 'text-center',
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<a href="/Admin/Product/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="productid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+						}
+						return data;
+					}
+				}
+			],
+			"select": {
+				"style": 'os',
+				"selector": 'td:first-child'
+			}
+		});
+	});
+</script>

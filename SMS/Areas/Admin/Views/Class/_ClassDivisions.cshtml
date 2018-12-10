@@ -1,0 +1,272 @@
+﻿@using EF.Services.Http
+@model SMS.Models.ClassModel
+@{
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+}
+<div class="panel-group">
+    @if (Model.Id > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body table-responsive">
+                <table class="table table-responsive-md custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="classdivisions-grid">
+                    <thead class="mdb-color lighten-5">
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Class Room</th>
+                            <th>Active</th>
+                            <th>Acadmic Year</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        // Initiallize Datatable
+                        $('#classdivisions-grid').DataTable({
+                            "paging": false,
+                            "bLengthChange": false, //thought this line could hide the LengthMenu
+                            "bInfo": false,
+                            "processing": true, // for show progress bar
+                            "serverSide": true, // for process server side
+                            "filter": false, // this is for disable filter (search box)
+                            "orderMulti": false, // for disable multiple column at once
+                            "ajax": {
+                                "url": "/Admin/Class/LoadDivisionGrid/@(Model.Id)",
+                                "type": "POST",
+                                "datatype": "json"
+                            },
+                            "aaSorting": [],
+                            "columns": [
+								{
+								    "data": "DivisionName", "title": "Name", "name": "Name", "autoWidth": true, "orderable": false, "defaultContent": ""
+								},
+								{
+								    "data": "StartDate",
+								    "title": "Start Date",
+								    "render": function (data, type, row) {
+								        if (type === "display") {
+								            var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="startvid_' + row.VideoId + '"';
+								            dateTemplate += ' data-value="' + moment(row.StartDate).format("YYYY/MM/DD") + '"';
+								            dateTemplate += ' aria-label="Start Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
+								            dateTemplate += ' $("#startvid_' + row.VideoId + '").pickadate({format: "dd mmmm, yyyy",min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD")),selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("YYYY/MM/DD"))});';
+								            dateTemplate += 'var $input' + row.VideoId + ' = $("#startvid_' + row.VideoId + '").pickadate();';
+								            dateTemplate += 'var picker' + row.VideoId + ' = $input' + row.VideoId + '.pickadate("picker");';
+								            dateTemplate += 'picker' + row.VideoId + '.set("select", "' + (row.StartDate != null && row.StartDate !== "" ? new Date(moment(row.StartDate).format("YYYY/MM/DD")) : "") + '");';
+								            dateTemplate += 'picker' + row.VideoId + '.on({close: function() {$(document.activeElement).blur();$("#endvid_' + row.VideoId + '").pickadate("picker").set("min", new Date(moment($("#startvid_' + row.VideoId + '").val()).format("YYYY/MM/DD")));}});';
+								            dateTemplate += '});<\/script></div>';
+								            return dateTemplate;
+								        }
+								        return data;
+								    },
+								    "className": "text-center",
+								    "orderable": false,
+								    "defaultContent": ""
+								},
+								{
+								    "data": "EndDate",
+								    "title": "End Date",
+								    "render": function (data, type, row) {
+								        if (type === "display") {
+								            var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="endvid_' + row.VideoId + '"';
+								            dateTemplate += ' data-value="' + moment(row.EndDate).format("DD MMMM, YYYY") + '" value="' + moment(row.EndDate).format("YYYY/MM/DD") + '"';
+								            dateTemplate += ' aria-label="End Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
+								            dateTemplate += ' $("#endvid_' + row.VideoId + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false,min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD"))});';
+								            dateTemplate += 'var $inputend' + row.VideoId + ' = $("#endvid_' + row.VideoId + '").pickadate();';
+								            dateTemplate += 'var pickerend' + row.VideoId + ' = $inputend' + row.VideoId + '.pickadate("picker");';
+								            dateTemplate += '$("#endvid_' + row.VideoId + '").val($("#endvid_' + row.VideoId + '").attr("data-value"));';
+								            dateTemplate += 'pickerend' + row.VideoId + '.on({close: function() {$(document.activeElement).blur();$("#startvid_' + row.VideoId + '").pickadate("picker").set("max", new Date(moment($("#endvid_' + row.VideoId + '").val()).format("YYYY/MM/DD")));}});';
+								            dateTemplate += '});<\/script></div>';
+								            return dateTemplate;
+								        }
+								        return data;
+								    },
+								    "className": "text-center",
+								    "orderable": false,
+								    "defaultContent": ""
+								},
+								{
+								    "data": "DisplayOrder",
+								    "title": "Display Order",
+								    "render": function (data, type, row) {
+								        if (type === "display") {
+								            return '<div class="md-form form-group"><i class="fa fa-sort-alpha-asc prefix"></i><input min="1" max="1000" data-val-required="true" type="number" id="vidOrder_' + row.VideoId + '" value="' + (row.DisplayOrder > 0 ? row.DisplayOrder : "") + '" aria-label="Display Order" class="form-control" style="width:150px"></div>';
+								        }
+								        return data;
+								    },
+								    "className": "dt-body-center",
+								    "orderable": false,
+								    "defaultContent": ""
+								},
+								{
+								    "title": "Actions",
+								    "orderable": false,
+								    "className": 'text-center',
+								    "render": function (data, type, row) {
+								        if (type === "display") {
+								            var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-info btn-rounded btn-sm my-0" data-video="' + row.VideoId + '" data-class="' + row.ClassId + '" id="vidupd_' + row.VideoId + '" title="Update Division"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
+								            dateTemplate += '&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="viddel_' + row.VideoId + '" title="Delete Division"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
+								            return dateTemplate;
+								        }
+								        return data;
+								    },
+								    "defaultContent": ""
+								}
+                            ],
+                            "select": {
+                                "style": 'os',
+                                "selector": 'td:first-child'
+                            }
+                        });
+
+                        $("#listModel").on('show.bs.modal', function () {
+                            $.ajax({
+                                cache: false,
+                                type: "GET",
+                                url: "@(Url.Action("GetAllDivisions", "Division"))",
+                                data: { 'classid' : @(Model.Id) },
+                                success: function (data, result) {
+                                    if(result === "success"){
+                                        $("#content-body").html('');
+                                        var htmContent = '';
+                                        htmContent += '<table class="table table-bordered">';
+                                        htmContent += '<thead>';
+                                        htmContent += '<tr>';
+                                        htmContent += '<th>';
+                                        htmContent += '<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="tableDefaultCheck"><label class="custom-control-label" for="tableDefaultCheck"></label></div>';
+                                        htmContent += '<th>Name</th><th>Acadamic Year</th>';
+                                        htmContent += '</thead>';
+                                        htmContent += '<tbody id="divisions">';
+                                        for(var i=0;i < data.length;i++){
+                                            htmContent += '<tr>';
+                                            htmContent += '<th scope="row">';
+                                            htmContent += '<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" value="' + data[i].Id + '" id="' + data[i].Id + '" ' + (data[i].Selected ? "checked" : "") + '><label class="custom-control-label" for="' + data[i].Id + '"></label></div>';
+                                            htmContent += '</th>';
+                                            htmContent += '<td>' + data[i].Name + '</td>';
+                                            htmContent += '<td>' + data[i].AcadmicYear + '</td>';
+                                            htmContent += '</tr>';
+                                        }
+                                        htmContent += '</tbody>';
+                                        htmContent += '</table>';
+                                        $("#content-body").html(htmContent);
+                                        $('#listModel').modal('show');
+                                    }
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr.responseText);
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Failed to load divisions!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                }
+                            });
+                        });
+
+                        $(document).on("change","#content-body table tbody .custom-control-input[type=checkbox]", function(){
+                            var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
+                            var allSelected = true;
+                            if(childRecords.length > 0){
+                                for(var i=0;i < childRecords.length;i++){
+                                    if(!$(childRecords[i]).prop("checked")){
+                                        allSelected = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if(allSelected){
+                                $("#tableDefaultCheck").prop("checked", true);
+                            }
+                            else{
+                                $("#tableDefaultCheck").prop("checked", false);
+                            }
+                        });
+
+                        $(document).on("change","#tableDefaultCheck", function(){
+                            var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
+                            if($(this).prop("checked")){
+                                if(childRecords.length > 0){
+                                    for(var i=0;i < childRecords.length;i++){
+                                        $(childRecords[i]).prop("checked", true);
+                                    }
+                                }
+                            }
+                            else{
+                                if(childRecords.length > 0){
+                                    for(var i=0;i < childRecords.length;i++){
+                                        $(childRecords[i]).prop("checked", false);
+                                    }
+                                }
+                            }
+                        });
+
+                        $(document).on("click","#submit-associated-data", function(){
+                            var checkedRecords = $('#listModel').find("table tbody input[type=checkbox]:checked");
+                            var selectedIds = [];
+                            if(confirm("Are you sure, you want to update divisions for the selected class?")){
+                                for(var i=0;i < checkedRecords.length;i++){
+                                    selectedIds.push(parseInt($(checkedRecords[i]).val()));
+                                }
+                                var postData = {
+                                    id: @(Model.Id),
+                                    divisions: selectedIds
+                                };
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("UpdateDivisionsForClass", "Class"))",
+                                    data: postData,
+                                    success: function (data, result) {
+                                        if(result === "success"){
+                                            $('#classdivisions-grid').DataTable().ajax.reload();
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Division updated successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: "Failed to add divisions!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                });
+                            }
+                        });
+                    });
+                </script>
+            </div>
+            <div class="panel-footer">
+                <button type="button" id="add-divisions" class="btn btn-primary pull-right" data-toggle="modal" data-target="#listModel"><i class="fa fa-plus-circle"></i> Add Existing Divisions</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="alert alert-info" role="alert">
+                    <strong>Heads up!</strong> Please save class first to upload divisions.
+                </div>
+            </div>
+        </div>
+    }
+</div>

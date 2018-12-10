@@ -1,0 +1,174 @@
+﻿@model IEnumerable<SMS.Models.CustomPageModel>
+@using EF.Services
+@{
+    ViewBag.Title = "Custom Pages";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group pull-right">
+                            @Html.ActionLink("Create Custom Page", "Create", "CustomPage", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><input type="checkbox" id="allcheck" /></th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Active</th>
+                                        <th class="text-center">System Defined</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <strong>Info!</strong> System defined templates cannot be deleted and you cannot make them active or inactive.
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Custom Pages')").closest("li").addClass("active");
+
+        // Initiallize Footable
+        $('.custom-table').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax": {
+                "url": "/Admin/CustomPage/LoadGrid",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "aaSorting": [],
+            "columns": [
+                {
+                    'searchable': false,
+                    "title": "",
+                    "data": "",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input" id="' +
+                                row.Id +
+                                '"><label class="form-check-label" for="' +
+                                row.Id +
+                                '"></label></div>';
+                        }
+                        return data;
+                    },
+                    "orderable": false,
+                    "className": 'text-center',
+                    "defaultContent": ""
+                },
+                {
+                    "data": "Title",
+                    "title": "Name",
+                    "name": "Name",
+                    "autoWidth": true,
+                    "className": 'text-center',
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return '<a target="_blank" href="' +
+                                row.Url +
+                                '" title="' +
+                                row.Name +
+                                '" id="page_' +
+                                row.Id +
+                                '>' +
+                                row.Name +
+                                '</a>';
+                        }
+                        return data;
+                    },
+                    "defaultContent": ""
+                },
+                {
+                    "data": "IsActive",
+                    "title": "Active",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            if (row.IsActive) {
+                                return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                            } else {
+                                return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+                            }
+                        }
+                        return data;
+                    },
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+                {
+                    "data": "IsSystemDefined",
+                    "title": "System Defined",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            if (row.IsSystemDefined) {
+                                return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                            } else {
+                                return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+                            }
+                        }
+                        return data;
+                    },
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+                {
+                    "title": "Actions",
+                    "data": "",
+                    "orderable": false,
+                    "className": 'text-center',
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            var htmlTemplate = '';
+                            htmlTemplate += '<a href="/CustomPage/Edit/' +
+                                row.Id +
+                                '" id="edit_' +
+                                row.Id +
+                                '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;';
+
+                            if (row.IsSystemDefined) {
+                                htmlTemplate +=
+                                    '<a id="customPageId_' + row.Id + '" href="/CustomPage/Delete/' + row.Id + '" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+                            }
+                            return htmlTemplate;
+                        }
+                        return data;
+                    },
+                    "defaultContent": ""
+                }
+            ],
+            "select": {
+                "style": 'os',
+                "selector": 'td:first-child'
+            }
+        });
+    });
+</script>

@@ -209,15 +209,14 @@ namespace SMS.Controllers
 										foreach (var rep in _replyService.GetAllRepliesByComment(comment.Id))
 										{
 
-											comm.Replies.Add(new RepliesModel()
+											comm.Replies.Add(new ReplyModel()
 											{
 												CreatedOn = rep.CreatedOn,
 												DisplayOrder = rep.DisplayOrder,
 												Id = rep.Id,
 												IsModified = rep.IsModified,
 												ReplyHtml = rep.ReplyHtml,
-												Username = rep.UserId.ToString(),
-												Type = "Blog",
+                                                UserName = rep.UserId.ToString()
 											});
 										}
 										comm.postReplyModel.Type = "Blog";
@@ -252,15 +251,14 @@ namespace SMS.Controllers
 										foreach (var rep in _replyService.GetAllRepliesByComment(comment.Id))
 										{
 
-											comm.Replies.Add(new RepliesModel()
+											comm.Replies.Add(new ReplyModel()
 											{
 												CreatedOn = rep.CreatedOn,
 												DisplayOrder = rep.DisplayOrder,
 												Id = rep.Id,
 												IsModified = rep.IsModified,
 												ReplyHtml = rep.ReplyHtml,
-												Username = rep.UserId.ToString(),
-												Type = "Event",
+												UserName = rep.UserId.ToString()
 											});
 										}
 										comm.postReplyModel.Type = "Event";

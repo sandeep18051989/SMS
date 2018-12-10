@@ -14,20 +14,27 @@ namespace SMS.Models
     {
         public CommentModel()
         {
-            Replies = new List<RepliesModel>();
+            Replies = new List<ReplyModel>();
             User = new UserModel();
             postReplyModel = new PostReplyModel();
             Reactions = new List<ReactionModel>();
         }
         public int CommentId { get; set; }
         public int ProductId { get; set; }
+        public int NewsId { get; set; }
+        public int BlogId { get; set; }
+        public int HomeworkId { get; set; }
+        public int ExamId { get; set; }
         public int DisplayOrder { get; set; }
         [AllowHtml]
         public string CommentHtml { get; set; }
         public string Username { get; set; }
         public bool IsActive { get; set; }
         public UserModel User { get; set; }
-        public IList<RepliesModel> Replies { get; set; }
+        public string CreatedOnString { get; set; }
+        public string ModifiedOnString { get; set; }
+
+        public IList<ReplyModel> Replies { get; set; }
         public IList<ReactionModel> Reactions { get; set; }
 
         public PostReplyModel postReplyModel { get; set; }

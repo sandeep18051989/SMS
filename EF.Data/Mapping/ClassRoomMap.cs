@@ -12,7 +12,10 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Class_Room");
 			this.HasKey(b => b.Id);
-			EntityTracker.TrackAllProperties<ClassRoom>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
+            this.Property(b => b.Description).IsOptional();
+            this.Property(b => b.Number).IsRequired();
+
+            EntityTracker.TrackAllProperties<ClassRoom>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

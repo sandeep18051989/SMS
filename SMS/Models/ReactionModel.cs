@@ -40,8 +40,10 @@ namespace SMS.Models
 		public int? NewsId { get; set; }
 		public int? CommentId { get; set; }
 		public int? ReplyId { get; set; }
+        public string CreatedOnString { get; set; }
+        public string ModifiedOnString { get; set; }
 
-		public ProductModel Product { get; set; }
+        public ProductModel Product { get; set; }
 		public EventModel Event { get; set; }
 		public BlogModel Blog { get; set; }
 		public NewsModel News { get; set; }

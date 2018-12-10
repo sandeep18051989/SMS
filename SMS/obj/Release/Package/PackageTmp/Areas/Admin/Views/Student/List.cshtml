@@ -1,0 +1,114 @@
+﻿@model SMS.Models.StudentListModel
+@{
+	ViewBag.Title = "Students";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="list-form">
+			@using (Html.BeginForm())
+			{
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<div class="input-group pull-right">
+							@Html.ActionLink("Create Student", "Create", "Student", null, new { @class = "btn btn-primary" })
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<br />
+						<div class="form-group">
+							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+								<thead>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th>Name</th>
+                                        <th>Admission Date</th>
+                                        <th>Date Of Birth</th>
+                                        <th>Gender</th>
+                                        <th>Active</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Students')").closest("li").addClass("active");
+
+		// Initiallize Datatable
+		$('.custom-table').DataTable({
+			"processing": true, // for show progress bar
+			"serverSide": true, // for process server side
+			"filter": true, // this is for disable filter (search box)
+			"orderMulti": false, // for disable multiple column at once
+			"pageLength": 25,
+			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			"ajax": {
+				"url": "/Admin/Student/LoadGrid",
+				"type": "POST",
+				"datatype": "json"
+			},
+			"aaSorting": [],
+			"columns": [
+                {
+                    "searchable": false,
+                    "title": "",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return '<div class="thumb"><img style="max-width:100px;" src="' + row.PictureSrc + '" alt="" class="rounded-circle float-left"></div>';
+                        }
+                        return data;
+                    },
+                    "orderable": false,
+                    "className": 'text-center',
+                    "defaultContent": ""
+                },
+				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true },
+                { "data": "AdmissionDate", "title": "Admission Date", "name": "AdmissionDate", "autoWidth": true, "orderable": true },
+                { "data": "DateOfBirth", "title": "Birth Date", "name": "DateOfBirth", "autoWidth": true, "orderable": false },
+				{ "data": "Sex", "title": "Gender", "name": "Gender", "autoWidth": true, "orderable": false },
+				{
+					"data": "IsActive",
+					"title": "Active",
+					"render": function (data, type, row) {
+						if (type === "display") {
+							if (row.IsActive) {
+								return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+							} else {
+								return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+							}
+						}
+						return data;
+					},
+					"className": "text-center",
+					"orderable": false
+				},
+				{
+					"title": "Actions",
+					"orderable": false,
+					"className": 'text-center',
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<a href="/Admin/Student/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="studentid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+						}
+						return data;
+					}
+				}
+			],
+			"select": {
+				"style": 'os',
+				"selector": 'td:first-child'
+			}
+		});
+	});
+</script>

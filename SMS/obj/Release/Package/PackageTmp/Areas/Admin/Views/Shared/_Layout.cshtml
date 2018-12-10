@@ -1,0 +1,113 @@
+﻿@using System.Web.Optimization;
+<!DOCTYPE html>
+<html class="perfect-scrollbar-on">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta name="description" content="SMS Admin">
+    <meta name="author" content="Sandeep Kumar">
+
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/pace")
+    @Scripts.Render("~/Scripts/datatable")
+    @Scripts.Render("~/Scripts/moment")
+    <script type="text/javascript" src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/tinymce/plugins/placeholder/plugin.min.js"></script>
+    @Styles.Render("~/Content/fo")
+    @Styles.Render("~/Content/icons")
+    @Styles.Render("~/Content/jqueryuicss")
+    @Styles.Render("~/Content/boot")
+    @Styles.Render("~/Content/mdb")
+    @Styles.Render("~/Content/datatable")
+    @Styles.Render("~/Content/JqGrid")
+    @Styles.Render("~/Content/adminaddon")
+    @Styles.Render("~/Content/htmleditor")
+    @Styles.Render("~/Areas/Admin/Content/AdminStyles")
+    <link rel="shortcut icon" href="">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="~/Areas/Admin/Scripts/html5shiv.js"></script>
+        <script src="~/Areas/Admin/Scripts/respond.min.js"></script>
+        <script src="~/Areas/Admin/Scripts/excanvas.min.js"></script>
+    <![endif]-->
+</head>
+<body class="fixed-sn light-blue-skin">
+    <div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
+    <header class="app">
+        <nav class="navbar navbar-expand-lg navbar-dark double-nav fixed-top scrolling-navbar">
+            <div class="breadcrumb-dn mr-auto">
+                @Html.Partial("~/Areas/Admin/Views/Common/Breadcrumb.cshtml")
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
+            @Html.Action("TopLinks", "Dashboard")
+        </nav>
+        <div class="sidebar" data-color="purple" data-background-color="white">
+            <div class="logo">
+                <a class="simple-text logo-normal" href="/">SMS</a>
+            </div>
+            <div class="sidebar-wrapper">
+                @Html.Action("SideBar", "Dashboard", null)
+            </div>
+        </div>
+    </header>
+    <div class="main-panel">
+        @Html.Partial("Notifications")
+        <div class="content">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <footer class="page-footer center-on-small-only"></footer>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".throbber").hide();
+            $(document).ajaxStart(function () {
+                $(".throbber").show();
+            });
+
+            $(document).ajaxStop(function () {
+                $(".throbber").hide();
+            });
+
+            //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+
+            for (i = 0; i < dropdown.length; i++) {
+                dropdown[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                    } else {
+                        dropdownContent.style.display = "block";
+                    }
+                });
+            }
+        });
+    </script>
+    <div class="throbber">
+        <div class="curtain">
+        </div>
+        <div class="curtain-content">
+            <div>
+                <p>
+                    <img src="@Url.Content("~/content/images/throbber.gif")" alt="Please Wait..." />
+                </p>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/Scripts/boot")
+    @Scripts.Render("~/Scripts/mdb")
+    @Scripts.Render("~/Scripts/adminaddon")
+</body>
+</html>

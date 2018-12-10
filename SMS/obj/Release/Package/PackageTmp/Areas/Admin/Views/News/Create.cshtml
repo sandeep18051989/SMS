@@ -1,0 +1,193 @@
+﻿@model SMS.Models.NewsModel
+@{
+	ViewBag.Title = "Create News";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="create-form">
+			@using (Html.BeginForm())
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(model => model.Id)
+				<div class="row text-left">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<h3 class="section-heading mr-auto">CREATE NEWS</h3>
+						<button type="submit" name="save" class="btn btn-primary mr-auto">
+							<i class="fa fa-save">&nbsp;&nbsp;</i>Create
+						</button>
+						<button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
+							<i class="fa fa-save">&nbsp;&nbsp;</i>Create & Continue
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 my-3">
+						<div class="tabs-wrapper">
+							<ul class="nav classic-tabs tabs-pink" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-news" role="tab">
+										<i class="fa fa-user fa-2x" aria-hidden="true"></i>
+										<br> Create News
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-pictures" role="tab">
+										<i class="fa fa-file-picture-o fa-2x" aria-hidden="true"></i>
+										<br>Pictures
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-videos" role="tab">
+										<i class="fa fa-file-video-o fa-2x" aria-hidden="true"></i>
+										<br>Videos
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="tab-content card">
+							<div class="tab-pane fade in show active" id="create-news" role="tabpanel">
+								<div class="row">
+									<div class="col-md-12">
+										@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="row text-left">
+											<div class="col-md-6 mb-4">
+												<div class="md-form">
+													<i class="fa fa-play-circle-o prefix"></i>
+													@Html.EditorFor(model => model.ShortName, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "200", @title = "Short Title" } })
+													@Html.LabelFor(model => model.ShortName, "Short Title", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+													@Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
+										<div class="row text-left">
+											<div class="col-md-8 mb-4">
+												<div class="md-form">
+													<i class="fa fa-html5 prefix"></i>
+													@Html.EditorFor(model => model.Description, "HtmlEditor.cshtml")
+													@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+													@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
+										<div class="row text-left">
+											<div class="col-md-6 mb-4">
+												<div class="md-form">
+													<i class="fa fa-user prefix"></i>
+													@Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control", @tabindex = "3", @maxlength = "100" } })
+													@Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label" })
+													@Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
+										<div class="row text-left">
+											<div class="col-md-6 mb-4">
+												<div class="md-form date start-date">
+													<i class="fa fa-calendar prefix"></i>
+													@Html.EditorFor(model => model.StartDate, "DateRange.cshtml")
+													@Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label" })
+													@Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
+										<div class="row text-left">
+											<div class="col-md-6 mb-4">
+												<div class="md-form date end-date">
+													<i class="fa fa-calendar prefix"></i>
+													@Html.EditorFor(model => model.EndDate, "DateRange.cshtml")
+													@Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label" })
+													@Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
+										<div class="row text-left">
+											<div class="col-md-6 mb-4">
+												<div class="md-form">
+													<i class="fa fa-link prefix"></i>
+													@Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "6", @maxlength = "50" } })
+													@Html.LabelFor(model => model.SystemName, "System Name", htmlAttributes: new { @class = "control-label" })
+													@Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 mb-4">
+												<input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" checked="@(Model.IsActive ? "checked" : "")" />
+												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" id="upload-pictures" role="tabpanel">
+								@Html.Partial("_NewsPictures", Model)
+							</div>
+							<div class="tab-pane" id="upload-videos" role="tabpanel">
+								@Html.Partial("_NewsVideos", Model)
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('News')").closest("li").addClass("active");
+
+		if ($("#IsActive").val()) {
+			$("#IsActive").attr('checked', true).val(true);
+		}
+		else {
+			$("#IsActive").attr('checked', false).val(false);
+		}
+
+		$("#IsActive").change(function () {
+			if ($(this).prop('checked')) {
+				$(this).attr('checked', true).val(true);
+			}
+			else {
+				$(this).attr('checked', false).val(false);
+			}
+		});
+
+		// Get the elements
+		var from_input = $('.start-date input[type=text]').pickadate(),
+			from_picker = from_input.pickadate('picker');
+		var to_input = $('.end-date input[type=text]').pickadate(),
+			to_picker = to_input.pickadate('picker');
+
+		// Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+		if (from_picker.get('value')) {
+			to_picker.set('min', from_picker.get('select'));
+		}
+		if (to_picker.get('value')) {
+			from_picker.set('max', to_picker.get('select'));
+		}
+
+		// Apply news listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+		from_picker.on('set',
+			function(event) {
+				if (event.select) {
+					to_picker.set('min', from_picker.get('select'));
+				} else if ('clear' in event) {
+					to_picker.set('min', false);
+				}
+			});
+		to_picker.on('set',
+			function(event) {
+				if (event.select) {
+					from_picker.set('max', to_picker.get('select'));
+				} else if ('clear' in event) {
+					from_picker.set('max', false);
+				}
+			});
+	});
+</script>

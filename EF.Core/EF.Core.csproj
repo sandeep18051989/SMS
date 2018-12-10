@@ -82,6 +82,7 @@
     <Compile Include="CodeHelper.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="DatabaseSettings.cs" />
+    <Compile Include="Data\ClassDivision.cs" />
     <Compile Include="Data\NewsVideo.cs" />
     <Compile Include="Data\ProductVideo.cs" />
     <Compile Include="Data\EventVideo.cs" />
@@ -131,7 +132,6 @@
     <Compile Include="Data\Designation.cs" />
     <Compile Include="Data\Teacher.cs" />
     <Compile Include="Data\DivisionSubject.cs" />
-    <Compile Include="Data\StudentClassDivision.cs" />
     <Compile Include="Data\Subject.cs" />
     <Compile Include="Data\Division.cs" />
     <Compile Include="Data\Class.cs" />

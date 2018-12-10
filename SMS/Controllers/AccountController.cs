@@ -172,19 +172,19 @@ namespace SMS.Controllers
 			ViewData["ReturnUrl"] = model.ReturnUrl;
 			if (ModelState.IsValid)
 			{
-				var _user = _userService.GetUserByUsername(model.Email);
-				if (_user != null && _user.IsApproved)
+				var user = _userService.GetUserByUsername(model.Email);
+				if (user != null && user.IsApproved)
 				{
-					if (_user.Password == model.Password)
+					if (user.Password == model.Password)
 					{
 						//var userinformation = _userInfoService.GetUserInformationByUserId(_user.Id);
 
 						// Update Last Login Date
-						_user.LastLoginDate = DateTime.Now;
-						_userService.Update(_user);
+						user.LastLoginDate = DateTime.Now;
+						_userService.Update(user);
 
 						//sign in customer
-						_authenticationService.SignIn(_user, model.RememberMe);
+						_authenticationService.SignIn(user, model.RememberMe);
 
 						// Send Notification To The User
 						var template = _settingService.GetSettingByKey("UserSignInAttempt");
@@ -193,11 +193,11 @@ namespace SMS.Controllers
 							var Template = _templateService.GetTemplateByName(template.Value);
 
 							var tokens = new List<DataToken>();
-							_templateService.AddUserTokens(tokens, _user);
+							_templateService.AddUserTokens(tokens, user);
 
 							foreach (var dt in tokens)
 							{
-								Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+								Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), $"[{dt.Name}]", dt.Value, StringComparison.InvariantCulture);
 							}
 
 							//var _userInfo = _userInfoService.GetUserInformationByUserId(_user.Id);
@@ -214,7 +214,7 @@ namespace SMS.Controllers
 							//}
 						}
 
-						_userContext.CurrentUser = _user;
+						_userContext.CurrentUser = user;
 
 						if (ViewData["ReturnUrl"] == null)
 						{

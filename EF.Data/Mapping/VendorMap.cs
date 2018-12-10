@@ -10,7 +10,14 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Vendor");
 			this.HasKey(b => b.Id);
-			this.HasRequired(all => all.AcadmicYear).WithMany().HasForeignKey(all => all.AcadmicYearId);
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.Address).IsOptional();
+            this.Property(b => b.Date).IsOptional();
+            this.Property(b => b.MobileContact).IsOptional();
+            this.Property(b => b.OfficeContact).IsOptional();
+            this.Property(b => b.RegNumber).IsOptional();
+
+            this.HasRequired(all => all.AcadmicYear).WithMany().HasForeignKey(all => all.AcadmicYearId);
 			EntityTracker.TrackAllProperties<Vendor>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}

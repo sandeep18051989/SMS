@@ -8,18 +8,25 @@ namespace EF.Core.Data
 		[NotMapped]
 		public virtual ICollection<MessageGroup> _MessageGroups { get; set; }
 
-		public int ClassId { get; set; }
-		public string DivisionName { get; set; }
+        [NotMapped]
+        public virtual ICollection<ClassDivision> _Classes { get; set; }
+
+        public string Name { get; set; }
 		public string Description { get; set; }
-		public virtual Class Class { get; set; }
-		public int ClassRoomId { get; set; }
-		public virtual ClassRoom ClassRoom { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
-		#region Navigation Properties
+        public int DisplayOrder { get; set; }
 
-		public virtual ICollection<MessageGroup> MessageGroups
+        #region Navigation Properties
+
+        public virtual ICollection<ClassDivision> Classes
+        {
+            get { return _Classes ?? (_Classes = new List<ClassDivision>()); }
+            protected set { _Classes = value; }
+        }
+
+        public virtual ICollection<MessageGroup> MessageGroups
 		{
 			get { return _MessageGroups ?? (_MessageGroups = new List<MessageGroup>()); }
 			protected set { _MessageGroups = value; }

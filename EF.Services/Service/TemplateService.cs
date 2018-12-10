@@ -194,6 +194,16 @@ namespace EF.Services.Service
             tokens.Add(new DataToken() { Name = "User Created On", SystemName = "UserCreationDate", Value = user.CreatedOn.ToString("dd MMM yyyy HH:mm") });
         }
 
+        public virtual void AddFeedbackTokens(IList<DataToken> tokens, Feedback feedback)
+        {
+            tokens.Add(new DataToken() { Name = "Visitor Name", SystemName = "VisitorName", Value = feedback.FullName });
+            tokens.Add(new DataToken() { Name = "Feedback Email", SystemName = "FeedbackEmail", Value = feedback.Email });
+            tokens.Add(new DataToken() { Name = "Feedback Id", SystemName = "FeedbackId", Value = feedback.Id.ToString() });
+            tokens.Add(new DataToken() { Name = "Feedback Contact", SystemName = "FeedbackContact", Value = feedback.Contact });
+            tokens.Add(new DataToken() { Name = "Feedback Location", SystemName = "FeedbackLocation", Value = feedback.Location });
+            tokens.Add(new DataToken() { Name = "Feedback Description", SystemName = "FeedbackDescription", Value = feedback.Description });
+        }
+
         public virtual void AddAssessmentTokens(IList<DataToken> tokens, Assessment assessment)
         {
             var assessmentData = _assessmentRepository.Table.FirstOrDefault(x => x.Id == assessment.Id);

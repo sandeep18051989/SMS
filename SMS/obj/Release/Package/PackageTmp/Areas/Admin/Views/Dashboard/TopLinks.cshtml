@@ -1,0 +1,41 @@
+﻿@using System.Web.Mvc;
+@using EF.Services.Http;
+@using EF.Services.Service;
+@model SMS.Areas.Admin.Models.TopLinksModel
+@{
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+    var pictureService = EF.Core.ContextHelper.Current.Resolve<IPictureService>();
+    var userService = EF.Core.ContextHelper.Current.Resolve<IUserService>();
+    //var userInfoService = EF.Core.ContextHelper.Current.Resolve<IUserInfoService>();
+    var avtarpicture = basePath + "Content/images/avatarnotfound.png";
+    //var userinfo = userInfoService.GetUserInformationByUserId(Model.user.Id);
+    //if (userinfo != null && userinfo.ProfilePictureId > 0)
+    //{
+    //	avtarpicture = pictureService.GetPictureById(userinfo.ProfilePictureId).PictureSrc;
+    //}
+}
+<ul class="nav navbar-nav nav-flex-icons ml-auto">
+    @if (Model.IsAuthenticated)
+    {
+        <li class="nav-item"><a class="nav-link waves-effect waves-light" target="_blank" href="@Url.Action("MyAccount","Account", new { Area = "" })"><i class="fa fa-envelope"></i><span class="clearfix d-none d-sm-inline-block"> My Account</span></a></li>
+        <li class="nav-item"><a class="nav-link waves-effect waves-light" href="@Url.Action("LogOff","Dashboard", new { Area = "Admin" })"><i class="fa fa-envelope"></i><span class="clearfix d-none d-sm-inline-block"> Log Out</span></a></li>
+    } 
+    <li class="nav-item dropdown">@Html.Action("AcadmicYear","Dashboard")</li>
+</ul>
+<script type="text/javascript">
+    handleDashboardGritterNotification = function () {
+        $(window).load(function() {
+            setTimeout(function() {
+                    $.gritter.add({
+                        title: "Welcome back, @Model.user.UserName!",
+                        text: "New Dashboard Released",
+                        image: "@avtarpicture",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                },
+                1e3);
+        });
+    }
+</script>

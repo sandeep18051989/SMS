@@ -10,6 +10,7 @@ namespace SMS.Validations
 		public ClassModelValidator()
 		{
 			RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter class name");
-		}
+            RuleFor(x => x.AcadmicYearId).NotEmpty().WithMessage("Please select acadmic year");
+        }
 	}
 }

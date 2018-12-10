@@ -15,7 +15,7 @@ namespace SMS.Validations
 			RuleFor(x => x.AdminUsername).NotEmpty().WithMessage("Please Enter Admin Username");
 			RuleFor(x => x.School.AcadmicYearName).NotEmpty().WithMessage("Please Enter Acadmic Year");
 			RuleFor(x => x.School.FullName).NotEmpty().WithMessage("Please Enter School Full Name");
-			//RuleFor(x => x.School.SystemName).NotEmpty().WithMessage("Please Enter School System Name Without Spaces");
+			RuleFor(x => x.School.Email).NotEmpty().WithMessage("Please Enter Primary Email Address");
 			RuleFor(x => x.AdminPassword).NotEmpty().Length(8, 50).WithMessage("Invalid Password, Admin Password must have 8 characters long");
 
 		}

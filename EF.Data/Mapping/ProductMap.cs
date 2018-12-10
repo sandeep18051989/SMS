@@ -12,9 +12,12 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Product");
 			this.HasKey(pro => pro.Id);
+            this.Property(b => b.Description).IsOptional();
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.VendorId).IsRequired();
 
-			// Relationships
-			this.HasMany(pro => pro.Files).WithMany(p => p.Products).Map(m => m.ToTable("Product_File_Map").MapLeftKey("ProductId").MapRightKey("FileId"));
+            // Relationships
+            this.HasMany(pro => pro.Files).WithMany(p => p.Products).Map(m => m.ToTable("Product_File_Map").MapLeftKey("ProductId").MapRightKey("FileId"));
 			this.HasMany(pro => pro.Comments).WithMany(p => p.Products).Map(m => m.ToTable("Product_Comment_Map").MapLeftKey("ProductId").MapRightKey("CommentId"));
 
 			this.HasRequired(cust => cust.Vendor).WithMany().HasForeignKey(cust => cust.VendorId);

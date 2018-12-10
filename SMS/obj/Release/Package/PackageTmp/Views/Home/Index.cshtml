@@ -1,0 +1,87 @@
+﻿@using SMS.Models;
+@using EF.Services.Http;
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "SMS";
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#main-menu li").removeClass('active');
+		$("#main-menu li:first-child").addClass('active');
+	});
+</script>
+<section class="slider-content">
+	<div class="row-fluid no-gutters">
+		@Html.Action("Index", "Slider")
+	</div>
+</section>
+<section class="principal-message text-center">
+	<div class="row-fluid no-gutters">
+		@Html.Action("Page", "Page", new { systemName = "PrincipalMessage" })
+	</div>
+</section>
+@*<div class="container principal-intro-row">
+		 <div class="row">
+			  <div class="hidden-xs col-6 col-6 col-6">
+					<img src="/Content/images/principal1.jpg" alt="Our Principal">
+			  </div>
+			  <div class="col-xs-8 col-6 col-6 col-6 principal-intro">
+					<h6><i class="fa fa-star-o"></i><span>MEET OUR STAR</span><i class="fa fa-star-o"></i></h6>
+					<h3>MEET OUR PRINCIPAL</h3>
+					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+					<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+					<h6 class="principal-name">Mr JOHN DOE, M.D, P.C</h6>
+					<div>
+						 <a href="#" class="know-more-btn"><i class="fa fa-paper-plane"></i>KNOW MORE</a>
+					</div>
+			  </div>
+		 </div>
+	</div>*@
+<!-- Event Section -->
+<section class="events text-center">
+	<div class="row no-gutters">
+		@Html.Action("Index", "Event", new { area = "" })
+	</div>
+</section>
+<!-- Teacher Section -->
+<section class="teachers text-center">
+	<div class="row-fluid no-gutters">
+		@Html.Action("Index", "Employee", new { area = "" })
+	</div>
+</section>
+<!-- News Section -->
+<section class="news text-center">
+	<div class="row-fluid no-gutters">
+		@Html.Action("Index", "News", new { area = "" })
+	</div>
+</section>
+@* Admission Apply *@
+<section class="admission-template text-center">
+	<div class="row-fluid no-gutters">
+		@Html.Action("Page", "Page", new { systemName = "AdmissionSection" })
+	</div>
+</section>
+<section class="blogs text-center">
+	<div class="row-fluid no-gutters">
+		@Html.Action("Index", "Blog", new { Area = "" })
+	</div>
+</section>
+@*<div class="row apply-know-row">
+		 <div class="container">
+			  <div class="col-sm-6 admission-row">
+					<h3>ADMISSIONS ARE OPEN</h3>
+					<p>It is a long established fact that a reader will be distracted by the content of a page when looking at its layout.</p>
+					<a href="#"><i class="fa fa-edit"></i>APPLY NOW</a>
+			  </div>
+			  <div class="col-sm-6 info-row">
+					<h3>HAVE ANY QUERIES?</h3>
+					<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+					<div class="input-wrapper">
+						 <input type="text" placeholder="e.g. email@pathshala.com"><a href="#"><i class="fa fa-paper-plane"></i></a>
+					</div>
+			  </div>
+		 </div>
+	</div>*@
+

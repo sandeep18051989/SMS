@@ -476,6 +476,10 @@
     <Content Include="Content\images\edit.gif" />
     <Content Include="Content\images\HNCK1088.jpg" />
     <Content Include="Content\images\coverplaceholder.png" />
+    <Content Include="Content\images\Houses\gandhi.jpg" />
+    <Content Include="Content\images\Houses\nehru.jpg" />
+    <Content Include="Content\images\Houses\patel.jpg" />
+    <Content Include="Content\images\Houses\tagore.jpg" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\login-bg.jpg" />
     <Content Include="Content\images\Me\me1.png" />
@@ -1035,6 +1039,11 @@
     <Content Include="Areas\Admin\Views\Slider\_SliderPictures.cshtml" />
     <Content Include="Areas\Admin\Views\Slider\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Slider\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Class\_ClassHomeworks.cshtml" />
+    <Content Include="Areas\Admin\Views\Class\_ClassDivisions.cshtml" />
+    <Content Include="Areas\Admin\Views\Class\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Class\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Class\List.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1444,11 +1453,13 @@
     <Compile Include="App_Start\SeoRoutes.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminAreaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DivisionController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DataTokenController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomPageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuditController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ClassController.cs" />
     <Compile Include="Areas\Admin\Controllers\StudentController.cs" />
     <Compile Include="Areas\Admin\Controllers\VendorController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
@@ -1472,6 +1483,7 @@
     <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />
     <Compile Include="Areas\Admin\Models\AuditListModel.cs" />
     <Compile Include="Controllers\DeveloperController.cs" />
+    <Compile Include="Models\ClassDivisionModel.cs" />
     <Compile Include="Models\ColorSettingsModel.cs" />
     <Compile Include="Areas\Admin\Models\CreatePermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\CreateTemplateModel.cs" />
@@ -1483,7 +1495,7 @@
     <Compile Include="Areas\Admin\Models\RolePermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\PermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\NotificationModel.cs" />
-    <Compile Include="Areas\Admin\Models\ReplyModel.cs" />
+    <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\SettingsViewModel.cs" />
     <Compile Include="Models\MenuSettingsModel.cs" />
     <Compile Include="Models\PictureSettingsModel.cs" />

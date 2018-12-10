@@ -11,7 +11,7 @@ namespace EF.Core.Data
 		public string FeeType { get; set; }
 		public int DD { get; set; }
 		public int MM { get; set; }
-		public int YY { get; set; }
+		public int YYYY { get; set; }
 		public int Installments { get; set; }
 		public DateTime Date { get; set; }
 		public int CashierId { get; set; }

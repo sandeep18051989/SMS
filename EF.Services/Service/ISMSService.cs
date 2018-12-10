@@ -89,34 +89,53 @@ namespace EF.Services.Service
 		void UpdateClass(Class objClass);
 		void DeleteClass(int id);
 		Class GetClassById(int id);
-		IList<Class> GetClassByName(string name, bool? active);
-		#endregion
-		#region Division
-		void InsertDivision(Division division);
+		IList<Class> GetClassByName(string name);
+        bool CheckClassExists(string name, int? id = null);
+        void ToggleActiveStatusClass(int id);
+        IList<Class> GetAllClasses(bool? onlyActive = null);
+        IList<ClassDivision> GetAllDivisionsByClass(int? id, bool? onlyActive = null);
+        IList<ClassHomework> GetAllHomeworkByClass(int id);
+        #endregion
+        #region Class Division
+        void InsertClassDivision(ClassDivision division);
+        void UpdateClassDivision(ClassDivision division);
+        void DeleteClassDivision(int id);
+        IList<ClassDivision> GetDivisionsByClass(int id);
+        IList<ClassDivision> GetClassDivisions(int? classid = null, int? divisionid = null, int? classroomid = null);
+
+        #endregion
+        #region Homework
+
+        void InsertHomework(Homework objHomework);
+        void UpdateHomework(Homework objHomework);
+        void DeleteHomework(int id);
+        Homework GetHomeworkById(int id);
+
+        #endregion
+        #region Class Homework
+
+        void InsertClassHomework(ClassHomework objHomework);
+        void UpdateClassHomework(ClassHomework objHomework);
+        void DeleteClassHomework(int id);
+        ClassHomework GetClassHomeworkById(int id);
+
+        #endregion
+        #region Division
+        void InsertDivision(Division division);
 		void UpdateDivision(Division division);
 		void DeleteDivision(int id);
-		IList<Division> GetAllDivisions(bool? active);
+		IList<Division> GetAllDivisions(bool? onlyActive = null);
 		Division GetDivisionById(int id);
 		IList<Division> GetDivisionsByName(string name, bool? active);
-		IList<Division> SearchDivisions(bool? active, string classname = null);
-		IList<Division> SearchDivisions(bool? active, int classid = 0);
-		#endregion
-		#region Subject
-		void InsertSubject(Subject subject);
+        bool CheckDivisionExists(string name, int? id = null);
+        void ToggleActiveStatusDivision(int id);
+        #endregion
+        #region Subject
+        void InsertSubject(Subject subject);
 		void UpdateSubject(Subject subject);
 		void DeleteSubject(int id);
 		Subject GetSubjectById(int id);
 		IList<Subject> GetSubjectByName(string name, bool? active);
-		#endregion
-		#region Division Class Student
-		void InsertStudentClassDivision(StudentClassDivision divisionClassStudent);
-		void UpdateStudentClassDivision(StudentClassDivision divisionClassStudent);
-		void DeleteStudentClassDivision(int id);
-		IList<StudentClassDivision> GetAllDivisionClassStudentMappings(bool? active);
-		StudentClassDivision GetDivisionClassStudentMappingById(int id);
-		IList<StudentClassDivision> SearchDivisionClassStudentMappings(bool? active, string division = null, string classname = null, string studentusername = null, int? acedemicyearid = null);
-		IList<StudentClassDivision> SearchDivisionClassStudents(bool? active, int divisionid = 0, int classid = 0, int studentid = 0, int? acedemicyearid = null);
-
 		#endregion
 		#region Division Subject
 		void InsertDivisionSubject(DivisionSubject divisionClassSubject);
@@ -249,13 +268,13 @@ namespace EF.Services.Service
 		AcadmicYear GetActiveAcadmicYear();
 		AcadmicYear GetAcadmicYearById(int id);
 		AcadmicYear GetAcadmicYearByName(string name, bool? active = null);
-		IList<AcadmicYear> GetAllAcadmicYears(bool? active);
+        IList<AcadmicYear> GetAllAcadmicYears(bool? onlyActive = null);
 		IList<Teacher> GetTeachersByIds(int[] userIds);
 		void DeleteTeachers(IList<Teacher> users);
 		void ToggleUser(int id);
 		int GetTeacherCountByLoginDate(DateTime logindate);
         #endregion
-      #region Reaction
+        #region Reaction
         void InsertReaction(Reaction objReaction);
         void UpdateReaction(Reaction objReaction);
         Reaction GetReactionById(int id);

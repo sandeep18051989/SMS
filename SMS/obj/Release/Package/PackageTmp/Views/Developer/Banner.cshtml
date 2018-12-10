@@ -1,0 +1,17 @@
+﻿@model SMS.Models.SliderModel
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<h4>Hello!</h4>
+<h1>I'm Sandeep Kumar</h1>
+<h3 class="cd-headline clip">
+    <span class="cd-words-wrapper">
+        <b class="is-visible">.Net Core/MVC/ASP.NET</b>
+        <b class="is-hidden">Nopcommerce</b>
+        <b class="is-hidden">Ablecommerce</b>
+        <b class="is-hidden">Dynamics 365</b>
+    </span>Developer
+</h3>
+@*<a href="#" class="banner-btn">Download CV</a>*@

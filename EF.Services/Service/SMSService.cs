@@ -25,7 +25,6 @@ namespace EF.Services.Service
 		private readonly IRepository<Class> _classRepository;
 		private readonly IRepository<Subject> _subjectRepository;
 		private readonly IRepository<Division> _divisionRepository;
-		private readonly IRepository<StudentClassDivision> _divisionClassStudentRepository;
 		private readonly IRepository<DivisionSubject> _divisionClassSubjectRepository;
 		private readonly IRepository<Designation> _designationRepository;
 		private readonly IRepository<TimeTableSetting> _dailyTimeTableSettingRepository;
@@ -55,7 +54,10 @@ namespace EF.Services.Service
 		private readonly IRepository<Assessment> _assessmentRepository;
 		private readonly IRepository<StudentAssessment> _studentAssessmentRepository;
 		private readonly IRepository<AssessmentQuestion> _assesQuestionRepository;
-		private readonly IDataProvider _dataProvider;
+        private readonly IRepository<Homework> _homeworkRepository;
+        private readonly IRepository<ClassHomework> _classHomeworkRepository;
+        private readonly IRepository<ClassDivision> _classDivisionRepository;
+        private readonly IDataProvider _dataProvider;
 		private readonly IDbContext _dbContext;
 
 		public SMSService(IRepository<Student> studentRepository,
@@ -71,7 +73,6 @@ namespace EF.Services.Service
 		IRepository<Class> classRepository,
 		IRepository<Subject> subjectRepository,
 		IRepository<Division> divisionRepository,
-		IRepository<StudentClassDivision> divisionClassStudentRepository,
 		IRepository<DivisionSubject> divisionClassSubjectRepository,
 		IRepository<Designation> designationRepository,
 		IRepository<TimeTableSetting> dailyTimeTableSettingRepository,
@@ -98,7 +99,10 @@ namespace EF.Services.Service
 		IRepository<Assessment> assessmentRepository,
 		IRepository<StudentAssessment> studentAssessmentRepository,
 		IRepository<AssessmentQuestion> assesQuestionRepository,
-		IDbContext dbContext)
+        IRepository<Homework> homeworkRepository,
+        IRepository<ClassHomework> classHomeworkRepository,
+        IRepository<ClassDivision> classDivisionRepository,
+        IDbContext dbContext)
 		{
 			this._studentRepository = studentRepository;
 			this._teacherRepository = teacherRepository;
@@ -113,7 +117,6 @@ namespace EF.Services.Service
 			this._classRepository = classRepository;
 			this._subjectRepository = subjectRepository;
 			this._divisionRepository = divisionRepository;
-			this._divisionClassStudentRepository = divisionClassStudentRepository;
 			this._divisionClassSubjectRepository = divisionClassSubjectRepository;
 			this._designationRepository = designationRepository;
 			this._dailyTimeTableSettingRepository = dailyTimeTableSettingRepository;
@@ -145,6 +148,9 @@ namespace EF.Services.Service
 			this._assessmentRepository = assessmentRepository;
 			this._studentAssessmentRepository = studentAssessmentRepository;
 			this._assesQuestionRepository = assesQuestionRepository;
+            this._homeworkRepository = homeworkRepository;
+            this._classHomeworkRepository = classHomeworkRepository;
+            this._classDivisionRepository = classDivisionRepository;
 		}
 		#endregion
 		#region ISMSService Members
@@ -644,7 +650,7 @@ namespace EF.Services.Service
 			if (active.HasValue)
 				query = query.Where(x => x.IsActive).ToList();
 
-			return query.OrderBy(x => x.CategoryName).ToList();
+			return query.OrderBy(x => x.Name).ToList();
 		}
 		public Category GetCategoryById(int id)
 		{
@@ -658,12 +664,12 @@ namespace EF.Services.Service
 			if (string.IsNullOrEmpty(name))
 				throw new Exception("Category Name is Missing.");
 
-			var query = _categoryRepository.Table.Where(a => (a.CategoryName.ToLower().Contains(name.ToLower())) && a.IsDeleted == false).ToList();
+			var query = _categoryRepository.Table.Where(a => (a.Name.ToLower().Contains(name.ToLower())) && a.IsDeleted == false).ToList();
 
 			if (active.HasValue)
 				query = query.Where(x => x.IsActive == active).ToList();
 
-			return query.OrderBy(x => x.CategoryName).ToList();
+			return query.OrderBy(x => x.Name).ToList();
 		}
 		#endregion
 		#region Class
@@ -692,21 +698,141 @@ namespace EF.Services.Service
 
 			return _classRepository.Table.FirstOrDefault(x => x.Id == id);
 		}
-		public IList<Class> GetClassByName(string name, bool? active)
+		public IList<Class> GetClassByName(string name)
 		{
 			if (string.IsNullOrEmpty(name))
-				throw new Exception("Class Name is Missing.");
+				throw new ArgumentNullException("name");
 
-			var query = _classRepository.Table.Where(a => (a.Name.ToLower().Contains(name.ToLower())) && a.IsDeleted == false).ToList();
-
-			if (active.HasValue)
-				query = query.Where(x => x.IsActive == active).ToList();
-
-			return query.OrderBy(x => x.Name).ToList();
+			return _classRepository.Table.Where(a => (a.Name.ToLower().Contains(name.ToLower()))).ToList();
 		}
-		#endregion
-		#region Division
-		public void InsertDivision(Division division)
+
+        public bool CheckClassExists(string name, int? id=null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _classRepository.Table.Any(a => (a.Name.ToLower() == name.ToLower()) && (!id.HasValue || id.Value != a.Id));
+        }
+
+        public IList<Class> GetAllClasses(bool? onlyActive=null)
+	    {
+	        return _classRepository.Table.Where(a => (!onlyActive.HasValue || onlyActive.Value == a.IsActive) && a.IsDeleted == false).ToList();
+	    }
+
+        public void ToggleActiveStatusClass(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objClass = _classRepository.Table.Where(x => x.Id == id).FirstOrDefault();
+            if (objClass != null)
+            {
+                objClass.IsActive = !objClass.IsActive;
+                _classRepository.Update(objClass);
+            }
+
+        }
+
+        public IList<ClassDivision> GetAllDivisionsByClass(int? id, bool? onlyActive = null)
+	    {
+	        if (id == 0)
+	            throw new ArgumentNullException("id");
+
+            return _classDivisionRepository.Table.Where(a => (!onlyActive.HasValue || (onlyActive.Value == a.Division.IsActive && onlyActive.Value == a.Class.IsActive && onlyActive.Value == a.ClassRoom.IsActive)) && (!id.HasValue || a.ClassId == id.Value)).ToList();
+	    }
+
+        public IList<ClassHomework> GetAllHomeworkByClass(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _classHomeworkRepository.Table.Where(x => x.ClassId == id).ToList();
+        }
+        #endregion
+        #region Class Division
+        public void InsertClassDivision(ClassDivision division)
+        {
+            _classDivisionRepository.Insert(division);
+        }
+        public void UpdateClassDivision(ClassDivision division)
+        {
+            _classDivisionRepository.Update(division);
+        }
+        public void DeleteClassDivision(int id)
+        {
+            var division = _classDivisionRepository.Table.FirstOrDefault(s => s.Id == id);
+            if (division != null)
+            {
+                _classDivisionRepository.Update(division);
+            }
+        }
+        public IList<ClassDivision> GetDivisionsByClass(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _classDivisionRepository.Table.Where(x => x.ClassId == id).ToList();
+        }
+        public IList<ClassDivision> GetClassDivisions(int? classid=null, int? divisionid=null, int? classroomid=null)
+        {
+            return _classDivisionRepository.Table.Where(x => (!classid.HasValue || x.ClassId == classid.Value) && (!divisionid.HasValue || x.DivisionId == divisionid.Value) && (!classroomid.HasValue || x.ClassRoomId == classroomid.Value)).ToList();
+        }
+
+        #endregion
+        #region Homework
+        public void InsertHomework(Homework objHomework)
+        {
+            _homeworkRepository.Insert(objHomework);
+        }
+        public void UpdateHomework(Homework objHomework)
+        {
+            _homeworkRepository.Update(objHomework);
+        }
+        public void DeleteHomework(int id)
+        {
+            var objHomework = _homeworkRepository.Table.FirstOrDefault(s => s.Id == id);
+            if (objHomework != null)
+            {
+                objHomework.IsActive = false;
+                objHomework.IsDeleted = true;
+                _homeworkRepository.Update(objHomework);
+            }
+        }
+        public Homework GetHomeworkById(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _homeworkRepository.Table.FirstOrDefault(x => x.Id == id);
+        }
+        #endregion
+        #region Class Homework
+        public void InsertClassHomework(ClassHomework objHomework)
+        {
+            _classHomeworkRepository.Insert(objHomework);
+        }
+        public void UpdateClassHomework(ClassHomework objHomework)
+        {
+            _classHomeworkRepository.Update(objHomework);
+        }
+        public void DeleteClassHomework(int id)
+        {
+            var objHomework = _classHomeworkRepository.Table.FirstOrDefault(s => s.Id == id);
+            if (objHomework != null)
+            {
+                _classHomeworkRepository.Delete(objHomework);
+            }
+        }
+        public ClassHomework GetClassHomeworkById(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _classHomeworkRepository.Table.FirstOrDefault(x => x.Id == id);
+        }
+        #endregion
+        #region Division
+        public void InsertDivision(Division division)
 		{
 			_divisionRepository.Insert(division);
 		}
@@ -724,14 +850,9 @@ namespace EF.Services.Service
 				_divisionRepository.Update(division);
 			}
 		}
-		public IList<Division> GetAllDivisions(bool? active)
+		public IList<Division> GetAllDivisions(bool? onlyActive=null)
 		{
-			var query = _divisionRepository.Table.ToList();
-
-			if (active.HasValue)
-				query = query.Where(x => x.IsActive).ToList();
-
-			return query.OrderBy(x => x.DivisionName).ToList();
+			return _divisionRepository.Table.Where(x => (!onlyActive.HasValue || onlyActive.Value == x.IsActive)).ToList();
 		}
 		public Division GetDivisionById(int id)
 		{
@@ -745,42 +866,36 @@ namespace EF.Services.Service
 			if (string.IsNullOrEmpty(name))
 				throw new Exception("Division Name is Missing.");
 
-			var query = _divisionRepository.Table.Where(a => a.DivisionName.ToLower().Contains(name.ToLower()) && a.IsDeleted == false).ToList();
+			var query = _divisionRepository.Table.Where(a => a.Name.ToLower().Contains(name.ToLower()) && a.IsDeleted == false).ToList();
 
 			if (active.HasValue)
 				query = query.Where(x => x.IsActive == active).ToList();
 
-			return query.OrderBy(x => x.DivisionName).ToList();
+			return query.OrderBy(x => x.Name).ToList();
 		}
-		public IList<Division> SearchDivisions(bool? active, string classname = null)
-		{
-			var query = _divisionRepository.Table.ToList();
+        public bool CheckDivisionExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
 
-			if (active.HasValue)
-				query = query.Where(s => s.IsActive == active).ToList();
+            return _divisionRepository.Table.Any(a => (a.Name.ToLower() == name.ToLower()) && (!id.HasValue || id.Value != a.Id));
+        }
+        public void ToggleActiveStatusDivision(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
 
-			if (!String.IsNullOrEmpty(classname))
-				query = query.Where(s => s.Class.Name.Trim().ToLower() == classname.Trim().ToLower()).ToList();
+            var objDivision = _divisionRepository.Table.Where(x => x.Id == id).FirstOrDefault();
+            if (objDivision != null)
+            {
+                objDivision.IsActive = !objDivision.IsActive;
+                _divisionRepository.Update(objDivision);
+            }
 
-			return query.OrderBy(s => s.DivisionName).ToList();
-
-		}
-		public IList<Division> SearchDivisions(bool? active, int classid = 0)
-		{
-			var query = _divisionRepository.Table.ToList();
-
-			if (active.HasValue)
-				query = query.Where(s => s.IsActive == active).ToList();
-
-			if (classid > 0)
-				query = query.Where(s => s.ClassId == classid).ToList();
-
-			return query.OrderBy(s => s.DivisionName).ToList();
-
-		}
-		#endregion
-		#region Subject
-		public void InsertSubject(Subject subject)
+        }
+        #endregion
+        #region Subject
+        public void InsertSubject(Subject subject)
 		{
 			_subjectRepository.Insert(subject);
 		}
@@ -818,66 +933,6 @@ namespace EF.Services.Service
 			return query.OrderBy(x => x.Name).ToList();
 		}
 		#endregion
-		#region Student Class Division
-		public void InsertStudentClassDivision(StudentClassDivision divisionClassStudent)
-		{
-			_divisionClassStudentRepository.Insert(divisionClassStudent);
-		}
-		public void UpdateStudentClassDivision(StudentClassDivision divisionClassStudent)
-		{
-			_divisionClassStudentRepository.Update(divisionClassStudent);
-		}
-		public void DeleteStudentClassDivision(int id)
-		{
-			var divisionClassStudent = _divisionClassStudentRepository.Table.FirstOrDefault(s => s.Id == id);
-			//divisionClassStudent.IsActive = false;
-			//divisionClassStudent.IsDeleted = true;
-			_divisionClassStudentRepository.Update(divisionClassStudent);
-		}
-		public IList<StudentClassDivision> GetAllDivisionClassStudentMappings(bool? active)
-		{
-			return _divisionClassStudentRepository.Table.OrderBy(x => x.DivisionName).ToList();
-		}
-		public StudentClassDivision GetDivisionClassStudentMappingById(int id)
-		{
-			if (id == 0)
-				throw new System.Exception("Division Class Student Mapping Id Is Missing.");
-
-			return _divisionClassStudentRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
-		public IList<StudentClassDivision> SearchDivisionClassStudentMappings(bool? active, string division = null, string classname = null, string student = null, int? acedemicyearid = null)
-		{
-			var query = _divisionClassStudentRepository.Table.ToList();
-
-			if (!String.IsNullOrEmpty(classname))
-				query = query.Where(s => s.Class.Name.Trim().ToLower() == classname.Trim().ToLower()).ToList();
-
-			if (!String.IsNullOrEmpty(division))
-				query = query.Where(s => s.DivisionName.Trim().ToLower() == division.Trim().ToLower()).ToList();
-
-			if (!String.IsNullOrEmpty(student))
-				query = query.Where(s => s.StudentName.Trim().ToLower() == student.Trim().ToLower()).ToList();
-
-			return query.OrderBy(s => s.DivisionName).ToList();
-
-		}
-		public IList<StudentClassDivision> SearchDivisionClassStudents(bool? active, int divisionid = 0, int classid = 0, int studentid = 0, int? acedemicyearid = null)
-		{
-			var query = _divisionClassStudentRepository.Table.ToList();
-
-			if (classid > 0)
-				query = query.Where(s => s.Class.Id == classid).ToList();
-
-			if (divisionid > 0)
-				query = query.Where(s => s.DivisionId == divisionid).ToList();
-
-			if (studentid > 0)
-				query = query.Where(s => s.StudentId == studentid).ToList();
-
-			return query.OrderBy(s => s.DivisionName).ToList();
-
-		}
-		#endregion
 		#region Division Subject
 		public void InsertDivisionSubject(DivisionSubject divisionClassSubject)
 		{
@@ -896,7 +951,7 @@ namespace EF.Services.Service
 		}
 		public IList<DivisionSubject> GetAllDivisionSubjectMappings(bool? active)
 		{
-			return _divisionClassSubjectRepository.Table.OrderBy(x => x.Division.DivisionName).ToList();
+			return _divisionClassSubjectRepository.Table.OrderBy(x => x.Division.Name).ToList();
 		}
 		public DivisionSubject GetDivisionSubjectMappingById(int id)
 		{
@@ -910,12 +965,12 @@ namespace EF.Services.Service
 			var query = _divisionClassSubjectRepository.Table.ToList();
 
 			if (!String.IsNullOrEmpty(division))
-				query = query.Where(s => s.Division.DivisionName.Trim().ToLower() == division.Trim().ToLower()).ToList();
+				query = query.Where(s => s.Division.Name.Trim().ToLower() == division.Trim().ToLower()).ToList();
 
 			if (!String.IsNullOrEmpty(subject))
 				query = query.Where(s => s.Subject.Name.Trim().ToLower() == subject.Trim().ToLower()).ToList();
 
-			return query.OrderBy(s => s.Division.DivisionName).ToList();
+			return query.OrderBy(s => s.Division.Name).ToList();
 
 		}
 		public IList<DivisionSubject> SearchDivisionSubjects(bool? active, int divisionid = 0, int subjectid = 0)
@@ -928,7 +983,7 @@ namespace EF.Services.Service
 			if (subjectid > 0)
 				query = query.Where(s => s.SubjectId == subjectid).ToList();
 
-			return query.OrderBy(s => s.Division.DivisionName).ToList();
+			return query.OrderBy(s => s.Division.Name).ToList();
 
 		}
 
@@ -1450,7 +1505,7 @@ namespace EF.Services.Service
 				query = query.Where(s => s.Student.UserName.Trim().ToLower() == student.Trim().ToLower()).ToList();
 
 			if (!String.IsNullOrEmpty(category))
-				query = query.Where(s => s.FeeCategoryStructure.CategoryName.Trim().ToLower() == category.Trim().ToLower()).ToList();
+				query = query.Where(s => s.FeeCategoryStructure.Name.Trim().ToLower() == category.Trim().ToLower()).ToList();
 
 			return query.OrderByDescending(s => s.Date).ToList();
 
@@ -1488,7 +1543,7 @@ namespace EF.Services.Service
 			if (string.IsNullOrEmpty(name))
 				throw new Exception("Message Group Name is Missing.");
 
-			return _messageGroupRepository.Table.Where(a => (a.GroupName.ToLower().Contains(name.ToLower()))).OrderBy(x => x.GroupName).ToList();
+			return _messageGroupRepository.Table.Where(a => (a.Name.ToLower().Contains(name.ToLower()))).OrderBy(x => x.Name).ToList();
 		}
 		#endregion
 		#region Student Message Group
@@ -1572,7 +1627,7 @@ namespace EF.Services.Service
 			if (string.IsNullOrEmpty(messagegroup))
 				throw new Exception("Message Group Name is Missing.");
 
-			var query = _messageRepository.Table.Where(a => (a.MessageGroup.GroupName.ToLower().Contains(messagegroup.ToLower())) && a.IsDeleted == false).ToList();
+			var query = _messageRepository.Table.Where(a => (a.MessageGroup.Name.ToLower().Contains(messagegroup.ToLower())) && a.IsDeleted == false).ToList();
 
 			if (active.HasValue)
 				query = query.Where(x => x.IsActive == active).ToList();
@@ -1668,14 +1723,9 @@ namespace EF.Services.Service
 			return query.FirstOrDefault();
 		}
 
-		public IList<AcadmicYear> GetAllAcadmicYears(bool? active)
+		public IList<AcadmicYear> GetAllAcadmicYears(bool? onlyActive=null)
 		{
-			var query = _acadmicYearRepository.Table.OrderBy(x => x.Name).ToList();
-
-			if (active.HasValue)
-				query = query.Where(x => x.IsActive == active).ToList();
-
-			return query.OrderBy(x => x.Name).ToList();
+			return _acadmicYearRepository.Table.Where(ac => (!onlyActive.HasValue || onlyActive.Value == ac.IsActive)).ToList();
 		}
 		#endregion
 		#region Reaction
@@ -1900,7 +1950,6 @@ namespace EF.Services.Service
 				}
 			}
 		}
-
 		public void SaveRating(int userid, int rating, int? blogid = null, int? productid = null, int? eventid = null, int? pictureid = null, int? videoid = null, int? newsid = null, int? commentid = null, int? replyid = null)
 		{
 			var reaction = SearchReactions(blogid, productid, eventid, pictureid, videoid, newsid, commentid, replyid);
@@ -1942,7 +1991,8 @@ namespace EF.Services.Service
 				}
 			}
 		}
-		#endregion
+		
+        #endregion
 		#region Question Type
 		public void InsertQuestionType(QuestionType questionType)
 		{
@@ -2146,8 +2196,8 @@ namespace EF.Services.Service
 			}
 		}
 
-		#endregion
-		#endregion
+        #endregion
+        #endregion
 
-	}
+    }
 }

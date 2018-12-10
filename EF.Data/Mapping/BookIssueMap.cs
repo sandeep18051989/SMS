@@ -11,7 +11,14 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("BookIssue");
 			this.HasKey(b => b.Id);
-			this.HasRequired(all => all.Book).WithMany().HasForeignKey(all => all.BookId);
+            this.Property(b => b.BookId).IsRequired();
+            this.Property(b => b.LibrarianId).IsRequired();
+            this.Property(b => b.StudentId).IsRequired();
+            this.Property(b => b.Username).IsRequired();
+            this.Property(b => b.StartDate).IsOptional();
+            this.Property(b => b.EndDate).IsOptional();
+
+            this.HasRequired(all => all.Book).WithMany().HasForeignKey(all => all.BookId);
 			this.HasRequired(all => all.Employee).WithMany().HasForeignKey(all => all.LibrarianId);
 			this.HasRequired(all => all.Student).WithMany().HasForeignKey(all => all.StudentId);
 

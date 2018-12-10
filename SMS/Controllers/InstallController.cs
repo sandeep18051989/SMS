@@ -222,6 +222,7 @@ namespace SMS.Controllers
 						school.SchoolGuid = new Guid();
 						school.CoverPictureId = model.School.CoverPictureId;
 						school.ProfilePictureId = model.School.ProfilePictureId;
+                        school.Email = model.School?.Email;
 
 						installationService.InstallData(model.AdminUsername, model.AdminPassword, school);
 

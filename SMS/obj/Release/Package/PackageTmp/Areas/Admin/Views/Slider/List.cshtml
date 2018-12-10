@@ -1,0 +1,374 @@
+﻿@model SMS.Models.SliderModel
+@{
+    ViewBag.Title = "Sliders";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group pull-right">
+                            @Html.ActionLink("Create Slider", "Create", "Slider", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th class="text-center"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Max Pictures</th>
+                                    <th class="text-center">Active</th>
+                                    <th class="text-center">Show Indicators</th>
+                                    <th class="text-center">Display Area</th>
+                                    <th class="text-center">Display Order</th>
+                                    <th class="text-center">Thumbnails</th>
+                                    <th class="text-center">Caption</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Sliders')").closest("li").addClass("active");
+
+        $('#allcheck').on('click',
+            function() {
+                var rows = table.rows({ 'search': 'applied' }).nodes();
+                $('input[type="checkbox"]', rows).prop('checked', this.checked);
+            });
+
+        $('.custom-table tbody').on('change',
+            'input[type="checkbox"]',
+            function() {
+                if (!this.checked) {
+                    var el = $('#allcheck').get(0);
+                    if (el && el.checked && ('indeterminate' in el)) {
+                        el.indeterminate = true;
+                    }
+                }
+            });
+
+        $("input[name=selectedids]").change(function() {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            } else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+
+        // Initiallize Datatable
+        $('.custom-table').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax": {
+                "url": "/Admin/Slider/LoadGrid",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "aaSorting": [],
+            "columns": [
+                {
+                    'searchable': false,
+                    "title": "",
+                    "data": "",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input" id="' +
+                                row.Id +
+                                '"><label class="form-check-label" for="' +
+                                row.Id +
+                                '"></label></div>';
+                        }
+                        return data;
+                    },
+                    "orderable": false,
+                    "className": 'text-center',
+                    "defaultContent": ""
+                },
+                {
+                    "data": "Name",
+                    "title": "Name",
+                    "className": "text-center",
+                    "name": "Title",
+                    "autoWidth": true,
+                    "defaultContent": ""
+                },
+                {
+                    "data": "MaxPictures",
+                    "title": "Max Pictures",
+                    "className": "text-center",
+                    "name": "MaxPictures",
+                    "autoWidth": true,
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+                {
+                    "data": "IsActive",
+                    "title": "Active",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            if (row.IsActive) {
+                                return '<a href="javascript:void(0);" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="deactivate" data-id="' +
+                                    row.Id +
+                                    '" title="Deactivate Slider"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+                            } else {
+                                return '<a href="javascript:void(0);" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="activate" data-id="' +
+                                    row.Id +
+                                    '" title="Activate Slider"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+                            }
+                        }
+                        return data;
+                    },
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+                {
+                    "data": "",
+                    "title": "Indicators",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            if (row.ShowNextPrevIndicators) {
+                                return '<a href="javascript:void(0);" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="hideindicator" data-id="' +
+                                    row.Id +
+                                    '" title="Hide Indicators"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+                            } else {
+                                return '<a href="javascript:void(0);" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="showindicator" data-id="' +
+                                    row.Id +
+                                    '" title="Show Indicators"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+                            }
+                        }
+                        return data;
+                    },
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                }, {
+                    "data": "DisplayAreaString",
+                    "title": "Display Area",
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+                {
+                    "data": "DisplayOrder",
+                    "title": "Display Order",
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+                {
+                    "data": "Thumbnails",
+                    "title": "Show Thumbnails",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            if (row.ShowThumbnails) {
+                                return '<a href="javascript:void(0);" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="hidethumbnail" data-id="' +
+                                    row.Id +
+                                    '" title="Hide Thumbnails"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+                            } else {
+                                return '<a href="javascript:void(0);" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="showthumbnail" data-id="' +
+                                    row.Id +
+                                    '" title="Show Thumbnails"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+                            }
+                        }
+                        return data;
+                    },
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+                {
+                    "data": "ShowCaption",
+                    "title": "Caption",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            if (row.ShowCaption) {
+                                return '<a href="javascript:void(0);" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="hidecaption" data-id="' +
+                                    row.Id +
+                                    '" title="Hide Caption"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+                            } else {
+                                return '<a href="javascript:void(0);" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="showcaption" data-id="' +
+                                    row.Id +
+                                    '" title="Show Caption"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+                            }
+                        }
+                        return data;
+                    },
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+                {
+                    "title": "Actions",
+                    "orderable": false,
+                    "className": 'text-center',
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return '<a href="/Admin/Slider/Edit/' +
+                                row.Id +
+                                '" id="edit_' +
+                                row.Id +
+                                '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
+                        }
+                        return data;
+                    },
+                    "defaultContent": ""
+                }
+            ],
+            "select": {
+                "style": 'os',
+                "selector": 'td:first-child'
+            }
+        });
+
+        $('a[class^="toggle_"]').click(function(e) {
+            e.preventDefault();
+            var postData = {
+                id: $(this).id.match(/\((.*)\)/)
+            };
+            addAntiForgeryToken(postData);
+
+            var operation = $(this).data('opeartion').trim().toLowerCase();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: (operation === "activate" || operation === "deactivate")
+                    ? "@(Url.Action("ToggleActiveStatus", "Slider"))"
+                    : (operation === "showindicator" || operation === "hideindicator")
+                    ? "@(Url.Action("ToggleIndicatorStatus", "Slider"))"
+                    : (operation === "showthumbnail" || operation === "hidethumbnail")
+                    ? "@(Url.Action("ToggleThumbnailStatus", "Slider"))"
+                    : (operation === "showcaption" || operation === "hidecaption")
+                    ? "@(Url.Action("ToggleCaptionStatus", "Slider"))"
+                    : "",
+                data: postData,
+                success: function(data, result) {
+                    if (result === "success") {
+                        setTimeout(function() {
+                                $.gritter.add({
+                                    title: "Success",
+                                    text: "Slider Updated Successfully!",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            },
+                            1e3);
+                        $('.custom-table').DataTable().ajax.reload();
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function() {
+                            $.gritter.add({
+                                title: "Failure",
+                                text: xhr.responseText,
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        },
+                        1e3);
+                },
+                traditional: true
+            });
+            return false;
+        });
+
+        //delete selected
+        $('#delete-selected').click(function (e) {
+            if (selectedIds.length > 0) {
+                e.preventDefault();
+                var postData = {
+                    selectedIds: selectedIds
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DeleteSelected", "Slider"))",
+                    data: postData,
+                    success: function (data, result) {
+                        if (result === "success") {
+                            setTimeout(function () {
+                                $.gritter.add({
+                                    title: "Success",
+                                    text: "Roles Deleted Successfully!",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            }, 1e3);
+                            $('.custom-table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.responseText);
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Failure",
+                                text: xhr.responseText,
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        }, 1e3);
+                    },
+                    traditional: true
+                });
+            }
+            else {
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Please select atleast one record",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                },
+                    1e3);
+            }
+            return false;
+        });
+    });
+</script>

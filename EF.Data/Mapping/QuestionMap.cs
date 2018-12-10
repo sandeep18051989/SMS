@@ -12,6 +12,13 @@ namespace EF.Data.Mapping
             this.HasKey(b => b.Id);
             this.Property(b => b.SubjectId).IsOptional();
             this.Property(b => b.SolveTime).IsOptional();
+            this.Property(b => b.DifficultyLevelId).IsOptional();
+            this.Property(b => b.Explanation).IsOptional();
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.NegativeMarks).IsOptional();
+            this.Property(b => b.QuestionTypeId).IsRequired();
+            this.Property(b => b.RightMarks).IsOptional();
+            this.Property(b => b.SubjectId).IsOptional();
 
             // Relationship
             this.HasRequired(qu => qu.QuestionType)

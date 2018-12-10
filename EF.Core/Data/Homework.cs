@@ -8,8 +8,8 @@ namespace EF.Core.Data
 	{
 		public string Name { get; set; }
 		public string Description { get; set; }
-		private int StudentApprovalStatusId { get; set; }
-		private int TeacherApprovalStatusId { get; set; }
+		public int StudentApprovalStatusId { get; set; }
+		public int TeacherApprovalStatusId { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }

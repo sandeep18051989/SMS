@@ -1,0 +1,48 @@
+﻿@model SMS.Areas.Admin.Models.DashboardModel
+@{
+    var q = (from x in Model.EventsChartModels
+             select new { x.Events.Count, x.Events_WeekStart, x.Events_WeekEnd });
+
+    var _chartValues = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Count, item.Events_WeekStart.ToString("dd MMM") + " To " + item.Events_WeekEnd.ToString("dd MMM"))).ToList();
+    var _ticks = String.Join(", ", _chartValues.Select(kvp => String.Format("['{0}',{1}]", kvp.Value, kvp.Key)));
+}
+<div class="row chart-space">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        @Html.DropDownListFor(m => m.Events_SelectedMonth, Model.Events_AvailableMonths, new { @class = "form-control selectpicker", @style = "Width:100%;" })
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        @Html.DropDownListFor(m => m.Events_SelectedYear, Model.Events_AvailableYears, new { @class = "form-control selectpicker", @style = "Width:100%;" })
+    </div>
+    <div class="clearfix"></div>
+    <div id="eventschart" style="height:400px;width:300px;margin:0 auto;"></div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.jqplot.config.enablePlugins = true;
+            var line1 = [@Html.Raw(_ticks)];
+            var plot1 = $.jqplot('eventschart', [line1], {
+                title: 'Events',
+                animate: !$.jqplot.use_excanvas,
+                series: [{ renderer: $.jqplot.BarRenderer }],
+                axesDefaults: {
+                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    pointLabels: { show: true },
+                    tickOptions: {
+                        fontFamily: 'Georgia',
+                        fontSize: '10pt',
+                        angle: -30
+                    }
+                },
+                axes: {
+                    xaxis: {
+                        renderer: $.jqplot.CategoryAxisRenderer,
+                        label: '@q.FirstOrDefault().Events_WeekStart.Year.ToString()'
+                    },
+                    yaxis: {
+                        tickInterval: 2,
+                        tickOptions: { formatString: '%d' }, min: 0
+                    }
+                }
+            });
+        });
+    </script>
+</div>

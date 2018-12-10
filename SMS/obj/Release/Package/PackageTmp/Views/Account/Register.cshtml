@@ -1,0 +1,85 @@
+﻿@model SMS.Models.RegisterModel
+
+@{
+	ViewBag.Title = "Register";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+	<div class="row h-100">
+		<div class="col-md-12">
+			<section class="register-form mt-5 h-100">
+				@using (Html.BeginForm())
+				{
+					@Html.AntiForgeryToken()
+					<div class="row">
+						<div id="admin-page-header" class="col-xs-12 col-md-12">
+							<h3 class="section-heading mr-auto">REGISTER</h3>
+							<button type="submit" class="btn btn-primary">Submit&nbsp;&nbsp;<i class="fa fa-plane"></i></button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							@Html.ValidationSummary(true, "", new { @class="text-danger" })
+						</div>
+					</div>
+					<hr />
+					<div class="row text-left">
+						<div class="col-md-6 mb-4">
+							<div class="md-form">
+								<i class="fa fa-user prefix"></i>
+								@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class="form-control", @tabindex="1", @maxlength="50" } })
+								@Html.LabelFor(model => model.FirstName, "First Name", htmlAttributes: new { @class="control-label" })
+								@Html.ValidationMessageFor(model => model.FirstName, "", new { @class="text-danger" })
+							</div>
+						</div>
+						<div class="col-md-6 mb-4">
+							<div class="md-form">
+								<i class="fa fa-user prefix"></i>
+								@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class="form-control", @tabindex="2", @maxlength="50" } })
+								@Html.LabelFor(model => model.LastName, "Last Name", htmlAttributes: new { @class="control-label" })
+								@Html.ValidationMessageFor(model => model.LastName, "", new { @class="text-danger" })
+							</div>
+						</div>
+					</div>
+					<div class="row text-left">
+						<div class="col-md-6 mb-4">
+							<div class="md-form">
+								<i class="fa fa-envelope prefix"></i>
+								@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class="form-control validate", @tabindex="3", @maxlength="100", @autocomplete="off", type="email" } })
+								@Html.LabelFor(model => model.Email, "Email Address", htmlAttributes: new { @data_error="wrong", @data_success="right", @class="control-label" })
+								@Html.ValidationMessageFor(model => model.Email, "", new { @class="text-danger" })
+							</div>
+						</div>
+						<div class="col-md-6 mb-4">
+							<div class="md-form">
+								<i class="fa fa-phone prefix"></i>
+								@Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class="form-control validate", @tabindex="4", @onkeypress="return checkNumber(event);", @maxlength="10" } })
+								@Html.LabelFor(model => model.Phone, "Contact", htmlAttributes: new { @class="control-label" })
+								@Html.ValidationMessageFor(model => model.Phone, "", new { @class="text-danger" })
+							</div>
+						</div>
+					</div>
+
+					<div class="row text-left">
+						<div class="col-md-6 mb-4">
+							<div class="md-form">
+								<i class="fa fa-key prefix"></i>
+								@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class="form-control", @tabindex="5", @type="password", @maxlength="100" } })
+								@Html.LabelFor(model => model.Password, "Password", htmlAttributes: new { @class="control-label", @data_error="wrong", @data_success="right" })
+								@Html.ValidationMessageFor(model => model.Password, "", new { @class="text-danger" })
+							</div>
+						</div>
+						<div class="col-md-6 mb-4">
+							<div class="md-form">
+								<i class="fa fa-key prefix"></i>
+								@Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class="form-control", @tabindex="6", @type="password", @maxlength="100" } })
+								@Html.LabelFor(model => model.ConfirmPassword, "Confirm Password", htmlAttributes: new { @class="control-label", @data_error="wrong", @data_success="right" })
+								@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class="text-danger" })
+							</div>
+						</div>
+					</div>
+			}
+			</section>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+﻿@model SMS.Models.CustomPageModel
+<div class="page page-page" id="ph-page">
+	<div class="page-title" id="ph-title">
+		<h1>@Model.Name</h1>
+	</div>
+	<div class="page-body">
+		@Html.Raw(Model.BodyHtml)
+	</div>
+</div>

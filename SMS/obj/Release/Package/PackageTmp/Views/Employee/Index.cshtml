@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SMS.Models.TeacherModel>
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="row section-row teacher-row">
+	<div class="col section-row-header-center">
+		<h6><i class="fa fa-star-o"></i>WE ARE BEST<i class="fa fa-star-o"></i></h6>
+		<h1>MEET OUR TEACHERS</h1>
+		<p>Topclass talent around india</p>
+	</div>
+	<div id="teacherCarousel" class="carousel slide" data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			@foreach (var teacher in Model.ToList())
+			{
+				int index = Model.ToList().IndexOf(teacher);
+				<li data-target="#teacherCarousel" data-slide-to="@index"></li>
+			}
+		</ol>
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner" role="listbox">
+			@foreach (var teacher in Model.ToList())
+			{
+				<div class="carousel-item teacher-item">
+					@if (teacher.Subjects.Count > 0)
+					{
+						<h5><i class="fa fa-heartbeat"></i>@String.Join(",", @teacher.Subjects.Select(s => s.Name).ToList())</h5>
+					}
+					<div class="teacher-item-inner">
+						<p class="teacher-desc">
+							@teacher.Name
+						</p>
+						<div class="col-xs-4 clear-padding teacher-img">
+							<img src="@teacher.Employee.EmployeePicture.Src" alt="@teacher.Name">
+						</div>
+						<div class="col-xs-8 teacher-details">
+							<p><strong><a target="_blank" href="@teacher.SystemName.Trim().ToLower()">@teacher.Name</a></strong></p>
+							<p><i>@teacher.Qualification.QualificationName</i></p>
+							<p>
+								<a href="@teacher.FacebookLink"><i class="fa fa-facebook"></i></a>
+								<a href="@teacher.TweeterLink"><i class="fa fa-twitter"></i></a>
+								<a href="@teacher.GooglePlusLink"><i class="fa fa-google-plus"></i></a>
+								<a href="@teacher.LinkedInLink"><i class="fa fa-linkedin"></i></a>
+							</p>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="teacher-know-more-link">
+						<a href="@teacher.SystemName"><i class="fa fa-paper-plane"></i> KNOW MORE</a>
+					</div>
+				</div>
+			}
+
+			<!-- Slide Controls -->
+			<a class="carousel-control-prev left" href="#teacherCarousel" data-slide="prev">
+				<span class="prev"><i class="fa fa-arrow-circle-left fa-3x"></i></span>
+			</a>
+			<a class="carousel-control-next" href="#teacherCarousel" data-slide="next">
+				<span class="next"><i class="fa fa-arrow-circle-right fa-3x"></i></span>
+			</a>
+		</div>
+	</div>
+</div>
+

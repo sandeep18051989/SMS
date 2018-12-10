@@ -13,6 +13,7 @@ namespace EF.Data.Mapping
 			this.Property(e => e.StartDate).IsOptional();
 			this.Property(e => e.EndDate).IsOptional();
 
+
 			// Relationships
 			this.HasRequired(e => e.News).WithMany(p => p.Pictures).HasForeignKey(e => e.NewsId);
 			this.HasRequired(e => e.Picture).WithMany(p => p.News).HasForeignKey(e => e.PictureId);

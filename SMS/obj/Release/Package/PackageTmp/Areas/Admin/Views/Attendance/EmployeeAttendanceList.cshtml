@@ -1,0 +1,99 @@
+﻿@model SMS.Models.EmployeeAttendanceOverviewModel
+@using EF.Services;
+@{
+	ViewBag.Title = "Attendance";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="col-xs-12 col-md-12">
+	<br />
+	<div class="form-group">
+		<table class="table custom-table" data-sorting="true" data-paging="true" data-page-size="10">
+			<thead>
+				<tr>
+					<th data-visible="false" data-sortable="false" data-class="expand"><input type="checkbox" id="allcheck" value="allcheck" /></th>
+					<th data-title="Date" data-sort-ignore="true">Date</th>
+					<th data-title="Status" data-sort-ignore="true">Status</th>
+					<th data-breakpoints="xs sm md" data-title="Employee" data-sortable="false" data-sort-ignore="true">Employee</th>
+					<th data-sortable="false" data-sort-ignore="true">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var at in Model.EmployeeAttendanceList)
+				{
+					<tr>
+						<td align="center"><input type="checkbox" id="@at.Id" value="@at.Id" /></td>
+						<td align="center">@at.AttendanceDate.ToString("d MMM yyyy")</td>
+						<td align="center">@at.Employee.EmpFName + " " + @at.Employee.EmpLName</td>
+						<td align="center"><a href="@Url.Action("EditEmployeeAttendance","Attendance", new { @Id = at.Id })" id="@("edit_" + at.Id)" title="Edit Attendance"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="@("atid_" + at.Id)" href="javascript:void(0);" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="pager">
+			@Html.Pager(Model)
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Attendance')").closest("li").addClass("active");
+
+		$('table').DataTable({
+
+			"processing": true, // for show progress bar  
+			"serverSide": true, // for process server side  
+			"filter": true, // this is for disable filter (search box)  
+			"orderMulti": false, // for disable multiple column at once  
+			"pageLength": 5,
+
+			"ajax": {
+				"url": "/Demo/LoadData",
+				"type": "POST",
+				"datatype": "json"
+			},
+
+			"columnDefs":
+			[{
+				"targets": [0],
+				"visible": false,
+				"searchable": false
+			},
+			{
+				"targets": [7],
+				"searchable": false,
+				"orderable": false
+			},
+			{
+				"targets": [8],
+				"searchable": false,
+				"orderable": false
+			},
+			{
+				"targets": [9],
+				"searchable": false,
+				"orderable": false
+			}],
+
+			"columns": [
+				{ "data": "CustomerID", "name": "CustomerID", "autoWidth": true },
+				{ "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+				{ "data": "ContactName", "title": "ContactName", "name": "ContactName", "autoWidth": true },
+				{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+				{ "data": "City", "name": "City", "autoWidth": true },
+				{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+				{ "data": "Country", "name": "Country", "autoWidth": true },
+				{ "data": "Phone", "name": "Phone", "title": "Status", "autoWidth": true },
+				{
+					"render": function (data, type, full, meta)
+					{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.CustomerID + '">Edit</a>'; }
+				},
+				{
+					data: null, render: function (data, type, row) {
+						return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.CustomerID + "'); >Delete</a>";
+					}
+				}
+			]
+		});  
+	});
+</script>

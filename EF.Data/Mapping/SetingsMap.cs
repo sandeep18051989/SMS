@@ -10,6 +10,11 @@ namespace EF.Data.Mapping
         {
             this.ToTable("Settings");
             this.HasKey(s => s.Id);
+            this.Property(b => b.EntityId).IsOptional();
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.SettingType).IsOptional();
+            this.Property(b => b.TypeId).IsOptional();
+            this.Property(b => b.Value).IsRequired();
 
             // Relationships
             this.HasRequired(cust => cust.user)

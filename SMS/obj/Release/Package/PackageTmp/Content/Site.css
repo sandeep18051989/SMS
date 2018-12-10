@@ -1,0 +1,288 @@
+﻿body {
+	font-family: "HelveticaNeueLTPro-Roman", Arial,sans-serif;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #333;
+	background-color: #fff;
+	height: 100%;
+	width: 100%;
+}
+
+h1, h2, h3, h4 {
+	font-weight: 100;
+}
+
+h4, .h4 {
+	font-size: 18px;
+	font-family: "HelveticaNeueLTPro-MdCn",Arial,sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	line-height: 1;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+figcaption {
+	word-wrap: break-word;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 20px;
+    font-weight: bold;
+    border: 0;
+    padding: 0 10px;
+    display: inline-block;
+    width: auto;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+
+.field-validation-error {
+    color: #ff0000;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Custom Styles */
+
+div#login-form-wrapper {
+	margin-top:10px;
+}
+
+.green-text{color: #10a11c !important;}
+i.green-text{font-size:16px;}
+.md-form input[type=text], .md-form input[type=password]{padding-left: 3px;}
+.rgba-stylish-strong {
+	background-color: rgba(243, 244, 243, .5);
+}
+.mask.rgba-stylish-strong.flex-center ul li{margin-bottom:0;}
+.main-bg {
+	background: url("/Content/Images/login-bg.jpg")no-repeat center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 100%;
+}
+.common-layout section{padding:10px 0;}
+/* GRITTER */
+#gritter-notice-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 301px;
+    z-index: 9999;
+}
+
+#gritter-notice-wrapper {
+    width: 371px !important;
+}
+
+.gritter-item-wrapper {
+    position: relative;
+    margin: 0 0 10px 0;
+    background: url('../images/ie-spacer.gif');
+}
+
+.gritter-item-wrapper {
+    background: 0 0 !important;
+    -webkit-border-radius: 8px !important;
+    -moz-border-radius: 8px !important;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,.15);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.15);
+}
+
+.bwizard-steps, .gritter-item-wrapper, .text-ellipsis {
+    overflow: hidden !important;
+}
+
+.gritter-top {
+    background: url(../images/gritter.png) no-repeat left -30px;
+    height: 10px;
+}
+
+.gritter-bottom, .gritter-item, .gritter-top {
+    background: url(../img/transparent/black-0.9.png) !important;
+    background: rgba(0,0,0,.9) !important;
+}
+
+.gritter-bottom, .gritter-item, .gritter-top {
+    background: url(../img/transparent/black-0.9.png) !important;
+    background: rgba(0,0,0,.9) !important;
+}
+
+.gritter-item {
+    font-family: inherit !important;
+    color: #aaa !important;
+    font-size: 10px !important;
+    padding: 2px 15px 5px !important;
+}
+
+.gritter-item {
+    display: block;
+    background: url(../images/gritter.png) no-repeat left -40px;
+    color: #eee;
+    padding: 2px 11px 8px 11px;
+    font-size: 11px;
+    font-family: verdana;
+}
+
+.gritter-close, .gritter-light .gritter-close {
+    left: auto !important;
+    right: 0 !important;
+    top: 0 !important;
+    background: 0 0 !important;
+    width: 70px !important;
+    height: auto !important;
+    display: block !important;
+    bottom: 0;
+    border-left: 1px solid #444;
+}
+
+.gritter-close {
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 3px;
+    background: url(../images/gritter.png) no-repeat left top;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    text-indent: -9999em;
+}
+
+.gritter-close::before, .gritter-light .gritter-close::before {
+    content: 'Close' !important;
+    position: absolute !important;
+    text-align: center !important;
+    right: 0 !important;
+    color: #999;
+    left: 0;
+    z-index: 10;
+    text-indent: 0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 9px;
+    top: 50% !important;
+    margin-top: -5px;
+    font-family: inherit;
+}
+
+.gritter-image {
+    width: 48px;
+    height: 48px;
+    float: left;
+}
+
+.gritter-image {
+    margin: 2px 10px 0 0 !important;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.gritter-with-image, .gritter-without-image {
+    padding-right: 70px !important;
+}
+
+.gritter-with-image {
+    width: 280px !important;
+}
+
+.gritter-with-image, .gritter-without-image {
+    padding: 0;
+    padding-right: 0px;
+}
+
+.gritter-with-image {
+    width: 220px;
+    float: right;
+}
+
+.gritter-title {
+    font-size: 13px !important;
+    line-height: 16px !important;
+    padding-bottom: 2px !important;
+    font-weight: 400 !important;
+    color: #fff !important;
+    text-shadow: none !important;
+}
+
+.gritter-title {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0 0 7px 0;
+    padding-bottom: 7px;
+    display: block;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.gritter-item p {
+    padding: 0;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.gritter-item p {
+    font-size: 11px !important;
+    color: #aaa !important;
+}
+
+.gritter-bottom {
+    background: url(../images/gritter.png) no-repeat left bottom;
+    height: 8px;
+    margin: 0;
+}
+
+.gritter-bottom, .gritter-item, .gritter-top {
+    background: url(../img/transparent/black-0.9.png) !important;
+    background: rgba(0,0,0,.9) !important;
+}
+
+.gritter-close:hover::before {
+    color: #fff;
+}
+/* GRITTER END */

@@ -200,7 +200,8 @@ namespace SMS.Areas.Admin.Controllers
                     _settingService.Insert(setting);
                 }
 
-                var forgotpasswordtemplate = _settingService.GetSettingByKey("ForgotPasswordTemplate", _userContext.CurrentUser.Id);
+                var forgotpasswordtemplate =
+                    _settingService.GetSettingByKey("ForgotPasswordTemplate", _userContext.CurrentUser.Id);
                 if (forgotpasswordtemplate != null)
                 {
                     forgotpasswordtemplate.Value = model.SelectedEmailTemplateForForgotPassword;
@@ -222,7 +223,8 @@ namespace SMS.Areas.Admin.Controllers
                     _settingService.Insert(setting);
                 }
 
-                var visitorqueryplacedtemplate = _settingService.GetSettingByKey("VisitorQueryPlaced", _userContext.CurrentUser.Id);
+                var visitorqueryplacedtemplate =
+                    _settingService.GetSettingByKey("VisitorQueryPlaced", _userContext.CurrentUser.Id);
                 if (visitorqueryplacedtemplate != null)
                 {
                     visitorqueryplacedtemplate.Value = model.SelectedVisitorQueryTemplate;
@@ -244,7 +246,8 @@ namespace SMS.Areas.Admin.Controllers
                     _settingService.Insert(setting);
                 }
 
-                var commentoneventtemplate = _settingService.GetSettingByKey("CommentOnEvent", _userContext.CurrentUser.Id);
+                var commentoneventtemplate =
+                    _settingService.GetSettingByKey("CommentOnEvent", _userContext.CurrentUser.Id);
                 if (commentoneventtemplate != null)
                 {
                     commentoneventtemplate.Value = model.CommentOnEventTemplate;
@@ -266,7 +269,8 @@ namespace SMS.Areas.Admin.Controllers
                     _settingService.Insert(setting);
                 }
 
-                var commentonproducttemplate = _settingService.GetSettingByKey("CommentOnProduct", _userContext.CurrentUser.Id);
+                var commentonproducttemplate =
+                    _settingService.GetSettingByKey("CommentOnProduct", _userContext.CurrentUser.Id);
                 if (commentonproducttemplate != null)
                 {
                     commentonproducttemplate.Value = model.CommentOnProductTemplate;
@@ -310,7 +314,8 @@ namespace SMS.Areas.Admin.Controllers
                     _settingService.Insert(setting);
                 }
 
-                var replyoncommenttemplate = _settingService.GetSettingByKey("ReplyOnComment", _userContext.CurrentUser.Id);
+                var replyoncommenttemplate =
+                    _settingService.GetSettingByKey("ReplyOnComment", _userContext.CurrentUser.Id);
                 if (replyoncommenttemplate != null)
                 {
                     replyoncommenttemplate.Value = model.ReplyOnCommentTemplate;
@@ -332,7 +337,8 @@ namespace SMS.Areas.Admin.Controllers
                     _settingService.Insert(setting);
                 }
 
-                var newuserregistertemplate = _settingService.GetSettingByKey("NewUserRegister", _userContext.CurrentUser.Id);
+                var newuserregistertemplate =
+                    _settingService.GetSettingByKey("NewUserRegister", _userContext.CurrentUser.Id);
                 if (newuserregistertemplate != null)
                 {
                     newuserregistertemplate.Value = model.NewUserRegisterTemplate;
@@ -354,7 +360,8 @@ namespace SMS.Areas.Admin.Controllers
                     _settingService.Insert(setting);
                 }
 
-                var usersigninattempttemplate = _settingService.GetSettingByKey("UserSignInAttempt", _userContext.CurrentUser.Id);
+                var usersigninattempttemplate =
+                    _settingService.GetSettingByKey("UserSignInAttempt", _userContext.CurrentUser.Id);
                 if (usersigninattempttemplate != null)
                 {
                     usersigninattempttemplate.Value = model.UserSignInAttemptTemplate;
@@ -398,6 +405,25 @@ namespace SMS.Areas.Admin.Controllers
                     _settingService.Insert(setting);
                 }
             }
+            else
+            {
+                // Bind Locations
+                model.AvailableLocations.Add(new SelectListItem() { Text = "Select", Value = "0", Selected = true });
+                model.AvailableLocations.Add(new SelectListItem() { Text = "Top", Value = "Top" });
+                model.AvailableLocations.Add(new SelectListItem() { Text = "Bottom", Value = "Bottom" });
+                model.AvailableLocations.Add(new SelectListItem() { Text = "Left", Value = "Left" });
+                model.AvailableLocations.Add(new SelectListItem() { Text = "Right", Value = "Right" });
+
+                // Bind Templates
+                model.AvailableTemplates = _templateService.GetAllTemplates(true).Select(x => new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.Name.ToString()
+                }).ToList();
+
+                return View(model);
+            }
+
             SuccessNotification("Configuration Settings Saved Successfully");
             model.ActiveSettings = "ConfigurationSettings";
 

@@ -1,0 +1,25 @@
+﻿@model SMS.Models.SchoolModel
+@using EF.Services.Http;
+@{
+	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+	var basePath = urlHelperService.GetLocation(false);
+}
+<div class="col-md-6">
+    <div class="copyright-text">
+        <p>© <span id="yr-counter"></span> <a href="/">SMS</a>. All Rights Reserved.</p>
+    </div>
+</div>
+<div class="col-md-6">
+    <ul class="footer-share">
+        <li><a target="_blank" href="@(Model.FacebookLink)"><i class="fa fa-facebook"></i></a></li>
+        <li><a target="_blank" href="@(Model.TweeterLink)"><i class="fa fa-twitter"></i></a></li>
+        <li><a target="_blank" href="@(Model.GooglePlusLink)"><i class="fa fa-google-plus"></i></a></li>
+        <li><a target="_blank" href="@(Model.LinkedInLink)"><i class="fa fa-linkedin"></i></a></li>
+        <li><a target="_blank" href="@(Model.InstagramLink)"><i class="fa fa-instagram"></i></a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#yr-counter").text((new Date()).getFullYear());
+    });
+</script>

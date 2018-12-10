@@ -19,7 +19,9 @@ namespace SMS.Models
 
 		public string FullName { get; set; }
 		public string UserName { get; set; }
-		public int SuperAdministratorId { get; set; }
+
+        public string Email { get; set; }
+        public int SuperAdministratorId { get; set; }
 		public bool IsApproved { get; set; }
 		public string AffiliationNumber { get; set; }
 		public string SystemName { get; set; }

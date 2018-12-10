@@ -1,0 +1,15 @@
+﻿@model SMS.Models.HomeHeaderModel
+@*@if (Model.pictures != null)
+{*@
+    @*if (@Model.LogoEnabled)
+    {*@
+        @*if (Model.pictures != null && Model.pictures.IsLogo && Model.pictures.Url != null && Model.pictures.IsActive)
+        {
+            <a class="navbar-brand" href="http://www.google.com"><img src='~/Content/images/@Model.pictures.Url' alt='@Model.pictures.AlternateText' /></a>  }
+        else
+        {*@
+            <a class="navbar-brand" href="/"><img class="mr-auto" src="~/Content/images/logo.png" alt="Logo Not Found" /></a> 
+        @*}*@
+    @*}*@
+@*}*@
+@*<a class="navbar-brand" href="@Url.RouteUrl("Root")" title="Logo"><img src="~/Content/images/logo.png" alt="Artery Labs Co." /></a>*@

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<SMS.Models.CommentsModel>
+@using EF.Core;
+@using EF.Services.Service;
+@using EF.Services.Http;
+<script type="text/javascript" src="~/Scripts/public.comment.js"></script>
+@{
+	var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+	var userinfoService = EF.Core.ContextHelper.Current.Resolve<IUserInfoService>();
+	var userService = EF.Core.ContextHelper.Current.Resolve<IUserService>();
+	var pictureService = EF.Core.ContextHelper.Current.Resolve<IPictureService>();
+	var avtarpicture = basePath + "Content/images/avatarnotfound.png";
+}
+@foreach (var comment in Model)
+{
+	if (!String.IsNullOrEmpty(comment.Username))
+	{
+		var user = userService.GetUserByUsername(comment.Username);
+		if (user != null)
+		{
+			var userinformation = userinfoService.GetUserInformationByUserId(user.Id);
+			if(userinformation != null && userinformation.ProfilePictureId > 0)
+			{
+				avtarpicture = pictureService.GetPictureById(userinformation.ProfilePictureId).PictureSrc;
+			}
+		}
+
+	}
+	<div class="col-sm-12">
+		<br />
+		<div class="panel panel-white post panel-shadow">
+			<div class="post-heading">
+				<div class="pull-left meta">
+					<div class="title h5">
+						<a href="#"><b>@comment.Username</b></a> wrote a comment.
+					</div>
+					<h6 class="text-muted time">@CodeHelper.TimeAgo(comment.CreatedOn)</h6>
+				</div>
+			</div>
+			<div class="post-description">
+				<div class="clearfix"></div>
+				<p>@Html.Raw(comment.CommentHtml)</p>
+				<div class="stats">
+					@comment.Replies.Count
+					Replies so far.
+				</div>
+			</div>
+		</div>
+		<div style="display:block;overflow:hidden;" class="panel-footer">
+			<div class="col-md-8 pull-right">
+				@foreach (var rep in comment.Replies)
+				{
+					<article class="row">
+						<div class="col-md-2 col-sm-2 col-md-offset-1 col-sm-offset-0 hidden-xs">
+							<figure class="thumbnail">
+								<img class="img-responsive" src="@avtarpicture">
+								<figcaption class="text-center">@rep.Username</figcaption>
+							</figure>
+						</div>
+						<div class="col-md-9 col-sm-9">
+							<div class="panel panel-default arrow left">
+								<div class="panel-heading right">Reply</div>
+								<div class="panel-body">
+									<header style="background-color:#fff;" class="text-left">
+										<time class="comment-date" datetime="rep.CreatedOn"><i class="fa fa-clock-o"></i> @CodeHelper.TimeAgo(rep.CreatedOn) </time>
+									</header>
+									<div class="comment-post">
+										<p>@Html.Raw(rep.ReplyHtml)</p>
+									</div>
+									@*<p class="text-right"><a href="#" class="btn btn-info btn-sm"><i class="fa fa-reply"></i> Reply</a></p>*@
+								</div>
+							</div>
+						</div>
+					</article>
+				}
+				<div class="clearfix"></div>
+				@Html.Partial("~/Views/Reply/PostReply.cshtml", comment)
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+
+}

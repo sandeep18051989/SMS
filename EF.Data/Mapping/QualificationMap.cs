@@ -11,8 +11,10 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Qualification");
 			this.HasKey(b => b.Id);
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.Description).IsOptional();
 
-			EntityTracker.TrackAllProperties<Qualification>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
+            EntityTracker.TrackAllProperties<Qualification>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

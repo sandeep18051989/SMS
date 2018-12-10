@@ -12,7 +12,14 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("ProductCategory");
 			this.HasKey(pro => pro.Id);
-			EntityTracker.TrackAllProperties<ProductCategory>().Except(x => x.ModifiedOn).And(x => x.CreatedOn);
+            this.Property(b => b.Description).IsOptional();
+            this.Property(b => b.DisplayOrder).IsOptional();
+            this.Property(b => b.IncludeInTopMenu).IsOptional();
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.ParentCategoryId).IsOptional();
+            this.Property(b => b.PictureId).IsOptional();
+
+            EntityTracker.TrackAllProperties<ProductCategory>().Except(x => x.ModifiedOn).And(x => x.CreatedOn);
 
 		}
 

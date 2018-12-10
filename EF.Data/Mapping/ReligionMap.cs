@@ -11,7 +11,10 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Religion");
 			this.HasKey(b => b.Id);
-			EntityTracker.TrackAllProperties<Religion>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
+            this.Property(b => b.Description).IsOptional();
+            this.Property(b => b.Name).IsRequired();
+
+            EntityTracker.TrackAllProperties<Religion>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

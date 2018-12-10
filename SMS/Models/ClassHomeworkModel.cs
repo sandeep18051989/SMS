@@ -2,6 +2,8 @@
 using EF.Services;
 using FluentValidation.Attributes;
 using SMS.Validations;
+using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace SMS.Models
 {
@@ -10,14 +12,17 @@ namespace SMS.Models
 	{
 		public ClassHomeworkModel()
 		{
-			Class = new ClassModel();
-			Homework = new HomeworkModel();
-		}
+            AvailableClasses = new List<SelectListItem>();
+            AvailableHomeworks = new List<SelectListItem>();
+        }
 		public int ClassId { get; set; }
 		public int HomeworkId { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
-		public HomeworkModel Homework { get; set; }
-		public ClassModel Class { get; set; }
+		public DateTime? StartDate { get; set; }
+		public DateTime? EndDate { get; set; }
+        public string CreatedOnString { get; set; }
+        public string ModifiedOnString { get; set; }
+
+        public IList<SelectListItem> AvailableHomeworks { get; set; }
+		public IList<SelectListItem> AvailableClasses { get; set; }
 	}
 }

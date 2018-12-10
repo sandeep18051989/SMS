@@ -6,6 +6,8 @@ using EF.Core.Data;
 using EF.Core.Enums;
 using EF.Services.Service;
 using SMS.Models;
+using System.Collections.Generic;
+using SMS.Mappers;
 
 namespace SMS.Controllers
 {
@@ -126,33 +128,38 @@ namespace SMS.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					_feedbackService.Insert(new Feedback()
-					{
-						Contact = contact,
-						CreatedOn = DateTime.Now,
-						Description = description,
-						Email = email,
-						FullName = name,
-						ModifiedOn = DateTime.Now,
-						Location = location
-					});
+				    var newFeedback = new Feedback()
+				    {
+				        Contact = contact,
+				        CreatedOn = DateTime.Now,
+				        Description = description,
+				        Email = email,
+				        FullName = name,
+				        ModifiedOn = DateTime.Now,
+				        Location = location
+				    };
 
-					var Template = _templateService.GetAllTemplates(true).Where(x => x.Name.Contains("VisitorQueryPlaced")).FirstOrDefault();
-					if (Template != null)
+                    _feedbackService.Insert(newFeedback);
+
+					var template = _templateService.GetTemplateByName("VisitorQueryPlaced");
+					if (template != null)
 					{
-						foreach (var dt in _templateService.GetAllDataTokensByTemplate(Template.Id).Where(x => x.IsActive).ToList())
+					    var tokens = new List<DataToken>();
+					    _templateService.AddFeedbackTokens(tokens, newFeedback);
+
+                        foreach (var dt in tokens)
 						{
-							Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+							template.BodyHtml = CodeHelper.Replace(template.BodyHtml, $"[{dt.Name}]", dt.Value, StringComparison.InvariantCulture);
 						}
 					}
 
-					result = _emailService.SendMail(email, "Artery Labs", Template != null ? Template.BodyHtml : "Thanks For Sending Us The Query.");
+					result = _emailService.SendMail(email, "Feedback", template != null ? template.BodyHtml : "Thanks For Sending Us The Query.");
 
 					// Get Email Settings
-					var _settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
-					if (_settings.Count > 0)
+					var settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
+					if (settings.Count > 0)
 					{
-						foreach (var setting in _settings)
+						foreach (var setting in settings)
 						{
 							if (setting.Name == "FromEmail")
 							{

@@ -1,0 +1,53 @@
+﻿@using EF.Services.Http;
+<!DOCTYPE html>
+<html class="full-height">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+	<meta name="description" content="SMS">
+	<meta name="author" content="Sandeep Kumar">
+
+	<title>@ViewBag.Title</title>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/Scripts/jqueryval")
+	@Scripts.Render("~/bundles/jqueryui")
+	<script type="text/javascript" src="~/Scripts/tinymce/tinymce.min.js"></script>
+	<script type="text/javascript" src="~/Scripts/tinymce/plugins/placeholder/plugin.min.js"></script>
+	<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+	@Scripts.Render("~/Scripts/home")
+	@Styles.Render("~/Content/fo")
+	@Styles.Render("~/Content/icons")
+	@Styles.Render("~/Content/jqueryuicss")
+	@Styles.Render("~/Content/boot")
+	@Styles.Render("~/Content/mdb")
+	@Styles.Render("~/Content/common")
+	@{
+		var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+		var basePath = urlHelperService.GetLocation(false);
+	}
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<section class="content main-bg">
+		<div class="mask rgba-stylish-strong flex-center">
+			<header>
+				@Html.Partial("_menuLinks")
+			</header>
+			<div class="clearfix"></div>
+			<main class="">
+				@RenderBody()
+			</main>
+		</div>
+		<div class="clearfix"></div>
+	</section>
+	<div class="clearfix"></div>
+	@Scripts.Render("~/Scripts/boot")
+	@Scripts.Render("~/Scripts/mdb")
+</body>
+</html>

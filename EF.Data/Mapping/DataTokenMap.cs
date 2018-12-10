@@ -10,6 +10,9 @@ namespace EF.Data.Mapping
         {
             this.ToTable("DataToken");
             this.HasKey(dt => dt.Id);
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.SystemName).IsOptional();
+            this.Property(b => b.Value).IsRequired();
 
             // Relationships
             this.HasRequired(cust => cust.user)

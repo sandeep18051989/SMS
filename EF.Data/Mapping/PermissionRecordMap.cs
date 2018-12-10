@@ -10,7 +10,8 @@ namespace EF.Data.Mapping
         {
             this.ToTable("Permission");
             this.HasKey(per => per.Id);
-
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.SystemName).IsOptional();
             EntityTracker.TrackAllProperties<PermissionRecord>().Except(x => x.IsSystemDefined).And(x => x.ModifiedOn).And(x => x.CreatedOn);
         }
     }

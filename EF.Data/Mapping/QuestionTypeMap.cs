@@ -10,6 +10,9 @@ namespace EF.Data.Mapping
         {
             this.ToTable("QuestionType");
             this.HasKey(b => b.Id);
+            this.Property(b => b.Description).IsOptional();
+            this.Property(b => b.Name).IsRequired();
+
             EntityTracker.TrackAllProperties<QuestionType>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 
         }

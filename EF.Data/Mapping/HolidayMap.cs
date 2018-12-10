@@ -10,7 +10,15 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Holiday");
 			this.HasKey(ho => ho.Id);
-			EntityTracker.TrackAllProperties<File>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
+            this.Property(b => b.AcadmicYearId).IsRequired();
+            this.Property(b => b.DD).IsRequired();
+            this.Property(b => b.MM).IsRequired();
+            this.Property(b => b.YYYY).IsRequired();
+            this.Property(b => b.Name).IsRequired();
+            this.Property(b => b.Date).IsRequired();
+
+
+            EntityTracker.TrackAllProperties<File>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 		}
 	}
 }

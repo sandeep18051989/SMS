@@ -1,0 +1,42 @@
+﻿@model SMS.Areas.Admin.Models.DashboardModel
+@{
+    var q = (from x in Model.RegisteredUsersChartModels
+             select new { x.RegisteredUsers.Count, x.WeekStart, x.WeekEnd });
+
+    var _chartValues = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Count, item.WeekStart.ToString("dd MMM") + "<br/> To <br/>" + item.WeekEnd.ToString("dd MMM"))).ToList();
+    var _ticks = String.Join(", ", _chartValues.Select(kvp => String.Format("['{0}',{1}]", kvp.Value, kvp.Key)));
+}
+<div class="row chart-space">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        @Html.DropDownListFor(m => m.SelectedMonth, Model.AvailableMonths, new { @class = "form-control selectpicker", @style = "Width:100%;" })
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        @Html.DropDownListFor(m => m.SelectedYear, Model.AvailableYears, new { @class = "form-control selectpicker", @style = "Width:100%;" })
+    </div>
+    <div class="clearfix"></div>
+    <div id="registereduserschart" style="height:400px;width:300px; "></div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.jqplot.config.enablePlugins = true;
+            var line1 = [@Html.Raw(_ticks)];
+            var plot1 = $.jqplot('registereduserschart', [line1], {
+                title: 'User Registrations',
+                pointLabels: {
+                    show: true
+                },
+                axes: {
+                    xaxis: {
+                        renderer: $.jqplot.CategoryAxisRenderer,
+                        label: '@q.FirstOrDefault().WeekStart.Year.ToString()'
+                    },
+                    yaxis: {
+                        min: 0,
+                        tickInterval: '2',
+                        label: 'Users'
+                    }
+                },
+                series: [{ lineWidth: 4, markerOptions: { style: 'circle' } }]
+            });
+        });
+    </script>
+</div>
