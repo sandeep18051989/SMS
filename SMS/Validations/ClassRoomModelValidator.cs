@@ -9,6 +9,7 @@ namespace SMS.Validations
 		public ClassRoomModelValidator()
 		{
 			RuleFor(x => x.Number).NotEmpty().WithMessage("Please enter room number");
-		}
+            RuleFor(x => x.AcadmicYearId).NotEmpty().WithMessage("Please choose acadmic year");
+        }
 	}
 }

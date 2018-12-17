@@ -46,7 +46,7 @@
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon icon-bar"></span>
             </button>
-            @Html.Action("TopLinks", "Dashboard")
+            @Html.Action("TopLinks", "Dashboard", new { @area="admin" })
         </nav>
         <div class="sidebar" data-color="purple" data-background-color="white">
             <div class="logo">

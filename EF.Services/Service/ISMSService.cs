@@ -47,12 +47,14 @@ namespace EF.Services.Service
 		void InsertReligion(Religion religion);
 		void UpdateReligion(Religion religion);
 		void DeleteReligion(int id);
-		IList<Religion> GetAllReligion(bool? active);
+		IList<Religion> GetAllReligions();
 		Religion GetReligionById(int id);
 		IList<Religion> GetReligionByName(string name);
-		#endregion
-		#region EmployeeAttendance
-		void InsertEmployeeAttendance(EmployeeAttendance employeeattendance);
+
+        bool CheckReligionExists(string name, int? id = null);
+        #endregion
+        #region EmployeeAttendance
+        void InsertEmployeeAttendance(EmployeeAttendance employeeattendance);
 		void UpdateEmployeeAttendance(EmployeeAttendance employeeattendance);
 		void DeleteEmployeeAttendance(int id);
 		EmployeeAttendance GetEmployeeAttendanceById(int id);
@@ -71,21 +73,26 @@ namespace EF.Services.Service
 		void InsertCaste(Caste caste);
 		void UpdateCaste(Caste caste);
 		void DeleteCaste(int id);
-		IList<Caste> GetAllCastes(bool? active);
+        IList<Caste> GetAllCastes(bool? onlyActive = null);
 		Caste GetCasteById(int id);
 		IList<Caste> GetCasteByName(string name, bool? active);
 		IList<Caste> SearchFeeCastes(bool? active, string religion = null, int? acedemicyearid = null);
-		#endregion
-		#region Category
-		void InsertCategory(Category category);
+        bool CheckCasteExists(string name, int? id = null);
+        void ToggleActiveStatusCaste(int id);
+        #endregion
+        #region Category
+        void InsertCategory(Category category);
 		void UpdateCategory(Category category);
 		void DeleteCategory(int id);
-		IList<Category> GetAllCategories(bool? active);
+		IList<Category> GetAllCategories(bool? onlyActive=null);
 		Category GetCategoryById(int id);
 		IList<Category> GetCategoryByName(string name, bool? active);
-		#endregion
-		#region Class
-		void InsertClass(Class objClass);
+        void ToggleActiveStatusCategory(int id);
+
+        bool CheckCategoryExists(string name, int? id = null);
+        #endregion
+        #region Class
+        void InsertClass(Class objClass);
 		void UpdateClass(Class objClass);
 		void DeleteClass(int id);
 		Class GetClassById(int id);
@@ -93,16 +100,34 @@ namespace EF.Services.Service
         bool CheckClassExists(string name, int? id = null);
         void ToggleActiveStatusClass(int id);
         IList<Class> GetAllClasses(bool? onlyActive = null);
-        IList<ClassDivision> GetAllDivisionsByClass(int? id, bool? onlyActive = null);
+        IList<ClassRoomDivision> GetAllDivisionsByClass(int? id, bool? onlyActive = null);
         IList<ClassHomework> GetAllHomeworkByClass(int id);
         #endregion
         #region Class Division
-        void InsertClassDivision(ClassDivision division);
-        void UpdateClassDivision(ClassDivision division);
+        void InsertClassDivision(ClassRoomDivision division);
+        void UpdateClassDivision(ClassRoomDivision division);
         void DeleteClassDivision(int id);
-        IList<ClassDivision> GetDivisionsByClass(int id);
-        IList<ClassDivision> GetClassDivisions(int? classid = null, int? divisionid = null, int? classroomid = null);
+        IList<ClassRoomDivision> GetDivisionsByClass(int id);
+        IList<ClassRoomDivision> GetClassDivisions(int? classid = null, int? divisionid = null, int? classroomid = null);
 
+        void RemoveDivisionFromClass(int classid, int divisionid);
+
+        #endregion
+        #region Class Room
+        void InsertClassRoom(ClassRoom classroom);
+        void UpdateClassRoom(ClassRoom classroom);
+        void DeleteClassRoom(int id);
+
+        ClassRoom GetClassRoomById(int id);
+
+        bool CheckClassRoomExists(string roomnumber, int? id = null);
+        ClassRoomDivision GetClassDivisionByClassRoom(int id);
+        bool CheckClassRoomExistsForAnotherClassDivision(int? id, string roomnumber);
+        void RemoveDivisionFromClassRoom(int classroomid, int divisionid);
+        void RemoveClassFromClassRoom(int classroomid, int classid);
+        IList<ClassRoom> GetAllClassRooms(bool? onlyActive = null);
+
+        void ToggleActiveStatusClassRoom(int id);
         #endregion
         #region Homework
 

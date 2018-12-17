@@ -32,7 +32,7 @@ namespace EF.Core.Data
 		[NotMapped]
 		public virtual ICollection<Subject> _Subjects { get; set; }
 		[NotMapped]
-		public virtual ICollection<Division> _Divisions { get; set; }
+		public virtual ICollection<ClassRoomDivision> _ClassRoomDivisions { get; set; }
 
 		[NotMapped]
 		public virtual ICollection<MessageGroup> _MessageGroups { get; set; }
@@ -60,10 +60,10 @@ namespace EF.Core.Data
 			protected set { _Subjects = value; }
 		}
 
-		public virtual ICollection<Division> Divisions
+		public virtual ICollection<ClassRoomDivision> ClassRoomDivisions
 		{
-			get { return _Divisions ?? (_Divisions = new List<Division>()); }
-			protected set { _Divisions = value; }
+			get { return _ClassRoomDivisions ?? (_ClassRoomDivisions = new List<ClassRoomDivision>()); }
+			protected set { _ClassRoomDivisions = value; }
 		}
 
 		public virtual ICollection<MessageGroup> MessageGroups

@@ -34,8 +34,18 @@
                 <div class="row text-left">
                     <div class="col-xs-12 col-md-4 mb-4">
                         <div class="md-form">
+                            <i class="fa fa-navicon prefix"></i>
+                            @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "2", @maxlength = "100" } })
+                            @Html.LabelFor(model => model.SystemName, "System Name(Without Spaces)", htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-left">
+                    <div class="col-xs-12 col-md-4 mb-4">
+                        <div class="md-form">
                             <i class="fa fa-tag prefix"></i>
-                            @Html.EditorFor(model => model.Category, new { htmlAttributes=new { @class="form-control", @tabindex="2", @maxlength="50" } })
+                            @Html.EditorFor(model => model.Category, new { htmlAttributes=new { @class="form-control", @tabindex="3", @maxlength="50" } })
                             @Html.LabelFor(model => model.Category, "Category", htmlAttributes: new { @class="control-label" })
                             @Html.ValidationMessageFor(model => model.Category, "", new { @class="text-danger" })
                         </div>
@@ -43,8 +53,8 @@
                 </div>
                 <div class="row text-left">
                     <div class="col-md-7 mb-4">
-                        <input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" @(Model.IsActive ? "checked=checked" : "") />
-                        @Html.LabelFor(model => model.IsActive,"Active", htmlAttributes: new { @class = "form-check-label", @tabindex = "3" })
+                        <input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" @(Model.IsActive ? "checked=checked" : "") tabindex="4" />
+                        @Html.LabelFor(model => model.IsActive,"Active", htmlAttributes: new { @class = "form-check-label" })
                         @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                     </div>
                 </div>

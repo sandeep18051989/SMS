@@ -13,8 +13,7 @@ namespace EF.Core.Data
 		public virtual ICollection<NewsPicture> _Pictures { get; set; }
 		[NotMapped]
 		public virtual ICollection<Comment> _Comments { get; set; }
-		[NotMapped]
-		public virtual ICollection<User> _Users { get; set; }
+
 		[NotMapped]
 		public virtual ICollection<File> _Files { get; set; }
 		[NotMapped]
@@ -29,6 +28,7 @@ namespace EF.Core.Data
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
+        public virtual User User { get; set; }
 
 		[NotMapped]
 		public NewsStatus NewsStatus
@@ -67,11 +67,7 @@ namespace EF.Core.Data
 			get { return _Files ?? (_Files = new List<File>()); }
 			protected set { _Files = value; }
 		}
-		public virtual ICollection<User> Users
-		{
-			get { return _Users ?? (_Users = new List<User>()); }
-			protected set { _Users = value; }
-		}
+
 		public virtual ICollection<Reaction> Reactions
 		{
 			get { return _Reactions ?? (_Reactions = new List<Reaction>()); }

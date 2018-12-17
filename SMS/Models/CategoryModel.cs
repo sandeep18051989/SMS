@@ -9,13 +9,10 @@ namespace SMS.Models
 	[Validator(typeof(CategoryModelValidator))]
 	public partial class CategoryModel : BaseEntityModel
 	{
-		public CategoryModel()
-		{
-			AvailableCastes = new List<SelectListItem>();
-		}
-		public IList<SelectListItem> AvailableCastes { get; set; }
 		public string Name { get; set; }
-		public int CasteId { get; set; }
+        public bool IsActive { get; set; }
+        public string CreatedOnString { get; set; }
+        public string ModifiedOnString { get; set; }
 
-	}
+    }
 }

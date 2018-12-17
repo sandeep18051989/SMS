@@ -9,8 +9,6 @@ namespace SMS.Validations
 		public CategoryModelValidator()
 		{
 			RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter name");
-			RuleFor(x => x.CasteId).NotEmpty().WithMessage("Please choose caste");
-
 		}
 
 

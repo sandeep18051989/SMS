@@ -17,7 +17,6 @@ namespace SMS.Models
 			Videos = new List<VideoModel>();
 			Pictures = new List<NewsPictureModel>();
 			Comments = new List<CommentModel>();
-			Users = new List<UserModel>();
 			Files = new List<FilesModel>();
 			AvailableStatuses = new List<SelectListItem>();
 			InsertPictureModel = new InsertPicturesModel();
@@ -26,7 +25,6 @@ namespace SMS.Models
 		public IList<VideoModel> Videos { get; set; }
 		public IList<NewsPictureModel> Pictures { get; set; }
 		public IList<CommentModel> Comments { get; set; }
-		public IList<UserModel> Users { get; set; }
 		public IList<FilesModel> Files { get; set; }
 		public IList<SelectListItem> AvailableStatuses { get; set; }
 		public string ShortName { get; set; }

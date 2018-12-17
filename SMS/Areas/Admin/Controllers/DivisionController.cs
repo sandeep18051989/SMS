@@ -92,6 +92,7 @@ namespace SMS.Areas.Admin.Controllers
                             UserId = x.UserId,
                             Name = x.Name.Trim(),
                             AcadmicYearId = x.AcadmicYearId,
+                            AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
                             CreatedOnString = x.CreatedOn.ToString("U"),
                             ModifiedOnString = x.ModifiedOn.ToString("U"),
                             Description = x.Description,
@@ -180,14 +181,14 @@ namespace SMS.Areas.Admin.Controllers
         [ValidateInput(false)]
         public ActionResult Edit(DivisionModel model, FormCollection frm, bool continueEditing)
         {
-            if (!_permissionService.Authorize("ManageDivisiones"))
+            if (!_permissionService.Authorize("ManageDivision"))
                 return AccessDeniedView();
 
             var user = _userContext.CurrentUser;
             // Check for duplicate division, if any
             var checkDivision = _smsService.CheckDivisionExists(model.Name, model.Id);
             if (checkDivision)
-                ModelState.AddModelError("DivisionName", "A Division with the same name already exists. Please choose a different name.");
+                ModelState.AddModelError("Name", "A Division with the same name already exists. Please choose a different name.");
 
             if (ModelState.IsValid)
             {
@@ -220,7 +221,7 @@ namespace SMS.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            if (!_permissionService.Authorize("ManageDivisiones"))
+            if (!_permissionService.Authorize("ManageDivision"))
                 return AccessDeniedView();
 
             var model = new DivisionModel();
@@ -239,7 +240,7 @@ namespace SMS.Areas.Admin.Controllers
         [ValidateInput(false)]
         public ActionResult Create(DivisionModel model, bool continueEditing)
         {
-            if (!_permissionService.Authorize("ManageDivisiones"))
+            if (!_permissionService.Authorize("ManageDivision"))
                 return AccessDeniedView();
 
             // Check for duplicate division, if any
@@ -250,7 +251,7 @@ namespace SMS.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var objDivision = model.ToEntity();
-                objDivision.CreatedOn = objDivision.CreatedOn = DateTime.Now;
+                objDivision.CreatedOn = objDivision.ModifiedOn = DateTime.Now;
                 objDivision.UserId = _userContext.CurrentUser.Id;
                 _smsService.InsertDivision(objDivision);
                 SuccessNotification("Division created successfully.");
@@ -274,7 +275,7 @@ namespace SMS.Areas.Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            if (!_permissionService.Authorize("ManageDivisiones"))
+            if (!_permissionService.Authorize("ManageDivision"))
                 return AccessDeniedView();
 
             if (id == 0)

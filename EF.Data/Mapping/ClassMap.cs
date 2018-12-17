@@ -15,6 +15,7 @@ namespace EF.Data.Mapping
             this.Property(b => b.Name).IsRequired();
             this.Property(b => b.AcadmicYearId).IsRequired();
             this.Property(b => b.DisplayOrder).IsRequired();
+
             EntityTracker.TrackAllProperties<Class>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}

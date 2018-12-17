@@ -82,7 +82,7 @@
     <Compile Include="CodeHelper.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="DatabaseSettings.cs" />
-    <Compile Include="Data\ClassDivision.cs" />
+    <Compile Include="Data\ClassRoomDivision.cs" />
     <Compile Include="Data\NewsVideo.cs" />
     <Compile Include="Data\ProductVideo.cs" />
     <Compile Include="Data\EventVideo.cs" />

@@ -16,13 +16,12 @@ namespace SMS.Models
 	    public string FullName { get; set; }
 	    public string Email { get; set; }
 	    public string Contact { get; set; }
-	    public string Description { get; set; }
+        [AllowHtml]
+        [UIHint("HtmlEditor")]
+        public string Description { get; set; }
 	    public string Location { get; set; }
 
-	    public DateTime? Date { get; set; }
+        public bool SentSuccess { get; set; }
 
-	    [AllowHtml]
-		[UIHint("HtmlEditor")]
-		public bool SentSuccess { get; set; }
-	}
+    }
 }

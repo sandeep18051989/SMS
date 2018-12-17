@@ -8,8 +8,9 @@ namespace SMS.Validations
 	{
 		public CasteModelValidator()
 		{
-			RuleFor(x => x.CasteName).NotEmpty().WithMessage("Please enter name");
+			RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter name");
 			RuleFor(x => x.ReligionId).NotEmpty().WithMessage("Please choose religion");
-		}
+            RuleFor(x => x.AcadmicYearId).NotEmpty().WithMessage("Please choose acadmic year");
+        }
 	}
 }

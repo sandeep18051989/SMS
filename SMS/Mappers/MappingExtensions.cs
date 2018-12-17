@@ -358,11 +358,29 @@ namespace SMS.Mappers
 		{
 			return model.MapTo(destination);
 		}
-		#endregion
+        #endregion
 
-		#region Comment
+        #region Class Room Division
 
-		public static CommentModel ToModel(this Comment entity)
+        public static ClassRoomDivisionModel ToModel(this ClassRoomDivision entity)
+        {
+            return entity.MapTo<ClassRoomDivision, ClassRoomDivisionModel>();
+        }
+
+        public static ClassRoomDivision ToEntity(this ClassRoomDivisionModel model)
+        {
+            return model.MapTo<ClassRoomDivisionModel, ClassRoomDivision>();
+        }
+
+        public static ClassRoomDivision ToEntity(this ClassRoomDivisionModel model, ClassRoomDivision destination)
+        {
+            return model.MapTo(destination);
+        }
+        #endregion
+
+        #region Comment
+
+        public static CommentModel ToModel(this Comment entity)
 		{
 			return entity.MapTo<Comment, CommentModel>();
 		}

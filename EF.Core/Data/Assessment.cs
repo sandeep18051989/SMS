@@ -1,12 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using EF.Core.Enums;
+using System.Collections.Generic;
 
 namespace EF.Core.Data
 {
 	public partial class Assessment : BaseEntity
 	{
-		public string Name { get; set; }
+
+        public string Name { get; set; }
 		public DateTime? StartTime { get; set; }
 		public DateTime? EndTime { get; set; }
 		public bool OpenToAnonymousUsers { get; set; }
@@ -39,5 +41,5 @@ namespace EF.Core.Data
 			}
 		}
 
-	}
+    }
 }

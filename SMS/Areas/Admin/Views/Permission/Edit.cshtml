@@ -33,6 +33,16 @@
 						</div>
 					</div>
 				</div>
+                <div class="row text-left">
+                    <div class="col-xs-12 col-md-4 mb-4">
+                        <div class="md-form">
+                            <i class="fa fa-navicon prefix"></i>
+                            @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "2", @maxlength = "100" } })
+                            @Html.LabelFor(model => model.SystemName, "System Name(Without Spaces)", htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
 			    <div class="row text-left">
 			        <div class="col-xs-12 col-md-4 mb-4">
 			            <div class="md-form">

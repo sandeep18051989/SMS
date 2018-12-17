@@ -34,7 +34,7 @@ namespace EF.Data.Mapping
 			this.HasRequired(cust => cust.User)
 				 .WithMany()
 				 .HasForeignKey(cust => cust.UserId);
-			this.HasRequired(cust => cust.PermissionRecord)
+			this.HasOptional(cust => cust.PermissionRecord)
 					 .WithMany()
 					 .HasForeignKey(cust => cust.PermissionRecordId);
 

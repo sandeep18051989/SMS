@@ -1,0 +1,158 @@
+﻿@model SMS.Models.CasteModel
+@{
+    ViewBag.Title = "Castes";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group pull-right">
+                            @Html.ActionLink("Create Caste", "Create", "Caste", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Religion</th>
+                                        <th class="text-center">Active</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>}
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Castes')").closest("li").addClass("active");
+
+        // Initiallize Datatable
+        $('.custom-table').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax": {
+                "url": "/Admin/Caste/LoadGrid",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "aaSorting": [],
+            "columns": [
+				{
+				    "data": "Name", "title": "Name", "name": "Title", "autoWidth": true, "defaultContent": "", "className": "text-center",
+				},
+                {
+                    "data": "Religion", "title": "Religion", "name": "Religion", "autoWidth": true, "defaultContent": "", "className": "text-center",
+                },
+				{
+				    "data": "IsActive",
+				    "title": "Active",
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            if (row.IsActive) {
+				                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="deactivate" data-id="' +
+                                    row.Id +
+                                    '" title="Deactivate Caste"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+				            } else {
+				                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="activate" data-id="' +
+                                    row.Id +
+                                    '" title="Activate Caste"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+				            }
+				        }
+				        return data;
+				    },
+				    "className": "text-center",
+				    "orderable": false,
+				    "defaultContent": ""
+				},
+				{
+				    "title": "Actions",
+				    "orderable": false,
+				    "className": 'text-center',
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            return '<a href="/Admin/Caste/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
+				        }
+				        return data;
+				    },
+				    "defaultContent": ""
+				}
+            ],
+            "select": {
+                "style": 'os',
+                "selector": 'td:first-child'
+            }
+        });
+
+        $(document).on("click","a[class^='toggle_']", function (e) {
+            if (confirm("Are you sure, you want to update status for the selected caste?")) {
+                var operation = $(this).data('operation').trim().toLowerCase();
+
+                e.preventDefault();
+                var postData = {
+                    id: $(this).attr("id")
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("Toggle", "Caste"))",
+                    data: postData,
+                    success: function (data, result) {
+                        if (result === "success") {
+                            setTimeout(function () {
+                                $.gritter.add({
+                                    title: "Success",
+                                    text: "Caste Updated Successfully!",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            },
+                                1e3);
+                            $('.custom-table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.responseText);
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Failure",
+                                text: xhr.responseText,
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        },
+                            1e3);
+                    },
+                    traditional: true
+                });
+            }
+            return false;
+        });
+    });
+</script>

@@ -37,7 +37,6 @@ namespace EF.Core.Data
 		public string E_Phisician_Name { get; set; }
 		public string E_Phisician_Address { get; set; }
 		public string E_Phisician_Phone { get; set; }
-		public int ClassId { get; set; }
 		public int DivisionId { get; set; }
 		public string Father_Occupation { get; set; }
 		public string Father_Education { get; set; }
@@ -85,7 +84,7 @@ namespace EF.Core.Data
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
 
-        public int ClassDivisionId { get; set; }
+        public int ClassRoomDivisionId { get; set; }
 
         [NotMapped]
 		public AdmissionStatus AdmissionStatus
@@ -125,13 +124,11 @@ namespace EF.Core.Data
 		}
 
 		[NotMapped]
-		public virtual ICollection<Assessment> _Assessments { get; set; }
-		[NotMapped]
 		public virtual ICollection<File> _Files { get; set; }
 
 		[NotMapped]
 		public virtual ICollection<MessageGroup> _MessageGroups { get; set; }
-		public virtual Class Class { get; set; }
+		public virtual ClassRoomDivision ClassRoomDivision { get; set; }
 		public virtual House House { get; set; }
 
 		#region Navigation Properties
@@ -140,12 +137,6 @@ namespace EF.Core.Data
 		{
 			get { return _Files ?? (_Files = new List<File>()); }
 			protected set { _Files = value; }
-		}
-
-		public virtual ICollection<Assessment> Assessments
-		{
-			get { return _Assessments ?? (_Assessments = new List<Assessment>()); }
-			protected set { _Assessments = value; }
 		}
 
 		public virtual ICollection<MessageGroup> MessageGroups

@@ -17,7 +17,6 @@ namespace EF.Data.Mapping
             this.Property(b => b.PassingMarks).IsRequired();
             this.Property(b => b.StartTime).IsOptional();
             this.Property(b => b.EndTime).IsOptional();
-
             EntityTracker.TrackAllProperties<Assessment>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);
 		}
 	}

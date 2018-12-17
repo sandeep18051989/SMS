@@ -1,0 +1,28 @@
+﻿@model SMS.Areas.Admin.Models.RolePermissionModel
+@using EF.Services;
+@using EF.Core.Enums;
+@foreach (var per in Model.AvailablePermissions)
+{
+	if (per.Checked)
+	{
+		<div class="row">
+			<div class="col-md-7 mb-4">
+				<div class="form-check">
+					<input type="checkbox" name="Selectedpermissions" class="filled-in form-check-input" id="@per.Id" value="@per.Id" checked="checked" @if (Model.RoleId == 1) {<text> readonly="readonly" disabled</text>} >
+					<label class="form-check-label" for="@per.Id">@per.Name</label>
+				</div>
+			</div>
+		</div>
+	}
+	else
+	{
+		<div class="row">
+			<div class="col-md-7 mb-4">
+				<div class="form-check">
+					<input type="checkbox" name="Selectedpermissions" class="filled-in form-check-input" id="@per.Id" value="@per.Id" @if (Model.RoleId == 1) { <text> readonly="readonly" disabled</text>}>
+					<label class="form-check-label" for="@per.Id">@per.Name</label>
+				</div>
+			</div>
+		</div>
+	}
+}

@@ -65,13 +65,13 @@
 				    "render": function (data, type, row) {
 				        if (type === "display") {
 				            if (row.IsActive) {
-				                return '<a href="javascript:void(0);" class="toggle_' +
+				                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
                                     row.Id +
                                     '" data-operation="deactivate" data-id="' +
                                     row.Id +
                                     '" title="Deactivate Class"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
 				            } else {
-				                return '<a href="javascript:void(0);" class="toggle_' +
+				                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
                                     row.Id +
                                     '" data-operation="activate" data-id="' +
                                     row.Id +
@@ -107,48 +107,50 @@
         });
 
         $('a[class^="toggle_"]').click(function (e) {
-            e.preventDefault();
-            var postData = {
-                id: $(this).id.match(/\((.*)\)/)
-            };
-            addAntiForgeryToken(postData);
+            if (confirm("Are you sure, you want to update status for the selected class?")) {
+                e.preventDefault();
+                var postData = {
+                    id: $(this).attr("id")
+                };
+                addAntiForgeryToken(postData);
 
-            var operation = $(this).data('opeartion').trim().toLowerCase();
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url: "@(Url.Action("Toggle", "Class"))",
-                data: postData,
-                success: function (data, result) {
-                    if (result === "success") {
+                var operation = $(this).attr('data-operation').trim().toLowerCase();
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("Toggle", "Class"))",
+                    data: postData,
+                    success: function (data, result) {
+                        if (result === "success") {
+                            setTimeout(function () {
+                                $.gritter.add({
+                                    title: "Success",
+                                    text: "Class Updated Successfully!",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            },
+                                1e3);
+                            $('.custom-table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.responseText);
                         setTimeout(function () {
                             $.gritter.add({
-                                title: "Success",
-                                text: "Class Updated Successfully!",
+                                title: "Failure",
+                                text: xhr.responseText,
                                 sticky: !0,
                                 time: "",
                                 class_name: "my-sticky-class"
                             });
                         },
                             1e3);
-                        $('.custom-table').DataTable().ajax.reload();
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.responseText);
-                    setTimeout(function () {
-                        $.gritter.add({
-                            title: "Failure",
-                            text: xhr.responseText,
-                            sticky: !0,
-                            time: "",
-                            class_name: "my-sticky-class"
-                        });
                     },
-                        1e3);
-                },
-                traditional: true
-            });
+                    traditional: true
+                });
+            }
             return false;
         });
     });

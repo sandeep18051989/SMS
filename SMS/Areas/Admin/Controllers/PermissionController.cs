@@ -192,6 +192,7 @@ namespace SMS.Areas.Admin.Controllers
 					eve.Name = model.Name;
 					eve.IsActive = model.IsActive;
 					eve.Category = model.Category;
+                    eve.SystemName = model.SystemName;
 					_permissionService.Update(eve);
 				}
 			}
@@ -201,7 +202,7 @@ namespace SMS.Areas.Admin.Controllers
 			}
 
 			SuccessNotification("Permission updated successfully.");
-			return RedirectToAction("PermissionsList");
+			return RedirectToAction("List");
 		}
 
 		public ActionResult Create()
@@ -233,8 +234,11 @@ namespace SMS.Areas.Admin.Controllers
 					CreatedOn = DateTime.Now,
 					IsSystemDefined = false,
 					ModifiedOn = DateTime.Now,
+                    SystemName = model.SystemName,
+                    Category = model.Category,
 					IsDeleted = false,
 					Name = model.Name,
+                    UserId = _userContext.CurrentUser.Id,
                     IsActive = model.IsActive
 				};
 				_permissionService.Insert(newPermission);
@@ -245,8 +249,8 @@ namespace SMS.Areas.Admin.Controllers
 			}
 
 			SuccessNotification("Permission created successfully.");
-			return View(model);
-		}
+            return RedirectToAction("List");
+        }
 
 		public ActionResult Delete(int id)
 		{
@@ -262,7 +266,7 @@ namespace SMS.Areas.Admin.Controllers
 			}
 
 			SuccessNotification("Permission deleted successfully.");
-			return RedirectToAction("PermissionsList");
+			return RedirectToAction("List");
 		}
 
 		[HttpPost]
@@ -360,7 +364,7 @@ namespace SMS.Areas.Admin.Controllers
 				}
 			}
 			model.RoleId = id;
-			return PartialView("~/Areas/Admin/Views/Shared/_RolePermissionList.cshtml", model);
+			return PartialView("~/Areas/Admin/Views/Permission/RolePermissionList.cshtml", model);
 		}
 
 		public ActionResult RolePermissionList(int id)

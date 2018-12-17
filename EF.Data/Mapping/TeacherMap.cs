@@ -29,17 +29,19 @@ namespace EF.Data.Mapping
 			this.HasRequired(all => all.Qualification).WithMany().HasForeignKey(all => all.QualificationId);
 
 			// Relationships
-			this.HasMany(u => u.Divisions)
-				 .WithMany()
-				 .Map(m => m.ToTable("Teacher_Division_Mapping").MapLeftKey("TeacherId").MapRightKey("DivisionId"));
+			this.HasMany(u => u.ClassRoomDivisions)
+				 .WithMany(z => z.Teachers)
+				 .Map(m => m.ToTable("Teacher_Class_Room_Division_Mapping").MapLeftKey("TeacherId").MapRightKey("DivisionId"));
+
 			this.HasMany(u => u.Subjects)
-				 .WithMany()
+				 .WithMany(z => z.Teachers)
 				 .Map(m => m.ToTable("Teacher_Subject_Mapping").MapLeftKey("TeacherId").MapRightKey("SubjectId"));
 
 			this.HasMany(u => u.Files)
-				 .WithMany()
+				 .WithMany(z => z.Teachers)
 				 .Map(m => m.ToTable("Teacher_File_Mapping").MapLeftKey("TeacherId").MapRightKey("FileId"));
-			EntityTracker.TrackAllProperties<Teacher>().Except(x => x.Subjects).And(x => x.Divisions).And(x => x.Qualification).And(x => x.CreatedOn).And(x => x.ModifiedOn);
+
+			EntityTracker.TrackAllProperties<Teacher>().Except(x => x.Subjects).And(x => x.ClassRoomDivisions).And(x => x.Qualification).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

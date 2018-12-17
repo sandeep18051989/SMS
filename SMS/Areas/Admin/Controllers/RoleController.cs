@@ -69,7 +69,7 @@ namespace SMS.Areas.Admin.Controllers
                 int recordsTotal = 0;
 
                 // Getting all data    
-                var roleData = (from temproles in _roleService.GetAllRoles(showSystemDefined: false) select temproles);
+                var roleData = (from temproles in _roleService.GetAllRoles(showSystemDefined: true) select temproles);
 
                 //Search    
                 if (!string.IsNullOrEmpty(searchValue))

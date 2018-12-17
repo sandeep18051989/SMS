@@ -8,22 +8,15 @@ namespace EF.Core.Data
 		[NotMapped]
 		public virtual ICollection<Student> _Students { get; set; }
 		[NotMapped]
-		public virtual ICollection<Division> _Divisions { get; set; }
-		[NotMapped]
 		public virtual ICollection<Teacher> _Teachers { get; set; }
-		[NotMapped]
-		public virtual ICollection<Class> _Classes { get; set; }
 
-		public string Name { get; set; }
+        [NotMapped]
+        public virtual ICollection<ClassRoomDivision> _ClassRoomDivisions { get; set; }
+
+        public string Name { get; set; }
 		public string Description { get; set; }
 
 		#region Navigation Properties
-
-		public virtual ICollection<Division> Divisions
-		{
-			get { return _Divisions ?? (_Divisions = new List<Division>()); }
-			protected set { _Divisions = value; }
-		}
 
 		public virtual ICollection<Teacher> Teachers
 		{
@@ -35,12 +28,13 @@ namespace EF.Core.Data
 			get { return _Students ?? (_Students = new List<Student>()); }
 			protected set { _Students = value; }
 		}
-		public virtual ICollection<Class> Classes
-		{
-			get { return _Classes ?? (_Classes = new List<Class>()); }
-			protected set { _Classes = value; }
-		}
-		#endregion
+        public virtual ICollection<ClassRoomDivision> ClassRoomDivisions
+        {
+            get { return _ClassRoomDivisions ?? (_ClassRoomDivisions = new List<ClassRoomDivision>()); }
+            protected set { _ClassRoomDivisions = value; }
+        }
 
-	}
+        #endregion
+
+    }
 }

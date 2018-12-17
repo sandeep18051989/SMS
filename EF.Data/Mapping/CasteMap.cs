@@ -11,7 +11,7 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Caste");
 			this.HasKey(b => b.Id);
-            this.Property(b => b.CasteName).IsRequired();
+            this.Property(b => b.Name).HasMaxLength(100).IsRequired();
             this.Property(b => b.ReligionId).IsRequired();
 
             this.HasRequired(all => all.Religion).WithMany().HasForeignKey(all => all.ReligionId);

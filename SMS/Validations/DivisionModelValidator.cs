@@ -10,7 +10,7 @@ namespace SMS.Validations
 		public DivisionModelValidator()
 		{
 			RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter division");
-			RuleFor(x => x.ClassId).NotEmpty().WithMessage("Please choose class");
+			RuleFor(x => x.AcadmicYearId).NotEmpty().WithMessage("Please select acadmic year");
 		}
 	}
 }

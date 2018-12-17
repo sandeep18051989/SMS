@@ -412,6 +412,9 @@ namespace SMS.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult UpdateDivisionsForClass(int id, int[] divisions)
         {
+            if (!_permissionService.Authorize("ManageClass"))
+                return AccessDeniedView();
+
             if (id == 0)
                 throw new ArgumentNullException("id");
 
@@ -420,14 +423,14 @@ namespace SMS.Areas.Admin.Controllers
             if (objClass != null)
             {
                 var objDivisions = _smsService.GetDivisionsByClass(id);
-                if (divisions.Length > 0)
+                if (divisions != null && divisions.Length > 0)
                 {
                     foreach (var divisionid in divisions)
                     {
                         var checkRecords = _smsService.GetClassDivisions(classid: id, divisionid: divisionid);
                         if (checkRecords.Count == 0)
                         {
-                            _smsService.InsertClassDivision(new ClassDivision()
+                            _smsService.InsertClassDivision(new ClassRoomDivision()
                             {
                                 ClassId = id,
                                 DivisionId = divisionid,
@@ -444,11 +447,11 @@ namespace SMS.Areas.Admin.Controllers
                     foreach (var record in objDivisions)
                     {
                         var objClassDivisions = _smsService.GetClassDivisions(classid: id, divisionid: record.Id);
-                        if (objClassDivisions.Count > 0)
+                        if (objClassDivisions != null && objClassDivisions.Count > 0)
                         {
                             foreach (var classdiv in objClassDivisions)
                             {
-                                _smsService.DeleteClassDivision(classdiv.Id);
+                                _smsService.RemoveDivisionFromClass(id, classdiv.DivisionId.Value);
                             }
                         }
                     }
@@ -456,6 +459,28 @@ namespace SMS.Areas.Admin.Controllers
             }
             ViewBag.Result = "Class updated Successfully";
             return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveClassDivision(int id, int divisionid)
+        {
+            if (!_permissionService.Authorize("ManageClass"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new Exception("Class id not found");
+
+            _smsService.RemoveDivisionFromClass(id, divisionid);
+
+            SuccessNotification("Class division removed successfully");
+            return new JsonResult()
+            {
+                Data = true,
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
         }
 
     }

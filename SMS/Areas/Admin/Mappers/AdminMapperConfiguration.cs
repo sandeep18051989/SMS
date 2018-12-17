@@ -55,14 +55,20 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Employee, mo => mo.Ignore());
 
                 cfg.CreateMap<Caste, CasteModel>()
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.Religion, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableReligions, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
+                    .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")))
+                    .ForMember(dest => dest.AvailableCategories, mo => mo.Ignore());
+                cfg.CreateMap<CasteModel, Caste>()
                     .ForMember(dest => dest.Categories, mo => mo.Ignore())
                     .ForMember(dest => dest.Religion, mo => mo.Ignore());
-                cfg.CreateMap<CasteModel, Caste>()
-                    .ForMember(dest => dest.Religion, mo => mo.Ignore())
-                    .ForMember(dest => dest.Categories, mo => mo.Ignore());
 
                 cfg.CreateMap<Category, CategoryModel>()
-                    .ForMember(dest => dest.AvailableCastes, mo => mo.Ignore());
+                    .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
+                    .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")));
                 cfg.CreateMap<CategoryModel, Category>()
                     .ForMember(dest => dest.Castes, mo => mo.Ignore());
 
@@ -83,8 +89,22 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
                     .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")));
-                cfg.CreateMap<ClassModel, Class>()
-                    .ForMember(dest => dest.MessageGroups, mo => mo.Ignore());
+                cfg.CreateMap<ClassModel, Class>();
+
+                cfg.CreateMap<ClassRoom, ClassRoomModel>()
+                    .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")));
+                cfg.CreateMap<ClassRoomModel, ClassRoom>();
+
+                cfg.CreateMap<ClassRoomDivision, ClassRoomDivisionModel>()
+                    .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
+                    .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")));
+                cfg.CreateMap<ClassRoomDivisionModel, ClassRoomDivision>()
+                    .ForMember(dest => dest.Class, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassRoom, mo => mo.Ignore())
+                    .ForMember(dest => dest.Division, mo => mo.Ignore());
 
                 cfg.CreateMap<ClassHomework, ClassHomeworkModel>()
                     .ForMember(dest => dest.AvailableClasses, mo => mo.Ignore())
@@ -130,14 +150,10 @@ namespace SMS.Areas.Admin.Mappers
 
                 cfg.CreateMap<Division, DivisionModel>()
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
-                    .ForMember(dest => dest.AvailableRooms, mo => mo.Ignore())
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.Selected, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
-                    .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")))
-                    .ForMember(dest => dest.AvailableClasses, mo => mo.Ignore());
-                cfg.CreateMap<DivisionModel, Division>()
-                    .ForMember(dest => dest.MessageGroups, mo => mo.Ignore());
+                    .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")));
 
                 cfg.CreateMap<DivisionExam, DivisionExamModel>()
                     .ForMember(dest => dest.AvailableGradeSystem, mo => mo.Ignore())
@@ -212,7 +228,6 @@ namespace SMS.Areas.Admin.Mappers
 
                 cfg.CreateMap<News, NewsModel>()
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
-                    .ForMember(dest => dest.Users, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableStatuses, mo => mo.Ignore())
@@ -220,7 +235,6 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Comments, mo => mo.Ignore());
                 cfg.CreateMap<NewsModel, News>()
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
-                    .ForMember(dest => dest.Users, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.NewsStatus, mo => mo.Ignore())
@@ -239,6 +253,11 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<FeeCategoryModel, FeeCategory>()
                     .ForMember(dest => dest.Category, mo => mo.Ignore())
                     .ForMember(dest => dest.Class, mo => mo.Ignore());
+
+                cfg.CreateMap<Feedback, FeedbackModel>()
+                    .ForMember(dest => dest.SentSuccess, mo => mo.Ignore());
+                cfg.CreateMap<FeedbackModel, Feedback>()
+                    .ForMember(dest => dest.IsDeleted, mo => mo.Ignore());
 
                 cfg.CreateMap<Homework, HomeworkModel>()
                     .ForMember(dest => dest.AvailableStudentApprovals, mo => mo.Ignore())
@@ -386,9 +405,8 @@ namespace SMS.Areas.Admin.Mappers
 
                 cfg.CreateMap<StudentModel, Student>()
                     .ForMember(dest => dest.AdmissionStatus, mo => mo.Ignore())
-                    .ForMember(dest => dest.Assessments, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
-                    .ForMember(dest => dest.Class, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassRoomDivision, mo => mo.Ignore())
                     .ForMember(dest => dest.House, mo => mo.Ignore())
                     .ForMember(dest => dest.PersonalityStatus, mo => mo.Ignore())
                     .ForMember(dest => dest.StudentHouse, mo => mo.Ignore())
@@ -453,7 +471,7 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<TeacherModel, Teacher>()
                     .ForMember(dest => dest.Qualification, mo => mo.Ignore())
                     .ForMember(dest => dest.MessageGroups, mo => mo.Ignore())
-                    .ForMember(dest => dest.Divisions, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassRoomDivisions, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.Qualification, mo => mo.Ignore())
                     .ForMember(dest => dest.Subjects, mo => mo.Ignore());
@@ -481,6 +499,10 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
                 cfg.CreateMap<DataTokenModel, DataToken>()
                     .ForMember(dest => dest.user, mo => mo.Ignore());
+
+                cfg.CreateMap<Religion, ReligionModel>()
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<ReligionModel, Religion>();
 
                 cfg.CreateMap<TimeTable, TimeTableModel>()
                     .ForMember(dest => dest.AvailableWeekDays, mo => mo.Ignore())

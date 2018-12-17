@@ -14,7 +14,7 @@
 		public string MetaTitle { get; set; }
 		public string BodyHtml { get; set; }
 		public bool PermissionOriented { get; set; }
-		public int PermissionRecordId { get; set; }
+		public int? PermissionRecordId { get; set; }
 		public string Url { get; set; }
 		public int TemplateId { get; set; }
 		public bool IsSystemDefined { get; set; }

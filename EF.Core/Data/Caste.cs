@@ -8,7 +8,7 @@ namespace EF.Core.Data
 		[NotMapped]
 		public virtual ICollection<Category> _Categories { get; set; }
 		public int ReligionId { get; set; }
-		public string CasteName { get; set; }
+		public string Name { get; set; }
 		public virtual Religion Religion { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }

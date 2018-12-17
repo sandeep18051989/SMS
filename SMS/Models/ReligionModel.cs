@@ -8,7 +8,6 @@ namespace SMS.Models
 	public partial class ReligionModel : BaseEntityModel
 	{
 		public string Name { get; set; }
-
         public string Description { get; set; }
     }
 }
