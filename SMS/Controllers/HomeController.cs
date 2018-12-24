@@ -261,7 +261,7 @@ namespace SMS.Controllers
 					}
 				}
 
-				_emailService.SendMail(feedBack.Email, "Artery Labs", Template != null ? Template.BodyHtml : "Thanks For Sending Us The Request.");
+				_emailService.SendMail(feedBack.Email, "SMS", Template != null ? Template.BodyHtml : "Thanks For Sending Us The Request.");
 
 				// Get Email Settings
 				var _setting = _settingService.GetSettingByKey("FromEmail");

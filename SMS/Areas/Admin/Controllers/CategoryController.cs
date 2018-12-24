@@ -86,15 +86,15 @@ namespace SMS.Areas.Admin.Controllers
                         recordsFiltered = recordsTotal,
                         recordsTotal = recordsTotal,
                         data = data.Select(x => new CategoryModel() {
-                            AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
-                            AcadmicYearId = x.AcadmicYearId,
-                            CreatedOnString = x.CreatedOn.ToString("U"),
-                            ModifiedOnString = x.ModifiedOn.ToString("U"),
-                            Id = x.Id,
-                            Name = x.Name,
-                            ReligionId = x.ReligionId,
-                            UserId = x.UserId,
-                            Religion = _smsService.GetReligionById(x.ReligionId)?.Name
+                            //AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
+                            //AcadmicYearId = x.AcadmicYearId,
+                            //CreatedOnString = x.CreatedOn.ToString("U"),
+                            //ModifiedOnString = x.ModifiedOn.ToString("U"),
+                            //Id = x.Id,
+                            //Name = x.Name,
+                            //ReligionId = x.ReligionId,
+                            //UserId = x.UserId,
+                            //Religion = _smsService.GetReligionById(x.ReligionId)?.Name
                         }).OrderBy(x => x.Name).ToList()
                     },
                     ContentEncoding = Encoding.Default,

@@ -260,6 +260,7 @@ namespace SMS.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             if (!_permissionService.Authorize("ManageClass"))
@@ -327,6 +328,7 @@ namespace SMS.Areas.Admin.Controllers
             return RedirectToAction("List");
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
             if (!_permissionService.Authorize("ManageClass"))

@@ -205,7 +205,7 @@
 					"className": 'text-center',
 					"render": function (data, type, row) {
 						if (type === "display") {
-							return '<a href="/Admin/Event/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="eventid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+						    return '<a href="/Admin/Event/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="eventid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
 						}
 						return data;
 					},

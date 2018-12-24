@@ -125,6 +125,7 @@ namespace SMS.Areas.Admin.Controllers
 
         #endregion
 
+        [HttpGet]
         public ActionResult List()
         {
             if (!_permissionService.Authorize("ManageTemplates"))
@@ -134,16 +135,17 @@ namespace SMS.Areas.Admin.Controllers
             return View(model);
         }
 
-        public ActionResult Edit(int templateId)
+        [HttpGet]
+        public ActionResult Edit(int id)
         {
             var model = new CreateTemplateModel();
             if (!_permissionService.Authorize("ManageTemplates"))
                 return AccessDeniedView();
 
-            if (templateId == 0)
+            if (id == 0)
                 throw new Exception("Template Id Missing");
 
-            var temp = _templateService.GetTemplateById(templateId);
+            var temp = _templateService.GetTemplateById(id);
             // Get All Data Tokens
             var dtTokens = _templateService.GetAllDataTokens(true).ToList();
             var user = _userContext.CurrentUser;
@@ -257,6 +259,8 @@ namespace SMS.Areas.Admin.Controllers
             SuccessNotification("Template updated successfully.");
             return RedirectToAction("TemplateList");
         }
+
+        [HttpGet]
         public ActionResult Create()
         {
             if (!_permissionService.Authorize("ManageTemplates"))

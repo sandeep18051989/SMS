@@ -9,7 +9,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Admin/Content/AdminStyles.css">
-      <publishTime>12/06/2018 14:59:40</publishTime>
+      <publishTime>10/12/2018 16:46:28</publishTime>
     </File>
     <File Include="Areas/Admin/Content/fineuploader.min.css">
       <publishTime>01/10/2018 18:47:34</publishTime>
@@ -122,6 +122,27 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/Admin/Views/Audit/List.cshtml">
       <publishTime>11/28/2018 19:09:13</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Caste/Create.cshtml">
+      <publishTime>12/17/2018 13:55:37</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Caste/Edit.cshtml">
+      <publishTime>12/17/2018 13:57:04</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Caste/List.cshtml">
+      <publishTime>12/24/2018 19:24:29</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Category/Create.cshtml">
+      <publishTime>12/17/2018 14:10:04</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Category/Edit.cshtml">
+      <publishTime>12/17/2018 14:10:04</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Category/List.cshtml">
+      <publishTime>12/24/2018 19:24:58</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Category/_CategoryCastes.cshtml">
+      <publishTime>12/17/2018 14:10:04</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Charts/ActiveInactiveUsers.cshtml">
       <publishTime>01/10/2018 18:47:35</publishTime>
     </File>
@@ -136,6 +157,27 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Areas/Admin/Views/Charts/_RegisteredUsers.cshtml">
       <publishTime>01/10/2018 18:47:35</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Class/Create.cshtml">
+      <publishTime>12/14/2018 11:31:20</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Class/Edit.cshtml">
+      <publishTime>12/14/2018 11:30:52</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Class/List.cshtml">
+      <publishTime>12/24/2018 19:24:19</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Class/_ClassDivisions.cshtml">
+      <publishTime>12/14/2018 11:09:24</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ClassRoom/Create.cshtml">
+      <publishTime>12/17/2018 13:24:31</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ClassRoom/Edit.cshtml">
+      <publishTime>12/17/2018 13:23:47</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ClassRoom/List.cshtml">
+      <publishTime>12/24/2018 19:24:12</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Common/AdminSettingsMenu.cshtml">
       <publishTime>11/30/2018 14:22:43</publishTime>
@@ -159,7 +201,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2018 17:06:09</publishTime>
     </File>
     <File Include="Areas/Admin/Views/CustomPage/List.cshtml">
-      <publishTime>11/28/2018 15:42:08</publishTime>
+      <publishTime>12/24/2018 19:24:05</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Dashboard/Index.cshtml">
       <publishTime>11/30/2018 14:29:06</publishTime>
@@ -177,7 +219,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2018 13:59:24</publishTime>
     </File>
     <File Include="Areas/Admin/Views/DataToken/List.cshtml">
-      <publishTime>11/28/2018 15:19:06</publishTime>
+      <publishTime>12/24/2018 19:23:54</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Division/Create.cshtml">
+      <publishTime>12/17/2018 13:54:28</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Division/Edit.cshtml">
+      <publishTime>12/17/2018 13:56:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Division/List.cshtml">
+      <publishTime>12/24/2018 19:23:42</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Email/EmailSettings.cshtml">
       <publishTime>12/06/2018 14:41:14</publishTime>
@@ -192,7 +243,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/10/2018 18:47:36</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Event/List.cshtml">
-      <publishTime>11/27/2018 15:37:16</publishTime>
+      <publishTime>12/24/2018 19:23:36</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Event/_EventPictures.cshtml">
       <publishTime>11/30/2018 18:10:13</publishTime>
@@ -213,7 +264,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2018 14:04:57</publishTime>
     </File>
     <File Include="Areas/Admin/Views/News/List.cshtml">
-      <publishTime>11/27/2018 14:04:46</publishTime>
+      <publishTime>12/24/2018 19:23:09</publishTime>
     </File>
     <File Include="Areas/Admin/Views/News/NewsPicture.cshtml">
       <publishTime>10/24/2018 15:37:50</publishTime>
@@ -228,16 +279,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/10/2018 18:47:36</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Permission/Create.cshtml">
-      <publishTime>11/28/2018 17:55:18</publishTime>
+      <publishTime>12/17/2018 12:22:37</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Permission/Edit.cshtml">
-      <publishTime>11/28/2018 18:08:30</publishTime>
+      <publishTime>12/17/2018 12:54:41</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Permission/List.cshtml">
-      <publishTime>11/29/2018 14:29:54</publishTime>
+      <publishTime>12/24/2018 19:23:02</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Permission/RolePermissionList.cshtml">
+      <publishTime>01/10/2018 18:47:37</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Permission/RolePermissions.cshtml">
-      <publishTime>01/10/2018 18:47:36</publishTime>
+      <publishTime>12/17/2018 12:46:40</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Picture/Settings.cshtml">
       <publishTime>11/29/2018 15:44:30</publishTime>
@@ -249,7 +303,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2018 14:07:30</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Product/List.cshtml">
-      <publishTime>11/27/2018 14:07:08</publishTime>
+      <publishTime>12/24/2018 19:22:48</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Product/ProductPicture.cshtml">
       <publishTime>10/24/2018 15:37:50</publishTime>
@@ -260,6 +314,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/Admin/Views/Product/_ProductVideos.cshtml">
       <publishTime>11/30/2018 18:10:13</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Religion/Create.cshtml">
+      <publishTime>12/17/2018 13:23:24</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Religion/Edit.cshtml">
+      <publishTime>12/17/2018 13:23:11</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Religion/List.cshtml">
+      <publishTime>12/24/2018 19:22:37</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Role/Create.cshtml">
       <publishTime>11/28/2018 17:20:53</publishTime>
     </File>
@@ -267,7 +330,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2018 17:10:08</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Role/List.cshtml">
-      <publishTime>11/29/2018 14:29:54</publishTime>
+      <publishTime>12/24/2018 19:22:23</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/AcadmicYear.cshtml">
       <publishTime>01/10/2018 18:47:36</publishTime>
@@ -330,10 +393,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/10/2018 18:47:36</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Layout.cshtml">
-      <publishTime>11/30/2018 13:26:32</publishTime>
+      <publishTime>12/17/2018 12:51:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Links.cshtml">
-      <publishTime>11/30/2018 14:25:25</publishTime>
+      <publishTime>12/17/2018 13:58:17</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_logo.cshtml">
       <publishTime>01/10/2018 18:47:37</publishTime>
@@ -354,7 +417,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/29/2018 17:11:45</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Slider/List.cshtml">
-      <publishTime>11/30/2018 18:26:13</publishTime>
+      <publishTime>12/24/2018 19:22:10</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Slider/_SliderPictures.cshtml">
       <publishTime>03/12/2018 08:33:37</publishTime>
@@ -378,7 +441,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2018 14:09:41</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Template/List.cshtml">
-      <publishTime>11/29/2018 14:29:54</publishTime>
+      <publishTime>12/24/2018 19:21:05</publishTime>
     </File>
     <File Include="Areas/Admin/Views/User/Create.cshtml">
       <publishTime>11/28/2018 18:10:42</publishTime>
@@ -387,7 +450,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/28/2018 18:10:53</publishTime>
     </File>
     <File Include="Areas/Admin/Views/User/List.cshtml">
-      <publishTime>11/29/2018 14:29:54</publishTime>
+      <publishTime>12/24/2018 19:25:16</publishTime>
     </File>
     <File Include="Areas/Admin/Views/User/Settings.cshtml">
       <publishTime>01/10/2018 18:47:37</publishTime>
@@ -405,7 +468,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2018 14:12:33</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/List.cshtml">
-      <publishTime>11/27/2018 14:10:47</publishTime>
+      <publishTime>12/24/2018 19:25:23</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Vendor/_VendorProducts.cshtml">
       <publishTime>11/30/2018 18:10:14</publishTime>
@@ -429,13 +492,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/13/2017 19:32:32</publishTime>
     </File>
     <File Include="bin/EF.Core.dll">
-      <publishTime>12/07/2018 11:19:09</publishTime>
+      <publishTime>12/24/2018 19:30:43</publishTime>
     </File>
     <File Include="bin/EF.Data.dll">
-      <publishTime>12/07/2018 11:19:10</publishTime>
+      <publishTime>12/24/2018 19:30:44</publishTime>
     </File>
     <File Include="bin/EF.Services.dll">
-      <publishTime>12/07/2018 11:19:12</publishTime>
+      <publishTime>12/24/2018 19:30:45</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -519,7 +582,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/13/2012 12:19:34</publishTime>
     </File>
     <File Include="bin/SMS.dll">
-      <publishTime>12/07/2018 11:19:27</publishTime>
+      <publishTime>12/24/2018 19:30:56</publishTime>
     </File>
     <File Include="bin/System.ComponentModel.Annotations.dll">
       <publishTime>05/15/2018 13:29:36</publishTime>
@@ -544,6 +607,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>10/05/2018 22:42:40</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>10/05/2018 22:39:16</publishTime>
     </File>
     <File Include="bin/System.Web.Mvc.dll">
       <publishTime>10/05/2018 22:38:08</publishTime>
@@ -1924,6 +1990,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/images/HNCK1088.jpg">
       <publishTime>01/10/2018 18:47:40</publishTime>
+    </File>
+    <File Include="Content/images/Houses/gandhi.jpg">
+      <publishTime>10/12/2018 12:11:10</publishTime>
+    </File>
+    <File Include="Content/images/Houses/nehru.jpg">
+      <publishTime>10/12/2018 12:11:10</publishTime>
+    </File>
+    <File Include="Content/images/Houses/patel.jpg">
+      <publishTime>10/12/2018 12:11:10</publishTime>
+    </File>
+    <File Include="Content/images/Houses/tagore.jpg">
+      <publishTime>10/12/2018 12:11:10</publishTime>
     </File>
     <File Include="Content/images/lab-bg2.jpg">
       <publishTime>01/10/2018 18:47:40</publishTime>
@@ -3915,7 +3993,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/10/2018 18:47:57</publishTime>
     </File>
     <File Include="Views/Install/Index.cshtml">
-      <publishTime>11/30/2018 13:17:58</publishTime>
+      <publishTime>10/12/2018 15:00:56</publishTime>
     </File>
     <File Include="Views/Menu/Index.cshtml">
       <publishTime>01/10/2018 18:47:57</publishTime>
@@ -4008,7 +4086,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/10/2018 18:47:57</publishTime>
     </File>
     <File Include="Views/Shared/_devLayout.cshtml">
-      <publishTime>12/06/2018 12:21:08</publishTime>
+      <publishTime>10/12/2018 15:06:18</publishTime>
     </File>
     <File Include="Views/Shared/_Footer.cshtml">
       <publishTime>01/10/2018 18:47:57</publishTime>

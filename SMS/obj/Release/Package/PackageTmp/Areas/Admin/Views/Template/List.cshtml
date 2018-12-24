@@ -162,7 +162,7 @@
                                 "render": function (data, type, row) {
                                     if (type === "display") {
                                         var htmlTemplate = '';
-                                        htmlTemplate += '<a href="/template/edit/' +
+                                        htmlTemplate += '<a href="/Admin/Template/Edit?id=' +
                                             row.Id +
                                             '" id="edit_' +
                                             row.Id +
@@ -170,7 +170,7 @@
 
                                         if (!row.IsSystemDefined) {
                                             htmlTemplate +=
-                                                '<a id="templateid_' + row.Id + '" href="/template/delete/' + row.Id + '" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+                                                '<a id="templateid_' + row.Id + '" href="/Admin/Template/Delete?id=' + row.Id + '" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
                                         }
                                         return htmlTemplate;
                                     }

@@ -116,7 +116,7 @@
                                     "render": function (data, type, row) {
                                         if (type === "display") {
                                             var htmlTemplate = '';
-                                            htmlTemplate += '<a href="/datatoken/edit/' +
+                                            htmlTemplate += '<a href="/datatoken/edit?id=' +
                                                 row.Id +
                                                 '" id="edit_' +
                                                 row.Id +
@@ -125,7 +125,7 @@
                                             if (!row.IsSystemDefined) {
                                                 htmlTemplate += '<a id="tokenid_' +
                                                     row.Id +
-                                                    '" href="datatoken/delete/' +
+                                                    '" href="datatoken/delete?id=' +
                                                     row.Id +
                                                     '" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>';
                                             }

@@ -1945,3 +1945,24 @@ span.log-url {
 .card-stats .card-header .card-icon + .card-category, .card-stats .card-header .card-icon + .card-title {
     padding-top: 10px;
 }
+.custom-control-input[type=checkbox] + label:before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: -1px;
+    width: 17px;
+    height: 17px;
+    z-index: 0;
+    border: 1.5px solid #8a8a8a;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+    margin-top: 2px;
+    -webkit-transition: .2s;
+    -o-transition: .2s;
+    transition: .2s;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+    -ms-transform-origin:unset;
+    transform-origin:unset;
+}

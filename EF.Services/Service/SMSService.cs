@@ -626,7 +626,7 @@ namespace EF.Services.Service
 			if (!String.IsNullOrEmpty(religion))
 				query = query.Where(s => s.Religion.Name.Trim().ToLower() == religion.Trim().ToLower()).ToList();
 
-			return query.OrderBy(s => s.CasteName).ToList();
+			return query.OrderBy(s => s.Name).ToList();
 
 		}
 

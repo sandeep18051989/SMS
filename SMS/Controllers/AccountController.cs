@@ -265,58 +265,58 @@ namespace SMS.Controllers
 			var _User = _userService.GetUserByUsername(model.name);
 			if (_User != null)
 			{
-				//var _userInfo = _userInfoService.GetUserInformationByUserId(_User.Id);
-				//if (_userInfo != null)
-				//{
-				//	if (!String.IsNullOrEmpty(_userInfo.Email))
-				//	{
-				//		// Get Forgot Password Template
-				//		var configSetting = _settingService.GetSettingsByType(SettingTypeEnum.ConfigurationSetting);
-				//		if (configSetting.Count > 0)
-				//		{
-				//			var templateName = configSetting.FirstOrDefault(x => x.Name.Trim().ToLower() == "forgotpasswordtemplate").Value;
-				//			if (!String.IsNullOrEmpty(templateName))
-				//			{
-				//				var _templateContent = _templateService.GetTemplateByName(templateName);
-				//				if (_templateContent != null)
-				//				{
-				//					var _lstTokens = new List<DataToken>();
-				//					_templateService.AddUserTokens(_lstTokens, _User);
+                //var _userInfo = _userInfoService.GetUserInformationByUserId(_User.Id);
+                //if (_userInfo != null)
+                //{
+                //    if (!String.IsNullOrEmpty(_userInfo.Email))
+                //    {
+                //        // Get Forgot Password Template
+                //        var configSetting = _settingService.GetSettingsByType(SettingTypeEnum.ConfigurationSetting);
+                //        if (configSetting.Count > 0)
+                //        {
+                //            var templateName = configSetting.FirstOrDefault(x => x.Name.Trim().ToLower() == "forgotpasswordtemplate").Value;
+                //            if (!String.IsNullOrEmpty(templateName))
+                //            {
+                //                var _templateContent = _templateService.GetTemplateByName(templateName);
+                //                if (_templateContent != null)
+                //                {
+                //                    var _lstTokens = new List<DataToken>();
+                //                    _templateService.AddUserTokens(_lstTokens, _User);
 
-				//					if (_lstTokens.Count > 0)
-				//					{
-				//						foreach (DataToken userdt in _lstTokens)
-				//						{
-				//							_templateContent.BodyHtml = EF.Core.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + userdt.Name + "]", userdt.Value, StringComparison.InvariantCulture);
-				//						}
-				//					}
+                //                    if (_lstTokens.Count > 0)
+                //                    {
+                //                        foreach (DataToken userdt in _lstTokens)
+                //                        {
+                //                            _templateContent.BodyHtml = EF.Core.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + userdt.Name + "]", userdt.Value, StringComparison.InvariantCulture);
+                //                        }
+                //                    }
 
-				//					foreach (var dt in _templateService.GetAllDataTokensByTemplate(_templateContent.Id).Where(x => x.IsActive).ToList())
-				//					{
-				//						_templateContent.BodyHtml = EF.Core.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
-				//					}
+                //                    foreach (var dt in _templateService.GetAllDataTokensByTemplate(_templateContent.Id).Where(x => x.IsActive).ToList())
+                //                    {
+                //                        _templateContent.BodyHtml = EF.Core.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+                //                    }
 
-				//					_emailService.SendMail(_userInfo.Email, "Artery Labs:Password Request", _templateContent != null ? _templateContent.BodyHtml : "Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
-				//					SuccessNotification("A mail has been sent to your account email address with your password.");
-				//				}
-				//			}
-				//		}
-				//		else
-				//		{
-				//			ErrorNotification("Configuration Template setting not available, contact administratorSS.");
-				//		}
-				//	}
-				//	else
-				//	{
-				//		ErrorNotification("Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
-				//	}
-				//}
-				//else
-				//{
-				//	ErrorNotification("Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
-				//}
+                //                    _emailService.SendMail(_userInfo.Email, "Artery Labs:Password Request", _templateContent != null ? _templateContent.BodyHtml : "Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
+                //                    SuccessNotification("A mail has been sent to your account email address with your password.");
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            ErrorNotification("Configuration Template setting not available, contact administratorSS.");
+                //        }
+                //    }
+                //    else
+                //    {
+                //        ErrorNotification("Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
+                //    }
+                //}
+                //else
+                //{
+                //    ErrorNotification("Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
+                //}
 
-			}
+            }
 
 			return RedirectToAction("Login");
 		}
