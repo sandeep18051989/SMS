@@ -79,7 +79,7 @@ namespace EF.Services.Service
         {
             if (commentId > 0)
             {
-                return _commentRepository.Table.FirstOrDefault(x => x.Id == commentId);
+                return _commentRepository.GetByID(commentId);
             }
 
             return null;

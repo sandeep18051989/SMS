@@ -44,7 +44,7 @@ namespace EF.Services.Service
 
 		public IList<File> GetAllFilesByProduct(int productId)
 		{
-			return _productRepository.Table.FirstOrDefault(x => x.Id == productId)?.Files.ToList();
+			return _productRepository.GetByID(productId)?.Files.ToList();
 		}
 
 		public IList<File> GetFiles(bool active = true)

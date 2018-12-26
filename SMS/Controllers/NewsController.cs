@@ -60,7 +60,6 @@ namespace SMS.Controllers
                     newsModel.EndDate = n.EndDate;
                     newsModel.Author = n.Author;
                     newsModel.Description = n.Description;
-                    newsModel.Date = n.ModifiedOn;
                     newsModel.Id = n.Id;
                     foreach (var p in n.Pictures)
                     {

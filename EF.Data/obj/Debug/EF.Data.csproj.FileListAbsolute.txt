@@ -54,7 +54,6 @@ D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csproj.CoreCompileInputs.cache
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csproj.CopyComplete
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.dll
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.pdb
-E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Data.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Data.pdb
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Core.dll
@@ -68,6 +67,7 @@ E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.Integration.Mvc.
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.Mvc.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.ValueTuple.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Core.pdb
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.SqlServer.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\AutoMapper.pdb

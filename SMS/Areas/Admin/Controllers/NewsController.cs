@@ -10,6 +10,7 @@ using EF.Services.Http;
 using EF.Services.Service;
 using SMS.Mappers;
 using SMS.Models;
+using EF.Core.Enums;
 
 namespace SMS.Areas.Admin.Controllers
 {
@@ -229,7 +230,21 @@ namespace SMS.Areas.Admin.Controllers
 				model = eve.ToModel();
 			}
 
-			return View(model);
+            model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
+                                       select new SelectListItem
+                                       {
+                                           Text = d.ToString(),
+                                           Value = Convert.ToInt32(d).ToString(),
+                                           Selected = (Convert.ToInt32(d) == model.NewsStatusId)
+                                       }).ToList();
+
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
+            return View(model);
 		}
 
 		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
@@ -249,24 +264,42 @@ namespace SMS.Areas.Admin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var eve = _newsService.GetNewsById(model.Id);
+				var newsItem = _newsService.GetNewsById(model.Id);
 
-				if (eve == null || eve.IsDeleted)
+				if (newsItem == null || newsItem.IsDeleted)
 					return RedirectToAction("List");
 
-				eve.CreatedOn = DateTime.Now;
-				eve = model.ToEntity();
-				eve.ModifiedOn = DateTime.Now;
-				eve.UserId = user.Id;
-				_newsService.Update(eve);
+                newsItem.CreatedOn = DateTime.Now;
+                newsItem = model.ToEntity(newsItem);
+                newsItem.ModifiedOn = DateTime.Now;
+                newsItem.UserId = user.Id;
+				_newsService.Update(newsItem);
 
 				// Save URL Record
-				model.SystemName = eve.ValidateSystemName(model.SystemName, model.ShortName, true);
-				_urlService.SaveSlug(eve, model.SystemName);
-			}
+				model.SystemName = newsItem.ValidateSystemName(model.SystemName, model.ShortName, true);
+				_urlService.SaveSlug(newsItem, model.SystemName);
+
+                // Update Url
+                newsItem.Url = Url.RouteUrl("News", new { name = newsItem.GetSystemName() }, "http");
+                _newsService.Update(newsItem);
+            }
 			else
 			{
-				ErrorNotification("An error occured while updating news. Please try again.");
+                model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
+                                           select new SelectListItem
+                                           {
+                                               Text = d.ToString(),
+                                               Value = Convert.ToInt32(d).ToString(),
+                                               Selected = (Convert.ToInt32(d) == model.NewsStatusId)
+                                           }).ToList();
+
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.IsActive
+                }).ToList();
+                ErrorNotification("An error occured while updating news. Please try again.");
 				return View(model);
 			}
 
@@ -284,7 +317,22 @@ namespace SMS.Areas.Admin.Controllers
 				return AccessDeniedView();
 
 			var model = new NewsModel();
-			return View(model);
+
+            model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
+                                       select new SelectListItem
+                                       {
+                                           Text = d.ToString(),
+                                           Value = Convert.ToInt32(d).ToString(),
+                                           Selected = (Convert.ToInt32(d) == model.NewsStatusId)
+                                       }).ToList();
+
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
+            return View(model);
 		}
 
 		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
@@ -306,7 +354,6 @@ namespace SMS.Areas.Admin.Controllers
 			if (ModelState.IsValid)
 			{
 				model.CreatedOn = model.ModifiedOn = DateTime.Now;
-				model.AcadmicYearId = _userContext.CurrentAcadmicYear.Id;
 				newNews = model.ToEntity();
 
 				_newsService.Insert(newNews);
@@ -314,10 +361,28 @@ namespace SMS.Areas.Admin.Controllers
 				// Save URL Record
 				model.SystemName = newNews.ValidateSystemName(model.SystemName, model.ShortName, true);
 				_urlService.SaveSlug(newNews, model.SystemName);
+
+                // Update Url
+                newNews.Url = Url.RouteUrl("News", new { name = newNews.GetSystemName() }, "http");
+                _newsService.Update(newNews);
 			}
 			else
 			{
-				ErrorNotification("An error occured while creating news. Please try again.");
+                model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
+                                           select new SelectListItem
+                                           {
+                                               Text = d.ToString(),
+                                               Value = Convert.ToInt32(d).ToString(),
+                                               Selected = (Convert.ToInt32(d) == model.NewsStatusId)
+                                           }).ToList();
+
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.IsActive
+                }).ToList();
+                ErrorNotification("An error occured while creating news. Please try again.");
 				return View(model);
 			}
 
@@ -342,7 +407,6 @@ namespace SMS.Areas.Admin.Controllers
 			SuccessNotification("News deleted successfully");
 			return RedirectToAction("List");
 		}
-
 
 		#endregion
 

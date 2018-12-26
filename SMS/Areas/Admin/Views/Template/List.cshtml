@@ -35,13 +35,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="clearfix"></div>
-                <div class="alert alert-info">
-                    <strong>Info!</strong> System defined templates cannot be deleted and you cannot make them active or inactive.<br />
-                    <strong>Info!</strong> "QuerySuccess" template is used to send emails to customers sending queries.<br />
-                    <strong>Info!</strong> "About" template is used for the about us page.<br />
-                    <strong>Info!</strong> "Pharma" template is used for the Pharma PCD page.<br />
-                    <strong>Info!</strong> "Manufacturing" template is used for the 3rd Party Manufacturing page.<br />
+                <div class="row-fluid text-left">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <strong>Info!</strong> System defined templates cannot be deleted and you cannot make them active or inactive.<br />
+                        </div>
+                    </div>
                 </div>
             }
             <script type="text/javascript">
@@ -231,14 +230,14 @@
                         }
                         else {
                             setTimeout(function () {
-                                    $.gritter.add({
-                                        title: "Failure",
-                                        text: "Please select atleast one record",
-                                        sticky: !0,
-                                        time: "",
-                                        class_name: "my-sticky-class"
-                                    });
-                                },
+                                $.gritter.add({
+                                    title: "Failure",
+                                    text: "Please select atleast one record",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            },
                                 1e3);
                         }
                         return false;

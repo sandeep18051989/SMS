@@ -11,12 +11,12 @@ namespace SMS.Mappers
 	{
 		public static TDestination MapTo<TSource, TDestination>(this TSource source)
 		{
-			return AutoMapperConfiguration.Mapper.Map<TSource, TDestination>(source);
+			return SMS.Areas.Admin.Mappers.AdminMapperConfiguration.Mapper.Map<TSource, TDestination>(source);
 		}
 
 		public static TDestination MapTo<TSource, TDestination>(this TSource source, TDestination destination)
 		{
-			return AutoMapperConfiguration.Mapper.Map(source, destination);
+			return SMS.Areas.Admin.Mappers.AdminMapperConfiguration.Mapper.Map(source, destination);
 		}
 
 	    #region Slider

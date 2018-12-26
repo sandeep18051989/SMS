@@ -11,20 +11,34 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Employee");
 			this.HasKey(b => b.Id);
-			this.Property(b => b.EmpMName).IsOptional();
-			this.Property(b => b.FatherMName).IsOptional();
-			this.Property(b => b.MotherMName).IsOptional();
-			this.Property(b => b.BGroup).IsOptional();
+            this.Property(b => b.EmpFName).HasMaxLength(100).IsRequired();
+            this.Property(b => b.FatherMName).HasMaxLength(100).IsOptional();
+            this.Property(b => b.MotherMName).HasMaxLength(100).IsOptional();
+
+            this.Property(b => b.EmpMName).HasMaxLength(100).IsOptional();
+			this.Property(b => b.FatherMName).HasMaxLength(100).IsOptional();
+			this.Property(b => b.MotherMName).HasMaxLength(100).IsOptional();
+
+            this.Property(b => b.EmpLName).HasMaxLength(100).IsOptional();
+            this.Property(b => b.FatherLName).HasMaxLength(100).IsOptional();
+            this.Property(b => b.MotherLName).HasMaxLength(100).IsOptional();
+
+            this.Property(b => b.BGroup).IsOptional();
 			this.Property(b => b.DateOfBirth).IsOptional();
 			this.Property(b => b.Weight).IsOptional();
 			this.Property(b => b.Height).IsOptional();
+            this.Property(b => b.QualificationId).IsOptional();
 
-			this.Property(b => b.Caste).IsOptional();
+            this.Property(b => b.CasteId).IsOptional();
 			this.Property(b => b.Bus_NoSchool).IsOptional();
 			this.Property(b => b.Pre_Institute_Name).IsOptional();
 			this.Property(b => b.Pre_Institute_Address).IsOptional();
 
-			this.Property(b => b.E_Phisician_Name).IsOptional();
+            this.Property(b => b.ContractStatusId).IsOptional();
+            this.Property(b => b.ContractTypeId).IsOptional();
+            this.Property(b => b.ContractStartDate).IsOptional();
+            this.Property(b => b.ContractEndDate).IsOptional();
+            this.Property(b => b.E_Phisician_Name).IsOptional();
 			this.Property(b => b.E_Phisician_Address).IsOptional();
 			this.Property(b => b.E_Phisician_Phone).IsOptional();
 			this.Property(b => b.Father_Occupation).IsOptional();
@@ -36,19 +50,17 @@ namespace EF.Data.Mapping
 			this.Property(b => b.PinTemp).IsOptional();
 			this.Property(b => b.FatherPictureId).IsOptional();
 			this.Property(b => b.MotherPictureId).IsOptional();
-			this.Property(b => b.EmployeePictureId).IsOptional();
-			this.Property(b => b.ReliogionId).IsOptional();
+			this.Property(b => b.EmployeePictureId).IsRequired();
+			this.Property(b => b.ReligionId).IsOptional();
+            this.Property(b => b.DD).IsOptional();
+            this.Property(b => b.MM).IsOptional();
+            this.Property(b => b.YYYY).IsOptional();
+            this.Property(b => b.DesignationId).IsRequired();
 
-			this.HasRequired(all => all.Allowance).WithMany().HasForeignKey(all => all.AllowanceId);
-			this.HasOptional(all => all.Religion).WithMany().HasForeignKey(all => all.ReliogionId);
-			this.HasOptional(all => all.EmployeePicture).WithMany().HasForeignKey(all => all.EmployeePictureId);
+            this.HasRequired(all => all.Designation).WithMany().HasForeignKey(all => all.DesignationId);
+            this.HasOptional(all => all.EmployeePicture).WithMany().HasForeignKey(all => all.EmployeePictureId);
 
-			// Relationships
-			this.HasMany(u => u.Classes)
-				 .WithMany()
-				 .Map(m => m.ToTable("Employee_Classes_Map").MapLeftKey("EmpId").MapRightKey("ClassId"));
-
-			EntityTracker.TrackAllProperties<Employee>().Except(x => x.Religion).And(x => x.Allowance).And(x => x.Classes).And(x => x.EmployeePicture).And(x => x.CreatedOn).And(x => x.ModifiedOn);
+			EntityTracker.TrackAllProperties<Employee>().Except(x => x.Religion).And(x => x.Designation).And(x => x.EmployeePicture).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

@@ -1,6 +1,5 @@
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\EF.Data.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\EF.Data.pdb
-E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\EntityFramework.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\EntityFramework.SqlServer.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\TrackerEnabledDbContext.Common.dll
@@ -22,3 +21,4 @@ E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.ValueTuple.xml
 E:\My Documents\Training Projects\Sms\EF.Data\obj\Release\EF.Data.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\EF.Data\obj\Release\EF.Data.dll
 E:\My Documents\Training Projects\Sms\EF.Data\obj\Release\EF.Data.pdb
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\EF.Core.dll

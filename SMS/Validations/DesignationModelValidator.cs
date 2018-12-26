@@ -4,11 +4,11 @@ using SMS.Models;
 
 namespace SMS.Validations
 {
-	public partial class DesignationModelValidator : EntityValidatorBase<DesignationModel>
+	public partial class DesignationModelValidator : AbstractValidator<DesignationModel>
 	{
 		public DesignationModelValidator()
 		{
-			RuleFor(x => x.DesignationName).NotEmpty().WithMessage("Please enter designation");
+			RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter name");
 		}
 	}
 }

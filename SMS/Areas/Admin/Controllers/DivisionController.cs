@@ -115,7 +115,7 @@ namespace SMS.Areas.Admin.Controllers
 
         public JsonResult GetAllDivisions(int? classid=null)
         {
-            var allDivisions = _smsService.GetAllDivisions(true);
+            var allDivisions = _smsService.GetAllDivisions();
             var divisionsByClass = _smsService.GetAllDivisionsByClass(id: classid, onlyActive: true);
 
             //Returning Json Data 
@@ -167,7 +167,7 @@ namespace SMS.Areas.Admin.Controllers
                 model = objDivision.ToModel();
             }
 
-            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears(true).Select(x => new SelectListItem()
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
             {
                 Text = x.Name.Trim(),
                 Value = x.Id.ToString(),
@@ -195,14 +195,15 @@ namespace SMS.Areas.Admin.Controllers
                 var objDivision = _smsService.GetDivisionById(model.Id);
                 if (objDivision != null)
                 {
-                    objDivision = model.ToEntity();
+                    model.CreatedOn = objDivision.CreatedOn;
+                    objDivision = model.ToEntity(objDivision);
                     objDivision.ModifiedOn = DateTime.Now;
                     _smsService.UpdateDivision(objDivision);
                 }
             }
             else
             {
-                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears(true).Select(x => new SelectListItem()
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
                 {
                     Text = x.Name.Trim(),
                     Value = x.Id.ToString(),
@@ -225,7 +226,7 @@ namespace SMS.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var model = new DivisionModel();
-            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears(true).Select(x => new SelectListItem()
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
             {
                 Text = x.Name.Trim(),
                 Value = x.Id.ToString(),
@@ -262,7 +263,7 @@ namespace SMS.Areas.Admin.Controllers
             }
             else
             {
-                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears(true).Select(x => new SelectListItem()
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
                 {
                     Text = x.Name.Trim(),
                     Value = x.Id.ToString(),

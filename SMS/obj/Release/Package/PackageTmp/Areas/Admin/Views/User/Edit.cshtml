@@ -111,7 +111,7 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('Users')").closest("li").addClass("active");
 
-		if ($("#IsActive").val()) {
+		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
 		else {

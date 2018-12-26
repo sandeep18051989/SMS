@@ -90,7 +90,7 @@
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            <input type="checkbox" tabindex="4" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" checked="@(Model.IsActive ? "checked" : "")" />
+                                                            <input type="checkbox" tabindex="4" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
                                                             @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
                                                             @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                                         </div>
@@ -115,12 +115,12 @@
                                                         <div class="md-form">
                                                             <div class="row">
                                                                 <div class="col-md-4">
-                                                                    <input type="checkbox" tabindex="7" id="SexMale" data-check="Male" name="Sex" value="@(Model.Sex)" checked="@(Model.Sex == "Male" ? "checked" : "")" />
+                                                                    <input type="checkbox" tabindex="7" id="SexMale" data-check="Male" name="Sex" value="@(Model.Sex)" @(Model.Sex == "Male" ? "checked=checked" : "") />
                                                                     <label for="SexMale">Male</label>
                                                                     @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <input type="checkbox" tabindex="8" id="SexFeMale" data-check="FeMale" name="Sex" value="@(Model.Sex)" checked="@(Model.Sex == "Female" ? "checked" : "")" />
+                                                                    <input type="checkbox" tabindex="8" id="SexFeMale" data-check="FeMale" name="Sex" value="@(Model.Sex)" @(Model.Sex == "Female" ? "checked=checked" : "") />
                                                                     <label for="SexFeMale">Female</label>
                                                                     @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                                                 </div>
@@ -648,7 +648,7 @@
             }
         });
 
-        if ($("#IsActive").val()) {
+        if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
         }
         else {

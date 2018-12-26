@@ -625,6 +625,18 @@ namespace EF.Services.Service
             manageDivision.UserId = user.Id;
             _permissionRecordRepository.Insert(manageDivision);
 
+            var manageClassRoom = new PermissionRecord();
+            manageClassRoom.Name = "Manage Class Room";
+            manageClassRoom.SystemName = "ManageClassRoom";
+            manageClassRoom.IsDeleted = false;
+            manageClassRoom.IsSystemDefined = true;
+            manageClassRoom.Category = "ClassRoom";
+            manageClassRoom.ModifiedOn = DateTime.Now;
+            manageClassRoom.CreatedOn = DateTime.Now;
+            manageClassRoom.IsActive = true;
+            manageClassRoom.UserId = user.Id;
+            _permissionRecordRepository.Insert(manageClassRoom);
+
             var managePermit = new PermissionRecord();
             managePermit.Name = "Manage Religion";
             managePermit.SystemName = "ManageReligions";
@@ -638,11 +650,47 @@ namespace EF.Services.Service
             _permissionRecordRepository.Insert(managePermit);
 
             managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Designation";
+            managePermit.SystemName = "ManageDesignation";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Designation";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
+            managePermit = new PermissionRecord();
             managePermit.Name = "Manage Caste";
             managePermit.SystemName = "ManageCaste";
             managePermit.IsDeleted = false;
             managePermit.IsSystemDefined = true;
             managePermit.Category = "Caste";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Category";
+            managePermit.SystemName = "ManageCategory";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Category";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Fee Category";
+            managePermit.SystemName = "ManageFeeCategory";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "FeeCategory";
             managePermit.ModifiedOn = DateTime.Now;
             managePermit.CreatedOn = DateTime.Now;
             managePermit.IsActive = true;

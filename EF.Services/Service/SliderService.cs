@@ -49,7 +49,7 @@ namespace EF.Services.Service
 
         public IList<Picture> GetAllSliderPicturesBySliderId(int id, bool? onlyActive = null)
         {
-            return _sliderRepository.Table.FirstOrDefault(x => x.Id == id)?.Pictures.OrderByDescending(a => a.CreatedOn).ToList();
+            return _sliderRepository.GetByID(id) ?.Pictures.OrderByDescending(a => a.CreatedOn).ToList();
         }
 
         public Slider GetSliderById(int id)
@@ -57,7 +57,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new Exception("Slider Id Missing");
 
-            return _sliderRepository.Table.FirstOrDefault(x => x.Id == id);
+            return _sliderRepository.GetByID(id);
         }
 
         public Slider GetSliderByName(string name)
@@ -182,8 +182,8 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var slider = _sliderRepository.Table.FirstOrDefault(x => x.Id == id && x.IsSystemDefined != true);
-            if (slider != null)
+            var slider = _sliderRepository.GetByID(id);
+            if (slider != null && !slider.IsSystemDefined)
             {
                 slider.IsActive = !slider.IsActive;
                 _sliderRepository.Update(slider);
@@ -196,8 +196,8 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var slider = _sliderRepository.Table.FirstOrDefault(x => x.Id == id && x.IsSystemDefined != true);
-            if (slider != null)
+            var slider = _sliderRepository.GetByID(id);
+            if (slider != null && !slider.IsSystemDefined)
             {
                 slider.ShowCaption = !slider.ShowCaption;
                 _sliderRepository.Update(slider);
@@ -210,8 +210,8 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var slider = _sliderRepository.Table.FirstOrDefault(x => x.Id == id && x.IsSystemDefined != true);
-            if (slider != null)
+            var slider = _sliderRepository.GetByID(id);
+            if (slider != null && !slider.IsSystemDefined)
             {
                 slider.ShowNextPrevIndicators = !slider.ShowNextPrevIndicators;
                 _sliderRepository.Update(slider);
@@ -224,8 +224,8 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var slider = _sliderRepository.Table.FirstOrDefault(x => x.Id == id && x.IsSystemDefined != true);
-            if (slider != null)
+            var slider = _sliderRepository.GetByID(id);
+            if (slider != null && !slider.IsSystemDefined)
             {
                 slider.ShowThumbnails = !slider.ShowThumbnails;
                 _sliderRepository.Update(slider);

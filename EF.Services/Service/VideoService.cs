@@ -142,10 +142,10 @@ namespace EF.Services.Service
 		}
 		public void DeleteEventVideo(int id)
 		{
-			var eventVideo = _eventVideoRepository.Table.FirstOrDefault(s => s.Id == id);
-			if (eventVideo != null)
+			var eventVideo = _eventVideoRepository.GetByID(id);
+            if (eventVideo != null)
 			{
-				var video = _videoRepository.Table.FirstOrDefault(pic => pic.Id == eventVideo.VideoId);
+                var video = _videoRepository.GetByID(eventVideo.VideoId);
 				if (video != null)
 					_videoRepository.Delete(video);
 			}
@@ -155,17 +155,17 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Event video id is missing");
 
-			return _eventVideoRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _eventVideoRepository.GetByID(id);
 
-		}
+        }
 		public EventVideo GetEventVideoByPictureId(int id)
 		{
 			if (id == 0)
 				throw new Exception("Event video id is missing");
 
-			return _eventVideoRepository.Table.FirstOrDefault(x => x.VideoId == id);
+			return _eventVideoRepository.GetByID(id);
 
-		}
+        }
 
 		#endregion
 
@@ -181,10 +181,10 @@ namespace EF.Services.Service
 		}
 		public void DeleteProductVideo(int id)
 		{
-			var productVideo = _productVideoRepository.Table.FirstOrDefault(s => s.Id == id);
+			var productVideo = _productVideoRepository.GetByID(id);
 			if (productVideo != null)
 			{
-				var video = _videoRepository.Table.FirstOrDefault(pic => pic.Id == productVideo.VideoId);
+				var video = _videoRepository.GetByID(productVideo.VideoId);
 				if (video != null)
 					_videoRepository.Delete(video);
 			}
@@ -194,17 +194,17 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Product video id is missing");
 
-			return _productVideoRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _productVideoRepository.GetByID(id);
 
-		}
+        }
 		public ProductVideo GetProductVideoByPictureId(int id)
 		{
 			if (id == 0)
 				throw new Exception("Product video id is missing");
 
-			return _productVideoRepository.Table.FirstOrDefault(x => x.VideoId == id);
+			return _productVideoRepository.GetByID(id);
 
-		}
+        }
 
 		#endregion
 
@@ -220,10 +220,10 @@ namespace EF.Services.Service
 		}
 		public void DeleteNewsVideo(int id)
 		{
-			var newsVideo = _newsVideoRepository.Table.FirstOrDefault(s => s.Id == id);
-			if (newsVideo != null)
+			var newsVideo = _newsVideoRepository.GetByID(id);
+            if (newsVideo != null)
 			{
-				var video = _videoRepository.Table.FirstOrDefault(pic => pic.Id == newsVideo.VideoId);
+				var video = _videoRepository.GetByID(newsVideo.VideoId);
 				if (video != null)
 					_videoRepository.Delete(video);
 			}
@@ -233,9 +233,9 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("News video id is missing");
 
-			return _newsVideoRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _newsVideoRepository.GetByID(id);
 
-		}
+        }
 
 		#endregion
 

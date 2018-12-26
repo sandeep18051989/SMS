@@ -83,7 +83,7 @@ namespace SMS.Areas.Admin.Controllers
 				int recordsTotal = 0;
 
 				// Getting all data    
-				var productData = (from tempproducts in _productService.GetActiveProducts(true) select tempproducts);
+				var productData = (from tempproducts in _productService.GetActiveProducts() select tempproducts);
 
 				//Sorting    
 				//if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -264,7 +264,8 @@ namespace SMS.Areas.Admin.Controllers
 					return RedirectToAction("List");
 
 				model.UserId = user.Id;
-				pro = model.ToEntity();
+                model.CreatedOn = product.CreatedOn;
+                pro = model.ToEntity(product);
 				pro.CreatedOn = DateTime.Now;
 				pro.ModifiedOn = DateTime.Now;
 				_productService.Update(pro);
@@ -339,7 +340,7 @@ namespace SMS.Areas.Admin.Controllers
 
 						foreach (var dt in tokens)
 						{
-							Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+							Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 						}
 
 						var setting = _settingService.GetSettingByKey("FromEmail");

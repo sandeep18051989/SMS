@@ -276,7 +276,7 @@ namespace SMS.Areas.Admin.Controllers
                 model = objClass.ToModel();
             }
 
-            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears(true).Select(x => new SelectListItem()
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
             {
                 Text = x.Name.Trim(),
                 Value = x.Id.ToString(),
@@ -304,14 +304,15 @@ namespace SMS.Areas.Admin.Controllers
                 var objClass = _smsService.GetClassById(model.Id);
                 if (objClass != null)
                 {
-                    objClass = model.ToEntity();
+                    model.CreatedOn = objClass.CreatedOn;
+                    objClass = model.ToEntity(objClass);
                     objClass.ModifiedOn = DateTime.Now;
                     _smsService.UpdateClass(objClass);
                 }
             }
             else
             {
-                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears(true).Select(x => new SelectListItem()
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
                 {
                     Text = x.Name.Trim(),
                     Value = x.Id.ToString(),
@@ -335,7 +336,7 @@ namespace SMS.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var model = new ClassModel();
-            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears(true).Select(x => new SelectListItem()
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
             {
                 Text = x.Name.Trim(),
                 Value = x.Id.ToString(),
@@ -373,7 +374,7 @@ namespace SMS.Areas.Admin.Controllers
             }
             else
             {
-                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears(true).Select(x => new SelectListItem()
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
                 {
                     Text = x.Name.Trim(),
                     Value = x.Id.ToString(),

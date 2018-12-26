@@ -130,13 +130,14 @@ namespace EF.Data
 
 		public virtual void Update(T entity)
 		{
-			//_context.Entry(this.Entity).State = EntityState.Modified;
 			try
 			{
 				if (entity == null)
 					throw new ArgumentNullException("entity");
 
-				this._context.SaveChanges(entity.UserId);
+                //Entity.Attach(entity);
+                //_context.Entry(entity).State = EntityState.Modified;
+                this._context.SaveChanges(entity.UserId);
 			}
 			catch (DbEntityValidationException dbEx)
 			{
@@ -162,7 +163,8 @@ namespace EF.Data
 	            if (entities == null)
 	                throw new ArgumentNullException("entities");
 
-	            this._context.SaveChanges();
+                _context.Entry(this.Entity).State = EntityState.Modified;
+                this._context.SaveChanges();
 	        }
 	        catch (DbEntityValidationException dbEx)
 	        {

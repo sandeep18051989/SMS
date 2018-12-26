@@ -71,7 +71,7 @@
 										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" @(Model.IsActive ? "checked=checked" : "") />
+												<input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 											</div>
@@ -91,7 +91,7 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('Divisions')").closest("li").addClass("active");
 
-		if ($("#IsActive").val()) {
+		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
 		else {

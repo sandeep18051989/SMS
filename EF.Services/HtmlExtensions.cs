@@ -167,6 +167,22 @@ namespace EF.Services
 			return MvcHtmlString.Create(result.ToString());
 		}
 
+        public static MvcHtmlString EnumDropDownListFor<TModel, TProperty, TEnum>(this HtmlHelper<TModel> htmlHelper,
+                                                                                    Expression<Func<TModel, TProperty>> expression,
+                                                                                    TEnum selectedValue)
+        {
+            IEnumerable<TEnum> values = Enum.GetValues(typeof(TEnum))
+                                        .Cast<TEnum>();
+            IEnumerable<SelectListItem> items = from value in values
+                                                select new SelectListItem()
+                                                {
+                                                    Text = value.ToString(),
+                                                    Value = value.ToString(),
+                                                    Selected = (value.Equals(selectedValue))
+                                                };
+            return SelectExtensions.DropDownListFor(htmlHelper, expression, items);
+        }
+
         public static MvcHtmlString CustomTextAreaFor<TModel, TValue>(this HtmlHelper<TModel> helper,
 			 Expression<Func<TModel, TValue>> expression, object htmlAttributes = null,
 			 bool renderFormControlClass = true, int rows = 4, int columns = 20)

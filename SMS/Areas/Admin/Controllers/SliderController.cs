@@ -282,7 +282,8 @@ namespace SMS.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                slider = model.ToEntity();
+                model.CreatedOn = slider.CreatedOn;
+                slider = model.ToEntity(slider);
                 slider.ModifiedOn = DateTime.Now;
                 _sliderService.Update(slider);
             }

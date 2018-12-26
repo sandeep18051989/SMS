@@ -4,6 +4,8 @@ using EF.Core.Data;
 using EF.Services;
 using FluentValidation.Attributes;
 using SMS.Validations;
+using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace SMS.Models
 {
@@ -12,16 +14,17 @@ namespace SMS.Models
 	{
 		public EmployeeModel()
 		{
-			Classes = new List<ClassModel>();
-			Religion = new ReligionModel();
-			Designation = new DesignationModel();
-			Qualification = new QualificationModel();
-			Allowance = new AllowanceModel();
-			EmployeePicture = new PictureModel();
-			FatherPicture = new PictureModel();
-			MotherPicture = new PictureModel();
-		}
-		public string EmpFName { get; set; }
+            AvailableDesignations = new List<SelectListItem>();
+            AvailableReligions = new List<SelectListItem>();
+            AvailableQualifications = new List<SelectListItem>();
+            AvailableCastes = new List<SelectListItem>();
+            AvailableContracts = new List<SelectListItem>();
+            AvailableContractTypes = new List<SelectListItem>();
+            AvailableAcadmicYears = new List<SelectListItem>();
+        }
+
+        #region Properties
+        public string EmpFName { get; set; }
 		public string EmpMName { get; set; }
 		public string EmpLName { get; set; }
 		public string FatherFName { get; set; }
@@ -33,27 +36,39 @@ namespace SMS.Models
 		public DateTime DateOfBirth { get; set; }
 		public double Weight { get; set; }
 		public double Height { get; set; }
-		public int ReliogionId { get; set; }
 		public string MarriedStatus { get; set; }
-		public DateTime JoiningDate { get; set; }
+        [UIHint("Date")]
+		public DateTime? JoiningDate { get; set; }
 		public int DesignationId { get; set; }
-		public int QualificationId { get; set; }
+        public string Designation { get; set; }
+        public int QualificationId { get; set; }
 		public string Sex { get; set; }
-		public string ReligionName { get; set; }
-		public string Caste { get; set; }
-		public string BGroup { get; set; }
+		public int ReligionId { get; set; }
+		public int CasteId { get; set; }
+
+        public int ContractTypeId { get; set; }
+        public int ContractStatusId { get; set; }
+        public string ContractStartDateString { get; set; }
+        public string ContractEndDateString { get; set; }
+        [UIHint("DateRange")]
+        public DateTime? ContractStartDate { get; set; }
+        [UIHint("DateRange")]
+        public DateTime? ContractEndDate { get; set; }
+        public bool IsActive { get; set; }
+        public string ContractType { get; set; }
+        public string ContractStatus { get; set; }
+        public string BGroup { get; set; }
 		public string BirthMark { get; set; }
-		public string Teacher_BusNo_RNo { get; set; }
-		public string Bus_NoSchool { get; set; }
-		public string AadharCardNo { get; set; }
+        public string BusNumber { get; set; }
+        public string RouteNumber { get; set; }
+        public bool? BusFacility { get; set; }
+        public string AadharCardNo { get; set; }
 		public string Pre_Institute_Name { get; set; }
 		public string Pre_Institute_Address { get; set; }
-		public string Bus_Facility { get; set; }
+		public bool? Bus_Facility { get; set; }
 		public string E_Phisician_Name { get; set; }
 		public string E_Phisician_Address { get; set; }
 		public int E_Phisician_Phone { get; set; }
-		public int AllowanceId { get; set; }
-		public double BasicPay { get; set; }
 		public string Father_Occupation { get; set; }
 		public string Email { get; set; }
 		public string Father_Office_Address { get; set; }
@@ -70,26 +85,35 @@ namespace SMS.Models
 		public string DistrictTemp { get; set; }
 		public int PinTemp { get; set; }
 		public string Username { get; set; }
-		public DateTime DDate { get; set; }
 		public string Emergency_Email { get; set; }
 		public string Emergency_Contact { get; set; }
 		public string DD { get; set; }
 		public string MM { get; set; }
 		public string YY { get; set; }
-		public int EmployeePictureId { get; set; }
-		public int FatherPictureId { get; set; }
-		public int MotherPictureId { get; set; }
+        [UIHint("Picture")]
+        public int EmployeePictureId { get; set; }
+        [UIHint("Picture")]
+        public int FatherPictureId { get; set; }
+        [UIHint("Picture")]
+        public int MotherPictureId { get; set; }
 		public int AcadmicYearId { get; set; }
-		public virtual AcadmicYear AcadmicYear { get; set; }
+		public string AcadmicYear { get; set; }
 
-		public IList<ClassModel> Classes { get; set; }
-		public ReligionModel Religion { get; set; }
-		public DesignationModel Designation { get; set; }
-		public QualificationModel Qualification { get; set; }
-		public AllowanceModel Allowance { get; set; }
-		public PictureModel EmployeePicture { get; set; }
-		public PictureModel FatherPicture { get; set; }
-		public PictureModel MotherPicture { get; set; }
+        #endregion
+
+        public IList<SelectListItem> AvailableDesignations { get; set; }
+
+        public IList<SelectListItem> AvailableReligions { get; set; }
+
+        public IList<SelectListItem> AvailableQualifications { get; set; }
+
+        public IList<SelectListItem> AvailableCastes { get; set; }
+
+        public IList<SelectListItem> AvailableContracts { get; set; }
+
+        public IList<SelectListItem> AvailableContractTypes { get; set; }
+
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
 
 	}
 }

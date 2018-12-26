@@ -1059,6 +1059,12 @@
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Category\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Designation\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Designation\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Designation\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Employee\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Employee\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Employee\List.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1470,6 +1476,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminAreaController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CasteController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DesignationController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReligionController.cs" />
     <Compile Include="Areas\Admin\Controllers\ClassRoomController.cs" />
     <Compile Include="Areas\Admin\Controllers\DivisionController.cs" />
@@ -1479,6 +1486,7 @@
     <Compile Include="Areas\Admin\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuditController.cs" />
     <Compile Include="Areas\Admin\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EmployeeController.cs" />
     <Compile Include="Areas\Admin\Controllers\StudentController.cs" />
     <Compile Include="Areas\Admin\Controllers\VendorController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
@@ -1497,6 +1505,7 @@
     <Compile Include="Areas\Admin\Controllers\EventController.cs" />
     <Compile Include="Areas\Admin\Controllers\SliderController.cs" />
     <Compile Include="Areas\Admin\Mappers\AdminMapperConfiguration.cs" />
+    <Compile Include="Areas\Admin\Mappers\AutoMapperStartupTask.cs" />
     <Compile Include="Areas\Admin\Models\AdminCommentsModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminPictureModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />

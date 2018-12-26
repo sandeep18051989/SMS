@@ -24,7 +24,7 @@ namespace SMS.Models
 		public string Name { get; set; }
 		public int AcadmicYearId { get; set; }
         public string AcadmicYear { get; set; }
-
+        public bool Selected { get; set; }
         public bool IsActive { get; set; }
         public string Religion { get; set; }
         public string CreatedOnString { get; set; }

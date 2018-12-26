@@ -49,7 +49,7 @@ namespace SMS.Controllers
 
 			foreach (var dt in _templateService.GetAllDataTokensByTemplate(model.TemplateId).Where(x => x.IsActive).ToList())
 			{
-				model.BodyHtml = EF.Core.CodeHelper.Replace(model.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+				model.BodyHtml = EF.Core.CodeHelper.Replace(model.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 			}
 
 			return View(model);
@@ -138,7 +138,7 @@ namespace SMS.Controllers
 
 			foreach (var dt in _templateService.GetAllDataTokensByTemplate(model.TemplateId).Where(x => x.IsActive).ToList())
 			{
-				model.BodyHtml = EF.Core.CodeHelper.Replace(model.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+				model.BodyHtml = EF.Core.CodeHelper.Replace(model.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 			}
 
 			return View(model);
@@ -158,7 +158,7 @@ namespace SMS.Controllers
 
 			foreach (var dt in _templateService.GetAllDataTokensByTemplate(model.TemplateId).Where(x => x.IsActive).ToList())
 			{
-				model.BodyHtml = EF.Core.CodeHelper.Replace(model.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+				model.BodyHtml = EF.Core.CodeHelper.Replace(model.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 			}
 
 			return View(model);
@@ -178,7 +178,7 @@ namespace SMS.Controllers
 
 			foreach (var dt in _templateService.GetAllDataTokensByTemplate(model.TemplateId).Where(x => x.IsActive).ToList())
 			{
-				model.BodyHtml = EF.Core.CodeHelper.Replace(model.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+				model.BodyHtml = EF.Core.CodeHelper.Replace(model.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 			}
 
 			return View(model);

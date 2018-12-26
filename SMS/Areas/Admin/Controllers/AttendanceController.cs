@@ -99,8 +99,8 @@ namespace SMS.Areas.Admin.Controllers
 				EmployeeId = teacher.EmployeeId,
 				QualificationId = teacher.QualificationId,
 				UserId = teacher.UserId,
-				AvailableEmployees = _smsService.GetAllEmployees(true).Select(x => new SelectListItem() { Text = x.Username, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList(),
-				AvailableQualifications = _smsService.GetAllQualifications(true).Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList(),
+				AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem() { Text = x.Username, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList(),
+				AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList(),
 			};
 
 			return View(model);
@@ -150,8 +150,8 @@ namespace SMS.Areas.Admin.Controllers
 				return AccessDeniedView();
 
 			var model = new TeacherModel();
-			model.AvailableEmployees = _smsService.GetAllEmployees(true).Select(x => new SelectListItem() { Text = x.Username, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
-			model.AvailableQualifications = _smsService.GetAllQualifications(true).Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+			model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem() { Text = x.Username, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+			model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 
 			return View(model);
 
@@ -221,7 +221,7 @@ namespace SMS.Areas.Admin.Controllers
 			var _teacher = _smsService.GetTeacherById(Convert.ToInt32(id));
 
 			if (_teacher != null)
-				_smsService.ToggleUser(Convert.ToInt32(id));
+				_smsService.ToggleTeacher(Convert.ToInt32(id));
 
 			if (_teacher.IsActive)
 			{

@@ -69,7 +69,7 @@ namespace SMS.Areas.Admin.Controllers
                 int recordsTotal = 0;
 
                 // Getting all data    
-                var studentData = (from tempstudents in _smsService.GetAllStudents(true) select tempstudents);
+                var studentData = (from tempstudents in _smsService.GetAllStudents() select tempstudents);
 
                 //Search    
                 if (!string.IsNullOrEmpty(searchValue))
@@ -200,11 +200,12 @@ namespace SMS.Areas.Admin.Controllers
             if (allActiveStudents.Any(u => u.FName.Trim().ToLower() == model.FName.Trim().ToLower() && u.Id != model.Id))
                 ModelState.AddModelError("Name", "A Student with the same name already exists. Please choose a different name.");
 
-            //var student = _smsService.GetStudentById(model.Id);
+            var student = _smsService.GetStudentById(model.Id);
 
             if (ModelState.IsValid)
             {
-                var student = model.ToEntity();
+                model.CreatedOn = student.CreatedOn;
+                student = model.ToEntity(student);
                 student.ModifiedOn = DateTime.Now;
                 _smsService.UpdateStudent(student);
             }

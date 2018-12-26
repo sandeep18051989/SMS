@@ -217,13 +217,14 @@ namespace SMS.Areas.Admin.Controllers
 
 		    if (ModelState.IsValid)
 			{
-				var eve = _smsService.GetVendorById(model.Id);
-				if (eve == null || eve.IsDeleted)
+				var selectVendor = _smsService.GetVendorById(model.Id);
+				if (selectVendor == null || selectVendor.IsDeleted)
 					return RedirectToAction("List");
 
-				eve = model.ToEntity();
-                eve.ModifiedOn = DateTime.Now;
-				_smsService.UpdateVendor(eve);
+                model.CreatedOn = selectVendor.CreatedOn;
+                selectVendor = model.ToEntity(selectVendor);
+                selectVendor.ModifiedOn = DateTime.Now;
+				_smsService.UpdateVendor(selectVendor);
 			}
 			else
 			{

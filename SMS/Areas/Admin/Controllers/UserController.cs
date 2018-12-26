@@ -149,7 +149,7 @@ namespace SMS.Areas.Admin.Controllers
 					CreatedOn = user.CreatedOn,
 					IsApproved = user.IsApproved,
 					ChangePassword = new ChangePasswordModel() { Id = user.Id, OldPassword = user.Password },
-					AvailableRoles = _roleService.GetAllRoles(true).Select(r => new RoleModel()
+					AvailableRoles = _roleService.GetAllRoles().Select(r => new RoleModel()
 					{
 						Id = r.Id,
 						IsActive = r.IsActive,
@@ -185,7 +185,7 @@ namespace SMS.Areas.Admin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var availableRoles = _roleService.GetAllRoles(true);
+				var availableRoles = _roleService.GetAllRoles();
 				if (user != null && availableRoles.Count > 0)
 				{
 					user.UserName = model.Username;
@@ -223,7 +223,7 @@ namespace SMS.Areas.Admin.Controllers
 				return AccessDeniedView();
 
 			var model = new UserModel();
-			model.AvailableRoles = _roleService.GetAllRoles(true).Select(x => new RoleModel()
+			model.AvailableRoles = _roleService.GetAllRoles().Select(x => new RoleModel()
 			{
 				Id = x.Id,
 				IsActive = x.IsActive,
@@ -282,7 +282,7 @@ namespace SMS.Areas.Admin.Controllers
 			}
 			else
 			{
-				model.AvailableRoles = _roleService.GetAllRoles(true).Select(x => new RoleModel()
+				model.AvailableRoles = _roleService.GetAllRoles().Select(x => new RoleModel()
 				{
 					Id = x.Id,
 					IsActive = x.IsActive,

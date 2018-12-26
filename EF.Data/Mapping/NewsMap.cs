@@ -20,7 +20,7 @@ namespace EF.Data.Mapping
             this.Property(e => e.Url).IsOptional();
 
             // Relationships
-            this.HasRequired(all => all.User).WithMany().HasForeignKey(all => all.UserId);
+            this.HasRequired(all => all.User).WithMany(n => n.News).HasForeignKey(all => all.UserId);
 
             this.HasMany(e => e.Comments).WithMany(c => c.News).Map(m => m.ToTable("News_Comment_Map").MapLeftKey("NewsId").MapRightKey("CommentId"));
 			this.HasMany(e => e.Files).WithMany(c => c.News).Map(m => m.ToTable("News_File_Map").MapLeftKey("NewsId").MapRightKey("FileId"));

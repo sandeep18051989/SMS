@@ -33,8 +33,8 @@ namespace SMS.Areas.Admin.Models
 			public string Value { get; set; }
 			public bool IsSystemDefined { get; set; }
 			public bool IsActive { get; set; }
+            public bool Selected { get; set; }
 
-
-		}
+        }
 	}
 }

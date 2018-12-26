@@ -113,15 +113,31 @@
 										</div>
 									</div>
 								</div>
-								<div class="row text-left">
-									<div class="col-md-4 mb-4">
-										<div class="md-form">
-											<input type="checkbox" id="IsActive" tabindex="7" name="IsActive" value="@(Model.IsActive ? true : false)" checked="@(Model.IsActive ? "checked" : "")" />
-											@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { @class = "control-label" })
-											@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
+                                <div class="row text-left">
+                                    <div class="col-xs-12 col-md-4 mb-4">
+                                        <div class="md-form">
+                                            @Html.DropDownListFor(model => model.NewsStatusId, Model.AvailableStatuses, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "7" })
+                                            @Html.LabelFor(model => model.NewsStatusId, "Status", htmlAttributes: new { @class = "control-label" })
+                                            @Html.ValidationMessageFor(model => model.NewsStatusId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-xs-12 col-md-4 mb-4">
+                                        <div class="md-form">
+                                            @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "8" })
+                                            @Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+                                            @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-md-6 mb-4">
+                                        <input type="checkbox" tabindex="9" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+                                        @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+                                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 							</div>
 							<div class="tab-pane" id="upload-pictures" role="tabpanel">
 								@Html.Partial("_NewsPictures", Model)
@@ -141,7 +157,7 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('News')").closest("li").addClass("active");
 
-		if ($("#IsActive").val()) {
+		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
 		else {

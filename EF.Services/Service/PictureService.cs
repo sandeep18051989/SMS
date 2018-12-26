@@ -151,10 +151,10 @@ namespace EF.Services.Service
 		}
 		public void DeleteEventPicture(int id)
 		{
-			var eventPicture = _eventPictureRepository.Table.FirstOrDefault(s => s.Id == id);
+			var eventPicture = _eventPictureRepository.GetByID(id);
 			if (eventPicture != null)
 			{
-				var picture = _pictureRepository.Table.FirstOrDefault(pic => pic.Id == eventPicture.PictureId);
+				var picture = _pictureRepository.GetByID(eventPicture.PictureId);
 				if (picture != null)
 					_pictureRepository.Delete(picture);
 			}
@@ -164,9 +164,9 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Event picture id is missing");
 
-			return _eventPictureRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _eventPictureRepository.GetByID(id);
 
-		}
+        }
 		public EventPicture GetEventPictureByPictureId(int id)
 		{
 			if (id == 0)
@@ -199,9 +199,9 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Blog picture id is missing");
 
-			return _blogPictureRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _blogPictureRepository.GetByID(id);
 
-		}
+        }
 		public BlogPicture GetBlogPictureByPictureId(int id)
 		{
 			if (id == 0)
@@ -221,10 +221,10 @@ namespace EF.Services.Service
 		}
 		public void DeleteProductPicture(int id)
 		{
-			var productPicture = _productPictureRepository.Table.FirstOrDefault(s => s.Id == id);
-			if (productPicture != null)
+			var productPicture = _productPictureRepository.GetByID(id);
+            if (productPicture != null)
 			{
-				var picture = _pictureRepository.Table.FirstOrDefault(pic => pic.Id == productPicture.PictureId);
+				var picture = _pictureRepository.GetByID(productPicture.PictureId);
 				if (picture != null)
 					_pictureRepository.Delete(picture);
 			}
@@ -234,7 +234,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Product picture id is missing");
 
-			return _productPictureRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _productPictureRepository.GetByID(id);
 
 		}
 		public ProductPicture GetProductPictureByPictureId(int id)
@@ -268,10 +268,10 @@ namespace EF.Services.Service
 		}
 		public void DeleteNewsPicture(int id)
 		{
-			var newsPicture = _newsPictureRepository.Table.FirstOrDefault(s => s.Id == id);
+            var newsPicture = _newsPictureRepository.GetByID(id);
 			if (newsPicture != null)
 			{
-				var picture = _pictureRepository.Table.FirstOrDefault(pic => pic.Id == newsPicture.PictureId);
+				var picture = _pictureRepository.GetByID(newsPicture.PictureId);
 				if (picture != null)
 					_pictureRepository.Delete(picture);
 			}
@@ -281,9 +281,9 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("News picture id is missing");
 
-			return _newsPictureRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _newsPictureRepository.GetByID(id);
 
-		}
+        }
 		public NewsPicture GetNewsPictureByPictureId(int id)
 		{
 			if (id == 0)

@@ -308,7 +308,7 @@ namespace SMS.Areas.Admin.Controllers
 			if (id == 0)
 				throw new Exception("Role Id Missing");
 
-			var allPermissions = _permissionService.GetAllPermissions(true).Select(x => new PermissionModel()
+			var allPermissions = _permissionService.GetAllPermissions().Select(x => new PermissionModel()
 			{
 				Category = x.Category,
 				Id = x.Id,
@@ -317,7 +317,7 @@ namespace SMS.Areas.Admin.Controllers
 				SystemName = x.SystemName,
 			}).ToList();
 
-			var roles = _roleService.GetAllRoles(true);
+			var roles = _roleService.GetAllRoles();
 			if (roles.Count > 0)
 			{
 				// Load Available Roles
@@ -376,7 +376,7 @@ namespace SMS.Areas.Admin.Controllers
 			if (id == 0)
 				throw new Exception("Role Id Missing");
 
-			var allPermissions = _permissionService.GetAllPermissions(true).Select(x => new PermissionModel()
+			var allPermissions = _permissionService.GetAllPermissions().Select(x => new PermissionModel()
 			{
 				Category = x.Category,
 				Id = x.Id,
@@ -385,7 +385,7 @@ namespace SMS.Areas.Admin.Controllers
 				SystemName = x.SystemName,
 			}).ToList();
 
-			var roles = _roleService.GetAllRoles(true);
+			var roles = _roleService.GetAllRoles();
 			if (roles.Count > 0)
 			{
 				// Load Available Templates
@@ -444,7 +444,7 @@ namespace SMS.Areas.Admin.Controllers
 			var newpermissions = new List<PermissionRecord>();
 			if (ModelState.IsValid)
 			{
-				var permissions = _permissionService.GetAllPermissions(true);
+				var permissions = _permissionService.GetAllPermissions();
 				var selectedRole = _roleService.GetRoleById(model.RoleId);
 
 				foreach (var permit in permissions)
@@ -475,7 +475,7 @@ namespace SMS.Areas.Admin.Controllers
 				_roleService.Update(selectedRole);
 			}
 
-			model.AvailablePermissions = _permissionService.GetAllPermissions(true).Select(x => new PermissionModel()
+			model.AvailablePermissions = _permissionService.GetAllPermissions().Select(x => new PermissionModel()
 			{
 				Name = x.Name,
 				Id = x.Id,
@@ -487,7 +487,7 @@ namespace SMS.Areas.Admin.Controllers
 
 			SuccessNotification("Role Permissions updated successfully.");
 			model.AvailableRoles.Clear();
-			var roles = _roleService.GetAllRoles(true);
+			var roles = _roleService.GetAllRoles();
 			if (roles.Count <= 0) return View("~/Areas/Admin/Views/Role/List.cshtml");
 			// Load Available Templates
 			model.AvailableRoles.Add(new SelectListItem { Text = "-- Select Role --", Value = "0" });

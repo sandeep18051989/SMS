@@ -147,34 +147,33 @@ namespace SMS.Areas.Admin.Controllers
 
             var temp = _templateService.GetTemplateById(id);
             // Get All Data Tokens
-            var dtTokens = _templateService.GetAllDataTokens(true).ToList();
+            var dtTokens = _templateService.GetAllDataTokens().ToList();
             var user = _userContext.CurrentUser;
-            if (user != null)
+            if (temp != null)
             {
-                if (temp != null)
+                var usedTokens = _templateService.GetAllDataTokensByTemplate(temp.Id);
+                model = new CreateTemplateModel
                 {
-                    if (temp.UserId == user.Id)
+                    InsertDataTokensModel = dtTokens.Select(x => new CreateTemplateModel.CreateDataTokensModel()
                     {
-                        model = new CreateTemplateModel
-                        {
-                            InsertDataTokensModel = dtTokens.Select(x => new CreateTemplateModel.CreateDataTokensModel()
-                            {
-                                Id = x.Id,
-                                UserId = x.UserId,
-                                IsSystemDefined = x.IsSystemDefined,
-                                Name = x.Name,
-                                Value = x.Value,
-                                IsActive = x.IsActive
-                            }).ToList(),
-                            Name = temp.Name,
-                            IsActive = temp.IsActive,
-                            BodyHtml = temp.BodyHtml,
-                            Id = temp.Id,
-                            UserId = temp.UserId,
-                            IsSystemDefined = temp.IsSystemDefined
-                        };
-                    }
-                }
+                        Id = x.Id,
+                        UserId = x.UserId,
+                        IsSystemDefined = x.IsSystemDefined,
+                        Name = x.Name,
+                        Value = x.Value,
+                        IsActive = x.IsActive,
+                        SystemName = x.SystemName,
+                        Selected = usedTokens.Any(y => y.Id == x.Id)
+                    }).ToList(),
+                    Name = temp.Name,
+                    IsActive = temp.IsActive,
+                    BodyHtml = temp.BodyHtml,
+                    Id = temp.Id,
+                    UserId = temp.UserId,
+                    ModifiedOn = temp.ModifiedOn,
+                    CreatedOn = temp.CreatedOn,
+                    IsSystemDefined = temp.IsSystemDefined
+                };
             }
 
             if (model.InsertDataTokensModel == null)
@@ -216,10 +215,11 @@ namespace SMS.Areas.Admin.Controllers
                                         Id = tkn.Id,
                                         IsSystemDefined = tkn.IsSystemDefined,
                                         Name = tkn.Name,
+                                        SystemName = tkn.SystemName,
                                         UserId = tkn.UserId,
                                         Value = tkn.Value,
-                                        CreatedOn = DateTime.Now,
-                                        ModifiedOn = DateTime.Now,
+                                        CreatedOn = tkn.CreatedOn,
+                                        ModifiedOn = tkn.ModifiedOn,
                                         IsActive = tkn.IsActive,
                                         IsDeleted = false
                                     };
@@ -230,26 +230,20 @@ namespace SMS.Areas.Admin.Controllers
                     }
 
                     var alltokens = _templateService.GetAllDataTokensByTemplate(temp.Id);
-
-                    if (alltokens.Count > 0)
+                    foreach (DataToken dToken in alltokens)
                     {
-                        foreach (DataToken dToken in alltokens)
+                        if (!model.BodyHtml.Contains("[" + dToken.SystemName + "]"))
                         {
-                            if (!model.BodyHtml.Contains("[" + dToken.Name + "]"))
-                            {
-                                temp.Tokens.Remove(dToken);
-                            }
+                            temp.Tokens.Remove(dToken);
                         }
                     }
 
-                    temp.CreatedOn = DateTime.Now;
                     temp.Name = model.Name;
                     temp.BodyHtml = model.BodyHtml;
                     temp.IsActive = model.IsActive;
                     temp.Id = model.Id;
                     temp.Url = "";
                     temp.ModifiedOn = DateTime.Now;
-                    temp.IsSystemDefined = model.IsSystemDefined;
                     _templateService.Update(temp);
 
 
@@ -257,7 +251,7 @@ namespace SMS.Areas.Admin.Controllers
             }
 
             SuccessNotification("Template updated successfully.");
-            return RedirectToAction("TemplateList");
+            return RedirectToAction("List");
         }
 
         [HttpGet]
@@ -268,7 +262,7 @@ namespace SMS.Areas.Admin.Controllers
 
             var model = new CreateTemplateModel();
             // Get All Data Tokens
-            var dtTokens = _templateService.GetAllDataTokens(true).ToList();
+            var dtTokens = _templateService.GetAllDataTokens().ToList();
             model.InsertDataTokensModel = dtTokens.Select(x => new CreateTemplateModel.CreateDataTokensModel()
             {
                 Id = x.Id,
@@ -294,58 +288,53 @@ namespace SMS.Areas.Admin.Controllers
             if (_template != null)
                 ModelState.AddModelError("Name", "A Template with the same name already exists. Please choose a different name.");
             var user = _userContext.CurrentUser;
-            if (user != null)
+            if (ModelState.IsValid)
             {
-
-                if (ModelState.IsValid)
+                var template = new Template
                 {
-                    var template = new Template
-                    {
-                        BodyHtml = model.BodyHtml,
-                        IsActive = model.IsActive,
-                        Name = model.Name,
-                        UserId = user.Id,
-                        IsDeleted = false,
-                        CreatedOn = DateTime.Now,
-                        ModifiedOn = DateTime.Now,
-                        Url = "",
-                        IsSystemDefined = false
-                    };
+                    BodyHtml = model.BodyHtml,
+                    IsActive = model.IsActive,
+                    Name = model.Name,
+                    UserId = user.Id,
+                    IsDeleted = false,
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    Url = "",
+                    IsSystemDefined = false
+                };
 
-                    var dtTokens = _templateService.GetAllDataTokens(true).ToList();
-                    if (dtTokens.Count > 0)
+                var dtTokens = _templateService.GetAllDataTokens().ToList();
+                if (dtTokens.Count > 0)
+                {
+                    foreach (DataToken dToken in dtTokens)
                     {
-                        foreach (DataToken dToken in dtTokens)
+                        if (template.BodyHtml.Contains("[" + dToken.Name + "]"))
                         {
-                            if (template.BodyHtml.Contains("[" + dToken.Name + "]"))
+                            var dtToken = new DataToken()
                             {
-                                var dtToken = new DataToken()
-                                {
-                                    Id = dToken.Id,
-                                    IsSystemDefined = dToken.IsSystemDefined,
-                                    Name = dToken.Name,
-                                    UserId = dToken.UserId,
-                                    Value = dToken.Value,
-                                    CreatedOn = DateTime.Now,
-                                    ModifiedOn = DateTime.Now,
-                                    IsActive = dToken.IsActive,
-                                    IsDeleted = false
-                                };
-                                template.Tokens.Add(dtToken);
-                            }
+                                Id = dToken.Id,
+                                Name = dToken.Name,
+                                UserId = dToken.UserId,
+                                Value = dToken.Value,
+                                CreatedOn = dToken.CreatedOn,
+                                ModifiedOn = dToken.ModifiedOn,
+                                IsActive = dToken.IsActive,
+                                IsDeleted = false
+                            };
+                            template.Tokens.Add(dtToken);
                         }
                     }
+                }
 
-                    _templateService.Insert(template);
-                }
-                else
-                {
-                    return View(model);
-                }
+                _templateService.Insert(template);
+            }
+            else
+            {
+                return View(model);
             }
 
             SuccessNotification("Template created successfully.");
-            return RedirectToAction("TemplateList");
+            return RedirectToAction("List");
         }
         public ActionResult Delete(int id)
         {
@@ -361,7 +350,7 @@ namespace SMS.Areas.Admin.Controllers
                 _templateService.DeleteTemplate(id);
 
             SuccessNotification("Template deleted successfully.");
-            return RedirectToAction("TemplateList");
+            return RedirectToAction("List");
         }
 
         [HttpPost]

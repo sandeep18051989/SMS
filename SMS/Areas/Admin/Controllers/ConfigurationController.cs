@@ -54,7 +54,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableLocations.Add(new SelectListItem() { Text = "Right", Value = "Right" });
 
             // Bind Templates
-            model.AvailableTemplates = _templateService.GetAllTemplates(true).Select(x => new SelectListItem()
+            model.AvailableTemplates = _templateService.GetAllTemplates().Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Name.ToString()
@@ -415,7 +415,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableLocations.Add(new SelectListItem() { Text = "Right", Value = "Right" });
 
                 // Bind Templates
-                model.AvailableTemplates = _templateService.GetAllTemplates(true).Select(x => new SelectListItem()
+                model.AvailableTemplates = _templateService.GetAllTemplates().Select(x => new SelectListItem()
                 {
                     Text = x.Name,
                     Value = x.Name.ToString()

@@ -17,7 +17,7 @@ namespace EF.Services.Service
 		void InsertStudent(Student student);
 		void UpdateStudent(Student student);
 		void DeleteStudent(int id);
-		IList<Student> GetAllStudents(bool? active);
+		IList<Student> GetAllStudents(bool? onlyActive = null);
 		Student GetStudentById(int id);
 		IList<Student> GetStudentsByName(string name, bool? active);
 		IList<Student> SearchStudents(bool? active, string religion = null, string classname = null, int? acedemicyearid = null);
@@ -28,7 +28,7 @@ namespace EF.Services.Service
 		void InsertEmployee(Employee employee);
 		void UpdateEmployee(Employee employee);
 		void DeleteEmployee(int id);
-		IList<Employee> GetAllEmployees(bool? active);
+		IList<Employee> GetAllEmployees(bool? onlyActive = null);
 		Employee GetEmployeeById(int id);
 		IList<Employee> GetEmployeesByName(string name, bool? active);
 		IList<Employee> SearchEmployees(bool? active, string religion = null, string designation = null);
@@ -64,17 +64,21 @@ namespace EF.Services.Service
 		void InsertFeeCategory(FeeCategory feecategory);
 		void UpdateFeeCategory(FeeCategory feecategory);
 		void DeleteFeeCategory(int id);
-		IList<FeeCategory> GetAllFeeCategories(bool? active);
+		IList<FeeCategory> GetAllFeeCategories(bool? onlyActive=null);
 		FeeCategory GetFeeCategoryById(int id);
 		IList<FeeCategory> GetFeeCategoryByName(string name, bool? active);
 		IList<FeeCategory> SearchFeeCategories(bool? active, string category = null, string classname = null, int? acadmicyearid = null);
-		#endregion
-		#region Caste
-		void InsertCaste(Caste caste);
+
+        void RemoveCasteFromCategory(int categoryid, int casteid);
+        #endregion
+        #region Caste
+        void InsertCaste(Caste caste);
 		void UpdateCaste(Caste caste);
 		void DeleteCaste(int id);
         IList<Caste> GetAllCastes(bool? onlyActive = null);
-		Caste GetCasteById(int id);
+        IList<Caste> GetAllCastesByCategory(int categoryid);
+
+        Caste GetCasteById(int id);
 		IList<Caste> GetCasteByName(string name, bool? active);
 		IList<Caste> SearchFeeCastes(bool? active, string religion = null, int? acedemicyearid = null);
         bool CheckCasteExists(string name, int? id = null);
@@ -176,13 +180,18 @@ namespace EF.Services.Service
 		void UpdateDesignation(Designation designation);
 		void DeleteDesignation(int id);
 		Designation GetDesignationById(int id);
-		IList<Designation> GetDesignationByName(string name, bool? active);
-		#endregion
-		#region Teacher
-		void InsertTeacher(Teacher teacher);
+        bool CheckDesignationExists(string name, int? id = null);
+        IList<Designation> GetAllDesignations(bool? onlyActive = null);
+
+        IList<Designation> GetDesignationByName(string name, bool? active);
+
+        void ToggleActiveStatusDesignation(int id);
+        #endregion
+        #region Teacher
+        void InsertTeacher(Teacher teacher);
 		void UpdateTeacher(Teacher teacher);
 		void DeleteTeacher(int id);
-		IList<Teacher> GetAllTeachers(bool? active);
+		IList<Teacher> GetAllTeachers(bool? onlyActive = null);
 		Teacher GetTeacherById(int id);
 		IList<Teacher> GetTeachersByName(string name, bool? active);
 		IList<Teacher> SearchTeachers(bool? active, string subject = null, string qualification = null, string employee = null, int? acedemicyearid = null);
@@ -209,7 +218,7 @@ namespace EF.Services.Service
 		void InsertQualification(Qualification qualification);
 		void UpdateQualification(Qualification qualification);
 		void DeleteQualification(int id);
-		IList<Qualification> GetAllQualifications(bool? active);
+		IList<Qualification> GetAllQualifications();
 		Qualification GetQualificationById(int id);
 		IList<Qualification> GetQualificationByName(string name, bool? active);
 		#endregion
@@ -296,7 +305,7 @@ namespace EF.Services.Service
         IList<AcadmicYear> GetAllAcadmicYears(bool? onlyActive = null);
 		IList<Teacher> GetTeachersByIds(int[] userIds);
 		void DeleteTeachers(IList<Teacher> users);
-		void ToggleUser(int id);
+        void ToggleTeacher(int id);
 		int GetTeacherCountByLoginDate(DateTime logindate);
         #endregion
         #region Reaction

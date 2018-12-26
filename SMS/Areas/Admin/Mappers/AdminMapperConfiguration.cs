@@ -1,6 +1,4 @@
-﻿using System;
-using AutoMapper;
-using EF.Core.Mapper;
+﻿using AutoMapper;
 using EF.Core.Data;
 using SMS.Models;
 using EF.Services.Http;
@@ -8,11 +6,13 @@ using SMS.Areas.Admin.Models;
 
 namespace SMS.Areas.Admin.Mappers
 {
-    public class AdminMapperConfiguration : IMapperConfiguration
+    public static class AdminMapperConfiguration
     {
-        public Action<IMapperConfigurationExpression> GetConfiguration()
+        private static MapperConfiguration _mapperConfiguration;
+        private static IMapper _mapper;
+        public static void Init()
         {
-            Action<IMapperConfigurationExpression> action = cfg =>
+            _mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Blog, BlogModel>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
@@ -58,6 +58,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.Religion, mo => mo.Ignore())
+                    .ForMember(dest => dest.Selected, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableReligions, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
                     .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")))
@@ -180,23 +181,30 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Subject, mo => mo.Ignore())
                     .ForMember(dest => dest.Division, mo => mo.Ignore());
 
+                cfg.CreateMap<Designation, DesignationModel>();
+                cfg.CreateMap<DesignationModel, Designation>();
+
                 cfg.CreateMap<Employee, EmployeeModel>()
-                    .ForMember(dest => dest.Allowance, mo => mo.Ignore())
-                    .ForMember(dest => dest.Classes, mo => mo.Ignore())
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableCastes, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableContracts, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableContractTypes, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableDesignations, mo => mo.Ignore())
                     .ForMember(dest => dest.Designation, mo => mo.Ignore())
-                    .ForMember(dest => dest.FatherPicture, mo => mo.Ignore())
-                    .ForMember(dest => dest.MotherPicture, mo => mo.Ignore())
-                    .ForMember(dest => dest.Religion, mo => mo.Ignore())
-                    .ForMember(dest => dest.Qualification, mo => mo.Ignore())
-                    .ForMember(dest => dest.EmployeePicture, mo => mo.Ignore());
+                    .ForMember(dest => dest.ContractStatus, mo => mo.Ignore())
+                    .ForMember(dest => dest.ContractType, mo => mo.Ignore())
+                    .ForMember(dest => dest.ContractStartDateString, mo => mo.Ignore())
+                    .ForMember(dest => dest.ContractEndDateString, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableQualifications, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableQualifications, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableReligions, mo => mo.Ignore());
                 cfg.CreateMap<EmployeeModel, Employee>()
-                    .ForMember(dest => dest.Allowance, mo => mo.Ignore())
-                    .ForMember(dest => dest.Classes, mo => mo.Ignore())
                     .ForMember(dest => dest.ContractType, mo => mo.Ignore())
                     .ForMember(dest => dest.ContractStatus, mo => mo.Ignore())
                     .ForMember(dest => dest.ContractType, mo => mo.Ignore())
                     .ForMember(dest => dest.EmployeePicture, mo => mo.Ignore())
-                    .ForMember(dest => dest.Qualification, mo => mo.Ignore())
+                    .ForMember(dest => dest.Designation, mo => mo.Ignore())
                     .ForMember(dest => dest.Religion, mo => mo.Ignore());
 
                 cfg.CreateMap<EmployeeAttendance, EmployeeAttendanceModel>()
@@ -229,8 +237,12 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<News, NewsModel>()
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableStatuses, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
+                    .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")))
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
                     .ForMember(dest => dest.Comments, mo => mo.Ignore());
                 cfg.CreateMap<NewsModel, News>()
@@ -522,16 +534,29 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<SliderModel, Slider>()
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore());
 
-            };
-            return action;
+            });
+            _mapper = _mapperConfiguration.CreateMapper();
         }
 
         /// <summary>
-        /// Order of this mapper implementation
+        /// Mapper
         /// </summary>
-        public int Order
+        public static IMapper Mapper
         {
-            get { return 0; }
+            get
+            {
+                return _mapper;
+            }
+        }
+        /// <summary>
+        /// Mapper configuration
+        /// </summary>
+        public static MapperConfiguration MapperConfiguration
+        {
+            get
+            {
+                return _mapperConfiguration;
+            }
         }
     }
 }

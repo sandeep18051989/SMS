@@ -42,45 +42,22 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 my-3">
-                                        <div class="tabs-wrapper">
-                                            <ul class="nav classic-tabs tabs-pink" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-classroom" role="tab">
-                                                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
-                                                        <br> Create Class Room
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-content card">
-                                            <div class="tab-pane fade in show active" id="create-classroom" role="tabpanel">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "100", @title = "Name" } })
+                                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="row text-left">
-                                                            <div class="col-md-6 mb-4">
-                                                                <div class="md-form">
-                                                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "100", @title = "Name" } })
-                                                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
-                                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row text-left">
-                                                            <div class="col-md-6 mb-4">
-                                                                <div class="md-form">
-                                                                    @Html.TextAreaFor(model => model.Description, new { @class = "md-textarea form-control", @tabindex = "2", @maxlength = "500", @rows = "3", @type = "text" })
-                                                                    @Html.LabelFor(model => model.Description, "Description", htmlAttributes: new { @class = "control-label" })
-                                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.TextAreaFor(model => model.Description, new { @class = "md-textarea form-control", @tabindex = "2", @maxlength = "500", @rows = "3", @type = "text" })
+                                                    @Html.LabelFor(model => model.Description, "Description", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +76,7 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('ClassRooms')").closest("li").addClass("active");
 
-        if ($("#IsActive").val()) {
+        if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
         }
         else {

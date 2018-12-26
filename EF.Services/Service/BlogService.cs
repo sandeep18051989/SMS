@@ -49,7 +49,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Blog Id Not Specified.");
 
-			return _repositoryBlog.Table.FirstOrDefault(x => x.Id == id);
+			return _repositoryBlog.GetByID(id);
 		}
 
 		public virtual IList<Blog> GetBlogsByUser(int userid)

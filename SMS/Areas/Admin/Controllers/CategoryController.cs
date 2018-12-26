@@ -85,16 +85,13 @@ namespace SMS.Areas.Admin.Controllers
                         draw = draw,
                         recordsFiltered = recordsTotal,
                         recordsTotal = recordsTotal,
-                        data = data.Select(x => new CategoryModel() {
-                            //AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
-                            //AcadmicYearId = x.AcadmicYearId,
-                            //CreatedOnString = x.CreatedOn.ToString("U"),
-                            //ModifiedOnString = x.ModifiedOn.ToString("U"),
-                            //Id = x.Id,
-                            //Name = x.Name,
-                            //ReligionId = x.ReligionId,
-                            //UserId = x.UserId,
-                            //Religion = _smsService.GetReligionById(x.ReligionId)?.Name
+                        data = data.Select(x => new CategoryModel()
+                        {
+                            CreatedOnString = x.CreatedOn.ToString("U"),
+                            ModifiedOnString = x.ModifiedOn.ToString("U"),
+                            Id = x.Id,
+                            Name = x.Name,
+                            IsActive = x.IsActive
                         }).OrderBy(x => x.Name).ToList()
                     },
                     ContentEncoding = Encoding.Default,
@@ -108,6 +105,33 @@ namespace SMS.Areas.Admin.Controllers
                 throw new Exception(ex.Message);
             }
 
+        }
+
+        public JsonResult GetAllCastes(int categoryid)
+        {
+            var allCastes = _smsService.GetAllCastes();
+            var castesByCategory = _smsService.GetAllCastesByCategory(categoryid);
+
+            //Returning Json Data 
+            return new JsonResult()
+            {
+                Data = allCastes.Select(x => new CasteModel()
+                {
+                    IsActive = x.IsActive,
+                    UserId = x.UserId,
+                    Name = x.Name.Trim(),
+                    AcadmicYearId = x.AcadmicYearId,
+                    AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
+                    CreatedOnString = x.CreatedOn.ToString("U"),
+                    ModifiedOnString = x.ModifiedOn.ToString("U"),
+                    Id = x.Id,
+                    Selected = castesByCategory.Any(y => y.Id == x.Id)
+                }).OrderBy(x => x.Name).ToList(),
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
         }
 
         #endregion
@@ -156,7 +180,8 @@ namespace SMS.Areas.Admin.Controllers
                 var objCategory = _smsService.GetCategoryById(model.Id);
                 if (objCategory != null)
                 {
-                    objCategory = model.ToEntity();
+                    model.CreatedOn = objCategory.CreatedOn;
+                    objCategory = model.ToEntity(objCategory);
                     objCategory.ModifiedOn = DateTime.Now;
                     _smsService.UpdateCategory(objCategory);
                 }
@@ -239,6 +264,95 @@ namespace SMS.Areas.Admin.Controllers
             ViewBag.Result = "Category updated Successfully";
 
             return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult LoadCasteGrid(int id)
+        {
+            try
+            {
+                var classData = (from associatedcaste in _smsService.GetAllCastesByCategory(id) select associatedcaste).OrderByDescending(eve => eve.CreatedOn).ToList();
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        data = classData.Select(x => new CasteModel()
+                        {
+                            Id = x.Id,
+                            IsActive = x.IsActive,
+                            UserId = x.UserId,
+                            CreatedOnString = x.CreatedOn.ToString("U"),
+                            ModifiedOnString = x.ModifiedOn.ToString("U"),
+                            Name = !string.IsNullOrEmpty(x.Name) ? x.Name.Trim() : "",
+                            Religion = x.Religion != null && !string.IsNullOrEmpty(x.Religion.Name) ? x.Religion.Name : "",
+                            ReligionId = x.ReligionId
+                        })
+                    },
+                    ContentEncoding = Encoding.Default,
+                    ContentType = "application/json",
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    MaxJsonLength = int.MaxValue
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult UpdateCastesForCategory(int id, int[] castes)
+        {
+            if (!_permissionService.Authorize("ManageCategory"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var user = _userContext.CurrentUser;
+            var objCategory = _smsService.GetCategoryById(id);
+            if (objCategory != null)
+            {
+                var objCastes = _smsService.GetAllCastesByCategory(id);
+                objCategory.Castes.Clear();
+                if (castes != null && castes.Length > 0)
+                {
+                    foreach (var casteid in castes)
+                    {
+                        var casteRecord = _smsService.GetCasteById(casteid);
+                        if (casteRecord != null)
+                        {
+                            objCategory.Castes.Add(casteRecord);
+                            _smsService.UpdateCategory(objCategory);
+                        }
+                    }
+                }
+            }
+            ViewBag.Result = "Category updated Successfully";
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveCastegoryCast(int id, int casteid)
+        {
+            if (!_permissionService.Authorize("ManageCategory"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new Exception("Category id not found");
+
+            _smsService.RemoveCasteFromCategory(id, casteid);
+
+            SuccessNotification("Caste removed successfully from selected category!");
+            return new JsonResult()
+            {
+                Data = true,
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
         }
 
     }

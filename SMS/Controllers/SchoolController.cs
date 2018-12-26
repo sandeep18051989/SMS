@@ -139,7 +139,6 @@ namespace SMS.Controllers
 				{
 					ShortName = n.ShortName,
 					Author = n.Author,
-					Date = n.CreatedOn,
 					StartDate = n.StartDate,
 					EndDate = n.EndDate,
 					Id = n.Id,

@@ -179,7 +179,7 @@ namespace SMS.Areas.Admin.Controllers
 
 				// Load Available Templates
 				model.AvailableTemplates.Add(new SelectListItem { Text = "-- Select Template --", Value = "0" });
-				foreach (var t in _templateService.GetAllTemplates(true))
+				foreach (var t in _templateService.GetAllTemplates())
 					model.AvailableTemplates.Add(new SelectListItem { Text = t.Name, Value = t.Id.ToString() });
 
 				if (model.TemplateId > 0)
@@ -252,7 +252,7 @@ namespace SMS.Areas.Admin.Controllers
 			else
 			{
 				model.AvailableTemplates.Add(new SelectListItem { Text = "-- Select Template --", Value = "0" });
-				foreach (var t in _templateService.GetAllTemplates(true))
+				foreach (var t in _templateService.GetAllTemplates())
 					model.AvailableTemplates.Add(new SelectListItem { Text = t.Name, Value = t.Id.ToString() });
 
 				return View(model);
@@ -270,7 +270,7 @@ namespace SMS.Areas.Admin.Controllers
 			var model = new CustomPageModel();
 			// Load Available Templates
 			model.AvailableTemplates.Add(new SelectListItem { Text = "-- Select Template --", Value = "0" });
-			foreach (var t in _templateService.GetAllTemplates(true))
+			foreach (var t in _templateService.GetAllTemplates())
 				model.AvailableTemplates.Add(new SelectListItem { Text = t.Name, Value = t.Id.ToString() });
 
 			return View(model);
@@ -314,11 +314,11 @@ namespace SMS.Areas.Admin.Controllers
 				custom.MetaKeywords = model.MetaKeywords;
 				custom.MetaTitle = model.MetaTitle;
 				custom.PermissionOriented = false;
-				custom.PermissionRecordId = _permissionService.GetAllPermissions(true).FirstOrDefault() != null
+				custom.PermissionRecordId = _permissionService.GetAllPermissions().FirstOrDefault() != null
 					// ReSharper disable once PossibleNullReferenceException
-					? _permissionService.GetAllPermissions(true).FirstOrDefault().Id
+					? _permissionService.GetAllPermissions().FirstOrDefault().Id
 					: 0;
-				custom.PermissionRecord = _permissionService.GetAllPermissions(true).FirstOrDefault();
+				custom.PermissionRecord = _permissionService.GetAllPermissions().FirstOrDefault();
 				_customPageService.Insert(custom);
 
 				// Save URL Record
@@ -329,7 +329,7 @@ namespace SMS.Areas.Admin.Controllers
 			{
 				// Load Available Templates
 				model.AvailableTemplates.Add(new SelectListItem { Text = "-- Select Template --", Value = "0" });
-				foreach (var t in _templateService.GetAllTemplates(true))
+				foreach (var t in _templateService.GetAllTemplates())
 					model.AvailableTemplates.Add(new SelectListItem { Text = t.Name, Value = t.Id.ToString() });
 
 				return View(model);

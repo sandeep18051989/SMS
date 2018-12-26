@@ -140,8 +140,8 @@ namespace SMS
 
             routes.MapFriendlyRoute(
                          name: "TemplateList",
-                         url: "admin/template/templateList",
-                         defaults: new { controller = "Template", action = "TemplateList" },
+                         url: "admin/template/list",
+                         defaults: new { controller = "Template", action = "List" },
                          namespaces: new string[] { "SMS.Areas.Admin.Controllers" }
                   ).DataTokens.Add("area", "Admin");
 

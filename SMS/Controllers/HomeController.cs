@@ -17,6 +17,7 @@ using EF.Core;
 using EF.Services.Http;
 using MaxMind.GeoIP2;
 using GoogleAnalyticsTracker.MVC5;
+using System.Collections.Generic;
 
 namespace SMS.Controllers
 {
@@ -255,9 +256,16 @@ namespace SMS.Controllers
 				var Template = _templateService.GetTemplateByName(settingTeplate.Value);
 				if (Template != null)
 				{
-					foreach (var dt in _templateService.GetAllDataTokensByTemplate(Template.Id).Where(x => x.IsActive).ToList())
+                    var tokens = new List<DataToken>();
+                    _templateService.AddFeedbackTokens(tokens, feedBack);
+                    foreach (var dt in tokens)
+                    {
+                        Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
+                    }
+
+                    foreach (var dt in _templateService.GetAllDataTokensByTemplate(Template.Id).Where(x => x.IsActive).ToList())
 					{
-						Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+						Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 					}
 				}
 

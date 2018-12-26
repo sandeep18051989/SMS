@@ -176,6 +176,7 @@
     <Compile Include="Enums\NewsStatus.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISlugSupported.cs" />
+    <Compile Include="IStartupTask.cs" />
     <Compile Include="IUserContext.cs" />
     <Compile Include="Data\File.cs" />
     <Compile Include="Data\Slider.cs" />
@@ -200,7 +201,6 @@
     <Compile Include="CMSEngine.cs" />
     <Compile Include="CMSConfig.cs" />
     <Compile Include="Mapper\AutoMapperConfiguration.cs" />
-    <Compile Include="Mapper\IMapperConfiguration.cs" />
     <Compile Include="MimeTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SinglePattern.cs" />

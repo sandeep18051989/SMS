@@ -1,5 +1,5 @@
 ﻿@using EF.Services.Http
-@model SMS.Models.ClassModel
+@model SMS.Models.CategoryModel
 @{
     var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
 }
@@ -8,12 +8,12 @@
     {
         <div class="panel panel-default">
             <div class="panel-body table-responsive">
-                <table class="table table-responsive-md custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="classdivisions-grid">
+                <table class="table table-responsive-md custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="categorycastes-grid">
                     <thead class="mdb-color lighten-5">
                         <tr>
                             <th class="text-center">Name</th>
-                            <th class="text-center">Display Order</th>
-                            <th class="text-center">Description</th>
+                            <th class="text-center">Religion</th>
+                            <th class="text-center">Active</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -22,7 +22,7 @@
                 <script type="text/javascript">
                     $(document).ready(function () {
                         // Initiallize Datatable
-                        $('#classdivisions-grid').DataTable({
+                        $('#categorycastes-grid').DataTable({
                             "paging": false,
                             "bLengthChange": false, //thought this line could hide the LengthMenu
                             "bInfo": false,
@@ -31,7 +31,7 @@
                             "filter": false, // this is for disable filter (search box)
                             "orderMulti": false, // for disable multiple column at once
                             "ajax": {
-                                "url": "/Admin/Class/LoadDivisionGrid/@(Model.Id)",
+                                "url": "/Admin/Category/LoadCasteGrid/@(Model.Id)",
                                 "type": "POST",
                                 "datatype": "json"
                             },
@@ -41,10 +41,22 @@
 								    "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
 								},
 								{
-								    "data": "DisplayOrder", "title": "Display Order", "name": "Display Order", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
+								    "data": "Religion", "title": "Religion", "name": "Religion", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
 								},
                                 {
-                                    "data": "Description", "title": "Description", "name": "Description", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
+                                    "data": "IsActive",
+                                    "title": "Active",
+                                    "render": function (data, type, row) {
+                                        if (type === "display") {
+                                            if (row.IsActive) {
+                                                return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                                            } else {
+                                                return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+                                            }
+                                        }
+                                        return data;
+                                    },
+                                    "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
                                 },
 								{
 								    "title": "Actions",
@@ -52,7 +64,7 @@
 								    "className": 'text-center',
 								    "render": function (data, type, row) {
 								        if (type === "display") {
-								            var dateTemplate = '<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="recrem_' + row.Id + '" title="Remove Division"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Remove</button></div>';
+								            var dateTemplate = '<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="recrem_' + row.Id + '" title="Remove Caste"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Remove</button></div>';
 								            return dateTemplate;
 								        }
 								        return data;
@@ -70,8 +82,8 @@
                             $.ajax({
                                 cache: false,
                                 type: "GET",
-                                url: "@(Url.Action("GetAllDivisions", "Division"))",
-                                data: { 'classid' : @(Model.Id) },
+                                url: "@(Url.Action("GetAllCastes", "Category"))",
+                                data: { 'categoryid' : @(Model.Id) },
                                 success: function (data, result) {
                                     if(result === "success"){
                                         $("#content-body").html('');
@@ -81,16 +93,15 @@
                                         htmContent += '<tr>';
                                         htmContent += '<th>';
                                         htmContent += '<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="tableDefaultCheck"><label class="custom-control-label" for="tableDefaultCheck"></label></div>';
-                                        htmContent += '<th>Name</th><th>Acadamic Year</th>';
+                                        htmContent += '<th>Name</th>';
                                         htmContent += '</thead>';
-                                        htmContent += '<tbody id="divisions">';
+                                        htmContent += '<tbody id="castes">';
                                         for(var i=0;i < data.length;i++){
                                             htmContent += '<tr>';
                                             htmContent += '<th scope="row">';
                                             htmContent += '<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" value="' + data[i].Id + '" id="' + data[i].Id + '" ' + (data[i].Selected ? "checked" : "") + '><label class="custom-control-label" for="' + data[i].Id + '"></label></div>';
                                             htmContent += '</th>';
                                             htmContent += '<td>' + data[i].Name + '</td>';
-                                            htmContent += '<td>' + data[i].AcadmicYear + '</td>';
                                             htmContent += '</tr>';
                                         }
                                         htmContent += '</tbody>';
@@ -122,7 +133,7 @@
                                     setTimeout(function () {
                                         $.gritter.add({
                                             title: "Failure",
-                                            text: "Failed to load divisions!",
+                                            text: "Failed to load castes!",
                                             sticky: !0,
                                             time: "",
                                             class_name: "my-sticky-class"
@@ -173,27 +184,27 @@
                         $(document).on("click","#submit-associated-data", function(){
                             var checkedRecords = $('#listModel').find("table tbody input[type=checkbox]:checked");
                             var selectedIds = [];
-                            if(confirm("Are you sure, you want to update divisions for the selected class?")){
+                            if(confirm("Are you sure, you want to update castes for the selected category?")){
                                 for(var i=0;i < checkedRecords.length;i++){
                                     selectedIds.push(parseInt($(checkedRecords[i]).val()));
                                 }
                                 var postData = {
                                     id: @(Model.Id),
-                                    divisions: selectedIds
+                                    castes: selectedIds
                                 };
                                 $.ajax({
                                     cache: false,
                                     type: "POST",
-                                    url: "@(Url.Action("UpdateDivisionsForClass", "Class"))",
+                                    url: "@(Url.Action("UpdateCastesForCategory", "Category"))",
                                     data: postData,
                                     success: function (data, result) {
                                         if(result === "success"){
-                                            $('#classdivisions-grid').DataTable().ajax.reload();
+                                            $('#categorycastes-grid').DataTable().ajax.reload();
                                             $('#listModel').modal('hide');
                                             setTimeout(function () {
                                                 $.gritter.add({
                                                     title: "Success",
-                                                    text: "Division updated successfully!",
+                                                    text: "Category updated successfully!",
                                                     sticky: !0,
                                                     time: "",
                                                     class_name: "my-sticky-class"
@@ -206,7 +217,7 @@
                                         setTimeout(function () {
                                             $.gritter.add({
                                                 title: "Failure",
-                                                text: "Failed to add divisions!",
+                                                text: "Failed to add castes!",
                                                 sticky: !0,
                                                 time: "",
                                                 class_name: "my-sticky-class"
@@ -218,13 +229,12 @@
                         });
 
                         $(document).on("click", 'button[id^=recrem_]', function () {
-                            var divisionId = parseInt($(this).attr('id').split('_')[1]);
-
-                            if (divisionId === 0) {
+                            var casteid = parseInt($(this).attr('id').split('_')[1]);
+                            if (casteid === 0) {
                                 setTimeout(function () {
                                     $.gritter.add({
                                         title: "Failure",
-                                        text: "An error occurred while removing division!",
+                                        text: "An error occurred while removing caste!",
                                         sticky: !0,
                                         time: "",
                                         class_name: "my-sticky-class"
@@ -232,10 +242,10 @@
                                 }, 1e3);
                                 return;
                             }
-                            if(confirm("Are you sure, you want to remove selected devision from the selected class?")){
+                            if(confirm("Are you sure, you want to remove selected caste from the selected category?")){
                                 var postData = {
                                     id: @(Model.Id),
-                                    divisionid: divisionId
+                                    casteid: casteid
                                 };
 
                                 addAntiForgeryToken(postData);
@@ -243,15 +253,15 @@
                                 $.ajax({
                                     cache: false,
                                     type: "POST",
-                                    url: "@(Url.Action("RemoveClassDivision", "Class"))",
+                                    url: "@(Url.Action("RemoveCastegoryCast", "Category"))",
                                     data: postData,
                                     success: function (data, result) {
                                         if(result === "success"){
-                                            $('#classdivisions-grid').DataTable().ajax.reload();
+                                            $('#categorycastes-grid').DataTable().ajax.reload();
                                             setTimeout(function () {
                                                 $.gritter.add({
                                                     title: "Success",
-                                                    text: "Division removed successfully!",
+                                                    text: "Caste removed successfully from selected category!!",
                                                     sticky: !0,
                                                     time: "",
                                                     class_name: "my-sticky-class"
@@ -264,7 +274,7 @@
                                         setTimeout(function () {
                                             $.gritter.add({
                                                 title: "Failure",
-                                                text: "Failed to remove division for class!",
+                                                text: "Failed to remove caste from category!",
                                                 sticky: !0,
                                                 time: "",
                                                 class_name: "my-sticky-class"
@@ -278,7 +288,7 @@
                 </script>
             </div>
             <div class="panel-footer">
-                <button type="button" id="add-divisions" class="btn btn-primary pull-right" data-toggle="modal" data-target="#listModel"><i class="fa fa-plus-circle"></i> Add Existing Divisions</button>
+                <button type="button" id="add-castes" class="btn btn-primary pull-right" data-toggle="modal" data-target="#listModel"><i class="fa fa-plus-circle"></i> Add Existing Castes</button>
             </div>
         </div>
     }
@@ -287,7 +297,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="alert alert-info" role="alert">
-                    <strong>Heads up!</strong> Please save class first to upload divisions.
+                    <strong>Heads up!</strong> Please save category first to add castes.
                 </div>
             </div>
         </div>

@@ -191,7 +191,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("School Is Missing.");
 
-			return _schoolRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _schoolRepository.GetByID(id);
 		}
 		#endregion
 		#region Student
@@ -213,21 +213,16 @@ namespace EF.Services.Service
 				_studentRepository.Update(student);
 			}
 		}
-		public IList<Student> GetAllStudents(bool? active)
+		public IList<Student> GetAllStudents(bool? onlyActive=null)
 		{
-			var query = _studentRepository.Table.ToList();
-
-			if (active.HasValue)
-				query = query.Where(x => x.IsActive).ToList();
-
-			return query.OrderBy(x => x.FName).ToList();
+			return _studentRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).OrderBy(x => x.FName).ThenBy(x => x.MName).ThenBy(x => x.LName).ToList();
 		}
 		public Student GetStudentById(int id)
 		{
 			if (id == 0)
 				throw new System.Exception("Student Is Missing.");
 
-			return _studentRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _studentRepository.GetByID(id);
 		}
 		public IList<Student> GetStudentsByName(string name, bool? active)
 		{
@@ -297,21 +292,16 @@ namespace EF.Services.Service
 				_employeeRepository.Update(employee);
 			}
 		}
-		public IList<Employee> GetAllEmployees(bool? active)
+		public IList<Employee> GetAllEmployees(bool? onlyActive=null)
 		{
-			var query = _employeeRepository.Table.ToList();
-
-			if (active.HasValue)
-				query = query.Where(x => x.IsActive).ToList();
-
-			return query.OrderBy(x => x.EmpFName).ToList();
+			return _employeeRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
 		}
 		public Employee GetEmployeeById(int id)
 		{
 			if (id == 0)
 				throw new System.Exception("Employee Id Is Missing.");
 
-			return _employeeRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _employeeRepository.GetByID(id);
 		}
 		public IList<Employee> GetEmployeesByName(string name, bool? active)
 		{
@@ -378,7 +368,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("StudentAttendance Id Is Missing.");
 
-			return _studentAttendanceRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _studentAttendanceRepository.GetByID(id);
 		}
 		public IList<StudentAttendance> GetStudentAttendanceByDate(int DD, int MM, int yyyy)
 		{
@@ -422,7 +412,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Religion Id Is Missing.");
 
-			return _religionRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _religionRepository.GetByID(id);
 		}
 		public IList<Religion> GetReligionByName(string name)
 		{
@@ -460,7 +450,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("EmployeeAttendance Id Is Missing.");
 
-			return _employeeAttendanceRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _employeeAttendanceRepository.GetByID(id);
 		}
 
 		#region Procedure Support
@@ -523,21 +513,16 @@ namespace EF.Services.Service
 				_feeCategoryRepository.Update(feecategory);
 			}
 		}
-		public IList<FeeCategory> GetAllFeeCategories(bool? active)
+		public IList<FeeCategory> GetAllFeeCategories(bool? onlyActive = null)
 		{
-			var query = _feeCategoryRepository.Table.ToList();
-
-			if (active.HasValue)
-				query = query.Where(x => x.IsActive).ToList();
-
-			return query.OrderBy(x => x.CategoryName).ToList();
+			return _feeCategoryRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).OrderBy(x => x.CategoryName).ToList();
 		}
 		public FeeCategory GetFeeCategoryById(int id)
 		{
 			if (id == 0)
 				throw new System.Exception("FeeCategory Id Is Missing.");
 
-			return _feeCategoryRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _feeCategoryRepository.GetByID(id);
 		}
 		public IList<FeeCategory> GetFeeCategoryByName(string name, bool? active)
 		{
@@ -594,12 +579,28 @@ namespace EF.Services.Service
 		{
 			return _casteRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
 		}
-		public Caste GetCasteById(int id)
+
+        public void RemoveCasteFromCategory(int categoryid, int casteid)
+        {
+            var categoryCaste = _categoryRepository.Table.FirstOrDefault(s => s.Id == categoryid);
+            var selectedCaste = _casteRepository.Table.FirstOrDefault(c => c.Id == casteid);
+
+            if (categoryCaste != null && selectedCaste != null)
+            {
+                categoryCaste.Castes.Remove(selectedCaste);
+            }
+        }
+
+        public IList<Caste> GetAllCastesByCategory(int categoryid)
+        {
+            return _casteRepository.Table.Where(x => x.IsDeleted == false && x.Categories.Any(y => y.Id == categoryid)).ToList();
+        }
+        public Caste GetCasteById(int id)
 		{
 			if (id == 0)
 				throw new System.Exception("Caste Id Is Missing.");
 
-			return _casteRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _casteRepository.GetByID(id);
 		}
 		public IList<Caste> GetCasteByName(string name, bool? active)
 		{
@@ -643,10 +644,11 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var objCaste = _casteRepository.Table.FirstOrDefault(x => x.Id == id);
+            var objCaste = _casteRepository.GetByID(id);
             if (objCaste != null)
             {
                 objCaste.IsActive = !objCaste.IsActive;
+                objCaste.ModifiedOn = DateTime.Now;
                 _casteRepository.Update(objCaste);
             }
 
@@ -680,8 +682,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new ArgumentNullException("id");
 
-			return _categoryRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _categoryRepository.GetByID(id);
+        }
 		public IList<Category> GetCategoryByName(string name, bool? active)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -700,10 +702,11 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var objCategory = _casteRepository.Table.FirstOrDefault(x => x.Id == id);
+            var objCategory = _casteRepository.GetByID(id);
             if (objCategory != null)
             {
                 objCategory.IsActive = !objCategory.IsActive;
+                objCategory.ModifiedOn = DateTime.Now;
                 _casteRepository.Update(objCategory);
             }
 
@@ -742,8 +745,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Class Id Is Missing.");
 
-			return _classRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _classRepository.GetByID(id);
+        }
 		public IList<Class> GetClassByName(string name)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -770,10 +773,11 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var objClass = _classRepository.Table.FirstOrDefault(x => x.Id == id);
+            var objClass = _classRepository.GetByID(id);
             if (objClass != null)
             {
                 objClass.IsActive = !objClass.IsActive;
+                objClass.ModifiedOn = DateTime.Now;
                 _classRepository.Update(objClass);
             }
 
@@ -863,7 +867,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            return _classRoomRepository.Table.FirstOrDefault(x => x.Id == id);
+            return _classRoomRepository.GetByID(id);
         }
         public ClassRoomDivision GetClassDivisionByClassRoom(int id)
         {
@@ -901,10 +905,11 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var objClassRoom = _classRoomRepository.Table.FirstOrDefault(x => x.Id == id);
+            var objClassRoom = _classRoomRepository.GetByID(id);
             if (objClassRoom != null)
             {
                 objClassRoom.IsActive = !objClassRoom.IsActive;
+                objClassRoom.ModifiedOn = DateTime.Now;
                 _classRoomRepository.Update(objClassRoom);
             }
 
@@ -934,7 +939,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            return _homeworkRepository.Table.FirstOrDefault(x => x.Id == id);
+            return _homeworkRepository.GetByID(id);
         }
         #endregion
         #region Class Homework
@@ -959,7 +964,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            return _classHomeworkRepository.Table.FirstOrDefault(x => x.Id == id);
+            return _classHomeworkRepository.GetByID(id);
         }
         #endregion
         #region Division
@@ -990,8 +995,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Division Is Missing.");
 
-			return _divisionRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _divisionRepository.GetByID(id);
+        }
 		public IList<Division> GetDivisionsByName(string name, bool? active)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -1020,6 +1025,7 @@ namespace EF.Services.Service
             if (objDivision != null)
             {
                 objDivision.IsActive = !objDivision.IsActive;
+                objDivision.ModifiedOn = DateTime.Now;
                 _divisionRepository.Update(objDivision);
             }
 
@@ -1049,8 +1055,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Subject Id Is Missing.");
 
-			return _subjectRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _subjectRepository.GetByID(id);
+        }
 		public IList<Subject> GetSubjectByName(string name, bool? active)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -1089,8 +1095,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Division Class Subject Mapping Id Is Missing.");
 
-			return _divisionClassSubjectRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _divisionClassSubjectRepository.GetByID(id);
+        }
 		public IList<DivisionSubject> SearchDivisionSubjectMappings(bool? active, string division = null, string subject = null)
 		{
 			var query = _divisionClassSubjectRepository.Table.ToList();
@@ -1143,9 +1149,21 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Designation Id Is Missing.");
 
-			return _designationRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
-		public IList<Designation> GetDesignationByName(string name, bool? active)
+			return _designationRepository.GetByID(id);
+        }
+        public IList<Designation> GetAllDesignations(bool? onlyActive = null)
+        {
+            return _designationRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
+        }
+
+        public bool CheckDesignationExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _designationRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.Name.Trim().ToLower() == name.Trim().ToLower()));
+        }
+        public IList<Designation> GetDesignationByName(string name, bool? active)
 		{
 			if (string.IsNullOrEmpty(name))
 				throw new Exception("Designation Name is Missing.");
@@ -1157,9 +1175,24 @@ namespace EF.Services.Service
 
 			return query.OrderBy(x => x.Name).ToList();
 		}
-		#endregion
-		#region Teacher
-		public void InsertTeacher(Teacher teacher)
+
+        public void ToggleActiveStatusDesignation(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objDesignation = _designationRepository.GetByID(id);
+            if (objDesignation != null)
+            {
+                objDesignation.IsActive = !objDesignation.IsActive;
+                objDesignation.ModifiedOn = DateTime.Now;
+                _designationRepository.Update(objDesignation);
+            }
+
+        }
+        #endregion
+        #region Teacher
+        public void InsertTeacher(Teacher teacher)
 		{
 			_teacherRepository.Insert(teacher);
 		}
@@ -1177,22 +1210,17 @@ namespace EF.Services.Service
 				_teacherRepository.Update(teacher);
 			}
 		}
-		public IList<Teacher> GetAllTeachers(bool? active)
+		public IList<Teacher> GetAllTeachers(bool? onlyActive = null)
 		{
-			var query = _teacherRepository.Table.ToList();
-
-			if (active.HasValue)
-				query = query.Where(x => x.IsActive).ToList();
-
-			return query.OrderBy(x => x.Name).ToList();
+			return _teacherRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
 		}
 		public Teacher GetTeacherById(int id)
 		{
 			if (id == 0)
 				throw new System.Exception("Teacher Id Is Missing.");
 
-			return _teacherRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _teacherRepository.GetByID(id);
+        }
 		public IList<Teacher> GetTeachersByName(string name, bool? active)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -1274,16 +1302,16 @@ namespace EF.Services.Service
 
 			}
 		}
-		public void ToggleUser(int id)
+		public void ToggleTeacher(int id)
 		{
 			if (id == 0)
-				throw new ArgumentNullException("User");
+				throw new ArgumentNullException("Teacher");
 
-			var _teacher = _userRepository.Table.FirstOrDefault(x => x.Id == id && x.Id != 1);
+            var _teacher = _teacherRepository.GetByID(id);
 			if (_teacher != null)
 			{
 				_teacher.IsActive = !_teacher.IsActive;
-				_userRepository.Update(_teacher);
+                _teacherRepository.Update(_teacher);
 			}
 
 		}
@@ -1329,8 +1357,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception(" Time Table Setting Id Is Missing.");
 
-			return _dailyTimeTableSettingRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _dailyTimeTableSettingRepository.GetByID(id);
+        }
 		public IList<TimeTableSetting> GetAllTimeTableSettings()
 		{
 			return _dailyTimeTableSettingRepository.Table.OrderBy(x => x.SchoolStartTime).ToList();
@@ -1378,8 +1406,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Time Table Id Is Missing.");
 
-			return _dailyTimeTableRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _dailyTimeTableRepository.GetByID(id);
+        }
 		public IList<TimeTable> SearchTimeTables(bool? active, int? acedemicyearid = null)
 		{
 			var query = _dailyTimeTableRepository.Table.ToList();
@@ -1410,7 +1438,7 @@ namespace EF.Services.Service
 			//qualification.IsDeleted = true;
 			_qualificationRepository.Update(qualification);
 		}
-		public IList<Qualification> GetAllQualifications(bool? active)
+		public IList<Qualification> GetAllQualifications()
 		{
 			return _qualificationRepository.Table.OrderBy(x => x.Name).ToList();
 		}
@@ -1419,8 +1447,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Qualification Id Is Missing.");
 
-			return _qualificationRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _qualificationRepository.GetByID(id);
+        }
 		public IList<Qualification> GetQualificationByName(string name, bool? active)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -1450,8 +1478,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Time Table Setting Id Is Missing.");
 
-			return _allowanceRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _allowanceRepository.GetByID(id);
+        }
 		public IList<Allowance> GetAllAllowances(bool? deleted)
 		{
 			return _allowanceRepository.Table.Where(a => a.IsDeleted == deleted.HasValue && deleted.Value).OrderByDescending(x => x.CreatedOn).ToList();
@@ -1487,8 +1515,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Payment Id Is Missing.");
 
-			return _paymentRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _paymentRepository.GetByID(id);
+        }
 		public IList<Payment> GetAllPayments(bool? active)
 		{
 			return _paymentRepository.Table.OrderByDescending(x => x.CreatedOn).ToList();
@@ -1536,8 +1564,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Vendor Id Is Missing.");
 
-			return _vendorRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _vendorRepository.GetByID(id);
+        }
 		public Vendor GetVendorsByName(string name)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -1585,8 +1613,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Purchase Id Is Missing.");
 
-			return _purchaseRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _purchaseRepository.GetByID(id);
+        }
 		public IList<Purchase> SearchPurchases(bool? active, string product = null, string vendor = null, int? acedemicyearid = null)
 		{
 			var query = _purchaseRepository.Table.ToList();
@@ -1623,8 +1651,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("FeeDetail Id Is Missing.");
 
-			return _feeDetailRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _feeDetailRepository.GetByID(id);
+        }
 		public IList<FeeDetail> SearchFeeDetails(bool? active, string student = null, string category = null, int? acedemicyearid = null)
 		{
 			var query = _feeDetailRepository.Table.ToList();
@@ -1667,8 +1695,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("MessageGroup Id Is Missing.");
 
-			return _messageGroupRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _messageGroupRepository.GetByID(id);
+        }
 		public IList<MessageGroup> GetMessageGroupsByName(string name, bool? active)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -1703,8 +1731,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Student_Message Group Id Is Missing.");
 
-			return _studentMessageGroupRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _studentMessageGroupRepository.GetByID(id);
+        }
 		public IList<Student_MessageGroup> GetStudent_MessageGroupsByStudentUsername(string username, bool? active)
 		{
 			if (string.IsNullOrEmpty(username))
@@ -1751,8 +1779,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Student_Message Group Id Is Missing.");
 
-			return _messageRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _messageRepository.GetByID(id);
+        }
 		public IList<Message> GetMessagesByMessageGroup(string messagegroup, bool? active)
 		{
 			if (string.IsNullOrEmpty(messagegroup))
@@ -1796,8 +1824,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Exam Id Is Missing.");
 
-			return _examRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _examRepository.GetByID(id);
+        }
 		public IList<Exam> GetExamByName(string name, bool? active)
 		{
 			if (string.IsNullOrEmpty(name))
@@ -1835,8 +1863,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new System.Exception("Acadmic Year Id Is Missing.");
 
-			return _acadmicYearRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _acadmicYearRepository.GetByID(id);
+        }
 		public AcadmicYear GetActiveAcadmicYear()
 		{
 			return _acadmicYearRepository.Table.FirstOrDefault(x => x.IsActive);
@@ -1873,8 +1901,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new Exception("Id is missing");
 
-			return _reactionRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _reactionRepository.GetByID(id);
+        }
 		public IList<Reaction> SearchReactions(int? blogid = null, int? productid = null, int? eventid = null, int? pictureid = null, int? videoid = null, int? newsid = null, int? commentid = null, int? replyid = null)
 		{
 			var query = _reactionRepository.Table.OrderByDescending(x => x.CreatedOn).ToList();
@@ -1950,7 +1978,7 @@ namespace EF.Services.Service
 						CommentId = commentid,
 						ReplyId = replyid,
 						UserId = userid,
-						Username = _userRepository.Table.FirstOrDefault(x => x.Id == userid) != null ? _userRepository.Table.FirstOrDefault(x => x.Id == userid).UserName : "",
+						Username = _userRepository.GetByID(userid) != null ? _userRepository.GetByID(userid).UserName : "",
 						IsAngry = null,
 						IsHappy = null,
 						IsLOL = null,
@@ -2033,7 +2061,7 @@ namespace EF.Services.Service
 						CommentId = commentid,
 						ReplyId = replyid,
 						UserId = userid,
-						Username = _userRepository.Table.FirstOrDefault(x => x.Id == userid) != null ? _userRepository.Table.FirstOrDefault(x => x.Id == userid).UserName : "",
+						Username = _userRepository.GetByID(userid) != null ? _userRepository.GetByID(userid).UserName : "",
 						IsAngry = null,
 						IsHappy = null,
 						IsLOL = null,
@@ -2107,7 +2135,7 @@ namespace EF.Services.Service
 						CommentId = commentid,
 						ReplyId = replyid,
 						UserId = userid,
-						Username = _userRepository.Table.FirstOrDefault(x => x.Id == userid) != null ? _userRepository.Table.FirstOrDefault(x => x.Id == userid).UserName : "",
+						Username = _userRepository.GetByID(userid) != null ? _userRepository.GetByID(userid).UserName : "",
 						IsAngry = null,
 						IsHappy = null,
 						IsLOL = null,
@@ -2138,8 +2166,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new ArgumentNullException();
 
-			return _questionTypeRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _questionTypeRepository.GetByID(id);
+        }
 		public IList<QuestionType> GetAllQuestionTypes()
 		{
 			return _questionTypeRepository.Table.OrderBy(x => x.Name).ToList();
@@ -2171,8 +2199,8 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new ArgumentNullException();
 
-			return _questionRepository.Table.FirstOrDefault(x => x.Id == id);
-		}
+			return _questionRepository.GetByID(id);
+        }
 
 		public IList<Question> SearchQuestions(int[] questionTypeIds = null, int[] subjectids = null, int? difficultylevel = null, bool? onlytimebound = null, bool? active = null)
 		{
@@ -2299,7 +2327,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new ArgumentNullException();
 
-			return _assessmentRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _assessmentRepository.GetByID(id);
 		}
 
 		public StudentAssessment GetStudentAssessmentById(int id)
@@ -2307,7 +2335,7 @@ namespace EF.Services.Service
 			if (id == 0)
 				throw new ArgumentNullException();
 
-			return _studentAssessmentRepository.Table.FirstOrDefault(x => x.Id == id);
+			return _studentAssessmentRepository.GetByID(id);
 		}
 
 		public void InsertstudentAssessment(StudentAssessment studentAssessment)

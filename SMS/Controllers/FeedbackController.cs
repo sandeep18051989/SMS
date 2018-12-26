@@ -89,7 +89,7 @@ namespace SMS.Controllers
 					{
 						foreach (var dt in _templateService.GetAllDataTokensByTemplate(template.Id).Where(x => x.IsActive).ToList())
 						{
-							template.BodyHtml = EF.Core.CodeHelper.Replace(template.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+							template.BodyHtml = EF.Core.CodeHelper.Replace(template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 						}
 					}
 

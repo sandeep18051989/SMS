@@ -71,7 +71,7 @@ namespace EF.Services.Service
         public DataToken GetDataTokenById(int tokenId)
         {
             if (tokenId > 0)
-                return _tokenRepository.Table.FirstOrDefault(x => x.Id == tokenId);
+                return _tokenRepository.GetByID(tokenId);
 
             return null;
         }
@@ -140,7 +140,7 @@ namespace EF.Services.Service
                 throw new Exception("Template id is missing");
 
             var query = _templateRepository.Table.FirstOrDefault(a => a.Id == templateId);
-            return query.Tokens.OrderBy(dt => dt.Name).ToList();
+            return query.Tokens.OrderBy(dt => dt.SystemName).ToList();
         }
 
         public Template GetTemplateById(int templateId)
@@ -148,7 +148,7 @@ namespace EF.Services.Service
             if (templateId == 0)
                 throw new Exception("Template id is missing");
 
-            return _templateRepository.Table.FirstOrDefault(x => x.Id == templateId);
+            return _templateRepository.GetByID(templateId);
         }
 
         public void ToggleTemplate(int id)
@@ -156,7 +156,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("template");
 
-            var template = _templateRepository.Table.FirstOrDefault(x => x.Id == id);
+            var template = _templateRepository.GetByID(id);
             if (template != null)
             {
                 template.IsActive = !template.IsActive;
@@ -170,7 +170,7 @@ namespace EF.Services.Service
             if (customPageId == 0)
                 throw new Exception("Custom Page id is missing");
 
-            return _customPageRepository.Table.Where(x => x.Id == customPageId).Select(a => a.Template).FirstOrDefault();
+            return _customPageRepository.GetByID(customPageId).Template;
         }
 
         public Template GetTemplateByName(string templateName)
@@ -206,7 +206,7 @@ namespace EF.Services.Service
 
         public virtual void AddAssessmentTokens(IList<DataToken> tokens, Assessment assessment)
         {
-            var assessmentData = _assessmentRepository.Table.FirstOrDefault(x => x.Id == assessment.Id);
+            var assessmentData = _assessmentRepository.GetByID(assessment.Id);
 
             if (assessmentData != null)
             {
@@ -270,7 +270,7 @@ namespace EF.Services.Service
 
         public virtual void AddStudentAssessmentTokens(IList<DataToken> tokens, StudentAssessment stuassessment)
         {
-            var stuAssessmentData = _studentAssessmentRepository.Table.FirstOrDefault(x => x.Id == stuassessment.Id);
+            var stuAssessmentData = _studentAssessmentRepository.GetByID(stuassessment.Id);
             var assessmentData = new Assessment();
             var studentData = new Student();
             if (stuAssessmentData != null && stuAssessmentData.Assessment != null)
@@ -283,7 +283,7 @@ namespace EF.Services.Service
             tokens.Add(new DataToken() { Name = "Assessment Student Last Name", SystemName = "AssessmentStudentLastName", Value = studentData.FName });
             tokens.Add(new DataToken() { Name = "Assessment Student Roll Number", SystemName = "AssessmentStudentRollNumber", Value = studentData.RollNumber });
             if (studentData.AcadmicYearId > 0)
-                tokens.Add(new DataToken() { Name = "Assessment Student Acadmic Year", SystemName = "AssessmentStudentAcadmicYear", Value = _acadmicYearRepository.Table.FirstOrDefault(x => x.Id == studentData.AcadmicYearId)?.Name });
+                tokens.Add(new DataToken() { Name = "Assessment Student Acadmic Year", SystemName = "AssessmentStudentAcadmicYear", Value = _acadmicYearRepository.GetByID(studentData.AcadmicYearId)?.Name });
             tokens.Add(new DataToken() { Name = "Assessment Student Date Of Birth", SystemName = "AssessmentStudentDOB", Value = studentData.DateOfBirth?.ToString("dd MMM yyyy") });
 
             if (stuAssessmentData != null)
@@ -387,7 +387,7 @@ namespace EF.Services.Service
             tokens.Add(new DataToken() { Name = "Comment Approved", SystemName = "CommentApproved", Value = comment.IsApproved ? "Yes" : "No" });
             tokens.Add(new DataToken() { Name = "Comment Block Reason", SystemName = "CommentBlockReason", Value = comment.BlockReason });
             tokens.Add(new DataToken() { Name = "Comment Blocked By User Id", SystemName = "CommentBlockedByUserId", Value = comment.BlockedBy.ToString() });
-            tokens.Add(new DataToken() { Name = "Comment Blocked By User", SystemName = "CommentBlockedByUser", Value = comment.BlockedBy > 0 ? _userRepository.Table.FirstOrDefault(x => x.Id == comment.BlockedBy)?.UserName : "Unknown" });
+            tokens.Add(new DataToken() { Name = "Comment Blocked By User", SystemName = "CommentBlockedByUser", Value = comment.BlockedBy > 0 ? _userRepository.GetByID(comment.BlockedBy)?.UserName : "Unknown" });
         }
 
     }

@@ -73,16 +73,9 @@
 				</div>
 				<div class="row">
 					<div class="col-md-7 mb-4">
-						<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" checked="@(Model.IsActive ? "checked" : "")" />
+						<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 						@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { @class = "control-label" })
 						@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-7 mb-4">
-						<input type="checkbox" id="IsSystemDefined" name="IsSystemDefined" value="@(Model.IsSystemDefined ? true : false)" checked="@(Model.IsSystemDefined ? "checked" : "")" />
-						@Html.LabelFor(model => model.IsSystemDefined, "System Defined", htmlAttributes: new { })
-						@Html.ValidationMessageFor(model => model.IsSystemDefined, "", new { @class = "text-danger" })
 					</div>
 				</div>
 			}
@@ -94,7 +87,7 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('Templates')").closest("li").addClass("active");
 
-		if ($("#IsActive").val()) {
+		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
 		else {
@@ -109,31 +102,15 @@
 			}
 		});
 
-		if ($("#IsSystemDefined").val()) {
-			$("#IsSystemDefined").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsSystemDefined").attr('checked', false).val(false);
-		}
-		$("#IsSystemDefined").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
-
 		$(document).on("click", "a[id*=t_]", function (e) {
 			var tokenlink = $(this);
 			if (tokenlink != undefined) {
 				$(this).parent().find('input[type=hidden]').remove();
 				$(this).parent().append('<input type="hidden" value="' + tokenlink.attr('data-placement') + '" id="token_' + tokenlink.attr('data-placement') + '" name="token_' + tokenlink.attr('data-placement') + '" />');
-				//tinyMCE.activeEditor.setContent(content, { format: 'raw' });
 				tinyMCE.activeEditor.execCommand('mceInsertContent', false, '[' + tokenlink.attr('data-toggle') + ']');
-				//var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
-				//tinyMCE.activeEditor.setContent(content, { format: 'raw' });
-			}
+				var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
+				tinyMCE.activeEditor.setContent(content, { format: 'raw' });
+            }
 		});
 	});
 </script>

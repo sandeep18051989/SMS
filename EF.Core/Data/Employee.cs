@@ -19,27 +19,25 @@ namespace EF.Core.Data
 		public DateTime DateOfBirth { get; set; }
 		public double Weight { get; set; }
 		public double Height { get; set; }
-		public int ReliogionId { get; set; }
+		public int ReligionId { get; set; }
 		public string MarriedStatus { get; set; }
-		public DateTime JoiningDate { get; set; }
+		public DateTime? JoiningDate { get; set; }
 		public int DesignationId { get; set; }
-		public string Qualification { get; set; }
+		public int QualificationId { get; set; }
 		public string Sex { get; set; }
-		public string ReligionName { get; set; }
-		public string Caste { get; set; }
-		public string BGroup { get; set; }
+		public int CasteId { get; set; }
+        public int ContractTypeId { get; set; }
+        public string BGroup { get; set; }
 		public string BirthMark { get; set; }
-		public string Teacher_BusNo_RNo { get; set; }
-		public string Bus_NoSchool { get; set; }
-		public string AadharCardNo { get; set; }
+		public string BusNumber { get; set; }
+        public string RouteNumber { get; set; }
+        public string AadharCardNo { get; set; }
 		public string Pre_Institute_Name { get; set; }
 		public string Pre_Institute_Address { get; set; }
-		public string Bus_Facility { get; set; }
+		public bool? BusFacility { get; set; }
 		public string E_Phisician_Name { get; set; }
 		public string E_Phisician_Address { get; set; }
 		public int E_Phisician_Phone { get; set; }
-		public int AllowanceId { get; set; }
-		public double BasicPay { get; set; }
 		public string Father_Occupation { get; set; }
 		public string Email { get; set; }
 		public string Father_Office_Address { get; set; }
@@ -56,7 +54,6 @@ namespace EF.Core.Data
 		public string DistrictTemp { get; set; }
 		public int PinTemp { get; set; }
 		public string Username { get; set; }
-		public DateTime DDate { get; set; }
 		public string Emergency_Email { get; set; }
 		public string Emergency_Contact { get; set; }
 		public string DD { get; set; }
@@ -68,15 +65,11 @@ namespace EF.Core.Data
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
-		public int ContractTypeId { get; set; }
 		public int ContractStatusId { get; set; }
 		public DateTime? ContractStartDate { get; set; }
 		public DateTime? ContractEndDate { get; set; }
-
-		[NotMapped]
-		public virtual ICollection<Class> _Classes { get; set; }
 		public virtual Religion Religion { get; set; }
-		public virtual Allowance Allowance { get; set; }
+		public virtual Designation Designation { get; set; }
 		public virtual Picture EmployeePicture { get; set; }
 
 		[NotMapped]
@@ -105,11 +98,6 @@ namespace EF.Core.Data
 		}
 
 		#region Navigation Properties
-		public virtual ICollection<Class> Classes
-		{
-			get { return _Classes ?? (_Classes = new List<Class>()); }
-			protected set { _Classes = value; }
-		}
 		#endregion
 	}
 }

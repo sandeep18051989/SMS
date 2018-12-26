@@ -19,7 +19,8 @@ namespace SMS.Models
 			Comments = new List<CommentModel>();
 			Files = new List<FilesModel>();
 			AvailableStatuses = new List<SelectListItem>();
-			InsertPictureModel = new InsertPicturesModel();
+            AvailableAcadmicYears = new List<SelectListItem>();
+            InsertPictureModel = new InsertPicturesModel();
 			InsertVideoModel = new InsertVideoModel();
 		}
 		public IList<VideoModel> Videos { get; set; }
@@ -27,12 +28,13 @@ namespace SMS.Models
 		public IList<CommentModel> Comments { get; set; }
 		public IList<FilesModel> Files { get; set; }
 		public IList<SelectListItem> AvailableStatuses { get; set; }
-		public string ShortName { get; set; }
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+        public string ShortName { get; set; }
 		[UIHint("DateRange")]
 		public DateTime? StartDate { get; set; }
 		[UIHint("DateRange")]
 		public DateTime? EndDate { get; set; }
-		public DateTime? Date { get; set; }
+        [AllowHtml]
 		[UIHint("HtmlEditor")]
 		public string Description { get; set; }
 		public string SeoUrl { get; set; }
@@ -41,9 +43,11 @@ namespace SMS.Models
 		public int NewsStatusId { get; set; }
 		public string SystemName { get; set; }
 		public int AcadmicYearId { get; set; }
-		public virtual AcadmicYear AcadmicYear { get; set; }
+        public string AcadmicYear { get; set; }
+        public string CreatedOnString { get; set; }
+        public string ModifiedOnString { get; set; }
 
-		public InsertPicturesModel InsertPictureModel { get; set; }
+        public InsertPicturesModel InsertPictureModel { get; set; }
 		public InsertVideoModel InsertVideoModel { get; set; }
 
 	}
@@ -54,7 +58,6 @@ namespace SMS.Models
 		public string ShortName { get; set; }
 		public string StartDate { get; set; }
 		public string EndDate { get; set; }
-		public string Date { get; set; }
 		public string Description { get; set; }
 		public string AcadmicYear { get; set; }
 		public string SeoUrl { get; set; }

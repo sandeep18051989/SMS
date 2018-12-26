@@ -43,7 +43,7 @@ namespace EF.Services.Service
         public CustomPage GetCustomPageById(int pageId)
         {
             if (pageId > 0)
-                return _customPageRepository.Table.FirstOrDefault(x => x.Id == pageId);
+                return _customPageRepository.GetByID(pageId);
 
             return null;
         }

@@ -116,7 +116,7 @@
 								<div class="row text-left">
 									<div class="col-md-4 mb-4">
 										<div class="md-form">
-											<input type="checkbox" id="IsActive" tabindex="7" name="IsActive" value="@(Model.IsActive ? true : false)" checked="@(Model.IsActive ? "checked" : "")" />
+											<input type="checkbox" id="IsActive" tabindex="7" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 											@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { @class = "control-label" })
 											@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 										</div>
@@ -124,7 +124,7 @@
 								</div>
 								<div class="row text-left">
 									<div class="col-md-4 mb-4">
-										<input type="checkbox" id="IsApproved" tabindex="8" name="IsApproved" value="@(Model.IsApproved ? true : false)" checked="@(Model.IsApproved ? "checked" : "")" />
+										<input type="checkbox" id="IsApproved" tabindex="8" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
 										@Html.LabelFor(model => model.IsApproved, "Approved", htmlAttributes: new { })
 										@Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
 									</div>
@@ -148,7 +148,7 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('Events')").closest("li").addClass("active");
 
-		if ($("#IsActive").val()) {
+		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
 		else {
@@ -164,7 +164,7 @@
 			}
 		});
 
-		if ($("#IsApproved").val()) {
+		if ($("#IsApproved").val() === "True") {
 			$("#IsApproved").attr('checked', true).val(true);
 		}
 		else {

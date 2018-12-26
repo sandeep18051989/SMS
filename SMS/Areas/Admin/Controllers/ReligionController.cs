@@ -147,7 +147,8 @@ namespace SMS.Areas.Admin.Controllers
                 var objReligion = _smsService.GetReligionById(model.Id);
                 if (objReligion != null)
                 {
-                    objReligion = model.ToEntity();
+                    model.CreatedOn = objReligion.CreatedOn;
+                    objReligion = model.ToEntity(objReligion);
                     objReligion.ModifiedOn = DateTime.Now;
                     _smsService.UpdateReligion(objReligion);
                 }

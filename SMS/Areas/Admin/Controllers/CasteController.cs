@@ -93,6 +93,7 @@ namespace SMS.Areas.Admin.Controllers
                             Id = x.Id,
                             Name = x.Name,
                             ReligionId = x.ReligionId,
+                            IsActive = x.IsActive,
                             UserId = x.UserId,
                             Religion = _smsService.GetReligionById(x.ReligionId)?.Name
                         }).OrderBy(x => x.Name).ToList()
@@ -134,6 +135,20 @@ namespace SMS.Areas.Admin.Controllers
             {
                 model = objCaste.ToModel();
             }
+
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
+
+            model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = model.ReligionId > 0 && model.ReligionId == x.Id
+            }).OrderBy(x => x.Text).ToList();
             return View(model);
         }
 
@@ -156,7 +171,8 @@ namespace SMS.Areas.Admin.Controllers
                 var objCaste = _smsService.GetCasteById(model.Id);
                 if (objCaste != null)
                 {
-                    objCaste = model.ToEntity();
+                    model.CreatedOn = objCaste.CreatedOn;
+                    objCaste = model.ToEntity(objCaste);
                     objCaste.ModifiedOn = DateTime.Now;
                     _smsService.UpdateCaste(objCaste);
                 }
@@ -180,6 +196,18 @@ namespace SMS.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var model = new CasteModel();
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
+
+            model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString()
+            }).OrderBy(x => x.Text).ToList();
             return View(model);
         }
 

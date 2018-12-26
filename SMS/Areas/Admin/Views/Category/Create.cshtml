@@ -1,6 +1,6 @@
-﻿@model SMS.Models.ClassModel
+﻿@model SMS.Models.CategoryModel
 @{
-	ViewBag.Title = "Create Class";
+	ViewBag.Title = "Create Category";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
@@ -12,7 +12,7 @@
 				@Html.HiddenFor(model => model.Id)
 				<div class="row text-left">
 					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">CREATE CLASS</h3>
+						<h3 class="section-heading mr-auto">CREATE CATEGORy</h3>
 						<button type="submit" name="save" class="btn btn-primary mr-auto">
 							<i class="fa fa-save">&nbsp;&nbsp;</i>Create
 						</button>
@@ -28,13 +28,13 @@
 								<li class="nav-item">
 									<a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-class" role="tab">
 										<i class="fa fa-user fa-2x" aria-hidden="true"></i>
-										<br> Create Class
+										<br> Create Category
 									</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#add-divisions" role="tab">
 										<i class="fa fa-file-picture-o fa-2x" aria-hidden="true"></i>
-										<br>Divisions
+										<br>Castes
 									</a>
 								</li>
 							</ul>
@@ -57,27 +57,9 @@
 												</div>
 											</div>
 										</div>
-										<div class="row text-left">
-											<div class="col-md-6 mb-4">
-												<div class="md-form">
-													@Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "2" })
-													@Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
-													@Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
-												</div>
-											</div>
-										</div>
-										<div class="row text-left">
-											<div class="col-md-6 mb-4">
-												<div class="md-form">
-													@Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control", @tabindex = "6", @min="0", @maxlength = "50" } })
-													@Html.LabelFor(model => model.DisplayOrder, "Display Order", htmlAttributes: new { @class = "control-label" })
-													@Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
-												</div>
-											</div>
-										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" @(Model.IsActive ? "checked=checked" : "") />
+												<input type="checkbox" tabindex="2" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 											</div>
@@ -86,7 +68,7 @@
 								</div>
 							</div>
 							<div class="tab-pane" id="add-divisions" role="tabpanel">
-								@Html.Partial("_ClassDivisions", Model)
+								@Html.Partial("_CategoryCastes", Model)
 							</div>
 						</div>
 					</div>
@@ -98,9 +80,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Classes')").closest("li").addClass("active");
+        $("span.nav-title:contains('Categories')").closest("li").addClass("active");
 
-		if ($("#IsActive").val()) {
+		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
 		else {

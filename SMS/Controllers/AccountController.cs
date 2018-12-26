@@ -134,7 +134,7 @@ namespace SMS.Controllers
 
 						foreach (var dt in tokens)
 						{
-							Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+							Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 						}
 
 						var setting = _settingService.GetSettingByKey("FromEmail");
@@ -293,7 +293,7 @@ namespace SMS.Controllers
 
                 //                    foreach (var dt in _templateService.GetAllDataTokensByTemplate(_templateContent.Id).Where(x => x.IsActive).ToList())
                 //                    {
-                //                        _templateContent.BodyHtml = EF.Core.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + dt.Name + "]", dt.Value, StringComparison.InvariantCulture);
+                //                        _templateContent.BodyHtml = EF.Core.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
                 //                    }
 
                 //                    _emailService.SendMail(_userInfo.Email, "Artery Labs:Password Request", _templateContent != null ? _templateContent.BodyHtml : "Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
@@ -318,7 +318,7 @@ namespace SMS.Controllers
 
             }
 
-			return RedirectToAction("Login");
+            return RedirectToAction("Login");
 		}
 
 		#region User Information

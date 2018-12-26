@@ -7,4 +7,8 @@
 
 <li>
     <a href="javascript:void(0);" id="t_@Model.Id" data-toggle="@Model.SystemName" data-placement="@Model.Id" class="btn @(EnumerableExtension.PickRandom(btnclasses)) waves-effect waves-light data-token-link" title="@Model.Name"><span class="label label-">@Model.Name</span></a>
+    @if (Model.Selected)
+    {
+        <input type="hidden" value="@(Model.Id)" id="token_@(Model.Id)" name="token_@(Model.Id)">
+    }
 </li>

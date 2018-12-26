@@ -23,8 +23,7 @@ namespace EF.Core.Mapper
 
             _mapperConfiguration = new MapperConfiguration(cfg =>
             {
-                foreach (var ca in configurationActions)
-                    ca(cfg);
+                foreach (var ca in configurationActions) ca(cfg);
             });
 
             _mapper = _mapperConfiguration.CreateMapper();

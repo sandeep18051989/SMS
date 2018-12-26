@@ -1,7 +1,7 @@
-﻿@model SMS.Models.ClassModel
+﻿@model SMS.Models.CategoryModel
 @using EF.Services;
 @{
-    ViewBag.Title = "Edit Class";
+    ViewBag.Title = "Edit Category";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
@@ -13,7 +13,7 @@
                 @Html.HiddenFor(model => model.Id)
                 <div class="row">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">EDIT CLASS</h3>
+                        <h3 class="section-heading mr-auto">EDIT CATEGORY</h3>
                         <button type="submit" name="save" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Save
                         </button>&nbsp;&nbsp;
@@ -27,21 +27,21 @@
                         <div class="tabs-wrapper">
                             <ul class="nav classic-tabs tabs-pink" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-class" role="tab">
+                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-category" role="tab">
                                         <i class="fa fa-user fa-2x" aria-hidden="true"></i>
-                                        <br> Update Class
+                                        <br> Update Category
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#add-divisions" role="tab">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#add-castes" role="tab">
                                         <i class="fa fa-file-picture-o fa-2x" aria-hidden="true"></i>
-                                        <br> Divisions
+                                        <br> Castes
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-content card">
-                            <div class="tab-pane fade in show active" id="create-class" role="tabpanel">
+                            <div class="tab-pane fade in show active" id="create-category" role="tabpanel">
                                 <div class="row">
                                     <div class="col-md-12">
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -58,27 +58,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row text-left">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, "Select", new { @class = "mdb-select", @tabindex = "2" })
-                                                    @Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
-                                                    @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row text-left">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="md-form">
-                                                    @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control", @tabindex = "6", @min = "0", @maxlength = "50" } })
-                                                    @Html.LabelFor(model => model.DisplayOrder, "Display Order", htmlAttributes: new { @class = "control-label" })
-                                                    @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="col-md-6 mb-4">
-                                                <input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? true : false)" @(Model.IsActive ? "checked=checked" : "") />
+                                                <input type="checkbox" tabindex="2" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
                                                 @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
                                                 @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                             </div>
@@ -86,25 +68,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="add-divisions" role="tabpanel">
-                                @Html.Partial("_ClassDivisions", Model)
+                            <div class="tab-pane" id="add-castes" role="tabpanel">
+                                @Html.Partial("_CategoryCastes", Model)
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Modal -->
-                <div class="modal fade" id="listModel" tabindex="-1" role="dialog" aria-labelledby="modalDivisions"
+                <div class="modal fade" id="listModel" tabindex="-1" role="dialog" aria-labelledby="modalCastes"
                      aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-body">
                                 <div class="row">
-                                    <div id="content-body" class="col-lg-12">
-                                    </div>
+                                    <div id="content-body" class="col-lg-12"></div>
                                 </div>
                                 <div class="text-center">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" id="submit-associated-data" class="btn btn-primary"> Add To Class <i class="fa fa-book ml-2" aria-hidden="true"></i></button>
+                                    <button type="button" id="submit-associated-data" class="btn btn-primary"> Add To Category <i class="fa fa-book ml-2" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -118,9 +99,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Classes')").closest("li").addClass("active");
+        $("span.nav-title:contains('Categories')").closest("li").addClass("active");
 
-        if ($("#IsActive").val()) {
+        if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
         }
         else {
