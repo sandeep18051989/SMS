@@ -281,7 +281,7 @@ namespace EF.Services.Service
 
             tokens.Add(new DataToken() { Name = "Assessment Student First Name", SystemName = "AssessmentStudentFirstName", Value = studentData.FName });
             tokens.Add(new DataToken() { Name = "Assessment Student Last Name", SystemName = "AssessmentStudentLastName", Value = studentData.FName });
-            tokens.Add(new DataToken() { Name = "Assessment Student Roll Number", SystemName = "AssessmentStudentRollNumber", Value = studentData.RollNumber });
+            tokens.Add(new DataToken() { Name = "Assessment Student User Name", SystemName = "AssessmentStudentUserName", Value = studentData.UserName });
             if (studentData.AcadmicYearId > 0)
                 tokens.Add(new DataToken() { Name = "Assessment Student Acadmic Year", SystemName = "AssessmentStudentAcadmicYear", Value = _acadmicYearRepository.GetByID(studentData.AcadmicYearId)?.Name });
             tokens.Add(new DataToken() { Name = "Assessment Student Date Of Birth", SystemName = "AssessmentStudentDOB", Value = studentData.DateOfBirth?.ToString("dd MMM yyyy") });

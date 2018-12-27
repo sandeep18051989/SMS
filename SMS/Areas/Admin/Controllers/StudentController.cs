@@ -28,12 +28,13 @@ namespace SMS.Areas.Admin.Controllers
         private readonly IAuditService _auditService;
         private readonly ISMSService _smsService;
         private readonly IFileService _fileService;
+        private readonly IUrlService _urlService;
 
         #endregion Fileds
 
         #region Constructor
 
-        public StudentController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, IAuditService auditService, ISMSService smsService, IFileService fileService)
+        public StudentController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, IAuditService auditService, ISMSService smsService, IFileService fileService, IUrlService urlService)
         {
             this._userService = userService;
             this._pictureService = pictureService;
@@ -45,6 +46,7 @@ namespace SMS.Areas.Admin.Controllers
             this._auditService = auditService;
             this._smsService = smsService;
             this._fileService = fileService;
+            this._urlService = urlService;
         }
 
         #endregion
@@ -174,11 +176,7 @@ namespace SMS.Areas.Admin.Controllers
                 throw new Exception("Student Id Missing");
 
             var student = _smsService.GetStudentById(id);
-            var model = new StudentModel()
-            {
-                Id = student.Id,
-                UserId = student.UserId,
-            };
+            var model = student.ToModel();
 
             return View(model);
         }
@@ -208,6 +206,11 @@ namespace SMS.Areas.Admin.Controllers
                 student = model.ToEntity(student);
                 student.ModifiedOn = DateTime.Now;
                 _smsService.UpdateStudent(student);
+
+                // Save URL Record
+                model.SystemName = student.ValidateSystemName(model.SystemName, model.FName + ((!string.IsNullOrEmpty(model.MName) ? model.MName : "") + (!string.IsNullOrEmpty(model.LName) ? model.LName : "")), true);
+                _urlService.SaveSlug(student, model.SystemName);
+
             }
             else
             {
@@ -249,14 +252,21 @@ namespace SMS.Areas.Admin.Controllers
                 newStudent.ModifiedOn = DateTime.Now;
                 newStudent.IsDeleted = false;
                 newStudent.UserId = _userContext.CurrentUser.Id;
+                newStudent.UserName = CodeHelper.GenerateRandomStudentUsername();
+                newStudent.StudentUniqueId = Guid.NewGuid();
+                SuccessNotification("Student created successfully.");
                 _smsService.InsertStudent(newStudent);
+
+                // Save URL Record
+                model.SystemName = newStudent.ValidateSystemName(model.SystemName, model.FName + ((!string.IsNullOrEmpty(model.MName) ? model.MName : "") + (!string.IsNullOrEmpty(model.LName) ? model.LName : "")), true);
+                _urlService.SaveSlug(newStudent, model.SystemName);
+
             }
             else
             {
+                ErrorNotification("An error occurred while adding student.");
                 return View(model);
             }
-
-            SuccessNotification("User created successfully.");
             return RedirectToAction("List");
         }
 

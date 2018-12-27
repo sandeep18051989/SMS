@@ -12,8 +12,8 @@ namespace SMS.Validations
 			RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter name");
 			RuleFor(x => x.QualificationId).NotEmpty().WithMessage("Please select qualification");
 			RuleFor(x => x.SystemName).NotEmpty().WithMessage("Please enter short name without spaces to use for URLs");
-			RuleFor(x => x.PictureId).NotEmpty().WithMessage("Please upload latest picture");
-			RuleFor(x => x.AcadmicYear).NotEmpty().WithMessage("Please choose academic year");
+			RuleFor(x => x.ProfilePictureId).NotEmpty().WithMessage("Please upload latest picture");
+			RuleFor(x => x.AcadmicYearId).NotEmpty().WithMessage("Please select academic year");
 		}
 	}
 }

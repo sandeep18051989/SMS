@@ -71,7 +71,15 @@ namespace EF.Services.Service
             if (studentId == 0)
                 throw new System.Exception("Student Id Is Missing!");
 
-            return _fileRepository.Table.Where(a => a.Students.Any(y => y.Id == studentId)).OrderByDescending(a => a.CreatedOn).ToList();
+            return _fileRepository.Table.Where(a => a.Students.Any(y => y.Id == studentId)).ToList();
+        }
+
+        public IList<File> GetAllFilesByTeacher(int teacherId)
+        {
+            if (teacherId == 0)
+                throw new System.Exception("Student Id Is Missing!");
+
+            return _fileRepository.Table.Where(a => a.Teachers.Any(y => y.Id == teacherId)).ToList();
         }
 
         public File GetFileById(int fileId)

@@ -10,9 +10,10 @@ namespace EF.Services.Service
 		void InsertSchool(School school);
 		void UpdateSchool(School school);
 		void DeleteSchool(int id);
-		IList<School> GetAllSchools(bool? active);
+		IList<School> GetAllSchools(bool? onlyActive = null);
 		School GetSchoolById(int id);
 		#endregion
+
 		#region Student
 		void InsertStudent(Student student);
 		void UpdateStudent(Student student);
@@ -22,27 +23,32 @@ namespace EF.Services.Service
 		IList<Student> GetStudentsByName(string name, bool? active);
 		IList<Student> SearchStudents(bool? active, string religion = null, string classname = null, int? acedemicyearid = null);
 		IList<Student> SearchStudents(bool? active, int religion = 0, int classid = 0, int? acedemicyearid = null);
-		int GetTotalStudents();
-		#endregion
-		#region Employee
-		void InsertEmployee(Employee employee);
+        void ToggleActiveStatusStudent(int id);
+        bool CheckStudentExists(string name, int? id = null);
+
+        bool CheckUsernameExistsForStudent(string username);
+        #endregion
+
+        #region Employee
+        void InsertEmployee(Employee employee);
 		void UpdateEmployee(Employee employee);
 		void DeleteEmployee(int id);
 		IList<Employee> GetAllEmployees(bool? onlyActive = null);
 		Employee GetEmployeeById(int id);
-		IList<Employee> GetEmployeesByName(string name, bool? active);
-		IList<Employee> SearchEmployees(bool? active, string religion = null, string designation = null);
-		IList<Employee> SearchEmployees(bool? active, int religion = 0, int designationid = 0);
-		#endregion
-		#region Student Attendance
-		void InsertStudentAttendance(StudentAttendance studentattendance);
+        void ToggleActiveStatusEmployee(int id);
+        bool CheckEmployeeExists(string name, int? id = null);
+        bool CheckUsernameExistsForEmployee(string username);
+        #endregion
+
+        #region Student Attendance
+        void InsertStudentAttendance(StudentAttendance studentattendance);
 		void UpdateStudentAttendance(StudentAttendance studentattendance);
 		void DeleteStudentAttendance(int id);
 		IList<StudentAttendance> GetStudentAttendanceByDate(int DD, int MM, int yyyy);
 		StudentAttendance GetStudentAttendanceById(int id);
-		IList<StudentAttendance> GetAllStudentAttendances(bool? active);
 		IList<StudentAttendance> SearchStudentAttendances(bool? active, string studentusername = null, string classname = null, int? acedemicyearid = null);
 		#endregion
+
 		#region Religion
 		void InsertReligion(Religion religion);
 		void UpdateReligion(Religion religion);
@@ -50,9 +56,9 @@ namespace EF.Services.Service
 		IList<Religion> GetAllReligions();
 		Religion GetReligionById(int id);
 		IList<Religion> GetReligionByName(string name);
-
         bool CheckReligionExists(string name, int? id = null);
         #endregion
+
         #region EmployeeAttendance
         void InsertEmployeeAttendance(EmployeeAttendance employeeattendance);
 		void UpdateEmployeeAttendance(EmployeeAttendance employeeattendance);
@@ -60,6 +66,7 @@ namespace EF.Services.Service
 		EmployeeAttendance GetEmployeeAttendanceById(int id);
 		IPagedList<EmployeeAttendance> GetEmployeeAttendanceByDateAndEmployee(PagerParams param, DateTime? Date, int EmployeeId = 0);
 		#endregion
+
 		#region Fee Category
 		void InsertFeeCategory(FeeCategory feecategory);
 		void UpdateFeeCategory(FeeCategory feecategory);
@@ -68,22 +75,23 @@ namespace EF.Services.Service
 		FeeCategory GetFeeCategoryById(int id);
 		IList<FeeCategory> GetFeeCategoryByName(string name, bool? active);
 		IList<FeeCategory> SearchFeeCategories(bool? active, string category = null, string classname = null, int? acadmicyearid = null);
-
-        void RemoveCasteFromCategory(int categoryid, int casteid);
+        FeeCategory GetFeeCategoryByClassAndCategory(int classid, int? categoryid = null);
         #endregion
+
         #region Caste
         void InsertCaste(Caste caste);
 		void UpdateCaste(Caste caste);
 		void DeleteCaste(int id);
         IList<Caste> GetAllCastes(bool? onlyActive = null);
         IList<Caste> GetAllCastesByCategory(int categoryid);
-
+        void RemoveCasteFromCategory(int categoryid, int casteid);
         Caste GetCasteById(int id);
 		IList<Caste> GetCasteByName(string name, bool? active);
 		IList<Caste> SearchFeeCastes(bool? active, string religion = null, int? acedemicyearid = null);
         bool CheckCasteExists(string name, int? id = null);
         void ToggleActiveStatusCaste(int id);
         #endregion
+
         #region Category
         void InsertCategory(Category category);
 		void UpdateCategory(Category category);
@@ -95,6 +103,7 @@ namespace EF.Services.Service
 
         bool CheckCategoryExists(string name, int? id = null);
         #endregion
+
         #region Class
         void InsertClass(Class objClass);
 		void UpdateClass(Class objClass);
@@ -107,16 +116,21 @@ namespace EF.Services.Service
         IList<ClassRoomDivision> GetAllDivisionsByClass(int? id, bool? onlyActive = null);
         IList<ClassHomework> GetAllHomeworkByClass(int id);
         #endregion
+
         #region Class Division
         void InsertClassDivision(ClassRoomDivision division);
         void UpdateClassDivision(ClassRoomDivision division);
         void DeleteClassDivision(int id);
         IList<ClassRoomDivision> GetDivisionsByClass(int id);
         IList<ClassRoomDivision> GetClassDivisions(int? classid = null, int? divisionid = null, int? classroomid = null);
-
+        bool CheckClassRoomAlreadyAssociatedToOtherDivisionAndClass(int classroomid, int? classid = null, int? divisionid = null);
         void RemoveDivisionFromClass(int classid, int divisionid);
+        IList<ClassRoomDivision> GetAllClassRoomDivisions(bool? onlyActive = null);
+        IList<ClassRoomDivision> GetAllClassDivisionsByTeacher(int id);
+        ClassRoomDivision GetClassRoomDivisionById(int id);
 
         #endregion
+
         #region Class Room
         void InsertClassRoom(ClassRoom classroom);
         void UpdateClassRoom(ClassRoom classroom);
@@ -133,6 +147,7 @@ namespace EF.Services.Service
 
         void ToggleActiveStatusClassRoom(int id);
         #endregion
+
         #region Homework
 
         void InsertHomework(Homework objHomework);
@@ -141,6 +156,7 @@ namespace EF.Services.Service
         Homework GetHomeworkById(int id);
 
         #endregion
+
         #region Class Homework
 
         void InsertClassHomework(ClassHomework objHomework);
@@ -149,6 +165,7 @@ namespace EF.Services.Service
         ClassHomework GetClassHomeworkById(int id);
 
         #endregion
+
         #region Division
         void InsertDivision(Division division);
 		void UpdateDivision(Division division);
@@ -159,22 +176,31 @@ namespace EF.Services.Service
         bool CheckDivisionExists(string name, int? id = null);
         void ToggleActiveStatusDivision(int id);
         #endregion
+
         #region Subject
         void InsertSubject(Subject subject);
 		void UpdateSubject(Subject subject);
 		void DeleteSubject(int id);
 		Subject GetSubjectById(int id);
 		IList<Subject> GetSubjectByName(string name, bool? active);
-		#endregion
-		#region Division Subject
-		void InsertDivisionSubject(DivisionSubject divisionClassSubject);
+        IList<Subject> GetAllSubjects(bool? onlyActive = null);
+        bool CheckSubjectExists(string name, int? id = null);
+        void ToggleActiveStatusSubject(int id);
+        bool CheckCodeExistsForSubject(string code);
+
+        IList<Subject> GetAllSubjectsByTeacher(int id);
+        #endregion
+
+        #region Division Subject
+        void InsertDivisionSubject(DivisionSubject divisionClassSubject);
 		void UpdateDivisionSubject(DivisionSubject divisionClassSubject);
 		void DeleteDivisionSubject(int id);
-		IList<DivisionSubject> GetAllDivisionSubjectMappings(bool? active);
+		IList<DivisionSubject> GetAllDivisionSubjectMappings();
 		DivisionSubject GetDivisionSubjectMappingById(int id);
 		IList<DivisionSubject> SearchDivisionSubjectMappings(bool? active, string division = null, string subject = null);
 		IList<DivisionSubject> SearchDivisionSubjects(bool? active, int divisionid = 0, int subjectid = 0);
 		#endregion
+
 		#region Designation
 		void InsertDesignation(Designation designation);
 		void UpdateDesignation(Designation designation);
@@ -187,6 +213,7 @@ namespace EF.Services.Service
 
         void ToggleActiveStatusDesignation(int id);
         #endregion
+
         #region Teacher
         void InsertTeacher(Teacher teacher);
 		void UpdateTeacher(Teacher teacher);
@@ -196,8 +223,15 @@ namespace EF.Services.Service
 		IList<Teacher> GetTeachersByName(string name, bool? active);
 		IList<Teacher> SearchTeachers(bool? active, string subject = null, string qualification = null, string employee = null, int? acedemicyearid = null);
 		IList<Teacher> SearchTeachers(bool? active, int subjectid = 0, int qualificationid = 0, int employeeid = 0, int? acedemicyearid = null);
-		int GetTotalTeachers();
+        IList<Teacher> GetTeachersByIds(int[] teacherids);
+        void DeleteTeachers(IList<Teacher> teachers);
+        void ToggleTeacher(int id);
+        int GetTeacherCountByLoginDate(DateTime logindate);
+        bool CheckTeacherExists(string name, int? id = null);
+        void ToggleActiveStatusTeacher(int id);
+        int GetTotalTeachers();
 		#endregion
+
 		#region Time Table Setting
 		void InsertTimeTableSetting(TimeTableSetting TimeTableSetting);
 		void UpdateTimeTableSetting(TimeTableSetting TimeTableSetting);
@@ -206,6 +240,7 @@ namespace EF.Services.Service
 		IList<TimeTableSetting> GetAllTimeTableSettings();
 		IList<TimeTableSetting> SearchTimeTableSettings(bool? active, int? acedemicyearid = null);
 		#endregion
+
 		#region Time Table
 		void InsertTimeTable(TimeTable TimeTable);
 		void UpdateTimeTable(TimeTable TimeTable);
@@ -213,31 +248,38 @@ namespace EF.Services.Service
 		IList<TimeTable> GetAllTimeTables(bool? active);
 		TimeTable GetTimeTableById(int id);
 		IList<TimeTable> SearchTimeTables(bool? active, int? acedemicyearid = null);
-		#endregion
-		#region Qualification
-		void InsertQualification(Qualification qualification);
+        void ToggleActiveStatusTimetable(int id);
+        #endregion
+
+        #region Qualification
+        void InsertQualification(Qualification qualification);
 		void UpdateQualification(Qualification qualification);
 		void DeleteQualification(int id);
 		IList<Qualification> GetAllQualifications();
 		Qualification GetQualificationById(int id);
-		IList<Qualification> GetQualificationByName(string name, bool? active);
-		#endregion
-		#region Allowance
-		void InsertAllowance(Allowance allowance);
+		IList<Qualification> GetQualificationByName(string name);
+
+        bool CheckQualificationExists(string name, int? id = null);
+        #endregion
+
+        #region Allowance
+        void InsertAllowance(Allowance allowance);
 		void UpdateAllowance(Allowance allowance);
 		void DeleteAllowance(int id);
 		Allowance GetAllowanceById(int id);
-		IList<Allowance> GetAllAllowances(bool? active);
-		IList<Allowance> SearchAllowances(bool? active, string designation = null);
+		IList<Allowance> GetAllAllowances();
+        Allowance GetAllowanceByDesignation(int designationid);
 		#endregion
+
 		#region Payment
 		void InsertPayment(Payment payment);
 		void UpdatePayment(Payment payment);
 		void DeletePayment(int id);
 		Payment GetPaymentById(int id);
-		IList<Payment> GetAllPayments(bool? active);
-		IList<Payment> SearchPayments(bool? active, int? allowanceid, string employee = null, int? acedemicyearid = null);
+		IList<Payment> GetAllPayments();
+		IList<Payment> SearchPayments(int? designationid = null, int? employeeid = null, int? acedemicyearid = null);
 		#endregion
+
 		#region Vendor
 		void InsertVendor(Vendor vendor);
 		void UpdateVendor(Vendor vendor);
@@ -245,48 +287,54 @@ namespace EF.Services.Service
 		IList<Vendor> GetAllVendors(bool? active=null);
 		Vendor GetVendorById(int id);
 		Vendor GetVendorsByName(string name);
-		IList<Vendor> SearchVendors(bool? active, string religion = null, string designation = null, int? acedemicyearid = null);
+		IList<Vendor> SearchVendors(bool? active, int? acedemicyearid = null);
 		#endregion
+
 		#region Purchase
 		void InsertPurchase(Purchase purchase);
 		void UpdatePurchase(Purchase purchase);
 		void DeletePurchase(int id);
-		IList<Purchase> GetAllPurchases(bool? active);
+		IList<Purchase> GetAllPurchases();
 		Purchase GetPurchaseById(int id);
-		IList<Purchase> SearchPurchases(bool? active, string product = null, string vendor = null, int? acedemicyearid = null);
+        IList<Purchase> SearchPurchases(int? productid = null, int? vendorid = null, int? acedemicyearid = null);
 		#endregion
+
 		#region Fee Detail
 		void InsertFeeDetail(FeeDetail feeDetail);
 		void UpdateFeeDetail(FeeDetail feeDetail);
 		void DeleteFeeDetail(int id);
-		IList<FeeDetail> GetAllFeeDetails(bool? active);
+		IList<FeeDetail> GetAllFeeDetails();
 		FeeDetail GetFeeDetailById(int id);
-		IList<FeeDetail> SearchFeeDetails(bool? active, string student = null, string category = null, int? acedemicyearid = null);
+        IList<FeeDetail> SearchFeeDetails(int? studentid = null, int? categoryid = null, int? cashierid = null, int? acedemicyearid = null);
 		#endregion
+
 		#region Message Group
 		void InsertMessageGroup(MessageGroup messageGroup);
 		void UpdateMessageGroup(MessageGroup messageGroup);
 		void DeleteMessageGroup(int id);
-		IList<MessageGroup> GetAllMessageGroups(bool? active);
+		IList<MessageGroup> GetAllMessageGroups();
 		MessageGroup GetMessageGroupById(int id);
-		IList<MessageGroup> GetMessageGroupsByName(string name, bool? active);
+		MessageGroup GetMessageGroupByName(string name);
 		#endregion
+
 		#region Student Message Group
 		void InsertStudent_MessageGroup(Student_MessageGroup studentMessageGroup);
 		void UpdateStudent_MessageGroup(Student_MessageGroup studentMessageGroup);
 		void DeleteStudent_MessageGroup(int id);
-		IList<Student_MessageGroup> GetAllStudent_MessageGroups(bool? active);
+		IList<Student_MessageGroup> GetAllStudent_MessageGroups();
 		Student_MessageGroup GetStudent_MessageGroupById(int id);
-		IList<Student_MessageGroup> GetStudent_MessageGroupsByStudentUsername(string username, bool? active);
+        IList<Student_MessageGroup> GetStudent_MessageGroupsByStudent(int studentid);
 		#endregion
+
 		#region Message
 		void InsertMessage(Message message);
 		void UpdateMessage(Message message);
 		void DeleteMessage(int id);
 		IList<Message> GetAllMessages(bool? active);
 		Message GetMessageById(int id);
-		IList<Message> GetMessagesByMessageGroup(string messagegroup, bool? active);
+        IList<Message> GetMessagesByMessageGroup(int messagegroupid, bool? active);
 		#endregion
+
 		#region Exam
 		void InsertExam(Exam exam);
 		void UpdateExam(Exam exam);
@@ -295,6 +343,7 @@ namespace EF.Services.Service
 		Exam GetExamById(int id);
 		IList<Exam> GetExamByName(string name, bool? active);
 		#endregion
+
 		#region Acadmic Year
 		void InsertAcadmicYear(AcadmicYear objAcadmicYear);
 		void UpdateAcadmicYear(AcadmicYear objAcadmicYear);
@@ -303,11 +352,8 @@ namespace EF.Services.Service
 		AcadmicYear GetAcadmicYearById(int id);
 		AcadmicYear GetAcadmicYearByName(string name, bool? active = null);
         IList<AcadmicYear> GetAllAcadmicYears(bool? onlyActive = null);
-		IList<Teacher> GetTeachersByIds(int[] userIds);
-		void DeleteTeachers(IList<Teacher> users);
-        void ToggleTeacher(int id);
-		int GetTeacherCountByLoginDate(DateTime logindate);
         #endregion
+
         #region Reaction
         void InsertReaction(Reaction objReaction);
         void UpdateReaction(Reaction objReaction);
@@ -319,20 +365,23 @@ namespace EF.Services.Service
 
         void SaveRating(int userid, int rating, int? blogid = null, int? productid = null, int? eventid = null, int? pictureid = null, int? videoid = null, int? newsid = null, int? commentid = null, int? replyid = null);
 		#endregion
-		#region Question Type
 
+		#region Question Type
 		void InsertQuestionType(QuestionType questionType);
 		void UpdateQuestionType(QuestionType questionType);
-		QuestionType GetQuestionTypeById(int id);
-		IList<QuestionType> GetAllQuestionTypes();
-		#endregion
-		#region Question & Assessments
+        void DeleteQuestionType(int id);
 
-		void InsertQuestion(Question question);
+        QuestionType GetQuestionTypeById(int id);
+		IList<QuestionType> GetAllQuestionTypes(bool? onlyActive = null);
+        void ToggleActiveStatusQuestionType(int id);
+        bool CheckQuestionTypeExists(string name, int? id = null);
+        #endregion
+
+        #region Question & Assessments
+        void InsertQuestion(Question question);
 		void UpdateQuestion(Question question);
 		void DeleteQuestion(int id);
 		Question GetQuestionById(int id);
-
 		IList<Question> SearchQuestions(int[] questionTypeIds = null, int[] subjectids = null,
 			int? difficultylevel = null, bool? onlytimebound = null, bool? active = null);
 
@@ -359,6 +408,12 @@ namespace EF.Services.Service
 		void UpdatestudentAssessment(StudentAssessment studentAssessment);
 		void DeletestudentAssessment(int id);
 
-		#endregion
-	}
+        #endregion
+
+        #region Global Settings
+
+        Settings GetSettingByKey(string key, int userid = 0);
+
+        #endregion
+    }
 }

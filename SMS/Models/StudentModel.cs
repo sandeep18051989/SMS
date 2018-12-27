@@ -23,7 +23,8 @@ namespace SMS.Models
             AvailableReligions = new List<SelectListItem>();
             AvailableHouses = new List<SelectListItem>();
         }
-		public string FName { get; set; }
+        public Guid StudentUniqueId { get; set; }
+        public string FName { get; set; }
 		public string IdentityNumber { get; set; }
 		public string MName { get; set; }
 		public string LName { get; set; }
@@ -62,7 +63,8 @@ namespace SMS.Models
 		public string EmailAddress { get; set; }
 		public string Father_Office_Address { get; set; }
 		public string Father_Contact { get; set; }
-		public string Mother_Occupation { get; set; }
+        public string Contact1 { get; set; }
+        public string Mother_Occupation { get; set; }
 		public string Me_Mail { get; set; }
 		public string Mother_Office_Address { get; set; }
 		public string Mother_Contact { get; set; }
@@ -122,6 +124,7 @@ namespace SMS.Models
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
+        public int TeacherId { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
         public string FileSrc { get; set; }

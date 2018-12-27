@@ -79,7 +79,6 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="BaseEntity.cs" />
-    <Compile Include="CodeHelper.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="DatabaseSettings.cs" />
     <Compile Include="Data\ClassRoomDivision.cs" />

@@ -145,5 +145,14 @@
 				$(this).attr('checked', false).val(false);
 			}
 		});
+
+		$('#SystemName').on('input propertychange paste', function () {
+		    var parameters = {
+		        entityId: '@Model.Id',
+		        entityName: 'Product',
+		        systemName: $(this).val()
+		    };
+		    warningValidation('@Url.Action("UrlReservedWarning", "Product")', '#SystemName', parameters);
+		});
 	});
 </script>

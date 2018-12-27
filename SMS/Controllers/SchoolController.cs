@@ -115,7 +115,7 @@ namespace SMS.Controllers
 				model.UserId = school.UserId;
 				model.UserName = school.UserName;
 				model.ZipCode = school.ZipCode;
-				model.TotalStudents = _smsService.GetTotalStudents();
+				model.TotalStudents = _smsService.GetAllStudents().Count;
 				model.TotalTeachers = _smsService.GetTotalTeachers();
 				model.Events = _eventService.GetAllEvents(true).Select(e => new EventModel()
 				{

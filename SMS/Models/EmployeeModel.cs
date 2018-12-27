@@ -21,6 +21,7 @@ namespace SMS.Models
             AvailableContracts = new List<SelectListItem>();
             AvailableContractTypes = new List<SelectListItem>();
             AvailableAcadmicYears = new List<SelectListItem>();
+            EmployeePicture = new PictureModel();
         }
 
         #region Properties
@@ -115,5 +116,7 @@ namespace SMS.Models
 
         public IList<SelectListItem> AvailableAcadmicYears { get; set; }
 
-	}
+        public PictureModel EmployeePicture { get; set; }
+
+    }
 }

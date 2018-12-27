@@ -181,6 +181,15 @@
 			}
 		});
 
+		$('#SystemName').on('input propertychange paste', function () {
+		    var parameters = {
+		        entityId: '@Model.Id',
+		        entityName: 'Event',
+		        systemName: $(this).val()
+		    };
+		    warningValidation('@Url.Action("UrlReservedWarning", "Event")', '#SystemName', parameters);
+		});
+
 		// Get the elements
 		var from_input = $('.start-date input[type=text]').pickadate(),
 			from_picker = from_input.pickadate('picker');

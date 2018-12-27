@@ -22,7 +22,6 @@ namespace EF.Services.Service
 		}
 		#endregion
 
-
 		#region ISetting Members
 
 		public void Insert(Settings setting)

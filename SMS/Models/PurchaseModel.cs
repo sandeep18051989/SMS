@@ -2,6 +2,8 @@
 using EF.Services;
 using FluentValidation.Attributes;
 using SMS.Validations;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace SMS.Models
 {
@@ -10,9 +12,10 @@ namespace SMS.Models
 	{
 		public PurchaseModel()
 		{
-			Product = new ProductModel();
-			Vendor = new VendorModel();
-		}
+            AvailableVendors = new List<SelectListItem>();
+            AvailableAcadmicYears = new List<SelectListItem>();
+
+        }
 		public string IName { get; set; }
 		public double IQuantity { get; set; }
 		public double IRate { get; set; }
@@ -21,7 +24,13 @@ namespace SMS.Models
 		public double ITotal { get; set; }
 		public int VendorId { get; set; }
 		public int ProductId { get; set; }
-		public ProductModel Product { get; set; }
-		public VendorModel Vendor { get; set; }
-	}
+		public string Product { get; set; }
+
+        public string AcadmicYear { get; set; }
+
+        public int AcadmicYearId { get; set; }
+        public IList<SelectListItem> AvailableVendors { get; set; }
+
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+    }
 }

@@ -14,7 +14,7 @@ namespace EF.Services.Service
 		IList<File> GetFiles(bool active = true);
 		IList<File> GetAllFilesByUser(int userId);
 		IList<File> GetAllFilesByProduct(int productId);
-
+        IList<File> GetAllFilesByTeacher(int teacherId);
         IList<File> GetAllFilesByStudent(int studentId);
 
 

@@ -37,7 +37,7 @@ namespace EF.Core.Data
 		public bool? BusFacility { get; set; }
 		public string E_Phisician_Name { get; set; }
 		public string E_Phisician_Address { get; set; }
-		public int E_Phisician_Phone { get; set; }
+        public int E_Phisician_Phone { get; set; }
 		public string Father_Occupation { get; set; }
 		public string Email { get; set; }
 		public string Father_Office_Address { get; set; }

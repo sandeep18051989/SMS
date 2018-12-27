@@ -101,6 +101,10 @@ namespace SMS.Areas.Admin.Mappers
 
                 cfg.CreateMap<ClassRoomDivision, ClassRoomDivisionModel>()
                     .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
+                    .ForMember(dest => dest.AvailableClassRooms, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
+                    .ForMember(dest => dest.Class, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassRoom, mo => mo.Ignore())
+                    .ForMember(dest => dest.Division, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")));
                 cfg.CreateMap<ClassRoomDivisionModel, ClassRoomDivision>()
                     .ForMember(dest => dest.Class, mo => mo.Ignore())
@@ -153,6 +157,8 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.Selected, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableClassRooms, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassRoomId, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
                     .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")));
 
@@ -191,6 +197,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableContracts, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableContractTypes, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableDesignations, mo => mo.Ignore())
+                    .ForMember(dest => dest.EmployeePicture, mo => mo.Ignore())
                     .ForMember(dest => dest.Designation, mo => mo.Ignore())
                     .ForMember(dest => dest.ContractStatus, mo => mo.Ignore())
                     .ForMember(dest => dest.ContractType, mo => mo.Ignore())
@@ -260,16 +267,34 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Picture, mo => mo.Ignore());
 
                 cfg.CreateMap<FeeCategory, FeeCategoryModel>()
-                    .ForMember(dest => dest.Category, mo => mo.Ignore())
-                    .ForMember(dest => dest.Class, mo => mo.Ignore());
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableCategories, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableClassDivisions, mo => mo.Ignore())
+                    .ForMember(dest => dest.CategoryName, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassDivisionName, mo => mo.Ignore());
                 cfg.CreateMap<FeeCategoryModel, FeeCategory>()
                     .ForMember(dest => dest.Category, mo => mo.Ignore())
-                    .ForMember(dest => dest.Class, mo => mo.Ignore());
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassDivision, mo => mo.Ignore());
 
                 cfg.CreateMap<Feedback, FeedbackModel>()
                     .ForMember(dest => dest.SentSuccess, mo => mo.Ignore());
                 cfg.CreateMap<FeedbackModel, Feedback>()
                     .ForMember(dest => dest.IsDeleted, mo => mo.Ignore());
+
+                cfg.CreateMap<FeeDetail, FeeDetailModel>()
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableFeeCategoryStructures, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableStatuses, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableStudents, mo => mo.Ignore());
+                cfg.CreateMap<FeeDetailModel, FeeDetail>()
+                    .ForMember(dest => dest.AdmissionStatus, mo => mo.Ignore())
+                    .ForMember(dest => dest.Employee, mo => mo.Ignore())
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.Student, mo => mo.Ignore())
+                    .ForMember(dest => dest.FeeCategoryStructure, mo => mo.Ignore());
 
                 cfg.CreateMap<Homework, HomeworkModel>()
                     .ForMember(dest => dest.AvailableStudentApprovals, mo => mo.Ignore())
@@ -299,10 +324,13 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Question, mo => mo.Ignore());
 
                 cfg.CreateMap<Payment, PaymentModel>()
-                    .ForMember(dest => dest.Allowance, mo => mo.Ignore())
-                    .ForMember(dest => dest.Employee, mo => mo.Ignore());
+                    .ForMember(dest => dest.AvailableDesignations, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableEmployees, mo => mo.Ignore());
                 cfg.CreateMap<PaymentModel, Payment>()
-                    .ForMember(dest => dest.Allowance, mo => mo.Ignore());
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.Designation, mo => mo.Ignore());
 
                 cfg.CreateMap<PermissionRecord, PermissionRecordModel>()
                     .ForMember(dest => dest.Roles, mo => mo.Ignore());
@@ -342,10 +370,19 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Picture, mo => mo.Ignore());
 
                 cfg.CreateMap<Purchase, PurchaseModel>()
-                    .ForMember(dest => dest.Vendor, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableVendors, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.Product, mo => mo.Ignore());
                 cfg.CreateMap<PurchaseModel, Purchase>()
-                    .ForMember(dest => dest.Product, mo => mo.Ignore());
+                    .ForMember(dest => dest.Product, mo => mo.Ignore())
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore());
+
+                cfg.CreateMap<Vendor, VendorModel>()
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore());
+                cfg.CreateMap<VendorModel, Vendor>()
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore());
 
                 cfg.CreateMap<Reaction, ReactionModel>()
                     .ForMember(dest => dest.Blog, mo => mo.Ignore())
@@ -458,7 +495,9 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Homework, mo => mo.Ignore());
 
                 cfg.CreateMap<Subject, SubjectModel>()
-                    .ForMember(dest => dest.Division_Class_Subject, mo => mo.Ignore());
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore());
+                cfg.CreateMap<SubjectModel, Subject>()
+                    .ForMember(dest => dest.Teachers, mo => mo.Ignore());
 
                 cfg.CreateMap<SubjectExam, SubjectExamModel>()
                     .ForMember(dest => dest.Subject, mo => mo.Ignore())
@@ -472,20 +511,21 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<Teacher, TeacherModel>()
                     .ForMember(dest => dest.AvailableEmployees, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableQualifications, mo => mo.Ignore())
-                    .ForMember(dest => dest.Divisions, mo => mo.Ignore())
-                    .ForMember(dest => dest.Employee, mo => mo.Ignore())
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
-                    .ForMember(dest => dest.Picture, mo => mo.Ignore())
-                    .ForMember(dest => dest.Qualification, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassRoomDivisions, mo => mo.Ignore())
                     .ForMember(dest => dest.Subjects, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
-                    .ForMember(dest => dest.Classes, mo => mo.Ignore());
+                    .ForMember(dest => dest.PictureSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.Url, mo => mo.Ignore())
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)));
                 cfg.CreateMap<TeacherModel, Teacher>()
                     .ForMember(dest => dest.Qualification, mo => mo.Ignore())
                     .ForMember(dest => dest.MessageGroups, mo => mo.Ignore())
                     .ForMember(dest => dest.ClassRoomDivisions, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.Qualification, mo => mo.Ignore())
+                    .ForMember(dest => dest.PersonalityStatus, mo => mo.Ignore())
                     .ForMember(dest => dest.Subjects, mo => mo.Ignore());
 
                 cfg.CreateMap<TeacherExam, TeacherExamModel>()

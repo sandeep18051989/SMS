@@ -12,6 +12,7 @@ namespace EF.Data.Mapping
 			this.ToTable("Purchase");
 			this.HasKey(b => b.Id);
             this.Property(b => b.IName).IsRequired();
+            this.Property(b => b.AcadmicYearId).IsRequired();
             this.Property(b => b.IPurchaseDate).IsOptional();
             this.Property(b => b.IQuantity).IsRequired();
             this.Property(b => b.IRate).IsRequired();
@@ -20,9 +21,10 @@ namespace EF.Data.Mapping
             this.Property(b => b.ProductId).IsOptional();
             this.Property(b => b.VendorId).IsOptional();
 
+            this.HasRequired(all => all.AcadmicYear).WithMany().HasForeignKey(all => all.AcadmicYearId);
             this.HasOptional(all => all.Product).WithMany().HasForeignKey(all => all.ProductId);
 
-			EntityTracker.TrackAllProperties<Purchase>().Except(x => x.Product).And(x => x.CreatedOn).And(x => x.ModifiedOn);
+			EntityTracker.TrackAllProperties<Purchase>().Except(x => x.Product).And(x => x.AcadmicYear).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

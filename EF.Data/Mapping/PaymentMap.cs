@@ -11,7 +11,7 @@ namespace EF.Data.Mapping
 		{
 			this.ToTable("Payment");
 			this.HasKey(b => b.Id);
-            this.Property(b => b.AllowanceId).IsOptional();
+            this.Property(b => b.DesignationId).IsOptional();
             this.Property(b => b.BasicPay).IsOptional();
             this.Property(b => b.EmployeeId).IsOptional();
             this.Property(b => b.Gross_Pay).IsOptional();
@@ -21,10 +21,12 @@ namespace EF.Data.Mapping
             this.Property(b => b.TA).IsOptional();
             this.Property(b => b.TDS).IsOptional();
             this.Property(b => b.DA).IsOptional();
+            this.Property(b => b.AcadmicYearId).IsRequired();
 
-            this.HasRequired(all => all.Allowance).WithMany().HasForeignKey(all => all.AllowanceId);
+            this.HasOptional(all => all.Designation).WithMany().HasForeignKey(all => all.DesignationId);
+            this.HasRequired(all => all.AcadmicYear).WithMany().HasForeignKey(all => all.AcadmicYearId);
 
-			EntityTracker.TrackAllProperties<Payment>().Except(x => x.Allowance).And(x => x.CreatedOn).And(x => x.ModifiedOn);
+            EntityTracker.TrackAllProperties<Payment>().Except(x => x.Designation).And(x => x.AcadmicYear).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

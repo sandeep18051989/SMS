@@ -697,6 +697,30 @@ namespace EF.Services.Service
             managePermit.UserId = user.Id;
             _permissionRecordRepository.Insert(managePermit);
 
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Qualifications";
+            managePermit.SystemName = "ManageQualifications";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Qualification";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Subject";
+            managePermit.SystemName = "ManageSubject";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Subject";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
             #endregion
 
             #region User Roles
@@ -1236,6 +1260,72 @@ namespace EF.Services.Service
             emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
             emailSetting.UserId = user.Id;
             _settingRepository.Insert(emailSetting);
+
+            var stuCodeSetting = new Settings();
+            stuCodeSetting.Name = "StudentPrefix";
+            stuCodeSetting.Value = "STU";
+            stuCodeSetting.EntityId = 0;
+            stuCodeSetting.Entity = "Student";
+            stuCodeSetting.SettingType = 8;
+            stuCodeSetting.TypeId = 8;
+            stuCodeSetting.CreatedOn = stuCodeSetting.ModifiedOn = DateTime.Now;
+            stuCodeSetting.UserId = user.Id;
+            _settingRepository.Insert(stuCodeSetting);
+
+            stuCodeSetting = new Settings();
+            stuCodeSetting.Name = "StudentCodeStart";
+            stuCodeSetting.Value = "101";
+            stuCodeSetting.EntityId = 0;
+            stuCodeSetting.Entity = "Student";
+            stuCodeSetting.SettingType = 8;
+            stuCodeSetting.TypeId = 8;
+            stuCodeSetting.CreatedOn = stuCodeSetting.ModifiedOn = DateTime.Now;
+            stuCodeSetting.UserId = user.Id;
+            _settingRepository.Insert(stuCodeSetting);
+
+            var empCodeSetting = new Settings();
+            empCodeSetting.Name = "EmployeePrefix";
+            empCodeSetting.Value = "EMP";
+            empCodeSetting.EntityId = 0;
+            empCodeSetting.Entity = "Employee";
+            empCodeSetting.SettingType = 9;
+            empCodeSetting.TypeId = 9;
+            empCodeSetting.CreatedOn = empCodeSetting.ModifiedOn = DateTime.Now;
+            empCodeSetting.UserId = user.Id;
+            _settingRepository.Insert(empCodeSetting);
+
+            empCodeSetting = new Settings();
+            empCodeSetting.Name = "EmployeeCodeStart";
+            empCodeSetting.Value = "201";
+            empCodeSetting.EntityId = 0;
+            empCodeSetting.Entity = "Student";
+            empCodeSetting.SettingType = 9;
+            empCodeSetting.TypeId = 9;
+            empCodeSetting.CreatedOn = empCodeSetting.ModifiedOn = DateTime.Now;
+            empCodeSetting.UserId = user.Id;
+            _settingRepository.Insert(empCodeSetting);
+
+            var subCodeSetting = new Settings();
+            subCodeSetting.Name = "SubjectPrefix";
+            subCodeSetting.Value = "SUB";
+            subCodeSetting.EntityId = 0;
+            subCodeSetting.Entity = "Subject";
+            subCodeSetting.SettingType = 10;
+            subCodeSetting.TypeId = 10;
+            subCodeSetting.CreatedOn = subCodeSetting.ModifiedOn = DateTime.Now;
+            subCodeSetting.UserId = user.Id;
+            _settingRepository.Insert(subCodeSetting);
+
+            subCodeSetting = new Settings();
+            subCodeSetting.Name = "SubjectCodeStart";
+            subCodeSetting.Value = "3001";
+            subCodeSetting.EntityId = 0;
+            subCodeSetting.Entity = "Subject";
+            subCodeSetting.SettingType = 10;
+            subCodeSetting.TypeId = 10;
+            subCodeSetting.CreatedOn = subCodeSetting.ModifiedOn = DateTime.Now;
+            subCodeSetting.UserId = user.Id;
+            _settingRepository.Insert(subCodeSetting);
 
             #endregion
 
@@ -1941,8 +2031,8 @@ namespace EF.Services.Service
 			stuAccessTemplate.Tokens.Add(assessmentToken);
 
 			stuassessmentToken = new DataToken();
-			stuassessmentToken.SystemName = "AssessmentStudentRollNumber";
-			stuassessmentToken.Name = "Assessment Student Roll Number";
+			stuassessmentToken.SystemName = "AssessmentStudentUserName";
+			stuassessmentToken.Name = "Assessment Student User Name";
 			stuassessmentToken.Value = "#";
 			stuassessmentToken.IsSystemDefined = true;
 			stuassessmentToken.CreatedOn = DateTime.Now;

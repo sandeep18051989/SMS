@@ -25,8 +25,13 @@ namespace EF.Data.Mapping
 			this.Property(b => b.PersonalityStatusId).IsOptional();
 			this.Property(b => b.Description).IsOptional();
 			this.Property(b => b.CoverPictureId).IsOptional();
+            this.Property(b => b.Name).HasMaxLength(100).IsRequired();
+            this.Property(b => b.Username).HasMaxLength(100).IsRequired();
+            this.Property(b => b.ProfilePictureId).IsRequired();
+            this.Property(b => b.EmployeeId).IsRequired();
+            this.Property(b => b.AcadmicYearId).IsRequired();
 
-			this.HasRequired(all => all.Qualification).WithMany().HasForeignKey(all => all.QualificationId);
+            this.HasRequired(all => all.Qualification).WithMany().HasForeignKey(all => all.QualificationId);
 
 			// Relationships
 			this.HasMany(u => u.ClassRoomDivisions)

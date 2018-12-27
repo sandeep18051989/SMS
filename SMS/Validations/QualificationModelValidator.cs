@@ -8,7 +8,7 @@ namespace SMS.Validations
 	{
 		public QualificationModelValidator()
 		{
-			RuleFor(x => x.QualificationName).NotEmpty().WithMessage("Please enter qualification");
+			RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter qualification");
 		}
 	}
 }

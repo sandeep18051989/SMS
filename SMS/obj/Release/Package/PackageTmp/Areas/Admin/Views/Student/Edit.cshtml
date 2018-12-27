@@ -119,12 +119,12 @@
                                                                 <div class="col-md-4">
                                                                     <input type="checkbox" tabindex="7" id="SexMale" data-check="Male" name="Sex" value="@(Model.Sex)" @(Model.Sex == "Male" ? "checked=checked" : "") />
                                                                     <label for="SexMale">Male</label>
-                                                                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                                                    @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <input type="checkbox" tabindex="8" id="SexFeMale" data-check="FeMale" name="Sex" value="@(Model.Sex)" @(Model.Sex == "Female" ? "checked=checked" : "") />
                                                                     <label for="SexFeMale">Female</label>
-                                                                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                                                    @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -141,6 +141,13 @@
                                                             @Html.EditorFor(model => model.BirthMark, new { htmlAttributes = new { @class = "form-control", @tabindex = "10", @maxlength = "150", @title = "Birth Mark" } })
                                                             @Html.LabelFor(model => model.BirthMark, "Birth Mark", htmlAttributes: new { @class = "control-label" })
                                                             @Html.ValidationMessageFor(model => model.BirthMark, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @tabindex = "11", @minlength = "10", @maxlength = "10", @title = "Contact Number", @type = "number", @readonly = "readonly" } })
+                                                            @Html.LabelFor(model => model.Contact1, "Contact No.", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.Contact1, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -503,6 +510,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.Contact2, new { htmlAttributes = new { @class = "form-control", @tabindex = "53", @maxlength = "10", @title = "Alternate Contact Number", @type = "text" } })
+                                                            @Html.LabelFor(model => model.Contact2, "Alternate Contact", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.Contact2, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -563,7 +579,7 @@
                                                     <div class="col">
                                                         <!-- Middle name -->
                                                         <div class="md-form">
-                                                            @Html.EditorFor(model => model.LinkedInLink, new { htmlAttributes = new { @class = "form-control", @tabindex = "58", @maxlength = "250", @title = "Linkedin Profile Link", @type = "text" } })
+                                                            @Html.EditorFor(model => model.LinkedInLink, new { htmlAttributes = new { @class = "form-control", @tabindex = "58", @maxlength = "250", @title = "LinkedIn Profile Link", @type = "text" } })
                                                             @Html.LabelFor(model => model.LinkedInLink, "LinkedIn Profile", htmlAttributes: new { @class = "control-label" })
                                                             @Html.ValidationMessageFor(model => model.LinkedInLink, "", new { @class = "text-danger" })
                                                         </div>

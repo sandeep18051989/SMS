@@ -1,0 +1,212 @@
+﻿@model SMS.Models.EmployeeModel
+@{
+	ViewBag.Title = "Employees";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="list-form">
+			@using (Html.BeginForm())
+			{
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<div class="input-group pull-right">
+							@Html.ActionLink("Create Employee", "Create", "Employee", null, new { @class = "btn btn-primary" })
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<br />
+						<div class="form-group">
+							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+								<thead>
+                                    <tr>
+                                        <th class="text-center"><input type="checkbox" id="allcheck" /></th>
+                                        <th>Name</th>
+                                        <th>Joining Date</th>
+                                        <th>Designation</th>
+                                        <th>Gender</th>
+                                        <th>Active</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Employees')").closest("li").addClass("active");
+
+		// Initiallize Datatable
+		$('.custom-table').DataTable({
+			"processing": true, // for show progress bar
+			"serverSide": true, // for process server side
+			"filter": true, // this is for disable filter (search box)
+			"orderMulti": false, // for disable multiple column at once
+			"pageLength": 25,
+			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			"ajax": {
+				"url": "/Admin/Employee/LoadGrid",
+				"type": "POST",
+				"datatype": "json"
+			},
+			"aaSorting": [],
+			"columns": [
+                {
+                    'searchable': false,
+                    "title": "",
+                    "data": "",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input checkboxGroups" value="' +
+                                row.Id +
+                                '" id="' +
+                                row.Id +
+                                '"><label class="form-check-label" for="' +
+                                row.Id +
+                                '"></label><span class="show-detail"></span></div>';
+                        }
+                        return data;
+                    },
+                    "orderable": false,
+                    "className": 'details-control text-center',
+                    "defaultContent": ""
+                },
+                {
+                    "searchable": false,
+                    "title": "",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return '<div class="thumb"><img src="' + row.PictureSrc + '" alt="" class="float-left"></div>';
+                        }
+                        return data;
+                    },
+                    "orderable": false,
+                    "className": 'text-center',
+                    "defaultContent": ""
+                },
+				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                { "data": "JoiningDate", "title": "Joining Date", "name": "Joining Date", "autoWidth": true, "orderable": true, "defaultContent": "", "className": "text-center" },
+                { "data": "Designation", "title": "Designation", "name": "Designation", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
+				{ "data": "Sex", "title": "Gender", "name": "Gender", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
+				{
+				    "data": "IsActive",
+				    "title": "Active",
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            if (row.IsActive) {
+				                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="deactivate" data-id="' +
+                                    row.Id +
+                                    '" title="Deactivate Division"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+				            } else {
+				                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="activate" data-id="' +
+                                    row.Id +
+                                    '" title="Activate Division"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+				            }
+				        }
+				        return data;
+				    },
+				    "className": "text-center",
+				    "orderable": false,
+				    "defaultContent": ""
+				},
+				{
+					"title": "Actions",
+					"orderable": false,
+					"className": 'text-center',
+					"render": function (data, type, row) {
+						if (type === "display") {
+							return '<a href="/Admin/Employee/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="studentid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+						}
+						return data;
+					},
+					"defaultContent": ""
+				}
+			],
+			"select": {
+				"style": 'os',
+				"selector": 'td:first-child'
+			}
+		});
+
+        // Add event listener for opening and closing details
+		$('.custom-table tbody').on('click',
+            'td.details-control',
+            function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+                if (row.child.isShown()) {
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+
+		$(document).on('click',
+                           '#allcheck',
+                           function () {
+                               $('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
+                           });
+
+        //wire up checkboxes.
+		$('.custom-table').on('change',
+            'input[type=checkbox][id!=allcheck]',
+            function (e) {
+                var $check = $(this);
+                var checked;
+                if ($check.is(":checked") === true) {
+                    checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked === -1) {
+                        //add id to selectedIds.
+                        selectedIds.push($check.val());
+                    }
+                } else {
+                    checked = jQuery.inArray($check.val(), selectedIds);
+                    if (checked > -1) {
+                        //remove id from selectedIds.
+                        selectedIds = $.grep(selectedIds,
+                            function (item, index) {
+                                return item !== $check.val();
+                            });
+                    }
+                }
+                updateMasterCheckbox();
+            });
+    });
+
+    function updateMasterCheckbox() {
+        var numChkBoxes = $('#query-tbl input[type=checkbox][id!=allcheck]').length;
+        var numChkBoxesChecked = $('#query-tbl input[type=checkbox][id!=allcheck]:checked').length;
+        $('#allcheck').attr('checked', numChkBoxes === numChkBoxesChecked && numChkBoxes > 0);
+    }
+
+    function format(d) {
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<tr>' +
+            '<td colspan="3">Message</td>' +
+            '<td style="white-space: pre-wrap;" colspan="4"><span class="log-message">' + d.Message + '</span></td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td colspan="3">Stack Trace</td>' +
+            '<td style="white-space: pre-wrap;" colspan="4"><span class="log-trace">' + d.StackTrace + '</span></td>' +
+            '</tr>' +
+            '<tr>' +
+            '</tr>' +
+            '</table>';
+    }
+
+</script>

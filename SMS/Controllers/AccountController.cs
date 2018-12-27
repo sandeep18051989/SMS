@@ -134,7 +134,7 @@ namespace SMS.Controllers
 
 						foreach (var dt in tokens)
 						{
-							Template.BodyHtml = EF.Core.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
+							Template.BodyHtml = EF.Services.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
 						}
 
 						var setting = _settingService.GetSettingByKey("FromEmail");

@@ -24,14 +24,16 @@ namespace EF.Data.Mapping
             this.Property(b => b.MotherLName).HasMaxLength(100).IsOptional();
 
             this.Property(b => b.BGroup).IsOptional();
-			this.Property(b => b.DateOfBirth).IsOptional();
+			this.Property(b => b.DateOfBirth).IsRequired();
 			this.Property(b => b.Weight).IsOptional();
 			this.Property(b => b.Height).IsOptional();
             this.Property(b => b.QualificationId).IsOptional();
 
             this.Property(b => b.CasteId).IsOptional();
-			this.Property(b => b.Bus_NoSchool).IsOptional();
-			this.Property(b => b.Pre_Institute_Name).IsOptional();
+			this.Property(b => b.BusFacility).IsOptional();
+            this.Property(b => b.BusNumber).IsOptional();
+            this.Property(b => b.RouteNumber).IsOptional();
+            this.Property(b => b.Pre_Institute_Name).IsOptional();
 			this.Property(b => b.Pre_Institute_Address).IsOptional();
 
             this.Property(b => b.ContractStatusId).IsOptional();
@@ -56,6 +58,10 @@ namespace EF.Data.Mapping
             this.Property(b => b.MM).IsOptional();
             this.Property(b => b.YYYY).IsOptional();
             this.Property(b => b.DesignationId).IsRequired();
+            this.Property(b => b.Contact1).HasMaxLength(10).IsRequired();
+            this.Property(b => b.AadharCardNo).HasMaxLength(16).IsRequired();
+            this.Property(b => b.JoiningDate).IsRequired();
+            this.Property(b => b.Username).HasMaxLength(20).IsRequired();
 
             this.HasRequired(all => all.Designation).WithMany().HasForeignKey(all => all.DesignationId);
             this.HasOptional(all => all.EmployeePicture).WithMany().HasForeignKey(all => all.EmployeePictureId);

@@ -67,7 +67,7 @@ namespace SMS.Controllers
 						Employee = e != null ? new EmployeeModel()
 						{
 							AadharCardNo = !String.IsNullOrEmpty(e.AadharCardNo) ? e.AadharCardNo : "",
-							AcadmicYear = t.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(t.AcadmicYearId) : null,
+							AcadmicYear = t.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(t.AcadmicYearId).Name : "",
 							EmployeePicture = new PictureModel()
 							{
 								AlternateText = !String.IsNullOrEmpty(e.EmployeePicture.AlternateText) ? e.EmployeePicture.AlternateText : "",

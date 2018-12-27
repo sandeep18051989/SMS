@@ -19,11 +19,10 @@ namespace EF.Core.Data
 		public string PInterestLink { get; set; }
 		public string LinkedInLink { get; set; }
 		public string Hi5Link { get; set; }
-		public bool IsPhoneVerified { get; set; }
-		public bool IsEmailVerified { get; set; }
+		public bool? IsPhoneVerified { get; set; }
+		public bool? IsEmailVerified { get; set; }
 		public string Description { get; set; }
-
-		public int PersonalityStatusId { get; set; }
+		public int? PersonalityStatusId { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }

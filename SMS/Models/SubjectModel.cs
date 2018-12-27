@@ -3,6 +3,9 @@ using EF.Core.Data;
 using EF.Services;
 using FluentValidation.Attributes;
 using SMS.Validations;
+using System.Collections;
+using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace SMS.Models
 {
@@ -11,27 +14,17 @@ namespace SMS.Models
 	{
 		public SubjectModel()
 		{
-			Division_Class_Subject = new Division_Class_SubjectModel();
+            AvailableAcadmicYears = new List<SelectListItem>();
 		}
-		public string Name { get; set; }
-		public double Marks { get; set; }
-		public double PassMarks { get; set; }
-		public int AcadmicYearId { get; set; }
-		public virtual AcadmicYear AcadmicYear { get; set; }
-		public Division_Class_SubjectModel Division_Class_Subject { get; set; }
+        public string Name { get; set; }
+        public Guid SubjectUniqueId { get; set; }
+        public string Code { get; set; }
+        public string Remarks { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsActive { get; set; }
+        public int AcadmicYearId { get; set; }
 
-		public partial class Division_Class_SubjectModel : BaseEntityModel
-		{
-			public Division_Class_SubjectModel()
-			{
-				Class = new ClassModel();
-				Division = new DivisionModel();
-			}
-			public int SubjectId { get; set; }
-			public int ClassId { get; set; }
-			public int DivisionId { get; set; }
-			public ClassModel Class { get; set; }
-			public DivisionModel Division { get; set; }
-		}
-	}
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+
+    }
 }

@@ -7,7 +7,7 @@ namespace SMS.Models
 	[Validator(typeof(QualificationModelValidator))]
 	public partial class QualificationModel : BaseEntityModel
 	{
-		public string QualificationName { get; set; }
+		public string Name { get; set; }
         public string Description { get; set; }
     }
 }

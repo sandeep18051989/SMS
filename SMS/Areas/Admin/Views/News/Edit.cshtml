@@ -157,53 +157,62 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('News')").closest("li").addClass("active");
 
-		if ($("#IsActive").val() == "True") {
-			$("#IsActive").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsActive").attr('checked', false).val(false);
-		}
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
 
-		$("#IsActive").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
-	});
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
 
-	// Get the elements
-	var from_input = $('.start-date input[type=text]').pickadate(),
-		from_picker = from_input.pickadate('picker');
-	var to_input = $('.end-date input[type=text]').pickadate(),
-		to_picker = to_input.pickadate('picker');
+        $('#SystemName').on('input propertychange paste', function () {
+            var parameters = {
+                entityId: '@Model.Id',
+                entityName: 'News',
+                systemName: $(this).val()
+            };
+            warningValidation('@Url.Action("UrlReservedWarning", "News")', '#SystemName', parameters);
+        });
 
-	// Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
-	if (from_picker.get('value')) {
-		to_picker.set('min', from_picker.get('select'));
-	}
-	if (to_picker.get('value')) {
-		from_picker.set('max', to_picker.get('select'));
-	}
+        // Get the elements
+        var from_input = $('.start-date input[type=text]').pickadate(),
+            from_picker = from_input.pickadate('picker');
+        var to_input = $('.end-date input[type=text]').pickadate(),
+            to_picker = to_input.pickadate('picker');
 
-	// Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
-	from_picker.on('set',
-		function (event) {
-			if (event.select) {
-				to_picker.set('min', from_picker.get('select'));
-			} else if ('clear' in event) {
-				to_picker.set('min', false);
-			}
-		});
-	to_picker.on('set',
-		function (event) {
-			if (event.select) {
-				from_picker.set('max', to_picker.get('select'));
-			} else if ('clear' in event) {
-				from_picker.set('max', false);
-			}
-		});
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        if (from_picker.get('value')) {
+            to_picker.set('min', from_picker.get('select'));
+        }
+        if (to_picker.get('value')) {
+            from_picker.set('max', to_picker.get('select'));
+        }
+
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        from_picker.on('set',
+            function (event) {
+                if (event.select) {
+                    to_picker.set('min', from_picker.get('select'));
+                } else if ('clear' in event) {
+                    to_picker.set('min', false);
+                }
+            });
+        to_picker.on('set',
+            function (event) {
+                if (event.select) {
+                    from_picker.set('max', to_picker.get('select'));
+                } else if ('clear' in event) {
+                    from_picker.set('max', false);
+                }
+            });
+    });
 </script>
 @Html.DeleteConfirmation("news-delete")

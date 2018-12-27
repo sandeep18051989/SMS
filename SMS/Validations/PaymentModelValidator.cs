@@ -9,8 +9,6 @@ namespace SMS.Validations
 	{
 		public PaymentModelValidator()
 		{
-			RuleFor(x => x.EmployeeId).NotEmpty().WithMessage("Please choose employee");
-			RuleFor(x => x.AllowanceId).NotEmpty().WithMessage("Please choose allowance");
 			RuleFor(x => x.PDate).NotEmpty().WithMessage("Please choose date");
 			RuleFor(x => x.BasicPay).NotEmpty().WithMessage("Please enter basic pay");
 			RuleFor(x => x.DA).NotEmpty().WithMessage("Please enter DA");

@@ -14,6 +14,7 @@ namespace SMS.Validations
 			RuleFor(x => x.IRate).NotEmpty().WithMessage("Please enter item rate");
 			RuleFor(x => x.ITax).NotEmpty().WithMessage("Please enter item tax");
 			RuleFor(x => x.VendorId).NotEmpty().WithMessage("Please choose item vendor");
-		}
+            RuleFor(x => x.ProductId).NotEmpty().WithMessage("Please choose item");
+        }
 	}
 }

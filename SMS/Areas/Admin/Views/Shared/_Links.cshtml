@@ -243,6 +243,33 @@
             <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="nav-icon"><i class="fa fa-cubes"></i> </span>
                 <span class="nav-title">
+                    Qualifications
+                    @if (_permissionService.Authorize("ManageQualifications"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageQualifications"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Qualification", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Qualification", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>
+            }
+        </li>
+        <li class="nav-item">
+            <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-cubes"></i> </span>
+                <span class="nav-title">
                     Designations
                     @if (_permissionService.Authorize("ManageDesignation"))
                     {
@@ -259,6 +286,33 @@
                         </span>
                     </a>
                     <a class="nav-link" href="@Url.Action("Create", "Designation", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>
+            }
+        </li>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageTeachers") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-circle-o"></i> </span>
+                <span class="nav-title">
+                    Teachers
+                    @if (_permissionService.Authorize("ManageTeachers"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageTeachers"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Teacher", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Teacher", new {Area = "Admin"})">
                         <span class="nav-title">
                             Create
                         </span>
@@ -294,6 +348,60 @@
             }
         </li>
         <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageEmployees") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-circle-o"></i> </span>
+                <span class="nav-title">
+                    Employees
+                    @if (_permissionService.Authorize("ManageEmployees"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageEmployees"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Employee", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Employee", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>
+            }
+        </li>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageSubject") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-circle-o"></i> </span>
+                <span class="nav-title">
+                    Subjects
+                    @if (_permissionService.Authorize("ManageSubject"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageSubject"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Subject", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Subject", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>
+            }
+        </li>
+        <li class="nav-item">
             <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="nav-icon"><i class="fa fa-cubes"></i> </span>
                 <span class="nav-title">
@@ -315,6 +423,11 @@
                     <a class="nav-link" href="@Url.Action("Create", "ClassRoom", new {Area = "Admin"})">
                         <span class="nav-title">
                             Create
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("List", "ClassRoomDivision", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Allot Divisions
                         </span>
                     </a>
                 </div>

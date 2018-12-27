@@ -190,9 +190,9 @@ namespace SMS.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             // Check for duplicate employee, if any
-            var employee = _smsService.GetEmployeesByName(model.EmpFName, null);
+            var employee = _smsService.CheckEmployeeExists(model.EmpFName, null);
 
-            if (employee != null)
+            if (employee)
                 ModelState.AddModelError("Name", "A Employee with same name already exists. Please choose a different name.");
 
             if (ModelState.IsValid)
