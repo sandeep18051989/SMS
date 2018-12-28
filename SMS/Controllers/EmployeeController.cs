@@ -56,7 +56,7 @@ namespace SMS.Controllers
 
 					model.Add(new TeacherModel()
 					{
-						AcadmicYear = t.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(t.AcadmicYearId) : null,
+						AcadmicYear = t.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(t.AcadmicYearId).Name : null,
 						Subjects = t.Subjects.Select(s => new SubjectModel()
 						{
 							Id = s.Id,
@@ -64,19 +64,6 @@ namespace SMS.Controllers
 						}).ToList(),
 						Name = t.Name,
 						Id = t.Id,
-						Employee = e != null ? new EmployeeModel()
-						{
-							AadharCardNo = !String.IsNullOrEmpty(e.AadharCardNo) ? e.AadharCardNo : "",
-							AcadmicYear = t.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(t.AcadmicYearId).Name : "",
-							EmployeePicture = new PictureModel()
-							{
-								AlternateText = !String.IsNullOrEmpty(e.EmployeePicture.AlternateText) ? e.EmployeePicture.AlternateText : "",
-								IsActive = e.EmployeePicture.IsActive,
-								Id = e.EmployeePicture.Id,
-								Src = e.EmployeePicture.PictureSrc,
-								Url = e.EmployeePicture.Url
-							}
-						} : null,
 						FacebookLink = !String.IsNullOrEmpty(t.FacebookLink) ? t.FacebookLink : "",
 						GooglePlusLink = !String.IsNullOrEmpty(t.GooglePlusLink) ? t.GooglePlusLink : "",
 						Hi5Link = !String.IsNullOrEmpty(t.Hi5Link) ? t.Hi5Link : "",

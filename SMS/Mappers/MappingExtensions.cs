@@ -266,44 +266,6 @@ namespace SMS.Mappers
 
 		#endregion
 
-		#region Class Exam
-
-		public static ClassExamModel ToModel(this ClassExam entity)
-		{
-			return entity.MapTo<ClassExam, ClassExamModel>();
-		}
-
-		public static ClassExam ToEntity(this ClassExamModel model)
-		{
-			return model.MapTo<ClassExamModel, ClassExam>();
-		}
-
-		public static ClassExam ToEntity(this ClassExamModel model, ClassExam destination)
-		{
-			return model.MapTo(destination);
-		}
-
-		#endregion
-
-		#region Class Homework
-
-		public static ClassHomeworkModel ToModel(this ClassHomework entity)
-		{
-			return entity.MapTo<ClassHomework, ClassHomeworkModel>();
-		}
-
-		public static ClassHomework ToEntity(this ClassHomeworkModel model)
-		{
-			return model.MapTo<ClassHomeworkModel, ClassHomework>();
-		}
-
-		public static ClassHomework ToEntity(this ClassHomeworkModel model, ClassHomework destination)
-		{
-			return model.MapTo(destination);
-		}
-
-		#endregion
-
 		#region Custom Page
 
 		public static CustomPageModel ToModel(this CustomPage entity)

@@ -21,6 +21,8 @@ namespace SMS.Models
         public string Code { get; set; }
         public string Remarks { get; set; }
         public bool IsDeleted { get; set; }
+
+        public bool Selected { get; set; }
         public bool IsActive { get; set; }
         public int AcadmicYearId { get; set; }
 

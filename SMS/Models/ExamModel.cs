@@ -11,6 +11,7 @@ namespace SMS.Models
 		public string ExamName { get; set; }
 		public double OutOf { get; set; }
 		public int AcadmicYearId { get; set; }
-		public virtual AcadmicYear AcadmicYear { get; set; }
+        public bool Selected { get; set; }
+        public string AcadmicYear { get; set; }
 	}
 }

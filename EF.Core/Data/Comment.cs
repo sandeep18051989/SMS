@@ -8,8 +8,20 @@ namespace EF.Core.Data
 		[NotMapped]
 		public virtual ICollection<Blog> _Blogs { get; set; }
 		[NotMapped]
-		public virtual ICollection<Exam> _Exams { get; set; }
-		[NotMapped]
+		public virtual ICollection<DivisionExam> _DivisionExams { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<StudentExam> _StudentExams { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<TeacherExam> _TeacherExams { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<StudentHomework> _StudentHomeworks { get; set; }
+        [NotMapped]
+        public virtual ICollection<DivisionHomework> _DivisionHomeworks { get; set; }
+
+        [NotMapped]
 		public virtual ICollection<Product> _Products { get; set; }
 
 		[NotMapped]
@@ -53,22 +65,38 @@ namespace EF.Core.Data
 			protected set { _Events = value; }
 		}
 
-		public virtual ICollection<Exam> Exams
+		public virtual ICollection<DivisionExam> DivisionExams
 		{
-			get { return _Exams ?? (_Exams = new List<Exam>()); }
-			protected set { _Exams = value; }
+			get { return _DivisionExams ?? (_DivisionExams = new List<DivisionExam>()); }
+			protected set { _DivisionExams = value; }
 		}
+        public virtual ICollection<StudentExam> StudentExams
+        {
+            get { return _StudentExams ?? (_StudentExams = new List<StudentExam>()); }
+            protected set { _StudentExams = value; }
+        }
+        public virtual ICollection<TeacherExam> TeacherExams
+        {
+            get { return _TeacherExams ?? (_TeacherExams = new List<TeacherExam>()); }
+            protected set { _TeacherExams = value; }
+        }
 
-		public virtual ICollection<News> News
+        public virtual ICollection<StudentHomework> StudentHomeworks
+        {
+            get { return _StudentHomeworks ?? (_StudentHomeworks = new List<StudentHomework>()); }
+            protected set { _StudentHomeworks = value; }
+        }
+
+        public virtual ICollection<DivisionHomework> DivisionHomeworks
+        {
+            get { return _DivisionHomeworks ?? (_DivisionHomeworks = new List<DivisionHomework>()); }
+            protected set { _DivisionHomeworks = value; }
+        }
+
+        public virtual ICollection<News> News
 		{
 			get { return _News ?? (_News = new List<News>()); }
 			protected set { _News = value; }
-		}
-
-		public virtual ICollection<Homework> Homeworks
-		{
-			get { return _Homeworks ?? (_Homeworks = new List<Homework>()); }
-			protected set { _Homeworks = value; }
 		}
 		public virtual ICollection<Reaction> Reactions
 		{

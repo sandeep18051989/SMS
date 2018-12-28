@@ -55,12 +55,13 @@ namespace EF.Services.Service
         private readonly IRepository<StudentAssessment> _studentAssessmentRepository;
         private readonly IRepository<AssessmentQuestion> _assesQuestionRepository;
         private readonly IRepository<Homework> _homeworkRepository;
-        private readonly IRepository<ClassHomework> _classHomeworkRepository;
         private readonly IRepository<ClassRoomDivision> _classDivisionRepository;
         private readonly IRepository<ClassRoom> _classRoomRepository;
         private readonly IRepository<Settings> _settingRepository;
         private readonly IDataProvider _dataProvider;
         private readonly IDbContext _dbContext;
+        private readonly IRepository<DivisionHomework> _divisionHomeworkRepository;
+        private readonly IRepository<DivisionExam> _divisionExamRepository;
 
         public SMSService(IRepository<Student> studentRepository,
         IRepository<Teacher> teacherRepository,
@@ -102,10 +103,11 @@ namespace EF.Services.Service
         IRepository<StudentAssessment> studentAssessmentRepository,
         IRepository<AssessmentQuestion> assesQuestionRepository,
         IRepository<Homework> homeworkRepository,
-        IRepository<ClassHomework> classHomeworkRepository,
         IRepository<ClassRoomDivision> classDivisionRepository,
         IRepository<ClassRoom> classRoomRepository,
         IRepository<Settings> settingRepository,
+        IRepository<DivisionHomework> divisionHomeworkRepository,
+        IRepository<DivisionExam> divisionExamRepository,
         IDbContext dbContext)
         {
             this._studentRepository = studentRepository;
@@ -153,10 +155,11 @@ namespace EF.Services.Service
             this._studentAssessmentRepository = studentAssessmentRepository;
             this._assesQuestionRepository = assesQuestionRepository;
             this._homeworkRepository = homeworkRepository;
-            this._classHomeworkRepository = classHomeworkRepository;
             this._classDivisionRepository = classDivisionRepository;
             this._classRoomRepository = classRoomRepository;
             this._settingRepository = settingRepository;
+            this._divisionHomeworkRepository = divisionHomeworkRepository;
+            this._divisionExamRepository = divisionExamRepository;
         }
         #endregion
 
@@ -295,6 +298,10 @@ namespace EF.Services.Service
                 throw new Exception("Student Username is Missing.");
 
             return _studentRepository.Table.Any(a => a.UserName.Trim().ToLower() == username.Trim().ToLower() && a.IsDeleted == false);
+        }
+        public IList<Student> GetStudentsByDivision(int id)
+        {
+            return _studentRepository.Table.Where(x => x.ClassRoomDivisionId == id).ToList();
         }
 
         #endregion
@@ -802,13 +809,6 @@ namespace EF.Services.Service
 
             return _classDivisionRepository.Table.Where(a => (!onlyActive.HasValue || (onlyActive.Value == a.Division.IsActive && onlyActive.Value == a.Class.IsActive && onlyActive.Value == a.ClassRoom.IsActive)) && (!id.HasValue || a.ClassId == id.Value)).ToList();
         }
-        public IList<ClassHomework> GetAllHomeworkByClass(int id)
-        {
-            if (id == 0)
-                throw new ArgumentNullException("id");
-
-            return _classHomeworkRepository.Table.Where(x => x.ClassId == id).ToList();
-        }
         #endregion
 
         #region Class Division
@@ -979,31 +979,14 @@ namespace EF.Services.Service
 
             return _homeworkRepository.GetByID(id);
         }
-        #endregion
+        public IList<Homework> GetAllHomeworks(bool? onlyActive=null)
+        {
+            return _homeworkRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
+        }
 
-        #region Class Homework
-        public void InsertClassHomework(ClassHomework objHomework)
+        public IList<DivisionHomework> GetAllHomeworksByDivision(int id)
         {
-            _classHomeworkRepository.Insert(objHomework);
-        }
-        public void UpdateClassHomework(ClassHomework objHomework)
-        {
-            _classHomeworkRepository.Update(objHomework);
-        }
-        public void DeleteClassHomework(int id)
-        {
-            var objHomework = _classHomeworkRepository.GetByID(id);
-            if (objHomework != null)
-            {
-                _classHomeworkRepository.Delete(objHomework);
-            }
-        }
-        public ClassHomework GetClassHomeworkById(int id)
-        {
-            if (id == 0)
-                throw new ArgumentNullException("id");
-
-            return _classHomeworkRepository.GetByID(id);
+            return _divisionHomeworkRepository.Table.Where(x => x.DivisionId == id).OrderBy(x => x.Homework.Name).ToList();
         }
         #endregion
 
@@ -1146,6 +1129,10 @@ namespace EF.Services.Service
         {
             return _teacherRepository.GetByID(id).Subjects.ToList();
         }
+        public IList<DivisionSubject> GetAllSubjectsByDivision(int id)
+        {
+            return _divisionClassSubjectRepository.Table.Where(x => x.DivisionId == id).OrderBy(x => x.Subject.Name).ToList();
+        }
         #endregion
 
         #region Division Subject
@@ -1174,31 +1161,103 @@ namespace EF.Services.Service
 
             return _divisionClassSubjectRepository.GetByID(id);
         }
-        public IList<DivisionSubject> SearchDivisionSubjectMappings(bool? active, string division = null, string subject = null)
+        public IList<DivisionSubject> GetDivisionSubjects(int? divisionid = null, int? subjectid = null)
         {
-            var query = _divisionClassSubjectRepository.Table.ToList();
-
-            if (!String.IsNullOrEmpty(division))
-                query = query.Where(s => s.Division.Name.Trim().ToLower() == division.Trim().ToLower()).ToList();
-
-            if (!String.IsNullOrEmpty(subject))
-                query = query.Where(s => s.Subject.Name.Trim().ToLower() == subject.Trim().ToLower()).ToList();
-
-            return query.OrderBy(s => s.Division.Name).ToList();
-
+            return _divisionClassSubjectRepository.Table.Where(x => (!divisionid.HasValue || x.DivisionId == divisionid.Value) && (!subjectid.HasValue || x.SubjectId == subjectid.Value)).ToList();
         }
-        public IList<DivisionSubject> SearchDivisionSubjects(bool? active, int divisionid = 0, int subjectid = 0)
+        public void RemoveSubjectFromDivision(int divisionid, int subjectid)
         {
-            var query = _divisionClassSubjectRepository.Table.ToList();
+            var divisionSubject = _divisionClassSubjectRepository.Table.FirstOrDefault(s => s.DivisionId == divisionid && s.SubjectId == subjectid);
+            if (divisionSubject != null)
+            {
+                _divisionClassSubjectRepository.Delete(divisionSubject);
+            }
+        }
 
-            if (divisionid > 0)
-                query = query.Where(s => s.DivisionId == divisionid).ToList();
+        public IList<DivisionHomework> GetDivisionHomeworks(int? divisionid = null, int? homeworkid = null)
+        {
+            return _divisionHomeworkRepository.Table.Where(x => (!divisionid.HasValue || x.DivisionId == divisionid.Value) && (!homeworkid.HasValue || x.HomeworkId == homeworkid.Value)).ToList();
+        }
+        public void RemoveHomeworkFromDivision(int divisionid, int homeworkid)
+        {
+            var divisionHomework = _divisionHomeworkRepository.Table.FirstOrDefault(s => s.DivisionId == divisionid && s.HomeworkId == homeworkid);
+            if (divisionHomework != null)
+            {
+                _divisionHomeworkRepository.Delete(divisionHomework);
+            }
+        }
 
-            if (subjectid > 0)
-                query = query.Where(s => s.SubjectId == subjectid).ToList();
+        public IList<DivisionExam> GetDivisionExams(int? divisionid = null, int? examid = null)
+        {
+            return _divisionExamRepository.Table.Where(x => (!divisionid.HasValue || x.DivisionId == divisionid.Value) && (!examid.HasValue || x.ExamId == examid.Value)).ToList();
+        }
+        public void RemoveExamFromDivision(int divisionid, int examid)
+        {
+            var divisionExam = _divisionExamRepository.Table.FirstOrDefault(s => s.DivisionId == divisionid && s.ExamId == examid);
+            if (divisionExam != null)
+            {
+                _divisionExamRepository.Delete(divisionExam);
+            }
+        }
+        #endregion
 
-            return query.OrderBy(s => s.Division.Name).ToList();
+        #region Division Homework
+        public void InsertDivisionHomework(DivisionHomework divisionHomework)
+        {
+            _divisionHomeworkRepository.Insert(divisionHomework);
+        }
+        public void UpdateDivisionHomework(DivisionHomework divisionHomework)
+        {
+            _divisionHomeworkRepository.Update(divisionHomework);
+        }
+        public void DeleteDivisionHomework(int id)
+        {
+            var divisionHomework = _divisionHomeworkRepository.GetByID(id);
+            if (divisionHomework != null)
+                _divisionHomeworkRepository.Update(divisionHomework);
+        }
+        public IList<DivisionHomework> GetAllDivisionHomeworkMappings()
+        {
+            return _divisionHomeworkRepository.Table.ToList();
+        }
+        public DivisionHomework GetDivisionHomeworkMappingById(int id)
+        {
+            if (id == 0)
+                throw new System.Exception("Division  Homework Mapping Id Is Missing.");
 
+            return _divisionHomeworkRepository.GetByID(id);
+        }
+        #endregion
+
+        #region Division Exam
+        public void InsertDivisionExam(DivisionExam divisionExam)
+        {
+            _divisionExamRepository.Insert(divisionExam);
+        }
+        public void UpdateDivisionExam(DivisionExam divisionExam)
+        {
+            _divisionExamRepository.Update(divisionExam);
+        }
+        public void DeleteDivisionExam(int id)
+        {
+            var divisionExam = _divisionExamRepository.GetByID(id);
+            if (divisionExam != null)
+                _divisionExamRepository.Update(divisionExam);
+        }
+        public IList<DivisionExam> GetAllDivisionExamMappings()
+        {
+            return _divisionExamRepository.Table.ToList();
+        }
+        public DivisionExam GetDivisionExamMappingById(int id)
+        {
+            if (id == 0)
+                throw new System.Exception("Division  Exam Mapping Id Is Missing.");
+
+            return _divisionExamRepository.GetByID(id);
+        }
+        public IList<DivisionExam> GetAllExamsByDivision(int id)
+        {
+            return _divisionExamRepository.Table.Where(x => x.DivisionId == id).OrderBy(x => x.Exam.ExamName).ToList();
         }
         #endregion
 

@@ -16,6 +16,7 @@ namespace EF.Data.Mapping
 
             this.HasRequired(all => all.Subject).WithMany().HasForeignKey(all => all.SubjectId);
 			this.HasRequired(all => all.Division).WithMany().HasForeignKey(all => all.DivisionId);
+
 			EntityTracker.TrackAllProperties<DivisionSubject>().Except(x => x.Subject).And(x => x.Division).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}

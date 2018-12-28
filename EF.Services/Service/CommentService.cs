@@ -145,14 +145,6 @@ namespace EF.Services.Service
 
         }
 
-        public IList<Comment> GetCommentsByHomework(int id)
-        {
-            if (id == 0)
-                throw new ArgumentNullException("id");
-
-            return _commentRepository.Table.Where(c => c.Homeworks.All(h => h.Id == id)).ToList();
-        }
-
         public IList<Comment> GetCommentsByNews(int id)
         {
             if (id == 0)
@@ -175,14 +167,6 @@ namespace EF.Services.Service
                 throw new ArgumentNullException("id");
 
             return _commentRepository.Table.Where(c => c.Reactions.All(h => h.Id == id)).ToList();
-        }
-
-        public IList<Comment> GetCommentsByExam(int id)
-        {
-            if (id == 0)
-                throw new ArgumentNullException("id");
-
-            return _commentRepository.Table.Where(c => c.Exams.All(h => h.Id == id)).ToList();
         }
 
         public IList<Comment> GetCommentsByEvent(int id)

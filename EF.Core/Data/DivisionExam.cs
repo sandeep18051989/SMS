@@ -1,27 +1,32 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using EF.Core.Enums;
+using System.Collections.Generic;
 
 namespace EF.Core.Data
 {
 	public partial class DivisionExam : BaseEntity
 	{
-		public int DivisionId { get; set; }
-		public int ExamId { get; set; }
-		public int ResultStatusId { get; set; }
-		public int GradeSystemId { get; set; }
-		public double MarksObtained { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
-		public DateTime StartTime { get; set; }
-		public DateTime EndTime { get; set; }
-		public bool BreakAllowed { get; set; }
-		public DateTime BreakTime { get; set; }
-		public int ClassRoomId { get; set; }
-		public int StudentGroup { get; set; }
-		public virtual ClassRoom ClassRoom { get; set; }
+        [NotMapped]
+        public virtual ICollection<Comment> _Comments { get; set; }
 
-		[NotMapped]
+        public int DivisionId { get; set; }
+		public int ExamId { get; set; }
+		public int? ResultStatusId { get; set; }
+		public int? GradeSystemId { get; set; }
+		public double? MarksObtained { get; set; }
+		public DateTime? StartDate { get; set; }
+		public DateTime? EndDate { get; set; }
+		public DateTime? StartTime { get; set; }
+		public DateTime? EndTime { get; set; }
+		public bool BreakAllowed { get; set; }
+		public DateTime? BreakTime { get; set; }
+		public int ClassRoomId { get; set; }
+		public virtual ClassRoom ClassRoom { get; set; }
+        public virtual ClassRoomDivision Division { get; set; }
+        public virtual Exam Exam { get; set; }
+
+        [NotMapped]
 		public ResultStatus ResultStatus
 		{
 			get
@@ -45,5 +50,12 @@ namespace EF.Core.Data
 				this.GradeSystemId = (int)value;
 			}
 		}
-	}
+
+        public virtual ICollection<Comment> Comments
+        {
+            get { return _Comments ?? (_Comments = new List<Comment>()); }
+            protected set { _Comments = value; }
+        }
+
+    }
 }

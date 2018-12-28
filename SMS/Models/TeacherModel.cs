@@ -19,7 +19,8 @@ namespace SMS.Models
             AvailableAcadmicYears = new List<SelectListItem>();
             AvailableEmployees = new List<SelectListItem>();
 			AvailableQualifications = new List<SelectListItem>();
-		}
+            AvailablePersonalityStatuses = new List<SelectListItem>();
+        }
 		public string Name { get; set; }
         public string PictureSrc { get; set; }
         public string Url { get; set; }
@@ -45,7 +46,8 @@ namespace SMS.Models
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
 		public string AcadmicYear { get; set; }
-
+        [UIHint("File")]
+        public int? FileId { get; set; }
         public int? PersonalityStatusId { get; set; }
 
         public bool? IsPhoneVerified { get; set; }
@@ -57,6 +59,7 @@ namespace SMS.Models
         public IList<SelectListItem> AvailableEmployees { get; set; }
 		public IList<SelectListItem> AvailableQualifications { get; set; }
 		public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+        public IList<SelectListItem> AvailablePersonalityStatuses { get; set; }
 
-	}
+    }
 }

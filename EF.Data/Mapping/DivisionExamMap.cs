@@ -19,17 +19,19 @@ namespace EF.Data.Mapping
             this.Property(b => b.EndDate).IsOptional();
             this.Property(b => b.EndTime).IsOptional();
             this.Property(b => b.ExamId).IsRequired();
-            this.Property(b => b.GradeSystemId).IsRequired();
+            this.Property(b => b.GradeSystemId).IsOptional();
             this.Property(b => b.MarksObtained).IsOptional();
             this.Property(b => b.ResultStatusId).IsOptional();
             this.Property(b => b.StartDate).IsOptional();
             this.Property(b => b.StartTime).IsOptional();
-            this.Property(b => b.StudentGroup).IsOptional();
 
             // Relationships
+            this.HasMany(e => e.Comments).WithMany(c => c.DivisionExams).Map(m => m.ToTable("Division_Exam_Comment_Map").MapLeftKey("DivisionExamId").MapRightKey("CommentId"));
+            this.HasRequired(ca => ca.Division).WithMany(e => e.DivisionExams).HasForeignKey(ca => ca.DivisionId);
+            this.HasRequired(ca => ca.Exam).WithMany(e => e.DivisionExams).HasForeignKey(ca => ca.ExamId);
             this.HasRequired(ca => ca.ClassRoom).WithMany().HasForeignKey(ca => ca.ClassRoomId);
 
-			EntityTracker.TrackAllProperties<DivisionExam>().Except(x => x.CreatedOn).And(x => x.ModifiedOn).And(x => x.ClassRoom);
+            EntityTracker.TrackAllProperties<DivisionExam>().Except(x => x.CreatedOn).And(x => x.ModifiedOn).And(x => x.ClassRoom);
 
 		}
 	}

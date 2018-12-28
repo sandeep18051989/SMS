@@ -6,7 +6,11 @@ namespace EF.Core.Data
 {
 	public partial class Teacher : BaseEntity, ISlugSupported
 	{
-		public int EmployeeId { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<TeacherExam> _TeacherExams { get; set; }
+
+        public int EmployeeId { get; set; }
 		public string Name { get; set; }
 		public int QualificationId { get; set; }
 		public string Username { get; set; }
@@ -77,7 +81,13 @@ namespace EF.Core.Data
 			protected set { _Files = value; }
 		}
 
-		#endregion
+        public virtual ICollection<TeacherExam> TeacherExams
+        {
+            get { return _TeacherExams ?? (_TeacherExams = new List<TeacherExam>()); }
+            protected set { _TeacherExams = value; }
+        }
 
-	}
+        #endregion
+
+    }
 }

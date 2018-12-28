@@ -7,8 +7,11 @@ namespace SMS.Models
 	public partial class DivisionSubjectModel : BaseEntityModel
 	{
 		public int SubjectId { get; set; }
-		public int DivisionId { get; set; }
-		public SubjectModel Subject { get; set; }
-		public DivisionModel Division { get; set; }
-	}
+        public string SubjectName { get; set; }
+        public string SubjectCode { get; set; }
+        public string ClassName { get; set; }
+        public int ClassId { get; set; }
+        public int DivisionId { get; set; }
+        public string DivisionName { get; set; }
+    }
 }

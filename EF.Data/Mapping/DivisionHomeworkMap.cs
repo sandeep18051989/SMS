@@ -18,8 +18,10 @@ namespace EF.Data.Mapping
             this.Property(b => b.StartDate).IsOptional();
 
             // Relationships
-            this.HasRequired(ca => ca.Division).WithMany().HasForeignKey(ca => ca.DivisionId);
-			this.HasRequired(ca => ca.Homework).WithMany().HasForeignKey(ca => ca.HomeworkId);
+            this.HasMany(e => e.Comments).WithMany(c => c.DivisionHomeworks).Map(m => m.ToTable("Division_Homework_Comment_Map").MapLeftKey("DivisionHomeworkId").MapRightKey("CommentId"));
+
+            this.HasRequired(ca => ca.Division).WithMany(e => e.DivisionHomeworks).HasForeignKey(ca => ca.DivisionId);
+			this.HasRequired(ca => ca.Homework).WithMany(e => e.DivisionHomeworks).HasForeignKey(ca => ca.HomeworkId);
 
 			EntityTracker.TrackAllProperties<DivisionHomework>().Except(x => x.CreatedOn).And(x => x.ModifiedOn).And(x => x.Division).And(x => x.Homework);
 

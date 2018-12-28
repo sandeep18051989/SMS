@@ -20,6 +20,8 @@ namespace SMS.Models
         public string Class { get; set; }
         public string ClassRoom { get; set; }
 
+        public bool Selected { get; set; }
+
         public string CreatedOnString { get; set; }
         public string ModifiedOnString { get; set; }
 

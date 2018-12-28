@@ -10,6 +10,7 @@ using EF.Services.Service;
 using EF.Services.Http;
 using SMS.Models;
 using System.Text;
+using EF.Core.Enums;
 
 namespace SMS.Areas.Admin.Controllers
 {
@@ -241,6 +242,13 @@ namespace SMS.Areas.Admin.Controllers
                 Value = x.Id.ToString(),
                 Selected = x.IsActive
             }).ToList();
+            model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
+                                                  select new SelectListItem
+                                                  {
+                                                      Text = d.ToString(),
+                                                      Value = Convert.ToInt32(d).ToString(),
+                                                      Selected = (Convert.ToInt32(d) == model.PersonalityStatusId)
+                                                  }).ToList();
 
             return View(model);
         }
@@ -280,6 +288,13 @@ namespace SMS.Areas.Admin.Controllers
                     Value = x.Id.ToString(),
                     Selected = x.IsActive
                 }).ToList();
+                model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
+                                                      select new SelectListItem
+                                                      {
+                                                          Text = d.ToString(),
+                                                          Value = Convert.ToInt32(d).ToString(),
+                                                          Selected = (Convert.ToInt32(d) == model.PersonalityStatusId)
+                                                      }).ToList();
                 return View(model);
             }
 
@@ -301,7 +316,13 @@ namespace SMS.Areas.Admin.Controllers
                 Value = x.Id.ToString(),
                 Selected = x.IsActive
             }).ToList();
-
+            model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
+                                                  select new SelectListItem
+                                                  {
+                                                      Text = d.ToString(),
+                                                      Value = Convert.ToInt32(d).ToString(),
+                                                      Selected = (Convert.ToInt32(d) == model.PersonalityStatusId)
+                                                  }).ToList();
             return View(model);
 
         }
@@ -382,8 +403,6 @@ namespace SMS.Areas.Admin.Controllers
             }
             return View("List");
         }
-
-
         public ActionResult Delete(int id)
         {
             if (!_permissionService.Authorize("ManageTeachers"))
@@ -398,6 +417,274 @@ namespace SMS.Areas.Admin.Controllers
             SuccessNotification("Teacher deleted successfully.");
             return RedirectToAction("List");
         }
+
+        #region Subject Association
+
+        public JsonResult GetAllSubjectsByTeacher(int teacherid)
+        {
+            var allSubjects = _smsService.GetAllSubjects();
+            var subjectsByTeacher = _smsService.GetAllSubjectsByTeacher(id: teacherid);
+
+            //Returning Json Data 
+            return new JsonResult()
+            {
+                Data = allSubjects.Select(x => new SubjectModel()
+                {
+                    IsActive = x.IsActive,
+                    UserId = x.UserId,
+                    Name = x.Name.Trim(),
+                    AcadmicYearId = x.AcadmicYearId,
+                    Code = x.Code,
+                    Remarks = x.Remarks,
+                    Id = x.Id,
+                    Selected = subjectsByTeacher.Any(y => y.Id == x.Id)
+                }).OrderBy(x => x.Code).ToList(),
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+        }
+        [HttpPost]
+        public ActionResult UpdateSubjectsForTeacher(int id, int[] subjects)
+        {
+            if (!_permissionService.Authorize("ManageTeachers"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var user = _userContext.CurrentUser;
+            var objTeacher = _smsService.GetTeacherById(id);
+            if (objTeacher != null)
+            {
+                var objSubjects = _smsService.GetAllSubjectsByTeacher(id);
+                if (subjects != null && subjects.Length > 0)
+                {
+                    foreach (var subjectid in subjects)
+                    {
+                        var checkRecords = objTeacher.Subjects.Any(x => x.Id == subjectid);
+                        if (!checkRecords)
+                        {
+                            var newSubjectToAdd = _smsService.GetSubjectById(subjectid);
+                            if (newSubjectToAdd != null)
+                            {
+                                objTeacher.Subjects.Add(newSubjectToAdd);
+                                _smsService.UpdateTeacher(objTeacher);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    objTeacher.Subjects.Clear();
+                    _smsService.UpdateTeacher(objTeacher);
+                }
+            }
+            ViewBag.Result = "Teacher updated Successfully";
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveSubjectFromTeacher(int id, int subjectid)
+        {
+            if (!_permissionService.Authorize("ManageTeachers"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new Exception("Teacher id not found");
+
+            var objTeacher = _smsService.GetTeacherById(id);
+            if (objTeacher != null)
+            {
+                var selectSubject = objTeacher.Subjects.FirstOrDefault(x => x.Id == subjectid);
+                if(selectSubject != null)
+                {
+                    objTeacher.Subjects.Remove(selectSubject);
+                    _smsService.UpdateTeacher(objTeacher);
+                }
+            }
+
+            SuccessNotification("Subject removed successfully from selected teacher.");
+            return new JsonResult()
+            {
+                Data = true,
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+        }
+
+        #endregion
+
+        #region Division Association
+
+        public JsonResult GetAllDivisionsByTeacher(int teacherid)
+        {
+            var allDivisions = _smsService.GetAllClassRoomDivisions();
+            var divisionsByTeacher = _smsService.GetAllClassDivisionsByTeacher(id: teacherid);
+
+            //Returning Json Data 
+            return new JsonResult()
+            {
+                Data = allDivisions.Select(x => new ClassRoomDivisionModel()
+                {
+                    UserId = x.UserId,
+                    Id = x.Id,
+                    Class = x.ClassId.HasValue ? _smsService.GetClassById(x.ClassId.Value).Name : "",
+                    Division = x.DivisionId.HasValue ? _smsService.GetDivisionById(x.DivisionId.Value).Name : "",
+                    ClassRoom = x.ClassRoomId.HasValue ? _smsService.GetClassRoomById(x.ClassRoomId.Value).Number : "",
+                    ClassId = x.ClassId.Value,
+                    DivisionId = x.DivisionId.Value,
+                    ClassRoomId = x.ClassRoomId.Value,
+                    Selected = divisionsByTeacher.Any(y => y.Id == x.Id)
+                }).OrderBy(x => x.Class).ToList(),
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+        }
+
+        [HttpPost]
+        public ActionResult UpdateDivisionsForTeacher(int id, int[] divisions)
+        {
+            if (!_permissionService.Authorize("ManageTeachers"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var user = _userContext.CurrentUser;
+            var objTeacher = _smsService.GetTeacherById(id);
+            if (objTeacher != null)
+            {
+                var objDivisions = _smsService.GetAllClassDivisionsByTeacher(id);
+                if (divisions != null && divisions.Length > 0)
+                {
+                    foreach (var divisionid in divisions)
+                    {
+                        var checkRecords = objTeacher.ClassRoomDivisions.Any(x => x.Id == divisionid);
+                        if (!checkRecords)
+                        {
+                            var newDivisionToAdd = _smsService.GetClassRoomDivisionById(divisionid);
+                            if (newDivisionToAdd != null)
+                            {
+                                objTeacher.ClassRoomDivisions.Add(newDivisionToAdd);
+                                _smsService.UpdateTeacher(objTeacher);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    objTeacher.ClassRoomDivisions.Clear();
+                    _smsService.UpdateTeacher(objTeacher);
+                }
+            }
+            ViewBag.Result = "Teacher updated Successfully";
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveDivisionFromTeacher(int id, int divisionid)
+        {
+            if (!_permissionService.Authorize("ManageTeachers"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new Exception("Teacher id not found");
+
+            var objTeacher = _smsService.GetTeacherById(id);
+            if (objTeacher != null)
+            {
+                var selectDivision = objTeacher.ClassRoomDivisions.FirstOrDefault(x => x.Id == divisionid);
+                if (selectDivision != null)
+                {
+                    objTeacher.ClassRoomDivisions.Remove(selectDivision);
+                    _smsService.UpdateTeacher(objTeacher);
+                }
+            }
+
+            SuccessNotification("Division removed successfully from selected teacher.");
+            return new JsonResult()
+            {
+                Data = true,
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+        }
+
+        #endregion
+
+        #region Teacher Files
+
+        [ValidateInput(false)]
+        [HttpPost]
+        public virtual ActionResult TeacherFileAddUpdate(int teacherId, int fileId, string title, string type)
+        {
+            if (!_permissionService.Authorize("ManageTeachers"))
+                return AccessDeniedView();
+
+            if (fileId == 0)
+                throw new ArgumentException();
+
+            var thisteacher = _smsService.GetTeacherById(teacherId);
+            if (thisteacher == null)
+                throw new ArgumentException("No teacher found with the specified id");
+
+            var file = _fileService.GetFileById(fileId);
+            if (file == null)
+                throw new ArgumentException("No file found with the specified id");
+
+            if (!string.IsNullOrEmpty(title) && !thisteacher.Files.Any(x => x.Title.Trim().ToLower() == title.Trim().ToLower()))
+            {
+                file.Title = title;
+                file.Type = type;
+                thisteacher.Files.Add(file);
+                _smsService.UpdateTeacher(thisteacher);
+            }
+            else if (fileId > 0 && !thisteacher.Files.Any(x => x.Id == fileId))
+            {
+                file.Title = title;
+                file.Type = type;
+                thisteacher.Files.Add(file);
+                _smsService.UpdateTeacher(thisteacher);
+            }
+
+            return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteTeacherFile(int id)
+        {
+            if (!_permissionService.Authorize("ManageTeachers"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new Exception("File id not found");
+
+            var fileRecord = _fileService.GetFileById(id);
+            if (fileRecord != null)
+            {
+                _fileService.Delete(fileRecord.Id);
+            }
+
+            SuccessNotification("Teacher file deleted successfully");
+            return new JsonResult()
+            {
+                Data = true,
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+        }
+
+        #endregion
 
         #endregion
 

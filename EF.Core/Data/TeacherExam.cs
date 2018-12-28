@@ -1,12 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using EF.Core.Enums;
+using System.Collections.Generic;
 
 namespace EF.Core.Data
 {
 	public partial class TeacherExam : BaseEntity
 	{
-		public int TeacherId { get; set; }
+        [NotMapped]
+        public virtual ICollection<Comment> _Comments { get; set; }
+
+        public int TeacherId { get; set; }
 		public int ExamId { get; set; }
 		public int ResultStatusId { get; set; }
 		public int GradeSystemId { get; set; }
@@ -50,5 +54,11 @@ namespace EF.Core.Data
 			}
 		}
 
-	}
+        public virtual ICollection<Comment> Comments
+        {
+            get { return _Comments ?? (_Comments = new List<Comment>()); }
+            protected set { _Comments = value; }
+        }
+
+    }
 }

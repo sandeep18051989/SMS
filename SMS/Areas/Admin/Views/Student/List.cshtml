@@ -65,7 +65,7 @@
                     "title": "",
                     "render": function (data, type, row) {
                         if (type === "display") {
-                            return '<div class="thumb"><img style="max-width:100px;" src="' + row.PictureSrc + '" alt="" class="rounded-circle float-left"></div>';
+                            return '<div class="thumb"><img src="' + row.PictureSrc + '" alt="" class="float-left"></div>';
                         }
                         return data;
                     },
@@ -73,10 +73,10 @@
                     "className": 'text-center',
                     "defaultContent": ""
                 },
-				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true },
-                { "data": "AdmissionDate", "title": "Admission Date", "name": "AdmissionDate", "autoWidth": true, "orderable": true },
-                { "data": "DateOfBirth", "title": "Birth Date", "name": "DateOfBirth", "autoWidth": true, "orderable": false },
-				{ "data": "Sex", "title": "Gender", "name": "Gender", "autoWidth": true, "orderable": false },
+				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                { "data": "AdmissionDate", "title": "Admission Date", "name": "AdmissionDate", "autoWidth": true, "orderable": true, "defaultContent": "", "className": "text-center" },
+                { "data": "DateOfBirth", "title": "Birth Date", "name": "DateOfBirth", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
+				{ "data": "Sex", "title": "Gender", "name": "Gender", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
 				{
 					"data": "IsActive",
 					"title": "Active",
@@ -91,7 +91,8 @@
 						return data;
 					},
 					"className": "text-center",
-					"orderable": false
+					"orderable": false,
+					"defaultContent": ""
 				},
 				{
 					"title": "Actions",
@@ -102,7 +103,8 @@
 							return '<a href="/Admin/Student/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="studentid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
 						}
 						return data;
-					}
+					},
+					"defaultContent": ""
 				}
 			],
 			"select": {

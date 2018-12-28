@@ -25,15 +25,11 @@ namespace EF.Services.Service
 
         #region Get Related Comments
 
-        IList<Comment> GetCommentsByHomework(int id);
-
         IList<Comment> GetCommentsByNews(int id);
 
         IList<Comment> GetCommentsByProduct(int id);
 
         IList<Comment> GetCommentsByReactions(int id);
-
-        IList<Comment> GetCommentsByExam(int id);
 
         IList<Comment> GetCommentsByEvent(int id);
 

@@ -7,8 +7,14 @@ namespace EF.Core.Data
 {
 	public partial class ClassRoomDivision : BaseEntity
 	{
-        //[NotMapped]
-        //public virtual ICollection<Student> _Students { get; set; }
+        [NotMapped]
+        public virtual ICollection<DivisionSubject> _Subjects { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<DivisionHomework> _DivisionHomeworks { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<DivisionExam> _DivisionExams { get; set; }
 
         [NotMapped]
         public virtual ICollection<Teacher> _Teachers { get; set; }
@@ -32,11 +38,23 @@ namespace EF.Core.Data
             protected set { _Teachers = value; }
         }
 
-        //public virtual ICollection<Student> Students
-        //{
-        //    get { return _Students ?? (_Students = new List<Student>()); }
-        //    protected set { _Students = value; }
-        //}
+        public virtual ICollection<DivisionSubject> Subjects
+        {
+            get { return _Subjects ?? (_Subjects = new List<DivisionSubject>()); }
+            protected set { _Subjects = value; }
+        }
+
+        public virtual ICollection<DivisionHomework> DivisionHomeworks
+        {
+            get { return _DivisionHomeworks ?? (_DivisionHomeworks = new List<DivisionHomework>()); }
+            protected set { _DivisionHomeworks = value; }
+        }
+
+        public virtual ICollection<DivisionExam> DivisionExams
+        {
+            get { return _DivisionExams ?? (_DivisionExams = new List<DivisionExam>()); }
+            protected set { _DivisionExams = value; }
+        }
 
         public virtual ICollection<MessageGroup> MessageGroups
         {

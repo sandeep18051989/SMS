@@ -14,7 +14,6 @@ namespace SMS.Models
 	{
 		public StudentModel()
 		{
-			Division_Class_Student = new Division_Class_StudentModel();
 			Files = new List<FilesModel>();
 			StudentPicture = new PictureModel();
 			FatherPicture = new PictureModel();
@@ -27,7 +26,8 @@ namespace SMS.Models
         public string FName { get; set; }
 		public string IdentityNumber { get; set; }
 		public string MName { get; set; }
-		public string LName { get; set; }
+        public string PictureSrc { get; set; }
+        public string LName { get; set; }
 		public string FatherFName { get; set; }
 		public string FatherMName { get; set; }
 		public string FatherLName { get; set; }
@@ -103,8 +103,6 @@ namespace SMS.Models
 		public PictureModel StudentPicture { get; set; }
 		public PictureModel FatherPicture { get; set; }
 		public PictureModel MotherPicture { get; set; }
-
-		public Division_Class_StudentModel Division_Class_Student { get; set; }
         public IList<SelectListItem> AvailableCastes { get; set; }
         public IList<SelectListItem> AvailableReligions { get; set; }
         public IList<SelectListItem> AvailableHouses { get; set; }

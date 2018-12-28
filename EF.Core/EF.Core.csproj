@@ -104,10 +104,8 @@
     <Compile Include="Data\AssessmentQuestion.cs" />
     <Compile Include="Data\StudentHomework.cs" />
     <Compile Include="Data\DivisionHomework.cs" />
-    <Compile Include="Data\ClassHomework.cs" />
     <Compile Include="Data\ClassRoom.cs" />
     <Compile Include="Data\Homework.cs" />
-    <Compile Include="Data\ClassExam.cs" />
     <Compile Include="Data\DivisionExam.cs" />
     <Compile Include="Data\StudentExam.cs" />
     <Compile Include="Data\StudentAssessment.cs" />

@@ -12,30 +12,34 @@ namespace SMS.Models
 	{
 		public DivisionExamModel()
 		{
-			ClassRoom = new ClassRoomModel();
-			Class = new ClassModel();
-			Student = new StudentModel();
 			AvailableResultStatuses = new List<SelectListItem>();
 			AvailableGradeSystem = new List<SelectListItem>();
-		}
+            Comments = new List<CommentModel>();
+            AvailableAcadmicYears = new List<SelectListItem>();
+        }
 		public int DivisionId { get; set; }
 		public int ExamId { get; set; }
-		public int ResultStatusId { get; set; }
-		public int GradeSystemId { get; set; }
-
-		public double MarksObtained { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
-		public DateTime StartTime { get; set; }
-		public DateTime EndTime { get; set; }
+        public int ClassId { get; set; }
+        public string Class { get; set; }
+        public string Division { get; set; }
+        public string Exam { get; set; }
+        public int? ResultStatusId { get; set; }
+		public int? GradeSystemId { get; set; }
+		public double? MarksObtained { get; set; }
+		public DateTime? StartDate { get; set; }
+		public DateTime? EndDate { get; set; }
+		public DateTime? StartTime { get; set; }
+		public DateTime? EndTime { get; set; }
 		public bool BreakAllowed { get; set; }
-		public DateTime BreakTime { get; set; }
+        public bool Selected { get; set; }
+        public DateTime? BreakTime { get; set; }
 		public int ClassRoomId { get; set; }
-		public int StudentGroup { get; set; }
-		public ClassModel Class { get; set; }
-		public StudentModel Student { get; set; }
-		public ClassRoomModel ClassRoom { get; set; }
+        public int AcadmicYearId { get; set; }
+        public string AcadmicYear { get; set; }
+        public string ClassRoom { get; set; }
 		public IList<SelectListItem> AvailableResultStatuses { get; set; }
 		public IList<SelectListItem> AvailableGradeSystem { get; set; }
-	}
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+        public IList<CommentModel> Comments { get; set; }
+    }
 }

@@ -15,6 +15,8 @@ namespace SMS.Models
 		{
 		    AvailableAcadmicYears = new List<SelectListItem>();
             AvailableClassRooms = new List<SelectListItem>();
+            Subjects = new List<DivisionSubjectModel>();
+            Homeworks = new List<DivisionHomeworkModel>();
         }
 		public string Name { get; set; }
 		public string Description { get; set; }
@@ -29,6 +31,9 @@ namespace SMS.Models
 	    public string ModifiedOnString { get; set; }
         public int ClassRoomId { get; set; }
         public IList<SelectListItem> AvailableClassRooms { get; set; }
+        public IList<DivisionSubjectModel> Subjects { get; set; }
+
+        public IList<DivisionHomeworkModel> Homeworks { get; set; }
     }
 
 }

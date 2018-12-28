@@ -89,7 +89,6 @@
     <Compile Include="Mapping\QuestionTypeMap.cs" />
     <Compile Include="Mapping\NewsPictureMap.cs" />
     <Compile Include="Mapping\BookIssueMap.cs" />
-    <Compile Include="Mapping\ClassExamMap.cs" />
     <Compile Include="Mapping\BookMap.cs" />
     <Compile Include="Mapping\BlogPictureMap.cs" />
     <Compile Include="Mapping\EventPictureMap.cs" />
@@ -97,7 +96,6 @@
     <Compile Include="Mapping\ReactionMap.cs" />
     <Compile Include="Mapping\StudentHomeworkMap.cs" />
     <Compile Include="Mapping\DivisionHomeworkMap.cs" />
-    <Compile Include="Mapping\ClassHomeworkMap.cs" />
     <Compile Include="Mapping\DivisionExamMap.cs" />
     <Compile Include="Mapping\StudentAssessmentMap.cs" />
     <Compile Include="Mapping\StudentExamMap.cs" />

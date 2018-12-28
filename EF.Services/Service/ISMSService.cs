@@ -27,6 +27,7 @@ namespace EF.Services.Service
         bool CheckStudentExists(string name, int? id = null);
 
         bool CheckUsernameExistsForStudent(string username);
+        IList<Student> GetStudentsByDivision(int id);
         #endregion
 
         #region Employee
@@ -114,7 +115,6 @@ namespace EF.Services.Service
         void ToggleActiveStatusClass(int id);
         IList<Class> GetAllClasses(bool? onlyActive = null);
         IList<ClassRoomDivision> GetAllDivisionsByClass(int? id, bool? onlyActive = null);
-        IList<ClassHomework> GetAllHomeworkByClass(int id);
         #endregion
 
         #region Class Division
@@ -154,15 +154,8 @@ namespace EF.Services.Service
         void UpdateHomework(Homework objHomework);
         void DeleteHomework(int id);
         Homework GetHomeworkById(int id);
-
-        #endregion
-
-        #region Class Homework
-
-        void InsertClassHomework(ClassHomework objHomework);
-        void UpdateClassHomework(ClassHomework objHomework);
-        void DeleteClassHomework(int id);
-        ClassHomework GetClassHomeworkById(int id);
+        IList<DivisionHomework> GetAllHomeworksByDivision(int id);
+        IList<Homework> GetAllHomeworks(bool? onlyActive = null);
 
         #endregion
 
@@ -187,8 +180,8 @@ namespace EF.Services.Service
         bool CheckSubjectExists(string name, int? id = null);
         void ToggleActiveStatusSubject(int id);
         bool CheckCodeExistsForSubject(string code);
-
         IList<Subject> GetAllSubjectsByTeacher(int id);
+        IList<DivisionSubject> GetAllSubjectsByDivision(int id);
         #endregion
 
         #region Division Subject
@@ -197,12 +190,34 @@ namespace EF.Services.Service
 		void DeleteDivisionSubject(int id);
 		IList<DivisionSubject> GetAllDivisionSubjectMappings();
 		DivisionSubject GetDivisionSubjectMappingById(int id);
-		IList<DivisionSubject> SearchDivisionSubjectMappings(bool? active, string division = null, string subject = null);
-		IList<DivisionSubject> SearchDivisionSubjects(bool? active, int divisionid = 0, int subjectid = 0);
-		#endregion
+        IList<DivisionSubject> GetDivisionSubjects(int? divisionid = null, int? subjectid = null);
 
-		#region Designation
-		void InsertDesignation(Designation designation);
+        void RemoveSubjectFromDivision(int divisionid, int subjectid);
+        void RemoveHomeworkFromDivision(int divisionid, int homeworkid);
+        IList<DivisionHomework> GetDivisionHomeworks(int? divisionid = null, int? homeworkid = null);
+        void RemoveExamFromDivision(int divisionid, int examid);
+        IList<DivisionExam> GetDivisionExams(int? divisionid = null, int? examid = null);
+        #endregion
+
+        #region Division Homework
+        void InsertDivisionHomework(DivisionHomework divisionHomework);
+        void UpdateDivisionHomework(DivisionHomework divisionHomework);
+        void DeleteDivisionHomework(int id);
+        IList<DivisionHomework> GetAllDivisionHomeworkMappings();
+        DivisionHomework GetDivisionHomeworkMappingById(int id);
+        #endregion
+
+        #region Division Exam
+        void InsertDivisionExam(DivisionExam divisionExam);
+        void UpdateDivisionExam(DivisionExam divisionExam);
+        void DeleteDivisionExam(int id);
+        IList<DivisionExam> GetAllDivisionExamMappings();
+        DivisionExam GetDivisionExamMappingById(int id);
+        IList<DivisionExam> GetAllExamsByDivision(int id);
+        #endregion
+
+        #region Designation
+        void InsertDesignation(Designation designation);
 		void UpdateDesignation(Designation designation);
 		void DeleteDesignation(int id);
 		Designation GetDesignationById(int id);
@@ -339,7 +354,7 @@ namespace EF.Services.Service
 		void InsertExam(Exam exam);
 		void UpdateExam(Exam exam);
 		void DeleteExam(int id);
-		IList<Exam> GetAllExams(bool? active);
+		IList<Exam> GetAllExams(bool? onlyActive=null);
 		Exam GetExamById(int id);
 		IList<Exam> GetExamByName(string name, bool? active);
 		#endregion

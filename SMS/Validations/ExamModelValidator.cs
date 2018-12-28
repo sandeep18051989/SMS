@@ -11,7 +11,7 @@ namespace SMS.Validations
 		{
 			RuleFor(x => x.ExamName).NotEmpty().WithMessage("Please enter exam name");
 			RuleFor(x => x.OutOf).NotEmpty().WithMessage("Please enter total marks");
-			RuleFor(x => x.AcadmicYear).NotEmpty().WithMessage("Please choose academic year");
+			RuleFor(x => x.AcadmicYearId).NotEmpty().WithMessage("Please select academic year");
 		}
 	}
 }

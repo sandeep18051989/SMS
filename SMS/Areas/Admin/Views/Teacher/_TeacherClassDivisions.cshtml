@@ -1,296 +1,303 @@
-﻿@model SMS.Models.StudentModel
+﻿@model SMS.Models.TeacherModel
 <div class="panel-group">
-	@if (Model.Id > 0)
-	{
-		<div class="panel panel-default">
-			<div class="panel-body table-responsive">
-				<table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="studentfiles-grid">
-					<thead class="mdb-color lighten-5">
-						<tr>
-							<th>&nbsp;</th>
-							<th class="text-left">Title</th>
-							<th class="text-left">Type</th>
-							<th>Size</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
-				<script type="text/javascript">
-					$(document).ready(function() {
-						// Initiallize Datatable
-						$('#studentfiles-grid').DataTable({
-							"paging": false,
-							"bLengthChange": false, //thought this line could hide the LengthMenu
-							"bInfo": false,
-							"processing": true, // for show progress bar
-							"serverSide": true, // for process server side
-							"filter": false, // this is for disable filter (search box)
-							"orderMulti": true, // for disable multiple column at once
-							"ajax": {
-								"url": "/Admin/Student/LoadFileGrid/@(Model.Id)",
-								"type": "POST",
-								"datatype": "json"
-							},
-							"aaSorting": [],
-							"columns": [
-								{
-									"searchable": false,
-									"title": "",
-									"render": function (data, type, row) {
+    @if (Model.Id > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body table-responsive">
+                <table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="teacherdivision-grid">
+                    <thead class="mdb-color lighten-5">
+                        <tr>
+                            <th>Class</th>
+                            <th class="text-center">Division</th>
+                            <th class="text-left">Class Room</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        // Initiallize Datatable
+                        $('#teacherdivision-grid').DataTable({
+                            "paging": false,
+                            "bLengthChange": false, //thought this line could hide the LengthMenu
+                            "bInfo": false,
+                            "processing": true, // for show progress bar
+                            "serverSide": true, // for process server side
+                            "filter": false, // this is for disable filter (search box)
+                            "orderMulti": true, // for disable multiple column at once
+                            "ajax": {
+                                "url": "/Admin/Teacher/LoadClassDivisionGrid/@(Model.Id)",
+                                "type": "POST",
+                                "datatype": "json"
+                            },
+                            "aaSorting": [],
+                            "columns": [
+                                { "data": "Class", "title": "Class", "name": "Class", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                                { "data": "Division", "title": "Division", "name": "Division", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                                { "data": "ClassRoom", "title": "ClassRoom", "name": "ClassRoom", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                                {
+                                    "title": "Actions",
+                                    "orderable": false,
+                                    "className": 'text-center',
+                                    "render": function(data, type, row) {
                                         if (type === "display") {
-                                            return '<div class="thumb"><a href="' + row.FileSrc + '" alt="' + row.Title + '">' + row.Title + '</a></div>';
-										}
-										return data;
-									},
-									"orderable": false,
-									"className": 'text-center',
-									"defaultContent": ""
-								},
-								{
-									"data": "Title",
-									"title": "Title",
-									"render": function(data, type, row) {
-										if (type === "display") {
-                                            return '<div class="md-form form-group"><input data-val-required="true" type="text" id="fileTitle_' + row.Id + '" value="' + ((row.Title != null && row.Title != "") ? row.Title : "") + '" aria-label="Title" class="form-control" style="width:150px"></div>';
-										}
-										return data;
-									},
-									"className": "text-center",
-									"orderable": false,
-									"defaultContent": ""
-								},
-								{
-									"data": "DisplayOrder",
-									"title": "Display Order",
-									"render": function(data, type, row) {
-										if (type === "display") {
-                                            return '<div class="md-form form-group"><input data-val-required="true" type="text" id="fileType_' + row.Id + '" value="' + ((row.Type != null && row.Type != "") ? row.Type : "") + '" aria-label="Type" class="form-control" style="width:150px"></div>';
-										}
-										return data;
-									},
-									"className": "dt-body-center",
-									"orderable": false,
-									"defaultContent": ""
-								},
-								{
-									"title": "Actions",
-									"orderable": false,
-									"className": 'text-center',
-									"render": function(data, type, row) {
-										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-info btn-rounded btn-sm my-0" data-file="' + row.FileId + '" data-student="' + row.StudentId + '" id="fileupd_' + row.FileId + '" title="Update File"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
-											dateTemplate += '&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="filedel_' + row.FileId + '" title="Delete File"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
-											return dateTemplate;
-										}
-										return data;
-									},
-									"defaultContent": ""
-								}
-							],
-							"select": {
-								"style": 'os',
-								"selector": 'td:first-child'
-							}
-						});
+                                            var dateTemplate = '<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="recrem_' + row.Id + '" title="Remove Division"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Remove</button>';
+                                            return dateTemplate;
+                                        }
+                                        return data;
+                                    },
+                                    "defaultContent": ""
+                                }
+                            ],
+                            "select": {
+                                "style": 'os',
+                                "selector": 'td:first-child'
+                            }
+                        });
 
-						$('#addFile').click(function() {
-							var fileId = $("#@Html.IdFor(model => model.FileId)").val();
-                            var studentId = $("#@Html.IdFor(model => model.Id)").val();
-							if (fileId === 0) {
-								setTimeout(function () {
-									$.gritter.add({
-										title: "Failure",
-										text: "Please upload file!",
-										sticky: !0,
-										time: "",
-										class_name: "my-sticky-class"
-									});
-								}, 1e3);
-								return;
-							}
+                        $("#listDivisionsModal").on('show.bs.modal', function () {
+                            $.ajax({
+                                cache: false,
+                                type: "GET",
+                                url: "@(Url.Action("GetAllDivisionsByTeacher", "Teacher"))",
+                                data: { 'teacherid' : @(Model.Id) },
+                                success: function (data, result) {
+                                    if(result === "success"){
+                                        $("#content-body").html('');
+                                        var htmContent = '';
+                                        htmContent += '<table class="table table-bordered">';
+                                        htmContent += '<thead>';
+                                        htmContent += '<tr>';
+                                        htmContent += '<th>';
+                                        htmContent += '<div class="division-custom-control custom-checkbox"><input type="checkbox" class="division-custom-control-input" id="divisionDefaultCheck"><label class="division-custom-control-label" for="divisionDefaultCheck"></label></div>';
+                                        htmContent += '<th>Class</th><th>Division</th><th>Class Room</th>';
+                                        htmContent += '</thead>';
+                                        htmContent += '<tbody id="divisions">';
+                                        for(var i=0;i < data.length;i++){
+                                            htmContent += '<tr>';
+                                            htmContent += '<th scope="row">';
+                                            htmContent += '<div class="division-custom-control custom-checkbox"><input type="checkbox" class="division-custom-control-input" value="' + data[i].Id + '" id="' + data[i].Id + '" ' + (data[i].Selected ? "checked" : "") + '><label class="division-custom-control-label" for="' + data[i].Id + '"></label></div>';
+                                            htmContent += '</th>';
+                                            htmContent += '<td>' + data[i].Class + '</td>';
+                                            htmContent += '<td>' + data[i].Division + '</td>';
+                                            htmContent += '<td>' + data[i].ClassRoom + '</td>';
+                                            htmContent += '</tr>';
+                                        }
+                                        htmContent += '</tbody>';
+                                        htmContent += '</table>';
+                                        $("#content-body").html(htmContent);
+                                        $('#listDivisionsModal').modal('show');
+                                        // Select Default Checkbox
+                                        var childRecords = $("#listDivisionsModal").find('table tbody input[type=checkbox]');
+                                        var allSelected = true;
+                                        if(childRecords.length > 0){
+                                            for(var i=0;i < childRecords.length;i++){
+                                                if(!$(childRecords[i]).prop("checked")){
+                                                    allSelected = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
 
-							$('#addStudentFile').attr('disabled', true);
+                                        if(allSelected){
+                                            $("#divisionDefaultCheck").prop("checked", true);
+                                        }
+                                        else{
+                                            $("#divisionDefaultCheck").prop("checked", false);
+                                        }
+                                    }
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr.responseText);
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Failed to load divisions!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                }
+                            });
+                        });
 
-                            var postData = {
-                                studentId: studentId, 
-								fileId: fileId,
-                                title: "",
-                                type:""
-							};
+                        $(document).on("change","#content-body table tbody .division-custom-control-input[type=checkbox]", function(){
+                            var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
+                            var allSelected = true;
+                            if(childRecords.length > 0){
+                                for(var i=0;i < childRecords.length;i++){
+                                    if(!$(childRecords[i]).prop("checked")){
+                                        allSelected = false;
+                                        break;
+                                    }
+                                }
+                            }
 
-							addAntiForgeryToken(postData);
+                            if(allSelected){
+                                $("#divisionDefaultCheck").prop("checked", true);
+                            }
+                            else{
+                                $("#divisionDefaultCheck").prop("checked", false);
+                            }
+                        });
 
-							$.ajax({
-								cache: false,
-								type: "POST",
-								url: "@(Url.Action("StudentFileAddUpdate", "Student"))",
-								data: postData,
-								success: function (data) {
-									$('#addStudentFile').attr('disabled', false);
-									$('.uploader').fineUploader('reset');
-									$('#studentfiles-grid').DataTable().ajax.reload();
-									setTimeout(function () {
-										$.gritter.add({
-											title: "Success",
-											text: "File added to student!",
-											sticky: !0,
-											time: "",
-											class_name: "my-sticky-class"
-										});
-									}, 1e3);
-								},
-								error: function(xhr, ajaxOptions, thrownError) {
-									console.log(xhr.responseText);
-									$('#addStudentFile').attr('disabled', false);
-								}
-							});
-						});
+                        $(document).on("change","#divisionDefaultCheck", function(){
+                            var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
+                            if($(this).prop("checked")){
+                                if(childRecords.length > 0){
+                                    for(var i=0;i < childRecords.length;i++){
+                                        $(childRecords[i]).prop("checked", true);
+                                    }
+                                }
+                            }
+                            else{
+                                if(childRecords.length > 0){
+                                    for(var i=0;i < childRecords.length;i++){
+                                        $(childRecords[i]).prop("checked", false);
+                                    }
+                                }
+                            }
+                        });
 
-						$(document).on("click", 'button[id^=filedel_]', function () {
-							var fileId = parseInt($(this).attr('id').split('_')[1]);
+                        $(document).on("click","#submit-divisions", function(){
+                            var checkedRecords = $('#listDivisionsModal').find("table tbody input[type=checkbox]:checked");
+                            var selectedIds = [];
+                            if(confirm("Are you sure, you want to update divisions for the selected teacher?")){
+                                for(var i=0;i < checkedRecords.length;i++){
+                                    selectedIds.push(parseInt($(checkedRecords[i]).val()));
+                                }
+                                var postData = {
+                                    id: @(Model.Id),
+                                    divisions: selectedIds
+                                };
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("UpdateDivisionsForTeacher", "Teacher"))",
+                                    data: postData,
+                                    success: function (data, result) {
+                                        if(result === "success"){
+                                            $('#teacherdivision-grid').DataTable().ajax.reload();
+                                            $('#listDivisionsModal').modal('hide');
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Divisions updated successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: "Failed to add divisions!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                });
+                            }
+                        });
 
-							if (fileId === 0) {
-								setTimeout(function () {
-									$.gritter.add({
-										title: "Failure",
-										text: "An error occurred while deleting file!",
-										sticky: !0,
-										time: "",
-										class_name: "my-sticky-class"
-									});
-								}, 1e3);
-								return;
-							}
+                        $(document).on("click", 'button[id^=recrem_]', function () {
+                            var divisionId = parseInt($(this).attr('id').split('_')[1]);
 
-							var postData = {
-								id: fileId
-							};
+                            if (divisionId === 0) {
+                                setTimeout(function () {
+                                    $.gritter.add({
+                                        title: "Failure",
+                                        text: "An error occurred while removing division!",
+                                        sticky: !0,
+                                        time: "",
+                                        class_name: "my-sticky-class"
+                                    });
+                                }, 1e3);
+                                return;
+                            }
+                            if(confirm("Are you sure, you want to remove selected divisions from the selected teacher?")){
+                                var postData = {
+                                    id: @(Model.Id),
+                                    divisionid: divisionId
+                                };
 
-							addAntiForgeryToken(postData);
+                                addAntiForgeryToken(postData);
 
-							$.ajax({
-								cache: false,
-								type: "POST",
-								url: "@(Url.Action("DeleteStudentFile", "Student"))",
-								data: postData,
-								success: function (data) {
-									$('#studentfiles-grid').DataTable().ajax.reload();
-									setTimeout(function () {
-										$.gritter.add({
-											title: "Success",
-											text: "File deleted successfully!",
-											sticky: !0,
-											time: "",
-											class_name: "my-sticky-class"
-										});
-									}, 1e3);
-								},
-								error: function(xhr, ajaxOptions, thrownError) {
-									console.log(xhr.responseText);
-									setTimeout(function () {
-										$.gritter.add({
-											title: "Failure",
-											text: "Failed to delete student file!",
-											sticky: !0,
-											time: "",
-											class_name: "my-sticky-class"
-										});
-									}, 1e3);
-								}
-							});
-						});
-
-						$(document).on("click", 'button[id^=fileupd_]', function () {
-							var fileId = parseInt($(this).attr('id').split('_')[1]);
-							var studentId = parseInt($(this).attr("data-student"));
-                            var title = $("#fileTitle_" + fileId).val();
-                            var type = $("#fileType_" + fileId).val();
-
-							if (fileId === 0) {
-								setTimeout(function () {
-									$.gritter.add({
-										title: "Failure",
-										text: "An error occurred while updating file!",
-										sticky: !0,
-										time: "",
-										class_name: "my-sticky-class"
-									});
-								},1e3);
-								return;
-							}
-
-                            if ((type == null || type === "") || (title == null || title === "")) {
-								setTimeout(function () {
-								$.gritter.add({
-									title: "Failure",
-									text: "Please enter mandatory fields!",
-									sticky: !0,
-									time: "",
-									class_name: "my-sticky-class"
-									});
-								},1e3);
-								return;
-							}
-
-							var postData = {
-								studentId: studentId,
-								fileId: fileId,
-								title: title,
-								type: type
-							};
-							addAntiForgeryToken(postData);
-
-							$.ajax({
-								cache: false,
-								type: "POST",
-								url: "@(Url.Action("StudentFileAddUpdate", "Student"))",
-								data: postData,
-								success: function (data) {
-									$('#studentfiles-grid').DataTable().ajax.reload();
-									setTimeout(function () {
-										$.gritter.add({
-											title: "Success",
-											text: "File updated successfully!",
-											sticky: !0,
-											time: "",
-											class_name: "my-sticky-class"
-										});
-									}, 1e3);
-								},
-								error: function(xhr, ajaxOptions, thrownError) {
-									console.log(xhr.responseText);
-									setTimeout(function () {
-										$.gritter.add({
-											title: "Failure",
-											text: "Failed to update student file!",
-											sticky: !0,
-											time: "",
-											class_name: "my-sticky-class"
-										});
-									},1e3);
-								}
-							});
-						});
-					});
-				</script>
-				@Html.EditorFor(model => model.FileId)
-				@Html.ValidationMessageFor(model => model.FileId)
-				&nbsp;
-			</div>
-			<div class="panel-footer">
-				<button type="button" id="addFile" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add File To Student</button>
-			</div>
-		</div>
-	}
-	else
-	{
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="alert alert-info" role="alert">
-					<strong>Heads up!</strong> Please save student first to upload files.
-				</div>
-			</div>
-		</div>
-	}
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("RemoveDivisionFromTeacher", "Teacher"))",
+                                    data: postData,
+                                    success: function (data, result) {
+                                        if(result === "success"){
+                                            $('#teacherdivision-grid').DataTable().ajax.reload();
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Division removed successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                        }
+                                    },
+                                    error: function(xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: "Failed to remove division from selected teacher!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                });
+                            }
+                        });
+                    });
+                </script>
+            </div>
+            <div class="panel-footer">
+                <button type="button" id="add-divisions" class="btn btn-primary pull-right" data-toggle="modal" data-target="#listDivisionsModal"><i class="fa fa-plus-circle"></i> Add Existing Divisions</button>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="listDivisionsModal" tabindex="-1" role="dialog" aria-labelledby="modalDivisions" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div id="content-body" class="col-lg-12">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" id="submit-divisions" class="btn btn-primary"> Add To Teacher <i class="fa fa-book ml-2" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="alert alert-info" role="alert">
+                    <strong>Heads up!</strong> Please save teacher first to add divisions.
+                </div>
+            </div>
+        </div>
+    }
 </div>

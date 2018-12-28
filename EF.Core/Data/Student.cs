@@ -7,7 +7,14 @@ namespace EF.Core.Data
 {
 	public partial class Student : BaseEntity, ISlugSupported
 	{
-		public Guid StudentUniqueId { get; set; }
+        [NotMapped]
+        public virtual ICollection<StudentExam> _StudentExams { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<StudentHomework> _StudentHomeworks { get; set; }
+
+
+        public Guid StudentUniqueId { get; set; }
 		public string FName { get; set; }
 		public string MName { get; set; }
 		public string LName { get; set; }
@@ -143,6 +150,18 @@ namespace EF.Core.Data
 			protected set { _MessageGroups = value; }
 		}
 
-		#endregion
-	}
+        public virtual ICollection<StudentExam> StudentExams
+        {
+            get { return _StudentExams ?? (_StudentExams = new List<StudentExam>()); }
+            protected set { _StudentExams = value; }
+        }
+
+        public virtual ICollection<StudentHomework> StudentHomeworks
+        {
+            get { return _StudentHomeworks ?? (_StudentHomeworks = new List<StudentHomework>()); }
+            protected set { _StudentHomeworks = value; }
+        }
+
+        #endregion
+    }
 }

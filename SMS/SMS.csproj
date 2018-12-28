@@ -1078,6 +1078,12 @@
     <Content Include="Areas\Admin\Views\Teacher\List.cshtml" />
     <Content Include="Areas\Admin\Views\Teacher\_TeacherSubjects.cshtml" />
     <Content Include="Areas\Admin\Views\Teacher\_TeacherClassDivisions.cshtml" />
+    <Content Include="Areas\Admin\Views\ClassRoomDivision\Divisions.cshtml" />
+    <Content Include="Areas\Admin\Views\ClassRoomDivision\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ClassRoomDivision\_ClassRoomDivisionStudents.cshtml" />
+    <Content Include="Areas\Admin\Views\ClassRoomDivision\_ClassRoomDivisionHomeworks.cshtml" />
+    <Content Include="Areas\Admin\Views\ClassRoomDivision\_ClassRoomDivisionSubjects.cshtml" />
+    <Content Include="Areas\Admin\Views\ClassRoomDivision\_ClassRoomDivisionExams.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />

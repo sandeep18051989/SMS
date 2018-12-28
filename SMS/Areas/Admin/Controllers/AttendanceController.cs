@@ -95,7 +95,7 @@ namespace SMS.Areas.Admin.Controllers
 				Id = teacher.Id,
 				IsActive = teacher.IsActive,
 				IsDeleted = teacher.IsDeleted,
-				AcadmicYear = teacher.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(teacher.AcadmicYearId) : null,
+				AcadmicYear = teacher.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(teacher.AcadmicYearId).Name : null,
 				EmployeeId = teacher.EmployeeId,
 				QualificationId = teacher.QualificationId,
 				UserId = teacher.UserId,
