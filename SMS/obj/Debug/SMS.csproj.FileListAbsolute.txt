@@ -201,7 +201,6 @@ D:\Repositories\SMS\SMS\bin\System.Web.WebPages.Deployment.xml
 D:\Repositories\SMS\SMS\bin\System.Web.WebPages.Razor.xml
 D:\Repositories\SMS\SMS\obj\Debug\SMS.csprojResolveAssemblyReference.cache
 D:\Repositories\SMS\SMS\obj\Debug\SMS.csproj.CoreCompileInputs.cache
-D:\Repositories\SMS\SMS\obj\Debug\SMS.csproj.CopyComplete
 D:\Repositories\SMS\SMS\obj\Debug\SMS.dll
 D:\Repositories\SMS\SMS\obj\Debug\SMS.pdb
 E:\My Documents\Training Projects\Sms\SMS\bin\SMS.dll.config

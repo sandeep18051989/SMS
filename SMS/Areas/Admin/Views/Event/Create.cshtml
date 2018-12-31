@@ -114,16 +114,25 @@
 												</div>
 											</div>
 										</div>
+										<div class="row text-left">
+											<div class="col-md-6 mb-4">
+												<div class="md-form">
+													@Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "7" })
+													@Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+													@Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+												<input type="checkbox" tabindex="8" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="8" id="IsApproved" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
+												<input type="checkbox" tabindex="9" id="IsApproved" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsApproved, "Approved", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
 											</div>

@@ -60,15 +60,15 @@
 												</div>
 											</div>
 										</div>
-                                        <div class="row text-left">
-                                            <div class="col-xs-12 col-md-4 mb-4">
-                                                <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.ReligionId, Model.AvailableReligions, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "3" })
-                                                    @Html.LabelFor(model => model.AcadmicYearId, "Religion", htmlAttributes: new { @class = "control-label" })
-                                                    @Html.ValidationMessageFor(model => model.ReligionId, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
+										<div class="row text-left">
+											<div class="col-xs-12 col-md-4 mb-4">
+												<div class="md-form">
+													@Html.DropDownListFor(model => model.ReligionId, Model.AvailableReligions, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "3" })
+													@Html.LabelFor(model => model.AcadmicYearId, "Religion", htmlAttributes: new { @class = "control-label" })
+													@Html.ValidationMessageFor(model => model.ReligionId, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
 												<input type="checkbox" tabindex="4" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
@@ -87,9 +87,9 @@
 	</div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Castes')").closest("li").addClass("active");
+	$(document).ready(function () {
+		$("li.nav-item").removeClass("active");
+		$("span.nav-title:contains('Castes')").closest("li").addClass("active");
 
 		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
@@ -103,7 +103,7 @@
 				$(this).prop('checked', true).val(true);
 			}
 			else {
-			    $(this).prop('checked', false).val(false);
+				$(this).prop('checked', false).val(false);
 			}
 		});
 	});

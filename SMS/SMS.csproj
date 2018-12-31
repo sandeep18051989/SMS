@@ -1009,7 +1009,6 @@
     <Content Include="Areas\Admin\Views\Attendance\EmployeeAttendanceList.cshtml" />
     <Content Include="Areas\Admin\Views\Charts\AttendanceBoard.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\DateRange.cshtml" />
-    <Content Include="Areas\Admin\Views\Event\EventPicture.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Dropzone.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\Picture.cshtml" />
     <Content Include="Areas\Admin\Views\Event\_EventPictures.cshtml" />

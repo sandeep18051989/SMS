@@ -74,6 +74,7 @@
 		}).on("complete", function(event, id, name, responseJSON, xhr) {
 			if (responseJSON.success) {
 				$("#@(clientId + "value") input").val(responseJSON.PictureId);
+				$("button[data-resource='picture']").removeAttr("disabled");
 			}
 		});
 	});

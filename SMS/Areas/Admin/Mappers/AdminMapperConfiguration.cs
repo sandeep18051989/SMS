@@ -211,18 +211,16 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AttendanceStatus, mo => mo.Ignore())
                     .ForMember(dest => dest.Employee, mo => mo.Ignore());
 
-                cfg.CreateMap<Event, EventModel>()
-                    .ForMember(dest => dest.Comments, mo => mo.Ignore())
-                    .ForMember(dest => dest.InsertPictureModel, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
-                    .ForMember(dest => dest.Url, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
-                          .ForMember(dest => dest.Pictures, mo => mo.Ignore())
-                    .ForMember(dest => dest.Videos, mo => mo.Ignore());
+					cfg.CreateMap<Event, EventModel>()
+						 .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+						 .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+						 .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
+						 .ForMember(dest => dest.Url, mo => mo.Ignore());
                 cfg.CreateMap<EventModel, Event>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore())
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
-                          .ForMember(dest => dest.Videos, mo => mo.Ignore());
+						  .ForMember(dest => dest.Videos, mo => mo.Ignore());
 
                 cfg.CreateMap<EventPicture, EventPictureModel>()
                     .ForMember(dest => dest.Event, mo => mo.Ignore())

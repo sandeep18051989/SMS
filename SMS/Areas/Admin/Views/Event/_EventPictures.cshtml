@@ -150,7 +150,7 @@
 							}
 						});
 
-						$('#addPicture').click(function() {
+						$('#addEventPicture').click(function() {
 							var pictureId = $("#@Html.IdFor(model => model.InsertPictureModel.PictureId)").val();
 
 							if (pictureId === 0) {
@@ -165,8 +165,6 @@
 								}, 1e3);
 								return;
 							}
-
-							$('#addEventPicture').attr('disabled', true);
 
 							var postData = {
 								pictureId: pictureId,
@@ -185,8 +183,8 @@
 								url: "@(Url.Action("EventPictureAdd", "Event"))",
 								data: postData,
 								success: function (data, result) {
-									$('#addEventPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
+									$("button[data-resource='picture']").attr("disabled", true);
 									$('#eventpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
@@ -209,7 +207,6 @@
 								            class_name: "my-sticky-class"
 								        });
 								    }, 1e3);
-									$('#addEventPicture').attr('disabled', false);
 								}
 							});
 						});
@@ -365,7 +362,7 @@
 				&nbsp;
 			</div>
 			<div class="panel-footer">
-				<button type="button" id="addPicture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Event</button>
+				<button type="button" id="addEventPicture" data-resource="picture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Event</button>
 			</div>
 		</div>
 	}

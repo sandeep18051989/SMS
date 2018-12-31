@@ -51,7 +51,6 @@ D:\Repositories\SMS\EF.Data\bin\Debug\System.Web.Mvc.xml
 D:\Repositories\SMS\EF.Data\bin\Debug\System.ValueTuple.xml
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csprojResolveAssemblyReference.cache
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csproj.CoreCompileInputs.cache
-D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.csproj.CopyComplete
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.dll
 D:\Repositories\SMS\EF.Data\obj\Debug\EF.Data.pdb
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Data.dll

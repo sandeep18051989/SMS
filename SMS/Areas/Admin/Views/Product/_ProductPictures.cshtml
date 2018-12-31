@@ -40,7 +40,7 @@
 									"title": "",
 									"render": function (data, type, row) {
 										if (type === "display") {
-											return '<div class="thumb"><img style="max-width:100px;" src="' + row.PictureSrc + '" alt="" class="rounded-circle float-left"></div>';
+											return '<div class="thumb"><img src="' + row.PictureSrc + '" alt="" class="float-left"></div>';
 										}
 										return data;
 									},
@@ -166,8 +166,6 @@
 								return;
 							}
 
-							$('#addProductPicture').attr('disabled', true);
-
 							var postData = {
 								pictureId: pictureId,
 								displayOrder: 0,
@@ -185,8 +183,8 @@
 								url: "@(Url.Action("ProductPictureAdd", "Product"))",
 								data: postData,
 								success: function (data) {
-									$('#addProductPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
+									$("button[data-resource='picture']").attr("disabled", true);
 									$('#productpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
@@ -200,7 +198,6 @@
 								},
 								error: function(xhr, ajaxOptions, thrownError) {
 									console.log(xhr.responseText);
-									$('#addProductPicture').attr('disabled', false);
 								}
 							});
 						});
@@ -356,7 +353,7 @@
 				&nbsp;
 			</div>
 			<div class="panel-footer">
-				<button type="button" id="addPicture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Product</button>
+				<button type="button" id="addPicture" data-resource="picture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Product</button>
 			</div>
 		</div>
 	}

@@ -4,6 +4,7 @@ using SMS.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace SMS.Models
 {
@@ -12,16 +13,12 @@ namespace SMS.Models
 	{
 		public EventModel()
 		{
-			InsertPictureModel = new InsertPicturesModel();
-			InsertVideoModel = new InsertVideoModel();
-			Videos = new List<EventVideoModel>();
-			Pictures = new List<EventPictureModel>();
-			Comments = new List<CommentModel>();
-			Reactions = new List<ReactionModel>();
+			AvailableAcadmicYears = new List<SelectListItem>();
 		}
 		public string Title { get; set; }
 		public string SystemName { get; set; }
 		public int AcadmicYearId { get; set; }
+		public string AcadmicYear { get; set; }
 		[UIHint("DateRange")]
 		public DateTime? StartDate { get; set; }
 		[UIHint("DateRange")]
@@ -29,18 +26,12 @@ namespace SMS.Models
 		[UIHint("HtmlEditor")]
 		public string Description { get; set; }
 		public bool IsActive { get; set; }
-		public bool IsDeleted { get; set; }
 		public bool IsApproved { get; set; }
 		public bool IsClosed { get; set; }
 		public string Venue { get; set; }
 		public string Url { get; set; }
-		public IList<EventVideoModel> Videos { get; set; }
-		public IList<EventPictureModel> Pictures { get; set; }
-		public IList<CommentModel> Comments { get; set; }
-		public IList<ReactionModel> Reactions { get; set; }
 
-		public InsertPicturesModel InsertPictureModel { get; set; }
-		public InsertVideoModel InsertVideoModel { get; set; }
+		public IList<SelectListItem> AvailableAcadmicYears { get; set; }
 
 	}
 

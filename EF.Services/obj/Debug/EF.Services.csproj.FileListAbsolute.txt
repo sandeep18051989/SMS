@@ -92,7 +92,6 @@ D:\Repositories\SMS\EF.Services\bin\Debug\AutoMapper.xml
 D:\Repositories\SMS\EF.Services\bin\Debug\System.ValueTuple.xml
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csprojResolveAssemblyReference.cache
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csproj.CoreCompileInputs.cache
-D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csproj.CopyComplete
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.dll
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.pdb
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\EF.Services.dll.config

@@ -42,10 +42,8 @@ D:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.SqlServer.xml
 D:\Repositories\SMS\EF.Core\bin\Debug\System.ValueTuple.xml
 D:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Mvc.xml
 D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CoreCompileInputs.cache
-D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CopyComplete
 D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.dll
 D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.pdb
-D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csprojResolveAssemblyReference.cache
 G:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.csprojAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EF.Core.dll.config
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EF.Core.dll
@@ -67,3 +65,4 @@ E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.ValueTuple.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.pdb
+D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csprojResolveAssemblyReference.cache

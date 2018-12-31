@@ -235,20 +235,15 @@ namespace SMS.Areas.Admin.Controllers
 			var eve = _eventService.GetEventById(id);
 			if (eve != null)
 			{
-				model = new EventModel
-				{
-					StartDate = eve.StartDate,
-					EndDate = eve.EndDate,
-					IsActive = eve.IsActive,
-					Description = eve.Description,
-					Title = eve.Title,
-					UserId = eve.UserId,
-					Venue = eve.Venue,
-					SystemName = eve.GetSystemName(),
-					Id = eve.Id
-				};
+				model = eve.ToModel();
 			}
 
+			model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+			{
+				Text = x.Name.Trim(),
+				Value = x.Id.ToString(),
+				Selected = x.IsActive
+			}).ToList();
 			return View(model);
 		}
 
@@ -274,13 +269,8 @@ namespace SMS.Areas.Admin.Controllers
 				if (eve == null || eve.IsDeleted)
 					return RedirectToAction("List");
 
-				eve.CreatedOn = DateTime.Now;
-				eve.Title = model.Title;
-				eve.Description = model.Description;
-				eve.IsActive = model.IsActive;
+				eve = model.ToEntity(eve);
 				eve.ModifiedOn = DateTime.Now;
-				eve.Title = model.Title;
-				eve.UserId = user.Id;
 				_eventService.Update(eve);
 
 				// Save URL Record
@@ -325,13 +315,11 @@ namespace SMS.Areas.Admin.Controllers
 			if (_event != null)
 				ModelState.AddModelError("Title", "An Event with the same name already exists. Please choose a different name.");
 
-			model.UserId = currentUser.Id;
 			if (ModelState.IsValid)
 			{
-				model.CreatedOn = model.ModifiedOn = DateTime.Now;
-				model.AcadmicYearId = _userContext.CurrentAcadmicYear.Id;
-				model.Url = "";
 				newEvent = model.ToEntity();
+				newEvent.CreatedOn = model.ModifiedOn = DateTime.Now;
+				newEvent.UserId = currentUser.Id;
 
 				_eventService.Insert(newEvent);
 

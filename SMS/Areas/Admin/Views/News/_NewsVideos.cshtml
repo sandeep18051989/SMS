@@ -145,8 +145,6 @@
 								return;
 							}
 
-							$('#addNewsVideo').attr('disabled', true);
-
 							var postData = {
 								videoId: videoId,
 								displayOrder: 0,
@@ -163,8 +161,8 @@
 								url: "@(Url.Action("NewsVideoAdd", "News"))",
 								data: postData,
 								success: function (data) {
-									$('#addNewsVideo').attr('disabled', false);
 									$('.upload-video').fineUploader('reset');
+									$("button[data-resource='video']").attr("disabled", true);
 									$('#newsvideos-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
@@ -178,7 +176,6 @@
 								},
 								error: function(xhr, ajaxOptions, thrownError) {
 									console.log(xhr.responseText);
-									$('#addNewsVideo').attr('disabled', false);
 								}
 							});
 						});
@@ -324,7 +321,7 @@
 				&nbsp;
 			</div>
 			<div class="panel-footer">
-				<button type="button" id="addVideo" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i> Save Video</button>
+				<button type="button" id="addVideo" data-resource="video" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i> Save Video</button>
 			</div>
 		</div>
 	}
