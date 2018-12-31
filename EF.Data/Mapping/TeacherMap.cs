@@ -1,5 +1,4 @@
-﻿using System;
-using EF.Core.Data;
+﻿using EF.Core.Data;
 using EF.Data.Configuration;
 using TrackerEnabledDbContext.Common.Configuration;
 
@@ -9,40 +8,41 @@ namespace EF.Data.Mapping
 	{
 		public TeacherMap()
 		{
-			this.ToTable("Teacher");
-			this.HasKey(b => b.Id);
-			this.Property(b => b.FacebookLink).IsOptional();
-			this.Property(b => b.TweeterLink).IsOptional();
+			ToTable("Teacher");
+			HasKey(b => b.Id);
+			Property(b => b.FacebookLink).IsOptional();
+			Property(b => b.TweeterLink).IsOptional();
 
-			this.Property(b => b.InstagramLink).IsOptional();
-			this.Property(b => b.GooglePlusLink).IsOptional();
-			this.Property(b => b.PInterestLink).IsOptional();
-			this.Property(b => b.LinkedInLink).IsOptional();
-			this.Property(b => b.Hi5Link).IsOptional();
-			this.Property(b => b.IsPhoneVerified).IsOptional();
-			this.Property(b => b.IsEmailVerified).IsOptional();
+			Property(b => b.InstagramLink).IsOptional();
+			Property(b => b.GooglePlusLink).IsOptional();
+			Property(b => b.PInterestLink).IsOptional();
+			Property(b => b.LinkedInLink).IsOptional();
+			Property(b => b.Hi5Link).IsOptional();
+			Property(b => b.IsPhoneVerified).IsOptional();
+			Property(b => b.IsEmailVerified).IsOptional();
 
-			this.Property(b => b.PersonalityStatusId).IsOptional();
-			this.Property(b => b.Description).IsOptional();
-			this.Property(b => b.CoverPictureId).IsOptional();
-            this.Property(b => b.Name).HasMaxLength(100).IsRequired();
-            this.Property(b => b.Username).HasMaxLength(100).IsRequired();
-            this.Property(b => b.ProfilePictureId).IsRequired();
-            this.Property(b => b.EmployeeId).IsRequired();
-            this.Property(b => b.AcadmicYearId).IsRequired();
+			Property(b => b.PersonalityStatusId).IsOptional();
+			Property(b => b.Description).IsOptional();
+			Property(b => b.CoverPictureId).IsOptional();
+			Property(b => b.Name).HasMaxLength(100).IsRequired();
+			Property(b => b.Username).HasMaxLength(100).IsRequired();
+			Property(b => b.ProfilePictureId).IsRequired();
+			Property(b => b.EmployeeId).IsRequired();
+			Property(b => b.AcadmicYearId).IsRequired();
+			this.Property(b => b.ImpersonateId).IsRequired();
 
-            this.HasRequired(all => all.Qualification).WithMany().HasForeignKey(all => all.QualificationId);
+			HasRequired(all => all.Qualification).WithMany().HasForeignKey(all => all.QualificationId);
 
 			// Relationships
-			this.HasMany(u => u.ClassRoomDivisions)
+			HasMany(u => u.ClassRoomDivisions)
 				 .WithMany(z => z.Teachers)
 				 .Map(m => m.ToTable("Teacher_Class_Room_Division_Mapping").MapLeftKey("TeacherId").MapRightKey("DivisionId"));
 
-			this.HasMany(u => u.Subjects)
+			HasMany(u => u.Subjects)
 				 .WithMany(z => z.Teachers)
 				 .Map(m => m.ToTable("Teacher_Subject_Mapping").MapLeftKey("TeacherId").MapRightKey("SubjectId"));
 
-			this.HasMany(u => u.Files)
+			HasMany(u => u.Files)
 				 .WithMany(z => z.Teachers)
 				 .Map(m => m.ToTable("Teacher_File_Mapping").MapLeftKey("TeacherId").MapRightKey("FileId"));
 

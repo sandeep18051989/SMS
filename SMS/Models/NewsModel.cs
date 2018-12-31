@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using EF.Core.Data;
 using EF.Services;
 using FluentValidation.Attributes;
 using SMS.Validations;
@@ -14,27 +13,17 @@ namespace SMS.Models
 	{
 		public NewsModel()
 		{
-			Videos = new List<VideoModel>();
-			Pictures = new List<NewsPictureModel>();
-			Comments = new List<CommentModel>();
-			Files = new List<FilesModel>();
 			AvailableStatuses = new List<SelectListItem>();
-            AvailableAcadmicYears = new List<SelectListItem>();
-            InsertPictureModel = new InsertPicturesModel();
-			InsertVideoModel = new InsertVideoModel();
+			AvailableAcadmicYears = new List<SelectListItem>();
 		}
-		public IList<VideoModel> Videos { get; set; }
-		public IList<NewsPictureModel> Pictures { get; set; }
-		public IList<CommentModel> Comments { get; set; }
-		public IList<FilesModel> Files { get; set; }
 		public IList<SelectListItem> AvailableStatuses { get; set; }
-        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
-        public string ShortName { get; set; }
+		public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+		public string ShortName { get; set; }
 		[UIHint("DateRange")]
 		public DateTime? StartDate { get; set; }
 		[UIHint("DateRange")]
 		public DateTime? EndDate { get; set; }
-        [AllowHtml]
+		[AllowHtml]
 		[UIHint("HtmlEditor")]
 		public string Description { get; set; }
 		public string SeoUrl { get; set; }
@@ -43,12 +32,14 @@ namespace SMS.Models
 		public int NewsStatusId { get; set; }
 		public string SystemName { get; set; }
 		public int AcadmicYearId { get; set; }
-        public string AcadmicYear { get; set; }
-        public string CreatedOnString { get; set; }
-        public string ModifiedOnString { get; set; }
+		public string AcadmicYear { get; set; }
+		public string CreatedOnString { get; set; }
+		public string ModifiedOnString { get; set; }
+		[UIHint("Picture")]
+		public int PictureId { get; set; }
+		[UIHint("Video")]
+		public int VideoId { get; set; }
 
-        public InsertPicturesModel InsertPictureModel { get; set; }
-		public InsertVideoModel InsertVideoModel { get; set; }
 
 	}
 

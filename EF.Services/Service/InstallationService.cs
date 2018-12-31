@@ -41,114 +41,114 @@ namespace EF.Services.Service
 		private readonly IRepository<TimeTableSetting> _timeTableSettingRepository;
 		private readonly IUrlService _urlService;
 		private readonly IRepository<QuestionType> _questionTypeRepository;
-        private readonly IRepository<Division> _divisionRepository;
-        private readonly IRepository<ClassRoom> _classroomRepository;
-        private readonly IRepository<Religion> _religionRepository;
-        private readonly IRepository<Caste> _casteRepository;
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<ProductCategory> _productCategoryRepository;
-        private readonly IRepository<Designation> _designationRepository;
-        private readonly IRepository<Holiday> _holidayRepository;
-        private readonly IRepository<House> _houseRepository;
-        private readonly IRepository<MessageGroup> _messageGroupRepository;
-        private readonly IRepository<Qualification> _qualificationRepository;
-        private readonly IRepository<Subject> _subjectRepository;
-        private readonly IRepository<Vendor> _vendorRepository;
-        private readonly IRepository<Book> _bookRepository;
+		private readonly IRepository<Division> _divisionRepository;
+		private readonly IRepository<ClassRoom> _classroomRepository;
+		private readonly IRepository<Religion> _religionRepository;
+		private readonly IRepository<Caste> _casteRepository;
+		private readonly IRepository<Category> _categoryRepository;
+		private readonly IRepository<ProductCategory> _productCategoryRepository;
+		private readonly IRepository<Designation> _designationRepository;
+		private readonly IRepository<Holiday> _holidayRepository;
+		private readonly IRepository<House> _houseRepository;
+		private readonly IRepository<MessageGroup> _messageGroupRepository;
+		private readonly IRepository<Qualification> _qualificationRepository;
+		private readonly IRepository<Subject> _subjectRepository;
+		private readonly IRepository<Vendor> _vendorRepository;
+		private readonly IRepository<Book> _bookRepository;
 
 
-        public InstallationService(IRepository<Blog> blogRepository,
-	  IRepository<Comment> commentRepository,
-	  IRepository<CustomPage> customPageRepository,
-	  IRepository<DataToken> dataTokenRepository,
-	  IRepository<Event> eventRepository,
-	  IRepository<Feedback> feedbackRepository,
-	  IRepository<File> filesRepository,
-	  IRepository<Menus> menuRepository,
-	  IRepository<PermissionRecord> permissionRecordRepository,
-	  IRepository<Picture> pictureRepository,
-	  IRepository<Product> productRepository,
-	  IRepository<Reply> replyRepository,
-	  IRepository<Settings> settingRepository,
-	  IRepository<Slider> sliderRepository,
-	  IRepository<Template> templateRepository,
-	  IRepository<User> userRepository,
-	  IRepository<UserRole> userRoleRepository,
-	  IRepository<Video> videoRepository,
-	  IRepository<DataToken> tokenRepository,
-	  IUrlHelper webHelper,
-	  IRepository<ScheduleTask> scheduleTaskRepository,
-	  IRepository<AcadmicYear> acadmicYearRepository,
-	  IRepository<School> schoolRepository,
-	  IRepository<CustomPageUrl> customPageUrlRepository,
-	  IRepository<TimeTableSetting> timeTableSettingRepository,
-	  IUrlService urlService,
-	  IRepository<QuestionType> questionTypeRepository,
-      IRepository<Division> divisionRepository,
-      IRepository<ClassRoom> classroomRepository,
-      IRepository<Religion> religionRepository,
-      IRepository<Caste> casteRepository,
-      IRepository<Category> categoryRepository,
-      IRepository<ProductCategory> productCategoryRepository,
-      IRepository<Designation> designationRepository,
-      IRepository<Holiday> holidayRepository,
-      IRepository<House> houseRepository,
-      IRepository<MessageGroup> messageGroupRepository,
-      IRepository<Qualification> qualificationRepository,
-      IRepository<Subject> subjectRepository,
-      IRepository<Vendor> vendorRepository,
-      IRepository<Book> bookRepository)
+		public InstallationService(IRepository<Blog> blogRepository,
+	IRepository<Comment> commentRepository,
+	IRepository<CustomPage> customPageRepository,
+	IRepository<DataToken> dataTokenRepository,
+	IRepository<Event> eventRepository,
+	IRepository<Feedback> feedbackRepository,
+	IRepository<File> filesRepository,
+	IRepository<Menus> menuRepository,
+	IRepository<PermissionRecord> permissionRecordRepository,
+	IRepository<Picture> pictureRepository,
+	IRepository<Product> productRepository,
+	IRepository<Reply> replyRepository,
+	IRepository<Settings> settingRepository,
+	IRepository<Slider> sliderRepository,
+	IRepository<Template> templateRepository,
+	IRepository<User> userRepository,
+	IRepository<UserRole> userRoleRepository,
+	IRepository<Video> videoRepository,
+	IRepository<DataToken> tokenRepository,
+	IUrlHelper webHelper,
+	IRepository<ScheduleTask> scheduleTaskRepository,
+	IRepository<AcadmicYear> acadmicYearRepository,
+	IRepository<School> schoolRepository,
+	IRepository<CustomPageUrl> customPageUrlRepository,
+	IRepository<TimeTableSetting> timeTableSettingRepository,
+	IUrlService urlService,
+	IRepository<QuestionType> questionTypeRepository,
+	 IRepository<Division> divisionRepository,
+	 IRepository<ClassRoom> classroomRepository,
+	 IRepository<Religion> religionRepository,
+	 IRepository<Caste> casteRepository,
+	 IRepository<Category> categoryRepository,
+	 IRepository<ProductCategory> productCategoryRepository,
+	 IRepository<Designation> designationRepository,
+	 IRepository<Holiday> holidayRepository,
+	 IRepository<House> houseRepository,
+	 IRepository<MessageGroup> messageGroupRepository,
+	 IRepository<Qualification> qualificationRepository,
+	 IRepository<Subject> subjectRepository,
+	 IRepository<Vendor> vendorRepository,
+	 IRepository<Book> bookRepository)
 		{
-			this._blogRepository = blogRepository;
-			this._commentRepository = commentRepository;
-			this._customPageRepository = customPageRepository;
-			this._dataTokenRepository = dataTokenRepository;
-			this._eventRepository = eventRepository;
-			this._feedbackRepository = feedbackRepository;
-			this._filesRepository = filesRepository;
-			this._menuRepository = menuRepository;
-			this._permissionRecordRepository = permissionRecordRepository;
-			this._pictureRepository = pictureRepository;
-			this._productRepository = productRepository;
-			this._replyRepository = replyRepository;
-			this._settingRepository = settingRepository;
-			this._productRepository = productRepository;
-			this._sliderRepository = sliderRepository;
-			this._templateRepository = templateRepository;
-			this._userRepository = userRepository;
-			this._userRoleRepository = userRoleRepository;
-			this._videoRepository = videoRepository;
-			this._tokenRepository = tokenRepository;
-			this._webHelper = webHelper;
-			this._scheduleTaskRepository = scheduleTaskRepository;
-			this._acadmicYearRepository = acadmicYearRepository;
-			this._schoolRepository = schoolRepository;
-			this._customPageUrlRepository = customPageUrlRepository;
-			this._timeTableSettingRepository = timeTableSettingRepository;
-			this._urlService = urlService;
-			this._questionTypeRepository = questionTypeRepository;
-            this._divisionRepository = divisionRepository;
-            this._classroomRepository = classroomRepository;
-            this._religionRepository = religionRepository;
-            this._casteRepository = casteRepository;
-            this._categoryRepository = categoryRepository;
-            this._productCategoryRepository = productCategoryRepository;
-            this._designationRepository = designationRepository;
-            this._holidayRepository = holidayRepository;
-            this._houseRepository = houseRepository;
-            this._messageGroupRepository = messageGroupRepository;
-            this._qualificationRepository = qualificationRepository;
-            this._subjectRepository = subjectRepository;
-            this._vendorRepository = vendorRepository;
-            this._bookRepository = bookRepository;
-        }
+			_blogRepository = blogRepository;
+			_commentRepository = commentRepository;
+			_customPageRepository = customPageRepository;
+			_dataTokenRepository = dataTokenRepository;
+			_eventRepository = eventRepository;
+			_feedbackRepository = feedbackRepository;
+			_filesRepository = filesRepository;
+			_menuRepository = menuRepository;
+			_permissionRecordRepository = permissionRecordRepository;
+			_pictureRepository = pictureRepository;
+			_productRepository = productRepository;
+			_replyRepository = replyRepository;
+			_settingRepository = settingRepository;
+			_productRepository = productRepository;
+			_sliderRepository = sliderRepository;
+			_templateRepository = templateRepository;
+			_userRepository = userRepository;
+			_userRoleRepository = userRoleRepository;
+			_videoRepository = videoRepository;
+			_tokenRepository = tokenRepository;
+			_webHelper = webHelper;
+			_scheduleTaskRepository = scheduleTaskRepository;
+			_acadmicYearRepository = acadmicYearRepository;
+			_schoolRepository = schoolRepository;
+			_customPageUrlRepository = customPageUrlRepository;
+			_timeTableSettingRepository = timeTableSettingRepository;
+			_urlService = urlService;
+			_questionTypeRepository = questionTypeRepository;
+			_divisionRepository = divisionRepository;
+			_classroomRepository = classroomRepository;
+			_religionRepository = religionRepository;
+			_casteRepository = casteRepository;
+			_categoryRepository = categoryRepository;
+			_productCategoryRepository = productCategoryRepository;
+			_designationRepository = designationRepository;
+			_holidayRepository = holidayRepository;
+			_houseRepository = houseRepository;
+			_messageGroupRepository = messageGroupRepository;
+			_qualificationRepository = qualificationRepository;
+			_subjectRepository = subjectRepository;
+			_vendorRepository = vendorRepository;
+			_bookRepository = bookRepository;
+		}
 
 		#endregion
 
 		public virtual void InitConnectionFactory()
 		{
 			var connectionFactory = new SqlConnectionFactory();
-			#pragma warning disable 0618
+#pragma warning disable 0618
 			Database.DefaultConnectionFactory = connectionFactory;
 		}
 
@@ -174,9 +174,9 @@ namespace EF.Services.Service
 			user.IsActive = true;
 			user.UserGuid = Guid.NewGuid();
 			user.IsApproved = true;
-            user.Email = school.Email;
+			user.Email = school.Email;
 
-            _userRepository.Insert(user);
+			_userRepository.Insert(user);
 
 			var acadmicYear = new AcadmicYear();
 			acadmicYear.Name = school.AcadmicYearName;
@@ -196,11 +196,11 @@ namespace EF.Services.Service
 			school.IsActive = true;
 			school.IsDeleted = false;
 			school.AcadmicYearName = acadmicYear.Name;
-            school.SchoolGuid = Guid.NewGuid();
-            school.AcadmicYearId = acadmicYear.Id;
-            school.Email = school.Email;
+			school.SchoolGuid = Guid.NewGuid();
+			school.AcadmicYearId = acadmicYear.Id;
+			school.Email = school.Email;
 
-            _schoolRepository.Insert(school);
+			_schoolRepository.Insert(school);
 			#endregion
 
 			#region Add Permissions
@@ -385,19 +385,19 @@ namespace EF.Services.Service
 			_ManageProductPermission.UserId = user.Id;
 			_permissionRecordRepository.Insert(_ManageProductPermission);
 
-		    var _ManageVendorPermission = new PermissionRecord();
-		    _ManageVendorPermission.Name = "Manage Vendors";
-		    _ManageVendorPermission.SystemName = "ManageVendors";
-		    _ManageVendorPermission.IsDeleted = false;
-		    _ManageVendorPermission.IsSystemDefined = true;
-		    _ManageVendorPermission.Category = "Vendor";
-		    _ManageVendorPermission.ModifiedOn = DateTime.Now;
-		    _ManageVendorPermission.CreatedOn = DateTime.Now;
-		    _ManageVendorPermission.IsActive = true;
-		    _ManageVendorPermission.UserId = user.Id;
-		    _permissionRecordRepository.Insert(_ManageVendorPermission);
+			var _ManageVendorPermission = new PermissionRecord();
+			_ManageVendorPermission.Name = "Manage Vendors";
+			_ManageVendorPermission.SystemName = "ManageVendors";
+			_ManageVendorPermission.IsDeleted = false;
+			_ManageVendorPermission.IsSystemDefined = true;
+			_ManageVendorPermission.Category = "Vendor";
+			_ManageVendorPermission.ModifiedOn = DateTime.Now;
+			_ManageVendorPermission.CreatedOn = DateTime.Now;
+			_ManageVendorPermission.IsActive = true;
+			_ManageVendorPermission.UserId = user.Id;
+			_permissionRecordRepository.Insert(_ManageVendorPermission);
 
-            var _ManageCommentsPermission = new PermissionRecord();
+			var _ManageCommentsPermission = new PermissionRecord();
 			_ManageCommentsPermission.Name = "Manage Comments";
 			_ManageCommentsPermission.SystemName = "ManageComments";
 			_ManageCommentsPermission.Category = "User";
@@ -601,133 +601,133 @@ namespace EF.Services.Service
 			_ManageSMS.UserId = user.Id;
 			_permissionRecordRepository.Insert(_ManageSMS);
 
-            var manageClass = new PermissionRecord();
-            manageClass.Name = "Manage Class";
-            manageClass.SystemName = "ManageClass";
-            manageClass.IsDeleted = false;
-            manageClass.IsSystemDefined = true;
-            manageClass.Category = "Class";
-            manageClass.ModifiedOn = DateTime.Now;
-            manageClass.CreatedOn = DateTime.Now;
-            manageClass.IsActive = true;
-            manageClass.UserId = user.Id;
-            _permissionRecordRepository.Insert(manageClass);
+			var manageClass = new PermissionRecord();
+			manageClass.Name = "Manage Class";
+			manageClass.SystemName = "ManageClass";
+			manageClass.IsDeleted = false;
+			manageClass.IsSystemDefined = true;
+			manageClass.Category = "Class";
+			manageClass.ModifiedOn = DateTime.Now;
+			manageClass.CreatedOn = DateTime.Now;
+			manageClass.IsActive = true;
+			manageClass.UserId = user.Id;
+			_permissionRecordRepository.Insert(manageClass);
 
-            var manageDivision = new PermissionRecord();
-            manageDivision.Name = "Manage Division";
-            manageDivision.SystemName = "ManageDivision";
-            manageDivision.IsDeleted = false;
-            manageDivision.IsSystemDefined = true;
-            manageDivision.Category = "Division";
-            manageDivision.ModifiedOn = DateTime.Now;
-            manageDivision.CreatedOn = DateTime.Now;
-            manageDivision.IsActive = true;
-            manageDivision.UserId = user.Id;
-            _permissionRecordRepository.Insert(manageDivision);
+			var manageDivision = new PermissionRecord();
+			manageDivision.Name = "Manage Division";
+			manageDivision.SystemName = "ManageDivision";
+			manageDivision.IsDeleted = false;
+			manageDivision.IsSystemDefined = true;
+			manageDivision.Category = "Division";
+			manageDivision.ModifiedOn = DateTime.Now;
+			manageDivision.CreatedOn = DateTime.Now;
+			manageDivision.IsActive = true;
+			manageDivision.UserId = user.Id;
+			_permissionRecordRepository.Insert(manageDivision);
 
-            var manageClassRoom = new PermissionRecord();
-            manageClassRoom.Name = "Manage Class Room";
-            manageClassRoom.SystemName = "ManageClassRoom";
-            manageClassRoom.IsDeleted = false;
-            manageClassRoom.IsSystemDefined = true;
-            manageClassRoom.Category = "ClassRoom";
-            manageClassRoom.ModifiedOn = DateTime.Now;
-            manageClassRoom.CreatedOn = DateTime.Now;
-            manageClassRoom.IsActive = true;
-            manageClassRoom.UserId = user.Id;
-            _permissionRecordRepository.Insert(manageClassRoom);
+			var manageClassRoom = new PermissionRecord();
+			manageClassRoom.Name = "Manage Class Room";
+			manageClassRoom.SystemName = "ManageClassRoom";
+			manageClassRoom.IsDeleted = false;
+			manageClassRoom.IsSystemDefined = true;
+			manageClassRoom.Category = "ClassRoom";
+			manageClassRoom.ModifiedOn = DateTime.Now;
+			manageClassRoom.CreatedOn = DateTime.Now;
+			manageClassRoom.IsActive = true;
+			manageClassRoom.UserId = user.Id;
+			_permissionRecordRepository.Insert(manageClassRoom);
 
-            var managePermit = new PermissionRecord();
-            managePermit.Name = "Manage Religion";
-            managePermit.SystemName = "ManageReligions";
-            managePermit.IsDeleted = false;
-            managePermit.IsSystemDefined = true;
-            managePermit.Category = "Religion";
-            managePermit.ModifiedOn = DateTime.Now;
-            managePermit.CreatedOn = DateTime.Now;
-            managePermit.IsActive = true;
-            managePermit.UserId = user.Id;
-            _permissionRecordRepository.Insert(managePermit);
+			var managePermit = new PermissionRecord();
+			managePermit.Name = "Manage Religion";
+			managePermit.SystemName = "ManageReligions";
+			managePermit.IsDeleted = false;
+			managePermit.IsSystemDefined = true;
+			managePermit.Category = "Religion";
+			managePermit.ModifiedOn = DateTime.Now;
+			managePermit.CreatedOn = DateTime.Now;
+			managePermit.IsActive = true;
+			managePermit.UserId = user.Id;
+			_permissionRecordRepository.Insert(managePermit);
 
-            managePermit = new PermissionRecord();
-            managePermit.Name = "Manage Designation";
-            managePermit.SystemName = "ManageDesignation";
-            managePermit.IsDeleted = false;
-            managePermit.IsSystemDefined = true;
-            managePermit.Category = "Designation";
-            managePermit.ModifiedOn = DateTime.Now;
-            managePermit.CreatedOn = DateTime.Now;
-            managePermit.IsActive = true;
-            managePermit.UserId = user.Id;
-            _permissionRecordRepository.Insert(managePermit);
+			managePermit = new PermissionRecord();
+			managePermit.Name = "Manage Designation";
+			managePermit.SystemName = "ManageDesignation";
+			managePermit.IsDeleted = false;
+			managePermit.IsSystemDefined = true;
+			managePermit.Category = "Designation";
+			managePermit.ModifiedOn = DateTime.Now;
+			managePermit.CreatedOn = DateTime.Now;
+			managePermit.IsActive = true;
+			managePermit.UserId = user.Id;
+			_permissionRecordRepository.Insert(managePermit);
 
-            managePermit = new PermissionRecord();
-            managePermit.Name = "Manage Caste";
-            managePermit.SystemName = "ManageCaste";
-            managePermit.IsDeleted = false;
-            managePermit.IsSystemDefined = true;
-            managePermit.Category = "Caste";
-            managePermit.ModifiedOn = DateTime.Now;
-            managePermit.CreatedOn = DateTime.Now;
-            managePermit.IsActive = true;
-            managePermit.UserId = user.Id;
-            _permissionRecordRepository.Insert(managePermit);
+			managePermit = new PermissionRecord();
+			managePermit.Name = "Manage Caste";
+			managePermit.SystemName = "ManageCaste";
+			managePermit.IsDeleted = false;
+			managePermit.IsSystemDefined = true;
+			managePermit.Category = "Caste";
+			managePermit.ModifiedOn = DateTime.Now;
+			managePermit.CreatedOn = DateTime.Now;
+			managePermit.IsActive = true;
+			managePermit.UserId = user.Id;
+			_permissionRecordRepository.Insert(managePermit);
 
-            managePermit = new PermissionRecord();
-            managePermit.Name = "Manage Category";
-            managePermit.SystemName = "ManageCategory";
-            managePermit.IsDeleted = false;
-            managePermit.IsSystemDefined = true;
-            managePermit.Category = "Category";
-            managePermit.ModifiedOn = DateTime.Now;
-            managePermit.CreatedOn = DateTime.Now;
-            managePermit.IsActive = true;
-            managePermit.UserId = user.Id;
-            _permissionRecordRepository.Insert(managePermit);
+			managePermit = new PermissionRecord();
+			managePermit.Name = "Manage Category";
+			managePermit.SystemName = "ManageCategory";
+			managePermit.IsDeleted = false;
+			managePermit.IsSystemDefined = true;
+			managePermit.Category = "Category";
+			managePermit.ModifiedOn = DateTime.Now;
+			managePermit.CreatedOn = DateTime.Now;
+			managePermit.IsActive = true;
+			managePermit.UserId = user.Id;
+			_permissionRecordRepository.Insert(managePermit);
 
-            managePermit = new PermissionRecord();
-            managePermit.Name = "Manage Fee Category";
-            managePermit.SystemName = "ManageFeeCategory";
-            managePermit.IsDeleted = false;
-            managePermit.IsSystemDefined = true;
-            managePermit.Category = "FeeCategory";
-            managePermit.ModifiedOn = DateTime.Now;
-            managePermit.CreatedOn = DateTime.Now;
-            managePermit.IsActive = true;
-            managePermit.UserId = user.Id;
-            _permissionRecordRepository.Insert(managePermit);
+			managePermit = new PermissionRecord();
+			managePermit.Name = "Manage Fee Category";
+			managePermit.SystemName = "ManageFeeCategory";
+			managePermit.IsDeleted = false;
+			managePermit.IsSystemDefined = true;
+			managePermit.Category = "FeeCategory";
+			managePermit.ModifiedOn = DateTime.Now;
+			managePermit.CreatedOn = DateTime.Now;
+			managePermit.IsActive = true;
+			managePermit.UserId = user.Id;
+			_permissionRecordRepository.Insert(managePermit);
 
-            managePermit = new PermissionRecord();
-            managePermit.Name = "Manage Qualifications";
-            managePermit.SystemName = "ManageQualifications";
-            managePermit.IsDeleted = false;
-            managePermit.IsSystemDefined = true;
-            managePermit.Category = "Qualification";
-            managePermit.ModifiedOn = DateTime.Now;
-            managePermit.CreatedOn = DateTime.Now;
-            managePermit.IsActive = true;
-            managePermit.UserId = user.Id;
-            _permissionRecordRepository.Insert(managePermit);
+			managePermit = new PermissionRecord();
+			managePermit.Name = "Manage Qualifications";
+			managePermit.SystemName = "ManageQualifications";
+			managePermit.IsDeleted = false;
+			managePermit.IsSystemDefined = true;
+			managePermit.Category = "Qualification";
+			managePermit.ModifiedOn = DateTime.Now;
+			managePermit.CreatedOn = DateTime.Now;
+			managePermit.IsActive = true;
+			managePermit.UserId = user.Id;
+			_permissionRecordRepository.Insert(managePermit);
 
-            managePermit = new PermissionRecord();
-            managePermit.Name = "Manage Subject";
-            managePermit.SystemName = "ManageSubject";
-            managePermit.IsDeleted = false;
-            managePermit.IsSystemDefined = true;
-            managePermit.Category = "Subject";
-            managePermit.ModifiedOn = DateTime.Now;
-            managePermit.CreatedOn = DateTime.Now;
-            managePermit.IsActive = true;
-            managePermit.UserId = user.Id;
-            _permissionRecordRepository.Insert(managePermit);
+			managePermit = new PermissionRecord();
+			managePermit.Name = "Manage Subject";
+			managePermit.SystemName = "ManageSubject";
+			managePermit.IsDeleted = false;
+			managePermit.IsSystemDefined = true;
+			managePermit.Category = "Subject";
+			managePermit.ModifiedOn = DateTime.Now;
+			managePermit.CreatedOn = DateTime.Now;
+			managePermit.IsActive = true;
+			managePermit.UserId = user.Id;
+			_permissionRecordRepository.Insert(managePermit);
 
-            #endregion
+			#endregion
 
-            #region User Roles
+			#region User Roles
 
-            // Adding Default Roles
-            // Administrator
-            var _AdminRole = new UserRole();
+			// Adding Default Roles
+			// Administrator
+			var _AdminRole = new UserRole();
 			_AdminRole.CreatedOn = DateTime.Now;
 			_AdminRole.ModifiedOn = DateTime.Now;
 			_AdminRole.RoleName = "Administrator";
@@ -777,6 +777,28 @@ namespace EF.Services.Service
 			_GeneralRole.UserId = user.Id;
 			_userRoleRepository.Insert(_GeneralRole);
 
+			// Student Role
+			var studentRole = new UserRole();
+			studentRole.CreatedOn = DateTime.Now;
+			studentRole.ModifiedOn = DateTime.Now;
+			studentRole.RoleName = "Student";
+			studentRole.IsSystemDefined = true;
+			studentRole.IsDeleted = false;
+			studentRole.IsActive = true;
+			studentRole.UserId = user.Id;
+			_userRoleRepository.Insert(studentRole);
+
+			// Teacher Role
+			var teacherRole = new UserRole();
+			teacherRole.CreatedOn = DateTime.Now;
+			teacherRole.ModifiedOn = DateTime.Now;
+			teacherRole.RoleName = "Teacher";
+			teacherRole.IsSystemDefined = true;
+			teacherRole.IsDeleted = false;
+			teacherRole.IsActive = true;
+			teacherRole.UserId = user.Id;
+			_userRoleRepository.Insert(teacherRole);
+
 			#endregion
 
 			#region Settings
@@ -786,15 +808,15 @@ namespace EF.Services.Service
 			newSlider.CreatedOn = DateTime.Now;
 			newSlider.ModifiedOn = DateTime.Now;
 			newSlider.IsActive = true;
-		    newSlider.DisplayArea = 1;
-		    newSlider.DisplayOrder = 0;
-		    newSlider.MaxPictures = 5;
-		    newSlider.Name = "Default Slider";
-		    newSlider.ShowCaption = true;
-		    newSlider.ShowNextPrevIndicators = true;
-		    newSlider.ShowThumbnails = true;
-		    newSlider.IsSystemDefined = true;
-            newSlider.UserId = user.Id;
+			newSlider.DisplayArea = 1;
+			newSlider.DisplayOrder = 0;
+			newSlider.MaxPictures = 5;
+			newSlider.Name = "Default Slider";
+			newSlider.ShowCaption = true;
+			newSlider.ShowNextPrevIndicators = true;
+			newSlider.ShowThumbnails = true;
+			newSlider.IsSystemDefined = true;
+			newSlider.UserId = user.Id;
 			newSlider.Pictures.Add(new Picture()
 			{
 				AlternateText = "",
@@ -1027,137 +1049,137 @@ namespace EF.Services.Service
 			setting.ModifiedOn = DateTime.Now;
 			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "CommentOnBlog";
-		    setting.Name = "CommentOnBlog";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "CommentOnBlog";
+			setting.Name = "CommentOnBlog";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "VisitorQueryPlaced";
-		    setting.Name = "VisitorQueryPlaced";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "VisitorQueryPlaced";
+			setting.Name = "VisitorQueryPlaced";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "CommentOnEvent";
-		    setting.Name = "CommentOnEvent";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "CommentOnEvent";
+			setting.Name = "CommentOnEvent";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "CommentOnProduct";
-		    setting.Name = "CommentOnProduct";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "CommentOnProduct";
+			setting.Name = "CommentOnProduct";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "ProductAdded";
-		    setting.Name = "ProductAdded";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "ProductAdded";
+			setting.Name = "ProductAdded";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "ReplyOnComment";
-		    setting.Name = "ReplyOnComment";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "ReplyOnComment";
+			setting.Name = "ReplyOnComment";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "NewUserRegister";
-		    setting.Name = "NewUserRegister";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "NewUserRegister";
+			setting.Name = "NewUserRegister";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "UserSignInAttempt";
-		    setting.Name = "UserSignInAttempt";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "UserSignInAttempt";
+			setting.Name = "UserSignInAttempt";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "RequestQuote";
-		    setting.Name = "RequestQuote";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "RequestQuote";
+			setting.Name = "RequestQuote";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-		    setting = new Settings();
-		    setting.EntityId = user.Id;
-		    setting.Value = "RequestQuote";
-		    setting.Name = "RequestQuote";
-		    setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
-		    setting.Entity = "Configuration";
-		    setting.user = user;
-		    setting.UserId = user.Id;
-		    setting.CreatedOn = DateTime.Now;
-		    setting.ModifiedOn = DateTime.Now;
-		    _settingRepository.Insert(setting);
+			setting = new Settings();
+			setting.EntityId = user.Id;
+			setting.Value = "RequestQuote";
+			setting.Name = "RequestQuote";
+			setting.SettingType = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.TypeId = (int)SettingTypeEnum.ConfigurationSetting;
+			setting.Entity = "Configuration";
+			setting.user = user;
+			setting.UserId = user.Id;
+			setting.CreatedOn = DateTime.Now;
+			setting.ModifiedOn = DateTime.Now;
+			_settingRepository.Insert(setting);
 
-            setting = new Settings();
+			setting = new Settings();
 			setting.EntityId = user.Id;
 			setting.Value = "true";
 			setting.Name = "DatabaseInstalled";
@@ -1183,157 +1205,157 @@ namespace EF.Services.Service
 			setting.ModifiedOn = DateTime.Now;
 			_settingRepository.Insert(setting);
 
-            // Email Settings For Live
-            var emailSetting = new Settings();
-            emailSetting.Name = "FromEmail";
-            emailSetting.Value = "norpeply@sms.com";
-            emailSetting.EntityId = 0;
-            emailSetting.Entity = "Email";
-            emailSetting.SettingType = 7;
-            emailSetting.TypeId = 7;
-            emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
-            emailSetting.UserId = user.Id;
-            _settingRepository.Insert(emailSetting);
+			// Email Settings For Live
+			var emailSetting = new Settings();
+			emailSetting.Name = "FromEmail";
+			emailSetting.Value = "norpeply@sms.com";
+			emailSetting.EntityId = 0;
+			emailSetting.Entity = "Email";
+			emailSetting.SettingType = 7;
+			emailSetting.TypeId = 7;
+			emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
+			emailSetting.UserId = user.Id;
+			_settingRepository.Insert(emailSetting);
 
-            emailSetting = new Settings();
-            emailSetting.Name = "Username";
-            emailSetting.Value = "sandeep725@gmail.com";
-            emailSetting.EntityId = 0;
-            emailSetting.Entity = "Email";
-            emailSetting.SettingType = 7;
-            emailSetting.TypeId = 7;
-            emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
-            emailSetting.UserId = user.Id;
-            _settingRepository.Insert(emailSetting);
+			emailSetting = new Settings();
+			emailSetting.Name = "Username";
+			emailSetting.Value = "sandeep725@gmail.com";
+			emailSetting.EntityId = 0;
+			emailSetting.Entity = "Email";
+			emailSetting.SettingType = 7;
+			emailSetting.TypeId = 7;
+			emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
+			emailSetting.UserId = user.Id;
+			_settingRepository.Insert(emailSetting);
 
-            emailSetting = new Settings();
-            emailSetting.Name = "Port";
-            emailSetting.Value = "25";
-            emailSetting.EntityId = 0;
-            emailSetting.Entity = "Email";
-            emailSetting.SettingType = 7;
-            emailSetting.TypeId = 7;
-            emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
-            emailSetting.UserId = user.Id;
-            _settingRepository.Insert(emailSetting);
+			emailSetting = new Settings();
+			emailSetting.Name = "Port";
+			emailSetting.Value = "25";
+			emailSetting.EntityId = 0;
+			emailSetting.Entity = "Email";
+			emailSetting.SettingType = 7;
+			emailSetting.TypeId = 7;
+			emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
+			emailSetting.UserId = user.Id;
+			_settingRepository.Insert(emailSetting);
 
-            emailSetting = new Settings();
-            emailSetting.Name = "UseDefaultCredentials";
-            emailSetting.Value = "false";
-            emailSetting.EntityId = 0;
-            emailSetting.Entity = "Email";
-            emailSetting.SettingType = 7;
-            emailSetting.TypeId = 7;
-            emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
-            emailSetting.UserId = user.Id;
-            _settingRepository.Insert(emailSetting);
+			emailSetting = new Settings();
+			emailSetting.Name = "UseDefaultCredentials";
+			emailSetting.Value = "false";
+			emailSetting.EntityId = 0;
+			emailSetting.Entity = "Email";
+			emailSetting.SettingType = 7;
+			emailSetting.TypeId = 7;
+			emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
+			emailSetting.UserId = user.Id;
+			_settingRepository.Insert(emailSetting);
 
-            emailSetting = new Settings();
-            emailSetting.Name = "EnableSSL";
-            emailSetting.Value = "false";
-            emailSetting.EntityId = 0;
-            emailSetting.Entity = "Email";
-            emailSetting.SettingType = 7;
-            emailSetting.TypeId = 7;
-            emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
-            emailSetting.UserId = user.Id;
-            _settingRepository.Insert(emailSetting);
+			emailSetting = new Settings();
+			emailSetting.Name = "EnableSSL";
+			emailSetting.Value = "false";
+			emailSetting.EntityId = 0;
+			emailSetting.Entity = "Email";
+			emailSetting.SettingType = 7;
+			emailSetting.TypeId = 7;
+			emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
+			emailSetting.UserId = user.Id;
+			_settingRepository.Insert(emailSetting);
 
-            emailSetting = new Settings();
-            emailSetting.Name = "Password";
-            emailSetting.Value = "";
-            emailSetting.EntityId = 0;
-            emailSetting.Entity = "Email";
-            emailSetting.SettingType = 7;
-            emailSetting.TypeId = 7;
-            emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
-            emailSetting.UserId = user.Id;
-            _settingRepository.Insert(emailSetting);
+			emailSetting = new Settings();
+			emailSetting.Name = "Password";
+			emailSetting.Value = "";
+			emailSetting.EntityId = 0;
+			emailSetting.Entity = "Email";
+			emailSetting.SettingType = 7;
+			emailSetting.TypeId = 7;
+			emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
+			emailSetting.UserId = user.Id;
+			_settingRepository.Insert(emailSetting);
 
-            emailSetting = new Settings();
-            emailSetting.Name = "Host";
-            emailSetting.Value = "relay-hosting.secureserver.net";
-            emailSetting.EntityId = 0;
-            emailSetting.Entity = "Email";
-            emailSetting.SettingType = 7;
-            emailSetting.TypeId = 7;
-            emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
-            emailSetting.UserId = user.Id;
-            _settingRepository.Insert(emailSetting);
+			emailSetting = new Settings();
+			emailSetting.Name = "Host";
+			emailSetting.Value = "relay-hosting.secureserver.net";
+			emailSetting.EntityId = 0;
+			emailSetting.Entity = "Email";
+			emailSetting.SettingType = 7;
+			emailSetting.TypeId = 7;
+			emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
+			emailSetting.UserId = user.Id;
+			_settingRepository.Insert(emailSetting);
 
-            var stuCodeSetting = new Settings();
-            stuCodeSetting.Name = "StudentPrefix";
-            stuCodeSetting.Value = "STU";
-            stuCodeSetting.EntityId = 0;
-            stuCodeSetting.Entity = "Student";
-            stuCodeSetting.SettingType = 8;
-            stuCodeSetting.TypeId = 8;
-            stuCodeSetting.CreatedOn = stuCodeSetting.ModifiedOn = DateTime.Now;
-            stuCodeSetting.UserId = user.Id;
-            _settingRepository.Insert(stuCodeSetting);
+			var stuCodeSetting = new Settings();
+			stuCodeSetting.Name = "StudentPrefix";
+			stuCodeSetting.Value = "STU";
+			stuCodeSetting.EntityId = 0;
+			stuCodeSetting.Entity = "Student";
+			stuCodeSetting.SettingType = 8;
+			stuCodeSetting.TypeId = 8;
+			stuCodeSetting.CreatedOn = stuCodeSetting.ModifiedOn = DateTime.Now;
+			stuCodeSetting.UserId = user.Id;
+			_settingRepository.Insert(stuCodeSetting);
 
-            stuCodeSetting = new Settings();
-            stuCodeSetting.Name = "StudentCodeStart";
-            stuCodeSetting.Value = "101";
-            stuCodeSetting.EntityId = 0;
-            stuCodeSetting.Entity = "Student";
-            stuCodeSetting.SettingType = 8;
-            stuCodeSetting.TypeId = 8;
-            stuCodeSetting.CreatedOn = stuCodeSetting.ModifiedOn = DateTime.Now;
-            stuCodeSetting.UserId = user.Id;
-            _settingRepository.Insert(stuCodeSetting);
+			stuCodeSetting = new Settings();
+			stuCodeSetting.Name = "StudentCodeStart";
+			stuCodeSetting.Value = "101";
+			stuCodeSetting.EntityId = 0;
+			stuCodeSetting.Entity = "Student";
+			stuCodeSetting.SettingType = 8;
+			stuCodeSetting.TypeId = 8;
+			stuCodeSetting.CreatedOn = stuCodeSetting.ModifiedOn = DateTime.Now;
+			stuCodeSetting.UserId = user.Id;
+			_settingRepository.Insert(stuCodeSetting);
 
-            var empCodeSetting = new Settings();
-            empCodeSetting.Name = "EmployeePrefix";
-            empCodeSetting.Value = "EMP";
-            empCodeSetting.EntityId = 0;
-            empCodeSetting.Entity = "Employee";
-            empCodeSetting.SettingType = 9;
-            empCodeSetting.TypeId = 9;
-            empCodeSetting.CreatedOn = empCodeSetting.ModifiedOn = DateTime.Now;
-            empCodeSetting.UserId = user.Id;
-            _settingRepository.Insert(empCodeSetting);
+			var empCodeSetting = new Settings();
+			empCodeSetting.Name = "EmployeePrefix";
+			empCodeSetting.Value = "EMP";
+			empCodeSetting.EntityId = 0;
+			empCodeSetting.Entity = "Employee";
+			empCodeSetting.SettingType = 9;
+			empCodeSetting.TypeId = 9;
+			empCodeSetting.CreatedOn = empCodeSetting.ModifiedOn = DateTime.Now;
+			empCodeSetting.UserId = user.Id;
+			_settingRepository.Insert(empCodeSetting);
 
-            empCodeSetting = new Settings();
-            empCodeSetting.Name = "EmployeeCodeStart";
-            empCodeSetting.Value = "201";
-            empCodeSetting.EntityId = 0;
-            empCodeSetting.Entity = "Student";
-            empCodeSetting.SettingType = 9;
-            empCodeSetting.TypeId = 9;
-            empCodeSetting.CreatedOn = empCodeSetting.ModifiedOn = DateTime.Now;
-            empCodeSetting.UserId = user.Id;
-            _settingRepository.Insert(empCodeSetting);
+			empCodeSetting = new Settings();
+			empCodeSetting.Name = "EmployeeCodeStart";
+			empCodeSetting.Value = "201";
+			empCodeSetting.EntityId = 0;
+			empCodeSetting.Entity = "Student";
+			empCodeSetting.SettingType = 9;
+			empCodeSetting.TypeId = 9;
+			empCodeSetting.CreatedOn = empCodeSetting.ModifiedOn = DateTime.Now;
+			empCodeSetting.UserId = user.Id;
+			_settingRepository.Insert(empCodeSetting);
 
-            var subCodeSetting = new Settings();
-            subCodeSetting.Name = "SubjectPrefix";
-            subCodeSetting.Value = "SUB";
-            subCodeSetting.EntityId = 0;
-            subCodeSetting.Entity = "Subject";
-            subCodeSetting.SettingType = 10;
-            subCodeSetting.TypeId = 10;
-            subCodeSetting.CreatedOn = subCodeSetting.ModifiedOn = DateTime.Now;
-            subCodeSetting.UserId = user.Id;
-            _settingRepository.Insert(subCodeSetting);
+			var subCodeSetting = new Settings();
+			subCodeSetting.Name = "SubjectPrefix";
+			subCodeSetting.Value = "SUB";
+			subCodeSetting.EntityId = 0;
+			subCodeSetting.Entity = "Subject";
+			subCodeSetting.SettingType = 10;
+			subCodeSetting.TypeId = 10;
+			subCodeSetting.CreatedOn = subCodeSetting.ModifiedOn = DateTime.Now;
+			subCodeSetting.UserId = user.Id;
+			_settingRepository.Insert(subCodeSetting);
 
-            subCodeSetting = new Settings();
-            subCodeSetting.Name = "SubjectCodeStart";
-            subCodeSetting.Value = "3001";
-            subCodeSetting.EntityId = 0;
-            subCodeSetting.Entity = "Subject";
-            subCodeSetting.SettingType = 10;
-            subCodeSetting.TypeId = 10;
-            subCodeSetting.CreatedOn = subCodeSetting.ModifiedOn = DateTime.Now;
-            subCodeSetting.UserId = user.Id;
-            _settingRepository.Insert(subCodeSetting);
+			subCodeSetting = new Settings();
+			subCodeSetting.Name = "SubjectCodeStart";
+			subCodeSetting.Value = "3001";
+			subCodeSetting.EntityId = 0;
+			subCodeSetting.Entity = "Subject";
+			subCodeSetting.SettingType = 10;
+			subCodeSetting.TypeId = 10;
+			subCodeSetting.CreatedOn = subCodeSetting.ModifiedOn = DateTime.Now;
+			subCodeSetting.UserId = user.Id;
+			_settingRepository.Insert(subCodeSetting);
 
-            #endregion
+			#endregion
 
-            #region Data Tokens
+			#region Data Tokens
 
-            #region User
+			#region User
 
-            var visitorToken = new DataToken();
+			var visitorToken = new DataToken();
 			visitorToken.Name = "Visitor Name";
 			visitorToken.SystemName = "VisitorName";
 			visitorToken.Value = "Visitor";
@@ -1724,99 +1746,99 @@ namespace EF.Services.Service
 			_tokenRepository.Insert(blogToken);
 
 			var blogEmailToken = new DataToken();
-		    blogEmailToken.SystemName = "BlogEmail";
-		    blogEmailToken.Name = "Blog Email";
-		    blogEmailToken.Value = "#";
-		    blogEmailToken.IsSystemDefined = true;
-		    blogEmailToken.CreatedOn = DateTime.Now;
-		    blogEmailToken.IsActive = true;
-		    blogEmailToken.IsDeleted = false;
-		    blogEmailToken.ModifiedOn = DateTime.Now;
-		    blogEmailToken.UserId = user.Id;
+			blogEmailToken.SystemName = "BlogEmail";
+			blogEmailToken.Name = "Blog Email";
+			blogEmailToken.Value = "#";
+			blogEmailToken.IsSystemDefined = true;
+			blogEmailToken.CreatedOn = DateTime.Now;
+			blogEmailToken.IsActive = true;
+			blogEmailToken.IsDeleted = false;
+			blogEmailToken.ModifiedOn = DateTime.Now;
+			blogEmailToken.UserId = user.Id;
 			_tokenRepository.Insert(blogEmailToken);
 
 			var blogIdToken = new DataToken();
-		    blogIdToken.SystemName = "BlogId";
-		    blogIdToken.Name = "Blog Id";
-		    blogIdToken.Value = "#";
-		    blogIdToken.IsSystemDefined = true;
-		    blogIdToken.CreatedOn = DateTime.Now;
-		    blogIdToken.IsActive = true;
-		    blogIdToken.IsDeleted = false;
-		    blogIdToken.ModifiedOn = DateTime.Now;
-		    blogIdToken.UserId = user.Id;
+			blogIdToken.SystemName = "BlogId";
+			blogIdToken.Name = "Blog Id";
+			blogIdToken.Value = "#";
+			blogIdToken.IsSystemDefined = true;
+			blogIdToken.CreatedOn = DateTime.Now;
+			blogIdToken.IsActive = true;
+			blogIdToken.IsDeleted = false;
+			blogIdToken.ModifiedOn = DateTime.Now;
+			blogIdToken.UserId = user.Id;
 			_tokenRepository.Insert(blogIdToken);
 
 			var blogUserIdToken = new DataToken();
-		    blogUserIdToken.SystemName = "BlogUserId";
-		    blogUserIdToken.Name = "Blog User Id";
-		    blogUserIdToken.Value = "#";
-		    blogUserIdToken.IsSystemDefined = true;
-		    blogUserIdToken.CreatedOn = DateTime.Now;
-		    blogUserIdToken.IsActive = true;
-		    blogUserIdToken.IsDeleted = false;
-		    blogUserIdToken.ModifiedOn = DateTime.Now;
-		    blogUserIdToken.UserId = user.Id;
+			blogUserIdToken.SystemName = "BlogUserId";
+			blogUserIdToken.Name = "Blog User Id";
+			blogUserIdToken.Value = "#";
+			blogUserIdToken.IsSystemDefined = true;
+			blogUserIdToken.CreatedOn = DateTime.Now;
+			blogUserIdToken.IsActive = true;
+			blogUserIdToken.IsDeleted = false;
+			blogUserIdToken.ModifiedOn = DateTime.Now;
+			blogUserIdToken.UserId = user.Id;
 			_tokenRepository.Insert(blogUserIdToken);
 
 			var blogNameToken = new DataToken();
-		    blogNameToken.SystemName = "BlogName";
-		    blogNameToken.Name = "Blog Name";
-		    blogNameToken.Value = "#";
-		    blogNameToken.IsSystemDefined = true;
-		    blogNameToken.CreatedOn = DateTime.Now;
-		    blogNameToken.IsActive = true;
-		    blogNameToken.IsDeleted = false;
-		    blogNameToken.ModifiedOn = DateTime.Now;
-		    blogNameToken.UserId = user.Id;
+			blogNameToken.SystemName = "BlogName";
+			blogNameToken.Name = "Blog Name";
+			blogNameToken.Value = "#";
+			blogNameToken.IsSystemDefined = true;
+			blogNameToken.CreatedOn = DateTime.Now;
+			blogNameToken.IsActive = true;
+			blogNameToken.IsDeleted = false;
+			blogNameToken.ModifiedOn = DateTime.Now;
+			blogNameToken.UserId = user.Id;
 			_tokenRepository.Insert(blogNameToken);
 
 			var blogActiveToken = new DataToken();
-		    blogActiveToken.SystemName = "BlogActive";
-		    blogActiveToken.Name = "Blog Active";
-		    blogActiveToken.Value = "#";
-		    blogActiveToken.IsSystemDefined = true;
-		    blogActiveToken.CreatedOn = DateTime.Now;
-		    blogActiveToken.IsActive = true;
-		    blogActiveToken.IsDeleted = false;
-		    blogActiveToken.ModifiedOn = DateTime.Now;
-		    blogActiveToken.UserId = user.Id;
+			blogActiveToken.SystemName = "BlogActive";
+			blogActiveToken.Name = "Blog Active";
+			blogActiveToken.Value = "#";
+			blogActiveToken.IsSystemDefined = true;
+			blogActiveToken.CreatedOn = DateTime.Now;
+			blogActiveToken.IsActive = true;
+			blogActiveToken.IsDeleted = false;
+			blogActiveToken.ModifiedOn = DateTime.Now;
+			blogActiveToken.UserId = user.Id;
 			_tokenRepository.Insert(blogActiveToken);
 
 			var blogUrlToken = new DataToken();
-		    blogUrlToken.SystemName = "BlogUrl";
-		    blogUrlToken.Name = "Blog Url";
-		    blogUrlToken.Value = "#";
-		    blogUrlToken.IsSystemDefined = true;
-		    blogUrlToken.CreatedOn = DateTime.Now;
-		    blogUrlToken.IsActive = true;
-		    blogUrlToken.IsDeleted = false;
-		    blogUrlToken.ModifiedOn = DateTime.Now;
-		    blogUrlToken.UserId = user.Id;
+			blogUrlToken.SystemName = "BlogUrl";
+			blogUrlToken.Name = "Blog Url";
+			blogUrlToken.Value = "#";
+			blogUrlToken.IsSystemDefined = true;
+			blogUrlToken.CreatedOn = DateTime.Now;
+			blogUrlToken.IsActive = true;
+			blogUrlToken.IsDeleted = false;
+			blogUrlToken.ModifiedOn = DateTime.Now;
+			blogUrlToken.UserId = user.Id;
 			_tokenRepository.Insert(blogUrlToken);
 
 			var blogSubjectToken = new DataToken();
-		    blogSubjectToken.SystemName = "BlogSubject";
-		    blogSubjectToken.Name = "Blog Subject";
-		    blogSubjectToken.Value = "#";
-		    blogSubjectToken.IsSystemDefined = true;
-		    blogSubjectToken.CreatedOn = DateTime.Now;
-		    blogSubjectToken.IsActive = true;
-		    blogSubjectToken.IsDeleted = false;
-		    blogSubjectToken.ModifiedOn = DateTime.Now;
-		    blogSubjectToken.UserId = user.Id;
+			blogSubjectToken.SystemName = "BlogSubject";
+			blogSubjectToken.Name = "Blog Subject";
+			blogSubjectToken.Value = "#";
+			blogSubjectToken.IsSystemDefined = true;
+			blogSubjectToken.CreatedOn = DateTime.Now;
+			blogSubjectToken.IsActive = true;
+			blogSubjectToken.IsDeleted = false;
+			blogSubjectToken.ModifiedOn = DateTime.Now;
+			blogSubjectToken.UserId = user.Id;
 			_tokenRepository.Insert(blogSubjectToken);
 
 			var blogApprovedToken = new DataToken();
-		    blogApprovedToken.SystemName = "BlogApproved";
-		    blogApprovedToken.Name = "Blog Approved";
-		    blogApprovedToken.Value = "#";
-		    blogApprovedToken.IsSystemDefined = true;
-		    blogApprovedToken.CreatedOn = DateTime.Now;
-		    blogApprovedToken.IsActive = true;
-		    blogApprovedToken.IsDeleted = false;
-		    blogApprovedToken.ModifiedOn = DateTime.Now;
-		    blogApprovedToken.UserId = user.Id;
+			blogApprovedToken.SystemName = "BlogApproved";
+			blogApprovedToken.Name = "Blog Approved";
+			blogApprovedToken.Value = "#";
+			blogApprovedToken.IsSystemDefined = true;
+			blogApprovedToken.CreatedOn = DateTime.Now;
+			blogApprovedToken.IsActive = true;
+			blogApprovedToken.IsDeleted = false;
+			blogApprovedToken.ModifiedOn = DateTime.Now;
+			blogApprovedToken.UserId = user.Id;
 			_tokenRepository.Insert(blogApprovedToken);
 
 			#endregion
@@ -2147,77 +2169,77 @@ namespace EF.Services.Service
 			_templateRepository.Insert(assessTemplate);
 			_templateRepository.Insert(stuAccessTemplate);
 
-            #endregion
+			#endregion
 
-            #region Feedback
+			#region Feedback
 
-		    var fEmailToken = new DataToken();
-		    fEmailToken.Name = "Feedback Email";
-		    fEmailToken.SystemName = "FeedbackEmail";
-		    fEmailToken.Value = "Feedback Email";
-		    fEmailToken.IsSystemDefined = true;
-		    fEmailToken.CreatedOn = DateTime.Now;
-		    fEmailToken.IsActive = true;
-		    fEmailToken.IsDeleted = false;
-		    fEmailToken.ModifiedOn = DateTime.Now;
-		    fEmailToken.UserId = user.Id;
-		    _tokenRepository.Insert(fEmailToken);
+			var fEmailToken = new DataToken();
+			fEmailToken.Name = "Feedback Email";
+			fEmailToken.SystemName = "FeedbackEmail";
+			fEmailToken.Value = "Feedback Email";
+			fEmailToken.IsSystemDefined = true;
+			fEmailToken.CreatedOn = DateTime.Now;
+			fEmailToken.IsActive = true;
+			fEmailToken.IsDeleted = false;
+			fEmailToken.ModifiedOn = DateTime.Now;
+			fEmailToken.UserId = user.Id;
+			_tokenRepository.Insert(fEmailToken);
 
-		    var fIdToken = new DataToken();
-		    fIdToken.Name = "Feedback Id";
-		    fIdToken.SystemName = "FeedbackId";
-		    fIdToken.Value = "Feedback Id";
-		    fIdToken.IsSystemDefined = true;
-		    fIdToken.CreatedOn = DateTime.Now;
-		    fIdToken.IsActive = true;
-		    fIdToken.IsDeleted = false;
-		    fIdToken.ModifiedOn = DateTime.Now;
-		    fIdToken.UserId = user.Id;
-		    _tokenRepository.Insert(fIdToken);
+			var fIdToken = new DataToken();
+			fIdToken.Name = "Feedback Id";
+			fIdToken.SystemName = "FeedbackId";
+			fIdToken.Value = "Feedback Id";
+			fIdToken.IsSystemDefined = true;
+			fIdToken.CreatedOn = DateTime.Now;
+			fIdToken.IsActive = true;
+			fIdToken.IsDeleted = false;
+			fIdToken.ModifiedOn = DateTime.Now;
+			fIdToken.UserId = user.Id;
+			_tokenRepository.Insert(fIdToken);
 
-		    var fContactToken = new DataToken();
-		    fContactToken.Name = "Feedback Contact";
-		    fContactToken.SystemName = "FeedbackContact";
-		    fContactToken.Value = "Feedback Contact";
-		    fContactToken.IsSystemDefined = true;
-		    fContactToken.CreatedOn = DateTime.Now;
-		    fContactToken.IsActive = true;
-		    fContactToken.IsDeleted = false;
-		    fContactToken.ModifiedOn = DateTime.Now;
-		    fContactToken.UserId = user.Id;
-		    _tokenRepository.Insert(fContactToken);
+			var fContactToken = new DataToken();
+			fContactToken.Name = "Feedback Contact";
+			fContactToken.SystemName = "FeedbackContact";
+			fContactToken.Value = "Feedback Contact";
+			fContactToken.IsSystemDefined = true;
+			fContactToken.CreatedOn = DateTime.Now;
+			fContactToken.IsActive = true;
+			fContactToken.IsDeleted = false;
+			fContactToken.ModifiedOn = DateTime.Now;
+			fContactToken.UserId = user.Id;
+			_tokenRepository.Insert(fContactToken);
 
-		    var fLocationToken = new DataToken();
-		    fLocationToken.Name = "Feedback Location";
-		    fLocationToken.SystemName = "FeedbackLocation";
-		    fLocationToken.Value = "Feedback Location";
-		    fLocationToken.IsSystemDefined = true;
-		    fLocationToken.CreatedOn = DateTime.Now;
-		    fLocationToken.IsActive = true;
-		    fLocationToken.IsDeleted = false;
-		    fLocationToken.ModifiedOn = DateTime.Now;
-		    fLocationToken.UserId = user.Id;
-		    _tokenRepository.Insert(fLocationToken);
+			var fLocationToken = new DataToken();
+			fLocationToken.Name = "Feedback Location";
+			fLocationToken.SystemName = "FeedbackLocation";
+			fLocationToken.Value = "Feedback Location";
+			fLocationToken.IsSystemDefined = true;
+			fLocationToken.CreatedOn = DateTime.Now;
+			fLocationToken.IsActive = true;
+			fLocationToken.IsDeleted = false;
+			fLocationToken.ModifiedOn = DateTime.Now;
+			fLocationToken.UserId = user.Id;
+			_tokenRepository.Insert(fLocationToken);
 
-		    var fDescriptionToken = new DataToken();
-		    fDescriptionToken.Name = "Feedback Description";
-		    fDescriptionToken.SystemName = "FeedbackDescription";
-		    fDescriptionToken.Value = "Feedback Description";
-		    fDescriptionToken.IsSystemDefined = true;
-		    fDescriptionToken.CreatedOn = DateTime.Now;
-		    fDescriptionToken.IsActive = true;
-		    fDescriptionToken.IsDeleted = false;
-		    fDescriptionToken.ModifiedOn = DateTime.Now;
-		    fDescriptionToken.UserId = user.Id;
-		    _tokenRepository.Insert(fDescriptionToken);
+			var fDescriptionToken = new DataToken();
+			fDescriptionToken.Name = "Feedback Description";
+			fDescriptionToken.SystemName = "FeedbackDescription";
+			fDescriptionToken.Value = "Feedback Description";
+			fDescriptionToken.IsSystemDefined = true;
+			fDescriptionToken.CreatedOn = DateTime.Now;
+			fDescriptionToken.IsActive = true;
+			fDescriptionToken.IsDeleted = false;
+			fDescriptionToken.ModifiedOn = DateTime.Now;
+			fDescriptionToken.UserId = user.Id;
+			_tokenRepository.Insert(fDescriptionToken);
 
-            #endregion
+			#endregion
 
-            #endregion
+			#endregion
 
-            #region Default Email Templates
+			#region Default Email Templates
 
-            var defaultTemplate = new Template();
+			var defaultTemplate = new Template();
 			defaultTemplate.Name = "VisitorQueryPlaced";
 			defaultTemplate.IsActive = true;
 			defaultTemplate.IsDeleted = false;
@@ -2228,15 +2250,15 @@ namespace EF.Services.Service
 			defaultTemplate.Tokens.Add(visitorToken);
 			defaultTemplate.UserId = user.Id;
 
-            // Add Data Tokens
-		    defaultTemplate.Tokens.Add(visitorToken);
-		    defaultTemplate.Tokens.Add(fContactToken);
-		    defaultTemplate.Tokens.Add(fDescriptionToken);
-		    defaultTemplate.Tokens.Add(fEmailToken);
-		    defaultTemplate.Tokens.Add(fIdToken);
-		    defaultTemplate.Tokens.Add(fLocationToken);
+			// Add Data Tokens
+			defaultTemplate.Tokens.Add(visitorToken);
+			defaultTemplate.Tokens.Add(fContactToken);
+			defaultTemplate.Tokens.Add(fDescriptionToken);
+			defaultTemplate.Tokens.Add(fEmailToken);
+			defaultTemplate.Tokens.Add(fIdToken);
+			defaultTemplate.Tokens.Add(fLocationToken);
 
-            _templateRepository.Insert(defaultTemplate);
+			_templateRepository.Insert(defaultTemplate);
 
 			defaultTemplate = new Template();
 			defaultTemplate.Name = "CommentOnEvent";
@@ -2361,63 +2383,63 @@ namespace EF.Services.Service
 			defaultTemplate.CreatedOn = DateTime.Now;
 			defaultTemplate.UserId = user.Id;
 
-		    // Add Data Tokens
-		    defaultTemplate.Tokens.Add(visitorToken);
-		    defaultTemplate.Tokens.Add(usercreationdateToken);
-		    defaultTemplate.Tokens.Add(useridToken);
-		    defaultTemplate.Tokens.Add(usermailToken);
-		    defaultTemplate.Tokens.Add(usernameToken);
-            defaultTemplate.Tokens.Add(fContactToken);
-		    defaultTemplate.Tokens.Add(fDescriptionToken);
-		    defaultTemplate.Tokens.Add(fEmailToken);
-		    defaultTemplate.Tokens.Add(fIdToken);
-		    defaultTemplate.Tokens.Add(fLocationToken);
-            _templateRepository.Insert(defaultTemplate);
+			// Add Data Tokens
+			defaultTemplate.Tokens.Add(visitorToken);
+			defaultTemplate.Tokens.Add(usercreationdateToken);
+			defaultTemplate.Tokens.Add(useridToken);
+			defaultTemplate.Tokens.Add(usermailToken);
+			defaultTemplate.Tokens.Add(usernameToken);
+			defaultTemplate.Tokens.Add(fContactToken);
+			defaultTemplate.Tokens.Add(fDescriptionToken);
+			defaultTemplate.Tokens.Add(fEmailToken);
+			defaultTemplate.Tokens.Add(fIdToken);
+			defaultTemplate.Tokens.Add(fLocationToken);
+			_templateRepository.Insert(defaultTemplate);
 
-		    defaultTemplate = new Template();
-		    defaultTemplate.Name = "ForgetPassword";
-		    defaultTemplate.IsActive = true;
-		    defaultTemplate.IsDeleted = false;
-		    defaultTemplate.IsSystemDefined = true;
-		    defaultTemplate.ModifiedOn = DateTime.Now;
-		    defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[UserEmail]</td></tr></tbody></table>";
-		    defaultTemplate.CreatedOn = DateTime.Now;
-		    defaultTemplate.UserId = user.Id;
+			defaultTemplate = new Template();
+			defaultTemplate.Name = "ForgetPassword";
+			defaultTemplate.IsActive = true;
+			defaultTemplate.IsDeleted = false;
+			defaultTemplate.IsSystemDefined = true;
+			defaultTemplate.ModifiedOn = DateTime.Now;
+			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[UserEmail]</td></tr></tbody></table>";
+			defaultTemplate.CreatedOn = DateTime.Now;
+			defaultTemplate.UserId = user.Id;
 
-		    defaultTemplate.Tokens.Add(usercreationdateToken);
-		    defaultTemplate.Tokens.Add(useridToken);
-		    defaultTemplate.Tokens.Add(usermailToken);
-		    defaultTemplate.Tokens.Add(userpasswordToken);
+			defaultTemplate.Tokens.Add(usercreationdateToken);
+			defaultTemplate.Tokens.Add(useridToken);
+			defaultTemplate.Tokens.Add(usermailToken);
+			defaultTemplate.Tokens.Add(userpasswordToken);
 
-		    _templateRepository.Insert(defaultTemplate);
+			_templateRepository.Insert(defaultTemplate);
 
-		    defaultTemplate = new Template();
-		    defaultTemplate.Name = "CommentOnBlog";
-		    defaultTemplate.IsActive = true;
-		    defaultTemplate.IsDeleted = false;
-		    defaultTemplate.IsSystemDefined = true;
-		    defaultTemplate.ModifiedOn = DateTime.Now;
-		    defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[BlogName]</td></tr></tbody></table>";
-		    defaultTemplate.CreatedOn = DateTime.Now;
-		    defaultTemplate.UserId = user.Id;
+			defaultTemplate = new Template();
+			defaultTemplate.Name = "CommentOnBlog";
+			defaultTemplate.IsActive = true;
+			defaultTemplate.IsDeleted = false;
+			defaultTemplate.IsSystemDefined = true;
+			defaultTemplate.ModifiedOn = DateTime.Now;
+			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[BlogName]</td></tr></tbody></table>";
+			defaultTemplate.CreatedOn = DateTime.Now;
+			defaultTemplate.UserId = user.Id;
 
-		    defaultTemplate.Tokens.Add(blogActiveToken);
-		    defaultTemplate.Tokens.Add(blogApprovedToken);
-		    defaultTemplate.Tokens.Add(blogEmailToken);
-		    defaultTemplate.Tokens.Add(blogIdToken);
+			defaultTemplate.Tokens.Add(blogActiveToken);
+			defaultTemplate.Tokens.Add(blogApprovedToken);
+			defaultTemplate.Tokens.Add(blogEmailToken);
+			defaultTemplate.Tokens.Add(blogIdToken);
 
-		    defaultTemplate.Tokens.Add(blogNameToken);
-		    defaultTemplate.Tokens.Add(blogSubjectToken);
-		    defaultTemplate.Tokens.Add(blogUrlToken);
-		    defaultTemplate.Tokens.Add(blogUserIdToken);
+			defaultTemplate.Tokens.Add(blogNameToken);
+			defaultTemplate.Tokens.Add(blogSubjectToken);
+			defaultTemplate.Tokens.Add(blogUrlToken);
+			defaultTemplate.Tokens.Add(blogUserIdToken);
 
-            _templateRepository.Insert(defaultTemplate);
+			_templateRepository.Insert(defaultTemplate);
 
-            #endregion
+			#endregion
 
-            #region Scheduled Tasks
+			#region Scheduled Tasks
 
-            _scheduleTaskRepository.Insert(new ScheduleTask
+			_scheduleTaskRepository.Insert(new ScheduleTask
 			{
 				Name = "Keep alive",
 				Seconds = 300,
@@ -2503,730 +2525,730 @@ namespace EF.Services.Service
 				Slug = school.ValidateSystemName("", school.FullName, true)
 			});
 
-            // School Default Data
-
-            #region Divisions
-            var addDivision = new Division();
-            addDivision.AcadmicYearId = acadmicYear.Id;
-            addDivision.Name = "A";
-            addDivision.Description = "Default";
-            addDivision.IsActive = true;
-            addDivision.IsDeleted = false;
-            addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
-            addDivision.UserId = user.Id;
-            _divisionRepository.Insert(addDivision);
-
-            addDivision = new Division();
-            addDivision.AcadmicYearId = acadmicYear.Id;
-            addDivision.Name = "B";
-            addDivision.Description = "Default";
-            addDivision.IsActive = true;
-            addDivision.IsDeleted = false;
-            addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
-            addDivision.UserId = user.Id;
-            _divisionRepository.Insert(addDivision);
-
-            addDivision = new Division();
-            addDivision.AcadmicYearId = acadmicYear.Id;
-            addDivision.Name = "C";
-            addDivision.Description = "Default";
-            addDivision.IsActive = true;
-            addDivision.IsDeleted = false;
-            addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
-            addDivision.UserId = user.Id;
-            _divisionRepository.Insert(addDivision);
-
-            addDivision = new Division();
-            addDivision.AcadmicYearId = acadmicYear.Id;
-            addDivision.Name = "D";
-            addDivision.Description = "Default";
-            addDivision.IsActive = true;
-            addDivision.IsDeleted = false;
-            addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
-            addDivision.UserId = user.Id;
-            _divisionRepository.Insert(addDivision);
-            #endregion
-
-            #region Classrooms
-
-            var addClassRoom = new ClassRoom();
-            addClassRoom.AcadmicYearId = acadmicYear.Id;
-            addClassRoom.ModifiedOn = addClassRoom.CreatedOn = DateTime.Now;
-            addClassRoom.Description = "Default";
-            addClassRoom.IsActive = true;
-            addClassRoom.IsDeleted = false;
-            addClassRoom.Number = "1";
-            addClassRoom.UserId = user.Id;
-            _classroomRepository.Insert(addClassRoom);
-
-            addClassRoom = new ClassRoom();
-            addClassRoom.AcadmicYearId = acadmicYear.Id;
-            addClassRoom.ModifiedOn = addClassRoom.CreatedOn = DateTime.Now;
-            addClassRoom.Description = "Default";
-            addClassRoom.IsActive = true;
-            addClassRoom.IsDeleted = false;
-            addClassRoom.Number = "2";
-            addClassRoom.UserId = user.Id;
-            _classroomRepository.Insert(addClassRoom);
-
-            addClassRoom = new ClassRoom();
-            addClassRoom.AcadmicYearId = acadmicYear.Id;
-            addClassRoom.ModifiedOn = addClassRoom.CreatedOn = DateTime.Now;
-            addClassRoom.Description = "Default";
-            addClassRoom.IsActive = true;
-            addClassRoom.IsDeleted = false;
-            addClassRoom.Number = "3";
-            addClassRoom.UserId = user.Id;
-            _classroomRepository.Insert(addClassRoom);
-
-            addClassRoom = new ClassRoom();
-            addClassRoom.AcadmicYearId = acadmicYear.Id;
-            addClassRoom.ModifiedOn = addClassRoom.CreatedOn = DateTime.Now;
-            addClassRoom.Description = "Default";
-            addClassRoom.IsActive = true;
-            addClassRoom.IsDeleted = false;
-            addClassRoom.Number = "4";
-            addClassRoom.UserId = user.Id;
-            _classroomRepository.Insert(addClassRoom);
-
-            #endregion
-
-            #region Religions
-
-            var hindReligion = new Religion();
-            hindReligion.CreatedOn = hindReligion.ModifiedOn = DateTime.Now;
-            hindReligion.Description = "Default";
-            hindReligion.Name = "Hindu";
-            hindReligion.UserId = user.Id;
-            _religionRepository.Insert(hindReligion);
-
-            var muslimReligion = new Religion();
-            muslimReligion.CreatedOn = muslimReligion.ModifiedOn = DateTime.Now;
-            muslimReligion.Description = "Default";
-            muslimReligion.Name = "Muslim";
-            muslimReligion.UserId = user.Id;
-            _religionRepository.Insert(muslimReligion);
-
-            var sikhReligion = new Religion();
-            sikhReligion.CreatedOn = sikhReligion.ModifiedOn = DateTime.Now;
-            sikhReligion.Description = "Default";
-            sikhReligion.Name = "Sikh";
-            sikhReligion.UserId = user.Id;
-            _religionRepository.Insert(sikhReligion);
-
-            var christReligion = new Religion();
-            christReligion.CreatedOn = christReligion.ModifiedOn = DateTime.Now;
-            christReligion.Description = "Default";
-            christReligion.Name = "Christian";
-            christReligion.UserId = user.Id;
-            _religionRepository.Insert(christReligion);
-
-            var budhReligion = new Religion();
-            budhReligion.CreatedOn = budhReligion.ModifiedOn = DateTime.Now;
-            budhReligion.Description = "Default";
-            budhReligion.Name = "Budhism";
-            budhReligion.UserId = user.Id;
-            _religionRepository.Insert(budhReligion);
-
-            var jainReligion = new Religion();
-            jainReligion.CreatedOn = jainReligion.ModifiedOn = DateTime.Now;
-            jainReligion.Description = "Default";
-            jainReligion.Name = "Jain";
-            jainReligion.UserId = user.Id;
-            _religionRepository.Insert(jainReligion);
-
-            var otherReligion = new Religion();
-            otherReligion.CreatedOn = otherReligion.ModifiedOn = DateTime.Now;
-            otherReligion.Description = "Default";
-            otherReligion.Name = "Other";
-            otherReligion.UserId = user.Id;
-            _religionRepository.Insert(otherReligion);
-
-            #endregion
-
-            #region Categories
-
-            var genCategory = new Category();
-            genCategory.Name = "General";
-            genCategory.CreatedOn = genCategory.ModifiedOn = DateTime.Now;
-            genCategory.IsActive = true;
-            genCategory.IsDeleted = false;
-            genCategory.UserId = user.Id;
-            _categoryRepository.Insert(genCategory);
-
-            var obcCategory = new Category();
-            obcCategory.Name = "OBC";
-            obcCategory.CreatedOn = obcCategory.ModifiedOn = DateTime.Now;
-            obcCategory.IsActive = true;
-            obcCategory.IsDeleted = false;
-            obcCategory.UserId = user.Id;
-            _categoryRepository.Insert(obcCategory);
-
-            var scstCategory = new Category();
-            scstCategory.Name = "SC/ST";
-            scstCategory.CreatedOn = scstCategory.ModifiedOn = DateTime.Now;
-            scstCategory.IsActive = true;
-            scstCategory.IsDeleted = false;
-            scstCategory.UserId = user.Id;
-            _categoryRepository.Insert(scstCategory);
-
-            var otherCategory = new Category();
-            otherCategory.Name = "Other";
-            otherCategory.CreatedOn = otherCategory.ModifiedOn = DateTime.Now;
-            otherCategory.IsActive = true;
-            otherCategory.IsDeleted = false;
-            otherCategory.UserId = user.Id;
-            _categoryRepository.Insert(otherCategory);
-
-            #endregion
-
-            #region Designation
-
-            var addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Name = "Principal";
-            addDesignation.UserId = user.Id;
-            addDesignation.Description = "Default";
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Name = "Academic Director";
-            addDesignation.UserId = user.Id;
-            addDesignation.Description = "Default";
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Name = "Administrator";
-            addDesignation.UserId = user.Id;
-            addDesignation.Description = "Default";
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Name = "Admissions Recruiter";
-            addDesignation.UserId = user.Id;
-            addDesignation.Description = "Default";
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Name = "Assistant Principal";
-            addDesignation.UserId = user.Id;
-            addDesignation.Description = "Default";
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Name = "Bus Driver";
-            addDesignation.UserId = user.Id;
-            addDesignation.Description = "Default";
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Name = "Coach";
-            addDesignation.UserId = user.Id;
-            addDesignation.Description = "Default";
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Computer Science Teacher";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Family and Consumer Science Teacher";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Health/Physical Education Teacher";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Instrumental Music Teacher";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Math Teacher";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "School Counselor";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "School Librarian";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Science Teacher";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Social Studies Teacher";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Substitute Teacher";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Superintendent";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Vice Principal";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Bus Conductor";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            addDesignation = new Designation();
-            addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
-            addDesignation.IsActive = true;
-            addDesignation.IsDeleted = false;
-            addDesignation.Description = "Default";
-            addDesignation.Name = "Nursery Man";
-            addDesignation.UserId = user.Id;
-            _designationRepository.Insert(addDesignation);
-
-            #endregion
-
-            #region Holiday
-
-            var addHoliday = new Holiday();
-            addHoliday.AcadmicYearId = acadmicYear.Id;
-            addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
-            addHoliday.Date = new DateTime(DateTime.Now.Year, 08, 15);
-            addHoliday.DD = 15;
-            addHoliday.MM = 08;
-            addHoliday.YYYY = DateTime.Now.Year;
-            addHoliday.IsDeleted = false;
-            addHoliday.Name = "Independence Day";
-            addHoliday.UserId = user.Id;
-            _holidayRepository.Insert(addHoliday);
-
-            addHoliday = new Holiday();
-            addHoliday.AcadmicYearId = acadmicYear.Id;
-            addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
-            addHoliday.Date = new DateTime(DateTime.Now.Year, 01, 26);
-            addHoliday.DD = 26;
-            addHoliday.MM = 01;
-            addHoliday.YYYY = DateTime.Now.Year;
-            addHoliday.IsDeleted = false;
-            addHoliday.Name = "Republic Day";
-            addHoliday.UserId = user.Id;
-            _holidayRepository.Insert(addHoliday);
-
-            addHoliday = new Holiday();
-            addHoliday.AcadmicYearId = acadmicYear.Id;
-            addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
-            addHoliday.Date = new DateTime(DateTime.Now.Year, 12, 25);
-            addHoliday.DD = 26;
-            addHoliday.MM = 01;
-            addHoliday.YYYY = DateTime.Now.Year;
-            addHoliday.IsDeleted = false;
-            addHoliday.Name = "Christmas Day";
-            addHoliday.UserId = user.Id;
-            _holidayRepository.Insert(addHoliday);
-
-            #endregion
-
-            #region House
-
-            // Pictures
-            var addPicture = new Picture();
-            addPicture.IsActive = true;
-            addPicture.AcadmicYearId = acadmicYear.Id;
-            addPicture.AlternateText = "Gandhi House";
-            addPicture.CreatedOn = addPicture.ModifiedOn = DateTime.Now;
-            addPicture.IsThumb = false;
-            addPicture.IsLogo = false;
-            addPicture.Height = 115;
-            addPicture.Size = 3;
-            addPicture.Url = "";
-            addPicture.UserId = user.Id;
-            addPicture.Width = 81;
-            addPicture.PictureSrc = "/Content/images/Houses/gandhi.jpg";
-            _pictureRepository.Insert(addPicture);
-
-            var addHouse = new House();
-            addHouse.AcadmicYearId = acadmicYear.Id;
-            addHouse.CreatedOn = addHouse.ModifiedOn = DateTime.Now;
-            addHouse.IsActive = true;
-            addHouse.IsDeleted = false;
-            addHouse.Description = "Default";
-            addHouse.Name = "Gandhi House";
-            addHouse.UserId = user.Id;
-            addHouse.PictureId = addPicture.Id;
-            _houseRepository.Insert(addHouse);
-
-            addPicture = new Picture();
-            addPicture.IsActive = true;
-            addPicture.AcadmicYearId = acadmicYear.Id;
-            addPicture.AlternateText = "Nehru House";
-            addPicture.CreatedOn = addPicture.ModifiedOn = DateTime.Now;
-            addPicture.IsThumb = false;
-            addPicture.IsLogo = false;
-            addPicture.Height = 115;
-            addPicture.Size = 3;
-            addPicture.Url = "";
-            addPicture.UserId = user.Id;
-            addPicture.Width = 81;
-            addPicture.PictureSrc = "/Content/images/Houses/nehru.jpg";
-            _pictureRepository.Insert(addPicture);
-
-            addHouse = new House();
-            addHouse.AcadmicYearId = acadmicYear.Id;
-            addHouse.CreatedOn = addHouse.ModifiedOn = DateTime.Now;
-            addHouse.IsActive = true;
-            addHouse.IsDeleted = false;
-            addHouse.Description = "Default";
-            addHouse.Name = "Nehru House";
-            addHouse.UserId = user.Id;
-            addHouse.PictureId = addPicture.Id;
-            _houseRepository.Insert(addHouse);
-
-            addPicture = new Picture();
-            addPicture.IsActive = true;
-            addPicture.AcadmicYearId = acadmicYear.Id;
-            addPicture.AlternateText = "Patel House";
-            addPicture.CreatedOn = addPicture.ModifiedOn = DateTime.Now;
-            addPicture.IsThumb = false;
-            addPicture.IsLogo = false;
-            addPicture.Height = 115;
-            addPicture.Size = 3;
-            addPicture.Url = "";
-            addPicture.UserId = user.Id;
-            addPicture.Width = 81;
-            addPicture.PictureSrc = "/Content/images/Houses/patel.jpg";
-            _pictureRepository.Insert(addPicture);
-
-            addHouse = new House();
-            addHouse.AcadmicYearId = acadmicYear.Id;
-            addHouse.CreatedOn = addHouse.ModifiedOn = DateTime.Now;
-            addHouse.IsActive = true;
-            addHouse.IsDeleted = false;
-            addHouse.Description = "Default";
-            addHouse.Name = "Patel House";
-            addHouse.UserId = user.Id;
-            addHouse.PictureId = addPicture.Id;
-            _houseRepository.Insert(addHouse);
-
-            addPicture = new Picture();
-            addPicture.IsActive = true;
-            addPicture.AcadmicYearId = acadmicYear.Id;
-            addPicture.AlternateText = "Tagore House";
-            addPicture.CreatedOn = addPicture.ModifiedOn = DateTime.Now;
-            addPicture.IsThumb = false;
-            addPicture.IsLogo = false;
-            addPicture.Height = 115;
-            addPicture.Size = 3;
-            addPicture.Url = "";
-            addPicture.UserId = user.Id;
-            addPicture.Width = 81;
-            addPicture.PictureSrc = "/Content/images/Houses/tagore.jpg";
-            _pictureRepository.Insert(addPicture);
-
-            addHouse = new House();
-            addHouse.AcadmicYearId = acadmicYear.Id;
-            addHouse.CreatedOn = addHouse.ModifiedOn = DateTime.Now;
-            addHouse.IsActive = true;
-            addHouse.IsDeleted = false;
-            addHouse.Description = "Default";
-            addHouse.Name = "Tagore House";
-            addHouse.UserId = user.Id;
-            addHouse.PictureId = addPicture.Id;
-            _houseRepository.Insert(addHouse);
-
-            #endregion
-
-            #region Message Group
-
-            var addMsgGroup = new MessageGroup();
-            addMsgGroup.Name = "Default";
-            addMsgGroup.CreatedOn = addMsgGroup.ModifiedOn = DateTime.Now;
-            addMsgGroup.Description = "Default";
-            addMsgGroup.UserId = user.Id;
-            _messageGroupRepository.Insert(addMsgGroup);
-
-            #endregion
-
-            #region Qualification
-
-            var addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "Metric";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "12th";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "B.A";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "BSc.";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "B.Com";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "M.Com";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "M.A";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "B.Tech";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "BCA";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "MCA";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            addQualification = new Qualification();
-            addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
-            addQualification.Description = "Default";
-            addQualification.Name = "Other";
-            addQualification.UserId = user.Id;
-            _qualificationRepository.Insert(addQualification);
-
-            #endregion
-
-            #region Subject
-
-            var addSubject = new Subject();
-            addSubject.AcadmicYearId = acadmicYear.Id;
-            addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
-            addSubject.IsActive = true;
-            addSubject.IsDeleted = false;
-            addSubject.Name = "Mathematics";
-            addSubject.Remarks = "";
-            addSubject.UserId = user.Id;
-            addSubject.Code = "A01";
-            addSubject.SubjectUniqueId = Guid.NewGuid();
-            _subjectRepository.Insert(addSubject);
-
-            addSubject = new Subject();
-            addSubject.AcadmicYearId = acadmicYear.Id;
-            addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
-            addSubject.IsActive = true;
-            addSubject.IsDeleted = false;
-            addSubject.Name = "Hindi";
-            addSubject.Remarks = "";
-            addSubject.UserId = user.Id;
-            addSubject.Code = "A02";
-            addSubject.SubjectUniqueId = Guid.NewGuid();
-            _subjectRepository.Insert(addSubject);
-
-            addSubject = new Subject();
-            addSubject.AcadmicYearId = acadmicYear.Id;
-            addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
-            addSubject.IsActive = true;
-            addSubject.IsDeleted = false;
-            addSubject.Name = "Science";
-            addSubject.Remarks = "";
-            addSubject.UserId = user.Id;
-            addSubject.Code = "A03";
-            addSubject.SubjectUniqueId = Guid.NewGuid();
-            _subjectRepository.Insert(addSubject);
-
-            addSubject = new Subject();
-            addSubject.AcadmicYearId = acadmicYear.Id;
-            addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
-            addSubject.IsActive = true;
-            addSubject.IsDeleted = false;
-            addSubject.Name = "English";
-            addSubject.Remarks = "";
-            addSubject.UserId = user.Id;
-            addSubject.Code = "A03";
-            addSubject.SubjectUniqueId = Guid.NewGuid();
-            _subjectRepository.Insert(addSubject);
-
-            addSubject = new Subject();
-            addSubject.AcadmicYearId = acadmicYear.Id;
-            addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
-            addSubject.IsActive = true;
-            addSubject.IsDeleted = false;
-            addSubject.Name = "Social Studies";
-            addSubject.Remarks = "";
-            addSubject.UserId = user.Id;
-            addSubject.Code = "A04";
-            addSubject.SubjectUniqueId = Guid.NewGuid();
-            _subjectRepository.Insert(addSubject);
-
-            addSubject = new Subject();
-            addSubject.AcadmicYearId = acadmicYear.Id;
-            addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
-            addSubject.IsActive = true;
-            addSubject.IsDeleted = false;
-            addSubject.Name = "Physical Education";
-            addSubject.Remarks = "";
-            addSubject.UserId = user.Id;
-            addSubject.Code = "B01";
-            addSubject.SubjectUniqueId = Guid.NewGuid();
-            _subjectRepository.Insert(addSubject);
-
-            #endregion
-
-            #region Vendor
-
-            var addVendor = new Vendor();
-            addVendor.AcadmicYearId = acadmicYear.Id;
-            addVendor.Address = "Default";
-            addVendor.CreatedOn = addVendor.ModifiedOn = DateTime.Now;
-            addVendor.IsActive = true;
-            addVendor.IsDeleted = false;
-            addVendor.MobileContact = "0123456789";
-            addVendor.Name = "Default Vendor";
-            addVendor.OfficeContact = "0123456789";
-            addVendor.RegNumber = "0123";
-            addVendor.UserId = user.Id;
-            addVendor.Date = DateTime.Now;
-            _vendorRepository.Insert(addVendor);
-
-            #endregion
-
-            #region Book
-
-            var addBook = new Book();
-            addBook.AcadmicYearId = acadmicYear.Id;
-            addBook.Author = "Default";
-            addBook.BookStatusId = 1;
-            addBook.CreatedOn = addBook.ModifiedOn = DateTime.Now;
-            addBook.IsActive = true;
-            addBook.IsDeleted = false;
-            addBook.Name = "Default Book";
-            addBook.Price = 0;
-            addBook.UserId = user.Id;
-            _bookRepository.Insert(addBook);
-
-
-            #endregion
-
-            // Save Timetable Settings - Default
-            var timeTableSetting = new TimeTableSetting();
+			// School Default Data
+
+			#region Divisions
+			var addDivision = new Division();
+			addDivision.AcadmicYearId = acadmicYear.Id;
+			addDivision.Name = "A";
+			addDivision.Description = "Default";
+			addDivision.IsActive = true;
+			addDivision.IsDeleted = false;
+			addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
+			addDivision.UserId = user.Id;
+			_divisionRepository.Insert(addDivision);
+
+			addDivision = new Division();
+			addDivision.AcadmicYearId = acadmicYear.Id;
+			addDivision.Name = "B";
+			addDivision.Description = "Default";
+			addDivision.IsActive = true;
+			addDivision.IsDeleted = false;
+			addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
+			addDivision.UserId = user.Id;
+			_divisionRepository.Insert(addDivision);
+
+			addDivision = new Division();
+			addDivision.AcadmicYearId = acadmicYear.Id;
+			addDivision.Name = "C";
+			addDivision.Description = "Default";
+			addDivision.IsActive = true;
+			addDivision.IsDeleted = false;
+			addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
+			addDivision.UserId = user.Id;
+			_divisionRepository.Insert(addDivision);
+
+			addDivision = new Division();
+			addDivision.AcadmicYearId = acadmicYear.Id;
+			addDivision.Name = "D";
+			addDivision.Description = "Default";
+			addDivision.IsActive = true;
+			addDivision.IsDeleted = false;
+			addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
+			addDivision.UserId = user.Id;
+			_divisionRepository.Insert(addDivision);
+			#endregion
+
+			#region Classrooms
+
+			var addClassRoom = new ClassRoom();
+			addClassRoom.AcadmicYearId = acadmicYear.Id;
+			addClassRoom.ModifiedOn = addClassRoom.CreatedOn = DateTime.Now;
+			addClassRoom.Description = "Default";
+			addClassRoom.IsActive = true;
+			addClassRoom.IsDeleted = false;
+			addClassRoom.Number = "1";
+			addClassRoom.UserId = user.Id;
+			_classroomRepository.Insert(addClassRoom);
+
+			addClassRoom = new ClassRoom();
+			addClassRoom.AcadmicYearId = acadmicYear.Id;
+			addClassRoom.ModifiedOn = addClassRoom.CreatedOn = DateTime.Now;
+			addClassRoom.Description = "Default";
+			addClassRoom.IsActive = true;
+			addClassRoom.IsDeleted = false;
+			addClassRoom.Number = "2";
+			addClassRoom.UserId = user.Id;
+			_classroomRepository.Insert(addClassRoom);
+
+			addClassRoom = new ClassRoom();
+			addClassRoom.AcadmicYearId = acadmicYear.Id;
+			addClassRoom.ModifiedOn = addClassRoom.CreatedOn = DateTime.Now;
+			addClassRoom.Description = "Default";
+			addClassRoom.IsActive = true;
+			addClassRoom.IsDeleted = false;
+			addClassRoom.Number = "3";
+			addClassRoom.UserId = user.Id;
+			_classroomRepository.Insert(addClassRoom);
+
+			addClassRoom = new ClassRoom();
+			addClassRoom.AcadmicYearId = acadmicYear.Id;
+			addClassRoom.ModifiedOn = addClassRoom.CreatedOn = DateTime.Now;
+			addClassRoom.Description = "Default";
+			addClassRoom.IsActive = true;
+			addClassRoom.IsDeleted = false;
+			addClassRoom.Number = "4";
+			addClassRoom.UserId = user.Id;
+			_classroomRepository.Insert(addClassRoom);
+
+			#endregion
+
+			#region Religions
+
+			var hindReligion = new Religion();
+			hindReligion.CreatedOn = hindReligion.ModifiedOn = DateTime.Now;
+			hindReligion.Description = "Default";
+			hindReligion.Name = "Hindu";
+			hindReligion.UserId = user.Id;
+			_religionRepository.Insert(hindReligion);
+
+			var muslimReligion = new Religion();
+			muslimReligion.CreatedOn = muslimReligion.ModifiedOn = DateTime.Now;
+			muslimReligion.Description = "Default";
+			muslimReligion.Name = "Muslim";
+			muslimReligion.UserId = user.Id;
+			_religionRepository.Insert(muslimReligion);
+
+			var sikhReligion = new Religion();
+			sikhReligion.CreatedOn = sikhReligion.ModifiedOn = DateTime.Now;
+			sikhReligion.Description = "Default";
+			sikhReligion.Name = "Sikh";
+			sikhReligion.UserId = user.Id;
+			_religionRepository.Insert(sikhReligion);
+
+			var christReligion = new Religion();
+			christReligion.CreatedOn = christReligion.ModifiedOn = DateTime.Now;
+			christReligion.Description = "Default";
+			christReligion.Name = "Christian";
+			christReligion.UserId = user.Id;
+			_religionRepository.Insert(christReligion);
+
+			var budhReligion = new Religion();
+			budhReligion.CreatedOn = budhReligion.ModifiedOn = DateTime.Now;
+			budhReligion.Description = "Default";
+			budhReligion.Name = "Budhism";
+			budhReligion.UserId = user.Id;
+			_religionRepository.Insert(budhReligion);
+
+			var jainReligion = new Religion();
+			jainReligion.CreatedOn = jainReligion.ModifiedOn = DateTime.Now;
+			jainReligion.Description = "Default";
+			jainReligion.Name = "Jain";
+			jainReligion.UserId = user.Id;
+			_religionRepository.Insert(jainReligion);
+
+			var otherReligion = new Religion();
+			otherReligion.CreatedOn = otherReligion.ModifiedOn = DateTime.Now;
+			otherReligion.Description = "Default";
+			otherReligion.Name = "Other";
+			otherReligion.UserId = user.Id;
+			_religionRepository.Insert(otherReligion);
+
+			#endregion
+
+			#region Categories
+
+			var genCategory = new Category();
+			genCategory.Name = "General";
+			genCategory.CreatedOn = genCategory.ModifiedOn = DateTime.Now;
+			genCategory.IsActive = true;
+			genCategory.IsDeleted = false;
+			genCategory.UserId = user.Id;
+			_categoryRepository.Insert(genCategory);
+
+			var obcCategory = new Category();
+			obcCategory.Name = "OBC";
+			obcCategory.CreatedOn = obcCategory.ModifiedOn = DateTime.Now;
+			obcCategory.IsActive = true;
+			obcCategory.IsDeleted = false;
+			obcCategory.UserId = user.Id;
+			_categoryRepository.Insert(obcCategory);
+
+			var scstCategory = new Category();
+			scstCategory.Name = "SC/ST";
+			scstCategory.CreatedOn = scstCategory.ModifiedOn = DateTime.Now;
+			scstCategory.IsActive = true;
+			scstCategory.IsDeleted = false;
+			scstCategory.UserId = user.Id;
+			_categoryRepository.Insert(scstCategory);
+
+			var otherCategory = new Category();
+			otherCategory.Name = "Other";
+			otherCategory.CreatedOn = otherCategory.ModifiedOn = DateTime.Now;
+			otherCategory.IsActive = true;
+			otherCategory.IsDeleted = false;
+			otherCategory.UserId = user.Id;
+			_categoryRepository.Insert(otherCategory);
+
+			#endregion
+
+			#region Designation
+
+			var addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Name = "Principal";
+			addDesignation.UserId = user.Id;
+			addDesignation.Description = "Default";
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Name = "Academic Director";
+			addDesignation.UserId = user.Id;
+			addDesignation.Description = "Default";
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Name = "Administrator";
+			addDesignation.UserId = user.Id;
+			addDesignation.Description = "Default";
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Name = "Admissions Recruiter";
+			addDesignation.UserId = user.Id;
+			addDesignation.Description = "Default";
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Name = "Assistant Principal";
+			addDesignation.UserId = user.Id;
+			addDesignation.Description = "Default";
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Name = "Bus Driver";
+			addDesignation.UserId = user.Id;
+			addDesignation.Description = "Default";
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Name = "Coach";
+			addDesignation.UserId = user.Id;
+			addDesignation.Description = "Default";
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Computer Science Teacher";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Family and Consumer Science Teacher";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Health/Physical Education Teacher";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Instrumental Music Teacher";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Math Teacher";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "School Counselor";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "School Librarian";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Science Teacher";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Social Studies Teacher";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Substitute Teacher";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Superintendent";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Vice Principal";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Bus Conductor";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			addDesignation = new Designation();
+			addDesignation.CreatedOn = addDesignation.ModifiedOn = DateTime.Now;
+			addDesignation.IsActive = true;
+			addDesignation.IsDeleted = false;
+			addDesignation.Description = "Default";
+			addDesignation.Name = "Nursery Man";
+			addDesignation.UserId = user.Id;
+			_designationRepository.Insert(addDesignation);
+
+			#endregion
+
+			#region Holiday
+
+			var addHoliday = new Holiday();
+			addHoliday.AcadmicYearId = acadmicYear.Id;
+			addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
+			addHoliday.Date = new DateTime(DateTime.Now.Year, 08, 15);
+			addHoliday.DD = 15;
+			addHoliday.MM = 08;
+			addHoliday.YYYY = DateTime.Now.Year;
+			addHoliday.IsDeleted = false;
+			addHoliday.Name = "Independence Day";
+			addHoliday.UserId = user.Id;
+			_holidayRepository.Insert(addHoliday);
+
+			addHoliday = new Holiday();
+			addHoliday.AcadmicYearId = acadmicYear.Id;
+			addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
+			addHoliday.Date = new DateTime(DateTime.Now.Year, 01, 26);
+			addHoliday.DD = 26;
+			addHoliday.MM = 01;
+			addHoliday.YYYY = DateTime.Now.Year;
+			addHoliday.IsDeleted = false;
+			addHoliday.Name = "Republic Day";
+			addHoliday.UserId = user.Id;
+			_holidayRepository.Insert(addHoliday);
+
+			addHoliday = new Holiday();
+			addHoliday.AcadmicYearId = acadmicYear.Id;
+			addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
+			addHoliday.Date = new DateTime(DateTime.Now.Year, 12, 25);
+			addHoliday.DD = 26;
+			addHoliday.MM = 01;
+			addHoliday.YYYY = DateTime.Now.Year;
+			addHoliday.IsDeleted = false;
+			addHoliday.Name = "Christmas Day";
+			addHoliday.UserId = user.Id;
+			_holidayRepository.Insert(addHoliday);
+
+			#endregion
+
+			#region House
+
+			// Pictures
+			var addPicture = new Picture();
+			addPicture.IsActive = true;
+			addPicture.AcadmicYearId = acadmicYear.Id;
+			addPicture.AlternateText = "Gandhi House";
+			addPicture.CreatedOn = addPicture.ModifiedOn = DateTime.Now;
+			addPicture.IsThumb = false;
+			addPicture.IsLogo = false;
+			addPicture.Height = 115;
+			addPicture.Size = 3;
+			addPicture.Url = "";
+			addPicture.UserId = user.Id;
+			addPicture.Width = 81;
+			addPicture.PictureSrc = "/Content/images/Houses/gandhi.jpg";
+			_pictureRepository.Insert(addPicture);
+
+			var addHouse = new House();
+			addHouse.AcadmicYearId = acadmicYear.Id;
+			addHouse.CreatedOn = addHouse.ModifiedOn = DateTime.Now;
+			addHouse.IsActive = true;
+			addHouse.IsDeleted = false;
+			addHouse.Description = "Default";
+			addHouse.Name = "Gandhi House";
+			addHouse.UserId = user.Id;
+			addHouse.PictureId = addPicture.Id;
+			_houseRepository.Insert(addHouse);
+
+			addPicture = new Picture();
+			addPicture.IsActive = true;
+			addPicture.AcadmicYearId = acadmicYear.Id;
+			addPicture.AlternateText = "Nehru House";
+			addPicture.CreatedOn = addPicture.ModifiedOn = DateTime.Now;
+			addPicture.IsThumb = false;
+			addPicture.IsLogo = false;
+			addPicture.Height = 115;
+			addPicture.Size = 3;
+			addPicture.Url = "";
+			addPicture.UserId = user.Id;
+			addPicture.Width = 81;
+			addPicture.PictureSrc = "/Content/images/Houses/nehru.jpg";
+			_pictureRepository.Insert(addPicture);
+
+			addHouse = new House();
+			addHouse.AcadmicYearId = acadmicYear.Id;
+			addHouse.CreatedOn = addHouse.ModifiedOn = DateTime.Now;
+			addHouse.IsActive = true;
+			addHouse.IsDeleted = false;
+			addHouse.Description = "Default";
+			addHouse.Name = "Nehru House";
+			addHouse.UserId = user.Id;
+			addHouse.PictureId = addPicture.Id;
+			_houseRepository.Insert(addHouse);
+
+			addPicture = new Picture();
+			addPicture.IsActive = true;
+			addPicture.AcadmicYearId = acadmicYear.Id;
+			addPicture.AlternateText = "Patel House";
+			addPicture.CreatedOn = addPicture.ModifiedOn = DateTime.Now;
+			addPicture.IsThumb = false;
+			addPicture.IsLogo = false;
+			addPicture.Height = 115;
+			addPicture.Size = 3;
+			addPicture.Url = "";
+			addPicture.UserId = user.Id;
+			addPicture.Width = 81;
+			addPicture.PictureSrc = "/Content/images/Houses/patel.jpg";
+			_pictureRepository.Insert(addPicture);
+
+			addHouse = new House();
+			addHouse.AcadmicYearId = acadmicYear.Id;
+			addHouse.CreatedOn = addHouse.ModifiedOn = DateTime.Now;
+			addHouse.IsActive = true;
+			addHouse.IsDeleted = false;
+			addHouse.Description = "Default";
+			addHouse.Name = "Patel House";
+			addHouse.UserId = user.Id;
+			addHouse.PictureId = addPicture.Id;
+			_houseRepository.Insert(addHouse);
+
+			addPicture = new Picture();
+			addPicture.IsActive = true;
+			addPicture.AcadmicYearId = acadmicYear.Id;
+			addPicture.AlternateText = "Tagore House";
+			addPicture.CreatedOn = addPicture.ModifiedOn = DateTime.Now;
+			addPicture.IsThumb = false;
+			addPicture.IsLogo = false;
+			addPicture.Height = 115;
+			addPicture.Size = 3;
+			addPicture.Url = "";
+			addPicture.UserId = user.Id;
+			addPicture.Width = 81;
+			addPicture.PictureSrc = "/Content/images/Houses/tagore.jpg";
+			_pictureRepository.Insert(addPicture);
+
+			addHouse = new House();
+			addHouse.AcadmicYearId = acadmicYear.Id;
+			addHouse.CreatedOn = addHouse.ModifiedOn = DateTime.Now;
+			addHouse.IsActive = true;
+			addHouse.IsDeleted = false;
+			addHouse.Description = "Default";
+			addHouse.Name = "Tagore House";
+			addHouse.UserId = user.Id;
+			addHouse.PictureId = addPicture.Id;
+			_houseRepository.Insert(addHouse);
+
+			#endregion
+
+			#region Message Group
+
+			var addMsgGroup = new MessageGroup();
+			addMsgGroup.Name = "Default";
+			addMsgGroup.CreatedOn = addMsgGroup.ModifiedOn = DateTime.Now;
+			addMsgGroup.Description = "Default";
+			addMsgGroup.UserId = user.Id;
+			_messageGroupRepository.Insert(addMsgGroup);
+
+			#endregion
+
+			#region Qualification
+
+			var addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "Metric";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "12th";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "B.A";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "BSc.";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "B.Com";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "M.Com";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "M.A";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "B.Tech";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "BCA";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "MCA";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			addQualification = new Qualification();
+			addQualification.CreatedOn = addQualification.ModifiedOn = DateTime.Now;
+			addQualification.Description = "Default";
+			addQualification.Name = "Other";
+			addQualification.UserId = user.Id;
+			_qualificationRepository.Insert(addQualification);
+
+			#endregion
+
+			#region Subject
+
+			var addSubject = new Subject();
+			addSubject.AcadmicYearId = acadmicYear.Id;
+			addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
+			addSubject.IsActive = true;
+			addSubject.IsDeleted = false;
+			addSubject.Name = "Mathematics";
+			addSubject.Remarks = "";
+			addSubject.UserId = user.Id;
+			addSubject.Code = "A01";
+			addSubject.SubjectUniqueId = Guid.NewGuid();
+			_subjectRepository.Insert(addSubject);
+
+			addSubject = new Subject();
+			addSubject.AcadmicYearId = acadmicYear.Id;
+			addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
+			addSubject.IsActive = true;
+			addSubject.IsDeleted = false;
+			addSubject.Name = "Hindi";
+			addSubject.Remarks = "";
+			addSubject.UserId = user.Id;
+			addSubject.Code = "A02";
+			addSubject.SubjectUniqueId = Guid.NewGuid();
+			_subjectRepository.Insert(addSubject);
+
+			addSubject = new Subject();
+			addSubject.AcadmicYearId = acadmicYear.Id;
+			addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
+			addSubject.IsActive = true;
+			addSubject.IsDeleted = false;
+			addSubject.Name = "Science";
+			addSubject.Remarks = "";
+			addSubject.UserId = user.Id;
+			addSubject.Code = "A03";
+			addSubject.SubjectUniqueId = Guid.NewGuid();
+			_subjectRepository.Insert(addSubject);
+
+			addSubject = new Subject();
+			addSubject.AcadmicYearId = acadmicYear.Id;
+			addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
+			addSubject.IsActive = true;
+			addSubject.IsDeleted = false;
+			addSubject.Name = "English";
+			addSubject.Remarks = "";
+			addSubject.UserId = user.Id;
+			addSubject.Code = "A03";
+			addSubject.SubjectUniqueId = Guid.NewGuid();
+			_subjectRepository.Insert(addSubject);
+
+			addSubject = new Subject();
+			addSubject.AcadmicYearId = acadmicYear.Id;
+			addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
+			addSubject.IsActive = true;
+			addSubject.IsDeleted = false;
+			addSubject.Name = "Social Studies";
+			addSubject.Remarks = "";
+			addSubject.UserId = user.Id;
+			addSubject.Code = "A04";
+			addSubject.SubjectUniqueId = Guid.NewGuid();
+			_subjectRepository.Insert(addSubject);
+
+			addSubject = new Subject();
+			addSubject.AcadmicYearId = acadmicYear.Id;
+			addSubject.CreatedOn = addSubject.ModifiedOn = DateTime.Now;
+			addSubject.IsActive = true;
+			addSubject.IsDeleted = false;
+			addSubject.Name = "Physical Education";
+			addSubject.Remarks = "";
+			addSubject.UserId = user.Id;
+			addSubject.Code = "B01";
+			addSubject.SubjectUniqueId = Guid.NewGuid();
+			_subjectRepository.Insert(addSubject);
+
+			#endregion
+
+			#region Vendor
+
+			var addVendor = new Vendor();
+			addVendor.AcadmicYearId = acadmicYear.Id;
+			addVendor.Address = "Default";
+			addVendor.CreatedOn = addVendor.ModifiedOn = DateTime.Now;
+			addVendor.IsActive = true;
+			addVendor.IsDeleted = false;
+			addVendor.MobileContact = "0123456789";
+			addVendor.Name = "Default Vendor";
+			addVendor.OfficeContact = "0123456789";
+			addVendor.RegNumber = "0123";
+			addVendor.UserId = user.Id;
+			addVendor.Date = DateTime.Now;
+			_vendorRepository.Insert(addVendor);
+
+			#endregion
+
+			#region Book
+
+			var addBook = new Book();
+			addBook.AcadmicYearId = acadmicYear.Id;
+			addBook.Author = "Default";
+			addBook.BookStatusId = 1;
+			addBook.CreatedOn = addBook.ModifiedOn = DateTime.Now;
+			addBook.IsActive = true;
+			addBook.IsDeleted = false;
+			addBook.Name = "Default Book";
+			addBook.Price = 0;
+			addBook.UserId = user.Id;
+			_bookRepository.Insert(addBook);
+
+
+			#endregion
+
+			// Save Timetable Settings - Default
+			var timeTableSetting = new TimeTableSetting();
 			timeTableSetting.AcadmicYearId = acadmicYear.Id;
 			timeTableSetting.CreatedOn = DateTime.Now;
 			timeTableSetting.LectureTime = 40.0;

@@ -151,7 +151,7 @@
 						});
 
 						$('#addEventPicture').click(function() {
-							var pictureId = $("#@Html.IdFor(model => model.InsertPictureModel.PictureId)").val();
+							var pictureId = $("#@Html.IdFor(model => model.PictureId)").val();
 
 							if (pictureId === 0) {
 								setTimeout(function () {
@@ -357,8 +357,8 @@
 						});
 					});
 				</script>
-				@Html.EditorFor(model => model.InsertPictureModel.PictureId)
-				@Html.ValidationMessageFor(model => model.InsertPictureModel.PictureId)
+				@Html.EditorFor(model => model.PictureId)
+				@Html.ValidationMessageFor(model => model.PictureId)
 				&nbsp;
 			</div>
 			<div class="panel-footer">

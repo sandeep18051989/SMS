@@ -5,12 +5,12 @@ using System.Text;
 using System.Web.Mvc;
 using EF.Core;
 using EF.Core.Data;
+using EF.Core.Enums;
 using EF.Services;
 using EF.Services.Http;
 using EF.Services.Service;
 using SMS.Mappers;
 using SMS.Models;
-using EF.Core.Enums;
 
 namespace SMS.Areas.Admin.Controllers
 {
@@ -40,20 +40,20 @@ namespace SMS.Areas.Admin.Controllers
 
 		public NewsController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IVideoService videoService, ICommentService commentService, IReplyService replyService, IBlogService blogService, IPermissionService permissionService, IUrlHelper urlHelper, IUrlService urlService, ISMSService smsService, INewsService newsService)
 		{
-			this._userService = userService;
-			this._pictureService = pictureService;
-			this._userContext = userContext;
-			this._sliderService = sliderService;
-			this._settingService = settingService;
-			this._videoService = videoService;
-			this._commentService = commentService;
-			this._replyService = replyService;
-			this._blogService = blogService;
-			this._permissionService = permissionService;
-			this._urlHelper = urlHelper;
-			this._urlService = urlService;
-			this._smsService = smsService;
-			this._newsService = newsService;
+			_userService = userService;
+			_pictureService = pictureService;
+			_userContext = userContext;
+			_sliderService = sliderService;
+			_settingService = settingService;
+			_videoService = videoService;
+			_commentService = commentService;
+			_replyService = replyService;
+			_blogService = blogService;
+			_permissionService = permissionService;
+			_urlHelper = urlHelper;
+			_urlService = urlService;
+			_smsService = smsService;
+			_newsService = newsService;
 		}
 
 		#endregion
@@ -78,7 +78,7 @@ namespace SMS.Areas.Admin.Controllers
 				int recordsTotal = 0;
 
 				// Getting all data    
-				var newsData = (from tempnewss in _newsService.GetActiveNews() select tempnewss);
+				var newsData = (from tempnewss in _newsService.GetAllNews() select tempnewss);
 
 				//Sorting    
 				//if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -230,21 +230,21 @@ namespace SMS.Areas.Admin.Controllers
 				model = eve.ToModel();
 			}
 
-            model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
-                                       select new SelectListItem
-                                       {
-                                           Text = d.ToString(),
-                                           Value = Convert.ToInt32(d).ToString(),
-                                           Selected = (Convert.ToInt32(d) == model.NewsStatusId)
-                                       }).ToList();
+			model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
+												select new SelectListItem
+												{
+													Text = d.ToString(),
+													Value = Convert.ToInt32(d).ToString(),
+													Selected = (Convert.ToInt32(d) == model.NewsStatusId)
+												}).ToList();
 
-            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
-            {
-                Text = x.Name.Trim(),
-                Value = x.Id.ToString(),
-                Selected = x.IsActive
-            }).ToList();
-            return View(model);
+			model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+			{
+				Text = x.Name.Trim(),
+				Value = x.Id.ToString(),
+				Selected = x.IsActive
+			}).ToList();
+			return View(model);
 		}
 
 		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
@@ -269,37 +269,36 @@ namespace SMS.Areas.Admin.Controllers
 				if (newsItem == null || newsItem.IsDeleted)
 					return RedirectToAction("List");
 
-                newsItem.CreatedOn = DateTime.Now;
-                newsItem = model.ToEntity(newsItem);
-                newsItem.ModifiedOn = DateTime.Now;
-                newsItem.UserId = user.Id;
+				newsItem = model.ToEntity(newsItem);
+				newsItem.ModifiedOn = DateTime.Now;
+				newsItem.UserId = user.Id;
 				_newsService.Update(newsItem);
 
 				// Save URL Record
 				model.SystemName = newsItem.ValidateSystemName(model.SystemName, model.ShortName, true);
 				_urlService.SaveSlug(newsItem, model.SystemName);
 
-                // Update Url
-                newsItem.Url = Url.RouteUrl("News", new { name = newsItem.GetSystemName() }, "http");
-                _newsService.Update(newsItem);
-            }
+				// Update Url
+				newsItem.Url = Url.RouteUrl("News", new { name = newsItem.GetSystemName() }, "http");
+				_newsService.Update(newsItem);
+			}
 			else
 			{
-                model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
-                                           select new SelectListItem
-                                           {
-                                               Text = d.ToString(),
-                                               Value = Convert.ToInt32(d).ToString(),
-                                               Selected = (Convert.ToInt32(d) == model.NewsStatusId)
-                                           }).ToList();
+				model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
+													select new SelectListItem
+													{
+														Text = d.ToString(),
+														Value = Convert.ToInt32(d).ToString(),
+														Selected = (Convert.ToInt32(d) == model.NewsStatusId)
+													}).ToList();
 
-                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
-                {
-                    Text = x.Name.Trim(),
-                    Value = x.Id.ToString(),
-                    Selected = x.IsActive
-                }).ToList();
-                ErrorNotification("An error occured while updating news. Please try again.");
+				model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+				{
+					Text = x.Name.Trim(),
+					Value = x.Id.ToString(),
+					Selected = x.IsActive
+				}).ToList();
+				ErrorNotification("An error occured while updating news. Please try again.");
 				return View(model);
 			}
 
@@ -318,21 +317,21 @@ namespace SMS.Areas.Admin.Controllers
 
 			var model = new NewsModel();
 
-            model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
-                                       select new SelectListItem
-                                       {
-                                           Text = d.ToString(),
-                                           Value = Convert.ToInt32(d).ToString(),
-                                           Selected = (Convert.ToInt32(d) == model.NewsStatusId)
-                                       }).ToList();
+			model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
+												select new SelectListItem
+												{
+													Text = d.ToString(),
+													Value = Convert.ToInt32(d).ToString(),
+													Selected = (Convert.ToInt32(d) == model.NewsStatusId)
+												}).ToList();
 
-            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
-            {
-                Text = x.Name.Trim(),
-                Value = x.Id.ToString(),
-                Selected = x.IsActive
-            }).ToList();
-            return View(model);
+			model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+			{
+				Text = x.Name.Trim(),
+				Value = x.Id.ToString(),
+				Selected = x.IsActive
+			}).ToList();
+			return View(model);
 		}
 
 		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
@@ -353,8 +352,8 @@ namespace SMS.Areas.Admin.Controllers
 			model.UserId = currentUser.Id;
 			if (ModelState.IsValid)
 			{
-				model.CreatedOn = model.ModifiedOn = DateTime.Now;
 				newNews = model.ToEntity();
+				newNews.CreatedOn = newNews.ModifiedOn = DateTime.Now;
 
 				_newsService.Insert(newNews);
 
@@ -362,27 +361,27 @@ namespace SMS.Areas.Admin.Controllers
 				model.SystemName = newNews.ValidateSystemName(model.SystemName, model.ShortName, true);
 				_urlService.SaveSlug(newNews, model.SystemName);
 
-                // Update Url
-                newNews.Url = Url.RouteUrl("News", new { name = newNews.GetSystemName() }, "http");
-                _newsService.Update(newNews);
+				// Update Url
+				newNews.Url = Url.RouteUrl("News", new { name = newNews.GetSystemName() }, "http");
+				_newsService.Update(newNews);
 			}
 			else
 			{
-                model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
-                                           select new SelectListItem
-                                           {
-                                               Text = d.ToString(),
-                                               Value = Convert.ToInt32(d).ToString(),
-                                               Selected = (Convert.ToInt32(d) == model.NewsStatusId)
-                                           }).ToList();
+				model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
+													select new SelectListItem
+													{
+														Text = d.ToString(),
+														Value = Convert.ToInt32(d).ToString(),
+														Selected = (Convert.ToInt32(d) == model.NewsStatusId)
+													}).ToList();
 
-                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
-                {
-                    Text = x.Name.Trim(),
-                    Value = x.Id.ToString(),
-                    Selected = x.IsActive
-                }).ToList();
-                ErrorNotification("An error occured while creating news. Please try again.");
+				model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+				{
+					Text = x.Name.Trim(),
+					Value = x.Id.ToString(),
+					Selected = x.IsActive
+				}).ToList();
+				ErrorNotification("An error occured while creating news. Please try again.");
 				return View(model);
 			}
 

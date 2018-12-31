@@ -171,6 +171,25 @@ namespace SMS.Mappers
 
 		#endregion
 
+		#region Blog Video
+
+		public static BlogVideoModel ToModel(this BlogVideo entity)
+		{
+			return entity.MapTo<BlogVideo, BlogVideoModel>();
+		}
+
+		public static BlogVideo ToEntity(this BlogVideoModel model)
+		{
+			return model.MapTo<BlogVideoModel, BlogVideo>();
+		}
+
+		public static BlogVideo ToEntity(this BlogVideoModel model, BlogVideo destination)
+		{
+			return model.MapTo(destination);
+		}
+
+		#endregion
+
 		#region Book
 
 		public static BookModel ToModel(this Book entity)

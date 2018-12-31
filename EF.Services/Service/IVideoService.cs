@@ -19,6 +19,9 @@ namespace EF.Services.Service
 		IList<NewsVideo> GetNewsVideosByNewsId(int id);
 		IList<ProductVideo> GetProductVideosByProductId(int id);
 
+		IList<BlogVideo> GetBlogVideosByBlogId(int id);
+		BlogVideo GetBlogVideoByVideoId(int id);
+
 		#region Event
 
 		void InsertEventVideo(EventVideo eventVideo);
@@ -58,6 +61,15 @@ namespace EF.Services.Service
 		NewsVideo GetNewsVideoById(int id);
 
 		NewsVideo GetNewsVideoByVideoId(int id);
+
+		#endregion
+
+		#region Blog
+
+		void InsertBlogVideo(BlogVideo blogVideo);
+		void UpdateBlogVideo(BlogVideo blogVideo);
+		void DeleteBlogVideo(int id);
+		BlogVideo GetBlogVideoById(int id);
 
 		#endregion
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EF.Core.Data
+﻿namespace EF.Core.Data
 {
 	public partial class DivisionSubject : BaseEntity
 	{

@@ -15,13 +15,12 @@ namespace SMS.Areas.Admin.Mappers
             _mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Blog, BlogModel>()
-                    .ForMember(dest => dest.Comments, mo => mo.Ignore())
-                    .ForMember(dest => dest.Files, mo => mo.Ignore())
-                    .ForMember(dest => dest.Pictures, mo => mo.Ignore())
-                    .ForMember(dest => dest.postCommentModel, mo => mo.Ignore())
-                    .ForMember(dest => dest.Reactions, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
-                    .ForMember(dest => dest.Videos, mo => mo.Ignore());
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.Url, mo => mo.Ignore())
+						  .ForMember(dest => dest.PictureId, mo => mo.Ignore())
+						  .ForMember(dest => dest.VideoId, mo => mo.Ignore())
+						  .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)));
                 cfg.CreateMap<BlogModel, Blog>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
@@ -214,6 +213,8 @@ namespace SMS.Areas.Admin.Mappers
 					cfg.CreateMap<Event, EventModel>()
 						 .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
 						 .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+						 .ForMember(dest => dest.PictureId, mo => mo.Ignore())
+						 .ForMember(dest => dest.VideoId, mo => mo.Ignore())
 						 .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
 						 .ForMember(dest => dest.Url, mo => mo.Ignore());
                 cfg.CreateMap<EventModel, Event>()
@@ -229,17 +230,13 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Event, mo => mo.Ignore())
                     .ForMember(dest => dest.Picture, mo => mo.Ignore());
 
-                cfg.CreateMap<News, NewsModel>()
-                    .ForMember(dest => dest.Pictures, mo => mo.Ignore())
-                    .ForMember(dest => dest.Videos, mo => mo.Ignore())
-                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
-                    .ForMember(dest => dest.Files, mo => mo.Ignore())
-                    .ForMember(dest => dest.AvailableStatuses, mo => mo.Ignore())
-                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
-                    .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
-                    .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")))
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
-                    .ForMember(dest => dest.Comments, mo => mo.Ignore());
+					cfg.CreateMap<News, NewsModel>()
+						 .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+						 .ForMember(dest => dest.AvailableStatuses, mo => mo.Ignore())
+						 .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+						 .ForMember(dest => dest.CreatedOnString, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
+						 .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")))
+						 .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)));
                 cfg.CreateMap<NewsModel, News>()
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
@@ -277,12 +274,11 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableFeeCategoryStructures, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableStatuses, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableStudents, mo => mo.Ignore());
-                cfg.CreateMap<FeeDetailModel, FeeDetail>()
-                    .ForMember(dest => dest.AdmissionStatus, mo => mo.Ignore())
-                    .ForMember(dest => dest.Employee, mo => mo.Ignore())
-                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
-                    .ForMember(dest => dest.Student, mo => mo.Ignore())
-                    .ForMember(dest => dest.FeeCategoryStructure, mo => mo.Ignore());
+					cfg.CreateMap<FeeDetailModel, FeeDetail>()
+						 .ForMember(dest => dest.AdmissionStatus, mo => mo.Ignore())
+						 .ForMember(dest => dest.Employee, mo => mo.Ignore())
+						 .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+						 .ForMember(dest => dest.Student, mo => mo.Ignore());
 
                 cfg.CreateMap<Homework, HomeworkModel>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())

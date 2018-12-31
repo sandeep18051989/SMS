@@ -30,6 +30,10 @@ namespace SMS.Models
 		public bool IsClosed { get; set; }
 		public string Venue { get; set; }
 		public string Url { get; set; }
+		[UIHint("Picture")]
+		public int PictureId { get; set; }
+		[UIHint("Video")]
+		public int VideoId { get; set; }
 
 		public IList<SelectListItem> AvailableAcadmicYears { get; set; }
 

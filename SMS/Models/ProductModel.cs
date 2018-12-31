@@ -21,8 +21,6 @@ namespace SMS.Models
 			postCommentModel = new PostCommentsModel();
 			Reactions = new List<ReactionModel>();
 			ProductCategory = new ProductCategoryModel();
-			InsertPictureModel = new InsertPicturesModel();
-			InsertVideoModel = new InsertVideoModel();
 			AvailableVendors = new List<SelectListItem>();
 			DefaultPicture = new PictureModel();
 		}
@@ -39,6 +37,11 @@ namespace SMS.Models
 		public bool IsInValidState { get; set; }
 		public bool IsActive { get; set; }
 		public bool Selected { get; set; }
+		[UIHint("Picture")]
+		public int PictureId { get; set; }
+		[UIHint("Video")]
+		public int VideoId { get; set; }
+
 		public PostCommentsModel postCommentModel { get; set; }
 		public PictureModel DefaultPicture { get; set; }
 		public ProductCategoryModel ProductCategory { get; set; }
@@ -47,8 +50,6 @@ namespace SMS.Models
 		public IList<FilesModel> Files { get; set; }
 		public IList<CommentModel> Comments { get; set; }
 		public IList<ReactionModel> Reactions { get; set; }
-		public InsertPicturesModel InsertPictureModel { get; set; }
-		public InsertVideoModel InsertVideoModel { get; set; }
 		public IList<SelectListItem> AvailableVendors { get; set; }
 	}
 

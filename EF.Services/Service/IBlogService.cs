@@ -10,13 +10,12 @@ namespace EF.Services.Service
 
 		void Delete(int id);
 
-		IList<Blog> GetAllBlogs(bool? active);
+		IList<Blog> GetAllBlogs(bool? onlyActive = null);
 
 		Blog GetBlogById(int id);
 
 		IList<Blog> GetBlogsByUser(int userid);
-
-
+		Blog GetBlogByName(string name);
 
 	}
 }

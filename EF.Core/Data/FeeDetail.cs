@@ -7,7 +7,7 @@ namespace EF.Core.Data
 	public partial class FeeDetail : BaseEntity
 	{
 		public int StudentId { get; set; }
-		public int FeeCategoryStructureId { get; set; }
+		public int? FeeCategoryStructureId { get; set; }
 		public string FeeType { get; set; }
 		public int DD { get; set; }
 		public int MM { get; set; }
@@ -24,22 +24,21 @@ namespace EF.Core.Data
 		public double FeesPaid { get; set; }
 		public string PaidBy { get; set; }
 		public int StatusId { get; set; }
-        public int AcadmicYearId { get; set; }
-        public virtual Student Student { get; set; }
+		public int AcadmicYearId { get; set; }
+		public virtual Student Student { get; set; }
 
-        public virtual AcadmicYear AcadmicYear { get; set; }
-        public virtual FeeCategory FeeCategoryStructure { get; set; }
+		public virtual AcadmicYear AcadmicYear { get; set; }
 		public virtual Employee Employee { get; set; }
 		[NotMapped]
 		public PaymentStatus AdmissionStatus
 		{
 			get
 			{
-				return (PaymentStatus)this.StatusId;
+				return (PaymentStatus)StatusId;
 			}
 			set
 			{
-				this.StatusId = (int)value;
+				StatusId = (int)value;
 			}
 		}
 	}

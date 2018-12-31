@@ -5,8 +5,18 @@ namespace EF.Core.Data
 {
 	public partial class Blog : BaseEntity, ISlugSupported
 	{
+		public string Subject { get; set; }
+		public string Email { get; set; }
+		public string Name { get; set; }
+		public string BlogHtml { get; set; }
+		public string IpAddress { get; set; }
+		public bool IsDeleted { get; set; }
+		public bool IsActive { get; set; }
+		public bool IsApproved { get; set; }
+		public int AcadmicYearId { get; set; }
+
 		[NotMapped]
-		public virtual ICollection<Video> _Videos { get; set; }
+		public virtual ICollection<BlogVideo> _Videos { get; set; }
 
 		[NotMapped]
 		public virtual ICollection<BlogPicture> _Pictures { get; set; }
@@ -19,20 +29,12 @@ namespace EF.Core.Data
 
 		[NotMapped]
 		public virtual ICollection<File> _Files { get; set; }
-		public string Subject { get; set; }
-		public string Email { get; set; }
-		public string Name { get; set; }
-		public string BlogHtml { get; set; }
-		public string IpAddress { get; set; }
-		public bool IsDeleted { get; set; }
-		public bool IsActive { get; set; }
-		public bool IsApproved { get; set; }
-		public int AcadmicYearId { get; set; }
+
 
 		#region Navigation Properties
-		public virtual ICollection<Video> Videos
+		public virtual ICollection<BlogVideo> Videos
 		{
-			get { return _Videos ?? (_Videos = new List<Video>()); }
+			get { return _Videos ?? (_Videos = new List<BlogVideo>()); }
 			protected set { _Videos = value; }
 		}
 

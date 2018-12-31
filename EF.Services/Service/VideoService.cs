@@ -12,12 +12,14 @@ namespace EF.Services.Service
 		public readonly IRepository<EventVideo> _eventVideoRepository;
 		public readonly IRepository<ProductVideo> _productVideoRepository;
 		public readonly IRepository<NewsVideo> _newsVideoRepository;
-		public VideoService(IRepository<Video> videoRepository, IRepository<EventVideo> eventVideoRepository, IRepository<ProductVideo> productVideoRepository, IRepository<NewsVideo> newsVideoRepository)
+		public readonly IRepository<BlogVideo> _blogVideoRepository;
+		public VideoService(IRepository<Video> videoRepository, IRepository<EventVideo> eventVideoRepository, IRepository<ProductVideo> productVideoRepository, IRepository<NewsVideo> newsVideoRepository, IRepository<BlogVideo> blogVideoRepository)
 		{
 			this._videoRepository = videoRepository;
 			this._eventVideoRepository = eventVideoRepository;
 			this._newsVideoRepository = newsVideoRepository;
 			this._productVideoRepository = productVideoRepository;
+			this._blogVideoRepository = blogVideoRepository;
 		}
 		#region IVideoService Members
 
@@ -99,6 +101,14 @@ namespace EF.Services.Service
 			return _productVideoRepository.Table.FirstOrDefault(x => x.VideoId == id);
 		}
 
+		public BlogVideo GetBlogVideoByVideoId(int id)
+		{
+			if (id == 0)
+				throw new Exception("Blog video id is missing");
+
+			return _blogVideoRepository.Table.FirstOrDefault(x => x.VideoId == id);
+		}
+
 		public IList<EventVideo> GetEventVideosByEventId(int id)
 		{
 			if (id == 0)
@@ -123,6 +133,15 @@ namespace EF.Services.Service
 				throw new Exception("Event id is missing");
 
 			return _newsVideoRepository.Table.Where(x => x.NewsId == id).OrderBy(x => x.DisplayOrder).ToList();
+
+		}
+
+		public IList<BlogVideo> GetBlogVideosByBlogId(int id)
+		{
+			if (id == 0)
+				throw new Exception("Blog id is missing");
+
+			return _blogVideoRepository.Table.Where(x => x.BlogId == id).OrderBy(x => x.DisplayOrder).ToList();
 
 		}
 
@@ -236,6 +255,37 @@ namespace EF.Services.Service
 			return _newsVideoRepository.GetByID(id);
 
         }
+
+		#endregion
+
+		#region Blog
+
+		public void InsertBlogVideo(BlogVideo blogVideo)
+		{
+			_blogVideoRepository.Insert(blogVideo);
+		}
+		public void UpdateBlogVideo(BlogVideo blogVideo)
+		{
+			_blogVideoRepository.Update(blogVideo);
+		}
+		public void DeleteBlogVideo(int id)
+		{
+			var blogVideo = _blogVideoRepository.GetByID(id);
+			if (blogVideo != null)
+			{
+				var video = _videoRepository.GetByID(blogVideo.VideoId);
+				if (video != null)
+					_videoRepository.Delete(video);
+			}
+		}
+		public BlogVideo GetBlogVideoById(int id)
+		{
+			if (id == 0)
+				throw new Exception("Blog video id is missing");
+
+			return _blogVideoRepository.GetByID(id);
+
+		}
 
 		#endregion
 

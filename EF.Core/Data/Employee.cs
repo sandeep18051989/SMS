@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using EF.Core.Enums;
 
@@ -26,18 +25,18 @@ namespace EF.Core.Data
 		public int QualificationId { get; set; }
 		public string Sex { get; set; }
 		public int CasteId { get; set; }
-        public int ContractTypeId { get; set; }
-        public string BGroup { get; set; }
+		public int ContractTypeId { get; set; }
+		public string BGroup { get; set; }
 		public string BirthMark { get; set; }
 		public string BusNumber { get; set; }
-        public string RouteNumber { get; set; }
-        public string AadharCardNo { get; set; }
+		public string RouteNumber { get; set; }
+		public string AadharCardNo { get; set; }
 		public string Pre_Institute_Name { get; set; }
 		public string Pre_Institute_Address { get; set; }
 		public bool? BusFacility { get; set; }
 		public string E_Phisician_Name { get; set; }
 		public string E_Phisician_Address { get; set; }
-        public int E_Phisician_Phone { get; set; }
+		public int E_Phisician_Phone { get; set; }
 		public string Father_Occupation { get; set; }
 		public string Email { get; set; }
 		public string Father_Office_Address { get; set; }
@@ -77,11 +76,11 @@ namespace EF.Core.Data
 		{
 			get
 			{
-				return (ContractStatus)this.ContractStatusId;
+				return (ContractStatus)ContractStatusId;
 			}
 			set
 			{
-				this.ContractStatusId = (int)value;
+				ContractStatusId = (int)value;
 			}
 		}
 		[NotMapped]
@@ -89,11 +88,11 @@ namespace EF.Core.Data
 		{
 			get
 			{
-				return (ContractType)this.ContractTypeId;
+				return (ContractType)ContractTypeId;
 			}
 			set
 			{
-				this.ContractTypeId = (int)value;
+				ContractTypeId = (int)value;
 			}
 		}
 

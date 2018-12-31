@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using EF.Core.Data;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 using EF.Core;
+using EF.Core.Data;
 
 namespace EF.Services.Service
 {
@@ -11,7 +11,7 @@ namespace EF.Services.Service
 		public readonly IRepository<Blog> _repositoryBlog;
 		public BlogService(IRepository<Blog> repositoryBlog)
 		{
-			this._repositoryBlog = repositoryBlog;
+			_repositoryBlog = repositoryBlog;
 		}
 		#region IBlogService Members
 
@@ -34,14 +34,9 @@ namespace EF.Services.Service
 
 		#region Methods
 
-		public virtual IList<Blog> GetAllBlogs(bool? active)
+		public virtual IList<Blog> GetAllBlogs(bool? onlyActive = null)
 		{
-			var blogs = _repositoryBlog.Table.ToList();
-
-			if (active.HasValue)
-				blogs = blogs.Where(b => b.IsActive == active.Value).ToList();
-
-			return blogs.OrderByDescending(x => x.CreatedOn).ToList();
+			return _repositoryBlog.GetAll().Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
 		}
 
 		public Blog GetBlogById(int id)
@@ -58,6 +53,14 @@ namespace EF.Services.Service
 				throw new Exception("User Id Not Specified.");
 
 			return _repositoryBlog.Table.Where(x => x.UserId == userid).OrderByDescending(x => x.CreatedOn).ToList();
+		}
+
+		public Blog GetBlogByName(string name)
+		{
+			if (!string.IsNullOrEmpty(name))
+				return _repositoryBlog.Table.FirstOrDefault(a => a.Name.Trim().ToLower() == name.ToLower() && a.IsDeleted == false);
+
+			return null;
 		}
 
 		#endregion

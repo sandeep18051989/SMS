@@ -90,7 +90,6 @@ D:\Repositories\SMS\EF.Services\bin\Debug\System.Web.WebPages.Razor.xml
 D:\Repositories\SMS\EF.Services\bin\Debug\AutoMapper.pdb
 D:\Repositories\SMS\EF.Services\bin\Debug\AutoMapper.xml
 D:\Repositories\SMS\EF.Services\bin\Debug\System.ValueTuple.xml
-D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csprojResolveAssemblyReference.cache
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csproj.CoreCompileInputs.cache
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.dll
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.pdb
@@ -139,3 +138,5 @@ E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.ValueTuple.xm
 E:\My Documents\Training Projects\Sms\EF.Services\obj\Debug\EF.Services.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\EF.Services\obj\Debug\EF.Services.dll
 E:\My Documents\Training Projects\Sms\EF.Services\obj\Debug\EF.Services.pdb
+D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csprojAssemblyReference.cache
+D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csproj.CopyComplete

@@ -1024,7 +1024,6 @@
     <Content Include="Areas\Admin\Views\News\_NewsVideos.cshtml" />
     <Content Include="Areas\Admin\Views\News\Create.cshtml" />
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\News\NewsPicture.cshtml" />
     <Content Include="Areas\Admin\Views\News\List.cshtml" />
     <Content Include="Areas\Admin\Views\Vendor\_VendorProducts.cshtml" />
     <Content Include="Areas\Admin\Views\Vendor\Create.cshtml" />
@@ -1083,6 +1082,11 @@
     <Content Include="Areas\Admin\Views\ClassRoomDivision\_ClassRoomDivisionHomeworks.cshtml" />
     <Content Include="Areas\Admin\Views\ClassRoomDivision\_ClassRoomDivisionSubjects.cshtml" />
     <Content Include="Areas\Admin\Views\ClassRoomDivision\_ClassRoomDivisionExams.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\_BlogPictures.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\_BlogVideos.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\List.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1495,6 +1499,7 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CasteController.cs" />
     <Compile Include="Areas\Admin\Controllers\ClassRoomDivisionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BlogController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubjectController.cs" />
     <Compile Include="Areas\Admin\Controllers\QualificationController.cs" />
     <Compile Include="Areas\Admin\Controllers\DesignationController.cs" />

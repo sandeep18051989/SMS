@@ -1,5 +1,4 @@
-﻿using System;
-using EF.Core.Data;
+﻿using EF.Core.Data;
 using EF.Data.Configuration;
 using TrackerEnabledDbContext.Common.Configuration;
 
@@ -9,18 +8,18 @@ namespace EF.Data.Mapping
 	{
 		public FeeCategoryMap()
 		{
-			this.ToTable("FeeCategory");
-			this.HasKey(b => b.Id);
-            this.Property(b => b.AcadmicYearId).IsRequired();
-            this.Property(b => b.CategoryId).IsRequired();
-            this.Property(b => b.CategoryName).HasMaxLength(100).IsOptional();
-            this.Property(b => b.ClassDivisionId).IsOptional();
-            this.Property(b => b.FeeAmount).IsRequired();
-            this.Property(b => b.PeriodFrom).IsOptional();
-            this.Property(b => b.PeriodTo).IsOptional();
+			ToTable("FeeCategory");
+			HasKey(b => b.Id);
+			Property(b => b.AcadmicYearId).IsRequired();
+			Property(b => b.CategoryId).IsRequired();
+			Property(b => b.CategoryName).HasMaxLength(100).IsOptional();
+			Property(b => b.ClassDivisionId).IsOptional();
+			Property(b => b.FeeAmount).IsRequired();
+			Property(b => b.PeriodFrom).IsOptional();
+			Property(b => b.PeriodTo).IsOptional();
 
-            this.HasRequired(all => all.Category).WithMany().HasForeignKey(all => all.CategoryId);
-			this.HasOptional(all => all.ClassDivision).WithMany().HasForeignKey(all => all.ClassDivisionId);
+			HasRequired(all => all.Category).WithMany().HasForeignKey(all => all.CategoryId);
+			HasOptional(all => all.ClassDivision).WithMany().HasForeignKey(all => all.ClassDivisionId);
 
 			EntityTracker.TrackAllProperties<FeeCategory>().Except(x => x.Category).And(x => x.ClassDivision).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 

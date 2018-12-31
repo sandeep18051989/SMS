@@ -12,8 +12,8 @@ namespace EF.Core.Data
 		public DateTime? PeriodTo { get; set; }
 		public virtual Category Category { get; set; }
 		public virtual ClassRoomDivision ClassDivision { get; set; }
-        public virtual AcadmicYear AcadmicYear { get; set; }
-        public bool IsActive { get; set; }
+		public virtual AcadmicYear AcadmicYear { get; set; }
+		public bool IsActive { get; set; }
 		public bool IsDeleted { get; set; }
 		public int AcadmicYearId { get; set; }
 	}

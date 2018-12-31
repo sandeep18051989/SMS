@@ -38,7 +38,7 @@ namespace SMS.Models
 			Product = new ProductModel();
 		}
 
-		public int EventId { get; set; }
+		public int ProductId { get; set; }
 		public int VideoId { get; set; }
 		public int DisplayOrder { get; set; }
 		public DateTime? VidStartDate { get; set; }
@@ -56,7 +56,7 @@ namespace SMS.Models
 			News = new NewsModel();
 		}
 
-		public int EventId { get; set; }
+		public int NewsId { get; set; }
 		public int VideoId { get; set; }
 		public int DisplayOrder { get; set; }
 		public DateTime? VidStartDate { get; set; }
@@ -66,10 +66,28 @@ namespace SMS.Models
 
 	}
 
+	public partial class BlogVideoModel : BaseEntityModel
+	{
+		public BlogVideoModel()
+		{
+			Video = new VideoModel();
+			Blog = new BlogModel();
+		}
+
+		public int BlogId { get; set; }
+		public int VideoId { get; set; }
+		public int DisplayOrder { get; set; }
+		public DateTime? VidStartDate { get; set; }
+		public DateTime? VidEndDate { get; set; }
+		public BlogModel Blog { get; set; }
+		public VideoModel Video { get; set; }
+
+	}
 	public partial class VideoListModel
 	{
 		public int Id { get; set; }
 		public int EventId { get; set; }
+		public int BlogId { get; set; }
 		public int NewsId { get; set; }
 		public int ProductId { get; set; }
 		public int VideoId { get; set; }

@@ -85,7 +85,7 @@ namespace SMS.Areas.Admin.Controllers
 				int recordsTotal = 0;
 
 				// Getting all data    
-				var eventData = (from tempevents in _eventService.GetActiveEvents() select tempevents);
+				var eventData = (from tempevents in _eventService.GetAllEvents() select tempevents);
 
 				//Sorting    
 				//if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -279,6 +279,12 @@ namespace SMS.Areas.Admin.Controllers
 			}
 			else
 			{
+				model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+				{
+					Text = x.Name.Trim(),
+					Value = x.Id.ToString(),
+					Selected = x.IsActive
+				}).ToList();
 				ErrorNotification("An error occured while updating event. Please try again.");
 				return View(model);
 			}
@@ -297,6 +303,12 @@ namespace SMS.Areas.Admin.Controllers
 				return AccessDeniedView();
 
 			var model = new EventModel();
+			model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+			{
+				Text = x.Name.Trim(),
+				Value = x.Id.ToString(),
+				Selected = x.IsActive
+			}).ToList();
 			return View(model);
 		}
 
@@ -318,7 +330,7 @@ namespace SMS.Areas.Admin.Controllers
 			if (ModelState.IsValid)
 			{
 				newEvent = model.ToEntity();
-				newEvent.CreatedOn = model.ModifiedOn = DateTime.Now;
+				newEvent.CreatedOn = newEvent.ModifiedOn = DateTime.Now;
 				newEvent.UserId = currentUser.Id;
 
 				_eventService.Insert(newEvent);

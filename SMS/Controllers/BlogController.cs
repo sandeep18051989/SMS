@@ -56,77 +56,6 @@ namespace SMS.Controllers
 				{
 					model.Add(new BlogModel()
 					{
-						Comments = blog.Comments.Select(x => new CommentModel()
-						{
-							Id = x.Id,
-							CommentHtml = x.CommentHtml,
-							CommentId = x.Id,
-							CreatedOn = x.CreatedOn,
-							ModifiedOn = x.ModifiedOn,
-							DisplayOrder = x.DisplayOrder,
-							Username = x.Username,
-							Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new ReplyModel()
-							{
-								Id = r.Id,
-								DisplayOrder = r.DisplayOrder,
-								CreatedOn = r.CreatedOn,
-								IsModified = r.IsModified,
-								ReplyHtml = r.ReplyHtml,
-								User = new UserModel()
-								{
-									Id = r.UserId,
-								},
-								Reactions = _smsService.SearchReactions(replyid: r.Id).Select(re => new ReactionModel()
-								{
-									Id = re.Id,
-									CommentId = re.CommentId,
-									CreatedOn = re.CreatedOn,
-									IsAngry = re.IsAngry,
-									IsDislike = re.IsDislike,
-									IsHappy = re.IsHappy,
-									IsLike = re.IsLike,
-									IsLol = re.IsLOL,
-									IsSad = re.IsSad,
-									ModifiedOn = re.ModifiedOn,
-									Rating = re.Rating,
-									UserId = re.UserId,
-									Username = re.Username
-								}).ToList(),
-							}).ToList(),
-							Reactions = _smsService.SearchReactions(commentid: x.Id).Select(re => new ReactionModel()
-							{
-								Id = re.Id,
-								CommentId = re.CommentId,
-								CreatedOn = re.CreatedOn,
-								IsAngry = re.IsAngry,
-								IsDislike = re.IsDislike,
-								IsHappy = re.IsHappy,
-								IsLike = re.IsLike,
-								IsLol = re.IsLOL,
-								IsSad = re.IsSad,
-								ModifiedOn = re.ModifiedOn,
-								Rating = re.Rating,
-								UserId = re.UserId,
-								Username = re.Username
-							}).ToList(),
-						}).OrderByDescending(x => x.CreatedOn).ToList(),
-						Pictures = blog.Pictures.Select(p => new BlogPictureModel()
-						{
-							Id = p.Id,
-							PictureId = p.PictureId,
-							Picture = new SMS.Models.PictureModel()
-							{
-								Id = p.Picture.Id,
-								IsActive = p.Picture.IsActive,
-								Url = p.Picture.Url,
-								AlternateText = p.Picture.AlternateText,
-								Src = p.Picture.PictureSrc
-							},
-							DisplayOrder = p.DisplayOrder,
-							PicEndDate = p.EndDate,
-							IsDefault = p.IsDefault,
-							PicStartDate = p.StartDate,
-						}).OrderBy(p => p.DisplayOrder).ToList(),
 						Name = blog.Name,
 						BlogHtml = blog.BlogHtml,
 						CreatedOn = blog.CreatedOn,
@@ -135,22 +64,6 @@ namespace SMS.Controllers
 						IpAddress = blog.IpAddress,
 						Subject = blog.Subject,
 						UserId = blog.UserId,
-						Reactions = _smsService.SearchReactions(blogid: blog.Id).Select(re => new ReactionModel()
-						{
-							Id = re.Id,
-							CommentId = re.CommentId,
-							CreatedOn = re.CreatedOn,
-							IsAngry = re.IsAngry,
-							IsDislike = re.IsDislike,
-							IsHappy = re.IsHappy,
-							IsLike = re.IsLike,
-							IsLol = re.IsLOL,
-							IsSad = re.IsSad,
-							ModifiedOn = re.ModifiedOn,
-							Rating = re.Rating,
-							UserId = re.UserId,
-							Username = re.Username
-						}).ToList()
 					});
 				}
 			}
@@ -166,77 +79,6 @@ namespace SMS.Controllers
 			{
 				model = new BlogModel()
 				{
-					Comments = blog.Comments.Select(x => new CommentModel()
-					{
-						Id = x.Id,
-						CommentHtml = x.CommentHtml,
-						CommentId = x.Id,
-						CreatedOn = x.CreatedOn,
-						ModifiedOn = x.ModifiedOn,
-						DisplayOrder = x.DisplayOrder,
-						Username = x.Username,
-						Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new ReplyModel()
-						{
-							Id = r.Id,
-							DisplayOrder = r.DisplayOrder,
-							CreatedOn = r.CreatedOn,
-							IsModified = r.IsModified,
-							ReplyHtml = r.ReplyHtml,
-							User = new UserModel()
-							{
-								Id = r.UserId,
-							},
-							Reactions = _smsService.SearchReactions(replyid: r.Id).Select(re => new ReactionModel()
-							{
-								Id = re.Id,
-								CommentId = re.CommentId,
-								CreatedOn = re.CreatedOn,
-								IsAngry = re.IsAngry,
-								IsDislike = re.IsDislike,
-								IsHappy = re.IsHappy,
-								IsLike = re.IsLike,
-								IsLol = re.IsLOL,
-								IsSad = re.IsSad,
-								ModifiedOn = re.ModifiedOn,
-								Rating = re.Rating,
-								UserId = re.UserId,
-								Username = re.Username
-							}).ToList(),
-						}).ToList(),
-						Reactions = _smsService.SearchReactions(commentid: x.Id).Select(re => new ReactionModel()
-						{
-							Id = re.Id,
-							CommentId = re.CommentId,
-							CreatedOn = re.CreatedOn,
-							IsAngry = re.IsAngry,
-							IsDislike = re.IsDislike,
-							IsHappy = re.IsHappy,
-							IsLike = re.IsLike,
-							IsLol = re.IsLOL,
-							IsSad = re.IsSad,
-							ModifiedOn = re.ModifiedOn,
-							Rating = re.Rating,
-							UserId = re.UserId,
-							Username = re.Username
-						}).ToList(),
-					}).OrderByDescending(x => x.CreatedOn).ToList(),
-					Pictures = blog.Pictures.Select(p => new BlogPictureModel()
-					{
-						Id = p.Id,
-						PictureId = p.PictureId,
-						Picture = new SMS.Models.PictureModel()
-						{
-							Id = p.Picture.Id,
-							IsActive = p.Picture.IsActive,
-							Url = p.Picture.Url,
-							AlternateText = p.Picture.AlternateText,
-							Src = p.Picture.PictureSrc
-						},
-						DisplayOrder = p.DisplayOrder,
-						PicEndDate = p.EndDate,
-						IsDefault = p.IsDefault,
-						PicStartDate = p.StartDate,
-					}).OrderBy(p => p.DisplayOrder).ToList(),
 					Name = blog.Name,
 					BlogHtml = blog.BlogHtml,
 					CreatedOn = blog.CreatedOn,
@@ -245,22 +87,6 @@ namespace SMS.Controllers
 					IpAddress = blog.IpAddress,
 					Subject = blog.Subject,
 					UserId = blog.UserId,
-					Reactions = _smsService.SearchReactions(blogid: blog.Id).Select(re => new ReactionModel()
-					{
-						Id = re.Id,
-						CommentId = re.CommentId,
-						CreatedOn = re.CreatedOn,
-						IsAngry = re.IsAngry,
-						IsDislike = re.IsDislike,
-						IsHappy = re.IsHappy,
-						IsLike = re.IsLike,
-						IsLol = re.IsLOL,
-						IsSad = re.IsSad,
-						ModifiedOn = re.ModifiedOn,
-						Rating = re.Rating,
-						UserId = re.UserId,
-						Username = re.Username
-					}).ToList()
 				};
 			}
 			else
@@ -268,10 +94,6 @@ namespace SMS.Controllers
 				return RedirectToAction("PageNotFound");
 			}
 
-			// Attach Child Model Default Values
-			model.postCommentModel.Type = model.postCommentModel.postReplyModel.Type = "Blog";
-			model.postCommentModel.EntityId = id;
-			model.postCommentModel.Username = user != null ? user.UserName : "";
 			return View(model);
 		}
 
@@ -284,77 +106,6 @@ namespace SMS.Controllers
 			{
 				model = new BlogModel()
 				{
-					Comments = blog.Comments.Select(x => new CommentModel()
-					{
-						Id = x.Id,
-						CommentHtml = x.CommentHtml,
-						CommentId = x.Id,
-						CreatedOn = x.CreatedOn,
-						ModifiedOn = x.ModifiedOn,
-						DisplayOrder = x.DisplayOrder,
-						Username = x.Username,
-						Replies = _replyService.GetAllRepliesByComment(x.Id).Select(r => new ReplyModel()
-						{
-							Id = r.Id,
-							DisplayOrder = r.DisplayOrder,
-							CreatedOn = r.CreatedOn,
-							IsModified = r.IsModified,
-							ReplyHtml = r.ReplyHtml,
-							User = new UserModel()
-							{
-								Id = r.UserId,
-							},
-							Reactions = _smsService.SearchReactions(replyid: r.Id).Select(re => new ReactionModel()
-							{
-								Id = re.Id,
-								CommentId = re.CommentId,
-								CreatedOn = re.CreatedOn,
-								IsAngry = re.IsAngry,
-								IsDislike = re.IsDislike,
-								IsHappy = re.IsHappy,
-								IsLike = re.IsLike,
-								IsLol = re.IsLOL,
-								IsSad = re.IsSad,
-								ModifiedOn = re.ModifiedOn,
-								Rating = re.Rating,
-								UserId = re.UserId,
-								Username = re.Username
-							}).ToList(),
-						}).ToList(),
-						Reactions = _smsService.SearchReactions(commentid: x.Id).Select(re => new ReactionModel()
-						{
-							Id = re.Id,
-							CommentId = re.CommentId,
-							CreatedOn = re.CreatedOn,
-							IsAngry = re.IsAngry,
-							IsDislike = re.IsDislike,
-							IsHappy = re.IsHappy,
-							IsLike = re.IsLike,
-							IsLol = re.IsLOL,
-							IsSad = re.IsSad,
-							ModifiedOn = re.ModifiedOn,
-							Rating = re.Rating,
-							UserId = re.UserId,
-							Username = re.Username
-						}).ToList(),
-					}).OrderByDescending(x => x.CreatedOn).ToList(),
-					Pictures = blog.Pictures.Select(p => new BlogPictureModel()
-					{
-						Id = p.Id,
-						PictureId = p.PictureId,
-						Picture = new SMS.Models.PictureModel()
-						{
-							Id = p.Picture.Id,
-							IsActive = p.Picture.IsActive,
-							Url = p.Picture.Url,
-							AlternateText = p.Picture.AlternateText,
-							Src = p.Picture.PictureSrc
-						},
-						DisplayOrder = p.DisplayOrder,
-						PicEndDate = p.EndDate,
-						IsDefault = p.IsDefault,
-						PicStartDate = p.StartDate,
-					}).OrderBy(p => p.DisplayOrder).ToList(),
 					Name = blog.Name,
 					BlogHtml = blog.BlogHtml,
 					CreatedOn = blog.CreatedOn,
@@ -363,29 +114,9 @@ namespace SMS.Controllers
 					IpAddress = blog.IpAddress,
 					Subject = blog.Subject,
 					UserId = blog.UserId,
-					Reactions = _smsService.SearchReactions(blogid: blog.Id).Select(re => new ReactionModel()
-					{
-						Id = re.Id,
-						CommentId = re.CommentId,
-						CreatedOn = re.CreatedOn,
-						IsAngry = re.IsAngry,
-						IsDislike = re.IsDislike,
-						IsHappy = re.IsHappy,
-						IsLike = re.IsLike,
-						IsLol = re.IsLOL,
-						IsSad = re.IsSad,
-						ModifiedOn = re.ModifiedOn,
-						Rating = re.Rating,
-						UserId = re.UserId,
-						Username = re.Username
-					}).ToList()
 				};
 			}
 
-			// Attach Child Model Default Values
-			model.postCommentModel.Type = model.postCommentModel.postReplyModel.Type = "Product";
-			model.postCommentModel.EntityId = id;
-			model.postCommentModel.Username = user != null ? user.UserName : "";
 			return View("~/Views/Blog/Detail.cshtml", model);
 		}
 

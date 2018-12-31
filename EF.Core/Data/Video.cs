@@ -6,7 +6,7 @@ namespace EF.Core.Data
 	public partial class Video : BaseEntity
 	{
 		[NotMapped]
-		public virtual ICollection<Blog> _Blogs { get; set; }
+		public virtual ICollection<BlogVideo> _Blogs { get; set; }
 		[NotMapped]
 		public virtual ICollection<ProductVideo> _Products { get; set; }
 		[NotMapped]
@@ -23,9 +23,9 @@ namespace EF.Core.Data
 		public string VideoSrc { get; set; }
 
 		#region Navigation Properties
-		public virtual ICollection<Blog> Blogs
+		public virtual ICollection<BlogVideo> Blogs
 		{
-			get { return _Blogs ?? (_Blogs = new List<Blog>()); }
+			get { return _Blogs ?? (_Blogs = new List<BlogVideo>()); }
 			protected set { _Blogs = value; }
 		}
 

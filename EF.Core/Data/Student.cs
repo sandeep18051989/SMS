@@ -7,14 +7,13 @@ namespace EF.Core.Data
 {
 	public partial class Student : BaseEntity, ISlugSupported
 	{
-        [NotMapped]
-        public virtual ICollection<StudentExam> _StudentExams { get; set; }
+		[NotMapped]
+		public virtual ICollection<StudentExam> _StudentExams { get; set; }
 
-        [NotMapped]
-        public virtual ICollection<StudentHomework> _StudentHomeworks { get; set; }
+		[NotMapped]
+		public virtual ICollection<StudentHomework> _StudentHomeworks { get; set; }
 
-
-        public Guid StudentUniqueId { get; set; }
+		public Guid StudentUniqueId { get; set; }
 		public string FName { get; set; }
 		public string MName { get; set; }
 		public string LName { get; set; }
@@ -35,8 +34,8 @@ namespace EF.Core.Data
 		public string BirthMark { get; set; }
 		public string Disease { get; set; }
 		public string BusNumber { get; set; }
-        public string RouteNumber { get; set; }
-        public string AadharCardNo { get; set; }
+		public string RouteNumber { get; set; }
+		public string AadharCardNo { get; set; }
 		public string Pre_Institute_Name { get; set; }
 		public string Pre_Institute_Address { get; set; }
 		public string E_Phisician_Name { get; set; }
@@ -88,19 +87,19 @@ namespace EF.Core.Data
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
+		public int ImpersonateId { get; set; }
+		public int ClassRoomDivisionId { get; set; }
 
-        public int ClassRoomDivisionId { get; set; }
-
-        [NotMapped]
+		[NotMapped]
 		public AdmissionStatus AdmissionStatus
 		{
 			get
 			{
-				return (AdmissionStatus)this.AdmissionStatusId;
+				return (AdmissionStatus)AdmissionStatusId;
 			}
 			set
 			{
-				this.AdmissionStatusId = (int)value;
+				AdmissionStatusId = (int)value;
 			}
 		}
 		[NotMapped]
@@ -108,11 +107,11 @@ namespace EF.Core.Data
 		{
 			get
 			{
-				return (PersonalityStatus)this.PersonalityStatusId;
+				return (PersonalityStatus)PersonalityStatusId;
 			}
 			set
 			{
-				this.PersonalityStatusId = (int)value;
+				PersonalityStatusId = (int)value;
 			}
 		}
 		[NotMapped]
@@ -120,11 +119,11 @@ namespace EF.Core.Data
 		{
 			get
 			{
-				return (StudentHouse)this.HouseId;
+				return (StudentHouse)HouseId;
 			}
 			set
 			{
-				this.HouseId = (int)value;
+				HouseId = (int)value;
 			}
 		}
 
@@ -150,18 +149,18 @@ namespace EF.Core.Data
 			protected set { _MessageGroups = value; }
 		}
 
-        public virtual ICollection<StudentExam> StudentExams
-        {
-            get { return _StudentExams ?? (_StudentExams = new List<StudentExam>()); }
-            protected set { _StudentExams = value; }
-        }
+		public virtual ICollection<StudentExam> StudentExams
+		{
+			get { return _StudentExams ?? (_StudentExams = new List<StudentExam>()); }
+			protected set { _StudentExams = value; }
+		}
 
-        public virtual ICollection<StudentHomework> StudentHomeworks
-        {
-            get { return _StudentHomeworks ?? (_StudentHomeworks = new List<StudentHomework>()); }
-            protected set { _StudentHomeworks = value; }
-        }
+		public virtual ICollection<StudentHomework> StudentHomeworks
+		{
+			get { return _StudentHomeworks ?? (_StudentHomeworks = new List<StudentHomework>()); }
+			protected set { _StudentHomeworks = value; }
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

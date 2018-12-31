@@ -80,6 +80,7 @@ namespace SMS.Models
 	{
 		public int Id { get; set; }
 		public int EventId { get; set; }
+		public int BlogId { get; set; }
 		public int NewsId { get; set; }
 		public int ProductId { get; set; }
 		public int PictureId { get; set; }

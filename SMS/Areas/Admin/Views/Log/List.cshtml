@@ -136,7 +136,7 @@
                         //delete selected
                         $('#delete-selected').click(function (e) {
                             if (selectedIds.length > 0) {
-                                if (confirm("Are you sure you want to clear log?")) {
+                                if (confirm("Are you sure you want to delete selected log entries?")) {
                                     e.preventDefault();
                                     var postData = {
                                         selectedIds: selectedIds

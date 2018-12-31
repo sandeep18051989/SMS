@@ -7,10 +7,10 @@ namespace EF.Core.Data
 	public partial class Teacher : BaseEntity, ISlugSupported
 	{
 
-        [NotMapped]
-        public virtual ICollection<TeacherExam> _TeacherExams { get; set; }
+		[NotMapped]
+		public virtual ICollection<TeacherExam> _TeacherExams { get; set; }
 
-        public int EmployeeId { get; set; }
+		public int EmployeeId { get; set; }
 		public string Name { get; set; }
 		public int QualificationId { get; set; }
 		public string Username { get; set; }
@@ -30,6 +30,7 @@ namespace EF.Core.Data
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }
+		public int ImpersonateId { get; set; }
 		public virtual Qualification Qualification { get; set; }
 
 		[NotMapped]
@@ -47,11 +48,11 @@ namespace EF.Core.Data
 		{
 			get
 			{
-				return (PersonalityStatus)this.PersonalityStatusId;
+				return (PersonalityStatus)PersonalityStatusId;
 			}
 			set
 			{
-				this.PersonalityStatusId = (int)value;
+				PersonalityStatusId = (int)value;
 			}
 		}
 
@@ -81,13 +82,13 @@ namespace EF.Core.Data
 			protected set { _Files = value; }
 		}
 
-        public virtual ICollection<TeacherExam> TeacherExams
-        {
-            get { return _TeacherExams ?? (_TeacherExams = new List<TeacherExam>()); }
-            protected set { _TeacherExams = value; }
-        }
+		public virtual ICollection<TeacherExam> TeacherExams
+		{
+			get { return _TeacherExams ?? (_TeacherExams = new List<TeacherExam>()); }
+			protected set { _TeacherExams = value; }
+		}
 
-        #endregion
+		#endregion
 
-    }
+	}
 }
