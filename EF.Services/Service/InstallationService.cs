@@ -148,7 +148,7 @@ namespace EF.Services.Service
 		public virtual void InitConnectionFactory()
 		{
 			var connectionFactory = new SqlConnectionFactory();
-#pragma warning disable 0618
+            #pragma warning disable 0618
 			Database.DefaultConnectionFactory = connectionFactory;
 		}
 
@@ -650,8 +650,8 @@ namespace EF.Services.Service
 			_permissionRecordRepository.Insert(managePermit);
 
 			managePermit = new PermissionRecord();
-			managePermit.Name = "Manage Designation";
-			managePermit.SystemName = "ManageDesignation";
+			managePermit.Name = "Manage Designations";
+			managePermit.SystemName = "ManageDesignations";
 			managePermit.IsDeleted = false;
 			managePermit.IsSystemDefined = true;
 			managePermit.Category = "Designation";
@@ -2536,7 +2536,8 @@ namespace EF.Services.Service
 			addDivision.IsDeleted = false;
 			addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
 			addDivision.UserId = user.Id;
-			_divisionRepository.Insert(addDivision);
+            addDivision.DisplayOrder = 0;
+            _divisionRepository.Insert(addDivision);
 
 			addDivision = new Division();
 			addDivision.AcadmicYearId = acadmicYear.Id;
@@ -2546,7 +2547,8 @@ namespace EF.Services.Service
 			addDivision.IsDeleted = false;
 			addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
 			addDivision.UserId = user.Id;
-			_divisionRepository.Insert(addDivision);
+            addDivision.DisplayOrder = 1;
+            _divisionRepository.Insert(addDivision);
 
 			addDivision = new Division();
 			addDivision.AcadmicYearId = acadmicYear.Id;
@@ -2556,7 +2558,8 @@ namespace EF.Services.Service
 			addDivision.IsDeleted = false;
 			addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
 			addDivision.UserId = user.Id;
-			_divisionRepository.Insert(addDivision);
+            addDivision.DisplayOrder = 2;
+            _divisionRepository.Insert(addDivision);
 
 			addDivision = new Division();
 			addDivision.AcadmicYearId = acadmicYear.Id;
@@ -2566,7 +2569,8 @@ namespace EF.Services.Service
 			addDivision.IsDeleted = false;
 			addDivision.ModifiedOn = addDivision.CreatedOn = DateTime.Now;
 			addDivision.UserId = user.Id;
-			_divisionRepository.Insert(addDivision);
+            addDivision.DisplayOrder = 3;
+            _divisionRepository.Insert(addDivision);
 			#endregion
 
 			#region Classrooms

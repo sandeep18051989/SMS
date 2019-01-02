@@ -17,7 +17,7 @@ namespace SMS.Validations
 			RuleFor(x => x.Father_Contact).NotEmpty().WithMessage("Please enter fathers contact address");
 			RuleFor(x => x.Sex).NotEmpty().WithMessage("Please choose gender");
 			RuleFor(x => x.PictureId).NotEmpty().WithMessage("Please upload students latest picture");
-			RuleFor(x => x.Username).NotEmpty().WithMessage("Invalid username for selected employee");
+			RuleFor(x => x.Username).NotEmpty().When(x => x.Id > 0).WithMessage("Invalid username for selected student");
 		}
 	}
 }

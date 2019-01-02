@@ -1,6 +1,6 @@
 ﻿@model SMS.Models.CommentsModel
 @{
-    var random = EF.Core.CodeHelper.GenerateRandomInteger();
+    var random = EF.Services.CodeHelper.GenerateRandomInteger();
 }
 <script type="text/javascript" src="~/Scripts/public.comment.js"></script>
 <h3>Write your reply</h3>

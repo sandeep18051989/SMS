@@ -287,13 +287,13 @@ namespace SMS.Controllers
                 //                    {
                 //                        foreach (DataToken userdt in _lstTokens)
                 //                        {
-                //                            _templateContent.BodyHtml = EF.Core.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + userdt.Name + "]", userdt.Value, StringComparison.InvariantCulture);
+                //                            _templateContent.BodyHtml = EF.Services.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + userdt.Name + "]", userdt.Value, StringComparison.InvariantCulture);
                 //                        }
                 //                    }
 
                 //                    foreach (var dt in _templateService.GetAllDataTokensByTemplate(_templateContent.Id).Where(x => x.IsActive).ToList())
                 //                    {
-                //                        _templateContent.BodyHtml = EF.Core.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
+                //                        _templateContent.BodyHtml = EF.Services.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
                 //                    }
 
                 //                    _emailService.SendMail(_userInfo.Email, "Artery Labs:Password Request", _templateContent != null ? _templateContent.BodyHtml : "Username does not exist or You haven't an updated email address. Please write to us using complaint link.");

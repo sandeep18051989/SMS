@@ -300,13 +300,13 @@
 				<span class="nav-icon"><i class="fa fa-cubes"></i> </span>
 				<span class="nav-title">
 					Designations
-					@if (_permissionService.Authorize("ManageDesignation"))
+					@if (_permissionService.Authorize("ManageDesignations"))
 					{
 						<i class="fa fa-angle-down rotate-icon"></i>
 					}
 				</span>
 			</a>
-			@if (_permissionService.Authorize("ManageDesignation"))
+			@if (_permissionService.Authorize("ManageDesignations"))
 			{
 				<div class="dropdown-container">
 					<a class="nav-link" href="@Url.Action("List", "Designation", new {Area = "Admin"})">

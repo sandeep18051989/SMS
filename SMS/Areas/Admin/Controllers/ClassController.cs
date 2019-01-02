@@ -142,8 +142,9 @@ namespace SMS.Areas.Admin.Controllers
                             ModifiedOnString = x.Division.ModifiedOn.ToString("U"),
                             Description = !string.IsNullOrEmpty(x.Division.Description) ? x.Division.Description.Trim() : "",
                             Name = !string.IsNullOrEmpty(x.Division.Name) ? x.Division.Name.Trim() : "",
-                            AcadmicYearId = x.Division.AcadmicYearId
-                        })
+                            AcadmicYearId = x.Division.AcadmicYearId,
+                            DisplayOrder = x.Division.DisplayOrder
+                        }).OrderBy(x => x.DisplayOrder).ToList()
                     },
                     ContentEncoding = Encoding.Default,
                     ContentType = "application/json",
@@ -291,7 +292,7 @@ namespace SMS.Areas.Admin.Controllers
                 return View(model);
             }
 
-            return View(model);
+            return RedirectToAction("List");
         }
 
         public ActionResult Delete(int id)

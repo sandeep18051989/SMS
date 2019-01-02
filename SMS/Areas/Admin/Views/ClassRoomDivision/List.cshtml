@@ -23,61 +23,74 @@
                     <div class="col-md-12">
                         <br />
                         <div class="form-group">
-                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">Class</th>
-                                        <th class="text-center"></th>
-                                        <th class="text-center"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var classrecord in Model)
-                                    {
+                            @if (Model.ToList().Count > 0)
+                            {
+                                <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;vertical-align:bottom;">
+                                    <thead>
                                         <tr>
-                                            <td colspan="3">@classrecord.Class</td>
+                                            <th class="text-left">Class</th>
+                                            <th class="text-left"></th>
+                                            <th class="text-left"></th>
                                         </tr>
-                                        if (classrecord.AvailableDivisions.Count > 0)
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var classrecord in Model)
                                         {
                                             <tr>
-                                                <td colspan="3">
-                                                    <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-center"></th>
-                                                                <th class="text-center">Divisions</th>
-                                                                <th class="text-center"></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach (var divisionrecord in classrecord.AvailableDivisions)
-                                                            {
-                                                                <tr>
-                                                                    <td></td>
-                                                                    <td>@divisionrecord.Name</td>
-                                                                    @if (divisionrecord.AvailableClassRooms.Count > 0)
-                                                                    {
-                                                                        <td>
-                                                                            @Html.DropDownListFor(model => divisionrecord.ClassRoomId, divisionrecord.AvailableClassRooms, "Select Class Room", new { @class = "mdb-select", @tabindex = classrecord.AvailableDivisions.IndexOf(divisionrecord) + 1, @title = "Classroom", @name = ("classroom_" + classrecord.ClassId + "_" + divisionrecord.Id), @id = ("classroom_" + classrecord.ClassId + "_" + divisionrecord.Id), @data_class = classrecord.ClassId.ToString(), @data_division = divisionrecord.Id.ToString() })
-                                                                        </td>
-                                                                    }
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </td>
+                                                <td colspan="3">@classrecord.Class</td>
                                             </tr>
+                                            if (classrecord.AvailableDivisions.Count > 0)
+                                            {
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;vertical-align:bottom;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-left"></th>
+                                                                    <th class="text-center">Divisions</th>
+                                                                    <th class="text-left"></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var divisionrecord in classrecord.AvailableDivisions)
+                                                                {
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td class="text-center">
+                                                                            <div class="md-form">
+                                                                                @divisionrecord.Name
+                                                                            </div>
+                                                                        </td>
+                                                                        @if (divisionrecord.AvailableClassRooms.Count > 0)
+                                                                        {
+                                                                            <td>
+                                                                                <select class="mdb-select" data-class="@(classrecord.ClassId)" data-division="@(divisionrecord.Id)" data-val="true" id="classroom_@(classrecord.ClassId)_@(divisionrecord.Id)" name="classroom_@(classrecord.ClassId)_@(divisionrecord.Id)" tabindex="1" title="Classroom">
+                                                                                    <option @(!divisionrecord.AvailableClassRooms.Any(x => x.Selected) ? "selected=selected" : "") value="">Select Class Room</option>
+                                                                                    @foreach (var optionrecord in divisionrecord.AvailableClassRooms)
+                                                                                    {
+                                                                                        <option @(optionrecord.Selected ? "selected=selected" : "") value="@(optionrecord.Value)">@(optionrecord.Text)</option>
+                                                                                    }
+                                                                                </select>
+                                                                            </td>
+                                                                        }
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
-                                    }
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td class="text-center" colspan="3">
-                                            <input type="button" id="update-classrooms" name="submit" value="Submit" />
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="text-center" colspan="3">
+                                                <input type="submit" id="update-classrooms" class="btn btn-info" name="submit" value="Submit" />
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            }
                         </div>
                     </div>
                 </div>
@@ -90,7 +103,26 @@
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('ClassRooms')").closest("li").addClass("active");
 
-        $(document).on("click", "button[type=submit]", function (e) {
+        $(document).on("change", "select", function (e) {
+            var selectedValue = $(this).val();
+            if ($("select option[value='" + selectedValue + "']:selected").length > 1) {
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Alert",
+                        text: "Please select unique class rooms for each division!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                }, 1e3);
+                $("input[type=submit]").attr("disabled", true);
+            }
+            else {
+                $("input[type=submit]").removeAttr("disabled");
+            }
+        });
+
+        $(document).on("click", "input[type=submit]", function (e) {
             if (confirm("Are you sure, you want to update selected division?")) {
                 $("form").submit();
             }

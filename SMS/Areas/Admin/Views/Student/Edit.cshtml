@@ -58,13 +58,19 @@
                                                     <div class="col">
                                                         <div class="md-form">
                                                             <i class="fa fa-user-circle prefix"></i>
-                                                            @Html.EditorFor(model => model.PictureId, "Picture", "Picture")
+                                                            @Html.EditorFor(model => model.PictureId, "Picture", "PictureId")
                                                             @Html.ValidationMessageFor(model => model.PictureId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col">
-                                                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @tabindex = "2", @disabled="disabled", @readonly="readonly", @title = "Roll/Unique Number", @type = "text" } })
+                                                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @tabindex = "2", @disabled = "disabled", @readonly = "readonly", @title = "Roll/Unique Number", @type = "text" } })
                                                         @Html.LabelFor(model => model.Username, "Roll/Unique Number", htmlAttributes: new { @class = "control-label" })
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            @Html.DropDownListFor(model => model.ClassRoomDivisionId, Model.AvailableDivisions, "Select Class Division", new { @class = "mdb-select", @tabindex = "1", @title = "Class Room Division" })
+                                                            @Html.ValidationMessageFor(model => model.ClassRoomDivisionId, "", new { @class = "text-danger" })
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
@@ -123,14 +129,13 @@
                                                                 <div class="col-md-4">
                                                                     <input type="checkbox" tabindex="9" id="SexMale" data-check="Male" name="Sex" value="@(Model.Sex)" @(Model.Sex == "Male" ? "checked=checked" : "") />
                                                                     <label for="SexMale">Male</label>
-                                                                    @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <input type="checkbox" tabindex="10" id="SexFeMale" data-check="FeMale" name="Sex" value="@(Model.Sex)" @(Model.Sex == "Female" ? "checked=checked" : "") />
                                                                     <label for="SexFeMale">Female</label>
-                                                                    @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                                                                 </div>
                                                             </div>
+                                                            @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col">
@@ -514,15 +519,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-row">
-                                                    <div class="col-md-6">
-                                                        <div class="md-form">
-                                                            @Html.EditorFor(model => model.Contact2, new { htmlAttributes = new { @class = "form-control", @tabindex = "56", @maxlength = "10", @title = "Alternate Contact Number", @type = "text" } })
-                                                            @Html.LabelFor(model => model.Contact2, "Alternate Contact", htmlAttributes: new { @class = "control-label" })
-                                                            @Html.ValidationMessageFor(model => model.Contact2, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="row text-left">
@@ -532,8 +528,8 @@
                                                     <div class="col">
                                                         <div class="md-form">
                                                             <i class="fa fa-user-circle prefix"></i>
-                                                            @Html.EditorFor(model => model.PictureId, "Picture", "Picture")
-                                                            @Html.ValidationMessageFor(model => model.PictureId, "", new { @class = "text-danger" })
+                                                            @Html.EditorFor(model => model.CoverPictureId, "Picture", "CoverPictureId")
+                                                            @Html.ValidationMessageFor(model => model.CoverPictureId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col"></div>

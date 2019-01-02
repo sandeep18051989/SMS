@@ -20,7 +20,8 @@ namespace SMS.Models
 			AvailableCastes = new List<SelectListItem>();
 			AvailableReligions = new List<SelectListItem>();
 			AvailableHouses = new List<SelectListItem>();
-		}
+            AvailableDivisions = new List<SelectListItem>();
+        }
 		public Guid StudentUniqueId { get; set; }
 		public string FName { get; set; }
 		public string IdentityNumber { get; set; }
@@ -39,7 +40,8 @@ namespace SMS.Models
 		public double? Height { get; set; }
 		public string RelName { get; set; }
 		public int? CasteId { get; set; }
-		public int? ReligionId { get; set; }
+        public int ClassRoomDivisionId { get; set; }
+        public int? ReligionId { get; set; }
 		[UIHint("File")]
 		public int? FileId { get; set; }
 		public int? HouseId { get; set; }
@@ -106,7 +108,8 @@ namespace SMS.Models
 		public IList<SelectListItem> AvailableCastes { get; set; }
 		public IList<SelectListItem> AvailableReligions { get; set; }
 		public IList<SelectListItem> AvailableHouses { get; set; }
-	}
+        public IList<SelectListItem> AvailableDivisions { get; set; }
+    }
 
 	public partial class StudentListModel
 	{

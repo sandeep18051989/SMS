@@ -154,6 +154,9 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.GradeSystem, mo => mo.Ignore())
                     .ForMember(dest => dest.ResultStatus, mo => mo.Ignore());
 
+                cfg.CreateMap<Qualification, QualificationModel>();
+                cfg.CreateMap<QualificationModel, Qualification>();
+
                 cfg.CreateMap<DivisionHomework, DivisionHomeworkModel>()
                     .ForMember(dest => dest.Division, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableStudentApprovals, mo => mo.Ignore())
@@ -364,6 +367,12 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<VendorModel, Vendor>()
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore());
 
+                cfg.CreateMap<House, HouseModel>()
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.PictureSrc, mo => mo.Ignore());
+                cfg.CreateMap<HouseModel, House>()
+                    .ForMember(dest => dest.Picture, mo => mo.Ignore());
+
                 cfg.CreateMap<Reaction, ReactionModel>()
                     .ForMember(dest => dest.Blog, mo => mo.Ignore())
                     .ForMember(dest => dest.Comment, mo => mo.Ignore())
@@ -424,6 +433,7 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<Student, StudentModel>()
                     .ForMember(dest => dest.FatherPicture, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableDivisions, mo => mo.Ignore())
                     .ForMember(dest => dest.FileId, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableReligions, mo => mo.Ignore())
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))

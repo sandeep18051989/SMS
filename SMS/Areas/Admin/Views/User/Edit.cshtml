@@ -1,146 +1,145 @@
 ﻿@model SMS.Models.UserModel
 @using EF.Services;
 @{
-	ViewBag.Title = "Edit User";
-	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Edit User";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
-	<div class="col-md-12 mr-4">
-		<section class="edit-form">
-			@using (Html.BeginForm())
-			{
-				@Html.AntiForgeryToken()
-				@Html.HiddenFor(model => model.Id)
-				<div class="row">
-					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">EDIT USER</h3>
-						<input type="submit" tabindex="5" value="Save" class="btn btn-primary" />&nbsp;&nbsp;<span id="user-delete" tabindex="6" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</span>
-						<input type="button" id="change-password" data-toggle="modal" data-target="#changepasswordmodal" tabindex="7" value="Change Password" class="btn btn-success waves-effect waves-light" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-					</div>
-				</div>
-				<hr />
-				<div class="row">
-					<div class="col-12 my-3">
-						<!-- Nav tabs -->
-						<div class="tabs-wrapper">
-							<ul class="nav classic-tabs tabs-pink" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-user" role="tab">
-										<i class="fa fa-user fa-2x" aria-hidden="true"></i>
-										<br> Create
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#assign-roles" role="tab">
-										<i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
-										<br> Roles
-									</a>
-								</li>
-							</ul>
-						</div>
-						<!-- Tab panels -->
-						<div class="tab-content card">
-							<div class="tab-pane fade in show active" id="create-user" role="tabpanel">
-								<div class="row text-left">
-									<div class="col-xs-12 col-md-4 ml-1 mb-2">
-										<div class="md-form">
-											<i class="fa fa-user-o prefix"></i>
-											@Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "50" } })
-											@Html.LabelFor(model => model.Username, "Username", htmlAttributes: new { @class = "control-label" })
-											@Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-								<div class="row text-left">
-									<div class="col-xs-12 col-md-4 ml-1 mb-2">
-										<div class="md-form">
-											<i class="fa fa-envelope prefix"></i>
-											@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @type = "email", @autocomplete = "off", @tabindex = "2", @maxlength = "100" } })
-											@Html.LabelFor(model => model.Email, "Email Address", htmlAttributes: new { @class = "control-label" })
-											@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-7 ml-1 mb-2">
-										<input type="checkbox" id="IsActive" tabindex="5" name="IsActive" value="@Model.IsActive" />
-										@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
-										@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-7 ml-1 mb-2">
-										<input type="checkbox" id="IsApproved" tabindex="6" name="IsApproved" value="@Model.IsApproved" />
-										@Html.LabelFor(model => model.IsApproved, "Approved", htmlAttributes: new { })
-										@Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane fade" id="assign-roles" role="tabpanel">
-								@{ int tab = 0;}
-								@foreach (var role in Model.AvailableRoles)
-								{
-									tab += 1;
-									<div class="row">
-										<div class="col-md-7 mb-2">
-											<div class="form-check">
-												<input type="checkbox" tabindex="@tab" name="SelectedRoleIds" class="filled-in form-check-input" id="@role.Id" value="@role.Id" />
-												<label class="form-check-label" for="@role.Id">@role.RoleName</label>
-											</div>
-										</div>
-									</div>
-								}
-								@Html.ValidationMessageFor(model => model.SelectedRoleIds, "", new { @class = "text-danger" })
-							</div>
-						</div>
-					</div>
-				</div>
-			}
-			@Html.DeleteConfirmation("user-delete")
-			@Html.Partial("_ChangePassword", Model.ChangePassword)
-		</section>
-	</div>
+    <div class="col-md-12 mr-4">
+        <section class="edit-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <h3 class="section-heading mr-auto">EDIT USER</h3>
+                        <input type="submit" tabindex="5" value="Save" class="btn btn-primary" />&nbsp;&nbsp;<span id="user-delete" tabindex="6" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</span>
+                        <input type="button" id="change-password" data-toggle="modal" data-target="#changepasswordmodal" tabindex="7" value="Change Password" class="btn btn-success waves-effect waves-light" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <!-- Nav tabs -->
+                        <div class="tabs-wrapper">
+                            <ul class="nav classic-tabs tabs-pink" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-user" role="tab">
+                                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                                        <br> Create
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#assign-roles" role="tab">
+                                        <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
+                                        <br> Roles
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Tab panels -->
+                        <div class="tab-content card">
+                            <div class="tab-pane fade in show active" id="create-user" role="tabpanel">
+                                <div class="row text-left">
+                                    <div class="col-xs-12 col-md-4 ml-1 mb-2">
+                                        <div class="md-form">
+                                            <i class="fa fa-user-o prefix"></i>
+                                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "50" } })
+                                            @Html.LabelFor(model => model.Username, "Username", htmlAttributes: new { @class = "control-label" })
+                                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-xs-12 col-md-4 ml-1 mb-2">
+                                        <div class="md-form">
+                                            <i class="fa fa-envelope prefix"></i>
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @type = "email", @autocomplete = "off", @tabindex = "2", @maxlength = "100" } })
+                                            @Html.LabelFor(model => model.Email, "Email Address", htmlAttributes: new { @class = "control-label" })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-7 ml-1 mb-2">
+                                        <input type="checkbox" id="IsActive" tabindex="5" name="IsActive" value="@Model.IsActive" />
+                                        @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+                                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-7 ml-1 mb-2">
+                                        <input type="checkbox" id="IsApproved" tabindex="6" name="IsApproved" value="@Model.IsApproved" />
+                                        @Html.LabelFor(model => model.IsApproved, "Approved", htmlAttributes: new { })
+                                        @Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="assign-roles" role="tabpanel">
+                                @{ int tab = 0;}
+                                @foreach (var role in Model.AvailableRoles)
+                                {
+                                    tab += 1;
+                                    <div class="row">
+                                        <div class="col-md-7 mb-2">
+                                            <div class="form-check">
+                                                <input type="checkbox" tabindex="@tab" name="SelectedRoleIds" class="filled-in form-check-input" id="@role.Id" value="@role.Id" />
+                                                <label class="form-check-label" for="@role.Id">@role.RoleName</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @Html.ValidationMessageFor(model => model.SelectedRoleIds, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>}
+            @Html.DeleteConfirmation("user-delete")
+            @Html.Partial("_ChangePassword", Model.ChangePassword)
+        </section>
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('Users')").closest("li").addClass("active");
 
-		if ($("#IsActive").val() == "True") {
-			$("#IsActive").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsActive").attr('checked', false).val(false);
-		}
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
 
-		$("#IsActive").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
 
-		if ($("#IsApproved").val()) {
-			$("#IsApproved").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsApproved").attr('checked', false).val(false);
-		}
+        if ($("#IsApproved").val()) {
+            $("#IsApproved").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsApproved").attr('checked', false).val(false);
+        }
 
-		$("#IsApproved").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
-	});
+        $("#IsApproved").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+    });
 </script>

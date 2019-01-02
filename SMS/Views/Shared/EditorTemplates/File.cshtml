@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="~/Areas/Admin/Content/fineuploader.min.css" />
     <script type="text/javascript" src="~/Areas/Admin/Scripts/fineuploader.min.js"></script>
     //other variables
-    var random = EF.Core.CodeHelper.GenerateRandomInteger();
+    var random = EF.Services.CodeHelper.GenerateRandomInteger();
     var clientId = "file" + random;
     var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
     var fileService = EF.Core.ContextHelper.Current.Resolve<IFileService>();

@@ -67,14 +67,14 @@
                                                     <div class="col">
                                                         <div class="md-form">
                                                             <i class="fa fa-user-circle prefix"></i>
-                                                            @Html.EditorFor(model => model.ProfilePictureId, "Picture", "Picture")
+                                                            @Html.EditorFor(model => model.ProfilePictureId, "Picture", "ProfilePictureId")
                                                             @Html.ValidationMessageFor(model => model.ProfilePictureId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="md-form">
                                                             <i class="fa fa-user-circle prefix"></i>
-                                                            @Html.EditorFor(model => model.CoverPictureId, "Picture", "Picture")
+                                                            @Html.EditorFor(model => model.CoverPictureId, "Picture", "CoverPictureId")
                                                             @Html.ValidationMessageFor(model => model.CoverPictureId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
@@ -143,7 +143,6 @@
                                                                 <div class="col-md-4">
                                                                     <input type="checkbox" tabindex="11" id="PhoneVerifiedNo" data-check="PhoneNo" name="IsPhoneVerified" value="@(Model.IsPhoneVerified)" @(Model.IsPhoneVerified.HasValue ? !Model.IsPhoneVerified.Value ? "checked=checked" : "" : "") />
                                                                     <label for="PhoneVerifiedNo">No</label>
-                                                                    @Html.ValidationMessageFor(model => model.IsPhoneVerified, "", new { @class = "text-danger" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -162,7 +161,6 @@
                                                                 <div class="col-md-4">
                                                                     <input type="checkbox" tabindex="13" id="EmailVerifiedNo" data-check="EmailNo" name="IsEmailVerified " value="@(Model.IsEmailVerified.HasValue ? Model.IsEmailVerified.Value : false)" @(Model.IsEmailVerified.HasValue ? !Model.IsEmailVerified.Value ? "checked=checked" : "" : "checked=checked") />
                                                                     <label for="EmailVerifiedNo">No</label>
-                                                                    @Html.ValidationMessageFor(model => model.IsEmailVerified, "", new { @class = "text-danger" })
                                                                 </div>
                                                             </div>
                                                         </div>

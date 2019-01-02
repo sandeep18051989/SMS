@@ -261,11 +261,6 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageTeachers"))
 				return AccessDeniedView();
 
-			// Check for duplicate teacher, if any
-			var _allActiveTeachers = _smsService.CheckTeacherExists(model.Name, model.Id);
-			if (_allActiveTeachers)
-				ModelState.AddModelError("Name", "A Teacher with the same name already exists. Please choose a different name.");
-
 			var teacher = _smsService.GetTeacherById(model.Id);
 			if (ModelState.IsValid)
 			{
@@ -334,9 +329,6 @@ namespace SMS.Areas.Admin.Controllers
 		{
 			if (!_permissionService.Authorize("ManageTeachers"))
 				return AccessDeniedView();
-
-			if (_smsService.CheckTeacherExists(model.Name))
-				ModelState.AddModelError("Name", "A Teacher with same name already exists. Please choose a different name.");
 
 			if (ModelState.IsValid)
 			{

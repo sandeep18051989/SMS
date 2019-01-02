@@ -13,7 +13,6 @@
                         <tr>
                             <th class="text-center">Name</th>
                             <th class="text-center">Display Order</th>
-                            <th class="text-center">Description</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -35,7 +34,7 @@
                                 "type": "POST",
                                 "datatype": "json"
                             },
-                            "aaSorting": [],
+                            "aaSorting": [1, "desc"],
                             "columns": [
 								{
 								    "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
@@ -43,9 +42,6 @@
 								{
 								    "data": "DisplayOrder", "title": "Display Order", "name": "Display Order", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
 								},
-                                {
-                                    "data": "Description", "title": "Description", "name": "Description", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
-                                },
 								{
 								    "title": "Actions",
 								    "orderable": false,

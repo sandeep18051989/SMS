@@ -145,18 +145,19 @@ namespace SMS.Controllers
 		public ActionResult Index()
 		{
 			this.Server.ScriptTimeout = 300;
-			var model = new InstallDatabaseModel
-			{
-				Datasource = ".",
-				Database = "sms",
-				AdminUsername = "admin",
-				Username = "sa",
-				Password = "ayush@123",
-				AdminPassword = "@password1",
-				UserId = 1
+            var model = new InstallDatabaseModel
+            {
+                Datasource = ".",
+                Database = "sms",
+                AdminUsername = "admin",
+                Username = "sa",
+                Password = "",
+                AdminPassword = "admin",
+                UserId = 1,
+                Email = "sandeep725@gmail.com"
 			};
-			model.School.FullName = "Sandeep School";
-			model.School.AcadmicYearName = DateTime.Now.ToString("yyyy") + "-" + Convert.ToInt32(Convert.ToInt32(DateTime.Now.ToString("yy")) + 1).ToString(); 
+			model.School.FullName = "Test School";
+			model.School.AcadmicYearName = (DateTime.Now.Month <= 3 ? Convert.ToString(Convert.ToInt32(DateTime.Now.ToString("yyyy")) - 1) : Convert.ToString(Convert.ToInt32(DateTime.Now.ToString("yyyy")))) + "-" + (DateTime.Now.Month <= 3 ? Convert.ToString(Convert.ToInt32(DateTime.Now.ToString("yy"))) : Convert.ToString(Convert.ToInt32(DateTime.Now.ToString("yy")) + 1)); 
 			return View(model);
 		}
 

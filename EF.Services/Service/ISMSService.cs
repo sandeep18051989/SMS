@@ -430,6 +430,17 @@ namespace EF.Services.Service
 
 		Settings GetSettingByKey(string key, int userid = 0);
 
-		#endregion
-	}
+        #endregion
+
+        #region House
+        void InsertHouse(House house);
+        void UpdateHouse(House house);
+        void DeleteHouse(int id);
+        IList<House> GetAllHouses(bool? onlyActive = null);
+        House GetHouseById(int id);
+        IList<House> GetHouseByName(string name, bool? active);
+        bool CheckHouseExists(string name, int? id = null);
+        void ToggleActiveStatusHouse(int id);
+        #endregion
+    }
 }

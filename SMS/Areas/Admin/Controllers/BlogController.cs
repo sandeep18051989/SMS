@@ -197,7 +197,7 @@ namespace SMS.Areas.Admin.Controllers
 
 		public ActionResult List()
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			var user = _userContext.CurrentUser;
@@ -207,7 +207,7 @@ namespace SMS.Areas.Admin.Controllers
 
 		public ActionResult Edit(int id)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			var model = new BlogModel();
@@ -234,7 +234,7 @@ namespace SMS.Areas.Admin.Controllers
 		[ValidateInput(false)]
 		public ActionResult Edit(BlogModel model, FormCollection frm, bool continueEditing)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			var user = _userContext.CurrentUser;
@@ -282,7 +282,7 @@ namespace SMS.Areas.Admin.Controllers
 
 		public ActionResult Create()
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			var model = new BlogModel();
@@ -300,7 +300,7 @@ namespace SMS.Areas.Admin.Controllers
 		[ValidateInput(false)]
 		public ActionResult Create(BlogModel model, FormCollection frm, bool continueEditing)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			var currentUser = _userContext.CurrentUser;
@@ -344,7 +344,7 @@ namespace SMS.Areas.Admin.Controllers
 
 		public ActionResult Delete(int id)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			if (id == 0)
@@ -363,7 +363,7 @@ namespace SMS.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult DeleteBlogPicture(int id)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			if (id == 0)
@@ -395,7 +395,7 @@ namespace SMS.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult DeleteBlogVideo(int id)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			if (id == 0)
@@ -428,7 +428,7 @@ namespace SMS.Areas.Admin.Controllers
 		[HttpPost]
 		public virtual ActionResult BlogPictureAdd(int pictureId, int displayOrder, bool isDefault, int blogId, DateTime? startDate, DateTime? endDate)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			if (pictureId == 0)
@@ -465,7 +465,7 @@ namespace SMS.Areas.Admin.Controllers
 		[HttpPost]
 		public virtual ActionResult UpdateBlogPicture(int blogId, int pictureId, int displayOrder, bool isDefault, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			if (pictureId == 0)
@@ -512,7 +512,7 @@ namespace SMS.Areas.Admin.Controllers
 		[HttpPost]
 		public virtual ActionResult BlogVideoAdd(int videoId, int displayOrder, int blogId, DateTime? startDate, DateTime? endDate)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			if (videoId == 0)
@@ -611,7 +611,7 @@ namespace SMS.Areas.Admin.Controllers
 		[HttpPost]
 		public virtual ActionResult UpdateBlogVideo(int blogId, int videoId, int displayOrder, int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear)
 		{
-			if (!_permissionService.Authorize("ManageBlog"))
+			if (!_permissionService.Authorize("ManageBlogs"))
 				return AccessDeniedView();
 
 			if (videoId == 0)

@@ -146,13 +146,6 @@ namespace SMS.Areas.Admin.Controllers
 
             // Get Active Acadmic Year
             var acadmicyear = _smsService.GetActiveAcadmicYear();
-
-            // Check for duplicate employee, if any
-            var allActiveEmployees = _smsService.GetAllEmployees();
-
-            if (allActiveEmployees.Any(u => u.EmpFName.Trim().ToLower() == model.EmpFName.Trim().ToLower() && u.Id != model.Id))
-                ModelState.AddModelError("Name", "A Employee with the same name already exists. Please choose a different name.");
-
             var employee = _smsService.GetEmployeeById(model.Id);
 
             if (ModelState.IsValid)
@@ -188,12 +181,6 @@ namespace SMS.Areas.Admin.Controllers
         {
             if (!_permissionService.Authorize("ManageEmployees"))
                 return AccessDeniedView();
-
-            // Check for duplicate employee, if any
-            var employee = _smsService.CheckEmployeeExists(model.EmpFName, null);
-
-            if (employee)
-                ModelState.AddModelError("Name", "A Employee with same name already exists. Please choose a different name.");
 
             if (ModelState.IsValid)
             {

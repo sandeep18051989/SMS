@@ -18,7 +18,7 @@ namespace SMS.Validations
 			RuleFor(x => x.DateOfBirth).NotEmpty().WithMessage("Please enter date of birth");
 			RuleFor(x => x.EmployeePictureId).NotEmpty().WithMessage("Please upload picture");
 			RuleFor(x => x.JoiningDate).NotEmpty().WithMessage("Please select joining date");
-            RuleFor(x => x.Username).NotEmpty().WithMessage("Invalid username for selected employee");
+            RuleFor(x => x.Username).NotEmpty().When(x => x.Id > 0).WithMessage("Invalid username for selected employee");
         }
     }
 }
