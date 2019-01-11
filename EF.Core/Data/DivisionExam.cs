@@ -9,7 +9,6 @@ namespace EF.Core.Data
 	{
         [NotMapped]
         public virtual ICollection<Comment> _Comments { get; set; }
-
         public int DivisionId { get; set; }
 		public int ExamId { get; set; }
 		public int? ResultStatusId { get; set; }
@@ -17,12 +16,14 @@ namespace EF.Core.Data
 		public double? MarksObtained { get; set; }
 		public DateTime? StartDate { get; set; }
 		public DateTime? EndDate { get; set; }
-		public DateTime? StartTime { get; set; }
-		public DateTime? EndTime { get; set; }
+		public string StartTime { get; set; }
+		public string EndTime { get; set; }
 		public bool BreakAllowed { get; set; }
-		public DateTime? BreakTime { get; set; }
+		public string BreakTime { get; set; }
 		public int ClassRoomId { get; set; }
-		public virtual ClassRoom ClassRoom { get; set; }
+        public double PassingMarks { get; set; }
+        public double MaxMarks { get; set; }
+        public virtual ClassRoom ClassRoom { get; set; }
         public virtual ClassRoomDivision Division { get; set; }
         public virtual Exam Exam { get; set; }
 

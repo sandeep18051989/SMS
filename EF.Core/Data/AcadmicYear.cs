@@ -7,7 +7,6 @@ namespace EF.Core.Data
 		public string Name { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
-
 		public virtual User User { get; set; }
 	}
 }

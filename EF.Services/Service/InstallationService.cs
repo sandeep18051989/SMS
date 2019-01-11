@@ -721,13 +721,37 @@ namespace EF.Services.Service
 			managePermit.UserId = user.Id;
 			_permissionRecordRepository.Insert(managePermit);
 
-			#endregion
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Acadmic Year";
+            managePermit.SystemName = "ManageAcadmicYear";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "AcadmicYear";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
 
-			#region User Roles
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Book";
+            managePermit.SystemName = "ManageBook";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Book";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
 
-			// Adding Default Roles
-			// Administrator
-			var _AdminRole = new UserRole();
+            #endregion
+
+            #region User Roles
+
+            // Adding Default Roles
+            // Administrator
+            var _AdminRole = new UserRole();
 			_AdminRole.CreatedOn = DateTime.Now;
 			_AdminRole.ModifiedOn = DateTime.Now;
 			_AdminRole.RoleName = "Administrator";

@@ -41,7 +41,6 @@ namespace EF.Core.Data
 		public string E_Phisician_Name { get; set; }
 		public string E_Phisician_Address { get; set; }
 		public string E_Phisician_Phone { get; set; }
-		public int DivisionId { get; set; }
 		public string Father_Occupation { get; set; }
 		public string Father_Education { get; set; }
 		public string Father_BGroup { get; set; }
@@ -68,8 +67,8 @@ namespace EF.Core.Data
 		public string Nationality { get; set; }
 		public string FatherNationality { get; set; }
 		public string MotherNationality { get; set; }
-		public int AdmissionStatusId { get; set; }
-		public int PersonalityStatusId { get; set; }
+		public int? AdmissionStatusId { get; set; }
+		public int? PersonalityStatusId { get; set; }
 		public string ReferredBy { get; set; }
 		public string Remarks { get; set; }
 		public string UserName { get; set; }
@@ -83,7 +82,7 @@ namespace EF.Core.Data
 		public string Hi5Link { get; set; }
 		public bool IsPhoneVerified { get; set; }
 		public bool IsEmailVerified { get; set; }
-		public int HouseId { get; set; }
+		public int? HouseId { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public int AcadmicYearId { get; set; }

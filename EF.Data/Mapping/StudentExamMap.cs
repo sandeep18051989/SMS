@@ -14,15 +14,18 @@ namespace EF.Data.Mapping
             this.Property(b => b.StudentId).IsRequired();
             this.Property(b => b.ExamId).IsRequired();
             this.Property(b => b.BreakAllowed).IsOptional();
-            this.Property(b => b.BreakTime).IsOptional();
+            this.Property(b => b.BreakTime).HasMaxLength(20).IsOptional();
             this.Property(b => b.ClassRoomId).IsRequired();
             this.Property(b => b.EndDate).IsOptional();
-            this.Property(b => b.EndTime).IsOptional();
+            this.Property(b => b.EndTime).HasMaxLength(20).IsOptional();
             this.Property(b => b.GradeSystemId).IsOptional();
             this.Property(b => b.MarksObtained).IsOptional();
             this.Property(b => b.ResultStatusId).IsOptional();
             this.Property(b => b.StartDate).IsOptional();
-            this.Property(b => b.StartTime).IsOptional();
+            this.Property(b => b.StartTime).HasMaxLength(20).IsOptional();
+            this.Property(b => b.PassingMarks).IsOptional();
+            this.Property(b => b.MaxMarks).IsOptional();
+
 
             this.HasMany(e => e.Comments).WithMany(c => c.StudentExams).Map(m => m.ToTable("Student_Exam_Comment_Map").MapLeftKey("StudentExamId").MapRightKey("CommentId"));
             this.HasRequired(all => all.Student).WithMany(e => e.StudentExams).HasForeignKey(all => all.StudentId);

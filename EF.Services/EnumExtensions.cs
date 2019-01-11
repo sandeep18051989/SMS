@@ -13,10 +13,11 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.WebPages;
 using FluentValidation;
+using System.Globalization;
 
 namespace EF.Services
 {
-	public static class EnumExtensions
+    public static class EnumExtensions
     {
         public static MvcHtmlString CustomEnumDropDownListFor<TModel, TEnum>(
             this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TEnum>> expression, object htmlAttributes)
@@ -42,6 +43,49 @@ namespace EF.Services
             var field = value.GetType().GetField(value.ToString());
             var attributes = (DescriptionAttribute[])field.GetCustomAttributes(typeof(DescriptionAttribute), false);
             return attributes.Length > 0 ? attributes[0].Description : value.ToString();
+        }
+
+        public static string GetDescription<T>(this T e) where T : IConvertible
+        {
+            if (e is Enum)
+            {
+                Type type = e.GetType();
+                Array values = System.Enum.GetValues(type);
+
+                foreach (int val in values)
+                {
+                    if (val == e.ToInt32(CultureInfo.InvariantCulture))
+                    {
+                        var memInfo = type.GetMember(type.GetEnumName(val));
+                        var descriptionAttribute = memInfo[0]
+                            .GetCustomAttributes(typeof(DescriptionAttribute), false)
+                            .FirstOrDefault() as DescriptionAttribute;
+
+                        if (descriptionAttribute != null)
+                        {
+                            return descriptionAttribute.Description;
+                        }
+                    }
+                }
+            }
+
+            return "";
+        }
+
+        public static IEnumerable<string> GetDescriptions(Type type)
+        {
+            var descs = new List<string>();
+            var names = Enum.GetNames(type);
+            foreach (var name in names)
+            {
+                var field = type.GetField(name);
+                var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                foreach (DescriptionAttribute fd in fds)
+                {
+                    descs.Add(fd.Description);
+                }
+            }
+            return descs;
         }
     }
 }

@@ -23,6 +23,8 @@ namespace SMS.Models
         public string Homework { get; set; }
         public DateTime? StartDate { get; set; }
 		public DateTime? EndDate { get; set; }
+        public string StringStartDate { get; set; }
+        public string StringEndDate { get; set; }
         public int StudentHomeworkStatusId { get; set; }
         public int TeacherApprovalStatusId { get; set; }
 

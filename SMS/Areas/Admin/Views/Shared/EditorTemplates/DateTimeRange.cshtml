@@ -1,0 +1,48 @@
+﻿@model DateTime?
+@Html.TextBoxFor(model => model, new { @class = "form-control datepicker", @value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy") : "" : ""), @data_value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy") : "" : ""), @autocomplete="false", @readonly="readonly", @placeholder="" })
+<script type="text/javascript">
+    $(function () {
+        $('#@Html.IdFor(model => model)').daterangepicker({
+            autoUpdateInput: false,
+            timePicker: true,
+            locale: {
+                format: 'DD MMMM YYYY',
+                cancelLabel: 'Clear'
+            }
+        });
+
+        if('@Model' != null){
+            $('#@Html.IdFor(model => model)').val(moment($('#@Html.IdFor(model => model)').val()).format('DD MMMM YYYY')).trigger("change");
+            if ((typeof ($("#StartTime")) != typeof (undefined) && $("#StartTime") != null) && (typeof ($("#EndTime")) != typeof (undefined) && $("#EndTime") != null)) {
+                $("#StartTime").val(moment($('#@Html.IdFor(model => model)').val()).format('hh:mm A')).trigger("change");
+                $("#EndTime").val(moment($('#@Html.IdFor(model => model)').val()).format('hh:mm A')).trigger("change");
+            }
+        }
+
+        $('.start-date-time input[type=text]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD MMMM YYYY')).trigger("change");
+            $(".end-date-time input[type=text]").val(picker.endDate.format('DD MMMM YYYY')).trigger("change");
+            if ((typeof ($("#StartTime")) != typeof (undefined) && $("#StartTime") != null) && (typeof ($("#EndTime")) != typeof (undefined) && $("#EndTime") != null)) {
+                $("#StartTime").val(picker.startDate.format('hh:mm A')).trigger("change");
+                $("#EndTime").val(picker.endDate.format('hh:mm A')).trigger("change");
+            }
+        });
+
+        $('.end-date-time input[type=text]').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.endDate.format('DD MMMM YYYY')).trigger("change");
+            $(".start-date-time input[type=text]").val(picker.startDate.format('DD MMMM YYYY')).trigger("change");
+            if ((typeof ($("#StartTime")) != typeof (undefined) && $("#StartTime") != null) && (typeof ($("#EndTime")) != typeof (undefined) && $("#EndTime") != null)) {
+                $("#StartTime").val(picker.startDate.format('hh:mm A')).trigger("change");
+                $("#EndTime").val(picker.endDate.format('hh:mm A')).trigger("change");
+            }
+        });
+
+        $('.date-time-range input[type=text]').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('').trigger("change");
+            if ((typeof ($("#StartTime")) != typeof (undefined) && $("#StartTime") != null) && (typeof ($("#EndTime")) != typeof (undefined) && $("#EndTime") != null)) {
+                $("#StartTime").val("").trigger("change");
+                $("#EndTime").val("").trigger("change");
+            }
+        });
+    });
+</script>

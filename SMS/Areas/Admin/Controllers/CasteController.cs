@@ -140,7 +140,7 @@ namespace SMS.Areas.Admin.Controllers
             {
                 Text = x.Name.Trim(),
                 Value = x.Id.ToString(),
-                Selected = x.IsActive
+                Selected = model.AcadmicYearId == x.Id
             }).ToList();
 
             model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
@@ -179,6 +179,19 @@ namespace SMS.Areas.Admin.Controllers
             }
             else
             {
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.AcadmicYearId == x.Id
+                }).ToList();
+
+                model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.ReligionId > 0 && model.ReligionId == x.Id
+                }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
 
@@ -238,6 +251,19 @@ namespace SMS.Areas.Admin.Controllers
             }
             else
             {
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.AcadmicYearId == x.Id
+                }).ToList();
+
+                model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.ReligionId > 0 && model.ReligionId == x.Id
+                }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
             return RedirectToAction("List");

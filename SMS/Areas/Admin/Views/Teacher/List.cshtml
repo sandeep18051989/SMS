@@ -117,7 +117,7 @@
 					"className": 'text-center',
 					"render": function (data, type, row) {
 						if (type === "display") {
-							return '<a href="/Admin/Teacher/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
+						    return '<a href="/Admin/Teacher/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a class="btn btn-info" href="/Admin/Exam/TeacherExams/' + row.Id + '" id="edit_' + row.Id + '" title="Assign Exams">Add/Update Exams</a>';
 						}
 						return data;
 					},

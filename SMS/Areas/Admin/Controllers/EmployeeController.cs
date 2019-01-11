@@ -10,6 +10,7 @@ using EF.Services.Http;
 using EF.Services.Service;
 using SMS.Mappers;
 using SMS.Models;
+using EF.Core.Enums;
 
 namespace SMS.Areas.Admin.Controllers
 {
@@ -90,7 +91,20 @@ namespace SMS.Areas.Admin.Controllers
                         draw = draw,
                         recordsFiltered = recordsTotal,
                         recordsTotal = recordsTotal,
-                        data = data.Select(x => x.ToModel())
+                        data = data.Select(x => new EmployeeModel() {
+                            Id = x.Id,
+                            EmpFName = x.EmpFName,
+                            EmpMName = !string.IsNullOrEmpty(x.EmpMName) ? x.EmpMName : "",
+                            EmpLName = !string.IsNullOrEmpty(x.EmpLName) ? x.EmpLName : "",
+                            Designation = _smsService.GetDesignationById(x.DesignationId).Name,
+                            JoiningDate = x.JoiningDate.Value,
+                            Sex = x.Sex,
+                            IsActive = x.IsActive,
+                            ContractStartDateString = x.ContractStartDate != null ? x.ContractStartDate.Value.ToString("dd MMMM yyyy") : "",
+                            ContractEndDateString = x.ContractEndDate != null ? x.ContractEndDate.Value.ToString("dd MMMM yyyy") : "",
+                            PictureSrc = x.EmployeePictureId > 0 ? _pictureService.GetPictureById(x.EmployeePictureId).PictureSrc : "",
+                            Username = x.Username
+                        })
                     },
                     ContentEncoding = Encoding.Default,
                     ContentType = "application/json",
@@ -127,11 +141,58 @@ namespace SMS.Areas.Admin.Controllers
                 throw new Exception("Employee Id Missing");
 
             var employee = _smsService.GetEmployeeById(id);
-            var model = new EmployeeModel()
+            var model = employee.ToModel();
+
+            model.AvailableContractTypes = (from ContractType d in Enum.GetValues(typeof(ContractType))
+                                                select new SelectListItem
+                                                {
+                                                    Text = d.ToString(),
+                                                    Value = Convert.ToInt32(d).ToString(),
+                                                    Selected = (Convert.ToInt32(d) == model.ContractTypeId)
+                                                }).ToList();
+
+            model.AvailableContractStatuses = (from ContractStatus d in Enum.GetValues(typeof(ContractStatus))
+                                        select new SelectListItem
+                                        {
+                                            Text = d.ToString(),
+                                            Value = Convert.ToInt32(d).ToString(),
+                                            Selected = (Convert.ToInt32(d) == model.ContractStatusId)
+                                        }).ToList();
+
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
             {
-                Id = employee.Id,
-                UserId = employee.UserId,
-            };
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.Id == model.AcadmicYearId
+            }).ToList();
+
+            model.AvailableCastes = _smsService.GetAllCastes().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = model.CasteId == x.Id
+            }).OrderBy(x => x.Text).ToList();
+
+            model.AvailableDesignations = _smsService.GetAllDesignations().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = model.DesignationId == x.Id
+            }).OrderBy(x => x.Text).ToList();
+
+            model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = model.QualificationId == x.Id
+            }).OrderBy(x => x.Text).ToList();
+
+            model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = model.ReligionId == x.Id
+            }).OrderBy(x => x.Text).ToList();
 
             return View(model);
         }
@@ -157,6 +218,56 @@ namespace SMS.Areas.Admin.Controllers
             }
             else
             {
+                model.AvailableContractTypes = (from ContractType d in Enum.GetValues(typeof(ContractType))
+                                                select new SelectListItem
+                                                {
+                                                    Text = d.ToString(),
+                                                    Value = Convert.ToInt32(d).ToString(),
+                                                    Selected = (Convert.ToInt32(d) == model.ContractTypeId)
+                                                }).ToList();
+
+                model.AvailableContractStatuses = (from ContractStatus d in Enum.GetValues(typeof(ContractStatus))
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = d.ToString(),
+                                                       Value = Convert.ToInt32(d).ToString(),
+                                                       Selected = (Convert.ToInt32(d) == model.ContractStatusId)
+                                                   }).ToList();
+
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == model.AcadmicYearId
+                }).ToList();
+
+                model.AvailableCastes = _smsService.GetAllCastes().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.CasteId == x.Id
+                }).OrderBy(x => x.Text).ToList();
+
+                model.AvailableDesignations = _smsService.GetAllDesignations().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.DesignationId == x.Id
+                }).OrderBy(x => x.Text).ToList();
+
+                model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.QualificationId == x.Id
+                }).OrderBy(x => x.Text).ToList();
+
+                model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.ReligionId == x.Id
+                }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
 
@@ -170,6 +281,56 @@ namespace SMS.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var model = new EmployeeModel();
+            model.AvailableContractTypes = (from ContractType d in Enum.GetValues(typeof(ContractType))
+                                            select new SelectListItem
+                                            {
+                                                Text = d.ToString(),
+                                                Value = Convert.ToInt32(d).ToString(),
+                                                Selected = false
+                                            }).ToList();
+
+            model.AvailableContractStatuses = (from ContractStatus d in Enum.GetValues(typeof(ContractStatus))
+                                               select new SelectListItem
+                                               {
+                                                   Text = d.ToString(),
+                                                   Value = Convert.ToInt32(d).ToString(),
+                                                   Selected = false
+                                               }).ToList();
+
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
+
+            model.AvailableCastes = _smsService.GetAllCastes().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = false
+            }).OrderBy(x => x.Text).ToList();
+
+            model.AvailableDesignations = _smsService.GetAllDesignations().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = false
+            }).OrderBy(x => x.Text).ToList();
+
+            model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = false
+            }).OrderBy(x => x.Text).ToList();
+
+            model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = false
+            }).OrderBy(x => x.Text).ToList();
             return View(model);
 
         }
@@ -185,14 +346,64 @@ namespace SMS.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var newEmployee = model.ToEntity();
-                newEmployee.CreatedOn = DateTime.Now;
-                newEmployee.ModifiedOn = DateTime.Now;
+                newEmployee.CreatedOn = newEmployee.ModifiedOn = DateTime.Now;
                 newEmployee.IsDeleted = false;
                 newEmployee.UserId = _userContext.CurrentUser.Id;
+                newEmployee.Username = CodeHelper.GenerateRandomEmployeeUsername();
                 _smsService.InsertEmployee(newEmployee);
             }
             else
             {
+                model.AvailableContractTypes = (from ContractType d in Enum.GetValues(typeof(ContractType))
+                                                select new SelectListItem
+                                                {
+                                                    Text = d.ToString(),
+                                                    Value = Convert.ToInt32(d).ToString(),
+                                                    Selected = (Convert.ToInt32(d) == model.ContractTypeId)
+                                                }).ToList();
+
+                model.AvailableContractStatuses = (from ContractStatus d in Enum.GetValues(typeof(ContractStatus))
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = d.ToString(),
+                                                       Value = Convert.ToInt32(d).ToString(),
+                                                       Selected = (Convert.ToInt32(d) == model.ContractStatusId)
+                                                   }).ToList();
+
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == model.AcadmicYearId
+                }).ToList();
+
+                model.AvailableCastes = _smsService.GetAllCastes().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.CasteId == x.Id
+                }).OrderBy(x => x.Text).ToList();
+
+                model.AvailableDesignations = _smsService.GetAllDesignations().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.DesignationId == x.Id
+                }).OrderBy(x => x.Text).ToList();
+
+                model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.QualificationId == x.Id
+                }).OrderBy(x => x.Text).ToList();
+
+                model.AvailableReligions = _smsService.GetAllReligions().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = model.ReligionId == x.Id
+                }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
 

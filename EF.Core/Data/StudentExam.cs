@@ -19,13 +19,16 @@ namespace EF.Core.Data
 		public virtual Student Student { get; set; }
 		public DateTime? StartDate { get; set; }
 		public DateTime? EndDate { get; set; }
-		public DateTime? StartTime { get; set; }
-		public DateTime? EndTime { get; set; }
+		public string StartTime { get; set; }
+		public string EndTime { get; set; }
 		public bool BreakAllowed { get; set; }
-		public DateTime BreakTime { get; set; }
+		public string BreakTime { get; set; }
 		public int ClassRoomId { get; set; }
+        public double PassingMarks { get; set; }
+        public double MaxMarks { get; set; }
 
-		public virtual ClassRoom ClassRoom { get; set; }
+
+        public virtual ClassRoom ClassRoom { get; set; }
 		[NotMapped]
 		public ResultStatus ResultStatus
 		{

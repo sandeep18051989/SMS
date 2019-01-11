@@ -9,6 +9,7 @@ using EF.Services.Http;
 using EF.Services.Service;
 using SMS.Mappers;
 using SMS.Models;
+using EF.Core.Enums;
 
 namespace SMS.Areas.Admin.Controllers
 {
@@ -204,6 +205,29 @@ namespace SMS.Areas.Admin.Controllers
                 Value = x.Id.ToString(),
                 Selected = model.ClassRoomDivisionId == x.Id
             }).OrderBy(x => x.Text).ToList();
+
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.Id == model.AcadmicYearId
+            }).ToList();
+
+            model.AvailableAdmissionStatuses = (from AdmissionStatus d in Enum.GetValues(typeof(AdmissionStatus))
+                                       select new SelectListItem
+                                       {
+                                           Text = d.ToString(),
+                                           Value = Convert.ToInt32(d).ToString(),
+                                           Selected = (model.AdmissionStatusId.HasValue && Convert.ToInt32(d) == model.AdmissionStatusId)
+                                       }).ToList();
+
+            model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
+                                       select new SelectListItem
+                                       {
+                                           Text = d.ToString(),
+                                           Value = Convert.ToInt32(d).ToString(),
+                                           Selected = (model.PersonalityStatusId.HasValue && Convert.ToInt32(d) == model.PersonalityStatusId)
+                                       }).ToList();
             return View(model);
         }
 
@@ -261,6 +285,29 @@ namespace SMS.Areas.Admin.Controllers
                     Value = x.Id.ToString(),
                     Selected = model.ClassRoomDivisionId == x.Id
                 }).OrderBy(x => x.Text).ToList();
+
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == model.AcadmicYearId
+                }).ToList();
+
+                model.AvailableAdmissionStatuses = (from AdmissionStatus d in Enum.GetValues(typeof(AdmissionStatus))
+                                                    select new SelectListItem
+                                                    {
+                                                        Text = d.ToString(),
+                                                        Value = Convert.ToInt32(d).ToString(),
+                                                        Selected = (model.AdmissionStatusId.HasValue && Convert.ToInt32(d) == model.AdmissionStatusId)
+                                                    }).ToList();
+
+                model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
+                                                      select new SelectListItem
+                                                      {
+                                                          Text = d.ToString(),
+                                                          Value = Convert.ToInt32(d).ToString(),
+                                                          Selected = (model.PersonalityStatusId.HasValue && Convert.ToInt32(d) == model.PersonalityStatusId)
+                                                      }).ToList();
                 ErrorNotification("An error occurred while updating student.");
                 return View(model);
             }
@@ -302,6 +349,29 @@ namespace SMS.Areas.Admin.Controllers
                 Value = x.Id.ToString(),
                 Selected = false
             }).OrderBy(x => x.Text).ToList();
+
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
+
+            model.AvailableAdmissionStatuses = (from AdmissionStatus d in Enum.GetValues(typeof(AdmissionStatus))
+                                                select new SelectListItem
+                                                {
+                                                    Text = d.ToString(),
+                                                    Value = Convert.ToInt32(d).ToString(),
+                                                    Selected = false
+                                                }).ToList();
+
+            model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
+                                                  select new SelectListItem
+                                                  {
+                                                      Text = d.ToString(),
+                                                      Value = Convert.ToInt32(d).ToString(),
+                                                      Selected = false
+                                                  }).ToList();
             return View(model);
 
         }
@@ -379,6 +449,29 @@ namespace SMS.Areas.Admin.Controllers
                     Value = x.Id.ToString(),
                     Selected = model.ClassRoomDivisionId == x.Id
                 }).OrderBy(x => x.Text).ToList();
+
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == model.AcadmicYearId
+                }).ToList();
+
+                model.AvailableAdmissionStatuses = (from AdmissionStatus d in Enum.GetValues(typeof(AdmissionStatus))
+                                                    select new SelectListItem
+                                                    {
+                                                        Text = d.ToString(),
+                                                        Value = Convert.ToInt32(d).ToString(),
+                                                        Selected = (model.AdmissionStatusId.HasValue && Convert.ToInt32(d) == model.AdmissionStatusId)
+                                                    }).ToList();
+
+                model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
+                                                      select new SelectListItem
+                                                      {
+                                                          Text = d.ToString(),
+                                                          Value = Convert.ToInt32(d).ToString(),
+                                                          Selected = (model.PersonalityStatusId.HasValue && Convert.ToInt32(d) == model.PersonalityStatusId)
+                                                      }).ToList();
                 ErrorNotification("An error occurred while adding student.");
                 return View(model);
             }

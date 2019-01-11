@@ -1,14 +1,11 @@
 ﻿@model DateTime?
-@Html.TextBoxFor(model => model, new { @class = "form-control text-box single-line" })
+@Html.TextBoxFor(model => model, new { @class = "form-control text-box single-line", @value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy") : "" : ""), @data_value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy") : "" : "") })
 <script type="text/javascript">
-	$(function () {
-		$('#@Html.IdFor(model => model)').pickadate();
-		var $input = $('#@Html.IdFor(model => model)').pickadate();
-		var picker = $input.pickadate('picker');
-		picker.on({
-		close: function () {
-			$(document.activeElement).blur();
-		},
-		})
-	});
+    $(function () {
+        $('#@Html.IdFor(model => model)').pickadate({ format: 'dd mmmm yyyy' }).pickadate('picker').on({
+            close: function () {
+                $(document.activeElement).blur();
+            },
+        })
+    });
 </script>

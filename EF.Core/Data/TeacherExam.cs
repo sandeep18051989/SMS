@@ -16,13 +16,15 @@ namespace EF.Core.Data
 		public int GradeSystemId { get; set; }
 		public double MarksObtained { get; set; }
 		public virtual Exam Exam { get; set; }
-		public virtual Teacher Teacher { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
-		public DateTime StartTime { get; set; }
-		public DateTime EndTime { get; set; }
+        public double PassingMarks { get; set; }
+        public double MaxMarks { get; set; }
+        public virtual Teacher Teacher { get; set; }
+		public DateTime? StartDate { get; set; }
+		public DateTime? EndDate { get; set; }
+		public string StartTime { get; set; }
+		public string EndTime { get; set; }
 		public bool BreakAllowed { get; set; }
-		public DateTime BreakTime { get; set; }
+		public string BreakTime { get; set; }
 		public int ClassRoomId { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }

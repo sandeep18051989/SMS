@@ -1,6 +1,8 @@
 ﻿using EF.Services;
 using FluentValidation.Attributes;
 using SMS.Validations;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace SMS.Models
 {
@@ -9,21 +11,22 @@ namespace SMS.Models
 	{
 		public AllowanceModel()
 		{
-			Designation = new DesignationModel();
-		}
+            AvailableAcadmicYears = new List<SelectListItem>();
+            AvailableDesignations = new List<SelectListItem>();
+        }
 		public int DesignationId { get; set; }
-		public string DesignationName { get; set; }
-		public string EType { get; set; }
+        public int AcadmicYearId { get; set; }
 		public double DA { get; set; }
 		public double TA { get; set; }
 		public double HRA { get; set; }
 		public double PF { get; set; }
-		public string DA_Status { get; set; }
-		public string TA_Status { get; set; }
-		public string HRA_Status { get; set; }
-		public string PF_Status { get; set; }
 		public double TDS { get; set; }
-		public string TDS_Status { get; set; }
-		public DesignationModel Designation { get; set; }
-	}
+        public double BasicPay { get; set; }
+        public double ESI { get; set; }
+        public double TotalSalary { get; set; }
+        public string Designation { get; set; }
+
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+        public IList<SelectListItem> AvailableDesignations { get; set; }
+    }
 }

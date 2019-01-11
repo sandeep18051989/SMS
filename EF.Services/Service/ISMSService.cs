@@ -28,10 +28,22 @@ namespace EF.Services.Service
 		Student GetStudentByImpersonateId(int id);
 		bool CheckUsernameExistsForStudent(string username);
 		IList<Student> GetStudentsByDivision(int id);
-		#endregion
 
-		#region Employee
-		void InsertEmployee(Employee employee);
+        IList<StudentExam> GetAllStudentExamMappings();
+        #endregion
+
+        #region Student Exam
+
+        void InsertStudentExam(StudentExam StudentExam);
+        void UpdateStudentExam(StudentExam StudentExam);
+        void DeleteStudentExam(int id);
+        StudentExam GetStudentExamMappingById(int id);
+        IList<StudentExam> GetAllExamsByStudent(int id);
+
+        #endregion
+
+        #region Employee
+        void InsertEmployee(Employee employee);
 		void UpdateEmployee(Employee employee);
 		void DeleteEmployee(int id);
 		IList<Employee> GetAllEmployees(bool? onlyActive = null);
@@ -246,10 +258,21 @@ namespace EF.Services.Service
 		void ToggleActiveStatusTeacher(int id);
 		int GetTotalTeachers();
 		Teacher GetTeacherByImpersonateId(int id);
-		#endregion
+        IList<TeacherExam> GetAllExamsByTeacher(int id);
+        IList<TeacherExam> GetAllTeacherExamMappings();
+        #endregion
 
-		#region Time Table Setting
-		void InsertTimeTableSetting(TimeTableSetting TimeTableSetting);
+        #region Teacher Exam
+
+        void InsertTeacherExam(TeacherExam teacherExam);
+        void UpdateTeacherExam(TeacherExam teacherExam);
+        void DeleteTeacherExam(int id);
+        TeacherExam GetTeacherExamMappingById(int id);
+
+        #endregion
+
+        #region Time Table Setting
+        void InsertTimeTableSetting(TimeTableSetting TimeTableSetting);
 		void UpdateTimeTableSetting(TimeTableSetting TimeTableSetting);
 		void DeleteTimeTableSetting(int id);
 		TimeTableSetting GetTimeTableSettingById(int id);
@@ -285,10 +308,11 @@ namespace EF.Services.Service
 		Allowance GetAllowanceById(int id);
 		IList<Allowance> GetAllAllowances();
 		Allowance GetAllowanceByDesignation(int designationid);
-		#endregion
+        bool CheckAllowanceExistsForDesignation(int designationid, int? id = null);
+        #endregion
 
-		#region Payment
-		void InsertPayment(Payment payment);
+        #region Payment
+        void InsertPayment(Payment payment);
 		void UpdatePayment(Payment payment);
 		void DeletePayment(int id);
 		Payment GetPaymentById(int id);
@@ -358,20 +382,49 @@ namespace EF.Services.Service
 		IList<Exam> GetAllExams(bool? onlyActive = null);
 		Exam GetExamById(int id);
 		IList<Exam> GetExamByName(string name, bool? active);
-		#endregion
+        bool CheckExamExists(string name, int? id = null);
+        void ToggleActiveStatusExam(int id);
+        IList<DivisionExam> GetAllExamsByClassDivision(int id);
+        IList<ClassRoom> GetVacantClassRoomsForExams();
+        #endregion
 
-		#region Acadmic Year
-		void InsertAcadmicYear(AcadmicYear objAcadmicYear);
+        #region Acadmic Year
+        void InsertAcadmicYear(AcadmicYear objAcadmicYear);
 		void UpdateAcadmicYear(AcadmicYear objAcadmicYear);
 		void DeleteAcadmicYear(int id);
 		AcadmicYear GetActiveAcadmicYear();
 		AcadmicYear GetAcadmicYearById(int id);
 		AcadmicYear GetAcadmicYearByName(string name, bool? active = null);
 		IList<AcadmicYear> GetAllAcadmicYears(bool? onlyActive = null);
-		#endregion
+        bool CheckAcadmicYearExists(string name, int? id = null);
+        void ToggleActiveStatusAcadmicYear(int id);
 
-		#region Reaction
-		void InsertReaction(Reaction objReaction);
+        void DeactivateAllAcadmicYears();
+        #endregion
+
+        #region Book
+        void InsertBook(Book book);
+        void UpdateBook(Book book);
+        void DeleteBook(int id);
+        IList<Book> GetAllBooks(bool? onlyActive = null);
+        Book GetBookById(int id);
+        IList<Book> GetBookByName(string name, bool? active);
+        bool CheckBookExists(string name, int? id = null);
+        void ToggleActiveStatusBook(int id);
+        #endregion
+
+        #region Book Issue
+        void InsertBookIssue(BookIssue bookIssue);
+        void UpdateBookIssue(BookIssue bookIssue);
+        void DeleteBookIssue(int id);
+        IList<BookIssue> GetAllBookIssueIssues();
+        BookIssue GetBookIssueById(int id);
+        IList<BookIssue> GetBookIssueByStudent(int studentid);
+        bool CheckBookIssueExists(int studentid, int bookid, int? id = null);
+        #endregion
+
+        #region Reaction
+        void InsertReaction(Reaction objReaction);
 		void UpdateReaction(Reaction objReaction);
 		Reaction GetReactionById(int id);
 		IList<Reaction> SearchReactions(int? blogid = null, int? productid = null, int? eventid = null, int? pictureid = null, int? videoid = null, int? newsid = null, int? commentid = null, int? replyid = null);

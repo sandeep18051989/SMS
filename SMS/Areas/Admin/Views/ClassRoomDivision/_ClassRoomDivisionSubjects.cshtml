@@ -2,7 +2,7 @@
 <div class="panel-group">
     <div class="panel panel-default">
         <div class="panel-body table-responsive">
-            <table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="newspictures-grid">
+            <table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="divisionsubjects-grid">
                 <thead class="mdb-color lighten-5">
                     <tr>
                         <th>Subject Code</th>
@@ -15,7 +15,7 @@
             <script type="text/javascript">
                 $(document).ready(function() {
                     // Initiallize Datatable
-                    $('#newspictures-grid').DataTable({
+                    $('#divisionsubjects-grid').DataTable({
                         "paging": false,
                         "bLengthChange": false, //thought this line could hide the LengthMenu
                         "bInfo": false,
@@ -60,7 +60,7 @@
                             cache: false,
                             type: "GET",
                             url: "@(Url.Action("GetAllSubjectsByDivision", "ClassRoomDivision"))",
-                            data: { 'teacherid' : @(Model.Id) },
+                            data: { 'divisionid' : @(Model.Id) },
                             success: function (data, result) {
                                 if(result === "success"){
                                     $("#content-body").html('');
@@ -85,6 +85,7 @@
                                     htmContent += '</tbody>';
                                     htmContent += '</table>';
                                     $("#content-body").html(htmContent);
+                                    $(".modal").hide();
                                     $('#listSubjectsModal').modal('show');
                                     // Select Default Checkbox
                                     var childRecords = $("#listSubjectsModal").find('table tbody input[type=checkbox]');

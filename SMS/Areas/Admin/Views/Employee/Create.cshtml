@@ -44,7 +44,7 @@
                                     <div class="col-md-12">
                                         <div class="row text-left">
                                             <div class="col-md-12 mb-0">
-                                                <h2 class="my-3 h3 text-left">Student Information</h2>
+                                                <h2 class="my-3 h3 text-left">Employee Information</h2>
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="md-form">
@@ -53,7 +53,12 @@
                                                             @Html.ValidationMessageFor(model => model.EmployeePictureId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
-                                                    <div class="col"></div>
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "1", @title = "Acadmic Year" })
+                                                            @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="col">
@@ -90,14 +95,14 @@
                                                         </div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="md-form date">
+                                                        <div class="md-form date mt-3">
                                                             @Html.EditorFor(model => model.JoiningDate, "Date.cshtml")
-                                                            @Html.LabelFor(model => model.JoiningDate, "Admission Date", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.LabelFor(model => model.JoiningDate, "Joining Date", htmlAttributes: new { @class = "control-label" })
                                                             @Html.ValidationMessageFor(model => model.JoiningDate, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="md-form">
+                                                        <div class="md-form mt-1">
                                                             @Html.DropDownListFor(model => model.DesignationId, Model.AvailableDesignations, "Select Designation", new { @class = "mdb-select", @tabindex = "6", @title = "Designation" })
                                                             @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger" })
                                                         </div>
@@ -108,15 +113,14 @@
                                                         <div class="md-form">
                                                             <div class="row">
                                                                 <div class="col-md-4">
-                                                                    <input type="checkbox" tabindex="7" id="SexMale" data-check="Married" name="Sex" value="@(Model.Sex)" @(Model.Sex == "Male" ? "checked=checked" : "") />
+                                                                    <input type="checkbox" tabindex="7" id="SexMale" data-check="Male" name="Sex" value="Male" @(Model.Sex == "Male" ? "checked=checked" : "") />
                                                                     <label for="SexMale">Male</label>
-                                                                    @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <input type="checkbox" tabindex="8" id="SexFeMale" data-check="FeMale" name="Sex" value="@(Model.Sex)" @(Model.Sex == "Female" ? "checked=checked" : "") />
+                                                                    <input type="checkbox" tabindex="8" id="SexFeMale" data-check="FeMale" name="Sex" value="Female" @(Model.Sex == "Female" ? "checked=checked" : "") />
                                                                     <label for="SexFeMale">Female</label>
-                                                                    @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                                                                 </div>
+                                                                @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -124,15 +128,14 @@
                                                         <div class="md-form">
                                                             <div class="row">
                                                                 <div class="col-md-4">
-                                                                    <input type="checkbox" tabindex="9" id="MaritalStatusMarried" data-check="Married" name="Sex" value="@(Model.MarriedStatus)" @(Model.MarriedStatus == "Married" ? "checked=checked" : "") />
+                                                                    <input type="checkbox" tabindex="9" id="MaritalStatusMarried" data-check="Married" name="MarriedStatus" value="Married" @(Model.MarriedStatus == "Married" ? "checked=checked" : "") />
                                                                     <label for="MaritalStatusMarried">Married</label>
-                                                                    @Html.ValidationMessageFor(model => model.MarriedStatus, "", new { @class = "text-danger" })
                                                                 </div>
                                                                 <div class="col-md-4">
-                                                                    <input type="checkbox" tabindex="10" id="MaritalStatusUnMarried" data-check="Unmarried" name="Sex" value="@(Model.MarriedStatus)" @(Model.MarriedStatus == "Unmarried" ? "checked=checked" : "") />
-                                                                    <label for="MaritalStatusMarried">Unmarried</label>
-                                                                    @Html.ValidationMessageFor(model => model.MarriedStatus, "", new { @class = "text-danger" })
+                                                                    <input type="checkbox" tabindex="10" id="MaritalStatusUnMarried" data-check="Unmarried" name="MarriedStatus" value="Unmarried" @(Model.MarriedStatus == "Unmarried" ? "checked=checked" : "") />
+                                                                    <label for="MaritalStatusUnMarried">Unmarried</label>
                                                                 </div>
+                                                                @Html.ValidationMessageFor(model => model.MarriedStatus, "", new { @class = "text-danger" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -185,7 +188,7 @@
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @tabindex = "18", @minlength="10" , @maxlength = "10", @title = "Contact Number", @type = "number", @readonly = "readonly" } })
+                                                            @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @tabindex = "18", @minlength="10" , @maxlength = "10", @title = "Contact Number", @type = "number" } })
                                                             @Html.LabelFor(model => model.Contact1, "Contact No.", htmlAttributes: new { @class = "control-label" })
                                                             @Html.ValidationMessageFor(model => model.Contact1, "", new { @class = "text-danger" })
                                                         </div>
@@ -266,21 +269,21 @@
                                                     </div>
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            @Html.DropDownListFor(model => model.ContractStatusId, Model.AvailableContracts, "Select Contract Status", new { @class = "mdb-select", @tabindex = "26", @title = "Contract Status" })
+                                                            @Html.DropDownListFor(model => model.ContractStatusId, Model.AvailableContractStatuses, "Select Contract Status", new { @class = "mdb-select", @tabindex = "26", @title = "Contract Status" })
                                                             @Html.ValidationMessageFor(model => model.ContractStatusId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="col">
-                                                        <div class="md-form">
+                                                        <div class="md-form start-date">
                                                             @Html.EditorFor(model => model.ContractStartDate, "DateRange.cshtml")
                                                             @Html.LabelFor(model => model.ContractStartDate, htmlAttributes: new { @class = "control-label" })
                                                             @Html.ValidationMessageFor(model => model.ContractStartDate, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="md-form">
+                                                        <div class="md-form end-date">
                                                             @Html.EditorFor(model => model.ContractEndDate, "DateRange.cshtml")
                                                             @Html.LabelFor(model => model.ContractEndDate, htmlAttributes: new { @class = "control-label" })
                                                             @Html.ValidationMessageFor(model => model.ContractEndDate, "", new { @class = "text-danger" })
@@ -509,89 +512,81 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Students')").closest("li").addClass("active");
+        $("span.nav-title:contains('Employees')").closest("li").addClass("active");
 
         if ($("#BusFacility").val() === "True") {
-            $("#BusFacility").attr('checked', true);
+            $("#BusFacility").prop('checked', true);
         }
         else {
-            $("#BusFacility").attr('checked', false);
+            $("#BusFacility").prop('checked', false);
         }
 
         $("#BusFacility").change(function () {
             if ($(this).prop('checked')) {
-                $(this).attr('checked', true).val(true);
+                $(this).prop('checked', true).val(true);
                 $("#bus-facility").show();
             }
             else {
-                $(this).attr('checked', false).val(false);
+                $(this).prop('checked', false).val(false);
                 $("#bus-facility").hide();
             }
         });
 
         $("input[type=checkbox][data-check=Male]").change(function () {
             if ($(this).prop('checked')) {
-                $(this).attr('checked', true).val(true);
-                $("input[type=checkbox][data-check=FeMale]").attr('checked', false).val(false);
+                $(this).prop('checked', true);
+                $("input[type=checkbox][data-check=FeMale]").prop('checked', false);
             }
             else {
-                $(this).attr('checked', false).val(false);
-                $("input[type=checkbox][data-check=FeMale]").attr('checked', true).val(true);
+                $(this).prop('checked', false);
+                $("input[type=checkbox][data-check=FeMale]").prop('checked', true);
             }
         });
-
-        $("input[type=checkbox][data-check=Male]").attr('checked', false).val(false);
-        $("input[type=checkbox][data-check=FeMale]").attr('checked', false).val(false);
-
         $("input[type=checkbox][data-check=FeMale]").change(function () {
             if ($(this).prop('checked')) {
-                $(this).attr('checked', true).val(true);
-                $("input[type=checkbox][data-check=Male]").attr('checked', false).val(false);
+                $(this).prop('checked', true);
+                $("input[type=checkbox][data-check=Male]").prop('checked', false);
             }
             else {
-                $(this).attr('checked', false).val(false);
-                $("input[type=checkbox][data-check=Male]").attr('checked', true).val(true);
+                $(this).prop('checked', false);
+                $("input[type=checkbox][data-check=Male]").prop('checked', true);
             }
         });
 
         $("input[type=checkbox][data-check=Married]").change(function () {
             if ($(this).prop('checked')) {
-                $(this).attr('checked', true).val(true);
-                $("input[type=checkbox][data-check=Unmarried]").attr('checked', false).val(false);
+                $(this).prop('checked', true);
+                $("input[type=checkbox][data-check=Unmarried]").prop('checked', false);
             }
             else {
-                $(this).attr('checked', false).val(false);
-                $("input[type=checkbox][data-check=Unmarried]").attr('checked', true).val(true);
+                $(this).prop('checked', false);
+                $("input[type=checkbox][data-check=Unmarried]").prop('checked', true);
             }
         });
-
-        $("input[type=checkbox][data-check=Married]").attr('checked', false).val(false);
-        $("input[type=checkbox][data-check=Unmarried]").attr('checked', false).val(false);
-
         $("input[type=checkbox][data-check=Unmarried]").change(function () {
             if ($(this).prop('checked')) {
-                $(this).attr('checked', true).val(true);
-                $("input[type=checkbox][data-check=Married]").attr('checked', false).val(false);
+                $(this).prop('checked', true);
+                $("input[type=checkbox][data-check=Married]").prop('checked', false);
             }
             else {
-                $(this).attr('checked', false).val(false);
-                $("input[type=checkbox][data-check=Married]").attr('checked', true).val(true);
+                $(this).prop('checked', false);
+                $("input[type=checkbox][data-check=Married]").prop('checked', true);
             }
         });
 
         if ($("#IsActive").val() == "True") {
-            $("#IsActive").attr('checked', true).val(true);
+            $("#IsActive").prop('checked', true).val(true);
         }
         else {
-            $("#IsActive").attr('checked', false).val(false);
+            $("#IsActive").prop('checked', false).val(false);
         }
 
         $("#IsActive").change(function () {
             if ($(this).prop('checked')) {
-                $(this).attr('checked', true).val(true);
+                $(this).prop('checked', true).val(true);
             }
             else {
-                $(this).attr('checked', false).val(false);
+                $(this).prop('checked', false).val(false);
             }
         });
 

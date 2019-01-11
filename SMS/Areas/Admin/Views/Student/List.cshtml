@@ -24,6 +24,7 @@
                                     <tr>
                                         <th>&nbsp;</th>
                                         <th>Name</th>
+                                        <th>Roll/Unique Number</th>
                                         <th>Admission Date</th>
                                         <th>Date Of Birth</th>
                                         <th>Gender</th>
@@ -74,6 +75,7 @@
                     "defaultContent": ""
                 },
 				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                { "data": "Username", "title": "Roll/Unique Number", "name": "Roll/Unique Number", "autoWidth": true, "defaultContent": "", "className": "text-center" },
                 { "data": "AdmissionDate", "title": "Admission Date", "name": "AdmissionDate", "autoWidth": true, "orderable": true, "defaultContent": "", "className": "text-center" },
                 { "data": "DateOfBirth", "title": "Birth Date", "name": "DateOfBirth", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
 				{ "data": "Sex", "title": "Gender", "name": "Gender", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
@@ -100,7 +102,7 @@
 					"className": 'text-center',
 					"render": function (data, type, row) {
 						if (type === "display") {
-							return '<a href="/Admin/Student/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="studentid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+						    return '<a href="/Admin/Student/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="studentid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a class="btn btn-info" href="/Admin/Exam/StudentExams/' + row.Id + '" id="edit_' + row.Id + '" title="Assign Exams">Add/Update Exams</a>';
 						}
 						return data;
 					},

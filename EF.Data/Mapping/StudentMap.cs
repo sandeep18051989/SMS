@@ -70,14 +70,16 @@ namespace EF.Data.Mapping
 
 			Property(b => b.IsPhoneVerified).IsOptional();
 			Property(b => b.IsEmailVerified).IsOptional();
-			Property(b => b.HouseId).IsOptional();
 			Property(b => b.IsDeleted).IsOptional();
-			Property(b => b.TweeterLink).IsOptional();
+            Property(b => b.AdmissionStatusId).IsOptional();
+            Property(b => b.PersonalityStatusId).IsOptional();
+            Property(b => b.Nationality).IsOptional();
+            Property(b => b.TweeterLink).IsOptional();
 			Property(b => b.ClassRoomDivisionId).IsRequired();
 			this.Property(b => b.ImpersonateId).IsRequired();
 
 			HasRequired(all => all.ClassRoomDivision).WithMany().HasForeignKey(all => all.ClassRoomDivisionId);
-			HasOptional(all => all.House).WithMany().HasForeignKey(all => all.HouseId);
+			HasOptional(all => all.House).WithMany(h => h.Students).HasForeignKey(all => all.HouseId);
 
 			// Relationships
 			HasMany(pro => pro.Files).WithMany(p => p.Students).Map(m => m.ToTable("Student_File_Map").MapLeftKey("StudentId").MapRightKey("FileId"));

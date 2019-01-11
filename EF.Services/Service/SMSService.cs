@@ -62,6 +62,10 @@ namespace EF.Services.Service
         private readonly IRepository<DivisionHomework> _divisionHomeworkRepository;
         private readonly IRepository<DivisionExam> _divisionExamRepository;
         private readonly IRepository<House> _houseRepository;
+        private readonly IRepository<StudentExam> _studentExamRepository;
+        private readonly IRepository<TeacherExam> _teacherExamRepository;
+        private readonly IRepository<BookIssue> _bookIssueRepository;
+        private readonly IRepository<Book> _bookRepository;
 
         public SMSService(IRepository<Student> studentRepository,
         IRepository<Teacher> teacherRepository,
@@ -91,7 +95,10 @@ namespace EF.Services.Service
         IRepository<Message> messageRepository,
         IRepository<Student_MessageGroup> studentMessageGroupRepository,
         IRepository<Exam> examRepository,
-        ICommentService commentService, IReplyService replyService, IFileService fileService, IEventService eventService, IPictureService pictureService,
+        ICommentService commentService, IReplyService replyService,
+        IFileService fileService,
+        IEventService eventService,
+        IPictureService pictureService,
         IRepository<AcadmicYear> acadmicYearRepository,
         IRepository<Reaction> reactionRepository,
         IRepository<School> schoolRepository,
@@ -109,6 +116,10 @@ namespace EF.Services.Service
         IRepository<DivisionHomework> divisionHomeworkRepository,
         IRepository<DivisionExam> divisionExamRepository,
         IRepository<House> houseRepository,
+        IRepository<StudentExam> studentExamRepository,
+        IRepository<TeacherExam> teacherExamRepository,
+        IRepository<Book> bookRepository,
+        IRepository<BookIssue> bookIssueRepository,
         IDbContext dbContext)
         {
             _studentRepository = studentRepository;
@@ -162,6 +173,10 @@ namespace EF.Services.Service
             _divisionHomeworkRepository = divisionHomeworkRepository;
             _divisionExamRepository = divisionExamRepository;
             this._houseRepository = houseRepository;
+            this._studentExamRepository = studentExamRepository;
+            this._teacherExamRepository = teacherExamRepository;
+            this._bookRepository = bookRepository;
+            this._bookIssueRepository = bookIssueRepository;
         }
         #endregion
 
@@ -312,6 +327,46 @@ namespace EF.Services.Service
         public IList<Student> GetStudentsByDivision(int id)
         {
             return _studentRepository.Table.Where(x => x.ClassRoomDivisionId == id).ToList();
+        }
+
+        public IList<StudentExam> GetAllStudentExamMappings()
+        {
+            return _studentExamRepository.Table.ToList();
+        }
+
+        #endregion
+
+        #region Student Exam
+
+        public void InsertStudentExam(StudentExam StudentExam)
+        {
+            _studentExamRepository.Insert(StudentExam);
+        }
+        public void UpdateStudentExam(StudentExam StudentExam)
+        {
+            _studentExamRepository.Update(StudentExam);
+        }
+        public void DeleteStudentExam(int id)
+        {
+            var StudentExam = _studentExamRepository.GetByID(id);
+            if (StudentExam != null)
+                _studentExamRepository.Update(StudentExam);
+        }
+
+        public StudentExam GetStudentExamMappingById(int id)
+        {
+            if (id == 0)
+                throw new System.Exception("Student Exam Mapping Id Is Missing.");
+
+            return _studentExamRepository.Table.FirstOrDefault(x => x.Id == id);
+        }
+
+        public IList<StudentExam> GetAllExamsByStudent(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _studentExamRepository.Table.Where(x => x.StudentId == id).ToList();
         }
 
         #endregion
@@ -1263,7 +1318,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new System.Exception("Division  Exam Mapping Id Is Missing.");
 
-            return _divisionExamRepository.GetByID(id);
+            return _divisionExamRepository.Table.FirstOrDefault(x => x.Id == id);
         }
         public IList<DivisionExam> GetAllExamsByDivision(int id)
         {
@@ -1506,6 +1561,46 @@ namespace EF.Services.Service
 
         }
 
+        public IList<TeacherExam> GetAllTeacherExamMappings()
+        {
+            return _teacherExamRepository.Table.ToList();
+        }
+
+        public IList<TeacherExam> GetAllExamsByTeacher(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _teacherExamRepository.Table.Where(x => x.TeacherId == id).ToList();
+        }
+
+        #endregion
+
+        #region Teacher Exam
+
+        public void InsertTeacherExam(TeacherExam teacherExam)
+        {
+            _teacherExamRepository.Insert(teacherExam);
+        }
+        public void UpdateTeacherExam(TeacherExam teacherExam)
+        {
+            _teacherExamRepository.Update(teacherExam);
+        }
+        public void DeleteTeacherExam(int id)
+        {
+            var teacherExam = _teacherExamRepository.GetByID(id);
+            if (teacherExam != null)
+                _teacherExamRepository.Update(teacherExam);
+        }
+
+        public TeacherExam GetTeacherExamMappingById(int id)
+        {
+            if (id == 0)
+                throw new System.Exception("Teacher  Exam Mapping Id Is Missing.");
+
+            return _teacherExamRepository.Table.FirstOrDefault(x => x.Id == id);
+        }
+
         #endregion
 
         #region Time Table Setting
@@ -1677,6 +1772,13 @@ namespace EF.Services.Service
         public Allowance GetAllowanceByDesignation(int designationid)
         {
             return _allowanceRepository.Table.FirstOrDefault(x => x.IsDeleted == false && x.DesignationId == designationid);
+        }
+        public bool CheckAllowanceExistsForDesignation(int designationid, int? id = null)
+        {
+            if (designationid == 0)
+                throw new ArgumentNullException("designationid");
+
+            return _allowanceRepository.Table.Any(a => (a.DesignationId == designationid) && (!id.HasValue || id.Value != a.Id) && a.IsDeleted == false);
         }
         #endregion
 
@@ -2020,6 +2122,157 @@ namespace EF.Services.Service
 
             return query.OrderBy(x => x.ExamName).ToList();
         }
+        public bool CheckExamExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _examRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.ExamName.Trim().ToLower() == name.Trim().ToLower()));
+        }
+        public void ToggleActiveStatusExam(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objExam = _examRepository.GetByID(id);
+            if (objExam != null)
+            {
+                objExam.IsActive = !objExam.IsActive;
+                objExam.ModifiedOn = DateTime.Now;
+                _examRepository.Update(objExam);
+            }
+
+        }
+        public IList<DivisionExam> GetAllExamsByClassDivision(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _divisionExamRepository.Table.Where(x => x.DivisionId == id).ToList();
+        }
+
+        public IList<ClassRoom> GetVacantClassRoomsForExams()
+        {
+            var divisionExams = (from s in GetAllDivisionExamMappings()
+                                 where (s.EndDate.Value >= DateTime.Now || s.Exam.IsActive)
+                                 select s).ToList();
+
+            var studentExams = (from s in GetAllStudentExamMappings()
+                                where (s.EndDate.Value >= DateTime.Now || s.Exam.IsActive)
+                                select s).ToList();
+
+            var teacherExams = (from s in GetAllTeacherExamMappings()
+                                where (s.EndDate >= DateTime.Now || s.Exam.IsActive)
+                                select s).ToList();
+
+            return (from c in GetAllClassRooms()
+                    where !divisionExams.Any(d => d.ClassRoomId == c.Id) && !studentExams.Any(d => d.ClassRoomId == c.Id) && !teacherExams.Any(d => d.ClassRoomId == c.Id)
+                    select c).ToList();
+        }
+        #endregion
+
+        #region Book
+        public void InsertBook(Book book)
+        {
+            _bookRepository.Insert(book);
+        }
+        public void UpdateBook(Book book)
+        {
+            _bookRepository.Update(book);
+        }
+        public void DeleteBook(int id)
+        {
+            var book = _bookRepository.GetByID(id);
+            book.IsActive = false;
+            book.IsDeleted = true;
+            _bookRepository.Update(book);
+        }
+        public IList<Book> GetAllBooks(bool? onlyActive = null)
+        {
+            return _bookRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
+        }
+        public Book GetBookById(int id)
+        {
+            if (id == 0)
+                throw new System.Exception("Book Id Is Missing.");
+
+            return _bookRepository.GetByID(id);
+        }
+        public IList<Book> GetBookByName(string name, bool? active)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new Exception("Book Name is Missing.");
+
+            var query = _bookRepository.Table.Where(a => (a.Name.ToLower().Contains(name.ToLower())) && a.IsDeleted == false).ToList();
+
+            if (active.HasValue)
+                query = query.Where(x => x.IsActive == active).ToList();
+
+            return query.OrderBy(x => x.Name).ToList();
+        }
+        public bool CheckBookExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _bookRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.Name.Trim().ToLower() == name.Trim().ToLower()));
+        }
+        public void ToggleActiveStatusBook(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objBook = _bookRepository.GetByID(id);
+            if (objBook != null)
+            {
+                objBook.IsActive = !objBook.IsActive;
+                objBook.ModifiedOn = DateTime.Now;
+                _bookRepository.Update(objBook);
+            }
+
+        }
+        #endregion
+
+        #region Book Issue
+        public void InsertBookIssue(BookIssue bookIssue)
+        {
+            _bookIssueRepository.Insert(bookIssue);
+        }
+        public void UpdateBookIssue(BookIssue bookIssue)
+        {
+            _bookIssueRepository.Update(bookIssue);
+        }
+        public void DeleteBookIssue(int id)
+        {
+            var bookIssue = _bookIssueRepository.GetByID(id);
+            if (bookIssue != null)
+                _bookIssueRepository.Delete(bookIssue);
+        }
+        public IList<BookIssue> GetAllBookIssueIssues()
+        {
+            return _bookIssueRepository.Table.ToList();
+        }
+        public BookIssue GetBookIssueById(int id)
+        {
+            if (id == 0)
+                throw new System.Exception("BookIssue Id Is Missing.");
+
+            return _bookIssueRepository.GetByID(id);
+        }
+        public IList<BookIssue> GetBookIssueByStudent(int studentid)
+        {
+            if (studentid == 0)
+                throw new Exception("BookIssue student is Missing.");
+
+            return _bookIssueRepository.Table.Where(a => a.StudentId == studentid).ToList();
+        }
+        public bool CheckBookIssueExists(int studentid, int bookid, int? id = null)
+        {
+            if (studentid == 0 || bookid == 0)
+                throw new ArgumentNullException("student and book");
+
+            return _bookIssueRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.StudentId == studentid && x.BookId == bookid));
+        }
         #endregion
 
         #region AcadmicYear
@@ -2067,6 +2320,40 @@ namespace EF.Services.Service
         public IList<AcadmicYear> GetAllAcadmicYears(bool? onlyActive = null)
         {
             return _acadmicYearRepository.Table.Where(ac => (!onlyActive.HasValue || onlyActive.Value == ac.IsActive) && ac.IsDeleted == false).ToList();
+        }
+        public bool CheckAcadmicYearExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("acadmicyear");
+
+            return _acadmicYearRepository.Table.Any(a => (a.Name.Trim().ToLower() == name) && (!id.HasValue || id.Value != a.Id) && a.IsDeleted == false);
+        }
+        public void ToggleActiveStatusAcadmicYear(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objAcadmicYear = _acadmicYearRepository.GetByID(id);
+            if (objAcadmicYear != null)
+            {
+                objAcadmicYear.IsActive = !objAcadmicYear.IsActive;
+                objAcadmicYear.ModifiedOn = DateTime.Now;
+                _acadmicYearRepository.Update(objAcadmicYear);
+            }
+
+        }
+        public void DeactivateAllAcadmicYears()
+        {
+            var objAcadmicYears = _acadmicYearRepository.GetAll().ToList();
+            if (objAcadmicYears.Count > 0)
+            {
+                foreach (var year in objAcadmicYears)
+                {
+                    year.IsActive = false;
+                    _acadmicYearRepository.Update(year);
+                }
+            }
+
         }
         #endregion
 

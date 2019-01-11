@@ -1,0 +1,107 @@
+﻿@model SMS.Models.Allowance
+@{
+    ViewBag.Title = "Allowances";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group pull-right">
+                            @Html.ActionLink("Create Allowance", "Create", "Allowance", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Designation</th>
+                                        <th class="text-center">Basic Pay</th>
+                                        <th class="text-center">TA</th>
+                                        <th class="text-center">DA</th>
+                                        <th class="text-center">HRA</th>
+                                        <th class="text-center">TDS</th>
+                                        <th class="text-center">ESI</th>
+                                        <th class="text-center">PF</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>}
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Allowances')").closest("li").addClass("active");
+
+        // Initiallize Datatable
+        $('.custom-table').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax": {
+                "url": "/Admin/Allowance/LoadGrid",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "aaSorting": [],
+            "columns": [
+				{
+				    "data": "Designation", "title": "Designation", "name": "Designation", "autoWidth": true, "defaultContent": "", "className": "text-center"
+				},
+                {
+                    "data": "BasicPay", "title": "Basic Pay", "name": "Basic Pay", "autoWidth": true, "defaultContent": "", "className": "text-center"
+                },
+				{
+				    "data": "TA", "title": "TA", "name": "TA", "autoWidth": true, "defaultContent": "", "className": "text-center"
+				},
+                {
+                    "data": "DA", "title": "DA", "name": "DA", "autoWidth": true, "defaultContent": "", "className": "text-center"
+                },
+                {
+                    "data": "HRA", "title": "HRA", "name": "HRA", "autoWidth": true, "defaultContent": "", "className": "text-center"
+                },
+                {
+                    "data": "TDS", "title": "TDS", "name": "TDS", "autoWidth": true, "defaultContent": "", "className": "text-center"
+                },
+                {
+                    "data": "ESI", "title": "ESI", "name": "ESI", "autoWidth": true, "defaultContent": "", "className": "text-center"
+                },
+                {
+                    "data": "PF", "title": "PF", "name": "PF", "autoWidth": true, "defaultContent": "", "className": "text-center"
+                },
+				{
+				    "title": "Actions",
+				    "orderable": false,
+				    "className": 'text-center',
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            return '<a href="/Admin/Allowance/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
+				        }
+				        return data;
+				    },
+				    "defaultContent": ""
+				}
+            ],
+            "select": {
+                "style": 'os',
+                "selector": 'td:first-child'
+            }
+        });
+    });
+</script>

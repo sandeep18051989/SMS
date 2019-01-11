@@ -15,16 +15,16 @@ namespace EF.Core.Data
 		public string MotherFName { get; set; }
 		public string MotherMName { get; set; }
 		public string MotherLName { get; set; }
-		public DateTime DateOfBirth { get; set; }
+		public DateTime? DateOfBirth { get; set; }
 		public double Weight { get; set; }
 		public double Height { get; set; }
-		public int ReligionId { get; set; }
+		public int? ReligionId { get; set; }
 		public string MarriedStatus { get; set; }
 		public DateTime? JoiningDate { get; set; }
 		public int DesignationId { get; set; }
-		public int QualificationId { get; set; }
+		public int? QualificationId { get; set; }
 		public string Sex { get; set; }
-		public int CasteId { get; set; }
+		public int? CasteId { get; set; }
 		public int ContractTypeId { get; set; }
 		public string BGroup { get; set; }
 		public string BirthMark { get; set; }
@@ -36,7 +36,7 @@ namespace EF.Core.Data
 		public bool? BusFacility { get; set; }
 		public string E_Phisician_Name { get; set; }
 		public string E_Phisician_Address { get; set; }
-		public int E_Phisician_Phone { get; set; }
+		public string E_Phisician_Phone { get; set; }
 		public string Father_Occupation { get; set; }
 		public string Email { get; set; }
 		public string Father_Office_Address { get; set; }

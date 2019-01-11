@@ -162,7 +162,9 @@ namespace SMS.Areas.Admin.Controllers
                             ClassId = x.Division.ClassId.Value,
                             DivisionId = x.DivisionId,
                             Homework = x.Homework.Name,
-                            HomeworkId = x.HomeworkId
+                            HomeworkId = x.HomeworkId,
+                            StartDate = x.StartDate,
+                            EndDate = x.EndDate
                         })
                     },
                     ContentEncoding = Encoding.Default,
@@ -196,7 +198,15 @@ namespace SMS.Areas.Admin.Controllers
                             ClassId = x.Division.ClassId.Value,
                             DivisionId = x.DivisionId,
                             Exam = x.Exam.ExamName,
-                            ExamId = x.ExamId
+                            ExamId = x.ExamId,
+                            BreakAllowed = x.BreakAllowed,
+                            MarksObtained = x.MarksObtained,
+                            AcadmicYear = _smsService.GetAcadmicYearById(x.Exam.AcadmicYearId).Name,
+                            EndDate = x.EndDate,
+                            StartDate = x.StartDate,
+                            GradeSystemId = x.GradeSystemId,
+                            GradeSystem = x.GradeSystemId > 0 ? Enum.GetValues(typeof(GradeSystem)).GetValue(x.GradeSystemId.Value).ToString() : "",
+                            ClassRoom = _smsService.GetClassRoomById(x.ClassRoomId).Number
                         })
                     },
                     ContentEncoding = Encoding.Default,
@@ -342,6 +352,10 @@ namespace SMS.Areas.Admin.Controllers
 
             var classRoomDivision = _smsService.GetClassRoomDivisionById(id);
             var model = classRoomDivision.ToModel();
+
+            model.Class = _smsService.GetClassById(model.ClassId).Name;
+            model.Division = _smsService.GetDivisionById(model.DivisionId).Name;
+            model.ClassRoom = _smsService.GetClassRoomById(model.ClassRoomId).Number;
             return View(model);
         }
 
@@ -605,10 +619,8 @@ namespace SMS.Areas.Admin.Controllers
                     Class = _smsService.GetClassById(x.Division.ClassId.Value).Name,
                     DivisionId = x.DivisionId,
                     Division = x.DivisionId > 0 ? _smsService.GetDivisionById(x.DivisionId).Name : "",
-                    StartTime = x.StartTime,
                     BreakAllowed = x.BreakAllowed,
                     EndDate = x.EndDate,
-                    EndTime = x.EndTime,
                     Exam = _smsService.GetExamById(x.ExamId).ExamName,
                     GradeSystemId = x.GradeSystemId,
                     ExamId = x.ExamId,
@@ -660,7 +672,7 @@ namespace SMS.Areas.Admin.Controllers
             var objDivision = _smsService.GetClassRoomDivisionById(id);
             if (objDivision != null)
             {
-                var objDivisions = _smsService.GetAllExamsByDivision(id);
+                var objExams = _smsService.GetAllExamsByDivision(id);
                 if (exams != null && exams.Length > 0)
                 {
                     foreach (var ex in exams)
@@ -677,9 +689,6 @@ namespace SMS.Areas.Admin.Controllers
                                 EndDate = ex.EndDate,
                                 EndTime = ex.EndTime,
                                 ExamId = ex.ExamId,
-                                GradeSystemId = ex.GradeSystemId,
-                                MarksObtained = ex.MarksObtained,
-                                ResultStatusId = ex.ResultStatusId,
                                 StartDate = ex.StartDate,
                                 StartTime = ex.StartTime,
                                 CreatedOn = DateTime.Now,
@@ -696,9 +705,6 @@ namespace SMS.Areas.Admin.Controllers
                             checkExam.EndDate = ex.EndDate;
                             checkExam.EndTime = ex.EndTime;
                             checkExam.ExamId = ex.ExamId;
-                            checkExam.GradeSystemId = ex.GradeSystemId;
-                            checkExam.MarksObtained = ex.MarksObtained;
-                            checkExam.ResultStatusId = ex.ResultStatusId;
                             checkExam.StartDate = ex.StartDate;
                             checkExam.StartTime = ex.StartTime;
                             checkExam.ModifiedOn = DateTime.Now;
@@ -708,7 +714,7 @@ namespace SMS.Areas.Admin.Controllers
                 }
                 else
                 {
-                    foreach (var record in objDivisions)
+                    foreach (var record in objExams)
                     {
                         var objDivisionExams = _smsService.GetDivisionExams(divisionid: record.DivisionId, examid: record.ExamId);
                         if (objDivisionExams != null && objDivisionExams.Count > 0)

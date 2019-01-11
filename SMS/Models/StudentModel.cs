@@ -21,6 +21,9 @@ namespace SMS.Models
 			AvailableReligions = new List<SelectListItem>();
 			AvailableHouses = new List<SelectListItem>();
             AvailableDivisions = new List<SelectListItem>();
+            AvailableAcadmicYears = new List<SelectListItem>();
+            AvailableAdmissionStatuses = new List<SelectListItem>();
+            AvailablePersonalityStatuses = new List<SelectListItem>();
         }
 		public Guid StudentUniqueId { get; set; }
 		public string FName { get; set; }
@@ -43,7 +46,7 @@ namespace SMS.Models
         public int ClassRoomDivisionId { get; set; }
         public int? ReligionId { get; set; }
 		[UIHint("File")]
-		public int? FileId { get; set; }
+		public int FileId { get; set; }
 		public int? HouseId { get; set; }
 		public bool BusFacility { get; set; }
 		public bool IsActive { get; set; }
@@ -90,16 +93,22 @@ namespace SMS.Models
 		public string PInterestLink { get; set; }
 		public string LinkedInLink { get; set; }
 		public string Hi5Link { get; set; }
+        public string Nationality { get; set; }
+        public string FatherNationality { get; set; }
+        public string MotherNationality { get; set; }
+        public int AcadmicYearId { get; set; }
+        public int ImpersonateId { get; set; }
+        public int? AdmissionStatusId { get; set; }
+        public int? PersonalityStatusId { get; set; }
 
-		[UIHint("Date")]
+        [UIHint("Date")]
 		public DateTime? AdmissionDate { get; set; }
 		[UIHint("Picture")]
-		public int PictureId { get; set; }
+		public int StudentPictureId { get; set; }
 		[UIHint("Picture")]
 		public int FatherPictureId { get; set; }
 		[UIHint("Picture")]
 		public int MotherPictureId { get; set; }
-		public int ImpersonateId { get; set; }
 		public string SystemName { get; set; }
 		public IList<FilesModel> Files { get; set; }
 		public PictureModel StudentPicture { get; set; }
@@ -109,6 +118,9 @@ namespace SMS.Models
 		public IList<SelectListItem> AvailableReligions { get; set; }
 		public IList<SelectListItem> AvailableHouses { get; set; }
         public IList<SelectListItem> AvailableDivisions { get; set; }
+        public IList<SelectListItem> AvailablePersonalityStatuses { get; set; }
+        public IList<SelectListItem> AvailableAdmissionStatuses { get; set; }
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
     }
 
 	public partial class StudentListModel

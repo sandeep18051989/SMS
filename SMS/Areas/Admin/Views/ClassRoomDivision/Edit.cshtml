@@ -63,26 +63,33 @@
                                     </div>
                                 </div>
                                 <div class="row text-left">
-                                    <div class="col-md-4 mb-4">
-                                        <div class="md-form">
-                                            <i class="fa fa-play-circle-o prefix"></i>
-                                            @Html.DisplayFor(model => model.Class, new { htmlAttributes = new { @class = "form-label" } })
-                                            @Html.LabelFor(model => model.Class, "Class", htmlAttributes: new { @class = "control-label" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-4">
-                                        <div class="md-form">
-                                            <i class="fa fa-play-circle-o prefix"></i>
-                                            @Html.DisplayFor(model => model.Division, new { htmlAttributes = new { @class = "form-label" } })
-                                            @Html.LabelFor(model => model.Division, "Division", htmlAttributes: new { @class = "control-label" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-4">
-                                        <div class="md-form">
-                                            <i class="fa fa-play-circle-o prefix"></i>
-                                            @Html.DisplayFor(model => model.ClassRoom, new { htmlAttributes = new { @class = "form-label" } })
-                                            @Html.LabelFor(model => model.ClassRoom, "Class Room", htmlAttributes: new { @class = "control-label" })
-                                        </div>
+                                    <div class="col-md-12 mb-4">
+                                        <table class="table display table-bordered text-nowrap dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Class</th>
+                                                    <th class="text-center">Division</th>
+                                                    <th class="text-center">Class Room</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @Model.Class
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Model.Division
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Model.ClassRoom
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.ActionLink("Add/Update Exams", "DivisionExams", "Exam", new { id = Model.Id }, new { @class= "btn btn-info" })
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +107,8 @@
                             </div>
                         </div>
                     </div>
-                </div>}
+                </div>
+            }
         </section>
     </div>
 </div>
@@ -108,38 +116,6 @@
     $(document).ready(function () {
         $("li.nav-item").removeClass("active");
         $("span.nav-title:contains('Divisions')").closest("li").addClass("active");
-
-        // Get the elements
-        var from_input = $('.start-date input[type=text]').pickadate(),
-            from_picker = from_input.pickadate('picker');
-        var to_input = $('.end-date input[type=text]').pickadate(),
-            to_picker = to_input.pickadate('picker');
-
-        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
-        if (from_picker.get('value')) {
-            to_picker.set('min', from_picker.get('select'));
-        }
-        if (to_picker.get('value')) {
-            from_picker.set('max', to_picker.get('select'));
-        }
-
-        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
-        from_picker.on('set',
-            function (event) {
-                if (event.select) {
-                    to_picker.set('min', from_picker.get('select'));
-                } else if ('clear' in event) {
-                    to_picker.set('min', false);
-                }
-            });
-        to_picker.on('set',
-            function (event) {
-                if (event.select) {
-                    from_picker.set('max', to_picker.get('select'));
-                } else if ('clear' in event) {
-                    from_picker.set('max', false);
-                }
-            });
     });
 </script>
 @Html.DeleteConfirmation("classdivision-delete")

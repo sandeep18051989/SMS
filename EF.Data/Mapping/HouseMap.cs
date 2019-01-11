@@ -15,7 +15,7 @@ namespace EF.Data.Mapping
             this.Property(e => e.Description).IsOptional();
             this.Property(e => e.Name).IsRequired();
 
-            EntityTracker.TrackAllProperties<House>().Except(x => x.Picture).And(x => x.CreatedOn).And(x => x.ModifiedOn);
+            EntityTracker.TrackAllProperties<House>().Except(x => x.Picture).And(x => x.Students).And(x => x.CreatedOn).And(x => x.ModifiedOn);
 
 		}
 	}

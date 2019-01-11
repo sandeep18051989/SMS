@@ -24,7 +24,7 @@ namespace EF.Data.Mapping
 			Property(b => b.MotherLName).HasMaxLength(100).IsOptional();
 
 			Property(b => b.BGroup).IsOptional();
-			Property(b => b.DateOfBirth).IsRequired();
+			Property(b => b.DateOfBirth).IsOptional();
 			Property(b => b.Weight).IsOptional();
 			Property(b => b.Height).IsOptional();
 			Property(b => b.QualificationId).IsOptional();
@@ -42,7 +42,7 @@ namespace EF.Data.Mapping
 			Property(b => b.ContractEndDate).IsOptional();
 			Property(b => b.E_Phisician_Name).IsOptional();
 			Property(b => b.E_Phisician_Address).IsOptional();
-			Property(b => b.E_Phisician_Phone).IsOptional();
+			Property(b => b.E_Phisician_Phone).HasMaxLength(20).IsOptional();
 			Property(b => b.Father_Occupation).IsOptional();
 			Property(b => b.Father_Office_Address).IsOptional();
 			Property(b => b.Temporary_Address).IsOptional();

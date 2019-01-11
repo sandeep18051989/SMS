@@ -18,13 +18,14 @@ namespace SMS.Models
             AvailableReligions = new List<SelectListItem>();
             AvailableQualifications = new List<SelectListItem>();
             AvailableCastes = new List<SelectListItem>();
-            AvailableContracts = new List<SelectListItem>();
+            AvailableContractStatuses = new List<SelectListItem>();
             AvailableContractTypes = new List<SelectListItem>();
             AvailableAcadmicYears = new List<SelectListItem>();
-            EmployeePicture = new PictureModel();
         }
 
         #region Properties
+
+        public string PictureSrc { get; set; }
         public string EmpFName { get; set; }
 		public string EmpMName { get; set; }
 		public string EmpLName { get; set; }
@@ -34,7 +35,8 @@ namespace SMS.Models
 		public string MotherFName { get; set; }
 		public string MotherMName { get; set; }
 		public string MotherLName { get; set; }
-		public DateTime DateOfBirth { get; set; }
+        [UIHint("Date")]
+		public DateTime? DateOfBirth { get; set; }
 		public double Weight { get; set; }
 		public double Height { get; set; }
 		public string MarriedStatus { get; set; }
@@ -44,9 +46,8 @@ namespace SMS.Models
         public string Designation { get; set; }
         public int QualificationId { get; set; }
 		public string Sex { get; set; }
-		public int ReligionId { get; set; }
-		public int CasteId { get; set; }
-
+		public int? ReligionId { get; set; }
+		public int? CasteId { get; set; }
         public int ContractTypeId { get; set; }
         public int ContractStatusId { get; set; }
         public string ContractStartDateString { get; set; }
@@ -69,7 +70,7 @@ namespace SMS.Models
 		public bool? Bus_Facility { get; set; }
 		public string E_Phisician_Name { get; set; }
 		public string E_Phisician_Address { get; set; }
-		public int E_Phisician_Phone { get; set; }
+		public string E_Phisician_Phone { get; set; }
 		public string Father_Occupation { get; set; }
 		public string Email { get; set; }
 		public string Father_Office_Address { get; set; }
@@ -110,13 +111,11 @@ namespace SMS.Models
 
         public IList<SelectListItem> AvailableCastes { get; set; }
 
-        public IList<SelectListItem> AvailableContracts { get; set; }
+        public IList<SelectListItem> AvailableContractStatuses { get; set; }
 
         public IList<SelectListItem> AvailableContractTypes { get; set; }
 
         public IList<SelectListItem> AvailableAcadmicYears { get; set; }
-
-        public PictureModel EmployeePicture { get; set; }
 
     }
 }

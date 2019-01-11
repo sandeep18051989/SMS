@@ -93,7 +93,6 @@ namespace EF.Data
 					throw new ArgumentNullException("entity");
 
 				this.Entities.Add(entity);
-
 				this._context.SaveChanges(entity.UserId);
 			}
 			catch (DbEntityValidationException dbEx)
@@ -135,8 +134,6 @@ namespace EF.Data
 				if (entity == null)
 					throw new ArgumentNullException("entity");
 
-                //Entity.Attach(entity);
-                //_context.Entry(entity).State = EntityState.Modified;
                 this._context.SaveChanges(entity.UserId);
 			}
 			catch (DbEntityValidationException dbEx)
