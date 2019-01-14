@@ -471,11 +471,30 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region Division Subject
+        #region House
 
-		public static DivisionSubjectModel ToModel(this DivisionSubject entity)
+        public static HouseModel ToModel(this House entity)
+        {
+            return entity.MapTo<House, HouseModel>();
+        }
+
+        public static House ToEntity(this HouseModel model)
+        {
+            return model.MapTo<HouseModel, House>();
+        }
+
+        public static House ToEntity(this HouseModel model, House destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Division Subject
+
+        public static DivisionSubjectModel ToModel(this DivisionSubject entity)
 		{
 			return entity.MapTo<DivisionSubject, DivisionSubjectModel>();
 		}

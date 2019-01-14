@@ -11,11 +11,8 @@ namespace EF.Data.Mapping
 			this.ToTable("Holiday");
 			this.HasKey(ho => ho.Id);
             this.Property(b => b.AcadmicYearId).IsRequired();
-            this.Property(b => b.DD).IsRequired();
-            this.Property(b => b.MM).IsRequired();
-            this.Property(b => b.YYYY).IsRequired();
             this.Property(b => b.Name).IsRequired();
-            this.Property(b => b.Date).IsRequired();
+            this.Property(b => b.Date).IsOptional();
 
 
             EntityTracker.TrackAllProperties<File>().Except(x => x.CreatedOn).And(x => x.ModifiedOn);

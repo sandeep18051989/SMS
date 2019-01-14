@@ -5,6 +5,7 @@ using EF.Services;
 using FluentValidation.Attributes;
 using SMS.Validations;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SMS.Models
 {
@@ -17,6 +18,8 @@ namespace SMS.Models
             AvailableAcadmicYears = new List<SelectListItem>();
         }
 		public string Name { get; set; }
+        [AllowHtml]
+        [UIHint("HtmlEditor")]
 		public string Description { get; set; }
 		public int AcadmicYearId { get; set; }
         public DateTime? StartDate { get; set; }

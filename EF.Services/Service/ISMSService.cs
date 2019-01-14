@@ -169,12 +169,14 @@ namespace EF.Services.Service
 		void DeleteHomework(int id);
 		Homework GetHomeworkById(int id);
 		IList<DivisionHomework> GetAllHomeworksByDivision(int id);
-		IList<Homework> GetAllHomeworks(bool? onlyActive = null);
+        IList<Homework> GetAllHomeworks(bool? onlyActive = null);
+        bool CheckHomeworkExists(string name, int? id = null);
+        void ToggleActiveStatusHomework(int id);
 
-		#endregion
+        #endregion
 
-		#region Division
-		void InsertDivision(Division division);
+        #region Division
+        void InsertDivision(Division division);
 		void UpdateDivision(Division division);
 		void DeleteDivision(int id);
 		IList<Division> GetAllDivisions(bool? onlyActive = null);
@@ -319,7 +321,7 @@ namespace EF.Services.Service
 		void DeletePayment(int id);
 		Payment GetPaymentById(int id);
 		IList<Payment> GetAllPayments();
-		IList<Payment> SearchPayments(int? designationid = null, int? employeeid = null, int? acedemicyearid = null);
+		IList<Payment> SearchPayments(int? employeeid = null, int? acedemicyearid = null);
 		#endregion
 
 		#region Vendor
@@ -448,11 +450,12 @@ namespace EF.Services.Service
 		bool CheckQuestionTypeExists(string name, int? id = null);
 		#endregion
 
-		#region Question & Assessments
+		#region Assessments
 		void InsertQuestion(Question question);
 		void UpdateQuestion(Question question);
 		void DeleteQuestion(int id);
-		Question GetQuestionById(int id);
+        IList<Question> GetAllQuestions(bool? onlyActive = null);
+        Question GetQuestionById(int id);
 		IList<Question> SearchQuestions(int[] questionTypeIds = null, int[] subjectids = null,
 			int? difficultylevel = null, bool? onlytimebound = null, bool? active = null);
 
@@ -496,6 +499,24 @@ namespace EF.Services.Service
         IList<House> GetHouseByName(string name, bool? active);
         bool CheckHouseExists(string name, int? id = null);
         void ToggleActiveStatusHouse(int id);
+        #endregion
+
+        #region Holiday
+        void InsertHoliday(Holiday objHoliday);
+        void UpdateHoliday(Holiday objHoliday);
+        void DeleteHoliday(int id);
+        Holiday GetHolidayById(int id);
+        IList<Holiday> GetAllHolidays(bool? onlyActive = null);
+        bool CheckHolidayExists(string name, int? id = null);
+        void ToggleActiveStatusHoliday(int id);
+        #endregion
+
+        #region Question
+
+        bool CheckQuestionExists(string name, int? id = null);
+        void ToggleActiveStatusQuestion(int id);
+        Option GetOptionById(int id);
+
         #endregion
     }
 }

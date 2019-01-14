@@ -1,0 +1,346 @@
+﻿@model SMS.Models.PaymentModel
+@using EF.Services;
+@{
+    ViewBag.Title = "Update Payment";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="edit-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <h3 class="section-heading mr-auto">EDIT PAYMENT</h3>
+                        <button type="submit" name="save" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Save
+                        </button>&nbsp;&nbsp;
+                        <button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Save & Continue
+                        </button>&nbsp;&nbsp;<span id="payment-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <div class="tab-content card">
+                            <div class="tab-pane fade in show active" id="enter-fee-detail" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.EmployeeId, Model.AvailableEmployees, "Select Employee", new { @class = "mdb-select", @tabindex = "1" })
+                                                    @Html.LabelFor(model => model.EmployeeId, "Employee", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "2" })
+                                                    @Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date end-date">
+                                                    @Html.EditorFor(model => model.BasicPay, new { htmlAttributes = new { @class = "form-control", @tabindex = "3", @maxlength = "10", @title = "Basic Pay", @type = "number" } })
+                                                    @Html.LabelFor(model => model.BasicPay, "Basic Pay", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.BasicPay, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.TA, new { htmlAttributes = new { @class = "form-control", @tabindex = "4", @maxlength = "10", @title = "TA", @type = "number" } })
+                                                    @Html.LabelFor(model => model.TA, "TA", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.TA, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.DA, new { htmlAttributes = new { @class = "form-control", @tabindex = "5", @maxlength = "10", @title = "DA", @type = "number" } })
+                                                    @Html.LabelFor(model => model.DA, "DA", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.DA, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.HRA, new { htmlAttributes = new { @class = "form-control", @tabindex = "6", @maxlength = "10", @title = "HRA", @type = "number" } })
+                                                    @Html.LabelFor(model => model.HRA, "HRA", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.HRA, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.ESI, new { htmlAttributes = new { @class = "form-control", @tabindex = "7", @maxlength = "10", @title = "ESI", @type = "number" } })
+                                                    @Html.LabelFor(model => model.ESI, "ESI", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.ESI, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.PF, new { htmlAttributes = new { @class = "form-control", @tabindex = "8", @maxlength = "10", @title = "PF", @type = "number" } })
+                                                    @Html.LabelFor(model => model.PF, "PF", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.PF, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.TDS, new { htmlAttributes = new { @class = "form-control", @tabindex = "9", @maxlength = "10", @title = "TDS", @type = "number" } })
+                                                    @Html.LabelFor(model => model.TDS, "TDS", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.TDS, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Net_Pay, new { htmlAttributes = new { @class = "form-control", @tabindex = "10", @maxlength = "10", @title = "Net Payment", @type = "number", @readonly = "readonly" } })
+                                                    @Html.LabelFor(model => model.Net_Pay, "Net Pay", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.Net_Pay, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Gross_Pay, new { htmlAttributes = new { @class = "form-control", @tabindex = "11", @maxlength = "10", @title = "Gross Payment", @type = "number", @readonly = "readonly" } })
+                                                    @Html.LabelFor(model => model.Gross_Pay, "Gross Pay", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.Gross_Pay, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Fee Details')").closest("li").addClass("active");
+
+        var basicPay = parseFloat($('#@Html.IdFor(model => model.BasicPay)').val() == null || $('#@Html.IdFor(model => model.BasicPay)').val() === "") ? 0 : $('#@Html.IdFor(model => model.BasicPay)').val());
+        var ta = parseFloat($('#@Html.IdFor(model => model.TA)').val() == null || $('#@Html.IdFor(model => model.TA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TA)').val());
+        var da = parseFloat($('#@Html.IdFor(model => model.DA)').val() == null || $('#@Html.IdFor(model => model.DA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.DA)').val());
+        var esi = parseFloat($('#@Html.IdFor(model => model.ESI)').val() == null || $('#@Html.IdFor(model => model.ESI)').val() === "") ? 0 : $('#@Html.IdFor(model => model.ESI)').val());
+        var pf = parseFloat($('#@Html.IdFor(model => model.PF)').val() == null || $('#@Html.IdFor(model => model.PF)').val() === "") ? 0 : $('#@Html.IdFor(model => model.PF)').val());
+        var tds = parseFloat($('#@Html.IdFor(model => model.TDS)').val() == null || $('#@Html.IdFor(model => model.TDS)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TDS)').val());
+        var hra = parseFloat($('#@Html.IdFor(model => model.HRA)').val() == null || $('#@Html.IdFor(model => model.HRA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.HRA)').val());
+
+        $(document).on("keyup", '#@Html.IdFor(model => model.BasicPay)', function () {
+            basicPay = parseFloat(($(this).val() == null || $(this).val() === "") ? 0 : $(this).val());
+            ta = parseFloat($('#@Html.IdFor(model => model.TA)').val() == null || $('#@Html.IdFor(model => model.TA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TA)').val());
+            da = parseFloat($('#@Html.IdFor(model => model.DA)').val() == null || $('#@Html.IdFor(model => model.DA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.DA)').val());
+            esi = parseFloat($('#@Html.IdFor(model => model.ESI)').val() == null || $('#@Html.IdFor(model => model.ESI)').val() === "") ? 0 : $('#@Html.IdFor(model => model.ESI)').val());
+            pf = parseFloat($('#@Html.IdFor(model => model.PF)').val() == null || $('#@Html.IdFor(model => model.PF)').val() === "") ? 0 : $('#@Html.IdFor(model => model.PF)').val());
+            tds = parseFloat($('#@Html.IdFor(model => model.TDS)').val() == null || $('#@Html.IdFor(model => model.TDS)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TDS)').val());
+            hra = parseFloat($('#@Html.IdFor(model => model.HRA)').val() == null || $('#@Html.IdFor(model => model.HRA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.HRA)').val());
+
+            if(ta > basicPay || da > basicPay || esi > basicPay || pf > basicPay || tds > basicPay || hra > basicPay){
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Amounts cannot be greater than basic pay!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                }, 1e3);
+                $("#btn-actions button").attr("disabled", true);
+                $(this).val(0);
+            }
+            CalculateTotals();
+        });
+
+        $(document).on("keyup", '#@Html.IdFor(model => model.TA)', function () {
+            basicPay = parseFloat($('#@Html.IdFor(model => model.BasicPay)').val() == null || $('#@Html.IdFor(model => model.BasicPay)').val() === "") ? 0 : $('#@Html.IdFor(model => model.BasicPay)').val());
+            ta = parseFloat(($(this).val() == null || $(this).val() === "") ? 0 : $(this).val());
+            da = parseFloat($('#@Html.IdFor(model => model.DA)').val() == null || $('#@Html.IdFor(model => model.DA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.DA)').val());
+            esi = parseFloat($('#@Html.IdFor(model => model.ESI)').val() == null || $('#@Html.IdFor(model => model.ESI)').val() === "") ? 0 : $('#@Html.IdFor(model => model.ESI)').val());
+            pf = parseFloat($('#@Html.IdFor(model => model.PF)').val() == null || $('#@Html.IdFor(model => model.PF)').val() === "") ? 0 : $('#@Html.IdFor(model => model.PF)').val());
+            tds = parseFloat($('#@Html.IdFor(model => model.TDS)').val() == null || $('#@Html.IdFor(model => model.TDS)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TDS)').val());
+            hra = parseFloat($('#@Html.IdFor(model => model.HRA)').val() == null || $('#@Html.IdFor(model => model.HRA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.HRA)').val());
+            if(ta > basicPay || da > basicPay || esi > basicPay || pf > basicPay || tds > basicPay || hra > basicPay){
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Amounts cannot be greater than basic pay!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                }, 1e3);
+                $("#btn-actions button").attr("disabled", true);
+                $(this).val(0);
+            }
+            CalculateTotals();
+        });
+
+        $(document).on("keyup", '#@Html.IdFor(model => model.DA)', function () {
+            basicPay = parseFloat($('#@Html.IdFor(model => model.BasicPay)').val() == null || $('#@Html.IdFor(model => model.BasicPay)').val() === "") ? 0 : $('#@Html.IdFor(model => model.BasicPay)').val());
+            ta = parseFloat($('#@Html.IdFor(model => model.TA)').val() == null || $('#@Html.IdFor(model => model.TA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TA)').val());
+            da = parseFloat(($(this).val() == null || $(this).val() === "") ? 0 : $(this).val());
+            esi = parseFloat($('#@Html.IdFor(model => model.ESI)').val() == null || $('#@Html.IdFor(model => model.ESI)').val() === "") ? 0 : $('#@Html.IdFor(model => model.ESI)').val());
+            pf = parseFloat($('#@Html.IdFor(model => model.PF)').val() == null || $('#@Html.IdFor(model => model.PF)').val() === "") ? 0 : $('#@Html.IdFor(model => model.PF)').val());
+            tds = parseFloat($('#@Html.IdFor(model => model.TDS)').val() == null || $('#@Html.IdFor(model => model.TDS)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TDS)').val());
+            hra = parseFloat($('#@Html.IdFor(model => model.HRA)').val() == null || $('#@Html.IdFor(model => model.HRA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.HRA)').val());
+            if(ta > basicPay || da > basicPay || esi > basicPay || pf > basicPay || tds > basicPay || hra > basicPay){
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Amounts cannot be greater than basic pay!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                }, 1e3);
+                $("#btn-actions button").attr("disabled", true);
+                $(this).val(0);
+            }
+            CalculateTotals();
+        });
+
+        $(document).on("keyup", '#@Html.IdFor(model => model.ESI)', function () {
+            basicPay = parseFloat($('#@Html.IdFor(model => model.BasicPay)').val() == null || $('#@Html.IdFor(model => model.BasicPay)').val() === "") ? 0 : $('#@Html.IdFor(model => model.BasicPay)').val());
+            ta = parseFloat($('#@Html.IdFor(model => model.TA)').val() == null || $('#@Html.IdFor(model => model.TA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TA)').val());
+            da = parseFloat($('#@Html.IdFor(model => model.DA)').val() == null || $('#@Html.IdFor(model => model.DA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.DA)').val());
+            esi = parseFloat(($(this).val() == null || $(this).val() === "") ? 0 : $(this).val());
+            pf = parseFloat($('#@Html.IdFor(model => model.PF)').val() == null || $('#@Html.IdFor(model => model.PF)').val() === "") ? 0 : $('#@Html.IdFor(model => model.PF)').val());
+            tds = parseFloat($('#@Html.IdFor(model => model.TDS)').val() == null || $('#@Html.IdFor(model => model.TDS)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TDS)').val());
+            hra = parseFloat($('#@Html.IdFor(model => model.HRA)').val() == null || $('#@Html.IdFor(model => model.HRA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.HRA)').val());
+            if(ta > basicPay || da > basicPay || esi > basicPay || pf > basicPay || tds > basicPay || hra > basicPay){
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Amounts cannot be greater than basic pay!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                }, 1e3);
+                $("#btn-actions button").attr("disabled", true);
+                $(this).val(0);
+            }
+            CalculateTotals();
+
+        });
+
+        $(document).on("keyup", '#@Html.IdFor(model => model.PF)', function () {
+            basicPay = parseFloat($('#@Html.IdFor(model => model.BasicPay)').val() == null || $('#@Html.IdFor(model => model.BasicPay)').val() === "") ? 0 : $('#@Html.IdFor(model => model.BasicPay)').val());
+            ta = parseFloat($('#@Html.IdFor(model => model.TA)').val() == null || $('#@Html.IdFor(model => model.TA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TA)').val());
+            da = parseFloat($('#@Html.IdFor(model => model.DA)').val() == null || $('#@Html.IdFor(model => model.DA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.DA)').val());
+            esi = parseFloat($('#@Html.IdFor(model => model.ESI)').val() == null || $('#@Html.IdFor(model => model.ESI)').val() === "") ? 0 : $('#@Html.IdFor(model => model.ESI)').val());
+            pf = parseFloat(($(this).val() == null || $(this).val() === "") ? 0 : $(this).val());
+            tds = parseFloat($('#@Html.IdFor(model => model.TDS)').val() == null || $('#@Html.IdFor(model => model.TDS)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TDS)').val());
+            hra = parseFloat($('#@Html.IdFor(model => model.HRA)').val() == null || $('#@Html.IdFor(model => model.HRA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.HRA)').val());
+            if(ta > basicPay || da > basicPay || esi > basicPay || pf > basicPay || tds > basicPay || hra > basicPay){
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Amounts cannot be greater than basic pay!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                }, 1e3);
+                $("#btn-actions button").attr("disabled", true);
+                $(this).val(0);
+            }
+            CalculateTotals();
+
+        });
+
+        $(document).on("keyup", '#@Html.IdFor(model => model.TDS)', function () {
+            basicPay = parseFloat($('#@Html.IdFor(model => model.BasicPay)').val() == null || $('#@Html.IdFor(model => model.BasicPay)').val() === "") ? 0 : $('#@Html.IdFor(model => model.BasicPay)').val());
+            ta = parseFloat($('#@Html.IdFor(model => model.TA)').val() == null || $('#@Html.IdFor(model => model.TA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TA)').val());
+            da = parseFloat($('#@Html.IdFor(model => model.DA)').val() == null || $('#@Html.IdFor(model => model.DA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.DA)').val());
+            esi = parseFloat($('#@Html.IdFor(model => model.ESI)').val() == null || $('#@Html.IdFor(model => model.ESI)').val() === "") ? 0 : $('#@Html.IdFor(model => model.ESI)').val());
+            pf = parseFloat($('#@Html.IdFor(model => model.PF)').val() == null || $('#@Html.IdFor(model => model.PF)').val() === "") ? 0 : $('#@Html.IdFor(model => model.PF)').val());
+            tds = parseFloat(($(this).val() == null || $(this).val() === "") ? 0 : $(this).val());
+            hra = parseFloat($('#@Html.IdFor(model => model.HRA)').val() == null || $('#@Html.IdFor(model => model.HRA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.HRA)').val());
+            if(ta > basicPay || da > basicPay || esi > basicPay || pf > basicPay || tds > basicPay || hra > basicPay){
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Amounts cannot be greater than basic pay!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                }, 1e3);
+                $("#btn-actions button").attr("disabled", true);
+                $(this).val(0);
+            }
+            CalculateTotals();
+        });
+
+        $(document).on("keyup", '#@Html.IdFor(model => model.HRA)', function () {
+            basicPay = parseFloat($('#@Html.IdFor(model => model.BasicPay)').val() == null || $('#@Html.IdFor(model => model.BasicPay)').val() === "") ? 0 : $('#@Html.IdFor(model => model.BasicPay)').val());
+            ta = parseFloat($('#@Html.IdFor(model => model.TA)').val() == null || $('#@Html.IdFor(model => model.TA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TA)').val());
+            da = parseFloat($('#@Html.IdFor(model => model.DA)').val() == null || $('#@Html.IdFor(model => model.DA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.DA)').val());
+            esi = parseFloat($('#@Html.IdFor(model => model.ESI)').val() == null || $('#@Html.IdFor(model => model.ESI)').val() === "") ? 0 : $('#@Html.IdFor(model => model.ESI)').val());
+            pf = parseFloat($('#@Html.IdFor(model => model.PF)').val() == null || $('#@Html.IdFor(model => model.PF)').val() === "") ? 0 : $('#@Html.IdFor(model => model.PF)').val());
+            tds = parseFloat($('#@Html.IdFor(model => model.TDS)').val() == null || $('#@Html.IdFor(model => model.TDS)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TDS)').val());
+            hra = parseFloat(($(this).val() == null || $(this).val() === "") ? 0 : $(this).val());
+            if(ta > basicPay || da > basicPay || esi > basicPay || pf > basicPay || tds > basicPay || hra > basicPay){
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Amounts cannot be greater than basic pay!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                }, 1e3);
+                $("#btn-actions button").attr("disabled", true);
+                $(this).val(0);
+            }
+            CalculateTotals();
+        });
+    });
+
+    function CalculateTotals(){
+        basicPay = parseFloat($('#@Html.IdFor(model => model.BasicPay)').val() == null || $('#@Html.IdFor(model => model.BasicPay)').val() === "") ? 0 : $('#@Html.IdFor(model => model.BasicPay)').val());
+        ta = parseFloat($('#@Html.IdFor(model => model.TA)').val() == null || $('#@Html.IdFor(model => model.TA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TA)').val());
+        da = parseFloat($('#@Html.IdFor(model => model.DA)').val() == null || $('#@Html.IdFor(model => model.DA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.DA)').val());
+        esi = parseFloat($('#@Html.IdFor(model => model.ESI)').val() == null || $('#@Html.IdFor(model => model.ESI)').val() === "") ? 0 : $('#@Html.IdFor(model => model.ESI)').val());
+        pf = parseFloat($('#@Html.IdFor(model => model.PF)').val() == null || $('#@Html.IdFor(model => model.PF)').val() === "") ? 0 : $('#@Html.IdFor(model => model.PF)').val());
+        tds = parseFloat($('#@Html.IdFor(model => model.TDS)').val() == null || $('#@Html.IdFor(model => model.TDS)').val() === "") ? 0 : $('#@Html.IdFor(model => model.TDS)').val());
+        hra = parseFloat($('#@Html.IdFor(model => model.HRA)').val() == null || $('#@Html.IdFor(model => model.HRA)').val() === "") ? 0 : $('#@Html.IdFor(model => model.HRA)').val());
+
+        var grossSalary = basicPay + ta + da + esi + pf + hra + tds;
+        var netSalary = grossSalary - tds;
+        $('#@Html.IdFor(model => model.Gross_Pay)').val(parseFloat(grossSalary).toFixed(2));
+        $('#@Html.IdFor(model => model.Net_Pay)').val(parseFloat(netSalary).toFixed(2));
+        $("#btn-actions button").attr("disabled", false);
+    }
+</script>
+@Html.DeleteConfirmation("payment-delete")

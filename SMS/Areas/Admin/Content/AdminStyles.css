@@ -1986,3 +1986,5 @@ span.log-url {
 .withampm input[type=time]::-webkit-datetime-edit-ampm-field {
    display: inline-block;
  }
+#btn-remove-option{position:absolute;top:-5px;right:-5px;border-radius:5px;}
+.option-wrapper{position:relative;}

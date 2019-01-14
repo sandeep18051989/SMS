@@ -9,13 +9,11 @@ namespace SMS.Validations
 	{
 		public PaymentModelValidator()
 		{
-			RuleFor(x => x.PDate).NotEmpty().WithMessage("Please choose date");
 			RuleFor(x => x.BasicPay).NotEmpty().WithMessage("Please enter basic pay");
-			RuleFor(x => x.DA).NotEmpty().WithMessage("Please enter DA");
-			RuleFor(x => x.HRA).NotEmpty().WithMessage("Please enter HRA");
-			RuleFor(x => x.PF).NotEmpty().WithMessage("Please enter PF");
-			RuleFor(x => x.TA).NotEmpty().WithMessage("Please enter TA");
-			RuleFor(x => x.TDS).NotEmpty().WithMessage("Please enter TDS");
-		}
+            RuleFor(x => x.AcadmicYearId).NotEmpty().WithMessage("Please select acadmic year");
+            RuleFor(x => x.EmployeeId).NotEmpty().WithMessage("Please select employee");
+            RuleFor(x => x.Gross_Pay).NotEmpty().WithMessage("Gross Pay not calculated correctly");
+            RuleFor(x => x.Net_Pay).NotEmpty().WithMessage("Net Pay not calculated correctly");
+        }
 	}
 }

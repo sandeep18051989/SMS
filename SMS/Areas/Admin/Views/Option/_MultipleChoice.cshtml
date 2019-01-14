@@ -1,0 +1,32 @@
+﻿@model SMS.Models.QuestionModel
+@using EF.Services.Http;
+@{
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+}
+<!-- Modal -->
+<div class="col-xs-12 col-md-12 col-lg-12">
+    <h2 class="mt-4">Multiple Choices</h2>
+    <div class="template">
+        <div class="form-check option-wrapper">
+            <input type="checkbox" class="form-check-input" id="multiplechoice_@(Model.Id)_1">
+            <label class="form-check-label" for="multiplechoice_@(Model.Id)_1">
+                <input type="text" name="multiplechoice_@(Model.Id)_1" title="Option" tabindex="1" placeholder="Option" value="Option 1" />
+            </label>
+        </div>
+        <a id="btn-add-option" class="btn btn-primary">Add Option</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", "#btn-add-option", function () {
+            var allTemplates = $(".template .form-check");
+            var lastTemplate = $(".template .form-check:last-child");
+            var tabIndex = parseInt($($(lastTemplate).find("input[type=text]")[0]).attr("tabindex"));
+            $(".template").append(getTemplate(tabIndex));
+        });
+    });
+    function getTemplate(tbIndex) {
+        tbIndex += 1;
+        return '<div class="form-check option-wrapper"><input type="checkbox" class="form-check-input" id="multiplechoice_@(Model.Id)_' + tbIndex + '"><label class="form-check-label" for="multiplechoice_@(Model.Id)_1"><input type="text" name="multiplechoice_@(Model.Id)_' + tbIndex + '" title="Option" placeholder="Option" value="Option ' + tbIndex + '" /></label><a class="btn btn-danger" id="btn-remove-option">X</a></div>';
+    }
+</script>

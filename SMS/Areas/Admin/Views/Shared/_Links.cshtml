@@ -366,6 +366,32 @@
                 </div>}
         </li>
         <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManagePayment") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-circle-o"></i> </span>
+                <span class="nav-title">
+                    Payments
+                    @if (_permissionService.Authorize("ManagePayment"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManagePayment"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Payment", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Payment", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>}
+        </li>
+        <li class="nav-item">
             <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="nav-icon"><i class="fa fa-cubes"></i> </span>
                 <span class="nav-title">
@@ -438,6 +464,33 @@
                         </span>
                     </a>
                     <a class="nav-link" href="@Url.Action("Create", "Exam", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>
+            }
+        </li>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageHomework") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-circle-o"></i> </span>
+                <span class="nav-title">
+                    Homeworks
+                    @if (_permissionService.Authorize("ManageHomework"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageHomework"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Homework", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Homework", new {Area = "Admin"})">
                         <span class="nav-title">
                             Create
                         </span>
@@ -591,6 +644,33 @@
             <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="nav-icon"><i class="fa fa-cubes"></i> </span>
                 <span class="nav-title">
+                    Questions
+                    @if (_permissionService.Authorize("ManageQuestion"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageQuestion"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Question", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Question", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>
+            }
+        </li>
+        <li class="nav-item">
+            <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-cubes"></i> </span>
+                <span class="nav-title">
                     Books
                     @if (_permissionService.Authorize("ManageBook"))
                     {
@@ -623,6 +703,32 @@
                     </a>
                 </div>
             }
+        </li>
+        <li class="nav-item">
+            <a class="@(_permissionService.Authorize("ManageHouse") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-user-circle-o"></i> </span>
+                <span class="nav-title">
+                    Houses
+                    @if (_permissionService.Authorize("ManageHouse"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageHouse"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "House", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "House", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>}
         </li>
         <li class="nav-item">
             <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

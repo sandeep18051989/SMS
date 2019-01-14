@@ -66,6 +66,7 @@ namespace EF.Services.Service
         private readonly IRepository<TeacherExam> _teacherExamRepository;
         private readonly IRepository<BookIssue> _bookIssueRepository;
         private readonly IRepository<Book> _bookRepository;
+        private readonly IRepository<Holiday> _holidayRepository;
 
         public SMSService(IRepository<Student> studentRepository,
         IRepository<Teacher> teacherRepository,
@@ -120,6 +121,7 @@ namespace EF.Services.Service
         IRepository<TeacherExam> teacherExamRepository,
         IRepository<Book> bookRepository,
         IRepository<BookIssue> bookIssueRepository,
+        IRepository<Holiday> holidayRepository,
         IDbContext dbContext)
         {
             _studentRepository = studentRepository;
@@ -177,6 +179,7 @@ namespace EF.Services.Service
             this._teacherExamRepository = teacherExamRepository;
             this._bookRepository = bookRepository;
             this._bookIssueRepository = bookIssueRepository;
+            this._holidayRepository = holidayRepository;
         }
         #endregion
 
@@ -1074,6 +1077,28 @@ namespace EF.Services.Service
         {
             return _divisionHomeworkRepository.Table.Where(x => x.DivisionId == id).OrderBy(x => x.Homework.Name).ToList();
         }
+        public bool CheckHomeworkExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _homeworkRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.Name.Trim().ToLower() == name.Trim().ToLower()));
+        }
+        public void ToggleActiveStatusHomework(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objHomework = _homeworkRepository.GetByID(id);
+            if (objHomework != null)
+            {
+                objHomework.IsActive = !objHomework.IsActive;
+                objHomework.ModifiedOn = DateTime.Now;
+                _homeworkRepository.Update(objHomework);
+            }
+
+        }
+
         #endregion
 
         #region Division
@@ -1829,12 +1854,9 @@ namespace EF.Services.Service
         {
             return _paymentRepository.GetAll().ToList();
         }
-        public IList<Payment> SearchPayments(int? designationid = null, int? employeeid = null, int? acedemicyearid = null)
+        public IList<Payment> SearchPayments(int? employeeid = null, int? acedemicyearid = null)
         {
             var query = _paymentRepository.Table.ToList();
-
-            if (designationid.HasValue)
-                query = query.Where(s => s.DesignationId == designationid).ToList();
 
             if (employeeid.HasValue)
                 query = query.Where(s => s.EmployeeId == employeeid).ToList();
@@ -2693,7 +2715,7 @@ namespace EF.Services.Service
         }
         #endregion
 
-        #region Question & Assessments
+        #region Assessments
 
         public void InsertQuestion(Question question)
         {
@@ -2712,6 +2734,11 @@ namespace EF.Services.Service
                 question.IsDeleted = true;
                 _questionRepository.Update(question);
             }
+        }
+
+        public IList<Question> GetAllQuestions(bool? onlyActive = null)
+        {
+            return _questionRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
         }
         public Question GetQuestionById(int id)
         {
@@ -2946,6 +2973,88 @@ namespace EF.Services.Service
         }
         #endregion
 
+        #region Holiday
+        public void InsertHoliday(Holiday objHoliday)
+        {
+            _holidayRepository.Insert(objHoliday);
+        }
+        public void UpdateHoliday(Holiday objHoliday)
+        {
+            _holidayRepository.Update(objHoliday);
+        }
+        public void DeleteHoliday(int id)
+        {
+            var objHoliday = _holidayRepository.GetByID(id);
+            if (objHoliday != null)
+            {
+                objHoliday.IsActive = false;
+                objHoliday.IsDeleted = true;
+                _holidayRepository.Update(objHoliday);
+            }
+        }
+        public Holiday GetHolidayById(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _holidayRepository.GetByID(id);
+        }
+        public IList<Holiday> GetAllHolidays(bool? onlyActive = null)
+        {
+            return _holidayRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
+        }
+        public bool CheckHolidayExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _holidayRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.Name.Trim().ToLower() == name.Trim().ToLower()));
+        }
+        public void ToggleActiveStatusHoliday(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objHoliday = _holidayRepository.GetByID(id);
+            if (objHoliday != null)
+            {
+                objHoliday.IsActive = !objHoliday.IsActive;
+                objHoliday.ModifiedOn = DateTime.Now;
+                _holidayRepository.Update(objHoliday);
+            }
+        }
+        #endregion
+
+        #region Question
+
+        public bool CheckQuestionExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _questionRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.Name.Trim().ToLower() == name.Trim().ToLower()));
+        }
+        public void ToggleActiveStatusQuestion(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objQuestion = _questionRepository.GetByID(id);
+            if (objQuestion != null)
+            {
+                objQuestion.IsActive = !objQuestion.IsActive;
+                objQuestion.ModifiedOn = DateTime.Now;
+                _questionRepository.Update(objQuestion);
+            }
+
+        }
+
+        public Option GetOptionById(int id)
+        {
+            return _optionRepository.Table.FirstOrDefault(x => x.Id == id);
+        }
+
+        #endregion
 
         #endregion
 

@@ -11,7 +11,7 @@ namespace EF.Core.Data
 		public int QuestionTypeId { get; set; }
 		public int? SubjectId { get; set; }
 		public Guid QuestionGuid { get; set; }
-		public DateTime? SolveTime { get; set; }
+		public string SolveTime { get; set; }
 		public int DifficultyLevelId { get; set; }
 		public double RightMarks { get; set; }
 		public double NegativeMarks { get; set; }

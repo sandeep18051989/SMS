@@ -1,10 +1,19 @@
-﻿namespace EF.Core.Enums
+﻿using System.ComponentModel;
+
+namespace EF.Core.Enums
 {
-	public enum DifficultyLevel
-	{
-		Easy = 1,
-		Normal = 2,
-		Difficult = 3,
-		Hard = 4
-	}
+    public enum DifficultyLevel
+    {
+        [Description("Easy")]
+        Easy = 1,
+
+        [Description("Normal")]
+        Normal = 2,
+
+        [Description("Difficult")]
+        Difficult = 3,
+
+        [Description("Hard")]
+        Hard = 4
+    }
 }

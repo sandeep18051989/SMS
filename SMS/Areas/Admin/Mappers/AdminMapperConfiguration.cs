@@ -115,6 +115,12 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.EntityType, mo => mo.Ignore())
                     .ForMember(dest => dest.LogLevel, mo => mo.Ignore());
 
+                cfg.CreateMap<Holiday, HolidayModel>()
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringDate, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore());
+                cfg.CreateMap<HolidayModel, Holiday>();
+
                 cfg.CreateMap<Comment, CommentModel>()
                     .ForMember(dest => dest.postReplyModel, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore())
@@ -352,14 +358,24 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<OptionModel, Option>()
                     .ForMember(dest => dest.Question, mo => mo.Ignore());
 
+                cfg.CreateMap<Question, QuestionModel>()
+                    .ForMember(dest => dest.AvailableLevels, mo => mo.Ignore())
+                    .ForMember(dest => dest.Difficulty, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableQuestionTypes, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableSubjects, mo => mo.Ignore());
+                cfg.CreateMap<QuestionModel, Question>()
+                    .ForMember(dest => dest.QuestionType, mo => mo.Ignore())
+                    .ForMember(dest => dest.DifficultyLevel, mo => mo.Ignore())
+                    .ForMember(dest => dest.Subject, mo => mo.Ignore());
+
                 cfg.CreateMap<Payment, PaymentModel>()
-                    .ForMember(dest => dest.AvailableDesignations, mo => mo.Ignore())
+                    .ForMember(dest => dest.Employee, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringDate, mo => mo.MapFrom(src => src.CreatedOn.ToString("U")))
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableEmployees, mo => mo.Ignore());
                 cfg.CreateMap<PaymentModel, Payment>()
-                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
-                    .ForMember(dest => dest.Designation, mo => mo.Ignore());
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore());
 
                 cfg.CreateMap<PermissionRecord, PermissionRecordModel>()
                     .ForMember(dest => dest.Roles, mo => mo.Ignore());
@@ -415,6 +431,7 @@ namespace SMS.Areas.Admin.Mappers
 
                 cfg.CreateMap<House, HouseModel>()
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.PictureSrc, mo => mo.Ignore());
                 cfg.CreateMap<HouseModel, House>()
                     .ForMember(dest => dest.Students, mo => mo.Ignore())

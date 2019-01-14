@@ -745,6 +745,54 @@ namespace EF.Services.Service
             managePermit.UserId = user.Id;
             _permissionRecordRepository.Insert(managePermit);
 
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Holiday";
+            managePermit.SystemName = "ManageHoliday";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Holiday";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Homework";
+            managePermit.SystemName = "ManageHomework";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Homework";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage House";
+            managePermit.SystemName = "ManageHouse";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "House";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Question";
+            managePermit.SystemName = "ManageQuestion";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Question";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
             #endregion
 
             #region User Roles
@@ -2512,14 +2560,6 @@ namespace EF.Services.Service
 			_questionTypeRepository.Insert(questionType);
 
 			questionType = new QuestionType();
-			questionType.Name = "Match Matrix";
-			questionType.CreatedOn = DateTime.Now;
-			questionType.IsSystemDefined = true;
-			questionType.ModifiedOn = DateTime.Now;
-			questionType.UserId = user.Id;
-			_questionTypeRepository.Insert(questionType);
-
-			questionType = new QuestionType();
 			questionType.Name = "Essay";
 			questionType.CreatedOn = DateTime.Now;
 			questionType.IsSystemDefined = true;
@@ -2528,7 +2568,7 @@ namespace EF.Services.Service
 			_questionTypeRepository.Insert(questionType);
 
 			questionType = new QuestionType();
-			questionType.Name = "Single Digit";
+			questionType.Name = "Choose Answer";
 			questionType.CreatedOn = DateTime.Now;
 			questionType.IsSystemDefined = true;
 			questionType.ModifiedOn = DateTime.Now;
@@ -2929,9 +2969,6 @@ namespace EF.Services.Service
 			addHoliday.AcadmicYearId = acadmicYear.Id;
 			addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
 			addHoliday.Date = new DateTime(DateTime.Now.Year, 08, 15);
-			addHoliday.DD = 15;
-			addHoliday.MM = 08;
-			addHoliday.YYYY = DateTime.Now.Year;
 			addHoliday.IsDeleted = false;
 			addHoliday.Name = "Independence Day";
 			addHoliday.UserId = user.Id;
@@ -2941,9 +2978,6 @@ namespace EF.Services.Service
 			addHoliday.AcadmicYearId = acadmicYear.Id;
 			addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
 			addHoliday.Date = new DateTime(DateTime.Now.Year, 01, 26);
-			addHoliday.DD = 26;
-			addHoliday.MM = 01;
-			addHoliday.YYYY = DateTime.Now.Year;
 			addHoliday.IsDeleted = false;
 			addHoliday.Name = "Republic Day";
 			addHoliday.UserId = user.Id;
@@ -2953,11 +2987,8 @@ namespace EF.Services.Service
 			addHoliday.AcadmicYearId = acadmicYear.Id;
 			addHoliday.CreatedOn = addHoliday.ModifiedOn = DateTime.Now;
 			addHoliday.Date = new DateTime(DateTime.Now.Year, 12, 25);
-			addHoliday.DD = 26;
-			addHoliday.MM = 01;
-			addHoliday.YYYY = DateTime.Now.Year;
 			addHoliday.IsDeleted = false;
-			addHoliday.Name = "Christmas Day";
+			addHoliday.Name = "Christmas";
 			addHoliday.UserId = user.Id;
 			_holidayRepository.Insert(addHoliday);
 
