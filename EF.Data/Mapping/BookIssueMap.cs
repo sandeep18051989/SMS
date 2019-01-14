@@ -14,7 +14,6 @@ namespace EF.Data.Mapping
             this.Property(b => b.BookId).IsRequired();
             this.Property(b => b.LibrarianId).IsRequired();
             this.Property(b => b.StudentId).IsRequired();
-            this.Property(b => b.Username).IsRequired();
             this.Property(b => b.StartDate).IsOptional();
             this.Property(b => b.EndDate).IsOptional();
 

@@ -1,9 +1,19 @@
-﻿namespace EF.Core.Enums
+﻿using System.ComponentModel;
+
+namespace EF.Core.Enums
 {
     public enum FeeStatus
 	{
+        [Description("Paid")]
         Paid,
+
+        [Description("Partially Paid")]
         PartiallyPaid,
-		  Unpaid
+
+        [Description("UnPaid")]
+        Unpaid,
+
+        [Description("Waiting")]
+        Waiting
     }
 }

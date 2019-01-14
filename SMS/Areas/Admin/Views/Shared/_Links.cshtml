@@ -258,6 +258,33 @@
                             Create
                         </span>
                     </a>
+                </div>
+            }
+        </li>
+        <li class="nav-item">
+            <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-cubes"></i> </span>
+                <span class="nav-title">
+                    Fee Categories
+                    @if (_permissionService.Authorize("ManageFeeCategory"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageFeeCategory"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "FeeCategory", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "FeeCategory", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
                 </div>}
         </li>
         <li class="nav-item">
@@ -576,12 +603,22 @@
                 <div class="dropdown-container">
                     <a class="nav-link" href="@Url.Action("List", "Book", new {Area = "Admin"})">
                         <span class="nav-title">
-                            List
+                            Books
                         </span>
                     </a>
                     <a class="nav-link" href="@Url.Action("Create", "Book", new {Area = "Admin"})">
                         <span class="nav-title">
-                            Create
+                            Create Book
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("List", "BookIssue", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Book Issues
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "BookIssue", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create Book Issue
                         </span>
                     </a>
                 </div>

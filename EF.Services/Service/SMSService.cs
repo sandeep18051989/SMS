@@ -647,6 +647,27 @@ namespace EF.Services.Service
         {
             return _feeCategoryRepository.Table.FirstOrDefault(x => x.ClassDivisionId == classid && (!categoryid.HasValue || x.CategoryId == categoryid.Value));
         }
+        public void ToggleActiveStatusFeeCategory(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objFeeCategory = _feeCategoryRepository.GetByID(id);
+            if (objFeeCategory != null)
+            {
+                objFeeCategory.IsActive = !objFeeCategory.IsActive;
+                objFeeCategory.ModifiedOn = DateTime.Now;
+                _feeCategoryRepository.Update(objFeeCategory);
+            }
+
+        }
+        public bool CheckFeeCategoryExists(int catid, int classdivid, int acadmicyearid, int? id = null)
+        {
+            if (catid ==0 || classdivid == 0 || acadmicyearid == 0)
+                throw new ArgumentNullException("catid");
+
+            return _feeCategoryRepository.Table.Any(a => ((a.CategoryId == catid) && (a.ClassDivisionId == classdivid) && a.AcadmicYearId == acadmicyearid) && (!id.HasValue || id.Value != a.Id) && a.IsDeleted == false);
+        }
         #endregion
 
         #region Caste
@@ -2271,7 +2292,7 @@ namespace EF.Services.Service
             if (studentid == 0 || bookid == 0)
                 throw new ArgumentNullException("student and book");
 
-            return _bookIssueRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.StudentId == studentid && x.BookId == bookid));
+            return _bookIssueRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.StudentId == studentid && x.BookId == bookid) && (x.Book.BookStatusId != 1));
         }
         #endregion
 

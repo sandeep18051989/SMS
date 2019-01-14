@@ -9,12 +9,8 @@ namespace EF.Core.Data
 		public int StudentId { get; set; }
 		public int? FeeCategoryStructureId { get; set; }
 		public string FeeType { get; set; }
-		public int DD { get; set; }
-		public int MM { get; set; }
-		public int YYYY { get; set; }
-		public int Installments { get; set; }
-		public DateTime Date { get; set; }
 		public int CashierId { get; set; }
+        public DateTime? Date { get; set; }
 		public string CashierName { get; set; }
 		public string PayingMode { get; set; }
 		public string BankName { get; set; }
@@ -30,11 +26,11 @@ namespace EF.Core.Data
 		public virtual AcadmicYear AcadmicYear { get; set; }
 		public virtual Employee Employee { get; set; }
 		[NotMapped]
-		public PaymentStatus AdmissionStatus
+		public FeeStatus FeeStatus
 		{
 			get
 			{
-				return (PaymentStatus)StatusId;
+				return (FeeStatus)StatusId;
 			}
 			set
 			{

@@ -1,6 +1,6 @@
-﻿@model SMS.Models.CategoryModel
+﻿@model SMS.Models.FeeCategoryModel
 @{
-    ViewBag.Title = "Categories";
+    ViewBag.Title = "Fee Categories";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
                         <div class="input-group pull-right">
-                            @Html.ActionLink("Create Category", "Create", "Category", null, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Create Fee Category", "Create", "FeeCategory", null, new { @class = "btn btn-primary" })
                         </div>
                     </div>
                 </div>
@@ -22,8 +22,13 @@
                             <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Category</th>
+                                        <th class="text-center">Class Division</th>
+                                        <th class="text-center">Fee Amount</th>
+                                        <th class="text-center">From</th>
+                                        <th class="text-center">To</th>
                                         <th class="text-center">Active</th>
+                                        <th class="text-center">Acadmic Year</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -39,7 +44,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Categories')").closest("li").addClass("active");
+        $("span.nav-title:contains('Fee Categories')").closest("li").addClass("active");
 
         // Initiallize Datatable
         $('.custom-table').DataTable({
@@ -50,15 +55,27 @@
             "pageLength": 25,
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "ajax": {
-                "url": "/Admin/Category/LoadGrid",
+                "url": "/Admin/FeeCategory/LoadGrid",
                 "type": "POST",
                 "datatype": "json"
             },
             "aaSorting": [],
             "columns": [
 				{
-				    "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center",
+				    "data": "CategoryName", "title": "Category", "name": "Category", "autoWidth": true, "defaultContent": "", "className": "text-center",
 				},
+                {
+                    "data": "ClassDivisionName", "title": "Class Division", "name": "Class Division", "autoWidth": true, "defaultContent": "", "className": "text-center",
+                },
+                {
+                    "data": "FeeAmount", "title": "Fee", "name": "Fee", "autoWidth": true, "defaultContent": "", "className": "text-center",
+                },
+                {
+                    "data": "StringPeriodFrom", "title": "From", "name": "From", "autoWidth": true, "defaultContent": "", "className": "text-center",
+                },
+                {
+                    "data": "StringPeriodTo", "title": "To", "name": "To", "autoWidth": true, "defaultContent": "", "className": "text-center",
+                },
 				{
 				    "data": "IsActive",
 				    "title": "Active",
@@ -84,13 +101,16 @@
 				    "orderable": false,
 				    "defaultContent": ""
 				},
+                {
+                    "data": "AcadmicYear", "title": "Acadmic Year", "name": "Acadmic Year", "autoWidth": true, "defaultContent": "", "className": "text-center",
+                },
 				{
 				    "title": "Actions",
 				    "orderable": false,
 				    "className": 'text-center',
 				    "render": function (data, type, row) {
 				        if (type === "display") {
-				            return '<a href="/Admin/Category/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
+				            return '<a href="/Admin/FeeCategory/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
 				        }
 				        return data;
 				    },
@@ -104,7 +124,7 @@
         });
 
         $('a[class^="toggle_"]').click(function (e) {
-            if (confirm("Are you sure, you want to update status for the selected category?")) {
+            if (confirm("Are you sure, you want to update status for the selected fee category?")) {
                 e.preventDefault();
                 var postData = {
                     id: $(this).attr("id")
@@ -115,14 +135,14 @@
                 $.ajax({
                     cache: false,
                     type: "POST",
-                    url: "@(Url.Action("Toggle", "Category"))",
+                    url: "@(Url.Action("Toggle", "FeeCategory"))",
                     data: postData,
                     success: function (data, result) {
                         if (result === "success") {
                             setTimeout(function () {
                                 $.gritter.add({
                                     title: "Success",
-                                    text: "Category Updated Successfully!",
+                                    text: "Fee Category Updated Successfully!",
                                     sticky: !0,
                                     time: "",
                                     class_name: "my-sticky-class"

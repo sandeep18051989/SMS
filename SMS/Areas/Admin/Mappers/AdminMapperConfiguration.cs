@@ -47,7 +47,7 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<BookIssue, BookIssueModel>()
                     .ForMember(dest => dest.Book, mo => mo.Ignore())
                     .ForMember(dest => dest.Student, mo => mo.Ignore())
-                    .ForMember(dest => dest.Employee, mo => mo.Ignore());
+                    .ForMember(dest => dest.Librarian, mo => mo.Ignore());
                 cfg.CreateMap<BookIssueModel, BookIssue>()
                     .ForMember(dest => dest.Book, mo => mo.Ignore())
                     .ForMember(dest => dest.Student, mo => mo.Ignore())
@@ -282,7 +282,12 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<BookIssue, BookIssueModel>()
                     .ForMember(dest => dest.AvailableEmployees, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableStudents, mo => mo.Ignore())
-                    .ForMember(dest => dest.AvailableBooks, mo => mo.Ignore());
+                    .ForMember(dest => dest.AvailableBooks, mo => mo.Ignore())
+                    .ForMember(dest => dest.Student, mo => mo.Ignore())
+                    .ForMember(dest => dest.Librarian, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringStartDate, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringEndDate, mo => mo.Ignore())
+                    .ForMember(dest => dest.Book, mo => mo.Ignore());
                 cfg.CreateMap<BookIssueModel, BookIssue>()
                     .ForMember(dest => dest.Book, mo => mo.Ignore())
                     .ForMember(dest => dest.Employee, mo => mo.Ignore())
@@ -292,6 +297,8 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableCategories, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringPeriodFrom, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringPeriodTo, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableClassDivisions, mo => mo.Ignore())
                     .ForMember(dest => dest.CategoryName, mo => mo.Ignore())
                     .ForMember(dest => dest.ClassDivisionName, mo => mo.Ignore());
@@ -307,12 +314,17 @@ namespace SMS.Areas.Admin.Mappers
 
                 cfg.CreateMap<FeeDetail, FeeDetailModel>()
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.CashierName, mo => mo.Ignore())
+                    .ForMember(dest => dest.Student, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringDate, mo => mo.Ignore())
+                    .ForMember(dest => dest.Date, mo => mo.Ignore())
+                    .ForMember(dest => dest.Status, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableFeeCategoryStructures, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableStatuses, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableStudents, mo => mo.Ignore());
                 cfg.CreateMap<FeeDetailModel, FeeDetail>()
-                     .ForMember(dest => dest.AdmissionStatus, mo => mo.Ignore())
+                     .ForMember(dest => dest.FeeStatus, mo => mo.Ignore())
                      .ForMember(dest => dest.Employee, mo => mo.Ignore())
                      .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                      .ForMember(dest => dest.Student, mo => mo.Ignore());

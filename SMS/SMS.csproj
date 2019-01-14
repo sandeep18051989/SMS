@@ -1104,6 +1104,15 @@
     <Content Include="Areas\Admin\Views\Book\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Book\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Book\List.cshtml" />
+    <Content Include="Areas\Admin\Views\BookIssue\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\BookIssue\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\BookIssue\List.cshtml" />
+    <Content Include="Areas\Admin\Views\FeeCategory\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FeeCategory\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FeeCategory\List.cshtml" />
+    <Content Include="Areas\Admin\Views\FeeDetail\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FeeDetail\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FeeDetail\List.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1516,6 +1525,8 @@
     <Compile Include="Areas\Admin\Controllers\AllowanceController.cs" />
     <Compile Include="Areas\Admin\Controllers\BookIssueController.cs" />
     <Compile Include="Areas\Admin\Controllers\BookController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FeeDetailController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FeeCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\CasteController.cs" />
     <Compile Include="Areas\Admin\Controllers\AcadmicYearController.cs" />

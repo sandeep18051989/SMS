@@ -4,6 +4,7 @@ using FluentValidation.Attributes;
 using SMS.Validations;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SMS.Models
 {
@@ -21,9 +22,13 @@ namespace SMS.Models
         public string Book { get; set; }
         public string Student { get; set; }
         public string Username { get; set; }
+        [UIHint("DateRange")]
 		public DateTime? StartDate { get; set; }
-		public DateTime? EndDate { get; set; }
-		public double PenaltyAmount { get; set; }
+        [UIHint("DateRange")]
+        public DateTime? EndDate { get; set; }
+        public string StringStartDate { get; set; }
+        public string StringEndDate { get; set; }
+        public double PenaltyAmount { get; set; }
         public string Librarian { get; set; }
         // EmployeeId
         public int LibrarianId { get; set; }

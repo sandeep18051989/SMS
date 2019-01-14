@@ -1,0 +1,148 @@
+﻿@model SMS.Models.BookIssueModel
+@{
+	ViewBag.Title = "Issue Book";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="create-form">
+			@using (Html.BeginForm())
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(model => model.Id)
+				<div class="row text-left">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<h3 class="section-heading mr-auto">CREATE BOOK ISSUE</h3>
+						<button type="submit" name="save" class="btn btn-primary mr-auto">
+							<i class="fa fa-save">&nbsp;&nbsp;</i>Create
+						</button>
+						<button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
+							<i class="fa fa-save">&nbsp;&nbsp;</i>Create & Continue
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 my-3">
+						<div class="tabs-wrapper">
+							<ul class="nav classic-tabs tabs-pink" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-book" role="tab">
+										<i class="fa fa-user fa-2x" aria-hidden="true"></i>
+										<br> Create Book Issue
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="tab-content card">
+							<div class="tab-pane fade in show active" id="create-book" role="tabpanel">
+								<div class="row">
+									<div class="col-md-12">
+										@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+									</div>
+								</div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.BookId, Model.AvailableBooks, "Select Book", new { @class = "mdb-select", @tabindex = "1" })
+                                                    @Html.LabelFor(model => model.BookId, "Book", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.BookId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.StudentId, Model.AvailableStudents, "Select Student", new { @class = "mdb-select", @tabindex = "2" })
+                                                    @Html.LabelFor(model => model.StudentId, "Student", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.LibrarianId, Model.AvailableEmployees, "Select Librarian", new { @class = "mdb-select", @tabindex = "2" })
+                                                    @Html.LabelFor(model => model.LibrarianId, "Issued By", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.LibrarianId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date start-date">
+                                                    <i class="fa fa-calendar prefix"></i>
+                                                    @Html.EditorFor(model => model.StartDate, "DateRange.cshtml")
+                                                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date end-date">
+                                                    <i class="fa fa-calendar prefix"></i>
+                                                    @Html.EditorFor(model => model.EndDate, "DateRange.cshtml")
+                                                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.PenaltyAmount, new { htmlAttributes = new { @class = "form-control", @tabindex = "5", @maxlength = "10", @title = "Penalty Amount", @type = "number" } })
+                                                    @Html.LabelFor(model => model.PenaltyAmount, "Penalty Amount", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.PenaltyAmount, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('BookIssues')").closest("li").addClass("active");
+
+        // Get the elements
+        var from_input = $('.start-date input[type=text]').pickadate(),
+			from_picker = from_input.pickadate('picker');
+        var to_input = $('.end-date input[type=text]').pickadate(),
+			to_picker = to_input.pickadate('picker');
+
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        if (from_picker.get('value')) {
+            to_picker.set('min', from_picker.get('select'));
+        }
+        if (to_picker.get('value')) {
+            from_picker.set('max', to_picker.get('select'));
+        }
+
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        from_picker.on('set',
+			function (event) {
+			    if (event.select) {
+			        to_picker.set('min', from_picker.get('select'));
+			    } else if ('clear' in event) {
+			        to_picker.set('min', false);
+			    }
+			});
+        to_picker.on('set',
+			function (event) {
+			    if (event.select) {
+			        from_picker.set('max', to_picker.get('select'));
+			    } else if ('clear' in event) {
+			        from_picker.set('max', false);
+			    }
+			});
+	});
+</script>

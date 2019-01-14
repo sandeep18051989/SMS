@@ -14,10 +14,7 @@ namespace EF.Data.Mapping
 			Property(b => b.CashierId).IsRequired();
 			Property(b => b.AcadmicYearId).IsRequired();
 			Property(b => b.CashierName).HasMaxLength(100).IsOptional();
-			Property(b => b.Date).IsRequired();
-			Property(b => b.DD).IsOptional();
-			Property(b => b.MM).IsOptional();
-			Property(b => b.YYYY).IsOptional();
+			Property(b => b.Date).IsOptional();
 			Property(b => b.DDChequeNumber).HasMaxLength(100).IsOptional();
 			Property(b => b.FeeCategoryStructureId).IsOptional();
 			Property(b => b.PaidBy).HasMaxLength(100).IsOptional();

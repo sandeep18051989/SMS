@@ -24,8 +24,11 @@ namespace SMS.Models
         public double FeeAmount { get; set; }
 		public DateTime? PeriodFrom { get; set; }
 		public DateTime? PeriodTo { get; set; }
-		public int AcadmicYearId { get; set; }
+        public string StringPeriodFrom { get; set; }
+        public string StringPeriodTo { get; set; }
+        public int AcadmicYearId { get; set; }
         public string AcadmicYear { get; set; }
+        public bool IsActive { get; set; }
         public IList<SelectListItem> AvailableAcadmicYears { get; set; }
         public IList<SelectListItem> AvailableClassDivisions { get; set; }
         public IList<SelectListItem> AvailableCategories { get; set; }

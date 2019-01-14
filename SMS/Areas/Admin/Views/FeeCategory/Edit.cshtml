@@ -1,7 +1,7 @@
-﻿@model SMS.Models.BookModel
+﻿@model SMS.Models.FeeCategoryModel
 @using EF.Services;
 @{
-    ViewBag.Title = "Edit Book";
+    ViewBag.Title = "Edit Fee Category";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
@@ -13,13 +13,13 @@
                 @Html.HiddenFor(model => model.Id)
                 <div class="row">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">EDIT BOOK</h3>
+                        <h3 class="section-heading mr-auto">EDIT FEE CATEGORY</h3>
                         <button type="submit" name="save" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Save
                         </button>&nbsp;&nbsp;
                         <button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Save & Continue
-                        </button>
+                        </button>&nbsp;&nbsp;<span id="feecategory-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
                     </div>
                 </div>
                 <div class="row">
@@ -27,15 +27,15 @@
                         <div class="tabs-wrapper">
                             <ul class="nav classic-tabs tabs-pink" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-classroom" role="tab">
+                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-category" role="tab">
                                         <i class="fa fa-user fa-2x" aria-hidden="true"></i>
-                                        <br> Update Book
+                                        <br> Update Fee Category
                                     </a>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-content card">
-                            <div class="tab-pane fade in show active" id="create-classroom" role="tabpanel">
+                            <div class="tab-pane fade in show active" id="create-category" role="tabpanel">
                                 <div class="row">
                                     <div class="col-md-12">
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -46,43 +46,25 @@
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "250", @title = "Name" } })
-                                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
-                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                    @Html.DropDownListFor(model => model.CategoryId, Model.AvailableCategories, "Select Category", new { @class = "mdb-select", @tabindex = "1" })
+                                                    @Html.LabelFor(model => model.CategoryId, "Category", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @tabindex = "2", @maxlength = "10", @title = "Price", @type="number" } })
-                                                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
-                                                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                                    @Html.DropDownListFor(model => model.ClassDivisionId, Model.AvailableClassDivisions, "Select Class Division", new { @class = "mdb-select", @tabindex = "2" })
+                                                    @Html.LabelFor(model => model.ClassDivisionId, "Class Division", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.ClassDivisionId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    @Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control", @tabindex = "3", @maxlength = "150", @title = "Author" } })
-                                                    @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
-                                                    @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row text-left">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.BookStatusId, Model.AvailableBookStatuses, "Select Book Status", new { @class = "mdb-select", @tabindex = "4" })
-                                                    @Html.LabelFor(model => model.BookStatusId, "Status", htmlAttributes: new { @class = "control-label" })
-                                                    @Html.ValidationMessageFor(model => model.BookStatusId, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row text-left">
-                                            <div class="col-md-6 mb-4">
-                                                <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "5" })
+                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "3" })
                                                     @Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
                                                 </div>
@@ -90,11 +72,30 @@
                                         </div>
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
+                                                <div class="md-form date start-date">
+                                                    <i class="fa fa-calendar prefix"></i>
+                                                    @Html.EditorFor(model => model.PeriodFrom, "DateRange.cshtml")
+                                                    @Html.LabelFor(model => model.PeriodFrom, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.PeriodFrom, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date end-date">
+                                                    <i class="fa fa-calendar prefix"></i>
+                                                    @Html.EditorFor(model => model.PeriodTo, "DateRange.cshtml")
+                                                    @Html.LabelFor(model => model.PeriodTo, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.PeriodTo, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    <i class="fa fa-html5 prefix"></i>
-                                                    @Html.EditorFor(model => model.Description, "HtmlEditor.cshtml")
-                                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
-                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                                    @Html.EditorFor(model => model.FeeAmount, new { htmlAttributes = new { @class = "form-control", @tabindex = "6", @maxlength = "10", @title = "Fee Amount", @type = "number" } })
+                                                    @Html.LabelFor(model => model.FeeAmount, "Fee Amount", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.FeeAmount, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>
@@ -118,7 +119,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Books')").closest("li").addClass("active");
+        $("span.nav-title:contains('Fee Categories')").closest("li").addClass("active");
 
         if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
@@ -136,5 +137,37 @@
             }
         });
 
+        // Get the elements
+        var from_input = $('.start-date input[type=text]').pickadate(),
+			from_picker = from_input.pickadate('picker');
+        var to_input = $('.end-date input[type=text]').pickadate(),
+			to_picker = to_input.pickadate('picker');
+
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        if (from_picker.get('value')) {
+            to_picker.set('min', from_picker.get('select'));
+        }
+        if (to_picker.get('value')) {
+            from_picker.set('max', to_picker.get('select'));
+        }
+
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        from_picker.on('set',
+			function (event) {
+			    if (event.select) {
+			        to_picker.set('min', from_picker.get('select'));
+			    } else if ('clear' in event) {
+			        to_picker.set('min', false);
+			    }
+			});
+        to_picker.on('set',
+			function (event) {
+			    if (event.select) {
+			        from_picker.set('max', to_picker.get('select'));
+			    } else if ('clear' in event) {
+			        from_picker.set('max', false);
+			    }
+			});
     });
 </script>
+@Html.DeleteConfirmation("feecategory-delete")

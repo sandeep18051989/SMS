@@ -69,7 +69,7 @@ namespace SMS.Areas.Admin.Controllers
                 //Search    
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    bookIssueData = bookIssueData.Where(m => m.Student.FName.Contains(searchValue) || m.Student.MName.Contains(searchValue) || m.Student.LName.Contains(searchValue) || m.Book.Name.Contains(searchValue) || m.Book.Author.Contains(searchValue));
+                    bookIssueData = bookIssueData.Where(m => m.Student.FName.Contains(searchValue) || (!string.IsNullOrEmpty(m.Student.MName) && m.Student.MName.Contains(searchValue)) || (!string.IsNullOrEmpty(m.Student.LName) && m.Student.LName.Contains(searchValue)) || m.Book.Name.Contains(searchValue) || (!string.IsNullOrEmpty(m.Book.Author) && m.Book.Author.Contains(searchValue)));
                 }
 
                 //total number of rows count     
@@ -97,8 +97,10 @@ namespace SMS.Areas.Admin.Controllers
                             Librarian = _smsService.GetEmployeeById(x.LibrarianId).EmpFName,
                             PenaltyAmount = x.PenaltyAmount,
                             StartDate = x.StartDate,
-                            Student = _smsService.GetStudentById(x.StudentId).FName
-                        }).OrderBy(x => x.Name).ToList()
+                            Student = _smsService.GetStudentById(x.StudentId).FName,
+                            StringStartDate = x.StartDate.Value.ToString("U"),
+                            StringEndDate = x.EndDate.Value.ToString("U")
+                        }).OrderByDescending(x => x.CreatedOn).ToList()
                     },
                     ContentEncoding = Encoding.Default,
                     ContentType = "application/json",
@@ -138,20 +140,26 @@ namespace SMS.Areas.Admin.Controllers
                 model = objBookIssue.ToModel();
             }
 
-            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            model.AvailableBooks = _smsService.GetAllBooks().Select(x => new SelectListItem()
             {
                 Text = x.Name.Trim(),
                 Value = x.Id.ToString(),
-                Selected = model.AcadmicYearId == x.Id
+                Selected = model.BookId == x.Id
             }).ToList();
 
-            model.AvailableBookIssueStatuses = (from BookIssueStatus d in Enum.GetValues(typeof(BookIssueStatus))
-                                        select new SelectListItem
-                                        {
-                                            Text = d.ToString(),
-                                            Value = Convert.ToInt32(d).ToString(),
-                                            Selected = (Convert.ToInt32(d) == model.BookIssueStatusId)
-                                        }).ToList();
+            model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem()
+            {
+                Text = x.EmpFName.Trim() + (!string.IsNullOrEmpty(x.EmpMName) ? (" " + x.EmpMName) : "") + (!string.IsNullOrEmpty(x.EmpLName) ? (" " + x.EmpLName) : "") + ("(" + x.Username + ")"),
+                Value = x.Id.ToString(),
+                Selected = model.LibrarianId == x.Id
+            }).ToList();
+
+            model.AvailableStudents = _smsService.GetAllStudents().Select(x => new SelectListItem()
+            {
+                Text = x.FName.Trim() + (!string.IsNullOrEmpty(x.MName) ? (" " + x.MName) : "") + (!string.IsNullOrEmpty(x.LName) ? (" " + x.LName) : "") + ("(" + x.UserName + ")"),
+                Value = x.Id.ToString(),
+                Selected = model.StudentId == x.Id
+            }).ToList();
             return View(model);
         }
 
@@ -163,11 +171,14 @@ namespace SMS.Areas.Admin.Controllers
             if (!_permissionService.Authorize("ManageBookIssue"))
                 return AccessDeniedView();
 
-            var user = _userContext.CurrentUser;
-            // Check for duplicate classroom, if any
-            var checkBookIssue = _smsService.CheckBookIssueExists(model.Name, model.Id);
-            if (checkBookIssue)
-                ModelState.AddModelError("Name", "A BookIssue with the same name already exists. Please choose a different name.");
+            var checkBookIssue = false;
+            if(model.StudentId > 0 && model.BookId > 0)
+            {
+                // Check for duplicate classroom, if any
+                checkBookIssue = _smsService.CheckBookIssueExists(model.StudentId, model.BookId, model.Id);
+                if (checkBookIssue)
+                    ModelState.AddModelError("BookId", "Book already issued to student!");
+            }
 
             if (ModelState.IsValid)
             {
@@ -182,20 +193,26 @@ namespace SMS.Areas.Admin.Controllers
             }
             else
             {
-                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                model.AvailableBooks = _smsService.GetAllBooks().Select(x => new SelectListItem()
                 {
                     Text = x.Name.Trim(),
                     Value = x.Id.ToString(),
-                    Selected = model.AcadmicYearId == x.Id
+                    Selected = model.BookId == x.Id
                 }).ToList();
 
-                model.AvailableBookIssueStatuses = (from BookIssueStatus d in Enum.GetValues(typeof(BookIssueStatus))
-                                               select new SelectListItem
-                                               {
-                                                   Text = d.ToString(),
-                                                   Value = Convert.ToInt32(d).ToString(),
-                                                   Selected = (Convert.ToInt32(d) == model.BookIssueStatusId)
-                                               }).ToList();
+                model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem()
+                {
+                    Text = x.EmpFName.Trim() + (!string.IsNullOrEmpty(x.EmpMName) ? (" " + x.EmpMName) : "") + (!string.IsNullOrEmpty(x.EmpLName) ? (" " + x.EmpLName) : "") + ("(" + x.Username + ")"),
+                    Value = x.Id.ToString(),
+                    Selected = model.LibrarianId == x.Id
+                }).ToList();
+
+                model.AvailableStudents = _smsService.GetAllStudents().Select(x => new SelectListItem()
+                {
+                    Text = x.FName.Trim() + (!string.IsNullOrEmpty(x.MName) ? (" " + x.MName) : "") + (!string.IsNullOrEmpty(x.LName) ? (" " + x.LName) : "") + ("(" + x.UserName + ")"),
+                    Value = x.Id.ToString(),
+                    Selected = model.StudentId == x.Id
+                }).ToList();
                 return View(model);
             }
 
@@ -213,19 +230,23 @@ namespace SMS.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var model = new BookIssueModel();
-            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            model.AvailableBooks = _smsService.GetAllBooks().Select(x => new SelectListItem()
             {
                 Text = x.Name.Trim(),
                 Value = x.Id.ToString(),
-                Selected = x.IsActive
             }).ToList();
 
-            model.AvailableBookIssueStatuses = (from BookIssueStatus d in Enum.GetValues(typeof(BookIssueStatus))
-                                           select new SelectListItem
-                                           {
-                                               Text = d.ToString(),
-                                               Value = Convert.ToInt32(d).ToString(),
-                                           }).ToList();
+            model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem()
+            {
+                Text = x.EmpFName.Trim() + (!string.IsNullOrEmpty(x.EmpMName) ? (" " + x.EmpMName) : "") + (!string.IsNullOrEmpty(x.EmpLName) ? (" " + x.EmpLName) : "") + ("(" + x.Username + ")"),
+                Value = x.Id.ToString(),
+            }).ToList();
+
+            model.AvailableStudents = _smsService.GetAllStudents().Select(x => new SelectListItem()
+            {
+                Text = x.FName.Trim() + (!string.IsNullOrEmpty(x.MName) ? (" " + x.MName) : "") + (!string.IsNullOrEmpty(x.LName) ? (" " + x.LName) : "") + ("(" + x.UserName + ")"),
+                Value = x.Id.ToString(),
+            }).ToList();
             return View(model);
         }
 
@@ -237,18 +258,23 @@ namespace SMS.Areas.Admin.Controllers
             if (!_permissionService.Authorize("ManageBookIssue"))
                 return AccessDeniedView();
 
-            // Check for duplicate classroom, if any
-            var checkBookIssue = _smsService.CheckBookIssueExists(model.Name, model.Id);
-            if (checkBookIssue)
-                ModelState.AddModelError("Name", "A BookIssue with the same name already exists. Please choose a different name.");
+            var checkBookIssue = false;
+            if (model.StudentId > 0 && model.BookId > 0)
+            {
+                // Check for duplicate classroom, if any
+                checkBookIssue = _smsService.CheckBookIssueExists(model.StudentId, model.BookId, model.Id);
+                if (checkBookIssue)
+                    ModelState.AddModelError("BookId", "Book already issued to student.");
+            }
 
             if (ModelState.IsValid)
             {
                 var objBookIssue = model.ToEntity();
                 objBookIssue.CreatedOn = objBookIssue.ModifiedOn = DateTime.Now;
                 objBookIssue.UserId = _userContext.CurrentUser.Id;
+                objBookIssue.IssueDate = DateTime.Now;
                 _smsService.InsertBookIssue(objBookIssue);
-                SuccessNotification("BookIssue created successfully.");
+                SuccessNotification("Book issue record created successfully.");
                 if (continueEditing)
                 {
                     return RedirectToAction("Edit", new { id = objBookIssue.Id });
@@ -256,20 +282,26 @@ namespace SMS.Areas.Admin.Controllers
             }
             else
             {
-                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                model.AvailableBooks = _smsService.GetAllBooks().Select(x => new SelectListItem()
                 {
                     Text = x.Name.Trim(),
                     Value = x.Id.ToString(),
-                    Selected = model.AcadmicYearId == x.Id
+                    Selected = model.BookId > 0 ? model.BookId == x.Id : false
                 }).ToList();
 
-                model.AvailableBookIssueStatuses = (from BookIssueStatus d in Enum.GetValues(typeof(BookIssueStatus))
-                                               select new SelectListItem
-                                               {
-                                                   Text = d.ToString(),
-                                                   Value = Convert.ToInt32(d).ToString(),
-                                                   Selected = (Convert.ToInt32(d) == model.BookIssueStatusId)
-                                               }).ToList();
+                model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem()
+                {
+                    Text = x.EmpFName.Trim() + (!string.IsNullOrEmpty(x.EmpMName) ? (" " + x.EmpMName) : "") + (!string.IsNullOrEmpty(x.EmpLName) ? (" " + x.EmpLName) : "") + ("(" + x.Username + ")"),
+                    Value = x.Id.ToString(),
+                    Selected = model.LibrarianId > 0 ? model.LibrarianId == x.Id : false
+                }).ToList();
+
+                model.AvailableStudents = _smsService.GetAllStudents().Select(x => new SelectListItem()
+                {
+                    Text = x.FName.Trim() + (!string.IsNullOrEmpty(x.MName) ? (" " + x.MName) : "") + (!string.IsNullOrEmpty(x.LName) ? (" " + x.LName) : "") + ("(" + x.UserName + ")"),
+                    Value = x.Id.ToString(),
+                    Selected = model.StudentId > 0 ? model.StudentId == x.Id : false
+                }).ToList();
                 return View(model);
             }
             return RedirectToAction("List");
@@ -285,21 +317,8 @@ namespace SMS.Areas.Admin.Controllers
 
             _roleService.Delete(id);
 
-            SuccessNotification("BookIssue deleted successfully.");
+            SuccessNotification("Book issue record deleted successfully.");
             return RedirectToAction("List");
         }
-
-        public ActionResult Toggle(int id)
-        {
-            var user = _userContext.CurrentUser;
-            if (id == 0)
-                throw new ArgumentNullException("id");
-
-            _smsService.ToggleActiveStatusBookIssue(id);
-            ViewBag.Result = "BookIssue updated Successfully";
-
-            return Json(new { Result = true });
-        }
-
     }
 }

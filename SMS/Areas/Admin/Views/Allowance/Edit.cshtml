@@ -46,7 +46,7 @@
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.DesignationId, Model.AvailableDesignations, new { @class = "mdb-select", @tabindex = "1" })
+                                                    @Html.DropDownListFor(model => model.DesignationId, Model.AvailableDesignations, "Select Designation", new { @class = "mdb-select", @tabindex = "1" })
                                                     @Html.LabelFor(model => model.DesignationId, "Designation", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger" })
                                                 </div>

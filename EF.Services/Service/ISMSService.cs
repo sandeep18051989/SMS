@@ -89,10 +89,12 @@ namespace EF.Services.Service
 		IList<FeeCategory> GetFeeCategoryByName(string name, bool? active);
 		IList<FeeCategory> SearchFeeCategories(bool? active, string category = null, string classname = null, int? acadmicyearid = null);
 		FeeCategory GetFeeCategoryByClassAndCategory(int classid, int? categoryid = null);
-		#endregion
+        void ToggleActiveStatusFeeCategory(int id);
+        bool CheckFeeCategoryExists(int catid, int classdivid, int acadmicyearid, int? id = null);
+        #endregion
 
-		#region Caste
-		void InsertCaste(Caste caste);
+        #region Caste
+        void InsertCaste(Caste caste);
 		void UpdateCaste(Caste caste);
 		void DeleteCaste(int id);
 		IList<Caste> GetAllCastes(bool? onlyActive = null);

@@ -10,7 +10,6 @@ namespace EF.Core.Data
 		public virtual Book Book { get; set; }
 		public virtual Student Student { get; set; }
 		public int StudentId { get; set; }
-		public string Username { get; set; }
 		public DateTime? IssueDate { get; set; }
 		public DateTime? StartDate { get; set; }
 		public DateTime? EndDate { get; set; }
