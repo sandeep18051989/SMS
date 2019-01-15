@@ -97,7 +97,7 @@ namespace SMS.Areas.Admin.Controllers
                             Description = x.Description,
                             Price = x.Price,
                             AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId).Name,
-                            BookStatus = x.BookStatusId > 0 ? Enum.GetValues(typeof(BookStatus)).GetValue(x.BookStatusId).ToString() : "",
+                            BookStatus = x.BookStatusId > 0 ? EnumExtensions.GetDescriptionByValue<BookStatus>(x.BookStatusId) : "",
                         }).OrderBy(x => x.Name).ToList()
                     },
                     ContentEncoding = Encoding.Default,
@@ -148,7 +148,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableBookStatuses = (from BookStatus d in Enum.GetValues(typeof(BookStatus))
                                         select new SelectListItem
                                         {
-                                            Text = d.ToString(),
+                                            Text = EnumExtensions.GetDescriptionByValue<BookStatus>(Convert.ToInt32(d)),
                                             Value = Convert.ToInt32(d).ToString(),
                                             Selected = (Convert.ToInt32(d) == model.BookStatusId)
                                         }).ToList();
@@ -192,7 +192,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableBookStatuses = (from BookStatus d in Enum.GetValues(typeof(BookStatus))
                                                select new SelectListItem
                                                {
-                                                   Text = d.ToString(),
+                                                   Text = EnumExtensions.GetDescriptionByValue<BookStatus>(Convert.ToInt32(d)),
                                                    Value = Convert.ToInt32(d).ToString(),
                                                    Selected = (Convert.ToInt32(d) == model.BookStatusId)
                                                }).ToList();
@@ -223,7 +223,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableBookStatuses = (from BookStatus d in Enum.GetValues(typeof(BookStatus))
                                            select new SelectListItem
                                            {
-                                               Text = d.ToString(),
+                                               Text = EnumExtensions.GetDescriptionByValue<BookStatus>(Convert.ToInt32(d)),
                                                Value = Convert.ToInt32(d).ToString(),
                                            }).ToList();
             return View(model);
@@ -266,7 +266,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableBookStatuses = (from BookStatus d in Enum.GetValues(typeof(BookStatus))
                                                select new SelectListItem
                                                {
-                                                   Text = d.ToString(),
+                                                   Text = EnumExtensions.GetDescriptionByValue<BookStatus>(Convert.ToInt32(d)),
                                                    Value = Convert.ToInt32(d).ToString(),
                                                    Selected = (Convert.ToInt32(d) == model.BookStatusId)
                                                }).ToList();

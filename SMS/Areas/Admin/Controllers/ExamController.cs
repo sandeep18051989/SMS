@@ -563,7 +563,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                           select new SelectListItem
                                           {
-                                              Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                              Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                               Value = Convert.ToInt32(d).ToString(),
                                               Selected = false
                                           }).ToList();
@@ -571,7 +571,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                              select new SelectListItem
                                              {
-                                                 Text = d.ToString(),
+                                                 Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                  Value = Convert.ToInt32(d).ToString(),
                                                  Selected = false
                                              }).ToList();
@@ -622,7 +622,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                               select new SelectListItem
                                               {
-                                                  Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                                  Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                                   Value = Convert.ToInt32(d).ToString(),
                                                   Selected = model.GradeSystemId == Convert.ToInt32(d)
                                               }).ToList();
@@ -630,7 +630,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                                  select new SelectListItem
                                                  {
-                                                     Text = d.ToString(),
+                                                     Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                      Value = Convert.ToInt32(d).ToString(),
                                                      Selected = model.ResultStatusId == Convert.ToInt32(d)
                                                  }).ToList();
@@ -682,7 +682,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                           select new SelectListItem
                                           {
-                                              Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                              Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                               Value = Convert.ToInt32(d).ToString(),
                                               Selected = false
                                           }).ToList();
@@ -690,7 +690,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                              select new SelectListItem
                                              {
-                                                 Text = d.ToString(),
+                                                 Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                  Value = Convert.ToInt32(d).ToString(),
                                                  Selected = false
                                              }).ToList();
@@ -741,7 +741,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                               select new SelectListItem
                                               {
-                                                  Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                                  Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                                   Value = Convert.ToInt32(d).ToString(),
                                                   Selected = false
                                               }).ToList();
@@ -749,7 +749,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                                  select new SelectListItem
                                                  {
-                                                     Text = d.ToString(),
+                                                     Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                      Value = Convert.ToInt32(d).ToString(),
                                                      Selected = false
                                                  }).ToList();
@@ -807,7 +807,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                           select new SelectListItem
                                           {
-                                              Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                              Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                               Value = Convert.ToInt32(d).ToString(),
                                               Selected = false
                                           }).ToList();
@@ -815,7 +815,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                              select new SelectListItem
                                              {
-                                                 Text = d.ToString(),
+                                                 Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                  Value = Convert.ToInt32(d).ToString(),
                                                  Selected = false
                                              }).ToList();
@@ -866,7 +866,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                               select new SelectListItem
                                               {
-                                                  Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                                  Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                                   Value = Convert.ToInt32(d).ToString(),
                                                   Selected = model.GradeSystemId == Convert.ToInt32(d)
                                               }).ToList();
@@ -874,7 +874,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                                  select new SelectListItem
                                                  {
-                                                     Text = d.ToString(),
+                                                     Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                      Value = Convert.ToInt32(d).ToString(),
                                                      Selected = model.ResultStatusId == Convert.ToInt32(d)
                                                  }).ToList();
@@ -926,7 +926,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                           select new SelectListItem
                                           {
-                                              Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                              Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                               Value = Convert.ToInt32(d).ToString(),
                                               Selected = false
                                           }).ToList();
@@ -934,7 +934,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                              select new SelectListItem
                                              {
-                                                 Text = d.ToString(),
+                                                 Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                  Value = Convert.ToInt32(d).ToString(),
                                                  Selected = false
                                              }).ToList();
@@ -985,7 +985,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                               select new SelectListItem
                                               {
-                                                  Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                                  Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                                   Value = Convert.ToInt32(d).ToString(),
                                                   Selected = false
                                               }).ToList();
@@ -993,7 +993,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                                  select new SelectListItem
                                                  {
-                                                     Text = d.ToString(),
+                                                     Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                      Value = Convert.ToInt32(d).ToString(),
                                                      Selected = false
                                                  }).ToList();
@@ -1051,7 +1051,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                           select new SelectListItem
                                           {
-                                              Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                              Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                               Value = Convert.ToInt32(d).ToString(),
                                               Selected = false
                                           }).ToList();
@@ -1059,7 +1059,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                              select new SelectListItem
                                              {
-                                                 Text = d.ToString(),
+                                                 Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                  Value = Convert.ToInt32(d).ToString(),
                                                  Selected = false
                                              }).ToList();
@@ -1110,7 +1110,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                               select new SelectListItem
                                               {
-                                                  Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                                  Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                                   Value = Convert.ToInt32(d).ToString(),
                                                   Selected = model.GradeSystemId == Convert.ToInt32(d)
                                               }).ToList();
@@ -1118,7 +1118,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                                  select new SelectListItem
                                                  {
-                                                     Text = d.ToString(),
+                                                     Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                      Value = Convert.ToInt32(d).ToString(),
                                                      Selected = model.ResultStatusId == Convert.ToInt32(d)
                                                  }).ToList();
@@ -1169,7 +1169,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                           select new SelectListItem
                                           {
-                                              Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                              Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                               Value = Convert.ToInt32(d).ToString(),
                                               Selected = false
                                           }).ToList();
@@ -1177,7 +1177,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                              select new SelectListItem
                                              {
-                                                 Text = d.ToString(),
+                                                 Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                  Value = Convert.ToInt32(d).ToString(),
                                                  Selected = false
                                              }).ToList();
@@ -1228,7 +1228,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                               select new SelectListItem
                                               {
-                                                  Text = EnumExtensions.GetEnumDescription<GradeSystem>(d),
+                                                  Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                                   Value = Convert.ToInt32(d).ToString(),
                                                   Selected = false
                                               }).ToList();
@@ -1236,7 +1236,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                                  select new SelectListItem
                                                  {
-                                                     Text = d.ToString(),
+                                                     Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                      Value = Convert.ToInt32(d).ToString(),
                                                      Selected = false
                                                  }).ToList();

@@ -86,7 +86,8 @@ namespace SMS.Areas.Admin.Controllers
                         draw = draw,
                         recordsFiltered = recordsTotal,
                         recordsTotal = recordsTotal,
-                        data = data.Select(x => new QuestionModel() {
+                        data = data.Select(x => new QuestionModel()
+                        {
                             Id = x.Id,
                             Name = x.Name,
                             SubjectId = x.SubjectId,
@@ -100,7 +101,7 @@ namespace SMS.Areas.Admin.Controllers
                             QuestionTypeId = x.QuestionTypeId,
                             RightMarks = x.RightMarks,
                             SolveTime = x.SolveTime,
-                            Difficulty = x.DifficultyLevelId > 0 ? Enum.GetValues(typeof(DifficultyLevel)).GetValue(x.DifficultyLevelId).ToString() : "",
+                            Difficulty = x.DifficultyLevelId > 0 ? EnumExtensions.GetDescriptionByValue<DifficultyLevel>(x.DifficultyLevelId) : "",
                         }).OrderBy(x => x.Name).ToList()
                     },
                     ContentEncoding = Encoding.Default,
@@ -172,6 +173,12 @@ namespace SMS.Areas.Admin.Controllers
             {
                 model = objQuestion.ToModel();
             }
+            model.OptionCount = _smsService.GetOptionsByQuestionId(model.Id).Count;
+
+            if(model.QuestionTypeId == 4)
+            {
+                model.MatchFollowingOptions = _smsService.GetOptionsByQuestionId(model.Id).Select(x => x.ToModel()).OrderBy(x => x.DisplayOrder).ToList();
+            }
 
             model.AvailableSubjects = _smsService.GetAllSubjects().Select(x => new SelectListItem()
             {
@@ -188,12 +195,12 @@ namespace SMS.Areas.Admin.Controllers
             }).OrderBy(x => x.Text).ToList();
 
             model.AvailableLevels = (from DifficultyLevel d in Enum.GetValues(typeof(DifficultyLevel))
-                                           select new SelectListItem
-                                           {
-                                               Text = d.ToString(),
-                                               Value = Convert.ToInt32(d).ToString(),
-                                               Selected = (Convert.ToInt32(d) == model.DifficultyLevelId)
-                                           }).ToList();
+                                     select new SelectListItem
+                                     {
+                                         Text = EnumExtensions.GetDescriptionByValue<DifficultyLevel>(Convert.ToInt32(d)),
+                                         Value = Convert.ToInt32(d).ToString(),
+                                         Selected = (Convert.ToInt32(d) == model.DifficultyLevelId)
+                                     }).ToList();
             return View(model);
         }
 
@@ -213,6 +220,228 @@ namespace SMS.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                // Get Options
+                var options = new List<OptionModel>();
+                var frmOptions = new List<string>();
+                switch (model.QuestionTypeId)
+                {
+                    case 1:
+                        {
+                            frmOptions = frm.AllKeys.Where(x => x.StartsWith("multiplechoice_")).ToList();
+                            if (frmOptions.Count > 0)
+                            {
+                                int count = _smsService.GetOptionsByQuestionId(model.Id).Count;
+                                int optionId = 0;
+                                int questionId = 0;
+                                foreach (var key in frmOptions)
+                                {
+                                    count += 1;
+                                    questionId = Convert.ToInt32(key.Split('_')[1]);
+                                    optionId = Convert.ToInt32(key.Split('_')[2]);
+                                    if (questionId == 0)
+                                    {
+                                        var newOption = new Option();
+                                        if (frm[key] != null && !string.IsNullOrEmpty(frm[key].ToString()))
+                                        {
+                                            newOption.Name = frm[key].ToString();
+                                            newOption.DisplayOrder = count;
+                                            newOption.CreatedOn = newOption.ModifiedOn = DateTime.Now;
+                                            newOption.QuestionId = model.Id;
+                                            newOption.UserId = _userContext.CurrentUser.Id;
+
+                                            var frmCorrectAnswer = frm.AllKeys.Where(x => x.StartsWith("correctanswer_" + questionId + "_" + optionId)).FirstOrDefault();
+                                            if (frmCorrectAnswer != null && !string.IsNullOrEmpty(frm[frmCorrectAnswer].ToString()))
+                                            {
+                                                newOption.CorrectAnswer = frm[frmCorrectAnswer].ToString();
+                                            }
+                                            else
+                                            {
+                                                newOption.CorrectAnswer = "";
+                                            }
+                                            _smsService.InsertOption(newOption);
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            frmOptions = frm.AllKeys.Where(x => x.StartsWith("multipleresponse_")).ToList();
+                            if (frmOptions.Count > 0)
+                            {
+                                int count = _smsService.GetOptionsByQuestionId(model.Id).Count;
+                                int optionId = 0;
+                                int questionId = 0;
+                                foreach (var key in frmOptions)
+                                {
+                                    count += 1;
+                                    questionId = Convert.ToInt32(key.Split('_')[1]);
+                                    optionId = Convert.ToInt32(key.Split('_')[2]);
+                                    if (questionId == 0)
+                                    {
+                                        var newOption = new Option();
+                                        if (frm[key] != null && !string.IsNullOrEmpty(frm[key].ToString()))
+                                        {
+                                            newOption.Name = frm[key].ToString();
+                                            newOption.DisplayOrder = count;
+                                            newOption.CreatedOn = newOption.ModifiedOn = DateTime.Now;
+                                            newOption.QuestionId = model.Id;
+                                            newOption.UserId = _userContext.CurrentUser.Id;
+
+                                            var frmCorrectAnswer = frm.AllKeys.Where(x => x.StartsWith("correctanswer_" + questionId + "_" + optionId)).FirstOrDefault();
+                                            if (frmCorrectAnswer != null && !string.IsNullOrEmpty(frm[frmCorrectAnswer].ToString()))
+                                            {
+                                                newOption.CorrectAnswer = frm[frmCorrectAnswer].ToString();
+                                            }
+                                            else
+                                            {
+                                                newOption.CorrectAnswer = "";
+                                            }
+                                            _smsService.InsertOption(newOption);
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            frmOptions = frm.AllKeys.Where(x => x.StartsWith("fillintheblank_")).ToList();
+                            if (frmOptions.Count > 0)
+                            {
+                                int count = _smsService.GetOptionsByQuestionId(model.Id).Count;
+                                int optionId = 0;
+                                int questionId = 0;
+                                foreach (var key in frmOptions)
+                                {
+                                    count += 1;
+                                    questionId = Convert.ToInt32(key.Split('_')[1]);
+                                    optionId = Convert.ToInt32(key.Split('_')[2]);
+                                    if (questionId == 0)
+                                    {
+                                        var newOption = new Option();
+                                        if (frm[key] != null && !string.IsNullOrEmpty(frm[key].ToString()))
+                                        {
+                                            newOption.Name = frm[key].ToString();
+                                            newOption.DisplayOrder = count;
+                                            newOption.CreatedOn = newOption.ModifiedOn = DateTime.Now;
+                                            newOption.QuestionId = model.Id;
+                                            newOption.UserId = _userContext.CurrentUser.Id;
+
+                                            var frmCorrectAnswer = frm.AllKeys.Where(x => x.StartsWith("correctanswer_" + questionId + "_" + optionId)).FirstOrDefault();
+                                            if (frmCorrectAnswer != null && !string.IsNullOrEmpty(frm[frmCorrectAnswer].ToString()))
+                                            {
+                                                newOption.CorrectAnswer = frm[frmCorrectAnswer].ToString();
+                                            }
+                                            else
+                                            {
+                                                newOption.CorrectAnswer = "";
+                                            }
+                                            _smsService.InsertOption(newOption);
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            var leftOptions = frm.AllKeys.Where(x => x.StartsWith("left_")).ToList();
+                            var rightOptions = frm.AllKeys.Where(x => x.StartsWith("right_")).ToList();
+                            string correctAnswer = "";
+                            var frmCorrectAnswer = frm.AllKeys.Where(x => x.StartsWith("correctanswer")).FirstOrDefault();
+                            if (frmCorrectAnswer != null && !string.IsNullOrEmpty(frm[frmCorrectAnswer].ToString()))
+                            {
+                                correctAnswer = frm[frmCorrectAnswer].ToString();
+                            }
+
+                            if (leftOptions.Count > 0 && rightOptions.Count > 0)
+                            {
+                                // Update Already Added Options
+                                var alreadyAddedOptions = _smsService.GetOptionsByQuestionId(model.Id);
+                                foreach (var option in alreadyAddedOptions)
+                                {
+                                    option.CorrectAnswer = correctAnswer;
+                                    _smsService.UpdateOption(option);
+                                }
+
+                                int count = alreadyAddedOptions.Count;
+                                int optionId = 0;
+                                int questionId = 0;
+                                foreach (var key in leftOptions)
+                                {
+                                    count += 1;
+                                    questionId = Convert.ToInt32(key.Split('_')[1]);
+                                    optionId = Convert.ToInt32(key.Split('_')[2]);
+                                    if (questionId == 0)
+                                    {
+                                        var newOption = new Option();
+                                        if ((frm[key] != null && !string.IsNullOrEmpty(frm[key].ToString())) && (frm["right_" + questionId + "_" + optionId] != null && !string.IsNullOrEmpty(frm["right_" + questionId + "_" + optionId].ToString())))
+                                        {
+                                            newOption.Name = frm[key].ToString() + "," + frm["right_" + questionId + "_" + optionId].ToString();
+                                            newOption.DisplayOrder = count;
+                                            newOption.CreatedOn = newOption.ModifiedOn = DateTime.Now;
+                                            newOption.QuestionId = model.Id;
+                                            newOption.UserId = _userContext.CurrentUser.Id;
+                                            newOption.CorrectAnswer = correctAnswer;
+                                            _smsService.InsertOption(newOption);
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case 5:
+                        {
+                            break;
+                        }
+                    case 6:
+                        {
+                            frmOptions = frm.AllKeys.Where(x => x.StartsWith("chooseanswer_")).ToList();
+                            if (frmOptions.Count > 0)
+                            {
+                                int count = _smsService.GetOptionsByQuestionId(model.Id).Count;
+                                int optionId = 0;
+                                int questionId = 0;
+                                foreach (var key in frmOptions)
+                                {
+                                    count += 1;
+                                    questionId = Convert.ToInt32(key.Split('_')[1]);
+                                    optionId = Convert.ToInt32(key.Split('_')[2]);
+                                    if (questionId == 0)
+                                    {
+                                        var newOption = new Option();
+                                        if (frm[key] != null && !string.IsNullOrEmpty(frm[key].ToString()))
+                                        {
+                                            newOption.Name = frm[key].ToString();
+                                            newOption.DisplayOrder = count;
+                                            newOption.CreatedOn = newOption.ModifiedOn = DateTime.Now;
+                                            newOption.QuestionId = model.Id;
+                                            newOption.UserId = _userContext.CurrentUser.Id;
+
+                                            var frmCorrectAnswer = frm.AllKeys.Where(x => x.StartsWith("correctanswer_" + questionId + "_" + optionId)).FirstOrDefault();
+                                            if (frmCorrectAnswer != null && !string.IsNullOrEmpty(frm[frmCorrectAnswer].ToString()))
+                                            {
+                                                newOption.CorrectAnswer = frm[frmCorrectAnswer].ToString();
+                                            }
+                                            else
+                                            {
+                                                newOption.CorrectAnswer = "";
+                                            }
+                                            _smsService.InsertOption(newOption);
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+
                 var objQuestion = _smsService.GetQuestionById(model.Id);
                 if (objQuestion != null)
                 {
@@ -220,6 +449,11 @@ namespace SMS.Areas.Admin.Controllers
                     objQuestion = model.ToEntity(objQuestion);
                     objQuestion.ModifiedOn = DateTime.Now;
                     _smsService.UpdateQuestion(objQuestion);
+                    SuccessNotification("Question updated successfully.");
+                    if (continueEditing)
+                    {
+                        return RedirectToAction("Edit", new { id = model.Id });
+                    }
                 }
             }
             else
@@ -241,17 +475,11 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableLevels = (from DifficultyLevel d in Enum.GetValues(typeof(DifficultyLevel))
                                          select new SelectListItem
                                          {
-                                             Text = d.ToString(),
+                                             Text = EnumExtensions.GetDescriptionByValue<DifficultyLevel>(Convert.ToInt32(d)),
                                              Value = Convert.ToInt32(d).ToString(),
                                              Selected = (Convert.ToInt32(d) == model.DifficultyLevelId)
                                          }).ToList();
                 return View(model);
-            }
-
-            SuccessNotification("Question updated successfully.");
-            if (continueEditing)
-            {
-                return RedirectToAction("Edit", new { id = model.Id });
             }
             return RedirectToAction("List");
         }
@@ -277,7 +505,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableLevels = (from DifficultyLevel d in Enum.GetValues(typeof(DifficultyLevel))
                                      select new SelectListItem
                                      {
-                                         Text = d.ToString(),
+                                         Text = EnumExtensions.GetDescriptionByValue<DifficultyLevel>(Convert.ToInt32(d)),
                                          Value = Convert.ToInt32(d).ToString(),
                                      }).ToList();
             return View(model);
@@ -328,7 +556,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableLevels = (from DifficultyLevel d in Enum.GetValues(typeof(DifficultyLevel))
                                          select new SelectListItem
                                          {
-                                             Text = d.ToString(),
+                                             Text = EnumExtensions.GetDescriptionByValue<DifficultyLevel>(Convert.ToInt32(d)),
                                              Value = Convert.ToInt32(d).ToString(),
                                              Selected = (Convert.ToInt32(d) == model.DifficultyLevelId)
                                          }).ToList();
@@ -364,7 +592,7 @@ namespace SMS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult RemoveOptionFromQuestion(int id, int optionid)
+        public ActionResult RemoveOptionFromQuestion(int id)
         {
             if (!_permissionService.Authorize("ManageQuestion"))
                 return AccessDeniedView();
@@ -372,13 +600,36 @@ namespace SMS.Areas.Admin.Controllers
             if (id == 0)
                 throw new Exception("Question id not found");
 
-            var objQuestion = _smsService.GetQuestionById(id);
-            if (objQuestion != null)
+            var selectOption = _smsService.GetOptionById(id);
+            if (selectOption != null)
             {
-                var selectOption = _smsService.GetOptionById(id);
-                if (selectOption != null)
+                var question = _smsService.GetQuestionById(selectOption.QuestionId);
+
+                // Delete Option
+                _smsService.DeleteOption(id);
+
+                if (question != null && question.QuestionTypeId == 4)
                 {
-                    _smsService.DeleteOption(optionid);
+                    var allOptions = _smsService.GetOptionsByQuestionId(question.Id);
+                    if (allOptions.Count > 0)
+                    {
+                        var newAnswer = new List<string>();
+                        foreach (var option in allOptions)
+                        {
+                            var correctSequence = option.CorrectAnswer.Split(',');
+                            newAnswer.Clear();
+                            for (int i = 0; i < correctSequence.Length; i++)
+                            {
+                                if(allOptions.Any(x => x.DisplayOrder == Convert.ToInt32(correctSequence[i])))
+                                {
+                                    newAnswer.Add(correctSequence[i]);
+                                }
+                            }
+
+                            option.CorrectAnswer = string.Join(",", newAnswer.ToArray());
+                            _smsService.UpdateOption(option);
+                        }
+                    }
                 }
             }
 

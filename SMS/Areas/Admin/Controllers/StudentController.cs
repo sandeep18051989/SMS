@@ -216,7 +216,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableAdmissionStatuses = (from AdmissionStatus d in Enum.GetValues(typeof(AdmissionStatus))
                                        select new SelectListItem
                                        {
-                                           Text = d.ToString(),
+                                           Text = EnumExtensions.GetDescriptionByValue<AdmissionStatus>(Convert.ToInt32(d)),
                                            Value = Convert.ToInt32(d).ToString(),
                                            Selected = (model.AdmissionStatusId.HasValue && Convert.ToInt32(d) == model.AdmissionStatusId)
                                        }).ToList();
@@ -224,7 +224,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
                                        select new SelectListItem
                                        {
-                                           Text = d.ToString(),
+                                           Text = EnumExtensions.GetDescriptionByValue<PersonalityStatus>(Convert.ToInt32(d)),
                                            Value = Convert.ToInt32(d).ToString(),
                                            Selected = (model.PersonalityStatusId.HasValue && Convert.ToInt32(d) == model.PersonalityStatusId)
                                        }).ToList();
@@ -296,7 +296,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableAdmissionStatuses = (from AdmissionStatus d in Enum.GetValues(typeof(AdmissionStatus))
                                                     select new SelectListItem
                                                     {
-                                                        Text = d.ToString(),
+                                                        Text = EnumExtensions.GetDescriptionByValue<AdmissionStatus>(Convert.ToInt32(d)),
                                                         Value = Convert.ToInt32(d).ToString(),
                                                         Selected = (model.AdmissionStatusId.HasValue && Convert.ToInt32(d) == model.AdmissionStatusId)
                                                     }).ToList();
@@ -304,7 +304,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
                                                       select new SelectListItem
                                                       {
-                                                          Text = d.ToString(),
+                                                          Text = EnumExtensions.GetDescriptionByValue<PersonalityStatus>(Convert.ToInt32(d)),
                                                           Value = Convert.ToInt32(d).ToString(),
                                                           Selected = (model.PersonalityStatusId.HasValue && Convert.ToInt32(d) == model.PersonalityStatusId)
                                                       }).ToList();
@@ -360,7 +360,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableAdmissionStatuses = (from AdmissionStatus d in Enum.GetValues(typeof(AdmissionStatus))
                                                 select new SelectListItem
                                                 {
-                                                    Text = d.ToString(),
+                                                    Text = EnumExtensions.GetDescriptionByValue<AdmissionStatus>(Convert.ToInt32(d)),
                                                     Value = Convert.ToInt32(d).ToString(),
                                                     Selected = false
                                                 }).ToList();
@@ -368,7 +368,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
                                                   select new SelectListItem
                                                   {
-                                                      Text = d.ToString(),
+                                                      Text = EnumExtensions.GetDescriptionByValue<PersonalityStatus>(Convert.ToInt32(d)),
                                                       Value = Convert.ToInt32(d).ToString(),
                                                       Selected = false
                                                   }).ToList();
@@ -460,7 +460,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableAdmissionStatuses = (from AdmissionStatus d in Enum.GetValues(typeof(AdmissionStatus))
                                                     select new SelectListItem
                                                     {
-                                                        Text = d.ToString(),
+                                                        Text = EnumExtensions.GetDescriptionByValue<AdmissionStatus>(Convert.ToInt32(d)),
                                                         Value = Convert.ToInt32(d).ToString(),
                                                         Selected = (model.AdmissionStatusId.HasValue && Convert.ToInt32(d) == model.AdmissionStatusId)
                                                     }).ToList();
@@ -468,7 +468,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
                                                       select new SelectListItem
                                                       {
-                                                          Text = d.ToString(),
+                                                          Text = EnumExtensions.GetDescriptionByValue<PersonalityStatus>(Convert.ToInt32(d)),
                                                           Value = Convert.ToInt32(d).ToString(),
                                                           Selected = (model.PersonalityStatusId.HasValue && Convert.ToInt32(d) == model.PersonalityStatusId)
                                                       }).ToList();

@@ -16,7 +16,7 @@
 						<button type="submit" name="save" class="btn btn-primary mr-auto">
 							<i class="fa fa-save">&nbsp;&nbsp;</i>Create
 						</button>
-						<button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
+						<button type="submit" style="display:none;" value="Create" name="save-continue" class="btn btn-primary mr-auto">
 							<i class="fa fa-save">&nbsp;&nbsp;</i>Create & Continue
 						</button>
 					</div>
@@ -64,7 +64,7 @@
 										<div class="row text-left">
 											<div class="col-md-6 mb-4">
 												<div class="md-form">
-													@Html.DropDownListFor(model => model.QuestionTypeId, Model.AvailableQuestionTypes, new { @class = "mdb-select", @tabindex = "3" })
+													@Html.DropDownListFor(model => model.QuestionTypeId, Model.AvailableQuestionTypes, "Select Question Type", new { @class = "mdb-select", @tabindex = "3" })
 													@Html.LabelFor(model => model.QuestionTypeId, "Question Type", htmlAttributes: new { @class = "control-label" })
 													@Html.ValidationMessageFor(model => model.QuestionTypeId, "", new { @class = "text-danger" })
 												</div>
@@ -73,7 +73,7 @@
 										<div class="row text-left">
 											<div class="col-xs-12 col-md-4 mb-4">
 												<div class="md-form">
-													@Html.DropDownListFor(model => model.SubjectId, Model.AvailableSubjects, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "4" })
+													@Html.DropDownListFor(model => model.SubjectId, Model.AvailableSubjects, "Select Subject", new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "4" })
 													@Html.LabelFor(model => model.SubjectId, "Subject", htmlAttributes: new { @class = "control-label" })
 													@Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
 												</div>
@@ -91,7 +91,7 @@
                                         <div class="row text-left">
                                             <div class="col-xs-12 col-md-4 mb-4">
                                                 <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.DifficultyLevelId, Model.AvailableLevels, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "6" })
+                                                    @Html.DropDownListFor(model => model.DifficultyLevelId, Model.AvailableLevels, "Select Difficulty Level", new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "6" })
                                                     @Html.LabelFor(model => model.DifficultyLevelId, "Level", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.DifficultyLevelId, "", new { @class = "text-danger" })
                                                 </div>

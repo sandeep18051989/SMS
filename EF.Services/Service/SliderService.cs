@@ -79,7 +79,7 @@ namespace EF.Services.Service
                 var id = (int) item;
                 displayAreasList.Add(new SelectListItem()
                 {
-                    Text = Enum.GetName(typeof(DisplayAreas), item),
+                    Text = EnumExtensions.GetDescriptionByValue<DisplayAreas>(id),
                     Value = id.ToString()
                 });
             }

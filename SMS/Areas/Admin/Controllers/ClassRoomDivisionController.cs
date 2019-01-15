@@ -205,7 +205,7 @@ namespace SMS.Areas.Admin.Controllers
                             EndDate = x.EndDate,
                             StartDate = x.StartDate,
                             GradeSystemId = x.GradeSystemId,
-                            GradeSystem = x.GradeSystemId > 0 ? Enum.GetValues(typeof(GradeSystem)).GetValue(x.GradeSystemId.Value).ToString() : "",
+                            GradeSystem = x.GradeSystemId.HasValue && x.GradeSystemId.Value > 0 ? EnumExtensions.GetDescriptionByValue<GradeSystem>(x.GradeSystemId.Value) : "",
                             ClassRoom = _smsService.GetClassRoomById(x.ClassRoomId).Number
                         })
                     },
@@ -639,14 +639,14 @@ namespace SMS.Areas.Admin.Controllers
                     AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
                                             select new SelectListItem
                                             {
-                                                Text = d.ToString(),
+                                                Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
                                                 Value = Convert.ToInt32(d).ToString(),
                                                 Selected = (Convert.ToInt32(d) == x.GradeSystemId)
                                             }).ToList(),
                     AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
                                             select new SelectListItem
                                             {
-                                                Text = d.ToString(),
+                                                Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
                                                 Value = Convert.ToInt32(d).ToString(),
                                                 Selected = (Convert.ToInt32(d) == x.ResultStatusId)
                                             }).ToList(),

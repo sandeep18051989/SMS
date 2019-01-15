@@ -13,6 +13,7 @@ namespace SMS.Models
             AvailableSubjects = new List<SelectListItem>();
             AvailableQuestionTypes = new List<SelectListItem>();
             AvailableLevels = new List<SelectListItem>();
+            MatchFollowingOptions = new List<OptionModel>();
         }
         public string Name { get; set; }
         [AllowHtml]
@@ -28,7 +29,10 @@ namespace SMS.Models
         public double NegativeMarks { get; set; }
         public bool IsTimeBound { get; set; }
         public bool IsActive { get; set; }
+
+        public int OptionCount { get; set; }
         public IList<SelectListItem> AvailableSubjects { get; set; }
+        public IList<OptionModel> MatchFollowingOptions { get; set; }
         public IList<SelectListItem> AvailableQuestionTypes { get; set; }
         public IList<SelectListItem> AvailableLevels { get; set; }
     }

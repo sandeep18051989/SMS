@@ -146,7 +146,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableContractTypes = (from ContractType d in Enum.GetValues(typeof(ContractType))
                                                 select new SelectListItem
                                                 {
-                                                    Text = d.ToString(),
+                                                    Text = EnumExtensions.GetDescriptionByValue<ContractType>(Convert.ToInt32(d)),
                                                     Value = Convert.ToInt32(d).ToString(),
                                                     Selected = (Convert.ToInt32(d) == model.ContractTypeId)
                                                 }).ToList();
@@ -154,7 +154,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableContractStatuses = (from ContractStatus d in Enum.GetValues(typeof(ContractStatus))
                                         select new SelectListItem
                                         {
-                                            Text = d.ToString(),
+                                            Text = EnumExtensions.GetDescriptionByValue<ContractStatus>(Convert.ToInt32(d)),
                                             Value = Convert.ToInt32(d).ToString(),
                                             Selected = (Convert.ToInt32(d) == model.ContractStatusId)
                                         }).ToList();
@@ -221,7 +221,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableContractTypes = (from ContractType d in Enum.GetValues(typeof(ContractType))
                                                 select new SelectListItem
                                                 {
-                                                    Text = d.ToString(),
+                                                    Text = EnumExtensions.GetDescriptionByValue<ContractType>(Convert.ToInt32(d)),
                                                     Value = Convert.ToInt32(d).ToString(),
                                                     Selected = (Convert.ToInt32(d) == model.ContractTypeId)
                                                 }).ToList();
@@ -229,7 +229,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableContractStatuses = (from ContractStatus d in Enum.GetValues(typeof(ContractStatus))
                                                    select new SelectListItem
                                                    {
-                                                       Text = d.ToString(),
+                                                       Text = EnumExtensions.GetDescriptionByValue<ContractStatus>(Convert.ToInt32(d)),
                                                        Value = Convert.ToInt32(d).ToString(),
                                                        Selected = (Convert.ToInt32(d) == model.ContractStatusId)
                                                    }).ToList();
@@ -284,7 +284,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableContractTypes = (from ContractType d in Enum.GetValues(typeof(ContractType))
                                             select new SelectListItem
                                             {
-                                                Text = d.ToString(),
+                                                Text = EnumExtensions.GetDescriptionByValue<ContractType>(Convert.ToInt32(d)),
                                                 Value = Convert.ToInt32(d).ToString(),
                                                 Selected = false
                                             }).ToList();
@@ -292,7 +292,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableContractStatuses = (from ContractStatus d in Enum.GetValues(typeof(ContractStatus))
                                                select new SelectListItem
                                                {
-                                                   Text = d.ToString(),
+                                                   Text = EnumExtensions.GetDescriptionByValue<ContractStatus>(Convert.ToInt32(d)),
                                                    Value = Convert.ToInt32(d).ToString(),
                                                    Selected = false
                                                }).ToList();
@@ -357,7 +357,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableContractTypes = (from ContractType d in Enum.GetValues(typeof(ContractType))
                                                 select new SelectListItem
                                                 {
-                                                    Text = d.ToString(),
+                                                    Text = EnumExtensions.GetDescriptionByValue<ContractType>(Convert.ToInt32(d)),
                                                     Value = Convert.ToInt32(d).ToString(),
                                                     Selected = (Convert.ToInt32(d) == model.ContractTypeId)
                                                 }).ToList();
@@ -365,7 +365,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableContractStatuses = (from ContractStatus d in Enum.GetValues(typeof(ContractStatus))
                                                    select new SelectListItem
                                                    {
-                                                       Text = d.ToString(),
+                                                       Text = EnumExtensions.GetDescriptionByValue<ContractStatus>(Convert.ToInt32(d)),
                                                        Value = Convert.ToInt32(d).ToString(),
                                                        Selected = (Convert.ToInt32(d) == model.ContractStatusId)
                                                    }).ToList();

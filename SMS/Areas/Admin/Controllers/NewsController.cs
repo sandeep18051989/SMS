@@ -233,8 +233,8 @@ namespace SMS.Areas.Admin.Controllers
 			model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
 												select new SelectListItem
 												{
-													Text = d.ToString(),
-													Value = Convert.ToInt32(d).ToString(),
+													Text = EnumExtensions.GetDescriptionByValue<NewsStatus>(Convert.ToInt32(d)),
+                                                    Value = Convert.ToInt32(d).ToString(),
 													Selected = (Convert.ToInt32(d) == model.NewsStatusId)
 												}).ToList();
 
@@ -287,8 +287,8 @@ namespace SMS.Areas.Admin.Controllers
 				model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
 													select new SelectListItem
 													{
-														Text = d.ToString(),
-														Value = Convert.ToInt32(d).ToString(),
+														Text = EnumExtensions.GetDescriptionByValue<NewsStatus>(Convert.ToInt32(d)),
+                                                        Value = Convert.ToInt32(d).ToString(),
 														Selected = (Convert.ToInt32(d) == model.NewsStatusId)
 													}).ToList();
 
@@ -320,8 +320,8 @@ namespace SMS.Areas.Admin.Controllers
 			model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
 												select new SelectListItem
 												{
-													Text = d.ToString(),
-													Value = Convert.ToInt32(d).ToString(),
+													Text = EnumExtensions.GetDescriptionByValue<NewsStatus>(Convert.ToInt32(d)),
+                                                    Value = Convert.ToInt32(d).ToString(),
 													Selected = (Convert.ToInt32(d) == model.NewsStatusId)
 												}).ToList();
 
@@ -370,8 +370,8 @@ namespace SMS.Areas.Admin.Controllers
 				model.AvailableStatuses = (from NewsStatus d in Enum.GetValues(typeof(NewsStatus))
 													select new SelectListItem
 													{
-														Text = d.ToString(),
-														Value = Convert.ToInt32(d).ToString(),
+														Text = EnumExtensions.GetDescriptionByValue<NewsStatus>(Convert.ToInt32(d)),
+                                                        Value = Convert.ToInt32(d).ToString(),
 														Selected = (Convert.ToInt32(d) == model.NewsStatusId)
 													}).ToList();
 

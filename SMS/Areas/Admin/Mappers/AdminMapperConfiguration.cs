@@ -361,6 +361,8 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<Question, QuestionModel>()
                     .ForMember(dest => dest.AvailableLevels, mo => mo.Ignore())
                     .ForMember(dest => dest.Difficulty, mo => mo.Ignore())
+                    .ForMember(dest => dest.MatchFollowingOptions, mo => mo.Ignore())
+                    .ForMember(dest => dest.OptionCount, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableQuestionTypes, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableSubjects, mo => mo.Ignore());
                 cfg.CreateMap<QuestionModel, Question>()

@@ -67,3 +67,4 @@ E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.pdb
 D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csprojAssemblyReference.cache
 D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CopyComplete
+E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.csprojResolveAssemblyReference.cache

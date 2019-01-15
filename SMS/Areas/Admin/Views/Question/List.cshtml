@@ -44,7 +44,7 @@
         $("span.nav-title:contains('Questions')").closest("li").addClass("active");
 
         // Initiallize Datatable
-        $('.custom-table').DataTable({
+        var table = $('.custom-table').DataTable({
             "processing": true, // for show progress bar
             "serverSide": true, // for process server side
             "filter": true, // this is for disable filter (search box)
@@ -206,8 +206,7 @@
         function format(d) {
             return '<table cellpadding="4" cellspacing="0" border="0" style="padding-left:50px;">' +
                 '<tr>' +
-                '<td colspan="6">Description</td>' +
-                '<td style="white-space: pre-wrap;" colspan="2"><span class="log-trace">' + d.Explanation + '</span></td>' +
+                '<td style="white-space: pre-wrap;" colspan="6"><div class="log-trace">' + d.Explanation + '</span></td>' +
                 '</tr>' +
                 '<tr>' +
                 '</tr>' +

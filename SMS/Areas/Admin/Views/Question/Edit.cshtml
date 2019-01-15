@@ -11,6 +11,7 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.QuestionTypeId)
                 <div class="row">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
                         <h3 class="section-heading mr-auto">EDIT QUESTION</h3>
@@ -19,7 +20,7 @@
                         </button>&nbsp;&nbsp;
                         <button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Save & Continue
-                        </button>
+                        </button>&nbsp;&nbsp;<span id="question-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
                     </div>
                 </div>
                 <div class="row">
@@ -71,7 +72,7 @@
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.QuestionTypeId, Model.AvailableQuestionTypes, new { @class = "mdb-select", @tabindex = "3" })
+                                                    @Html.DropDownListFor(model => model.QuestionTypeId, Model.AvailableQuestionTypes, "Select Question Type", new { @class = "mdb-select", @tabindex = "3", @readonly="readonly", @disabled="disabled" })
                                                     @Html.LabelFor(model => model.QuestionTypeId, "Question Type", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.QuestionTypeId, "", new { @class = "text-danger" })
                                                 </div>
@@ -80,7 +81,7 @@
                                         <div class="row text-left">
                                             <div class="col-xs-12 col-md-4 mb-4">
                                                 <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.SubjectId, Model.AvailableSubjects, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "4" })
+                                                    @Html.DropDownListFor(model => model.SubjectId, Model.AvailableSubjects, "Select Subject", new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "4" })
                                                     @Html.LabelFor(model => model.SubjectId, "Subject", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
                                                 </div>
@@ -98,7 +99,7 @@
                                         <div class="row text-left">
                                             <div class="col-xs-12 col-md-4 mb-4">
                                                 <div class="md-form">
-                                                    @Html.DropDownListFor(model => model.DifficultyLevelId, Model.AvailableLevels, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "6" })
+                                                    @Html.DropDownListFor(model => model.DifficultyLevelId, Model.AvailableLevels, "Select Difficulty Level", new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "6" })
                                                     @Html.LabelFor(model => model.DifficultyLevelId, "Level", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.DifficultyLevelId, "", new { @class = "text-danger" })
                                                 </div>
@@ -197,3 +198,4 @@
 
     });
 </script>
+@Html.DeleteConfirmation("question-delete")

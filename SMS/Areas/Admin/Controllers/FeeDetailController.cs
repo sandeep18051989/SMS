@@ -106,7 +106,7 @@ namespace SMS.Areas.Admin.Controllers
                             TotalFees = x.TotalFees,
                             UserId = x.UserId,
                             Student = _smsService.GetStudentById(x.StudentId).FName + "(" + _smsService.GetStudentById(x.StudentId).UserName + ")",
-                            Status = x.StatusId > 0 ? Enum.GetValues(typeof(FeeStatus)).GetValue(x.StatusId).ToString() : "",
+                            Status = x.StatusId > 0 ? EnumExtensions.GetDescriptionByValue<FeeStatus>(x.StatusId) : "",
                             StringDate = x.Date.Value.ToString("U")
                         }).OrderByDescending(x => x.CreatedOn).ToList()
                     },
@@ -172,7 +172,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableStatuses = (from FeeStatus d in Enum.GetValues(typeof(FeeStatus))
                                            select new SelectListItem
                                            {
-                                               Text = d.ToString(),
+                                               Text = EnumExtensions.GetDescriptionByValue<FeeStatus>(Convert.ToInt32(d)),
                                                Value = Convert.ToInt32(d).ToString(),
                                                Selected = (Convert.ToInt32(d) == model.StatusId)
                                            }).ToList();
@@ -231,7 +231,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableStatuses = (from FeeStatus d in Enum.GetValues(typeof(FeeStatus))
                                            select new SelectListItem
                                            {
-                                               Text = d.ToString(),
+                                               Text = EnumExtensions.GetDescriptionByValue<FeeStatus>(Convert.ToInt32(d)),
                                                Value = Convert.ToInt32(d).ToString(),
                                                Selected = (Convert.ToInt32(d) == model.StatusId)
                                            }).ToList();
@@ -281,7 +281,7 @@ namespace SMS.Areas.Admin.Controllers
             model.AvailableStatuses = (from FeeStatus d in Enum.GetValues(typeof(FeeStatus))
                                        select new SelectListItem
                                        {
-                                           Text = d.ToString(),
+                                           Text = EnumExtensions.GetDescriptionByValue<FeeStatus>(Convert.ToInt32(d)),
                                            Value = Convert.ToInt32(d).ToString(),
                                        }).ToList();
 
@@ -340,7 +340,7 @@ namespace SMS.Areas.Admin.Controllers
                 model.AvailableStatuses = (from FeeStatus d in Enum.GetValues(typeof(FeeStatus))
                                            select new SelectListItem
                                            {
-                                               Text = d.ToString(),
+                                               Text = EnumExtensions.GetDescriptionByValue<FeeStatus>(Convert.ToInt32(d)),
                                                Value = Convert.ToInt32(d).ToString(),
                                                Selected = (Convert.ToInt32(d) == model.StatusId)
                                            }).ToList();

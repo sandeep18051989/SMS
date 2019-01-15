@@ -2796,7 +2796,7 @@ namespace EF.Services.Service
             var option = _optionRepository.GetByID(id);
             if (option != null)
             {
-                _optionRepository.Update(option);
+                _optionRepository.Delete(option);
             }
         }
         public IList<Option> GetOptionsByQuestionId(int questionid)

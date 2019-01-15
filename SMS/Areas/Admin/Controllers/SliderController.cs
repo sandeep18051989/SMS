@@ -91,7 +91,7 @@ namespace SMS.Areas.Admin.Controllers
                             UserId = x.UserId,
                             CreatedOn = x.CreatedOn,
                             DisplayArea = x.DisplayArea,
-                            DisplayAreaString = x.DisplayArea > 0 ? Enum.GetValues(typeof(DisplayAreas)).GetValue(x.DisplayArea).ToString() : "",
+                            DisplayAreaString = x.DisplayArea > 0 ? EnumExtensions.GetDescriptionByValue<DisplayAreas>(x.DisplayArea) : "",
                             DisplayOrder = x.DisplayOrder,
                             MaxPictures = x.MaxPictures,
                             ShowCaption = x.ShowCaption,
@@ -255,7 +255,7 @@ namespace SMS.Areas.Admin.Controllers
             var displayAreasList = new Dictionary<int, string>();
             foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
             {
-                displayAreasList.Add((int)item, Enum.GetName(typeof(DisplayAreas), item));
+                displayAreasList.Add((int)item, EnumExtensions.GetDescriptionByValue<DisplayAreas>(Convert.ToInt32(item)));
             }
             model.AvailableAreas.Add(new SelectListItem() { Text = "Select Display Area", Value = "0", Selected = true });
             foreach (var item in displayAreasList)
@@ -294,7 +294,7 @@ namespace SMS.Areas.Admin.Controllers
                 var displayAreasList = new Dictionary<int, string>();
                 foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
                 {
-                    displayAreasList.Add((int)item, Enum.GetName(typeof(DisplayAreas), item));
+                    displayAreasList.Add((int)item, EnumExtensions.GetDescriptionByValue<DisplayAreas>(Convert.ToInt32(item)));
                 }
                 model.AvailableAreas.Clear();
                 model.AvailableAreas.Add(new SelectListItem() { Text = "Select Display Area", Value = "0", Selected = true });
@@ -323,7 +323,7 @@ namespace SMS.Areas.Admin.Controllers
             var displayAreasList = new Dictionary<int, string>();
             foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
             {
-                displayAreasList.Add((int)item, Enum.GetName(typeof(DisplayAreas), item));
+                displayAreasList.Add((int)item, EnumExtensions.GetDescriptionByValue<DisplayAreas>(Convert.ToInt32(item)));
             }
             model.AvailableAreas.Add(new SelectListItem() { Text = "Select Display Area", Value = "0", Selected = true });
             foreach (var item in displayAreasList)
@@ -363,7 +363,7 @@ namespace SMS.Areas.Admin.Controllers
                 var displayAreasList = new Dictionary<int, string>();
                 foreach (var item in Enum.GetValues(typeof(DisplayAreas)))
                 {
-                    displayAreasList.Add((int)item, Enum.GetName(typeof(DisplayAreas), item));
+                    displayAreasList.Add((int)item, EnumExtensions.GetDescriptionByValue<DisplayAreas>(Convert.ToInt32(item)));
                 }
                 model.AvailableAreas.Clear();
                 model.AvailableAreas.Add(new SelectListItem() { Text = "Select Display Area", Value = "0", Selected = true });

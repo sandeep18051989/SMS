@@ -1982,9 +1982,13 @@ span.log-url {
    appearance: none;
    margin: -10px; 
  }
-
 .withampm input[type=time]::-webkit-datetime-edit-ampm-field {
    display: inline-block;
  }
-#btn-remove-option{position:absolute;top:-5px;right:-5px;border-radius:5px;}
+#btn-remove-option{font-family:Tahoma,sans-serif;font-size:10px;padding: 2px 5px 4px 5px;background-color: red;border: 1px solid red;color: #fff;font-weight: bold;border-radius: 10px;position: absolute;top: 60%;right: 0%;}
 .option-wrapper{position:relative;}
+.display-inline{display:inline-block !important;vertical-align:middle !important;}
+.options [type="checkbox"] + label::before{top:10px;}
+.options.choice [type="checkbox"] + label,.options.choice [type="radio"] + label{width:100%;}
+.match-following .form-row{position:relative;}
+.match-following .form-row #btn-remove-option{top:25%;}

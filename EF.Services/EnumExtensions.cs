@@ -87,5 +87,10 @@ namespace EF.Services
             }
             return descs;
         }
+
+        public static string GetDescriptionByValue<TEnum>(int value)
+        {
+            return GetEnumDescription((Enum)(object)((TEnum)(object)value)); 
+        }
     }
 }

@@ -245,8 +245,8 @@ namespace SMS.Areas.Admin.Controllers
 			model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
 															  select new SelectListItem
 															  {
-																  Text = d.ToString(),
-																  Value = Convert.ToInt32(d).ToString(),
+																  Text = EnumExtensions.GetDescriptionByValue<PersonalityStatus>(Convert.ToInt32(d)),
+                                                                  Value = Convert.ToInt32(d).ToString(),
 																  Selected = (Convert.ToInt32(d) == model.PersonalityStatusId)
 															  }).ToList();
 
@@ -286,8 +286,8 @@ namespace SMS.Areas.Admin.Controllers
 				model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
 																  select new SelectListItem
 																  {
-																	  Text = d.ToString(),
-																	  Value = Convert.ToInt32(d).ToString(),
+																	  Text = EnumExtensions.GetDescriptionByValue<PersonalityStatus>(Convert.ToInt32(d)),
+                                                                      Value = Convert.ToInt32(d).ToString(),
 																	  Selected = (Convert.ToInt32(d) == model.PersonalityStatusId)
 																  }).ToList();
 				return View(model);
@@ -314,8 +314,8 @@ namespace SMS.Areas.Admin.Controllers
 			model.AvailablePersonalityStatuses = (from PersonalityStatus d in Enum.GetValues(typeof(PersonalityStatus))
 															  select new SelectListItem
 															  {
-																  Text = d.ToString(),
-																  Value = Convert.ToInt32(d).ToString(),
+																  Text = EnumExtensions.GetDescriptionByValue<PersonalityStatus>(Convert.ToInt32(d)),
+                                                                  Value = Convert.ToInt32(d).ToString(),
 																  Selected = (Convert.ToInt32(d) == model.PersonalityStatusId)
 															  }).ToList();
 			return View(model);
