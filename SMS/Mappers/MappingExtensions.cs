@@ -135,17 +135,17 @@ namespace SMS.Mappers
 
 		#region Student Assessment
 
-		public static StudentAssessmentModel ToModel(this StudentAssessment entity)
+		public static AssessmentStudentModel ToModel(this AssessmentStudent entity)
 		{
-			return entity.MapTo<StudentAssessment, StudentAssessmentModel>();
+			return entity.MapTo<AssessmentStudent, AssessmentStudentModel>();
 		}
 
-		public static StudentAssessment ToEntity(this StudentAssessmentModel model)
+		public static AssessmentStudent ToEntity(this AssessmentStudentModel model)
 		{
-			return model.MapTo<StudentAssessmentModel, StudentAssessment>();
+			return model.MapTo<AssessmentStudentModel, AssessmentStudent>();
 		}
 
-		public static StudentAssessment ToEntity(this StudentAssessmentModel model, StudentAssessment destination)
+		public static AssessmentStudent ToEntity(this AssessmentStudentModel model, AssessmentStudent destination)
 		{
 			return model.MapTo(destination);
 		}

@@ -182,7 +182,7 @@ namespace SMS.Areas.Admin.Controllers
 
             model.AvailableSubjects = _smsService.GetAllSubjects().Select(x => new SelectListItem()
             {
-                Text = x.Name.Trim(),
+                Text = x.Name.Trim() + "(" + x.Code + ")",
                 Value = x.Id.ToString(),
                 Selected = model.SubjectId > 0 ? model.SubjectId == x.Id : false
             }).ToList();
@@ -460,7 +460,7 @@ namespace SMS.Areas.Admin.Controllers
             {
                 model.AvailableSubjects = _smsService.GetAllSubjects().Select(x => new SelectListItem()
                 {
-                    Text = x.Name.Trim(),
+                    Text = x.Name.Trim() + "(" + x.Code + ")",
                     Value = x.Id.ToString(),
                     Selected = model.SubjectId > 0 ? model.SubjectId == x.Id : false
                 }).ToList();
@@ -492,7 +492,7 @@ namespace SMS.Areas.Admin.Controllers
             var model = new QuestionModel();
             model.AvailableSubjects = _smsService.GetAllSubjects().Select(x => new SelectListItem()
             {
-                Text = x.Name.Trim(),
+                Text = x.Name.Trim() + "(" + x.Code + ")",
                 Value = x.Id.ToString(),
             }).ToList();
 
@@ -541,7 +541,7 @@ namespace SMS.Areas.Admin.Controllers
             {
                 model.AvailableSubjects = _smsService.GetAllSubjects().Select(x => new SelectListItem()
                 {
-                    Text = x.Name.Trim(),
+                    Text = x.Name.Trim() + "(" + x.Code + ")",
                     Value = x.Id.ToString(),
                     Selected = model.SubjectId > 0 ? model.SubjectId == x.Id : false
                 }).ToList();

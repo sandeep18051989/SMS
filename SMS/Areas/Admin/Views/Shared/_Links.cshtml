@@ -472,6 +472,33 @@
             }
         </li>
         <li class="nav-item">
+            <a class="dropdown-btn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-icon"><i class="fa fa-cubes"></i> </span>
+                <span class="nav-title">
+                    Assessments
+                    @if (_permissionService.Authorize("ManageAssessment"))
+                    {
+                        <i class="fa fa-angle-down rotate-icon"></i>
+                    }
+                </span>
+            </a>
+            @if (_permissionService.Authorize("ManageAssessment"))
+            {
+                <div class="dropdown-container">
+                    <a class="nav-link" href="@Url.Action("List", "Assessment", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            List
+                        </span>
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Create", "Assessment", new {Area = "Admin"})">
+                        <span class="nav-title">
+                            Create
+                        </span>
+                    </a>
+                </div>
+            }
+        </li>
+        <li class="nav-item">
             <a class="@(_permissionService.Authorize("ManageHomework") ? "dropdown-btn" : "")" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="nav-icon"><i class="fa fa-user-circle-o"></i> </span>
                 <span class="nav-title">

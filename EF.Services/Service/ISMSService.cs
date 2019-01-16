@@ -470,23 +470,27 @@ namespace EF.Services.Service
 		void UpdateAssessment(Assessment assessment);
 		void DeleteAssessment(int id);
 
-		IList<StudentAssessment> GetAssessmentByStudentId(int studentid, bool? active = null, bool? completed = null,
+		IList<AssessmentStudent> GetAssessmentByStudentId(int studentid, bool? active = null, bool? completed = null,
 			DateTime? starttime = null, DateTime? endtime = null);
 
 		IList<Assessment> SearchAssessments(int? difficultylevel = null, bool? onlytimebound = null,
 			bool? active = null, DateTime? starttime = null, DateTime? endtime = null);
 
 		Assessment GetAssessmentById(int id);
-		StudentAssessment GetStudentAssessmentById(int id);
-		void InsertstudentAssessment(StudentAssessment studentAssessment);
-		void UpdatestudentAssessment(StudentAssessment studentAssessment);
+		AssessmentStudent GetStudentAssessmentById(int id);
+		void InsertstudentAssessment(AssessmentStudent studentAssessment);
+		void UpdatestudentAssessment(AssessmentStudent studentAssessment);
 		void DeletestudentAssessment(int id);
+        IList<Assessment> GetAllAssessments(bool? onlyActive = null);
+        bool CheckAssessmentExists(string name, int? id = null);
+        void ToggleActiveStatusAssessment(int id);
+        IList<AssessmentStudent> GetAllAssessmentsByStudent(int id);
 
-		#endregion
+        #endregion
 
-		#region Global Settings
+        #region Global Settings
 
-		Settings GetSettingByKey(string key, int userid = 0);
+        Settings GetSettingByKey(string key, int userid = 0);
 
         #endregion
 

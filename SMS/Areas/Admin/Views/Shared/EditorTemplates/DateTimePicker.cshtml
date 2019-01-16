@@ -1,0 +1,11 @@
+﻿@model DateTime?
+@Html.TextBoxFor(model => model, new { @class = "form-control", @value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy HH:mm tt") : "" : ""), @data_value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy HH:mm tt") : "" : ""), @autocomplete="false", @onkeydown = "return false" })
+<script type="text/javascript">
+    $(function () {
+        $('#@Html.IdFor(model => model)').datetimepicker({
+            format: 'DD MMMM YYYY hh:mm a',
+            inline: true,
+            sideBySide: true,
+        });
+    });
+</script>

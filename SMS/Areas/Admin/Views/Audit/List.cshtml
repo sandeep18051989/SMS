@@ -31,7 +31,7 @@
                     <div class="col-md-12">
                         <br />
                         <div class="form-group">
-                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Event Type</th>
@@ -83,7 +83,7 @@
                                 "render": function (data, type, row) {
                                     if (type === "display" && row.LogDetails != null && row.LogDetails.length > 0) {
                                         var dateTemplate = '';
-                                        dateTemplate += '<table cellspacing="0" class="table display table-bordered w-auto text-nowrap" style="width: 100%;">';
+                                        dateTemplate += '<table cellspacing="0" class="table display table-bordered w-auto text-nowrap" style="width: 100% !important;">';
                                         dateTemplate += '<thead>';
                                         dateTemplate += '<tr>';
                                         dateTemplate += '<th>Property</th>';

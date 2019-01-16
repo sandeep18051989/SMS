@@ -2166,7 +2166,7 @@ body {
 		z-index: 1
 	}
 
-.btn, .btn-primary {
+.btn, .btn-primary:not(.bootstrap-datetimepicker-widget .btn) {
 	color: #fff !important
 }
 

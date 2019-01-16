@@ -16,10 +16,10 @@ namespace EF.Services.Service
         private readonly IRepository<CustomPage> _customPageRepository;
         private readonly IRepository<User> _userRepository;
         private readonly IRepository<Assessment> _assessmentRepository;
-        private readonly IRepository<StudentAssessment> _studentAssessmentRepository;
+        private readonly IRepository<AssessmentStudent> _studentAssessmentRepository;
         private readonly IRepository<AcadmicYear> _acadmicYearRepository;
 
-        public TemplateService(IRepository<Template> templateRepository, IRepository<DataToken> tokenRepository, IRepository<CustomPage> customPageRepository, IRepository<User> userRepository, IRepository<Assessment> assessmentRepository, IRepository<StudentAssessment> studentAssessmentRepository, IRepository<AcadmicYear> acadmicYearRepository)
+        public TemplateService(IRepository<Template> templateRepository, IRepository<DataToken> tokenRepository, IRepository<CustomPage> customPageRepository, IRepository<User> userRepository, IRepository<Assessment> assessmentRepository, IRepository<AssessmentStudent> studentAssessmentRepository, IRepository<AcadmicYear> acadmicYearRepository)
         {
             this._templateRepository = templateRepository;
             this._tokenRepository = tokenRepository;
@@ -227,13 +227,13 @@ namespace EF.Services.Service
                 {
                     Name = "Assessment Passing marks",
                     SystemName = "AssessmentPassingMarks",
-                    Value = Math.Round(assessmentData.PassingMarks).ToString(CultureInfo.InvariantCulture)
+                    Value = Math.Round(assessmentData.PassingMarks.Value).ToString(CultureInfo.InvariantCulture)
                 });
                 tokens.Add(new DataToken()
                 {
                     Name = "Assessment Maximum Marks",
                     SystemName = "AssessmentMaxMarks",
-                    Value = Math.Round(assessmentData.MaxMarks).ToString(CultureInfo.InvariantCulture)
+                    Value = Math.Round(assessmentData.MaxMarks.Value).ToString(CultureInfo.InvariantCulture)
                 });
                 tokens.Add(new DataToken()
                 {
@@ -257,7 +257,7 @@ namespace EF.Services.Service
                 {
                     Name = "Assessment Duration(In Mins.)",
                     SystemName = "AssessmentDuration",
-                    Value = assessmentData.DurationInMinutes.ToString(CultureInfo.InvariantCulture)
+                    Value = assessmentData.DurationInMinutes.HasValue ? assessmentData.DurationInMinutes.Value.ToString(CultureInfo.InvariantCulture) : "Unknown"
                 });
                 tokens.Add(new DataToken()
                 {
@@ -268,7 +268,7 @@ namespace EF.Services.Service
             }
         }
 
-        public virtual void AddStudentAssessmentTokens(IList<DataToken> tokens, StudentAssessment stuassessment)
+        public virtual void AddStudentAssessmentTokens(IList<DataToken> tokens, AssessmentStudent stuassessment)
         {
             var stuAssessmentData = _studentAssessmentRepository.GetByID(stuassessment.Id);
             var assessmentData = new Assessment();
@@ -334,12 +334,12 @@ namespace EF.Services.Service
             tokens.Add(new DataToken() { Name = "Assessment End Time", SystemName = "AssessmentEndTime", Value = assessmentData.EndTime?.ToString("dd MMM yyyy HH:mm") ?? "Start Time Not Specified" });
             tokens.Add(new DataToken() { Name = "Assessment Url", SystemName = "AssessmentUrl", Value = assessmentData.Url });
             tokens.Add(new DataToken() { Name = "Assessment Name", SystemName = "AssessmentName", Value = assessmentData.Name });
-            tokens.Add(new DataToken() { Name = "Assessment Passing Marks", SystemName = "AssessmentPassingMarks", Value = Math.Round(assessmentData.PassingMarks).ToString(CultureInfo.InvariantCulture) });
-            tokens.Add(new DataToken() { Name = "Assessment Max Marks", SystemName = "AssessmentMaxMarks", Value = Math.Round(assessmentData.MaxMarks).ToString(CultureInfo.InvariantCulture) });
+            tokens.Add(new DataToken() { Name = "Assessment Passing Marks", SystemName = "AssessmentPassingMarks", Value = Math.Round(assessmentData.PassingMarks.Value).ToString(CultureInfo.InvariantCulture) });
+            tokens.Add(new DataToken() { Name = "Assessment Max Marks", SystemName = "AssessmentMaxMarks", Value = Math.Round(assessmentData.MaxMarks.Value).ToString(CultureInfo.InvariantCulture) });
             tokens.Add(new DataToken() { Name = "Assessment Instructions", SystemName = "AssessmentInstructions", Value = assessmentData.Instructions });
             tokens.Add(new DataToken() { Name = "Assessment Is Time bound", SystemName = "AssessmentIsTimeBound", Value = assessmentData.IsTimeBound ? "Yes" : "No" });
             tokens.Add(new DataToken() { Name = "Assessment Total Questions", SystemName = "AssessmentTotalQuestions", Value = assessmentData.TotalQuestions.ToString() });
-            tokens.Add(new DataToken() { Name = "Assessment Duration(In Mins.)", SystemName = "AssessmentDuration", Value = assessmentData.DurationInMinutes.ToString(CultureInfo.InvariantCulture) });
+            tokens.Add(new DataToken() { Name = "Assessment Duration(In Mins.)", SystemName = "AssessmentDuration", Value = assessmentData.DurationInMinutes.HasValue ? assessmentData.DurationInMinutes.Value.ToString(CultureInfo.InvariantCulture) : "Unknown" });
             tokens.Add(new DataToken() { Name = "Assessment Mandatory To Solve All Questions", SystemName = "AssessmentMandatoryToSolveAll", Value = assessmentData.MandatoryToSolveAll ? "True" : "False" });
         }
 

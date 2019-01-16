@@ -130,6 +130,18 @@
                         });
                     }, 1e3);
                 }
+                else if ($("input[type=text][id^=left_]:empty, input[type=text][id^=right_]:empty").length > 0) {
+                    e.preventDefault();
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: "All Options Must Be Filled Before Submitting!",
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                }
                 else if($("#correctanswer").val().split(',').length !== $(".match-following .form-row").length){
                     e.preventDefault();
                     setTimeout(function () {

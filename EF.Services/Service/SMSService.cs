@@ -51,7 +51,7 @@ namespace EF.Services.Service
         private readonly IRepository<Question> _questionRepository;
         private readonly IRepository<Option> _optionRepository;
         private readonly IRepository<Assessment> _assessmentRepository;
-        private readonly IRepository<StudentAssessment> _studentAssessmentRepository;
+        private readonly IRepository<AssessmentStudent> _studentAssessmentRepository;
         private readonly IRepository<AssessmentQuestion> _assesQuestionRepository;
         private readonly IRepository<Homework> _homeworkRepository;
         private readonly IRepository<ClassRoomDivision> _classDivisionRepository;
@@ -67,6 +67,7 @@ namespace EF.Services.Service
         private readonly IRepository<BookIssue> _bookIssueRepository;
         private readonly IRepository<Book> _bookRepository;
         private readonly IRepository<Holiday> _holidayRepository;
+        private readonly IRepository<AssessmentStudent> _assessmentStudentRepository;
 
         public SMSService(IRepository<Student> studentRepository,
         IRepository<Teacher> teacherRepository,
@@ -108,7 +109,7 @@ namespace EF.Services.Service
         IRepository<Question> questionRepository,
         IRepository<Option> optionRepository,
         IRepository<Assessment> assessmentRepository,
-        IRepository<StudentAssessment> studentAssessmentRepository,
+        IRepository<AssessmentStudent> studentAssessmentRepository,
         IRepository<AssessmentQuestion> assesQuestionRepository,
         IRepository<Homework> homeworkRepository,
         IRepository<ClassRoomDivision> classDivisionRepository,
@@ -122,6 +123,7 @@ namespace EF.Services.Service
         IRepository<Book> bookRepository,
         IRepository<BookIssue> bookIssueRepository,
         IRepository<Holiday> holidayRepository,
+        IRepository<AssessmentStudent> assessmentStudentRepository,
         IDbContext dbContext)
         {
             _studentRepository = studentRepository;
@@ -180,6 +182,7 @@ namespace EF.Services.Service
             this._bookRepository = bookRepository;
             this._bookIssueRepository = bookIssueRepository;
             this._holidayRepository = holidayRepository;
+            this._assessmentStudentRepository = assessmentStudentRepository;
         }
         #endregion
 
@@ -2823,7 +2826,7 @@ namespace EF.Services.Service
                 _assessmentRepository.Update(assessment);
             }
         }
-        public IList<StudentAssessment> GetAssessmentByStudentId(int studentid, bool? active = null, bool? completed = null, DateTime? starttime = null, DateTime? endtime = null)
+        public IList<AssessmentStudent> GetAssessmentByStudentId(int studentid, bool? active = null, bool? completed = null, DateTime? starttime = null, DateTime? endtime = null)
         {
             if (studentid == 0)
                 throw new ArgumentException();
@@ -2866,18 +2869,18 @@ namespace EF.Services.Service
 
             return _assessmentRepository.GetByID(id);
         }
-        public StudentAssessment GetStudentAssessmentById(int id)
+        public AssessmentStudent GetStudentAssessmentById(int id)
         {
             if (id == 0)
                 throw new ArgumentNullException();
 
             return _studentAssessmentRepository.GetByID(id);
         }
-        public void InsertstudentAssessment(StudentAssessment studentAssessment)
+        public void InsertstudentAssessment(AssessmentStudent studentAssessment)
         {
             _studentAssessmentRepository.Insert(studentAssessment);
         }
-        public void UpdatestudentAssessment(StudentAssessment studentAssessment)
+        public void UpdatestudentAssessment(AssessmentStudent studentAssessment)
         {
             _studentAssessmentRepository.Update(studentAssessment);
         }
@@ -2888,6 +2891,40 @@ namespace EF.Services.Service
             {
                 _studentAssessmentRepository.Update(studentAssessment);
             }
+        }
+
+        public IList<Assessment> GetAllAssessments(bool? onlyActive=null)
+        {
+            return _assessmentRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
+        }
+        public bool CheckAssessmentExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _assessmentRepository.Table.Any(a => (a.Name.ToLower() == name.ToLower()) && (!id.HasValue || id.Value != a.Id) && a.IsDeleted == false);
+        }
+        public void ToggleActiveStatusAssessment(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objAssessment = _assessmentRepository.GetByID(id);
+            if (objAssessment != null)
+            {
+                objAssessment.IsActive = !objAssessment.IsActive;
+                objAssessment.ModifiedOn = DateTime.Now;
+                _assessmentRepository.Update(objAssessment);
+            }
+
+        }
+
+        public IList<AssessmentStudent> GetAllAssessmentsByStudent(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _assessmentStudentRepository.Table.Where(x => x.StudentId == id).ToList();
         }
 
         #endregion

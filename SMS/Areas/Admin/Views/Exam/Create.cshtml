@@ -45,7 +45,7 @@
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    @Html.EditorFor(model => model.ExamName, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "20", @title = "Name" } })
+                                                    @Html.EditorFor(model => model.ExamName, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "200", @title = "Name" } })
                                                     @Html.LabelFor(model => model.ExamName, htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
                                                     @Html.ValidationMessageFor(model => model.ExamName, "", new { @class = "text-danger" })
                                                 </div>

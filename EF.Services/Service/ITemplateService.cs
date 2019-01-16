@@ -49,7 +49,7 @@ namespace EF.Services.Service
 		void AddBlogTokens(IList<DataToken> tokens, Blog blog);
 		void AddAssessmentTokens(IList<DataToken> tokens, Assessment assessment);
 
-		void AddStudentAssessmentTokens(IList<DataToken> tokens, StudentAssessment stuassessment);
+		void AddStudentAssessmentTokens(IList<DataToken> tokens, AssessmentStudent stuassessment);
 
 		void AddProductTokens(IList<DataToken> tokens, Product product);
 

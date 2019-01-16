@@ -23,7 +23,8 @@ namespace SMS.App_Start
 			bundles.Add(new ScriptBundle("~/Scripts/pace").Include(
 							"~/Areas/Admin/Scripts/pace.min.js"));
 
-			bundles.Add(new ScriptBundle("~/Scripts/boot").Include("~/Scripts/umd/popper.js","~/Scripts/bootstrap/bootstrap.min.js"));
+			bundles.Add(new ScriptBundle("~/Scripts/boot").Include(
+                "~/Scripts/bootstrap.bundle.min.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/datatable").Include(
 				 "~/Scripts/DataTables/jquery.dataTables.min.js",
@@ -42,13 +43,13 @@ namespace SMS.App_Start
 				 "~/Areas/Admin/Scripts/public.common.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/datetimepicker").Include(
-				 "~/Scripts/bootstrap/bootstrap-datetimepicker.min.js"));
+				 "~/Scripts/datetimepicker.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/moment").Include(
 				 "~/Scripts/moment.min.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterangepicker").Include(
-                 "~/Scripts/bootstrap/daterangepicker.js"));
+                 "~/Scripts/daterangepicker.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/home").Include(
 				"~/Scripts/public.home.js"));
@@ -67,7 +68,7 @@ namespace SMS.App_Start
 			 "~/Content/themes/base/jquery-ui.css"));
 
 			bundles.Add(new StyleBundle("~/Content/boot").Include(
-				 "~/Content/bootstrap/bootstrap.min.css"));
+				 "~/Content/bootstrap.min.css"));
 
 			bundles.Add(new StyleBundle("~/Content/datatable").Include(
 				"~/Content/DataTables/css/dataTables.bootstrap4.min.css",
@@ -85,13 +86,11 @@ namespace SMS.App_Start
 			bundles.Add(new StyleBundle("~/Content/common").Include(
 				 "~/Content/site.css"));
 
-			bundles.Add(new StyleBundle("~/Content/datetimepicker").Include(
-				 "~/Content/bootstrap/bootstrap-datepicker3.min.css"));
-			bundles.Add(new StyleBundle("~/Content/htmleditor").Include(
-				 "~/Content/bootstrap/bootstrap-htmleditor.css"));
+            bundles.Add(new StyleBundle("~/Content/datetimepicker").Include(
+                 "~/Content/datetimepicker.css"));
 
             bundles.Add(new StyleBundle("~/Content/daterangepicker").Include(
-                 "~/Content/bootstrap/daterangepicker.css"));
+                 "~/Content/daterangepicker.css"));
 
             bundles.Add(new StyleBundle("~/Content/adminaddon").Include(
 				 "~/Areas/Admin/Content/morris.css"));

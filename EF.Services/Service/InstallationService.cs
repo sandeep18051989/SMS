@@ -793,6 +793,18 @@ namespace EF.Services.Service
             managePermit.UserId = user.Id;
             _permissionRecordRepository.Insert(managePermit);
 
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Assessment";
+            managePermit.SystemName = "ManageAssessment";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Assessment";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
             #endregion
 
             #region User Roles

@@ -13,7 +13,7 @@ namespace EF.Data.Mapping
 			this.HasKey(b => b.Id);
             this.Property(b => b.AcadmicYearId).IsRequired();
             this.Property(b => b.EndDate).IsOptional();
-            this.Property(b => b.ExamName).IsRequired();
+            this.Property(b => b.ExamName).HasMaxLength(200).IsRequired();
             this.Property(b => b.MaxMarks).IsOptional();
             this.Property(b => b.PassingMarks).IsOptional();
             this.Property(b => b.StartDate).IsOptional();

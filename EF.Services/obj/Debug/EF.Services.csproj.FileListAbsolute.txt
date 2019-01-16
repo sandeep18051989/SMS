@@ -93,6 +93,8 @@ D:\Repositories\SMS\EF.Services\bin\Debug\System.ValueTuple.xml
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csproj.CoreCompileInputs.cache
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.dll
 D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.pdb
+D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csprojAssemblyReference.cache
+D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csproj.CopyComplete
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\EF.Services.dll.config
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\EF.Services.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\EF.Services.pdb
@@ -107,9 +109,11 @@ E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\FluentValidation.Mvc
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\GoogleAnalyticsTracker.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\GoogleAnalyticsTracker.MVC5.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\GoogleMaps.LocationServices.dll
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\Microsoft.Web.Infrastructure.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Linq.Dynamic.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.Helpers.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.Mvc.dll
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.Razor.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.WebPages.Deployment.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.WebPages.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.WebPages.Razor.dll
@@ -129,6 +133,7 @@ E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\FluentValidation.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\FluentValidation.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.Helpers.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.Mvc.xml
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.Razor.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.WebPages.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.WebPages.Deployment.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.Web.WebPages.Razor.xml
@@ -138,5 +143,3 @@ E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\System.ValueTuple.xm
 E:\My Documents\Training Projects\Sms\EF.Services\obj\Debug\EF.Services.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\EF.Services\obj\Debug\EF.Services.dll
 E:\My Documents\Training Projects\Sms\EF.Services\obj\Debug\EF.Services.pdb
-D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csprojAssemblyReference.cache
-D:\Repositories\SMS\EF.Services\obj\Debug\EF.Services.csproj.CopyComplete

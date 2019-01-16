@@ -45,6 +45,8 @@ D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CoreCompileInputs.cache
 D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.dll
 D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.pdb
 G:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.csprojAssemblyReference.cache
+D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csprojAssemblyReference.cache
+D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CopyComplete
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EF.Core.dll.config
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EF.Core.pdb
@@ -53,8 +55,14 @@ E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\Autofac.Integration.Mvc.
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\AutoMapper.dll
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EntityFramework.dll
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EntityFramework.SqlServer.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\Microsoft.Web.Infrastructure.dll
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.ValueTuple.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Helpers.dll
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Mvc.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Razor.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.Deployment.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.Razor.dll
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\Autofac.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\Autofac.Integration.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\AutoMapper.pdb
@@ -62,9 +70,11 @@ E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\AutoMapper.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EntityFramework.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\EntityFramework.SqlServer.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.ValueTuple.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Helpers.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Mvc.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.Razor.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.Deployment.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.Razor.xml
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.pdb
-D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csprojAssemblyReference.cache
-D:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CopyComplete
-E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.csprojResolveAssemblyReference.cache

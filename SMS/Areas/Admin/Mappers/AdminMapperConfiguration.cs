@@ -28,14 +28,24 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore());
 
-                cfg.CreateMap<StudentAssessment, StudentAssessmentModel>()
+                cfg.CreateMap<AssessmentStudent, AssessmentStudentModel>()
                     .ForMember(dest => dest.AvailableGradeSystem, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableResultStatuses, mo => mo.Ignore())
-                    .ForMember(dest => dest.Student, mo => mo.Ignore());
-                cfg.CreateMap<StudentAssessmentModel, StudentAssessment>()
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore());
+                cfg.CreateMap<AssessmentStudentModel, AssessmentStudent>()
                     .ForMember(dest => dest.ResultStatus, mo => mo.Ignore())
                     .ForMember(dest => dest.GradeSystem, mo => mo.Ignore())
                     .ForMember(dest => dest.Assessment, mo => mo.Ignore());
+
+                cfg.CreateMap<Assessment, AssessmentModel>()
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.DifficultyLevel, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringEndTime, mo => mo.Ignore())
+                    .ForMember(dest => dest.StringStartTime, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableSubjects, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableDifficultyLevels, mo => mo.Ignore());
+                cfg.CreateMap<AssessmentModel, Assessment>()
+                    .ForMember(dest => dest.DifficultyLevel, mo => mo.Ignore());
 
                 cfg.CreateMap<BlogPicture, BlogPictureModel>()
                     .ForMember(dest => dest.Blog, mo => mo.Ignore())

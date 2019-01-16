@@ -1992,3 +1992,4 @@ span.log-url {
 .options.choice [type="checkbox"] + label,.options.choice [type="radio"] + label{width:100%;}
 .match-following .form-row{position:relative;}
 .match-following .form-row #btn-remove-option{top:25%;}
+.custom-table{width:100% !important;}

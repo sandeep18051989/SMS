@@ -146,8 +146,9 @@
       <HintPath>..\packages\MiniProfiler.MVC4.3.0.11\lib\net40\MiniProfiler.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -163,15 +164,35 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Linq.Dynamic.Core, Version=1.0.8.18, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Linq.Dynamic.Core.1.0.8.18\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
+    <Reference Include="System.Linq.Dynamic.Core, Version=1.0.9.2, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.Core.1.0.9.2\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -182,38 +203,48 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Helpers">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.6\lib\net45\System.Web.Mvc.dll</HintPath>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.6\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TrackerEnabledDbContext.Common, Version=3.6.1.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TrackerEnabledDbContext.Common.3.6.1\lib\net45\TrackerEnabledDbContext.Common.dll</HintPath>
+    <Reference Include="TrackerEnabledDbContext, Version=3.7.0.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
+      <HintPath>..\packages\TrackerEnabledDbContext.3.7.0\lib\net45\TrackerEnabledDbContext.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TrackerEnabledDbContext.Common, Version=3.7.0.0, Culture=neutral, PublicKeyToken=4f92af0b908c4a0a, processorArchitecture=MSIL">
+      <HintPath>..\packages\TrackerEnabledDbContext.Common.3.7\lib\net45\TrackerEnabledDbContext.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -240,27 +271,12 @@
     <Content Include="Areas\Admin\Scripts\morris.js" />
     <Content Include="Areas\Admin\Scripts\pace.min.js" />
     <Content Include="Areas\Admin\Scripts\raphel.min.js" />
-    <Content Include="Content\bootstrap\bootstrap-datepicker.css" />
-    <Content Include="Content\bootstrap\bootstrap-datepicker.min.css" />
-    <Content Include="Content\bootstrap\bootstrap-datepicker.standalone.css" />
-    <Content Include="Content\bootstrap\bootstrap-datepicker.standalone.min.css" />
-    <Content Include="Content\bootstrap\bootstrap-datepicker3.css" />
-    <Content Include="Content\bootstrap\bootstrap-datepicker3.min.css" />
-    <Content Include="Content\bootstrap\bootstrap-datepicker3.standalone.css" />
-    <Content Include="Content\bootstrap\bootstrap-datepicker3.standalone.min.css" />
-    <Content Include="Content\bootstrap\bootstrap-datetimepicker.css" />
-    <Content Include="Content\bootstrap\bootstrap-datetimepicker.min.css" />
-    <Content Include="Content\bootstrap\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap\bootstrap-htmleditor.css" />
-    <Content Include="Content\bootstrap\bootstrap-mvc-validation.css" />
-    <Content Include="Content\bootstrap\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap\bootstrap-responsive.css" />
-    <Content Include="Content\bootstrap\bootstrap-responsive.min.css" />
-    <Content Include="Content\bootstrap\bootstrap.css" />
-    <Content Include="Content\bootstrap\bootstrap.min.css" />
-    <Content Include="Content\bootstrap\daterangepicker.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -418,43 +434,122 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-It.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.svg" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.svg" />
+    <Content Include="Content\daterangepicker.css" />
+    <Content Include="Content\datetimepicker.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-It.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\images\1.jpg" />
     <Content Include="Content\images\2.jpg" />
     <Content Include="Content\images\3.jpg" />
@@ -515,7 +610,6 @@
     <Content Include="Content\images\trash.gif" />
     <Content Include="Content\images\video-poster.png" />
     <Content Include="Content\images\waiting-generic.png" />
-    <Content Include="Content\jquery.dataTables.multiselect.css" />
     <Content Include="Content\jquery.jqGrid\ellipsis-xbl.xml" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\mdb.min.css" />
@@ -528,7 +622,9 @@
     <Content Include="Content\svgicons.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
-    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -570,16 +666,11 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="Scripts\bootstrap\bootstrap-datepicker.js" />
-    <Content Include="Scripts\bootstrap\bootstrap-datepicker.min.js" />
-    <Content Include="Scripts\bootstrap\bootstrap-datetimepicker.js" />
-    <Content Include="Scripts\bootstrap\bootstrap-datetimepicker.min.js" />
-    <Content Include="Scripts\bootstrap\bootstrap-htmleditor.js" />
-    <Content Include="Scripts\bootstrap\bootstrap.bundle.js" />
-    <Content Include="Scripts\bootstrap\bootstrap.bundle.min.js" />
-    <Content Include="Scripts\bootstrap\bootstrap.js" />
-    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
-    <Content Include="Scripts\bootstrap\daterangepicker.js" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\colortoggle.min.js" />
     <Content Include="Scripts\counter.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
@@ -659,6 +750,7 @@
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
     <Content Include="Scripts\daterangepicker.js" />
+    <Content Include="Scripts\datetimepicker.js" />
     <Content Include="Scripts\Developer\css\developer.min.css" />
     <Content Include="Scripts\Developer\css\responsive.min.css" />
     <Content Include="Scripts\Developer\css\textrotate.min.css" />
@@ -735,12 +827,10 @@
     <Content Include="Content\images\sprite.png" />
     <Content Include="Content\images\throbber.gif" />
     <Content Include="Content\images\writeus.png" />
-    <Content Include="Content\jquery.nivoslider.css" />
     <Content Include="Content\new-year.css" />
     <Content Include="Content\ProfileCard.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\font_styles.css" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Common.js" />
     <Content Include="Scripts\html5shiv.js" />
@@ -839,169 +929,469 @@
     <Content Include="Areas\Admin\Views\Audit\List.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\Notifications.cshtml" />
     <Content Include="Areas\Admin\Views\User\_ChangePassword.cshtml" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-It.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-It.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-It.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-It.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.woff" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.eot" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.otf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.ttf" />
-    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.woff" />
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdCnO.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdEx.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdExO.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdIt.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BdOu.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Blk.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkCnO.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-BlkEx.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Cn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-CnO.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Ex.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Hv.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvCn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvEx.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-HvIt.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-It.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-It.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-It.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-It.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Lt.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtCn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtEx.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-LtIt.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Md.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdCn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdEx.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-MdIt.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Roman.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-Th.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThCn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThEx.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-ThIt.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLt.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtCn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtEx.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-UltLtExO.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Areas\Admin\Views\Common\Search.cshtml" />
     <Content Include="Areas\Admin\Views\Common\BellNotifications.cshtml" />
     <Content Include="Areas\Admin\Scripts\slim-scroll.min.js" />
     <Content Include="Areas\Admin\Views\Common\Breadcrumb.cshtml" />
-    <Content Include="Content\fonts\FontAwesome.otf" />
-    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\bootstrap\bootstrap-grid.css.map" />
-    <Content Include="Content\bootstrap\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap\bootstrap.css.map" />
-    <Content Include="Content\bootstrap\bootstrap.min.css.map" />
+    <Content Include="Content\fonts\FontAwesome.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\fontawesome-webfont.woff2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\fontawesome-webfont.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Areas\Admin\Views\Attendance\EmployeeAttendanceList.cshtml" />
     <Content Include="Areas\Admin\Views\Charts\AttendanceBoard.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\DateRange.cshtml" />
@@ -1134,6 +1524,108 @@
     <Content Include="Areas\Admin\Views\Option\_FillInTheBlanks.cshtml" />
     <Content Include="Areas\Admin\Views\Option\_MatchFollowing.cshtml" />
     <Content Include="Areas\Admin\Views\Option\_ChooseAnswer.cshtml" />
+    <Content Include="Areas\Admin\Views\Assessment\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Assessment\AssessmentQuestions.cshtml" />
+    <Content Include="Areas\Admin\Views\Assessment\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Assessment\EditAssessmentQuestion.cshtml" />
+    <Content Include="Areas\Admin\Views\Assessment\EditAssessmentStudent.cshtml" />
+    <Content Include="Areas\Admin\Views\Assessment\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Assessment\AssessmentStudents.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\DateTimePicker.cshtml" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bootstrap\wells.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\utilities.less" />
+    <Content Include="Content\bootstrap\type.less" />
+    <Content Include="Content\bootstrap\tooltip.less" />
+    <Content Include="Content\bootstrap\thumbnails.less" />
+    <Content Include="Content\bootstrap\theme.less" />
+    <Content Include="Content\bootstrap\tables.less" />
+    <Content Include="Content\bootstrap\scaffolding.less" />
+    <Content Include="Content\bootstrap\responsive-utilities.less" />
+    <Content Include="Content\bootstrap\responsive-embed.less" />
+    <Content Include="Content\bootstrap\progress-bars.less" />
+    <Content Include="Content\bootstrap\print.less" />
+    <Content Include="Content\bootstrap\popovers.less" />
+    <Content Include="Content\bootstrap\panels.less" />
+    <Content Include="Content\bootstrap\pagination.less" />
+    <Content Include="Content\bootstrap\pager.less" />
+    <Content Include="Content\bootstrap\normalize.less" />
+    <Content Include="Content\bootstrap\navs.less" />
+    <Content Include="Content\bootstrap\navbar.less" />
+    <Content Include="Content\bootstrap\modals.less" />
+    <Content Include="Content\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="Content\bootstrap\mixins\text-overflow.less" />
+    <Content Include="Content\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="Content\bootstrap\mixins\table-row.less" />
+    <Content Include="Content\bootstrap\mixins\tab-focus.less" />
+    <Content Include="Content\bootstrap\mixins\size.less" />
+    <Content Include="Content\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="Content\bootstrap\mixins\resize.less" />
+    <Content Include="Content\bootstrap\mixins\reset-text.less" />
+    <Content Include="Content\bootstrap\mixins\reset-filter.less" />
+    <Content Include="Content\bootstrap\mixins\progress-bar.less" />
+    <Content Include="Content\bootstrap\mixins\panels.less" />
+    <Content Include="Content\bootstrap\mixins\pagination.less" />
+    <Content Include="Content\bootstrap\mixins\opacity.less" />
+    <Content Include="Content\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="Content\bootstrap\mixins\nav-divider.less" />
+    <Content Include="Content\bootstrap\mixins\list-group.less" />
+    <Content Include="Content\bootstrap\mixins\labels.less" />
+    <Content Include="Content\bootstrap\mixins\image.less" />
+    <Content Include="Content\bootstrap\mixins\hide-text.less" />
+    <Content Include="Content\bootstrap\mixins\grid.less" />
+    <Content Include="Content\bootstrap\mixins\grid-framework.less" />
+    <Content Include="Content\bootstrap\mixins\gradients.less" />
+    <Content Include="Content\bootstrap\mixins\forms.less" />
+    <Content Include="Content\bootstrap\mixins\clearfix.less" />
+    <Content Include="Content\bootstrap\mixins\center-block.less" />
+    <Content Include="Content\bootstrap\mixins\buttons.less" />
+    <Content Include="Content\bootstrap\mixins\border-radius.less" />
+    <Content Include="Content\bootstrap\mixins\background-variant.less" />
+    <Content Include="Content\bootstrap\mixins\alerts.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
+    <Content Include="Content\bootstrap\media.less" />
+    <Content Include="Content\bootstrap\list-group.less" />
+    <Content Include="Content\bootstrap\labels.less" />
+    <Content Include="Content\bootstrap\jumbotron.less" />
+    <Content Include="Content\bootstrap\input-groups.less" />
+    <Content Include="Content\bootstrap\grid.less" />
+    <Content Include="Content\bootstrap\glyphicons.less" />
+    <Content Include="Content\bootstrap\forms.less" />
+    <Content Include="Content\bootstrap\dropdowns.less" />
+    <Content Include="Content\bootstrap\component-animations.less" />
+    <Content Include="Content\bootstrap\code.less" />
+    <Content Include="Content\bootstrap\close.less" />
+    <Content Include="Content\bootstrap\carousel.less" />
+    <Content Include="Content\bootstrap\buttons.less" />
+    <Content Include="Content\bootstrap\button-groups.less" />
+    <Content Include="Content\bootstrap\breadcrumbs.less" />
+    <Content Include="Content\bootstrap\bootstrap.less" />
+    <Content Include="Content\bootstrap\badges.less" />
+    <Content Include="Content\bootstrap\alerts.less" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1255,15 +1747,15 @@
     <Content Include="Scripts\jqPlot\plugins\jqplot.trendline.min.js" />
     <Content Include="Scripts\jqPlot\README.txt" />
     <Content Include="Scripts\jqPlot\usage.txt" />
-    <Content Include="Scripts\bootstrap\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\bootstrap\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap\bootstrap.min.js.map" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <Content Include="Scripts\Developer\js\textrotate.min.js" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1360,10 +1852,6 @@
     <Content Include="Scripts\new-year.js" />
     <Content Include="Scripts\owl.carousel.js" />
     <Content Include="Scripts\owl.carousel.min.js" />
-    <Content Include="Scripts\popper-utils.js" />
-    <Content Include="Scripts\popper-utils.min.js" />
-    <Content Include="Scripts\popper.js" />
-    <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\public.comment.js" />
     <Content Include="Scripts\public.home.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -1544,6 +2032,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminAreaController.cs" />
     <Compile Include="Areas\Admin\Controllers\AllowanceController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AssessmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\HouseController.cs" />
@@ -1596,6 +2085,7 @@
     <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />
     <Compile Include="Areas\Admin\Models\AuditListModel.cs" />
     <Compile Include="Controllers\DeveloperController.cs" />
+    <Compile Include="Models\AssessmentStudentModel.cs" />
     <Compile Include="Models\ClassRoomDivisionModel.cs" />
     <Compile Include="Models\ColorSettingsModel.cs" />
     <Compile Include="Areas\Admin\Models\CreatePermissionModel.cs" />
@@ -1639,7 +2129,7 @@
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Validations\ProductCategoryModelValidator.cs" />
-    <Compile Include="Validations\StudentAssessmentModelValidator.cs" />
+    <Compile Include="Validations\AssessmentStudentModelValidator.cs" />
     <Compile Include="Validations\AssessmentQuestionModelValidator.cs" />
     <Compile Include="Validations\ProductModelValidator.cs" />
     <Compile Include="Areas\Admin\Validations\ReplyValidator.cs" />
@@ -1807,10 +2297,6 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\Common\UserLinks.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -1872,23 +2358,10 @@
     <Content Include="Views\School\Details.cshtml" />
     <Content Include="Scripts\mdb.min.js" />
     <Content Include="Views\Common\CommonLinks.cshtml" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
-    <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
     <Content Include="Scripts\umd\popper-utils.js.map" />
-    <Content Include="Scripts\README.md" />
-    <Content Include="Scripts\popper.min.js.map" />
-    <Content Include="Scripts\popper.js.map" />
-    <Content Include="Scripts\popper-utils.min.js.map" />
-    <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Developer\Banner.cshtml" />
     <Content Include="Views\Developer\Biography.cshtml" />
     <Content Include="Views\Developer\Services.cshtml" />
@@ -1901,6 +2374,14 @@
     <Content Include="Views\Developer\Footer.cshtml" />
     <Content Include="Views\Developer\Copyright.cshtml" />
     <Content Include="Views\Developer\Index.cshtml" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
+    <Content Include="Scripts\tinymce\langs\readme.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
