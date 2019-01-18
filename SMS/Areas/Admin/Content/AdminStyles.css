@@ -1993,3 +1993,4 @@ span.log-url {
 .match-following .form-row{position:relative;}
 .match-following .form-row #btn-remove-option{top:25%;}
 .custom-table{width:100% !important;}
+.options.choice [type="radio"] + label::after,.options.choice [type="radio"] + label::before{top:12px;}

@@ -10,11 +10,15 @@ namespace SMS.Models
     [Validator(typeof(AssessmentQuestionModelValidator))]
     public partial class AssessmentQuestionModel : BaseEntityModel
     {
-        public string Name { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public double PassingMarks { get; set; }
-        public double MaxMarks { get; set; }
+        public int AssessmentId { get; set; }
+        public int QuestionId { get; set; }
+        public string Assessment { get; set; }
+        public string Question { get; set; }
+        public int DisplayOrder { get; set; }
+        public string SolveTime { get; set; }
+        public double? NegativeMarks { get; set; }
+        public double? RightMarks { get; set; }
+        public bool IsTimeBound { get; set; }
 
     }
 }

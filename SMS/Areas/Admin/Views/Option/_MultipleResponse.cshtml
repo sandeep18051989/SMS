@@ -52,7 +52,7 @@
         });
 
         $(document).on("click", "#admin-page-header button", function (e) {
-            if ($(".options .form-check input[type=checkbox]:checked").length === 0) {
+            if ($(".options .form-check input[type=checkbox]:checked").length === 0 && ($("#questionoptions-grid tbody tr") == null || $("#questionoptions-grid tbody tr").length == 0)) {
                 e.preventDefault();
             }
         });

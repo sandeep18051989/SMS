@@ -1,4 +1,6 @@
 ﻿using EF.Services;
+using FluentValidation.Attributes;
+using SMS.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,6 +8,7 @@ using System.Web.Mvc;
 
 namespace SMS.Models
 {
+    [Validator(typeof(QuestionModelValidator))]
     public partial class QuestionModel  : BaseEntityModel
     {
         public QuestionModel()
@@ -25,8 +28,8 @@ namespace SMS.Models
         public Guid QuestionGuid { get; set; }
         public string SolveTime { get; set; }
         public int DifficultyLevelId { get; set; }
-        public double RightMarks { get; set; }
-        public double NegativeMarks { get; set; }
+        public double? RightMarks { get; set; }
+        public double? NegativeMarks { get; set; }
         public bool IsTimeBound { get; set; }
         public bool IsActive { get; set; }
 

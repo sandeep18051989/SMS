@@ -406,126 +406,112 @@ namespace SMS.Areas.Admin.Controllers
 
         #region Question Assessment
 
-        //public ActionResult TeacherAssessments(int id)
-        //{
-        //    if (!_permissionService.Authorize("ManageAssessment"))
-        //        return AccessDeniedView();
+        public ActionResult AssessmentQuestions(int id)
+        {
+            if (!_permissionService.Authorize("ManageAssessment"))
+                return AccessDeniedView();
 
-        //    if (id == 0)
-        //        throw new ArgumentNullException("id");
+            if (id == 0)
+                throw new ArgumentNullException("id");
 
-        //    var classTeacher = _smsService.GetTeacherById(id);
-        //    if (classTeacher == null)
-        //        throw new ArgumentNullException("classroomteacher");
+            var assessment = _smsService.GetAssessmentById(id);
+            if (assessment == null)
+                throw new ArgumentNullException("classroomteacher");
 
-        //    var model = new TeacherAssessmentModel();
-        //    model.TeacherId = classTeacher.Id;
-        //    model.Teacher = classTeacher.Name;
-        //    model.UserId = _userContext.CurrentUser.Id;
+            var model = new List<AssessmentQuestionModel>();
+            ViewBag.Title = assessment.Name;
 
-        //    var assessmentsAlreadyAssociated = _smsService.GetAllAssessmentsByTeacher(id);
-        //    model.AvailableAssessments = _smsService.GetAllAssessments().Select(x => new SelectListItem()
-        //    {
-        //        Text = x.AssessmentName.Trim(),
-        //        Value = x.Id.ToString(),
-        //        Selected = x.Id == model.AssessmentId
-        //    }).Where(x => !assessmentsAlreadyAssociated.Any(y => y.AssessmentId.ToString() == x.Value)).ToList();
+            var questionsAssociated = _smsService.GetQuestionsByAssessmentId(id);
+            // Subjects
+            var pSubjects = new List<int>();
 
-        //    model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
-        //    {
-        //        Text = x.Name.Trim(),
-        //        Value = x.Id.ToString(),
-        //        Selected = x.Id == model.AcadmicYearId
-        //    }).ToList();
+            if (assessment.SubjectId.HasValue)
+                pSubjects.Add(assessment.SubjectId.Value);
 
-        //    var vacantClassRooms = _smsService.GetVacantClassRoomsForAssessments();
-        //    model.AvailableClassRooms = _smsService.GetAllClassRooms().Select(x => new SelectListItem()
-        //    {
-        //        Text = x.Number.Trim(),
-        //        Value = x.Id.ToString(),
-        //        Selected = x.Id == model.ClassRoomId
-        //    }).Where(x => !vacantClassRooms.Any(y => (y.Id.ToString() == x.Value || model.ClassRoomId == y.Id))).ToList();
+            var allquestions = _smsService.SearchQuestions(subjectids: pSubjects.ToArray(), difficultylevel:(assessment.DifficultyLevelId),onlytimebound: assessment.IsTimeBound);
+            foreach (var q in allquestions)
+            {
+                model.Add(new AssessmentQuestionModel() {
+                    AssessmentId = id,
+                    Assessment = assessment.Name,
+                    DisplayOrder = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).DisplayOrder : 0),
+                    Id = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).Id : 0),
+                    IsTimeBound = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).IsTimeBound : q.IsTimeBound),
+                    NegativeMarks = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).NegativeMarks : q.NegativeMarks),
+                    Question = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).Question.Name : q.Name),
+                    QuestionId = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).QuestionId : q.Id),
+                    RightMarks = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).RightMarks : q.RightMarks),
+                    SolveTime = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).SolveTime : q.SolveTime),
+                    UserId = (questionsAssociated.Any(x => x.QuestionId == q.Id) ? questionsAssociated.FirstOrDefault(x => x.QuestionId == q.Id).UserId : q.UserId)
+                });
+            }
 
-        //    model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
-        //                                  select new SelectListItem
-        //                                  {
-        //                                      Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
-        //                                      Value = Convert.ToInt32(d).ToString(),
-        //                                      Selected = false
-        //                                  }).ToList();
+            model = model.OrderBy(x => x.DisplayOrder).ToList();
+            return View(model);
+        }
 
-        //    model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
-        //                                     select new SelectListItem
-        //                                     {
-        //                                         Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
-        //                                         Value = Convert.ToInt32(d).ToString(),
-        //                                         Selected = false
-        //                                     }).ToList();
-        //    return View(model);
-        //}
+        [HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult AssessmentQuestions(IList<AssessmentQuestionModel> model, FormCollection frm)
+        {
+            if (!_permissionService.Authorize("ManageAssessment"))
+                return AccessDeniedView();
 
-        //[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
-        //[ValidateAntiForgeryToken]
-        //[ValidateInput(false)]
-        //public ActionResult TeacherAssessments(TeacherAssessmentModel model, FormCollection frm)
-        //{
-        //    if (!_permissionService.Authorize("ManageAssessment"))
-        //        return AccessDeniedView();
+            if (ModelState.IsValid)
+            {
+                //var objTeacherAssessment = model.ToEntity();
+                //objTeacherAssessment.Id = 0;
+                //objTeacherAssessment.CreatedOn = objTeacherAssessment.ModifiedOn = DateTime.Now;
+                //objTeacherAssessment.UserId = _userContext.CurrentUser.Id;
+                //_smsService.InsertTeacherAssessment(objTeacherAssessment);
+            }
+            //else
+            //{
+            //    var assessmentsAlreadyAssociated = _smsService.GetAllAssessmentsByTeacher(model.TeacherId);
+            //    model.AvailableAssessments = _smsService.GetAllAssessments().Select(x => new SelectListItem()
+            //    {
+            //        Text = x.AssessmentName.Trim(),
+            //        Value = x.Id.ToString(),
+            //        Selected = x.Id == model.AssessmentId
+            //    }).Where(x => !assessmentsAlreadyAssociated.Any(y => y.AssessmentId.ToString() == x.Value)).ToList();
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        var objTeacherAssessment = model.ToEntity();
-        //        objTeacherAssessment.Id = 0;
-        //        objTeacherAssessment.CreatedOn = objTeacherAssessment.ModifiedOn = DateTime.Now;
-        //        objTeacherAssessment.UserId = _userContext.CurrentUser.Id;
-        //        _smsService.InsertTeacherAssessment(objTeacherAssessment);
-        //    }
-        //    else
-        //    {
-        //        var assessmentsAlreadyAssociated = _smsService.GetAllAssessmentsByTeacher(model.TeacherId);
-        //        model.AvailableAssessments = _smsService.GetAllAssessments().Select(x => new SelectListItem()
-        //        {
-        //            Text = x.AssessmentName.Trim(),
-        //            Value = x.Id.ToString(),
-        //            Selected = x.Id == model.AssessmentId
-        //        }).Where(x => !assessmentsAlreadyAssociated.Any(y => y.AssessmentId.ToString() == x.Value)).ToList();
+            //    model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            //    {
+            //        Text = x.Name.Trim(),
+            //        Value = x.Id.ToString(),
+            //        Selected = x.Id == model.AcadmicYearId
+            //    }).ToList();
 
-        //        model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
-        //        {
-        //            Text = x.Name.Trim(),
-        //            Value = x.Id.ToString(),
-        //            Selected = x.Id == model.AcadmicYearId
-        //        }).ToList();
+            //    var vacantClassRooms = _smsService.GetVacantClassRoomsForAssessments();
+            //    model.AvailableClassRooms = _smsService.GetAllClassRooms().Select(x => new SelectListItem()
+            //    {
+            //        Text = x.Number.Trim(),
+            //        Value = x.Id.ToString(),
+            //        Selected = x.Id == model.ClassRoomId
+            //    }).Where(x => !vacantClassRooms.Any(y => (y.Id.ToString() == x.Value || model.ClassRoomId == y.Id))).ToList();
 
-        //        var vacantClassRooms = _smsService.GetVacantClassRoomsForAssessments();
-        //        model.AvailableClassRooms = _smsService.GetAllClassRooms().Select(x => new SelectListItem()
-        //        {
-        //            Text = x.Number.Trim(),
-        //            Value = x.Id.ToString(),
-        //            Selected = x.Id == model.ClassRoomId
-        //        }).Where(x => !vacantClassRooms.Any(y => (y.Id.ToString() == x.Value || model.ClassRoomId == y.Id))).ToList();
+            //    model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
+            //                                  select new SelectListItem
+            //                                  {
+            //                                      Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
+            //                                      Value = Convert.ToInt32(d).ToString(),
+            //                                      Selected = model.GradeSystemId == Convert.ToInt32(d)
+            //                                  }).ToList();
 
-        //        model.AvailableGradeSystem = (from GradeSystem d in Enum.GetValues(typeof(GradeSystem))
-        //                                      select new SelectListItem
-        //                                      {
-        //                                          Text = EnumExtensions.GetDescriptionByValue<GradeSystem>(Convert.ToInt32(d)),
-        //                                          Value = Convert.ToInt32(d).ToString(),
-        //                                          Selected = model.GradeSystemId == Convert.ToInt32(d)
-        //                                      }).ToList();
+            //    model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
+            //                                     select new SelectListItem
+            //                                     {
+            //                                         Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
+            //                                         Value = Convert.ToInt32(d).ToString(),
+            //                                         Selected = model.ResultStatusId == Convert.ToInt32(d)
+            //                                     }).ToList();
+            //    return View(model);
+            //}
 
-        //        model.AvailableResultStatuses = (from ResultStatus d in Enum.GetValues(typeof(ResultStatus))
-        //                                         select new SelectListItem
-        //                                         {
-        //                                             Text = EnumExtensions.GetDescriptionByValue<ResultStatus>(Convert.ToInt32(d)),
-        //                                             Value = Convert.ToInt32(d).ToString(),
-        //                                             Selected = model.ResultStatusId == Convert.ToInt32(d)
-        //                                         }).ToList();
-        //        return View(model);
-        //    }
-
-        //    SuccessNotification("Assessment updated successfully.");
-        //    return RedirectToAction("TeacherAssessments", new { id = model.Id });
-        //}
+            SuccessNotification("Assessment updated successfully.");
+            return RedirectToAction("AssessmentQuestions", new { id = model.FirstOrDefault().AssessmentId });
+        }
 
 
         //public ActionResult EditTeacherAssessment(int id)

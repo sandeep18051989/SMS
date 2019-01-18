@@ -420,7 +420,7 @@ namespace SMS.Areas.Admin.Controllers
                                             newOption.QuestionId = model.Id;
                                             newOption.UserId = _userContext.CurrentUser.Id;
 
-                                            var frmCorrectAnswer = frm.AllKeys.Where(x => x.StartsWith("correctanswer_" + questionId + "_" + optionId)).FirstOrDefault();
+                                            var frmCorrectAnswer = frm.AllKeys.FirstOrDefault(x => x.Trim().ToLower() == "correctanswer");
                                             if (frmCorrectAnswer != null && !string.IsNullOrEmpty(frm[frmCorrectAnswer].ToString()))
                                             {
                                                 newOption.CorrectAnswer = frm[frmCorrectAnswer].ToString();

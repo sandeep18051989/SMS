@@ -13,8 +13,8 @@ namespace EF.Core.Data
 		public Guid QuestionGuid { get; set; }
 		public string SolveTime { get; set; }
 		public int DifficultyLevelId { get; set; }
-		public double RightMarks { get; set; }
-		public double NegativeMarks { get; set; }
+		public double? RightMarks { get; set; }
+		public double? NegativeMarks { get; set; }
 		public bool IsTimeBound { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsDeleted { get; set; }

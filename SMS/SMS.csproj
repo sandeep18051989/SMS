@@ -2109,6 +2109,7 @@
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\UserSettingsModel.cs" />
     <Compile Include="Models\SliderSettingsModel.cs" />
+    <Compile Include="Validations\QuestionModelValidator.cs" />
     <Compile Include="Validations\ChangePasswordModelValidation.cs" />
     <Compile Include="Areas\Admin\Validations\CreateDataTokenModelValidator.cs" />
     <Compile Include="Validations\CustomPageModelValidator.cs" />

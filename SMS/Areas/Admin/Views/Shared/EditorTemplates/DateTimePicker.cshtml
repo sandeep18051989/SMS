@@ -4,8 +4,16 @@
     $(function () {
         $('#@Html.IdFor(model => model)').datetimepicker({
             format: 'DD MMMM YYYY hh:mm a',
-            inline: true,
+            inline: false,
             sideBySide: true,
+            useCurrent: false,
+            defaultDate: null
         });
+
+        $('.start-time input[type=text]').on('change', function (e) {
+            console.log(e.date);
+            console.log($('.end-time input[type=text]').val());
+        })
+        $('.end-time input[type=text]').on('change', function (e) { console.log(e.date); })
     });
 </script>

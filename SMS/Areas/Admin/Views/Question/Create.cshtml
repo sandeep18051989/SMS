@@ -100,7 +100,7 @@
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    @Html.EditorFor(model => model.RightMarks, new { htmlAttributes = new { @class = "form-control", @tabindex = "7", @min = "1", @maxlength = "10", @type = "number", @title = "Marks" } })
+                                                    @Html.EditorFor(model => model.RightMarks, new { htmlAttributes = new { @class = "form-control", @tabindex = "7", @maxlength = "10", @type = "number", @title = "Marks" } })
                                                     @Html.LabelFor(model => model.RightMarks, "Marks", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.RightMarks, "", new { @class = "text-danger" })
                                                 </div>
@@ -109,7 +109,7 @@
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    @Html.EditorFor(model => model.NegativeMarks, new { htmlAttributes = new { @class = "form-control", @tabindex = "8", @min = "1", @maxlength = "10", @type = "number", @title = "Negative Marks" } })
+                                                    @Html.EditorFor(model => model.NegativeMarks, new { htmlAttributes = new { @class = "form-control", @tabindex = "8", @maxlength = "10", @type = "number", @title = "Negative Marks" } })
                                                     @Html.LabelFor(model => model.NegativeMarks, "Negative Marks", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.NegativeMarks, "", new { @class = "text-danger" })
                                                 </div>

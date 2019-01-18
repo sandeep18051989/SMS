@@ -130,7 +130,7 @@
                         });
                     }, 1e3);
                 }
-                else if ($("input[type=text][id^=left_]:empty, input[type=text][id^=right_]:empty").length > 0) {
+                else if ($("input[type=text][id^=left_][value=''], input[type=text][id^=right_][value='']").length > 0) {
                     e.preventDefault();
                     setTimeout(function () {
                         $.gritter.add({
