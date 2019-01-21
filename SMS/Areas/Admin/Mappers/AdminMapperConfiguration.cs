@@ -28,9 +28,19 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore());
 
+                cfg.CreateMap<AssessmentQuestion, AssessmentQuestionModel>()
+                    .ForMember(dest => dest.Assessment, mo => mo.Ignore())
+                    .ForMember(dest => dest.IsChecked, mo => mo.Ignore())
+                    .ForMember(dest => dest.Question, mo => mo.Ignore());
+                cfg.CreateMap<AssessmentQuestionModel, AssessmentQuestion>()
+                    .ForMember(dest => dest.Assessment, mo => mo.Ignore())
+                    .ForMember(dest => dest.Question, mo => mo.Ignore());
+
                 cfg.CreateMap<AssessmentStudent, AssessmentStudentModel>()
                     .ForMember(dest => dest.AvailableGradeSystem, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableResultStatuses, mo => mo.Ignore())
+                    .ForMember(dest => dest.IsChecked, mo => mo.Ignore())
+                    .ForMember(dest => dest.Assessment, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore());
                 cfg.CreateMap<AssessmentStudentModel, AssessmentStudent>()
                     .ForMember(dest => dest.ResultStatus, mo => mo.Ignore())

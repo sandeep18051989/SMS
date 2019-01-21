@@ -19,6 +19,6 @@ namespace SMS.Models
         public double? NegativeMarks { get; set; }
         public double? RightMarks { get; set; }
         public bool IsTimeBound { get; set; }
-
+        public bool IsChecked { get; set; }
     }
 }

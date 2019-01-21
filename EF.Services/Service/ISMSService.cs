@@ -21,8 +21,7 @@ namespace EF.Services.Service
 		IList<Student> GetAllStudents(bool? onlyActive = null);
 		Student GetStudentById(int id);
 		IList<Student> GetStudentsByName(string name, bool? active);
-		IList<Student> SearchStudents(bool? active, string religion = null, string classname = null, int? acedemicyearid = null);
-		IList<Student> SearchStudents(bool? active, int religion = 0, int classid = 0, int? acedemicyearid = null);
+        IList<Student> SearchStudents(bool? onlyActive = null, int? classid = null, int? acedemicyearid = null);
 		void ToggleActiveStatusStudent(int id);
 		bool CheckStudentExists(string name, int? id = null);
 		Student GetStudentByImpersonateId(int id);
@@ -462,7 +461,9 @@ namespace EF.Services.Service
 		IList<Question> GetRandomQuestions(int count, int[] questionTypeIds = null, int[] subjectids = null,
 			int? difficultylevel = null, bool? onlytimebound = null, bool? active = null);
 		IList<AssessmentQuestion> GetQuestionsByAssessmentId(int assesmentid);
-		void InsertOption(Option option);
+        IList<AssessmentStudent> GetStudentsByAssessmentId(int assesmentid);
+
+        void InsertOption(Option option);
 		void UpdateOption(Option option);
 		void DeleteOption(int id);
 		IList<Option> GetOptionsByQuestionId(int questionid);
@@ -478,14 +479,18 @@ namespace EF.Services.Service
 
 		Assessment GetAssessmentById(int id);
 		AssessmentStudent GetStudentAssessmentById(int id);
-		void InsertstudentAssessment(AssessmentStudent studentAssessment);
-		void UpdatestudentAssessment(AssessmentStudent studentAssessment);
-		void DeletestudentAssessment(int id);
+		void InsertStudentAssessment(AssessmentStudent studentAssessment);
+		void UpdateStudentAssessment(AssessmentStudent studentAssessment);
+		void DeleteStudentAssessment(int id);
         IList<Assessment> GetAllAssessments(bool? onlyActive = null);
         bool CheckAssessmentExists(string name, int? id = null);
         void ToggleActiveStatusAssessment(int id);
         IList<AssessmentStudent> GetAllAssessmentsByStudent(int id);
-
+        AssessmentQuestion GetAssessmentQuestionById(int id);
+        AssessmentQuestion GetAssessmentQuestion(int assessmentid, int questionid);
+        void InsertAssessmentQuestion(AssessmentQuestion assessmentQuestion);
+        void UpdateAssessmentQuestion(AssessmentQuestion assessmentQuestion);
+        void DeleteAssessmentQuestion(int id);
         #endregion
 
         #region Global Settings

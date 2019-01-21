@@ -506,3 +506,5 @@ E:\My Documents\Training Projects\Sms\SMS\bin\System.Web.WebPages.Razor.xml
 E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.dll
 E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.pdb
+E:\My Documents\Training Projects\Sms\SMS\bin\MVCEncrypt.dll
+E:\My Documents\Training Projects\Sms\SMS\bin\MVCEncrypt.xml

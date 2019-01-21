@@ -19,6 +19,9 @@ namespace SMS.Models
             AvailableGradeSystem = new List<SelectListItem>();
         }
         public int StudentId { get; set; }
+        public string Student { get; set; }
+        public int AssessmentId { get; set; }
+        public string Assessment { get; set; }
         public int ResultStatusId { get; set; }
         public int GradeSystemId { get; set; }
         public DateTime? StartOn { get; set; }
@@ -28,6 +31,7 @@ namespace SMS.Models
         public double MarksObtained { get; set; }
         public bool IsActive { get; set; }
         public bool IsCompleted { get; set; }
+        public bool IsChecked { get; set; }
         public string CertificateHtml { get; set; }
         public IList<SelectListItem> AvailableResultStatuses { get; set; }
         public IList<SelectListItem> AvailableGradeSystem { get; set; }

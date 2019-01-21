@@ -146,6 +146,10 @@
       <HintPath>..\packages\MiniProfiler.MVC4.3.0.11\lib\net40\MiniProfiler.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MVCEncrypt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MVC5Encrypt.1.0.0\lib\net\MVCEncrypt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -1527,8 +1531,6 @@
     <Content Include="Areas\Admin\Views\Assessment\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Assessment\AssessmentQuestions.cshtml" />
     <Content Include="Areas\Admin\Views\Assessment\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Assessment\EditAssessmentQuestion.cshtml" />
-    <Content Include="Areas\Admin\Views\Assessment\EditAssessmentStudent.cshtml" />
     <Content Include="Areas\Admin\Views\Assessment\List.cshtml" />
     <Content Include="Areas\Admin\Views\Assessment\AssessmentStudents.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\DateTimePicker.cshtml" />
@@ -2085,6 +2087,8 @@
     <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />
     <Compile Include="Areas\Admin\Models\AuditListModel.cs" />
     <Compile Include="Controllers\DeveloperController.cs" />
+    <Compile Include="Models\AssignStudentsModel.cs" />
+    <Compile Include="Models\AssignQuestionsModel.cs" />
     <Compile Include="Models\AssessmentStudentModel.cs" />
     <Compile Include="Models\ClassRoomDivisionModel.cs" />
     <Compile Include="Models\ColorSettingsModel.cs" />

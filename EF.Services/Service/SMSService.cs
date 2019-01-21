@@ -270,28 +270,12 @@ namespace EF.Services.Service
 
             return query.OrderBy(x => x.FName).ToList();
         }
-        public IList<Student> SearchStudents(bool? active, string religion = null, string classname = null, int? acedemicyearid = null)
+        public IList<Student> SearchStudents(bool? onlyActive=null, int? classid = null, int? acedemicyearid = null)
         {
             var query = _studentRepository.Table.ToList();
 
-            if (active.HasValue)
-                query = query.Where(s => s.IsActive == active).ToList();
-
-            if (acedemicyearid.HasValue)
-                query = query.Where(s => s.AcadmicYearId == acedemicyearid.Value).ToList();
-
-            if (!String.IsNullOrEmpty(classname))
-                query = query.Where(s => s.ClassRoomDivision?.Class.Name.Trim().ToLower() == classname.Trim().ToLower()).ToList();
-
-            return query.Where(s => s.IsDeleted == false).OrderBy(s => s.FName).ToList();
-
-        }
-        public IList<Student> SearchStudents(bool? active, int religion = 0, int classid = 0, int? acedemicyearid = null)
-        {
-            var query = _studentRepository.Table.ToList();
-
-            if (active.HasValue)
-                query = query.Where(s => s.IsActive == active).ToList();
+            if (onlyActive.HasValue)
+                query = query.Where(s => s.IsActive == onlyActive).ToList();
 
             if (acedemicyearid.HasValue)
                 query = query.Where(s => s.AcadmicYearId == acedemicyearid.Value).ToList();
@@ -2786,6 +2770,15 @@ namespace EF.Services.Service
 
             return query.OrderBy(x => x.DisplayOrder).ToList();
         }
+        public IList<AssessmentStudent> GetStudentsByAssessmentId(int assesmentid)
+        {
+            if (assesmentid == 0)
+                throw new ArgumentException();
+
+            var query = _assessmentStudentRepository.Table.Where(x => x.AssessmentId == assesmentid).ToList();
+
+            return query.ToList();
+        }
         public void InsertOption(Option option)
         {
             _optionRepository.Insert(option);
@@ -2876,15 +2869,15 @@ namespace EF.Services.Service
 
             return _studentAssessmentRepository.GetByID(id);
         }
-        public void InsertstudentAssessment(AssessmentStudent studentAssessment)
+        public void InsertStudentAssessment(AssessmentStudent studentAssessment)
         {
             _studentAssessmentRepository.Insert(studentAssessment);
         }
-        public void UpdatestudentAssessment(AssessmentStudent studentAssessment)
+        public void UpdateStudentAssessment(AssessmentStudent studentAssessment)
         {
             _studentAssessmentRepository.Update(studentAssessment);
         }
-        public void DeletestudentAssessment(int id)
+        public void DeleteStudentAssessment(int id)
         {
             var studentAssessment = _studentAssessmentRepository.GetByID(id);
             if (studentAssessment != null)
@@ -2892,7 +2885,6 @@ namespace EF.Services.Service
                 _studentAssessmentRepository.Update(studentAssessment);
             }
         }
-
         public IList<Assessment> GetAllAssessments(bool? onlyActive=null)
         {
             return _assessmentRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
@@ -2918,13 +2910,42 @@ namespace EF.Services.Service
             }
 
         }
-
         public IList<AssessmentStudent> GetAllAssessmentsByStudent(int id)
         {
             if (id == 0)
                 throw new ArgumentNullException("id");
 
             return _assessmentStudentRepository.Table.Where(x => x.StudentId == id).ToList();
+        }
+        public AssessmentQuestion GetAssessmentQuestionById(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException();
+
+            return _assesQuestionRepository.GetByID(id);
+        }
+        public AssessmentQuestion GetAssessmentQuestion(int assessmentid, int questionid)
+        {
+            if (assessmentid == 0 && questionid == 0)
+                throw new ArgumentNullException();
+
+            return _assesQuestionRepository.Table.FirstOrDefault(x => x.AssessmentId == assessmentid && x.QuestionId == questionid);
+        }
+        public void InsertAssessmentQuestion(AssessmentQuestion assessmentQuestion)
+        {
+            _assesQuestionRepository.Insert(assessmentQuestion);
+        }
+        public void UpdateAssessmentQuestion(AssessmentQuestion assessmentQuestion)
+        {
+            _assesQuestionRepository.Update(assessmentQuestion);
+        }
+        public void DeleteAssessmentQuestion(int id)
+        {
+            var assessmentQuestion = _assesQuestionRepository.GetByID(id);
+            if (assessmentQuestion != null)
+            {
+                _assesQuestionRepository.Update(assessmentQuestion);
+            }
         }
 
         #endregion
