@@ -54,7 +54,7 @@
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            <i class="fa fa-user-circle prefix"></i>
+                                                            <span><i class="fa fa-user-circle"></i>&nbsp;Student Picture</span>
                                                             @Html.EditorFor(model => model.StudentPictureId, "Picture", "StudentPictureId")
                                                             @Html.ValidationMessageFor(model => model.StudentPictureId, "", new { @class = "text-danger" })
                                                         </div>
@@ -174,7 +174,7 @@
                                                     </div>
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @tabindex = "17", @minlength = "10", @maxlength = "10", @title = "Contact Number", @type = "number", @readonly = "readonly" } })
+                                                            @Html.EditorFor(model => model.Contact1, new { htmlAttributes = new { @class = "form-control", @tabindex = "17", @minlength = "10", @maxlength = "10", @title = "Contact Number", @type = "number" } })
                                                             @Html.LabelFor(model => model.Contact1, "Contact No.", htmlAttributes: new { @class = "control-label" })
                                                             @Html.ValidationMessageFor(model => model.Contact1, "", new { @class = "text-danger" })
                                                         </div>
@@ -326,7 +326,7 @@
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            <i class="fa fa-user-circle prefix"></i>
+                                                            <span><i class="fa fa-user-circle"></i>&nbsp;Father Picture</span>
                                                             @Html.EditorFor(model => model.FatherPictureId, "Picture")
                                                             @Html.ValidationMessageFor(model => model.FatherPictureId, "", new { @class = "text-danger" })
                                                         </div>
@@ -421,7 +421,7 @@
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            <i class="fa fa-user-circle prefix"></i>
+                                                            <span><i class="fa fa-user-circle"></i>&nbsp;Mother Picture</span>
                                                             @Html.EditorFor(model => model.MotherPictureId, "Picture")
                                                             @Html.ValidationMessageFor(model => model.MotherPictureId, "", new { @class = "text-danger" })
                                                         </div>
@@ -558,7 +558,7 @@
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            <i class="fa fa-user-circle prefix"></i>
+                                                            <span><i class="fa fa-user-circle"></i>&nbsp;Cover Picture</span>
                                                             @Html.EditorFor(model => model.CoverPictureId, "Picture", "CoverPictureId")
                                                             @Html.ValidationMessageFor(model => model.CoverPictureId, "", new { @class = "text-danger" })
                                                         </div>

@@ -11,6 +11,7 @@ using SMS.Models;
 using EF.Services;
 using EF.Core.Enums;
 using MVCEncrypt;
+using EF.Services.Http;
 
 namespace SMS.Areas.Admin.Controllers
 {
@@ -27,12 +28,13 @@ namespace SMS.Areas.Admin.Controllers
         private readonly ISMSService _smsService;
         private readonly ICommentService _commentService;
         private readonly IReplyService _replyService;
+        private readonly IUrlHelper _urlHelper;
 
         #endregion Fileds
 
         #region Constructor
 
-        public AssessmentController(IUserService userService, IUserContext userContext, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, ISMSService smsService, ICommentService commentService, IReplyService replyService)
+        public AssessmentController(IUserService userService, IUserContext userContext, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, ISMSService smsService, ICommentService commentService, IReplyService replyService, IUrlHelper urlHelper)
         {
             this._userService = userService;
             this._userContext = userContext;
@@ -42,6 +44,7 @@ namespace SMS.Areas.Admin.Controllers
             this._smsService = smsService;
             this._commentService = commentService;
             this._replyService = replyService;
+            this._urlHelper = urlHelper;
         }
 
         #endregion
@@ -544,6 +547,12 @@ namespace SMS.Areas.Admin.Controllers
             model.StringEndTime = assessment.EndTime.Value.ToString("MMMM dd, yyyy HH:mm tt");
             model.Subject = assessment.SubjectId.HasValue && assessment.SubjectId.Value > 0 ? _smsService.GetSubjectById(assessment.SubjectId.Value).Name : "-";
             model.Url = assessment.Url;
+            model.Duration = assessment.DurationInMinutes;
+            model.StartTime = assessment.StartTime.Value;
+            model.EndTime = assessment.EndTime.Value;
+
+            var allHolidays = _smsService.GetAllHolidaysByAcadmicYear(assessment.AcadmicYearId);
+            model.Holidays = allHolidays.Select(x => x.Date.Value.ToString("MMMM dd, yyyy")).ToArray();
 
             var studentsAssociated = _smsService.GetStudentsByAssessmentId(id);
             // Subjects
@@ -585,8 +594,9 @@ namespace SMS.Areas.Admin.Controllers
                     Url = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Url : ""),
                     UserId = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).UserId : q.UserId),
                     IsChecked = (studentsAssociated.Any(x => x.StudentId == q.Id) ? true : false),
-                    StartOn = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).StartOn : null),
-                    EndOn = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).EndOn : null)
+                    StartOn = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).StartOn : assessment.StartTime),
+                    EndOn = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).EndOn : assessment.EndTime),
+                    Student = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.FName + (!string.IsNullOrEmpty(studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.LName) ? (" " + studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.LName) : "") : _smsService.GetStudentById(q.Id).FName + (!string.IsNullOrEmpty(_smsService.GetStudentById(q.Id).LName) ? (" " + _smsService.GetStudentById(q.Id).LName) : ""))
                 });
             }
 
@@ -631,7 +641,9 @@ namespace SMS.Areas.Admin.Controllers
                 model.StringEndTime = assessment.EndTime.Value.ToString("MMMM dd, yyyy HH:mm tt");
                 model.Subject = assessment.SubjectId.HasValue && assessment.SubjectId.Value > 0 ? _smsService.GetSubjectById(assessment.SubjectId.Value).Name : "-";
                 model.Url = assessment.Url;
-
+                model.Duration = assessment.DurationInMinutes;
+                model.StartTime = assessment.StartTime.Value;
+                model.EndTime = assessment.EndTime.Value;
                 var studentsAssociated = _smsService.GetStudentsByAssessmentId(model.AssessmentId);
                 // Subjects
                 var pSubjects = new List<int>();
@@ -640,6 +652,8 @@ namespace SMS.Areas.Admin.Controllers
                     pSubjects.Add(assessment.SubjectId.Value);
 
                 var allstudents = _smsService.SearchStudents(classid: model.ClassDivisionId);
+                var allHolidays = _smsService.GetAllHolidaysByAcadmicYear(assessment.AcadmicYearId);
+                model.Holidays = allHolidays.Select(x => x.Date.Value.ToString("MMMM dd, yyyy")).ToArray();
 
                 model.List.Clear();
                 foreach (var q in allstudents)
@@ -674,9 +688,9 @@ namespace SMS.Areas.Admin.Controllers
                         Url = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Url : ""),
                         UserId = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).UserId : q.UserId),
                         IsChecked = (studentsAssociated.Any(x => x.StudentId == q.Id) ? true : false),
-                        StartOn = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).StartOn : null),
-                        EndOn = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).EndOn : null),
-                        Student = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.FName + (!string.IsNullOrEmpty(studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.LName) ? (" " + studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.LName) : "") : ""),
+                        StartOn = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).StartOn : assessment.StartTime),
+                        EndOn = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).EndOn : assessment.EndTime),
+                        Student = (studentsAssociated.Any(x => x.StudentId == q.Id) ? studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.FName + (!string.IsNullOrEmpty(studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.LName) ? (" " + studentsAssociated.FirstOrDefault(x => x.StudentId == q.Id).Student.LName) : "") : _smsService.GetStudentById(q.Id).FName + (!string.IsNullOrEmpty(_smsService.GetStudentById(q.Id).LName) ? (" " + _smsService.GetStudentById(q.Id).LName) : ""))
                     });
                 }
 
@@ -700,6 +714,7 @@ namespace SMS.Areas.Admin.Controllers
                         aStudent.UserId = _userContext.CurrentUser.Id;
                         aStudent.IsCompleted = (frm["IsCompleted_" + id] != null && !string.IsNullOrEmpty(frm["IsCompleted_" + id].ToString())) ? Convert.ToBoolean(frm["IsCompleted_" + id].ToString()) : false;
                         aStudent.IsExpired = (frm["IsExpired_" + id] != null && !string.IsNullOrEmpty(frm["IsExpired_" + id].ToString())) ? Convert.ToBoolean(frm["IsExpired_" + id].ToString()) : false;
+                        aStudent.Url = (frm["Url_" + id] != null && !string.IsNullOrEmpty(frm["Url_" + id].ToString())) ? (_urlHelper.GetLocation(false) +  frm["Url_" + id].ToString()) : "";
 
                         if (alreadyAddedStudents.Any(x => x.StudentId == id))
                         {

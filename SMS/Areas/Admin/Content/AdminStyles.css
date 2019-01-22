@@ -1989,3 +1989,6 @@ span.log-url {
 .match-following .form-row #btn-remove-option{top:25%;}
 .custom-table{width:100% !important;}
 .options.choice [type="radio"] + label::after,.options.choice [type="radio"] + label::before{top:12px;}
+.custom-table .form-control {font-size: 12px;}
+.no-padding{padding:0 !important;}
+.no-margin{margin:0 !important;}

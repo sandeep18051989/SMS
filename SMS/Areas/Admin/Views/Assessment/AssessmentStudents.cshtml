@@ -43,6 +43,7 @@
                                                         <th class="text-center">Passing Marks</th>
                                                         <th class="text-center">Total Marks</th>
                                                         <th class="text-center">Subject</th>
+                                                        <th class="text-center">Duration</th>
                                                         <th class="text-center">Time Bound</th>
                                                         <th class="text-center">Difficulty Level</th>
                                                     </tr>
@@ -50,11 +51,21 @@
                                                 <tbody>
                                                     <tr>
                                                         <td class="text-center">@(Model.Assessment)</td>
-                                                        <td class="text-center">@(Model.StringStartTime)</td>
-                                                        <td class="text-center">@(Model.StringEndTime)</td>
+                                                        <td class="text-center">
+                                                            @(Model.StringStartTime)
+                                                            @Html.HiddenFor(x => x.StringStartTime)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @(Model.StringEndTime)
+                                                            @Html.HiddenFor(x => x.StringEndTime)
+                                                        </td>
                                                         <td class="text-center">@(Model.PassingMarks)</td>
                                                         <td class="text-center">@(Model.MaxMarks)</td>
                                                         <td class="text-center">@(Model.SubjectId.HasValue && Model.SubjectId.Value > 0 ? Model.Subject : "")</td>
+                                                        <td class="text-center">
+                                                            @(Model.Duration.HasValue && Model.Duration.Value > 0 ? (Model.Duration + " Mins.") : "-")
+                                                            @Html.HiddenFor(x => x.Duration)
+                                                        </td>
                                                         <td class="text-center">@(Model.IsTimeBound ? "Yes" : "No")</td>
                                                         <td class="text-center">@(Model.DifficultyLevel)</td>
                                                     </tr>
@@ -66,7 +77,7 @@
                                 <div class="row text-left">
                                     <div class="col">
                                         <div class="md-form">
-                                            @Html.DropDownListFor(model => model.ClassDivisionId, Model.AvailableClassDivisions, "Select Class Division", new { @class = "mdb-select", @tabindex = "1", @title = "Select Class Division" })
+                                            @Html.DropDownListFor(model => model.ClassDivisionId, Model.AvailableClassDivisions, "Select Class Division", new { @class = "mdb-select", @tabindex = "1", @title = "Select Class Division", @data_val="false" })
                                         </div>
                                     </div>
                                     <div class="col mt-3">
@@ -87,8 +98,7 @@
                                                             </div>
                                                         </th>
                                                         <th class="text-center">Student</th>
-                                                        <th class="text-center">Start On</th>
-                                                        <th class="text-center">End On</th>
+                                                        <th class="text-center">Schedule</th>
                                                         <th class="text-center">Grade System</th>
                                                         <th class="text-center">Result Status</th>
                                                         <th class="text-center">Expired</th>
@@ -109,66 +119,57 @@
                                                                     <label class="form-check-label" for="@(q.StudentId)"></label>
                                                                 </div>
                                                             </td>
-                                                            <td><a tabindex="@(index.ToString())" target="_blank" href="/Admin/Student/Edit/@(q.StudentId)">@(q.Student)</a></td>
-                                                            @{index += 1;}
                                                             <td>
-                                                                <input class="form-control text-box single-line" tabindex="@(index.ToString())" id="StartOn_@(q.StudentId)" name="StartOn_@(q.StudentId)" type="text" value="@(q.StartOn != null ? q.StartOn.Value.ToString("MMMM dd, yyyy HH:mm tt") : "")" />
-                                                                @if (Model.List.IndexOf(q) == 0)
-                                                                {
-                                                                    <input type="button" style="display:none;" value="Apply Same Dates To All" id="btn-apply-start-date" />
-                                                                }
-                                                                <script type="text/javascript">
-                                                                    $(document).ready(function () {
-                                                                        $("#StartOn_@(q.StudentId)").datetimepicker({
-                                                                            format: 'DD MMMM YYYY hh:mm a',
-                                                                            inline: false,
-                                                                            sideBySide: true,
-                                                                            useCurrent: false,
-                                                                            defaultDate: null
-                                                                        });
-                                                                    }).on('changeDate', function (selected) {
-                                                                        if (selected.date != undefined && selected.date != null) {
-                                                                            expectedDate = new Date(selected.date.valueOf());
-                                                                            var decrementDay = new Date(selected.date.valueOf());
-                                                                            decrementDay.setDate(decrementDay.getDate() + 1095);
-                                                                            $("#EndOn_@(q.StudentId)").datepicker('setEndDate', decrementDay);
-                                                                            expectedDate.setDate(expectedDate.getDate(new Date(selected.date.valueOf())));
-                                                                        }
-                                                                        $("#EndOn_@(q.StudentId)").datepicker('setStartDate', expectedDate);
-                                                                    }).data('datetimepicker');
-                                                                </script>
+                                                                <a tabindex="@(index.ToString())" target="_blank" href="/Admin/Student/Edit/@(q.StudentId)">@(q.Student)</a>
                                                             </td>
                                                             @{index += 1;}
                                                             <td>
-                                                                <input class="form-control text-box single-line" tabindex="@(index.ToString())" id="EndOn_@(q.StudentId)" name="EndOn_@(q.StudentId)" type="text" value="@(q.EndOn != null ? q.EndOn.Value.ToString("MMMM dd, yyyy HH:mm tt") : "")" />
-                                                                <script type="text/javascript">
-                                                                    $(document).ready(function () {
-                                                                        $("#EndOn_@(q.StudentId)").datetimepicker({
-                                                                            format: 'DD MMMM YYYY hh:mm a',
-                                                                            inline: false,
-                                                                            sideBySide: true,
-                                                                            useCurrent: false,
-                                                                            defaultDate: null
-                                                                        });
-                                                                    }).on('changeDate', function (selected) {
-                                                                        if (selected.date != undefined && selected.date != null) {
-                                                                            expectedDate = new Date(selected.date.valueOf());
-                                                                            var decrementDay = new Date(selected.date.valueOf());
-                                                                            decrementDay.setDate(decrementDay.getDate() + 1095);
-                                                                            $("#EndOn_@(q.StudentId)").datepicker('setEndDate', decrementDay);
-                                                                            expectedDate.setDate(expectedDate.getDate(new Date(selected.date.valueOf())));
-                                                                        }
-                                                                        $("#EndOn_@(q.StudentId)").datepicker('setStartDate', expectedDate);
-                                                                    }).data('datetimepicker');
-                                                                </script>
-                                                                @if (Model.List.IndexOf(q) == 0)
-                                                                {
-                                                                    <input type="button" style="display:none;" value="Apply Same Dates To All" id="btn-apply-end-date" />
-                                                                }
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="input-group pmd-textfield pmd-textfield-floating-label">
+                                                                            <input class="form-control text-box single-line start-date" tabindex="@(index.ToString())" id="StartOn_@(q.StudentId)" name="StartOn_@(q.StudentId)" type="text" value="@(q.StartOn.Value.ToString("MMM dd, yyyy HH:mm tt"))" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 text-center">
+                                                                        <label class="control-label" for="datepicker-start">To</label>
+                                                                    </div>
+                                                                    <div class="col-sm-12">
+                                                                        <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                                                                            <input class="form-control text-box single-line end-date" tabindex="@(index.ToString())" id="EndOn_@(q.StudentId)" name="EndOn_@(q.StudentId)" type="text" value="@(q.EndOn.Value.ToString("MMM dd, yyyy HH:mm tt"))" />
+                                                                            <script type="text/javascript">
+                                                                                $(document).ready(function () {
+                                                                                    $("#StartOn_@(q.StudentId)").datetimepicker({
+                                                                                        format: 'MMM DD, YYYY hh:mm a',
+                                                                                        inline: false,
+                                                                                        sideBySide: true
+                                                                                    }).on('dp.change', function (selected) {
+                                                                                        $("#EndOn_@(q.StudentId)").datetimepicker('minDate', moment(selected.date.valueOf()));
+                                                                                        //$(this).data('datetimepicker').hide();
+                                                                                    }).data('datetimepicker');
+
+                                                                                    $("#EndOn_@(q.StudentId)").datetimepicker({
+                                                                                        format: 'MMM DD, YYYY hh:mm a',
+                                                                                        inline: false,
+                                                                                        sideBySide: true
+                                                                                    }).on('dp.change', function (selected) {
+                                                                                        $("#StartOn_@(q.StudentId)").datetimepicker('maxDate', moment(selected.date.valueOf()));
+                                                                                        //$(this).data('datetimepicker').hide();
+                                                                                    }).data('datetimepicker');
+
+
+                                                                                    //$("#StartOn_@(q.StudentId)").datetimepicker('maxDate', moment($("#StringEndTime").val()));
+                                                                                    //$("#EndOn_@(q.StudentId)").datetimepicker('minDate', moment($("#StringStartTime").val()));
+                                                                                    //$("#StartOn_@(q.StudentId)").datepicker('setDate', moment($("#StringStartTime").val()));
+                                                                                    //$("#EndOn_@(q.StudentId)").datepicker('setDate', moment($("#StringEndTime").val()));
+                                                                                });
+                                                                            </script>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </td>
                                                             @{index += 1;}
                                                             <td>
-                                                                <select id="GradeSystemId_@(q.StudentId)" class="mdb-select">
+                                                                <select id="GradeSystemId_@(q.StudentId)" class="form-control">
                                                                     <option value="">Select Grade System</option>
                                                                     @foreach (var system in q.AvailableGradeSystem)
                                                                     {
@@ -177,12 +178,12 @@
                                                                 </select>
                                                                 @if (Model.List.IndexOf(q) == 0)
                                                                 {
-                                                                    <input type="button" style="display:none;" value="Apply Same Grade System To All" id="btn-grade-system" />
+                                                                    <input type="button" class="btn btn-dark btn-sm" style="display:none;" value="Apply To All" id="btn-grade-system" />
                                                                 }
                                                             </td>
                                                             @{index += 1;}
                                                             <td class="text-center">
-                                                                <select id="GradeSystemId_@(q.StudentId)" class="mdb-select">
+                                                                <select id="ResultStatusId_@(q.StudentId)" class="form-control">
                                                                     <option value="">Select Result Status</option>
                                                                     @foreach (var system in q.AvailableResultStatuses)
                                                                     {
@@ -191,12 +192,12 @@
                                                                 </select>
                                                                 @if (Model.List.IndexOf(q) == 0)
                                                                 {
-                                                                    <input type="button" style="display:none;" value="Apply Same Result Status To All" id="btn-result-status" />
+                                                                    <input type="button" class="btn btn-dark btn-sm" style="display:none;" value="Apply To All" id="btn-result-status" />
                                                                 }
                                                             </td>
                                                             @{index += 1;}
                                                             <td>
-                                                                <input type="checkbox" tabindex="@(index.ToString())" id="IsExpired_@(q.StudentId)" name="IsExpired_@(q.StudentId)" value="@(q.IsExpired ? "true" : "false")" @(q.IsExpired ? "checked=checked" : "") />
+                                                                <input type="checkbox" tabindex="@(index.ToString())" id="IsExpired_@(q.StudentId)" name="IsExpired_@(q.StudentId)" value="@(q.IsExpired ? "true" : "false")" @(((q.EndOn != null && q.EndOn.Value.Date < DateTime.Now.Date) || q.IsExpired) ? "checked=checked" : "") />
                                                                 <label for="IsExpired_@(q.StudentId)"></label>
                                                             </td>
                                                             <td>
@@ -204,7 +205,8 @@
                                                                 <label for="IsCompleted_@(q.StudentId)"></label>
                                                             </td>
                                                             <td>
-                                                                <a href="@Url.ActionEnc("AssessmentUrl", "GetAssessmentExam", new { studentid = q.StudentId, assessmentid=q.AssessmentId })">Start Exam</a>
+                                                                <a class="btn btn-dark btn-sm" target="_blank" href="@Url.ActionEnc("AssessmentUrl", "GetAssessmentExam", new { studentid = q.StudentId, assessmentid=q.AssessmentId })">Start Exam</a>
+                                                                <input type="hidden" name="Url_@(q.StudentId)" id="Url_@(q.StudentId)" value="@(Url.ActionEnc("AssessmentUrl", "GetAssessmentExam", new { studentid = q.StudentId, assessmentid=q.AssessmentId }))" />
                                                             </td>
                                                         </tr>
                                                                 }
@@ -260,6 +262,23 @@
             else {
                 $('#allcheck').prop('checked', false);
             }
+
+            CheckValidations();
+        });
+
+        $('.custom-table tbody tr:first-child input[type=text][id^=StartOn_]').datetimepicker().on('dp.change', function (e) {
+            CheckValidations();
+        });
+
+        $('.custom-table tbody tr:first-child input[type=text][id^=EndOn_]').datetimepicker().on('dp.change', function (e) {
+            var dtExpired = $($(this).closest('tr').find('input[type=checkbox][id^=IsExpired_]')[0]);
+            if (moment($(this).val()) < moment()) {
+                $(dtExpired).prop('checked', true).val('true');
+            }
+            else if (moment($(this).val()) > moment()) {
+                $(dtExpired).prop('checked', false).val('false');
+            }
+            CheckValidations();
         });
 
         $(document).on("click", "input[type=submit][id=btn-final-submit]", function (e) {
@@ -290,25 +309,7 @@
                 e.preventDefault();
             }
             else {
-                $("input[type=submit]").attr("disabled", false);
-            }
-        });
-
-        $('.custom-table tbody tr:first-child input[type=text][id^=StartOn_]').datetimepicker().on('changeDate', function (e) {
-            if ($(this).val() != null && $(this).val() != "") {
-                $("#btn-apply-start-date").show();
-            }
-            else {
-                $("#btn-apply-start-date").hide();
-            }
-        });
-
-        $('.custom-table tbody tr:first-child input[type=text][id^=EndOn_]').datetimepicker().on('changeDate', function (e) {
-            if ($(this).val() != null && $(this).val() != "") {
-                $("#btn-apply-end-date").show();
-            }
-            else {
-                $("#btn-apply-end-date").hide();
+                CheckValidations();
             }
         });
 
@@ -319,6 +320,8 @@
             else {
                 $("#btn-grade-system").hide();
             }
+
+            CheckValidations();
         });
 
         $(document).on('change', '.custom-table tbody tr:first-child select[id^=ResultStatusId_]', function (e) {
@@ -328,30 +331,26 @@
             else {
                 $("#btn-result-status").hide();
             }
-        });
-
-        $(document).on("click", "#btn-apply-start-date", function () {
-            var dtStartOn = $(this).prev('input[type=text]').val();
-            var id = $(this).attr('id').split('_')[1];
-            $("input[type=text][id^=StartOn_]").datepicker('setDate', dtStartOn);
-        });
-
-        $(document).on("click", "#btn-apply-end-date", function () {
-            var dtEndOn = $(this).prev('input[type=text]').val();
-            var id = $(this).attr('id').split('_')[1];
-            $("input[type=text][id^=EndOn_]").datepicker('setDate', dtEndOn);
+            CheckValidations();
         });
 
         $(document).on("click", "#btn-grade-system", function () {
-            var dtGradeSystem = $(this).prev('select').val();
-            var id = $(this).attr('id').split('_')[1];
-            $("select[id^=GradeSystemId_]").val(dtGradeSystem);
+            var dtGradeSystem = $($(this).closest('tr').find('select[id^=GradeSystemId_]')[0]).val();
+            var selects = $("select[id^=GradeSystemId_]");
+            for (var x = 0; x < selects.length; x++) {
+                $(selects[x]).val(dtGradeSystem);
+            }
+            CheckValidations();
         });
 
         $(document).on("click", "#btn-result-status", function () {
-            var dtResultStatus = $(this).prev('select').val();
-            var id = $(this).attr('id').split('_')[1];
-            $("select[id^=ResultStatusId_]").val(dtResultStatus);
+            var dtResultStatus = $($(this).closest('tr').find('select[id^=ResultStatusId_]')[0]).val();
+            var selects = $("select[id^=ResultStatusId_]");
+            for (var x = 0; x < selects.length; x++) {
+                $(selects[x]).val(dtResultStatus);
+            }
+
+            CheckValidations();
         });
 
         $(document).on("click", "#search-students", function (e) {
@@ -373,5 +372,43 @@
             }
         });
 
+        $(document).on("change", ".custom-table tbody tr:first-child input[type=checkbox][id^=IsExpired_]", function (e) {
+            var dtEndDate = moment($($(this).closest('tr').find('input[type=text][id^=EndOn_]')[0]).val());
+            if ($(this).prop("checked")) {
+                if (dtEndDate > moment()) {
+                    $(this).attr('checked', false).val('false');
+                }
+            }
+            else {
+                if (dtEndDate < moment()) {
+                    $(this).attr('checked', true).val('true');
+                }
+            }
+        });
+
     });
+
+    function CheckValidations() {
+        var valid = true;
+        var options = $('.custom-table tbody input[type="checkbox"][class=table-check-input]');
+        for (var a = 0; a < options.length; a++) {
+            if ($(options[a]).prop("checked")) {
+                var startDate = $($(options[a]).closest('tr').find('input[type=text][id^=StartOn_]')[0]).val();
+                var endDate = $($(options[a]).closest('tr').find('input[type=text][id^=EndOn_]')[0]).val();
+                var gradeSystem = $($(options[a]).closest('tr').find('select[id^=GradeSystemId_]')[0]).val();
+                var resultStatus = $($(options[a]).closest('tr').find('select[id^=ResultStatusId_]')[0]).val();
+                if ((startDate == null || startDate === "") || (endDate == null || endDate === "") || (gradeSystem == null || gradeSystem === "") || (resultStatus == null || resultStatus === "")) {
+                    valid = false;
+                }
+                break;
+            }
+        }
+
+        if (valid) {
+            $("input[type=submit][id=btn-final-submit]").attr("disabled", false);
+        }
+        else {
+            $("input[type=submit][id=btn-final-submit]").attr("disabled", true);
+        }
+    }
 </script>

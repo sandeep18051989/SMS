@@ -3061,6 +3061,11 @@ namespace EF.Services.Service
         {
             return _holidayRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
         }
+
+        public IList<Holiday> GetAllHolidaysByAcadmicYear(int id, bool? onlyActive = null)
+        {
+            return _holidayRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.AcadmicYearId == id && x.IsDeleted == false).ToList();
+        }
         public bool CheckHolidayExists(string name, int? id = null)
         {
             if (string.IsNullOrEmpty(name))

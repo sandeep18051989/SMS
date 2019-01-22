@@ -18,17 +18,20 @@ namespace SMS.Models
         public string Assessment { get; set; }
         public string StringStartTime { get; set; }
         public string StringEndTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public double? PassingMarks { get; set; }
         public double? MaxMarks { get; set; }
         public string Url { get; set; }
         public bool IsActive { get; set; }
         public int? SubjectId { get; set; }
         public string Subject { get; set; }
+        public double? Duration { get; set; }
         public string DifficultyLevel { get; set; }
         public bool IsTimeBound { get; set; }
         public int[] SelectedStudent { get; set; }
-        public int ClassDivisionId { get; set; }
-
+        public int? ClassDivisionId { get; set; }
+        public string[] Holidays { get; set; }
         public IList<AssessmentStudentModel> List { get; set; }
         public IList<SelectListItem> AvailableClassDivisions { get; set; }
 

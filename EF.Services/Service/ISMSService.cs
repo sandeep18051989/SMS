@@ -401,7 +401,7 @@ namespace EF.Services.Service
 		IList<AcadmicYear> GetAllAcadmicYears(bool? onlyActive = null);
         bool CheckAcadmicYearExists(string name, int? id = null);
         void ToggleActiveStatusAcadmicYear(int id);
-
+        IList<Holiday> GetAllHolidaysByAcadmicYear(int id, bool? onlyActive = null);
         void DeactivateAllAcadmicYears();
         #endregion
 
