@@ -10,13 +10,9 @@ namespace EF.Core.Data
         public string Description { get; set; }
         public int ParentCategoryId { get; set; }
         public int PictureId { get; set; }
-
         public bool IncludeInTopMenu { get; set; }
-
         public bool IsActive { get; set; }
-
         public bool IsDeleted { get; set; }
-
         public int DisplayOrder { get; set; }
 
     }

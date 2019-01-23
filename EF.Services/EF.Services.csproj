@@ -170,6 +170,7 @@
     <Compile Include="Service\IInstallationService.cs" />
     <Compile Include="Service\InstallationService.cs" />
     <Compile Include="Service\SMSService.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="Tasks\DefaultMachineNameProvider.cs" />
     <Compile Include="Tasks\IMachineNameProvider.cs" />
     <Compile Include="Tasks\IScheduleTaskService.cs" />

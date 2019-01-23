@@ -31,15 +31,13 @@ namespace SMS.App_Start
 				"~/Scripts/DataTables/dataTables.bootstrap4.min.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/adminaddon").Include(
-				 "~/Areas/Admin/Scripts/slim-scroll.min.js",
-				 "~/Areas/Admin/Scripts/raphel.min.js",
-				 "~/Areas/Admin/Scripts/morris.js",
-				 "~/Areas/Admin/Scripts/jquery-jvectormap.min.js",
-				 "~/Areas/Admin/Scripts/jquery-jvectormap-world-merc-en.js",
-				 "~/Areas/Admin/Scripts/jquery.gritter.js",
-				 "~/Areas/Admin/Scripts/apps.min.js",
-				 "~/Areas/Admin/Scripts/dashboard.min.js",
-				 "~/Areas/Admin/Scripts/common.Pictures.js",
+                "~/Areas/Admin/Scripts/sidebarmenu.js",
+                 "~/Areas/Admin/Scripts/scrollbar.min.js",
+				 "~/Areas/Admin/Scripts/jquery.gritter.js",     
+				 "~/Areas/Admin/Scripts/waves.min.js",
+                 "~/Areas/Admin/Scripts/scrollbar.min.js",
+                 "~/Areas/Admin/Scripts/dashboard.min.js",
+                 "~/Areas/Admin/Scripts/common.Pictures.js",
 				 "~/Areas/Admin/Scripts/public.common.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/datetimepicker").Include(
@@ -92,19 +90,19 @@ namespace SMS.App_Start
             bundles.Add(new StyleBundle("~/Content/daterangepicker").Include(
                  "~/Content/daterangepicker.css"));
 
-            bundles.Add(new StyleBundle("~/Content/adminaddon").Include(
-				 "~/Areas/Admin/Content/morris.css"));
-
 			bundles.Add(new StyleBundle("~/Content/dzone").Include(
 				 "~/Scripts/dropzone/dropzone.min.css"));
 
 			bundles.Add(new StyleBundle("~/Content/JqGrid").Include(
 				  "~/Content/jquery.jqGrid/ui.jqgrid.css"));
 
-			bundles.Add(new StyleBundle("~/Areas/Admin/Content/AdminStyles").Include(
+			bundles.Add(new StyleBundle("~/Content/AdminCss").Include(
 			 "~/Areas/Admin/Content/AdminStyles.css"));
 
-			bundles.Add(new ScriptBundle("~/Scripts/addon").Include(
+            bundles.Add(new StyleBundle("~/Content/ThemeIcons").Include(
+             "~/Content/themeicons.css"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/addon").Include(
 					 "~/Scripts/steller.min.js",
 					 "~/Scripts/waypoints.min.js",
 					 "~/Scripts/counter.min.js",

@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.AssessmentModel
+@using EF.Services;
 @{
     ViewBag.Title = "Create Assessment";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Assessment</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="create-form">
@@ -12,7 +21,6 @@
                 @Html.HiddenFor(model => model.Id)
                 <div class="row text-left">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">CREATE ASSESSMENT</h3>
                         <button type="submit" name="save" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Create
                         </button>
@@ -224,9 +232,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Assessments')").closest("li").addClass("active");
-
+        $("li#assessments ul").css("height", "");
         if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
         }

@@ -1,9 +1,17 @@
 ﻿@model SMS.Models.AssessmentModel
 @using EF.Services;
 @{
-    ViewBag.Title = "Edit Assessment";
+    ViewBag.Title = "Update Assessment";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Update Assessment</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="edit-form">
@@ -13,7 +21,6 @@
                 @Html.HiddenFor(model => model.Id)
                 <div class="row">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">EDIT ASSESSMENT</h3>
                         <button type="submit" name="save" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Save
                         </button>&nbsp;&nbsp;
@@ -92,7 +99,7 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form date start-time">
                                                     <i class="fa fa-calendar prefix"></i>
-                                                    @Html.EditorFor(model => model.StartTime, "MDDateTime.cshtml")
+                                                    @Html.EditorFor(model => model.StartTime, "DateTimePicker.cshtml")
                                                     @Html.LabelFor(model => model.StartTime, "Start Time", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
                                                 </div>
@@ -102,7 +109,7 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form date end-time">
                                                     <i class="fa fa-calendar prefix"></i>
-                                                    @Html.EditorFor(model => model.EndTime, "MDDateTime.cshtml")
+                                                    @Html.EditorFor(model => model.EndTime, "DateTimePicker.cshtml")
                                                     @Html.LabelFor(model => model.EndTime, "End Time", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
                                                 </div>
@@ -225,9 +232,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Assessments')").closest("li").addClass("active");
-
         if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
         }

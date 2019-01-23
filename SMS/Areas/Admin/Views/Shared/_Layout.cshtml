@@ -24,9 +24,8 @@
     @Styles.Render("~/Content/mdb")
     @Styles.Render("~/Content/datetimepicker")
     @Styles.Render("~/Content/datatable")
-    @Styles.Render("~/Content/JqGrid")
-    @Styles.Render("~/Content/adminaddon")
-    @Styles.Render("~/Areas/Admin/Content/AdminStyles")
+    @Styles.Render("~/Content/ThemeIcons")
+    @Styles.Render("~/Content/AdminCss")
     <link rel="shortcut icon" href="">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -35,38 +34,44 @@
         <script src="~/Areas/Admin/Scripts/excanvas.min.js"></script>
     <![endif]-->
 </head>
-<body class="fixed-sn light-blue-skin">
+<body class="fix-header fix-sidebar card-no-border">
     <div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
-    <header class="app">
-        <nav class="navbar navbar-expand-lg navbar-dark double-nav fixed-top scrolling-navbar">
-            <div class="breadcrumb-dn mr-auto">
-                @Html.Partial("~/Areas/Admin/Views/Common/Breadcrumb.cshtml")
-            </div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-            </button>
-            @Html.Action("TopLinks", "Dashboard", new { @area="admin" })
-        </nav>
-        <div class="sidebar" data-color="purple" data-background-color="white">
-            <div class="logo">
-                <a class="simple-text logo-normal" href="/">SMS</a>
-            </div>
-            <div class="sidebar-wrapper">
-                @Html.Action("SideBar", "Dashboard", null)
+    <div id="main-wrapper">
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <b>
+                            <img src="~/Content/images/logo-sm.png" alt="homepage" class="light-logo">
+                        </b>
+                        <span>
+                            <img src="~/Content/images/logo.png" alt="homepage" class="dark-logo">
+                        </span>
+                    </a>
+                </div>
+                <div class="navbar-collapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <li class="nav-item hidden-sm-down"><span>Dashboard</span></li>
+                    </ul>
+                    @Html.Action("TopLinks", "Dashboard", new { @area = "admin" })
+                </div>
+            </nav>
+        </header>
+        @Html.Action("SideBar", "Dashboard", null)
+        <div class="row hdr-nav-bar">
+            <div class="col-md-12">
+                @Html.Partial("Notifications")
             </div>
         </div>
-    </header>
-    <div class="main-panel">
-        @Html.Partial("Notifications")
-        <div class="content">
+        <div class="page-wrapper" style="min-height: 428px;">
             <div class="container-fluid">
                 @RenderBody()
             </div>
+            <footer class="page-footer center-on-small-only"></footer>
         </div>
     </div>
-    <div class="clearfix"></div>
-    <footer class="page-footer center-on-small-only"></footer>
     <script type="text/javascript">
         $(document).ready(function () {
             $(".throbber").hide();

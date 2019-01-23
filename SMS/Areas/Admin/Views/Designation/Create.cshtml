@@ -1,26 +1,34 @@
 ﻿@model SMS.Models.DesignationModel
-    @{
-        ViewBag.Title = "Create Designation";
-        Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    }
-    <div class="row">
-        <div class="col-md-12 mr-4">
-            <section class="create-form">
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.HiddenFor(model => model.Id)
-                    <div class="row text-left">
-                        <div id="admin-page-header" class="col-xs-12 col-md-12">
-                            <h3 class="section-heading mr-auto">CREATE DESIGNATION</h3>
-                            <button type="submit" name="save" class="btn btn-primary mr-auto">
-                                <i class="fa fa-save">&nbsp;&nbsp;</i>Create
-                            </button>
-                            <button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
-                                <i class="fa fa-save">&nbsp;&nbsp;</i>Create & Continue
-                            </button>
-                        </div>
+@using EF.Services;
+@{
+    ViewBag.Title = "Create Designation";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Designation</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="create-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="row text-left">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <button type="submit" name="save" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Create
+                        </button>
+                        <button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Create & Continue
+                        </button>
                     </div>
+                </div>
                     <div class="row">
                         <div class="col-12 my-3">
                             <div class="tabs-wrapper">
@@ -73,29 +81,27 @@
                             </div>
                         </div>
                     </div>
-                }
-            </section>
-        </div>
+            }
+        </section>
     </div>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("li.nav-item").removeClass("active");
-            $("span.nav-title:contains('Designations')").closest("li").addClass("active");
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li#designations ul").css("height", "");
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
 
-            if ($("#IsActive").val() == "True") {
-                $("#IsActive").attr('checked', true).val(true);
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
             }
             else {
-                $("#IsActive").attr('checked', false).val(false);
+                $(this).attr('checked', false).val(false);
             }
-
-            $("#IsActive").change(function () {
-                if ($(this).prop('checked')) {
-                    $(this).attr('checked', true).val(true);
-                }
-                else {
-                    $(this).attr('checked', false).val(false);
-                }
-            });
         });
-    </script>
+    });
+</script>

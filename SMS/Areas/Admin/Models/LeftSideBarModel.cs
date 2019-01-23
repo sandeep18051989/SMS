@@ -13,12 +13,17 @@ namespace SMS.Areas.Admin.Models
 		#region Properties
 
 		public AdminUserModel adminUserModel { get; set; }
-
 		public SettingsViewModel Settings { get; set; }
-
 		public string ActiveSettings { get; set; }
+        public int LatestNewsCount { get; set; }
+        public int LatestBlogsCount { get; set; }
+        public int LatestEventsCount { get; set; }
+        public int LatestFeedbacksCount { get; set; }
+        public int LatestAuditLogsCount { get; set; }
+        public int LatestSystemLogsCount { get; set; }
 
-		#endregion
+        public int LatestUsersCount { get; set; }
+        #endregion
 
-	}
+    }
 }

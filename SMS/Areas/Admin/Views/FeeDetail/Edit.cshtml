@@ -4,6 +4,14 @@
     ViewBag.Title = "Update Fee Detail";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Update Fee Detail</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="edit-form">
@@ -13,7 +21,6 @@
                 @Html.HiddenFor(model => model.Id)
                 <div class="row">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">EDIT FEE DETAIL</h3>
                         <button type="submit" name="save" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Save
                         </button>&nbsp;&nbsp;
@@ -171,9 +178,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Fee Details')").closest("li").addClass("active");
-
+        $("li#feedetails ul").css("height", "");
         $(document).on("change", '#@Html.IdFor(model => model.FeesPaid)', function () {
             if (($(this).val() != null && $(this).val() !== "") && ($('#@Html.IdFor(model => model.TotalFees)').val() != null && $('#@Html.IdFor(model => model.TotalFees)').val() !== "")) {
                 var feePaid = parseFloat($(this).val());

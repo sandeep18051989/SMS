@@ -90,7 +90,8 @@ namespace SMS.Areas.Admin.Controllers
                         {
                             IsActive = x.IsActive,
                             UserId = x.UserId,
-                            Id = x.Id
+                            Id = x.Id,
+                            Name = x.Name
                         }).OrderByDescending(x => x.IsActive).ToList()
                     },
                     ContentEncoding = Encoding.Default,

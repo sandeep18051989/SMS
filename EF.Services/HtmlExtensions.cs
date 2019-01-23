@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Routing;
 //using System.Web.WebPages;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using System.Web.WebPages;
-using FluentValidation;
 
 namespace EF.Services
 {
-	public static class HtmlExtensions
+    public static class HtmlExtensions
 	{
 		[ThreadStatic]
 		private static StringBuilder m_ReplaceSB;
@@ -353,6 +349,57 @@ namespace EF.Services
 			return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region Breadcrumbs
+
+        public static string BuildBreadcrumbNavigation(this HtmlHelper helper)
+        {
+            // optional condition: I didn't wanted it to show on home and account controller
+            if (helper.ViewContext.RouteData.Values["controller"].ToString() == "Home" ||
+                helper.ViewContext.RouteData.Values["controller"].ToString() == "Dashboard" ||
+                helper.ViewContext.RouteData.Values["controller"].ToString() == "Account")
+            {
+                return string.Empty;
+            }
+
+            StringBuilder breadcrumb = new StringBuilder("<ol class='breadcrumb'><li class='breadcrumb-item'>").Append(helper.RouteLink("Home" , new { Area = "" }).ToHtmlString()).Append("</li>");
+
+            if (helper.ViewContext.RouteData.Values["action"].ToString() == "List")
+            {
+                breadcrumb.Append("<li class='breadcrumb-item'>");
+
+                var pluralWord = helper.ViewContext.RouteData.Values["controller"].ToString().Split(' ');
+                string lastWord = pluralWord[pluralWord.Length - 1];
+
+                breadcrumb.Append(helper.ActionLink(((lastWord == "e") ? helper.ViewContext.RouteData.Values["controller"].ToString() : helper.ViewContext.RouteData.Values["controller"].ToString() + "s"),
+                                                    helper.ViewContext.RouteData.Values["action"].ToString().Titleize(),
+                                                    helper.ViewContext.RouteData.Values["controller"].ToString()));
+                breadcrumb.Append("</li>");
+            }
+            else if (helper.ViewContext.RouteData.Values["action"].ToString() == "Create")
+            {
+                breadcrumb.Append("<li class='breadcrumb-item'>");
+                breadcrumb.Append(helper.ActionLink(helper.ViewContext.RouteData.Values["controller"].ToString().Titleize(),
+                                                    helper.ViewContext.RouteData.Values["action"].ToString(),
+                                                    helper.ViewContext.RouteData.Values["controller"].ToString()));
+                breadcrumb.Append("</li>");
+            }
+            else if (helper.ViewContext.RouteData.Values["action"].ToString() == "Edit")
+            {
+            }
+            else
+            {
+                breadcrumb.Append("<li class='breadcrumb-item'>");
+                breadcrumb.Append(helper.ActionLink(helper.ViewContext.RouteData.Values["controller"].ToString().Titleize(),
+                                                    helper.ViewContext.RouteData.Values["action"].ToString(),
+                                                    helper.ViewContext.RouteData.Values["controller"].ToString()));
+                breadcrumb.Append("</li>");
+            }
+
+            return breadcrumb.Append("</ol>").ToString();
+        }
+
+        #endregion
+    }
 }

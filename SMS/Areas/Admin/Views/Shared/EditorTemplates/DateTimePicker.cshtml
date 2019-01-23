@@ -1,19 +1,16 @@
 ﻿@model DateTime?
-@Html.TextBoxFor(model => model, new { @class = "form-control", @value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy HH:mm tt") : "" : ""), @data_value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy HH:mm tt") : "" : ""), @autocomplete="false", @onkeydown = "return false" })
+
+@Html.TextBoxFor(model => model, new { @class = "form-control", @value = (Model.HasValue && Model.Value.Year != 0001 ? Model.Value.ToString("MMM dd, yyyy HH:mm tt") : ""), @data_value = (Model.HasValue ? Model.Value.ToString("MMM dd, yyyy HH:mm tt") : ""), @autocomplete="false", @onkeydown = "return false" })
 <script type="text/javascript">
     $(function () {
         $('#@Html.IdFor(model => model)').datetimepicker({
-            format: 'DD MMMM YYYY hh:mm a',
+            format: 'MMM DD, YYYY hh:mm a',
             inline: false,
             sideBySide: true,
             useCurrent: false,
-            defaultDate: null
-        });
-
-        $('.start-time input[type=text]').on('change', function (e) {
-            console.log(e.date);
-            console.log($('.end-time input[type=text]').val());
-        })
-        $('.end-time input[type=text]').on('change', function (e) { console.log(e.date); })
+            date: moment('@(Model.HasValue && Model.Value.Year != 0001 ? Model.Value.ToString("MMM dd, yyyy HH:mm tt") : "")')
+        }).on('dp.change', function (selected) {
+            //$(".end-time input[type=text]").datetimepicker('minDate', moment(selected.date.valueOf()));
+        }).data('datetimepicker');
     });
 </script>

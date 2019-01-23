@@ -267,7 +267,17 @@
     <Content Include="Areas\Admin\Content\AdminStyles.css" />
     <Content Include="Areas\Admin\Content\fineuploader.min.css" />
     <Content Include="Areas\Admin\Content\morris.css" />
-    <Content Include="Areas\Admin\Scripts\apps.min.js" />
+    <Content Include="Areas\Admin\Scripts\waves.min.js" />
+    <Content Include="Content\fonts\Roboto-Black.svg" />
+    <Content Include="Content\fonts\Roboto-BlackItalic.svg" />
+    <Content Include="Content\fonts\Roboto-Bold.svg" />
+    <Content Include="Content\fonts\Roboto-BoldItalic.svg" />
+    <Content Include="Content\fonts\Roboto-Light.svg" />
+    <Content Include="Content\fonts\Roboto-Medium.svg" />
+    <Content Include="Content\fonts\Roboto-Regular.svg" />
+    <Content Include="Content\fonts\Roboto-Thin.svg" />
+    <Content Include="Content\images\logo-sm.png" />
+    <Content Include="Content\themeicons.css" />
     <Content Include="Areas\Admin\Scripts\dashboard.min.js" />
     <Content Include="Areas\Admin\Scripts\jquery-jvectormap.min.js" />
     <Content Include="Areas\Admin\Scripts\jquery.gritter.js" />
@@ -275,6 +285,7 @@
     <Content Include="Areas\Admin\Scripts\morris.js" />
     <Content Include="Areas\Admin\Scripts\pace.min.js" />
     <Content Include="Areas\Admin\Scripts\raphel.min.js" />
+    <Content Include="Content\animate.min.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -554,6 +565,8 @@
     <Content Include="Content\fonts\HelveticaNeueLTPro-XBlkCn.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\fonts\materialdesignicons-webfont.svg" />
+    <Content Include="Content\fonts\themeicon.svg" />
     <Content Include="Content\images\1.jpg" />
     <Content Include="Content\images\2.jpg" />
     <Content Include="Content\images\3.jpg" />
@@ -616,14 +629,15 @@
     <Content Include="Content\images\waiting-generic.png" />
     <Content Include="Content\jquery.jqGrid\ellipsis-xbl.xml" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
+    <Content Include="Content\loader.css" />
     <Content Include="Content\mdb.min.css" />
+    <Content Include="Content\mdbicons.min.css" />
     <Content Include="Content\OwlCarousel\AjaxLoader.gif" />
     <Content Include="Content\OwlCarousel\grabbing.png" />
     <Content Include="Content\OwlCarousel\owl.carousel.css" />
     <Content Include="Content\OwlCarousel\owl.theme.css" />
     <Content Include="Content\OwlCarousel\owl.transitions.css" />
     <Content Include="Content\styles.css" />
-    <Content Include="Content\svgicons.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg">
@@ -670,7 +684,6 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -832,7 +845,6 @@
     <Content Include="Content\images\throbber.gif" />
     <Content Include="Content\images\writeus.png" />
     <Content Include="Content\new-year.css" />
-    <Content Include="Content\ProfileCard.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\font_styles.css" />
     <Content Include="Global.asax" />
@@ -1379,7 +1391,7 @@
     </Content>
     <Content Include="Areas\Admin\Views\Common\Search.cshtml" />
     <Content Include="Areas\Admin\Views\Common\BellNotifications.cshtml" />
-    <Content Include="Areas\Admin\Scripts\slim-scroll.min.js" />
+    <Content Include="Areas\Admin\Scripts\scrollbar.min.js" />
     <Content Include="Areas\Admin\Views\Common\Breadcrumb.cshtml" />
     <Content Include="Content\fonts\FontAwesome.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1540,11 +1552,6 @@
     <Content Include="Content\bootstrap-reboot.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="fonts\fontawesome-webfont.woff2" />
-    <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\fontawesome-webfont.ttf" />
-    <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1628,6 +1635,37 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Content\fonts\themeicon.woff" />
+    <Content Include="Content\fonts\themeicon.eot" />
+    <Content Include="Content\fonts\themeicon.ttf" />
+    <Content Include="Content\fonts\materialdesignicons-webfont.woff2" />
+    <Content Include="Content\fonts\materialdesignicons-webfont.eot" />
+    <Content Include="Content\fonts\materialdesignicons-webfont.woff" />
+    <Content Include="Content\fonts\materialdesignicons-webfont.ttf" />
+    <Content Include="Content\fonts\Roboto-Black.eot" />
+    <Content Include="Content\fonts\Roboto-Black.ttf" />
+    <Content Include="Content\fonts\Roboto-Black.woff" />
+    <Content Include="Content\fonts\Roboto-BlackItalic.eot" />
+    <Content Include="Content\fonts\Roboto-BlackItalic.ttf" />
+    <Content Include="Content\fonts\Roboto-BlackItalic.woff" />
+    <Content Include="Content\fonts\Roboto-Bold.eot" />
+    <Content Include="Content\fonts\Roboto-Bold.ttf" />
+    <Content Include="Content\fonts\Roboto-Bold.woff" />
+    <Content Include="Content\fonts\Roboto-BoldItalic.eot" />
+    <Content Include="Content\fonts\Roboto-BoldItalic.ttf" />
+    <Content Include="Content\fonts\Roboto-BoldItalic.woff" />
+    <Content Include="Content\fonts\Roboto-Light.eot" />
+    <Content Include="Content\fonts\Roboto-Light.ttf" />
+    <Content Include="Content\fonts\Roboto-Light.woff" />
+    <Content Include="Content\fonts\Roboto-Medium.eot" />
+    <Content Include="Content\fonts\Roboto-Medium.ttf" />
+    <Content Include="Content\fonts\Roboto-Medium.woff" />
+    <Content Include="Content\fonts\Roboto-Regular.eot" />
+    <Content Include="Content\fonts\Roboto-Regular.ttf" />
+    <Content Include="Content\fonts\Roboto-Regular.woff" />
+    <Content Include="Content\fonts\Roboto-Thin.eot" />
+    <Content Include="Content\fonts\Roboto-Thin.ttf" />
+    <Content Include="Content\fonts\Roboto-Thin.woff" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1857,6 +1895,7 @@
     <Content Include="Scripts\public.comment.js" />
     <Content Include="Scripts\public.home.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Areas\Admin\Scripts\sidebarmenu.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />

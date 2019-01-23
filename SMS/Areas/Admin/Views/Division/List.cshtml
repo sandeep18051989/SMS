@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.DivisionModel
+@using EF.Services;
 @{
     ViewBag.Title = "Divisions";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Divisions</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="list-form">
@@ -40,9 +49,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Divisions')").closest("li").addClass("active");
-
+        $("li#divisions ul").css("height", "");
         // Initiallize Datatable
         $('.custom-table').DataTable({
             "processing": true, // for show progress bar

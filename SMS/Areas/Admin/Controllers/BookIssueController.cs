@@ -13,7 +13,7 @@ using EF.Core.Enums;
 
 namespace SMS.Areas.Admin.Controllers
 {
-    public class BookIssueIssueController : AdminAreaController
+    public class BookIssueController : AdminAreaController
     {
 
         #region Fields
@@ -31,7 +31,7 @@ namespace SMS.Areas.Admin.Controllers
 
         #region Constructor
 
-        public BookIssueIssueController(IUserService userService, IUserContext userContext, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, ISMSService smsService, ICommentService commentService, IReplyService replyService)
+        public BookIssueController(IUserService userService, IUserContext userContext, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, ISMSService smsService, ICommentService commentService, IReplyService replyService)
         {
             this._userService = userService;
             this._userContext = userContext;
@@ -118,7 +118,7 @@ namespace SMS.Areas.Admin.Controllers
         #endregion
         public ActionResult List()
         {
-            if (!_permissionService.Authorize("ManageBookIssue"))
+            if (!_permissionService.Authorize("ManageBook"))
                 return AccessDeniedView();
 
             var model = new BookIssueModel();
@@ -127,7 +127,7 @@ namespace SMS.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            if (!_permissionService.Authorize("ManageBookIssue"))
+            if (!_permissionService.Authorize("ManageBook"))
                 return AccessDeniedView();
 
             if (id == 0)
@@ -168,7 +168,7 @@ namespace SMS.Areas.Admin.Controllers
         [ValidateInput(false)]
         public ActionResult Edit(BookIssueModel model, FormCollection frm, bool continueEditing)
         {
-            if (!_permissionService.Authorize("ManageBookIssue"))
+            if (!_permissionService.Authorize("ManageBook"))
                 return AccessDeniedView();
 
             var checkBookIssue = false;
@@ -226,7 +226,7 @@ namespace SMS.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            if (!_permissionService.Authorize("ManageBookIssue"))
+            if (!_permissionService.Authorize("ManageBook"))
                 return AccessDeniedView();
 
             var model = new BookIssueModel();
@@ -255,7 +255,7 @@ namespace SMS.Areas.Admin.Controllers
         [ValidateInput(false)]
         public ActionResult Create(BookIssueModel model, bool continueEditing)
         {
-            if (!_permissionService.Authorize("ManageBookIssue"))
+            if (!_permissionService.Authorize("ManageBook"))
                 return AccessDeniedView();
 
             var checkBookIssue = false;
@@ -309,7 +309,7 @@ namespace SMS.Areas.Admin.Controllers
 
         public ActionResult Delete(int id)
         {
-            if (!_permissionService.Authorize("ManageBookIssue"))
+            if (!_permissionService.Authorize("ManageBook"))
                 return AccessDeniedView();
 
             if (id == 0)
