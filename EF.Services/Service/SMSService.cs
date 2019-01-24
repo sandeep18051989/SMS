@@ -68,6 +68,8 @@ namespace EF.Services.Service
         private readonly IRepository<Book> _bookRepository;
         private readonly IRepository<Holiday> _holidayRepository;
         private readonly IRepository<AssessmentStudent> _assessmentStudentRepository;
+        private readonly IRepository<ProductCategory> _productCategoryRepository;
+        private readonly IRepository<ProductCategoryMapping> _productCategoryMappingRepository;
 
         public SMSService(IRepository<Student> studentRepository,
         IRepository<Teacher> teacherRepository,
@@ -124,6 +126,8 @@ namespace EF.Services.Service
         IRepository<BookIssue> bookIssueRepository,
         IRepository<Holiday> holidayRepository,
         IRepository<AssessmentStudent> assessmentStudentRepository,
+        IRepository<ProductCategory> productCategoryRepository,
+        IRepository<ProductCategoryMapping> productCategoryMappingRepository,
         IDbContext dbContext)
         {
             _studentRepository = studentRepository;
@@ -183,6 +187,8 @@ namespace EF.Services.Service
             this._bookIssueRepository = bookIssueRepository;
             this._holidayRepository = holidayRepository;
             this._assessmentStudentRepository = assessmentStudentRepository;
+            this._productCategoryRepository = productCategoryRepository;
+            this._productCategoryMappingRepository = productCategoryMappingRepository;
         }
         #endregion
 
@@ -270,7 +276,7 @@ namespace EF.Services.Service
 
             return query.OrderBy(x => x.FName).ToList();
         }
-        public IList<Student> SearchStudents(bool? onlyActive=null, int? classid = null, int? acedemicyearid = null)
+        public IList<Student> SearchStudents(bool? onlyActive = null, int? classid = null, int? acedemicyearid = null)
         {
             var query = _studentRepository.Table.ToList();
 
@@ -653,7 +659,7 @@ namespace EF.Services.Service
         }
         public bool CheckFeeCategoryExists(int catid, int classdivid, int acadmicyearid, int? id = null)
         {
-            if (catid ==0 || classdivid == 0 || acadmicyearid == 0)
+            if (catid == 0 || classdivid == 0 || acadmicyearid == 0)
                 throw new ArgumentNullException("catid");
 
             return _feeCategoryRepository.Table.Any(a => ((a.CategoryId == catid) && (a.ClassDivisionId == classdivid) && a.AcadmicYearId == acadmicyearid) && (!id.HasValue || id.Value != a.Id) && a.IsDeleted == false);
@@ -802,12 +808,12 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            var objCategory = _casteRepository.GetByID(id);
+            var objCategory = _categoryRepository.GetByID(id);
             if (objCategory != null)
             {
                 objCategory.IsActive = !objCategory.IsActive;
                 objCategory.ModifiedOn = DateTime.Now;
-                _casteRepository.Update(objCategory);
+                _categoryRepository.Update(objCategory);
             }
 
         }
@@ -817,6 +823,120 @@ namespace EF.Services.Service
                 throw new ArgumentNullException("name");
 
             return _casteRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.Name.Trim().ToLower() == name.Trim().ToLower()) && x.IsDeleted == false);
+        }
+        #endregion
+
+        #region Product Category
+        public void InsertProductCategory(ProductCategory productCategory)
+        {
+            _productCategoryRepository.Insert(productCategory);
+        }
+        public void UpdateProductCategory(ProductCategory productCategory)
+        {
+            _productCategoryRepository.Update(productCategory);
+        }
+        public void DeleteProductCategory(int id)
+        {
+            var productCategory = _productCategoryRepository.GetByID(id);
+            if (productCategory != null)
+            {
+                productCategory.IsActive = false;
+                productCategory.IsDeleted = true;
+                _productCategoryRepository.Update(productCategory);
+            }
+        }
+        public IList<ProductCategory> GetAllProductCategories(bool? onlyActive = null)
+        {
+            return _productCategoryRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
+        }
+
+        public IList<Product> GetAllProductsByProductCategory(int productCategoryId, bool? onlyActive = null)
+        {
+            return _productRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.ProductCategories.Any(y => y.ProductCategoryId == productCategoryId) && x.IsDeleted == false).ToList();
+        }
+        public ProductCategory GetProductCategoryById(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            return _productCategoryRepository.GetByID(id);
+        }
+        public IList<ProductCategory> GetProductCategoryByName(string name, bool? active)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new Exception("ProductCategory Name is Missing.");
+
+            var query = _productCategoryRepository.Table.Where(a => (a.Name.ToLower().Contains(name.ToLower())) && a.IsDeleted == false).ToList();
+
+            if (active.HasValue)
+                query = query.Where(x => x.IsActive == active).ToList();
+
+            return query.OrderBy(x => x.Name).ToList();
+        }
+        public void ToggleActiveStatusProductCategory(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objProductCategory = _productCategoryRepository.GetByID(id);
+            if (objProductCategory != null)
+            {
+                objProductCategory.IsActive = !objProductCategory.IsActive;
+                objProductCategory.ModifiedOn = DateTime.Now;
+                _productCategoryRepository.Update(objProductCategory);
+            }
+
+        }
+        public void ToggleMenuStatusProductCategory(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objProductCategory = _productCategoryRepository.GetByID(id);
+            if (objProductCategory != null)
+            {
+                objProductCategory.IncludeInTopMenu = !objProductCategory.IncludeInTopMenu;
+                objProductCategory.ModifiedOn = DateTime.Now;
+                _productCategoryRepository.Update(objProductCategory);
+            }
+
+        }
+        public bool CheckProductCategoryExists(string name, int? id = null)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("name");
+
+            return _casteRepository.Table.Any(x => (!id.HasValue || id.Value != x.Id) && (x.Name.Trim().ToLower() == name.Trim().ToLower()) && x.IsDeleted == false);
+        }
+        public IList<ProductCategoryMapping> GetCategoryProductMappings(int? categoryid = null, int? productid = null)
+        {
+            return _productCategoryMappingRepository.Table.Where(x => (!categoryid.HasValue || x.ProductCategoryId == categoryid.Value) && (!productid.HasValue || x.ProductId == productid.Value)).ToList();
+        }
+
+        public void InsertProductCategoryMapping(ProductCategoryMapping productCategoryMapping)
+        {
+            _productCategoryMappingRepository.Insert(productCategoryMapping);
+        }
+        public void UpdateProductCategoryMapping(ProductCategoryMapping productCategoryMapping)
+        {
+            _productCategoryMappingRepository.Update(productCategoryMapping);
+        }
+        public void DeleteProductCategoryMapping(int id)
+        {
+            var productCategoryMapping = _productCategoryMappingRepository.GetByID(id);
+            if (productCategoryMapping != null)
+            {
+                _productCategoryMappingRepository.Delete(productCategoryMapping);
+            }
+        }
+
+        public void RemoveProductFromCategory(int productcategoryid, int productid)
+        {
+            var productCategoryMapping = _productCategoryMappingRepository.Table.FirstOrDefault(s => s.ProductCategoryId == productcategoryid && s.ProductId == productid);
+            if (productCategoryMapping != null)
+            {
+                _productCategoryMappingRepository.Delete(productCategoryMapping);
+            }
         }
         #endregion
 
@@ -1905,6 +2025,20 @@ namespace EF.Services.Service
             return query.Where(s => s.IsDeleted == false).OrderBy(s => s.Name).ToList();
 
         }
+        public void ToggleActiveStatusVendor(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objVendor = _vendorRepository.GetByID(id);
+            if (objVendor != null)
+            {
+                objVendor.IsActive = !objVendor.IsActive;
+                objVendor.ModifiedOn = DateTime.Now;
+                _vendorRepository.Update(objVendor);
+            }
+
+        }
         #endregion
 
         #region Purchase
@@ -2885,7 +3019,7 @@ namespace EF.Services.Service
                 _studentAssessmentRepository.Update(studentAssessment);
             }
         }
-        public IList<Assessment> GetAllAssessments(bool? onlyActive=null)
+        public IList<Assessment> GetAllAssessments(bool? onlyActive = null)
         {
             return _assessmentRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
         }

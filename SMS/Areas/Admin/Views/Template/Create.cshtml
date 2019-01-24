@@ -1,116 +1,125 @@
 ﻿@model SMS.Areas.Admin.Models.CreateTemplateModel
-
+@using EF.Services;
 @{
-	ViewBag.Title = "Create Template";
-	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Create Template";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Template</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
-	<div class="col-md-12 mr-4">
-		<section class="create-form">
-			@using (Html.BeginForm("Create", "Template", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+    <div class="col-md-12 mr-4">
+        <div class="tab-content card">
+            <div class="tab-pane fade in show active" id="template" role="tabpanel">
+                <section class="create-form">
+                    @using (Html.BeginForm("Create", "Template", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
 			{
-				@Html.AntiForgeryToken()
-				<div class="row">
-					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">CREATE TEMPLATE</h3>
-						<input type="submit" value="Create" class="btn btn-primary mr-auto" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-					</div>
-				</div>
-				<hr />
-				<div class="jumbotron p-4 text-left text-md-left">
-					<h3 class="h3-responsive font-weight-bold dark-grey-text">Tokens</h3> 
-					<em>*Click to use token in your template</em>
-					<hr />
-					<div class="row text-left">
-						<div class="col-md-12">
-							<div class="md-form">
-								<ul class="lstTokens">
-									@foreach (var token in Model.InsertDataTokensModel)
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div id="admin-page-header" class="col-xs-12 col-md-12">
+                            <input type="submit" value="Create" class="btn btn-primary mr-auto" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="jumbotron p-4 text-left text-md-left">
+                        <h3 class="h3-responsive font-weight-bold dark-grey-text">Tokens</h3>
+                        <em>*Click to use token in your template</em>
+                        <hr />
+                        <div class="row text-left">
+                            <div class="col-md-12">
+                                <div class="md-form">
+                                    <ul class="lstTokens">
+                                        @foreach (var token in Model.InsertDataTokensModel)
 									{
-										@Html.Partial("_DataToken", token)
+                                @Html.Partial("_DataToken", token)
 									}
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row text-left">
-					<div class="col-xs-12 col-md-12 mb-4">
-						<div class="md-form">
-							<ul class="alert alert-info alert-hints">
-								<li>
-									<strong>Info!</strong> Please make sure that you are appending - [ ] - these brackets after and before a data token you want to use. e.g. [TokenName]
-								</li>
-								<li><strong>Info!</strong> System defined templates cannot be deleted and you cannot make them active or inactive.</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="row text-left">
-					<div class="col-md-6 mb-4">
-						<div class="md-form">
-							<i class="fa fa-play-circle-o prefix"></i>
-							@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name", @tabindex = "1", @maxlength = "50" } })
-							@Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label" })
-							@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-						</div>
-					</div>
-				</div>
-				<div class="row text-left">
-					<div class="col-md-6 mb-4">
-						<div class="md-form">
-							<i class="fa fa-html5 prefix"></i>
-							@Html.EditorFor(model => model.BodyHtml, "HtmlTemplate.cshtml")
-							@Html.LabelFor(model => model.BodyHtml, "HTML", htmlAttributes: new { @class = "control-label" })
-							@Html.ValidationMessageFor(model => model.BodyHtml, "", new { @class = "text-danger" })
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-7 mb-4">
-						<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
-						@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { @class = "control-label" })
-						@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-					</div>
-				</div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-12 mb-4">
+                            <div class="md-form">
+                                <ul class="alert alert-info alert-hints">
+                                    <li>
+                                        <strong>Info!</strong> Please make sure that you are appending - [ ] - these brackets after and before a data token you want to use. e.g. [TokenName]
+                                    </li>
+                                    <li><strong>Info!</strong> System defined templates cannot be deleted and you cannot make them active or inactive.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-md-6 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-play-circle-o prefix"></i>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name", @tabindex = "1", @maxlength = "50" } })
+                                @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-md-6 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-html5 prefix"></i>
+                                @Html.EditorFor(model => model.BodyHtml, "HtmlTemplate.cshtml")
+                                @Html.LabelFor(model => model.BodyHtml, "HTML", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.BodyHtml, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7 mb-4">
+                            <input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+                            @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 			}
-		</section>
-	</div>
+                </section>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Templates')").closest("li").addClass("active");
-
-		if ($("#IsActive").val() == "True") {
-			$("#IsActive").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsActive").attr('checked', false).val(false);
-		}
-		$("#IsActive").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
-
-		$(document).on("click", "a[id*=t_]", function (e) {
-			var tokenlink = $(this);
-			if (tokenlink != undefined) {
-				$(this).parent().find('input[type=hidden]').remove();
-				$(this).parent().append('<input type="hidden" value="' + tokenlink.attr('data-placement') + '" id="token_' + tokenlink.attr('data-placement') + '" name="token_' + tokenlink.attr('data-placement') + '" />');
-				tinyMCE.activeEditor.execCommand('mceInsertContent', false, '[' + tokenlink.attr('data-toggle') + ']');
-				var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
-				tinyMCE.activeEditor.setContent(content, { format: 'raw' });
+        $("li#templates ul").css("height", "");
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
             }
-		});
-	});
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+
+        $(document).on("click", "a[id*=t_]", function (e) {
+            var tokenlink = $(this);
+            if (tokenlink != undefined) {
+                $(this).parent().find('input[type=hidden]').remove();
+                $(this).parent().append('<input type="hidden" value="' + tokenlink.attr('data-placement') + '" id="token_' + tokenlink.attr('data-placement') + '" name="token_' + tokenlink.attr('data-placement') + '" />');
+                tinyMCE.activeEditor.execCommand('mceInsertContent', false, '[' + tokenlink.attr('data-toggle') + ']');
+                var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
+                tinyMCE.activeEditor.setContent(content, { format: 'raw' });
+            }
+        });
+    });
 </script>

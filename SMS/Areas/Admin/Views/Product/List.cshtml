@@ -1,9 +1,17 @@
 ﻿@model IEnumerable<SMS.Models.ProductModel>
-
+@using EF.Services;
 @{
 	ViewBag.Title = "Products";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Products</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="list-form">
@@ -46,8 +54,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Products')").closest("li").addClass("active");
+        $("li#products ul").css("height", "");
 
 		$('#allcheck').on('click', function () {
 			var rows = table.rows({ 'search': 'applied' }).nodes();

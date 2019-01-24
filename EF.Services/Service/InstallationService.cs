@@ -3253,7 +3253,7 @@ namespace EF.Services.Service
 			addSubject.Name = "English";
 			addSubject.Remarks = "";
 			addSubject.UserId = user.Id;
-			addSubject.Code = "A03";
+			addSubject.Code = "A04";
 			addSubject.SubjectUniqueId = Guid.NewGuid();
 			_subjectRepository.Insert(addSubject);
 
@@ -3265,7 +3265,7 @@ namespace EF.Services.Service
 			addSubject.Name = "Social Studies";
 			addSubject.Remarks = "";
 			addSubject.UserId = user.Id;
-			addSubject.Code = "A04";
+			addSubject.Code = "A05";
 			addSubject.SubjectUniqueId = Guid.NewGuid();
 			_subjectRepository.Insert(addSubject);
 
@@ -3277,7 +3277,7 @@ namespace EF.Services.Service
 			addSubject.Name = "Physical Education";
 			addSubject.Remarks = "";
 			addSubject.UserId = user.Id;
-			addSubject.Code = "B01";
+			addSubject.Code = "A029";
 			addSubject.SubjectUniqueId = Guid.NewGuid();
 			_subjectRepository.Insert(addSubject);
 

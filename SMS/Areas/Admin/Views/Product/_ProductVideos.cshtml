@@ -130,7 +130,7 @@
 						});
 
 						$('#addVideo').click(function() {
-							var videoId = $("#@Html.IdFor(model => model.InsertVideoModel.VideoId)").val();
+							var videoId = $("#@Html.IdFor(model => model.VideoId)").val();
 
 							if (videoId === 0) {
 								setTimeout(function () {
@@ -316,8 +316,8 @@
 
 					});
 				</script>
-				@Html.EditorFor(model => model.InsertVideoModel.VideoId)
-				@Html.ValidationMessageFor(model => model.InsertVideoModel.VideoId)
+				@Html.EditorFor(model => model.VideoId)
+				@Html.ValidationMessageFor(model => model.VideoId)
 				&nbsp;
 			</div>
 			<div class="panel-footer">

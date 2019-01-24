@@ -278,7 +278,7 @@ namespace SMS.Areas.Admin.Controllers
             // Check for duplicate slider, if any
             var slider = _sliderService.GetSliderByName(model.Name);
             if (slider != null && slider.Id != model.Id)
-                ModelState.AddModelError("Title", "An Slider with the same name already exists. Please choose a different name.");
+                ModelState.AddModelError("Name", "An Slider with the same name already exists. Please choose a different name.");
 
             if (ModelState.IsValid)
             {
@@ -345,7 +345,7 @@ namespace SMS.Areas.Admin.Controllers
             // Check for duplicate slider, if any
             var slider = _sliderService.GetSliderByName(model.Name);
             if (slider != null)
-                ModelState.AddModelError("Title", "An Slider with the same name already exists. Please choose a different name.");
+                ModelState.AddModelError("Name", "An Slider with the same name already exists. Please choose a different name.");
 
             model.UserId = currentUser.Id;
             if (ModelState.IsValid)

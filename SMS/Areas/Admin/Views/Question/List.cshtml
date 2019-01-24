@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.QuestionModel
+@using EF.Services;
 @{
     ViewBag.Title = "Questions";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Questions</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="list-form">
@@ -40,9 +49,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Questions')").closest("li").addClass("active");
-
+        $("li#questions ul").css("height", "");
         // Initiallize Datatable
         var table = $('.custom-table').DataTable({
             "processing": true, // for show progress bar
@@ -154,7 +161,7 @@
                 }
             });
 
-        $(document).on("click","a[class^='toggle_']", function (e) {
+        $(document).on("click", "a[class^='toggle_']", function (e) {
             if (confirm("Are you sure, you want to update status for the selected question?")) {
                 var operation = $(this).data('operation').trim().toLowerCase();
 

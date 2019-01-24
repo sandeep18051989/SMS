@@ -363,7 +363,7 @@ namespace EF.Services
                 return string.Empty;
             }
 
-            StringBuilder breadcrumb = new StringBuilder("<ol class='breadcrumb'><li class='breadcrumb-item'>").Append(helper.RouteLink("Home" , new { Area = "" }).ToHtmlString()).Append("</li>");
+            StringBuilder breadcrumb = new StringBuilder("<ol class='breadcrumb'>").Append("<li class='breadcrumb-item'>").Append(helper.RouteLink("Home" , new { Area = "" }).ToHtmlString()).Append("</li>").Append("<li class='breadcrumb-item'>").Append(helper.RouteLink("Dashboard", "AdminDashboard", null).ToHtmlString()).Append("</li>");
 
             if (helper.ViewContext.RouteData.Values["action"].ToString() == "List")
             {

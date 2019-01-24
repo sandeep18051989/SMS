@@ -242,7 +242,7 @@ namespace SMS.Areas.Admin.Controllers
 			// Check for duplicate blog, if any
 			var _blog = _blogService.GetBlogByName(model.Name);
 			if (_blog != null && _blog.Id != model.Id)
-				ModelState.AddModelError("Title", "An Blog with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("Name", "An Blog with the same name already exists. Please choose a different name.");
 
 			if (ModelState.IsValid)
 			{
@@ -308,7 +308,7 @@ namespace SMS.Areas.Admin.Controllers
 			var newBlog = new Blog();
 			var _blog = _blogService.GetBlogByName(model.Name);
 			if (_blog != null)
-				ModelState.AddModelError("Title", "An Blog with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("Name", "An Blog with the same name already exists. Please choose a different name.");
 
 			model.UserId = currentUser.Id;
 			if (ModelState.IsValid)

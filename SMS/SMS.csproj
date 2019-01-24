@@ -1666,6 +1666,10 @@
     <Content Include="Content\fonts\Roboto-Thin.eot" />
     <Content Include="Content\fonts\Roboto-Thin.ttf" />
     <Content Include="Content\fonts\Roboto-Thin.woff" />
+    <Content Include="Areas\Admin\Views\ProductCategory\_CategoryProducts.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\List.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -2074,6 +2078,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminAreaController.cs" />
     <Compile Include="Areas\Admin\Controllers\AllowanceController.cs" />
     <Compile Include="Areas\Admin\Controllers\AssessmentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentController.cs" />
     <Compile Include="Areas\Admin\Controllers\HouseController.cs" />

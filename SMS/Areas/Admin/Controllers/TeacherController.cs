@@ -333,6 +333,8 @@ namespace SMS.Areas.Admin.Controllers
 			if (ModelState.IsValid)
 			{
 				var teacher = model.ToEntity();
+                teacher.CreatedOn = teacher.ModifiedOn = DateTime.Now;
+                teacher.UserId = _userContext.CurrentUser.Id;
 				_smsService.InsertTeacher(teacher);
 
 				var employ = _smsService.GetEmployeeById(teacher.EmployeeId);

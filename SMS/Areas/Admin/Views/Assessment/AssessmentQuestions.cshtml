@@ -156,9 +156,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Assessments')").closest("li").addClass("active");
-
         $('#allcheck').on('click', function () {
             $('input[type="checkbox"][class=table-check-input]').prop('checked', this.checked);
             $("input[type=submit]").attr("disabled", false);

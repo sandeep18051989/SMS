@@ -106,7 +106,11 @@ namespace SMS.Areas.Admin.Controllers
 							Address = x.Address,
 							MobileContact = x.MobileContact,
 							OfficeContact = x.OfficeContact,
-							ProductCount = _productService.GetProductsByVendor(x.Id).Count
+							ProductCount = _productService.GetProductsByVendor(x.Id).Count,
+                            RegNumber = x.RegNumber,
+                            IsActive = x.IsActive,
+                            AcadmicYearId = x.AcadmicYearId,
+                            AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId).Name
 						})
 					},
 					ContentEncoding = Encoding.Default,
@@ -194,8 +198,13 @@ namespace SMS.Areas.Admin.Controllers
 			{
 				model = eve.ToModel();
 			}
-
-			return View(model);
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.Id == model.AcadmicYearId
+            }).ToList();
+            return View(model);
 		}
 
 		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
@@ -212,7 +221,7 @@ namespace SMS.Areas.Admin.Controllers
 			if (vendor != null)
 			{
 			    if (vendor.Id != model.Id)
-			        ModelState.AddModelError("Title", "An Vendor with the same name already exists. Please choose a different name.");
+			        ModelState.AddModelError("Name", "An Vendor with the same name already exists. Please choose a different name.");
 			}
 
 		    if (ModelState.IsValid)
@@ -221,14 +230,19 @@ namespace SMS.Areas.Admin.Controllers
 				if (selectVendor == null || selectVendor.IsDeleted)
 					return RedirectToAction("List");
 
-                model.CreatedOn = selectVendor.CreatedOn;
                 selectVendor = model.ToEntity(selectVendor);
                 selectVendor.ModifiedOn = DateTime.Now;
 				_smsService.UpdateVendor(selectVendor);
 			}
 			else
 			{
-				ErrorNotification("An error occured while updating vendor. Please try again.");
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == model.AcadmicYearId
+                }).ToList();
+                ErrorNotification("An error occured while updating vendor. Please try again.");
 				return View(model);
 			}
 
@@ -246,7 +260,13 @@ namespace SMS.Areas.Admin.Controllers
 				return AccessDeniedView();
 
 			var model = new VendorModel();
-			return View(model);
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.Id == model.AcadmicYearId
+            }).ToList();
+            return View(model);
 		}
 
 		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
@@ -257,25 +277,28 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageVendors"))
 				return AccessDeniedView();
 
-			var currentUser = _userContext.CurrentUser;
 			// Check for duplicate vendor, if any
 			Vendor newVendor;
 			var vendor = _smsService.GetVendorsByName(model.Name);
 			if (vendor != null)
-				ModelState.AddModelError("Title", "An Vendor with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("Name", "An Vendor with the same name already exists. Please choose a different name.");
 
-			model.UserId = currentUser.Id;
 			if (ModelState.IsValid)
 			{
-				model.CreatedOn = model.ModifiedOn = DateTime.Now;
-				model.AcadmicYearId = _userContext.CurrentAcadmicYear.Id;
 				newVendor = model.ToEntity();
-
-				_smsService.InsertVendor(newVendor);
+                newVendor.CreatedOn = newVendor.ModifiedOn = DateTime.Now;
+                newVendor.UserId = _userContext.CurrentUser.Id;
+                _smsService.InsertVendor(newVendor);
 			}
 			else
 			{
-				ErrorNotification("An error occured while creating vendor. Please try again.");
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == model.AcadmicYearId
+                }).ToList();
+                ErrorNotification("An error occured while creating vendor. Please try again.");
 				return View(model);
 			}
 
@@ -301,11 +324,36 @@ namespace SMS.Areas.Admin.Controllers
 			return RedirectToAction("List");
 		}
 
-		#endregion
+        [HttpPost]
+        public ActionResult ToggleVendor(string id)
+        {
+            if (!_permissionService.Authorize("ManageVendors"))
+                return AccessDeniedView();
 
-		#region Vendor Product
+            if (String.IsNullOrEmpty(id))
+                throw new Exception("Id Not Found");
 
-		[HttpPost]
+            var _vendor = _smsService.GetVendorById(Convert.ToInt32(id));
+
+            if (_vendor != null)
+                _smsService.ToggleActiveStatusVendor(Convert.ToInt32(id));
+
+            if (_vendor.IsActive)
+            {
+                SuccessNotification("Vendor activated successfully.");
+            }
+            else
+            {
+                SuccessNotification("Vendor de-activated successfully.");
+            }
+            return View("List");
+        }
+
+        #endregion
+
+        #region Vendor Product
+
+        [HttpPost]
 		public ActionResult AssignProduct(int id, int productId)
 		{
 			if (!_permissionService.Authorize("ManageVendors"))

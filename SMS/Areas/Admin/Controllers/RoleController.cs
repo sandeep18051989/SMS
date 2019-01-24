@@ -27,12 +27,13 @@ namespace SMS.Areas.Admin.Controllers
         private readonly IReplyService _replyService;
         private readonly IBlogService _blogService;
         private readonly IPermissionService _permissionService;
+        private readonly ISMSService _smsService;
 
         #endregion Fileds
 
         #region Constructor
 
-        public RoleController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IRoleService roleService, IVideoService videoService, ICommentService commentService, IReplyService replyService, IBlogService blogService, IPermissionService permissionService)
+        public RoleController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IRoleService roleService, IVideoService videoService, ICommentService commentService, IReplyService replyService, IBlogService blogService, IPermissionService permissionService, ISMSService smsService)
         {
             this._userService = userService;
             this._pictureService = pictureService;
@@ -45,6 +46,7 @@ namespace SMS.Areas.Admin.Controllers
             this._replyService = replyService;
             this._blogService = blogService;
             this._permissionService = permissionService;
+            this._smsService = smsService;
         }
 
         #endregion
@@ -135,10 +137,14 @@ namespace SMS.Areas.Admin.Controllers
             var role = _roleService.GetRoleById(id);
             if (role != null)
             {
-                model = new RoleModel();
                 model = role.ToModel();
             }
-
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.Id == model.AcadmicYearId
+            }).ToList();
             return View(model);
         }
 
@@ -152,23 +158,28 @@ namespace SMS.Areas.Admin.Controllers
 
             var user = _userContext.CurrentUser;
             // Check for duplicate role, if any
-            var role = _roleService.GetRoleByName(model.RoleName);
-            if (role != null && role.Id != model.Id)
+            var checkRole = _roleService.GetRoleByName(model.RoleName);
+            if (checkRole != null && checkRole.Id != model.Id)
                 ModelState.AddModelError("RoleName", "A Role with the same name already exists. Please choose a different name.");
 
             if (ModelState.IsValid)
             {
-                var eve = _roleService.GetRoleById(model.Id);
-                if (eve != null)
+                var role = _roleService.GetRoleById(model.Id);
+                if (role != null && !role.IsSystemDefined)
                 {
-                    eve.RoleName = model.RoleName;
-                    eve.IsActive = model.IsActive;
-                    eve.ModifiedOn = DateTime.Now;
-                    _roleService.Update(eve);
+                    role = model.ToEntity(role);
+                    role.ModifiedOn = DateTime.Now;
+                    _roleService.Update(role);
                 }
             }
             else
             {
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == model.AcadmicYearId
+                }).ToList();
                 return View(model);
             }
 
@@ -182,6 +193,12 @@ namespace SMS.Areas.Admin.Controllers
                 return AccessDeniedView();
 
             var model = new RoleModel();
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
             return View(model);
         }
 
@@ -200,17 +217,20 @@ namespace SMS.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                var newRole = new UserRole()
-                {
-                    CreatedOn = DateTime.Now,
-                    IsActive = model.IsActive,
-                    ModifiedOn = DateTime.Now,
-                    RoleName = model.RoleName
-                };
+
+                var newRole = model.ToEntity();
+                newRole.CreatedOn = newRole.ModifiedOn = DateTime.Now;
+                newRole.UserId = _userContext.CurrentUser.Id;
                 _roleService.Insert(newRole);
             }
             else
             {
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == model.AcadmicYearId
+                }).ToList();
                 return View(model);
             }
 

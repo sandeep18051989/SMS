@@ -364,7 +364,7 @@ namespace SMS.Areas.Admin.Controllers
             if (id == 0)
                 throw new Exception("Id Not Found");
 
-            _roleService.Delete(id);
+            _smsService.DeleteFeeDetail(id);
 
             SuccessNotification("Fee Detail deleted successfully.");
             return RedirectToAction("List");

@@ -319,7 +319,30 @@ namespace SMS.Areas.Admin.Controllers
 			return Json(new { Result = true });
 		}
 
-		[HttpPost]
+        public ActionResult DisApproveUser(int id)
+        {
+            if (!_permissionService.Authorize("ManageUsers"))
+                return AccessDeniedView();
+
+            if (id == 0)
+                throw new Exception("Id Not Found");
+
+            var _user = _userService.GetUserById(id);
+            if (_userContext.IsAdmin)
+            {
+                var _usrList = new List<User>();
+                _usrList.Add(_user);
+                _userService.RejectUsers(_usrList);
+                ViewBag.Result = "Users Rejected Successfully";
+            }
+            else
+            {
+                ViewBag.Result = "You are not Authorized.";
+            }
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
 		public ActionResult DeleteSelected(ICollection<int> selectedIds)
 		{
 			if (!_permissionService.Authorize("ManageUsers"))

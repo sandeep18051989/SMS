@@ -251,11 +251,10 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageProducts"))
 				return AccessDeniedView();
 
-			var user = _userContext.CurrentUser;
 			// Check for duplicate products, if any
 			var product = _productService.GetProductByName(model.Name);
 			if (product != null && product.Id != model.Id)
-				ModelState.AddModelError("Title", "A Product with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("Name", "A Product with the same name already exists. Please choose a different name.");
 
 			if (ModelState.IsValid)
 			{
@@ -263,10 +262,7 @@ namespace SMS.Areas.Admin.Controllers
 				if (pro == null || pro.IsDeleted)
 					return RedirectToAction("List");
 
-				model.UserId = user.Id;
-                model.CreatedOn = product.CreatedOn;
                 pro = model.ToEntity(product);
-				pro.CreatedOn = DateTime.Now;
 				pro.ModifiedOn = DateTime.Now;
 				_productService.Update(pro);
 
@@ -301,13 +297,11 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageProducts"))
 				return AccessDeniedView();
 
-			var currentUser = _userContext.CurrentUser;
 			// Check for duplicate products, if any
 			var product = _productService.GetProductByName(model.Name);
 			if (product != null)
-				ModelState.AddModelError("Title", "A Product with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("Name", "A Product with the same name already exists. Please choose a different name.");
 
-			model.UserId = currentUser.Id;
 			if (ModelState.IsValid)
 			{
 				var newProduct = new Product()
@@ -315,7 +309,7 @@ namespace SMS.Areas.Admin.Controllers
 					CreatedOn = DateTime.Now,
 					ModifiedOn = DateTime.Now,
 					Name = model.Name,
-					UserId = model.UserId,
+					UserId = _userContext.CurrentUser.Id,
 					Description = model.Description
 				};
 

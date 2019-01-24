@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.SubjectModel
+@using EF.Services;
 @{
     ViewBag.Title = "Subjects";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Subjects</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="list-form">
@@ -38,9 +47,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Subjects')").closest("li").addClass("active");
-
+        $("li#subjects ul").css("height", "");
         // Initiallize Datatable
         $('.custom-table').DataTable({
             "processing": true, // for show progress bar

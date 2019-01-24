@@ -4,6 +4,14 @@
     ViewBag.Title = "Users";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Users</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="list-form">
@@ -40,9 +48,7 @@
                 <script type="text/javascript">
                     var selectedIds = [];
                     $(document).ready(function () {
-                        $("li.nav-item").removeClass("active");
-                        $("span.nav-title:contains('Users')").closest("li").addClass("active");
-
+                        $("li#users ul").css("height", "");
                         // Initiallize Footable
                         $('.custom-table').DataTable({
                             "processing": true, // for show progress bar
@@ -94,9 +100,9 @@
                                     "render": function (data, type, row) {
                                         if (type === "display") {
                                             if (row.IsActive) {
-                                                return '<a class="act-user" onclick="ToggleUser(' + row.Id + ',"Act");" style="cursor:pointer;" data-content="' + row.Id + '" title="Activate User"><i class="fa fa-check fa-2x"></i></a>';
+                                                return '<a class="dact-user" href="javascript:void(0);" data-operation="dact" style="cursor:pointer;" data-content="' + row.Id + '" title="Deactivate User"><i class="fa fa-check fa-2x"></i></a>';
                                             } else {
-                                                return '<a class="act-user" onclick="ToggleUser(' + row.Id + ',"DAct");" style="cursor:pointer;" data-content="' + row.Id + '" title="Activate User"><i class="fa fa-remove fa-2x"></i></a>';
+                                                return '<a class="act-user" href="javascript:void(0);" data-operation="act" style="cursor:pointer;" data-content="' + row.Id + '" title="Activate User"><i class="fa fa-remove fa-2x"></i></a>';
                                             }
                                         }
                                         return data;
@@ -136,9 +142,9 @@
                                     "render": function (data, type, row) {
                                         if (type === "display") {
                                             if (row.IsApproved) {
-                                                return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                                                return '<a class="dapprove-user" href="javascript:void(0);" data-operation="dapprove" style="cursor:pointer;" data-content="' + row.Id + '" title="Dis-Approve User"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
                                             } else {
-                                                return '<a class="app-user" onclick="ActDctUser(' + row.Id + ',"Act");" style="cursor:pointer;" data-content="' + row.Id + '" title="Approve User"><i class="fa fa-remove fa-2x" aria-hidden="true"></i></a>';
+                                                return '<a class="approve-user" href="javascript:void(0);" data-operation="approve" style="cursor:pointer;" data-content="' + row.Id + '" title="Approve User"><i class="fa fa-remove fa-2x" aria-hidden="true"></i></a>';
                                             }
                                         }
                                         return data;
@@ -215,14 +221,14 @@
                             }
                             else {
                                 setTimeout(function () {
-                                        $.gritter.add({
-                                            title: "Failure",
-                                            text: "Please select atleast one record",
-                                            sticky: !0,
-                                            time: "",
-                                            class_name: "my-sticky-class"
-                                        });
-                                    },
+                                    $.gritter.add({
+                                        title: "Failure",
+                                        text: "Please select atleast one record",
+                                        sticky: !0,
+                                        time: "",
+                                        class_name: "my-sticky-class"
+                                    });
+                                },
                                     1e3);
                             }
                             return false;
@@ -254,6 +260,163 @@
                             }
                             updateMasterCheckbox();
                         });
+
+                        $(document).on("click", ".act-user", function () {
+                            var id = parseInt($(this).data("content"));
+                            if (confirm('Do You Want To Activate This User ?')) {
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("ToggleUser", "User"))",
+                                    data: { id: id },
+                                    success: function (data, result) {
+                                        if (result === "success") {
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "User Activated Successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                            $('.custom-table').DataTable().ajax.reload();
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: xhr.responseText,
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    },
+                                    traditional: true
+                                });
+                            }
+                        });
+
+                        $(document).on("click", ".dact-user", function () {
+                            var id = parseInt($(this).data("content"));
+                            if (confirm('Do You Want To De-Activate This User ?')) {
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("ToggleUser", "User"))",
+                                    data: { id: id },
+                                    success: function (data, result) {
+                                        if (result === "success") {
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "User De-Activated Successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                            $('.custom-table').DataTable().ajax.reload();
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: xhr.responseText,
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    },
+                                    traditional: true
+                                });
+                            }
+                        });
+
+
+                        $(document).on("click", ".approve-user", function () {
+                            var id = parseInt($(this).data("content"));
+                            if (confirm('Do You Want To Approve This User ?')) {
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("ApproveUser", "User"))",
+                                    data: { id: id },
+                                    success: function (data, result) {
+                                        if (result === "success") {
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "User Approved Successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                            $('.custom-table').DataTable().ajax.reload();
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: xhr.responseText,
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    },
+                                    traditional: true
+                                });
+                            }
+                        });
+
+                        $(document).on("click", ".dapprove-user", function () {
+                            var id = parseInt($(this).data("content"));
+                            if (confirm('Do You Want To Disapprove This User ?')) {
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("DisApproveUser", "User"))",
+                                    data: { id: id },
+                                    success: function (data, result) {
+                                        if (result === "success") {
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "User Disapproved Successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                            $('.custom-table').DataTable().ajax.reload();
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: xhr.responseText,
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    },
+                                    traditional: true
+                                });
+                            }
+                        });
                     });
 
                     function updateMasterCheckbox() {
@@ -262,45 +425,8 @@
                         $('#allcheck').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
                     }
 
-                    function ToggleUser(key, deAct) {
-                        if (confirm(deAct === 'Act' ? 'Do You Want To Activate This User ?' : 'Do You Want To Deactivate This User ?')) {
-                            $.ajax({
-                                cache: false,
-                                type: "POST",
-                                url: "@(Url.Action("ToggleUser", "User"))",
-                                data: { id: key },
-                                success: function (data, result) {
-                                    if (result === "success") {
-                                        setTimeout(function () {
-                                            $.gritter.add({
-                                                title: "Success",
-                                                text: "Users " + (deAct === 'Act' ? "Activated" : "Deactivated") + " Successfully!",
-                                                sticky: !0,
-                                                time: "",
-                                                class_name: "my-sticky-class"
-                                            });
-                                        }, 1e3);
-                                        $('.custom-table').DataTable().ajax.reload();
-                                    }
-                                },
-                                error: function (xhr, ajaxOptions, thrownError) {
-                                    console.log(xhr.responseText);
-                                    setTimeout(function () {
-                                        $.gritter.add({
-                                            title: "Failure",
-                                            text: xhr.responseText,
-                                            sticky: !0,
-                                            time: "",
-                                            class_name: "my-sticky-class"
-                                        });
-                                    }, 1e3);
-                                },
-                                traditional: true
-                            });
-                        }
-                    }
-
                     function ActDctUser(key) {
+                        debugger;
                         if (confirm('Do You Want To Approve This User ?')) {
                             $.ajax({
                                 cache: false,

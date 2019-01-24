@@ -116,7 +116,15 @@ namespace SMS.App_Start
 							data.Values["name"] = urlRecord.Slug;
 						}
 						break;
-					case "news":
+                    case "productcategory":
+                        {
+                            data.Values["controller"] = "ProductCategory";
+                            data.Values["action"] = "Detail";
+                            data.Values["id"] = urlRecord.EntityId;
+                            data.Values["name"] = urlRecord.Slug;
+                        }
+                        break;
+                    case "news":
 						{
 							data.Values["controller"] = "News";
 							data.Values["action"] = "Details";

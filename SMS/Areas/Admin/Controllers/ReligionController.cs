@@ -215,7 +215,7 @@ namespace SMS.Areas.Admin.Controllers
             if (id == 0)
                 throw new Exception("Id Not Found");
 
-            _roleService.Delete(id);
+            _smsService.DeleteReligion(id);
 
             SuccessNotification("Religion deleted successfully.");
             return RedirectToAction("List");

@@ -193,6 +193,7 @@ namespace SMS.Areas.Admin.Controllers
 					eve.IsActive = model.IsActive;
 					eve.Category = model.Category;
                     eve.SystemName = model.SystemName;
+                    eve.UserId = _userContext.CurrentUser.Id;
 					_permissionService.Update(eve);
 				}
 			}

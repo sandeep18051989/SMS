@@ -14,6 +14,7 @@ namespace EF.Core.Data
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public int DisplayOrder { get; set; }
+        public string SystemName { get; set; }
 
     }
 

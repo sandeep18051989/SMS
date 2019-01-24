@@ -1,0 +1,286 @@
+﻿@model SMS.Models.ProductCategoryModel
+@using EF.Services.Http;
+@{
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+}
+<div class="panel-group">
+    @if (Model.Id > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body table-responsive">
+                <table class="table table-responsive-md custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="categoryproducts-grid">
+                    <thead class="mdb-color lighten-5">
+                        <tr>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        // Initiallize Datatable
+                        $('#categoryproducts-grid').DataTable({
+                            "paging": false,
+                            "bLengthChange": false, //thought this line could hide the LengthMenu
+                            "bInfo": false,
+                            "processing": true, // for show progress bar
+                            "serverSide": true, // for process server side
+                            "filter": false, // this is for disable filter (search box)
+                            "orderMulti": false, // for disable multiple column at once
+                            "ajax": {
+                                "url": "/Admin/ProductCategory/LoadProductGrid/@(Model.Id)",
+                                "type": "POST",
+                                "datatype": "json"
+                            },
+                            "aaSorting": [],
+                            "columns": [
+								{
+								    "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
+								},
+								{
+								    "title": "Actions",
+								    "orderable": false,
+								    "className": 'text-center',
+								    "render": function (data, type, row) {
+								        if (type === "display") {
+								            var dateTemplate = '<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="recrem_' + row.Id + '" title="Remove Product"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Remove</button>';
+								            return dateTemplate;
+								        }
+								        return data;
+								    },
+								    "defaultContent": ""
+								}
+                            ],
+                            "select": {
+                                "style": 'os',
+                                "selector": 'td:first-child'
+                            }
+                        });
+
+                        $("#productModal").on('show.bs.modal', function () {
+                            $.ajax({
+                                cache: false,
+                                type: "GET",
+                                url: "@(Url.Action("GetAllProducts", "ProductCategory"))",
+                                data: { 'classid' : @(Model.Id) },
+                                success: function (data, result) {
+                                    if(result === "success"){
+                                        $("#content-body").html('');
+                                        var htmContent = '';
+                                        htmContent += '<table class="table table-bordered">';
+                                        htmContent += '<thead>';
+                                        htmContent += '<tr>';
+                                        htmContent += '<th>';
+                                        htmContent += '<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="tableDefaultCheck"><label class="custom-control-label" for="tableDefaultCheck"></label></div>';
+                                        htmContent += '<th>Name</th>';
+                                        htmContent += '</thead>';
+                                        htmContent += '<tbody id="products">';
+                                        for(var i=0;i < data.length;i++){
+                                            htmContent += '<tr>';
+                                            htmContent += '<th scope="row">';
+                                            htmContent += '<div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" value="' + data[i].Id + '" id="' + data[i].Id + '" ' + (data[i].Selected ? "checked" : "") + '><label class="custom-control-label" for="' + data[i].Id + '"></label></div>';
+                                            htmContent += '</th>';
+                                            htmContent += '<td>' + data[i].Name + '</td>';
+                                            htmContent += '</tr>';
+                                        }
+                                        htmContent += '</tbody>';
+                                        htmContent += '</table>';
+                                        $("#content-body").html(htmContent);
+                                        $('#productModal').modal('show');
+                                        // Select Default Checkbox
+                                        var childRecords = $("#productModal").find('table tbody input[type=checkbox]');
+                                        var allSelected = true;
+                                        if(childRecords.length > 0){
+                                            for(var i=0;i < childRecords.length;i++){
+                                                if(!$(childRecords[i]).prop("checked")){
+                                                    allSelected = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if(allSelected){
+                                            $("#tableDefaultCheck").prop("checked", true);
+                                        }
+                                        else{
+                                            $("#tableDefaultCheck").prop("checked", false);
+                                        }
+                                    }
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr.responseText);
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Failed to load products!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                }
+                            });
+                        });
+
+                        $(document).on("change","#content-body table tbody .custom-control-input[type=checkbox]", function(){
+                            var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
+                            var allSelected = true;
+                            if(childRecords.length > 0){
+                                for(var i=0;i < childRecords.length;i++){
+                                    if(!$(childRecords[i]).prop("checked")){
+                                        allSelected = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if(allSelected){
+                                $("#tableDefaultCheck").prop("checked", true);
+                            }
+                            else{
+                                $("#tableDefaultCheck").prop("checked", false);
+                            }
+                        });
+
+                        $(document).on("change","#tableDefaultCheck", function(){
+                            var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
+                            if($(this).prop("checked")){
+                                if(childRecords.length > 0){
+                                    for(var i=0;i < childRecords.length;i++){
+                                        $(childRecords[i]).prop("checked", true);
+                                    }
+                                }
+                            }
+                            else{
+                                if(childRecords.length > 0){
+                                    for(var i=0;i < childRecords.length;i++){
+                                        $(childRecords[i]).prop("checked", false);
+                                    }
+                                }
+                            }
+                        });
+
+                        $(document).on("click","#submit-associated-data", function(){
+                            var checkedRecords = $('#productModal').find("table tbody input[type=checkbox]:checked");
+                            var selectedIds = [];
+                            if(confirm("Are you sure, you want to update products for the selected class?")){
+                                for(var i=0;i < checkedRecords.length;i++){
+                                    selectedIds.push(parseInt($(checkedRecords[i]).val()));
+                                }
+                                var postData = {
+                                    id: @(Model.Id),
+                                    products: selectedIds
+                                };
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("UpdateProductsForCategory", "ProductCategory"))",
+                                    data: postData,
+                                    success: function (data, result) {
+                                        if(result === "success"){
+                                            $('#categoryproducts-grid').DataTable().ajax.reload();
+                                            $('#productModal').modal('hide');
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Product Category updated successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                        }
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: "Failed to add products!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                });
+                            }
+                        });
+
+                        $(document).on("click", 'button[id^=recrem_]', function () {
+                            var productcategoryId = parseInt($(this).attr('id').split('_')[1]);
+
+                            if (productcategoryId === 0) {
+                                setTimeout(function () {
+                                    $.gritter.add({
+                                        title: "Failure",
+                                        text: "An error occurred while removing product category!",
+                                        sticky: !0,
+                                        time: "",
+                                        class_name: "my-sticky-class"
+                                    });
+                                }, 1e3);
+                                return;
+                            }
+                            if(confirm("Are you sure, you want to remove selected product category from the selected class?")){
+                                var postData = {
+                                    id: @(Model.Id),
+                                    productcategoryid: productcategoryId
+                                };
+
+                                addAntiForgeryToken(postData);
+
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@(Url.Action("RemoveProductFromCategory", "ProductCategory"))",
+                                    data: postData,
+                                    success: function (data, result) {
+                                        if(result === "success"){
+                                            $('#categoryproducts-grid').DataTable().ajax.reload();
+                                            setTimeout(function () {
+                                                $.gritter.add({
+                                                    title: "Success",
+                                                    text: "Product removed successfully!",
+                                                    sticky: !0,
+                                                    time: "",
+                                                    class_name: "my-sticky-class"
+                                                });
+                                            }, 1e3);
+                                        }
+                                    },
+                                    error: function(xhr, ajaxOptions, thrownError) {
+                                        console.log(xhr.responseText);
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Failure",
+                                                text: "Failed to remove product for selected product category!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                });
+                            }
+                        });
+                    });
+                </script>
+            </div>
+            <div class="panel-footer">
+                <button type="button" id="add-products" class="btn btn-primary pull-right" data-toggle="modal" data-target="#productModal"><i class="fa fa-plus-circle"></i> Add Existing Products</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="alert alert-info" role="alert">
+                    <strong>Heads up!</strong> Please save product category first to add products.
+                </div>
+            </div>
+        </div>
+    }
+</div>

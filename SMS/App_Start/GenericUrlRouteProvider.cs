@@ -17,7 +17,8 @@ namespace SMS
 			routes.MapFriendlyRoute("Blog", "{name}", new { controller = "Blog", action = "Details" }, new string[] { "SMS.Controllers" }).DataTokens.Remove("area");
 			routes.MapFriendlyRoute("Page","{name}", new { controller = "Page", action = "PageDetails" }, new string[] { "SMS.Controllers" }).DataTokens.Remove("area");
 			routes.MapFriendlyRoute("CustomPage", "{name}", new { controller = "Page", action = "PageDetails" }, new string[] { "SMS.Controllers" }).DataTokens.Remove("area");
-		}
+            routes.MapFriendlyRoute("ProductCategory", "{name}", new { controller = "ProductCategory", action = "Details" }, new string[] { "SMS.Controllers" }).DataTokens.Remove("area");
+        }
 
 		public int Priority
 		{

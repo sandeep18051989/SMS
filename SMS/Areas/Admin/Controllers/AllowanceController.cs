@@ -285,7 +285,7 @@ namespace SMS.Areas.Admin.Controllers
             if (id == 0)
                 throw new Exception("Id Not Found");
 
-            _roleService.Delete(id);
+            _smsService.DeleteAllowance(id);
 
             SuccessNotification("Allowance deleted successfully.");
             return RedirectToAction("List");

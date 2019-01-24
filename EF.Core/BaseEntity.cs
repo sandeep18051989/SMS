@@ -8,8 +8,7 @@ namespace EF.Core
 		public DateTime CreatedOn { get; set; }
 		public DateTime ModifiedOn { get; set; }
 		public int UserId { get; set; }
-
-		public override bool Equals(object obj)
+        public override bool Equals(object obj)
 		{
 			return Equals(obj as BaseEntity);
 		}

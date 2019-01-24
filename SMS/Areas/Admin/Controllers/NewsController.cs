@@ -260,7 +260,7 @@ namespace SMS.Areas.Admin.Controllers
 			// Check for duplicate news, if any
 			var _news = _newsService.GetNewsByShortName(model.ShortName);
 			if (_news != null && _news.Id != model.Id)
-				ModelState.AddModelError("Title", "An News with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("ShortName", "An News with the same name already exists. Please choose a different name.");
 
 			if (ModelState.IsValid)
 			{
@@ -347,7 +347,7 @@ namespace SMS.Areas.Admin.Controllers
 			var newNews = new News();
 			var _news = _newsService.GetNewsByShortName(model.ShortName);
 			if (_news != null)
-				ModelState.AddModelError("Title", "An News with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("ShortName", "An News with the same name already exists. Please choose a different name.");
 
 			model.UserId = currentUser.Id;
 			if (ModelState.IsValid)

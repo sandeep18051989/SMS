@@ -315,7 +315,7 @@ namespace SMS.Areas.Admin.Controllers
             if (id == 0)
                 throw new Exception("Id Not Found");
 
-            _roleService.Delete(id);
+            _smsService.DeleteBookIssue(id);
 
             SuccessNotification("Book issue record deleted successfully.");
             return RedirectToAction("List");

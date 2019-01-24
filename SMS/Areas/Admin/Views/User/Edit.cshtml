@@ -4,6 +4,14 @@
     ViewBag.Title = "Edit User";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Update User</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="edit-form">
@@ -13,7 +21,6 @@
                 @Html.HiddenFor(model => model.Id)
                 <div class="row">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">EDIT USER</h3>
                         <input type="submit" tabindex="5" value="Save" class="btn btn-primary" />&nbsp;&nbsp;<span id="user-delete" tabindex="6" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</span>
                         <input type="button" id="change-password" data-toggle="modal" data-target="#changepasswordmodal" tabindex="7" value="Change Password" class="btn btn-success waves-effect waves-light" />
                     </div>
@@ -107,9 +114,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Users')").closest("li").addClass("active");
-
         if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
         }

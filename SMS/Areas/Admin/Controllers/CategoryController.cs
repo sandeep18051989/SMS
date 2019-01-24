@@ -248,7 +248,7 @@ namespace SMS.Areas.Admin.Controllers
             if (id == 0)
                 throw new Exception("Id Not Found");
 
-            _roleService.Delete(id);
+            _smsService.DeleteCategory(id);
 
             SuccessNotification("Category deleted successfully.");
             return RedirectToAction("List");

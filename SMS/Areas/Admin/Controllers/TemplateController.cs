@@ -148,7 +148,6 @@ namespace SMS.Areas.Admin.Controllers
             var temp = _templateService.GetTemplateById(id);
             // Get All Data Tokens
             var dtTokens = _templateService.GetAllDataTokens().ToList();
-            var user = _userContext.CurrentUser;
             if (temp != null)
             {
                 var usedTokens = _templateService.GetAllDataTokensByTemplate(temp.Id);
@@ -244,6 +243,7 @@ namespace SMS.Areas.Admin.Controllers
                     temp.Id = model.Id;
                     temp.Url = "";
                     temp.ModifiedOn = DateTime.Now;
+                    temp.UserId = _userContext.CurrentUser.Id;
                     _templateService.Update(temp);
 
 
@@ -287,7 +287,7 @@ namespace SMS.Areas.Admin.Controllers
             var _template = _templateService.GetTemplateByName(model.Name);
             if (_template != null)
                 ModelState.AddModelError("Name", "A Template with the same name already exists. Please choose a different name.");
-            var user = _userContext.CurrentUser;
+
             if (ModelState.IsValid)
             {
                 var template = new Template
@@ -295,7 +295,7 @@ namespace SMS.Areas.Admin.Controllers
                     BodyHtml = model.BodyHtml,
                     IsActive = model.IsActive,
                     Name = model.Name,
-                    UserId = user.Id,
+                    UserId = _userContext.CurrentUser.Id,
                     IsDeleted = false,
                     CreatedOn = DateTime.Now,
                     ModifiedOn = DateTime.Now,

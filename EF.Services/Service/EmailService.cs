@@ -1,4 +1,5 @@
-﻿using EF.Core.Data;
+﻿using EF.Core;
+using EF.Core.Data;
 using EF.Core.Enums;
 using EF.Data;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
 
 namespace EF.Services.Service
 {
@@ -90,8 +92,33 @@ namespace EF.Services.Service
                         smtp.Port = port;
                         smtp.UseDefaultCredentials = usedefaultcredentials;
                         smtp.Credentials = new NetworkCredential(username, password);
-                        smtp.Send(mail);
-                        return true;
+                        try
+                        {
+                            smtp.Send(mail);
+                            mail.Dispose();
+                        }
+                        catch (SmtpFailedRecipientException ex)
+                        {
+                            SmtpStatusCode statusCode = ex.StatusCode;
+                            if (statusCode == SmtpStatusCode.MailboxBusy ||
+                                statusCode == SmtpStatusCode.MailboxUnavailable ||
+                                statusCode == SmtpStatusCode.TransactionFailed)
+                            {
+                                Thread.Sleep(5000);
+                                smtp.Send(mail);
+                                return true;
+                            }
+                            else
+                            {
+                                // System Log
+                                var systemLogger = ContextHelper.Current.Resolve<ISystemLogService>();
+                                systemLogger.InsertSystemLog(LogLevel.Error, ex.Message, ex.StackTrace);
+                            }
+                        }
+                        finally
+                        {
+                            mail.Dispose();
+                        }
                     }
                 }
             }
@@ -174,8 +201,32 @@ namespace EF.Services.Service
                             smtp.Port = port;
                             smtp.UseDefaultCredentials = usedefaultcredentials;
                             smtp.Credentials = new NetworkCredential(username, password);
-                            smtp.Send(mail);
-                            return true;
+                            try
+                            {
+                                smtp.Send(mail); mail.Dispose();
+                            }
+                            catch (SmtpFailedRecipientException ex)
+                            {
+                                SmtpStatusCode statusCode = ex.StatusCode;
+                                if (statusCode == SmtpStatusCode.MailboxBusy ||
+                                    statusCode == SmtpStatusCode.MailboxUnavailable ||
+                                    statusCode == SmtpStatusCode.TransactionFailed)
+                                {
+                                    Thread.Sleep(5000);
+                                    smtp.Send(mail);
+                                    return true;
+                                }
+                                else
+                                {
+                                    // System Log
+                                    var systemLogger = ContextHelper.Current.Resolve<ISystemLogService>();
+                                    systemLogger.InsertSystemLog(LogLevel.Error, ex.Message, ex.StackTrace);
+                                }
+                            }
+                            finally
+                            {
+                                mail.Dispose();
+                            }
                         }
                     }
                 }

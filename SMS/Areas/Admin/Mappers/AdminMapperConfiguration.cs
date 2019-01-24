@@ -404,10 +404,19 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<PermissionRecordModel, PermissionRecord>()
                     .ForMember(dest => dest.PermissionRoles, mo => mo.Ignore());
 
+                cfg.CreateMap<UserRole, RoleModel>()
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore());
+                cfg.CreateMap<RoleModel, UserRole>()
+                    .ForMember(dest => dest.PermissionRecords, mo => mo.Ignore());
+
                 cfg.CreateMap<ProductCategory, ProductCategoryModel>()
-                    .ForMember(dest => dest.Picture, mo => mo.Ignore())
+                    .ForMember(dest => dest.PictureSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableProductCategories, mo => mo.Ignore())
+                    .ForMember(dest => dest.Selected, mo => mo.Ignore())
+                    .ForMember(dest => dest.Url, mo => mo.Ignore())
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
                     .ForMember(dest => dest.ProductCategory, mo => mo.Ignore());
+                cfg.CreateMap<ProductCategoryModel, ProductCategory>();
 
                 cfg.CreateMap<Product, ProductModel>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())

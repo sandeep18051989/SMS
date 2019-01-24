@@ -1,9 +1,17 @@
 ﻿@model SMS.Models.TeacherModel
 @using EF.Services;
 @{
-    ViewBag.Title = "Edit Teacher";
+    ViewBag.Title = "Update Teacher";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Update Teacher</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="edit-form">
@@ -14,7 +22,6 @@
                 @Html.HiddenFor(model => model.Username)
                 <div class="row text-left">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">EDIT TEACHER</h3>
                         <button type="submit" name="save" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Save
                         </button>
@@ -267,9 +274,6 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Teachers')").closest("li").addClass("active");
-
         $("input[type=checkbox][data-check=PhoneYes]").change(function () {
             if ($(this).prop('checked')) {
                 $(this).attr('checked', true).val(true);

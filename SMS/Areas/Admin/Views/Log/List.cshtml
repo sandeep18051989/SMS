@@ -1,8 +1,17 @@
 ﻿@model SMS.Areas.Admin.Models.SystemLogModel
+@using EF.Services;
 @{
     ViewBag.Title = "System Log";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">System Log</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="list-form">
@@ -37,9 +46,7 @@
                 <script type="text/javascript">
                     var selectedIds = [];
                     $(document).ready(function () {
-                        $("li.nav-item").removeClass("active");
-                        $("span.nav-title:contains('System Log')").closest("li").addClass("active");
-
+                        $("li#logs ul").css("height", "");
                         // Initiallize Footable
                         var table = $('.custom-table').DataTable({
                             "processing": true, // for show progress bar
@@ -181,14 +188,14 @@
                             }
                             else {
                                 setTimeout(function () {
-                                        $.gritter.add({
-                                            title: "Failure",
-                                            text: "Please select atleast one record",
-                                            sticky: !0,
-                                            time: "",
-                                            class_name: "my-sticky-class"
-                                        });
-                                    },
+                                    $.gritter.add({
+                                        title: "Failure",
+                                        text: "Please select atleast one record",
+                                        sticky: !0,
+                                        time: "",
+                                        class_name: "my-sticky-class"
+                                    });
+                                },
                                     1e3);
                             }
                             return false;
