@@ -1,0 +1,9 @@
+﻿@model List<EF.Core.SocialAuthenticationMethodModel>
+@if (Model.Any())
+{
+    <div class="title">OR</div>
+}
+@foreach (var eam in Model)
+{
+    @Html.Action(eam.ActionName, eam.ControllerName, eam.RouteValues)
+}

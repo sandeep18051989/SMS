@@ -13,6 +13,7 @@ namespace EF.Data.Mapping
             this.Property(b => b.BodyHtml).IsOptional();
             this.Property(b => b.Name).IsRequired();
             this.Property(b => b.Url).IsOptional();
+            this.Property(b => b.Subject).IsOptional();
 
             // Relationships
             this.HasMany(t => t.Tokens).WithMany().Map(m => m.ToTable("Template_DataToken_Map").MapLeftKey("TemplateId").MapRightKey("DataTokenId"));

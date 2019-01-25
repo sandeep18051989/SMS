@@ -20,6 +20,7 @@ using EF.Services.Tasks;
 using TrackerEnabledDbContext.Common.Interfaces;
 using Wibci.CountryReverseGeocode;
 using TrackerEnabledDbContext;
+using EF.Services.Social;
 
 namespace EF.Services
 {
@@ -95,7 +96,8 @@ namespace EF.Services
 
 			// Register Services
 			builder.RegisterType<WebContext>().As<IWebContext>().InstancePerLifetimeScope();
-			builder.RegisterType<SystemLogService>().As<ISystemLogService>().InstancePerLifetimeScope();
+            builder.RegisterType<SocialSettingService>().As<ISocialSettingService>().InstancePerLifetimeScope();
+            builder.RegisterType<SystemLogService>().As<ISystemLogService>().InstancePerLifetimeScope();
 			builder.RegisterType<AuditService>().As<IAuditService>().InstancePerLifetimeScope();
 			builder.RegisterType<BlogService>().As<IBlogService>().InstancePerLifetimeScope();
 			builder.RegisterType<CommentService>().As<ICommentService>().InstancePerLifetimeScope();
@@ -120,8 +122,12 @@ namespace EF.Services
 			builder.RegisterType<UrlService>().As<IUrlService>().InstancePerLifetimeScope();
 			builder.RegisterType<SMSService>().As<ISMSService>().InstancePerLifetimeScope();
 			builder.RegisterType<RouteRegistrar>().As<IRouteRegistrar>().InstancePerLifetimeScope();
+            builder.RegisterType<SocialModelFactory>().As<ISocialModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<SocialPluginService>().As<ISocialPluginService>().InstancePerLifetimeScope();
+            builder.RegisterType<SocialAuthorizer>().As<ISocialAuthorizer>().InstancePerLifetimeScope();
+            builder.RegisterType<OpenAuthenticationService>().As<IOpenAuthenticationService>().InstancePerLifetimeScope();
 
-			builder.RegisterType<CountryReverseGeocodeService>().As<ICountryReverseGeocodeService>().InstancePerLifetimeScope();
+            builder.RegisterType<CountryReverseGeocodeService>().As<ICountryReverseGeocodeService>().InstancePerLifetimeScope();
 			if (!DatabaseHelper.DatabaseIsInstalled())
 			{
 				builder.RegisterType<InstallationService>().As<IInstallationService>().InstancePerLifetimeScope();

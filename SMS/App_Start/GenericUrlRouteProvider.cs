@@ -18,6 +18,19 @@ namespace SMS
 			routes.MapFriendlyRoute("Page","{name}", new { controller = "Page", action = "PageDetails" }, new string[] { "SMS.Controllers" }).DataTokens.Remove("area");
 			routes.MapFriendlyRoute("CustomPage", "{name}", new { controller = "Page", action = "PageDetails" }, new string[] { "SMS.Controllers" }).DataTokens.Remove("area");
             routes.MapFriendlyRoute("ProductCategory", "{name}", new { controller = "ProductCategory", action = "Details" }, new string[] { "SMS.Controllers" }).DataTokens.Remove("area");
+
+            // Social Routes
+            routes.MapFriendlyRoute("Plugin.ExternalAuth.Facebook.Login",
+                 "Plugins/ExternalAuthFacebook/Login",
+                 new { controller = "ExternalAuthFacebook", action = "Login" },
+                 new[] { "Nop.Plugin.ExternalAuth.Facebook.Controllers" }
+            ).DataTokens.Remove("area");
+
+            routes.MapFriendlyRoute("Plugin.ExternalAuth.Facebook.LoginCallback",
+                 "Plugins/ExternalAuthFacebook/LoginCallback",
+                 new { controller = "ExternalAuthFacebook", action = "LoginCallback" },
+                 new[] { "Nop.Plugin.ExternalAuth.Facebook.Controllers" }
+            ).DataTokens.Remove("area");
         }
 
 		public int Priority

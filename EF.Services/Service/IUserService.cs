@@ -38,5 +38,8 @@ namespace EF.Services.Service
         LocationInfo GetCountryByLocation(double latitude, double longitude);
 		IList<Location> GetUserLocationsByCountry(string country);
 		IList<Location> GetAllUserLocations();
-	}
+
+        UserRegistrationResult RegisterUser(UserRegistrationRequest request);
+
+    }
 }

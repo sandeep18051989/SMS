@@ -9,6 +9,7 @@ namespace EF.Core.Data
         public virtual ICollection<DataToken> _Tokens { get; set; }
         public string Name { get; set; }
         public string BodyHtml { get; set; }
+        public string Subject { get; set; }
         public string Url { get; set; }
         public bool IsSystemDefined { get; set; }
         public bool IsDeleted { get; set; }

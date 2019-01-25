@@ -19,7 +19,9 @@ namespace SMS.Areas.Admin.Models
 		[AllowHtml]
 		[UIHint("HtmlTemplate")]
 		public string BodyHtml { get; set; }
-		public bool IsSystemDefined { get; set; }
+
+        public string Subject { get; set; }
+        public bool IsSystemDefined { get; set; }
 		public bool IsActive { get; set; }
 		public IList<CreateDataTokensModel> InsertDataTokensModel { get; set; }
 

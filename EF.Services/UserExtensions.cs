@@ -8,13 +8,6 @@ namespace EF.Services
     {
         #region User role
 
-        /// <summary>
-        /// Gets a value indicating whether user is in a certain user role
-        /// </summary>
-        /// <param name="user">User</param>
-        /// <param name="userRoleName">User role system name</param>
-        /// <param name="onlyActiveUserRoles">A value indicating whether we should look only in active user roles</param>
-        /// <returns>Result</returns>
         public static bool IsInUserRole(this User user,
             string userRoleName, bool onlyActiveUserRoles = true)
         {
@@ -28,15 +21,31 @@ namespace EF.Services
             return result;
         }
 
-        /// <summary>
-        /// Gets a value indicating whether user is administrator
-        /// </summary>
-        /// <param name="user">User</param>
-        /// <param name="onlyActiveUserRoles">A value indicating whether we should look only in active user roles</param>
-        /// <returns>Result</returns>
         public static bool IsAdmin(this User user, bool onlyActiveUserRoles = true)
         {
             return IsInUserRole(user, "Administrators" , onlyActiveUserRoles);
+        }
+
+        public static string GetFullName(this User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+
+            string fullName = "";
+            if (!String.IsNullOrWhiteSpace(firstName) && !String.IsNullOrWhiteSpace(lastName))
+                fullName = string.Format("{0} {1}", firstName, lastName);
+            else
+            {
+                if (!String.IsNullOrWhiteSpace(firstName))
+                    fullName = firstName;
+
+                if (!String.IsNullOrWhiteSpace(lastName))
+                    fullName = lastName;
+            }
+            return fullName;
         }
 
         #endregion

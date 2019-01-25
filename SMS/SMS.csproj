@@ -69,6 +69,9 @@
     <Reference Include="EF.Data">
       <HintPath>..\EF.Data\bin\Debug\EF.Data.dll</HintPath>
     </Reference>
+    <Reference Include="EF.Facebook">
+      <HintPath>..\EF.Facebook\bin\debug\EF.Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="EF.Services">
       <HintPath>..\EF.Services\bin\Debug\EF.Services.dll</HintPath>
     </Reference>
@@ -2131,6 +2134,7 @@
     <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />
     <Compile Include="Areas\Admin\Models\AuditListModel.cs" />
     <Compile Include="Controllers\DeveloperController.cs" />
+    <Compile Include="Controllers\SocialController.cs" />
     <Compile Include="Models\AssignStudentsModel.cs" />
     <Compile Include="Models\AssignQuestionsModel.cs" />
     <Compile Include="Models\AssessmentStudentModel.cs" />
@@ -2431,6 +2435,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\Social\OtherLogins.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

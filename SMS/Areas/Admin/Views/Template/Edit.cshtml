@@ -66,9 +66,19 @@
                         <div class="col-md-6 mb-4">
                             <div class="md-form">
                                 <i class="fa fa-play-circle-o prefix"></i>
-                                <input @(Model.IsSystemDefined ? "class=form-control disabled" : "class=form-control") id="Name" maxlength="50" name="Name" placeholder="Name" tabindex="1" type="text" value="@(Model.Name)" @(Model.IsSystemDefined ? "disabled=disabled" : "")>
+                                <input @(Model.IsSystemDefined ? "class=form-control disabled" : "class=form-control") id="Name" maxlength="200" name="Name" placeholder="Name" tabindex="1" type="text" value="@(Model.Name)" @(Model.IsSystemDefined ? "disabled=disabled" : "")>
                                 @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label" })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-md-6 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-play-circle-o prefix"></i>
+                                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", @placeholder = "Subject", @tabindex = "2", @maxlength = "250" } })
+                                @Html.LabelFor(model => model.Subject, "Subject", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -84,7 +94,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-7 mb-4">
-                            <input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+                            <input type="checkbox" id="IsActive" tabindex="4" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
                             @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { @class = "control-label" })
                             @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                         </div>

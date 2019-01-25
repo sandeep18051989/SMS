@@ -1196,7 +1196,7 @@ namespace EF.Services.Http
 			return returnChar;
 		}
 
-		#endregion
+        #endregion
 
-	}
+    }
 }

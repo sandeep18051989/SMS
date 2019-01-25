@@ -12,259 +12,219 @@ using SMS.Models;
 
 namespace SMS.Controllers
 {
-	public class AccountController : PublicHttpController
-	{
-		private readonly IAuthenticationService _authenticationService;
-		private readonly IUserService _userService;
-		private readonly IUserContext _userContext;
-		private readonly ISettingService _settingService;
-		private readonly ITemplateService _templateService;
-		private readonly IEmailService _emailService;
-		private readonly IAuditService _auditService;
-		private readonly IEventService _eventService;
-		private readonly ICommentService _commentService;
-		private readonly IProductService _productService;
-		private readonly IBlogService _blogService;
-		private readonly IUrlHelper _urlHelper;
+    public class AccountController : PublicHttpController
+    {
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IUserService _userService;
+        private readonly IUserContext _userContext;
+        private readonly ISettingService _settingService;
+        private readonly ITemplateService _templateService;
+        private readonly IEmailService _emailService;
+        private readonly IAuditService _auditService;
+        private readonly IEventService _eventService;
+        private readonly ICommentService _commentService;
+        private readonly IProductService _productService;
+        private readonly IBlogService _blogService;
+        private readonly IUrlHelper _urlHelper;
 
-		public AccountController(IAuthenticationService authenticationService, IUserService userService, IUserContext userContext, ISettingService settingService, ITemplateService templateService, IEmailService emailService, IAuditService auditService, IEventService eventService, ICommentService commentService, IProductService productService, IBlogService blogService, IUrlHelper urlHelper)
-		{
-			this._authenticationService = authenticationService;
-			this._userService = userService;
-			this._userContext = userContext;
-			this._settingService = settingService;
-			this._templateService = templateService;
-			this._emailService = emailService;
-			this._auditService = auditService;
-			this._eventService = eventService;
-			this._commentService = commentService;
-			this._productService = productService;
-			this._blogService = blogService;
-			this._urlHelper = urlHelper;
-		}
+        public AccountController(IAuthenticationService authenticationService, IUserService userService, IUserContext userContext, ISettingService settingService, ITemplateService templateService, IEmailService emailService, IAuditService auditService, IEventService eventService, ICommentService commentService, IProductService productService, IBlogService blogService, IUrlHelper urlHelper)
+        {
+            this._authenticationService = authenticationService;
+            this._userService = userService;
+            this._userContext = userContext;
+            this._settingService = settingService;
+            this._templateService = templateService;
+            this._emailService = emailService;
+            this._auditService = auditService;
+            this._eventService = eventService;
+            this._commentService = commentService;
+            this._productService = productService;
+            this._blogService = blogService;
+            this._urlHelper = urlHelper;
+        }
 
-		[AllowAnonymous]
-		public ActionResult Register()
-		{
-			var model = new RegisterModel();
-			return View(model);
-		}
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            var model = new RegisterModel();
+            return View(model);
+        }
 
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public ActionResult Register(RegisterModel model)
-		{
-			// Get Acedmic Year
-			var acedmicYear = _settingService.GetSettingByKey("acedemicyear");
-			if (acedmicYear == null)
-			{
-				ErrorNotification("Acedmic Year is missing.");
-				return View(model);
-			}
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterModel model)
+        {
+            // Get Acedmic Year
+            var acedmicYear = _settingService.GetSettingByKey("acedemicyear");
+            if (acedmicYear == null)
+            {
+                ErrorNotification("Acedmic Year is missing.");
+                return View(model);
+            }
 
-			if (ModelState.IsValid)
-			{
-				var newUser = new User()
-				{
-					CreatedOn = DateTime.Now,
-					IsActive = true,
-					IsApproved = false,
-					IsDeleted = false,
-					ModifiedOn = DateTime.Now,
-					Password = model.Password,
-					UserName = model.Email,
-					UserGuid = Guid.NewGuid(),
-					UserId = 1
-				};
-				_userService.Insert(newUser);
-				model.SystemName = newUser.UserName.Trim().Replace(" ", "");
+            if (ModelState.IsValid)
+            {
+                var newUser = new User()
+                {
+                    CreatedOn = DateTime.Now,
+                    IsActive = true,
+                    IsApproved = false,
+                    IsDeleted = false,
+                    ModifiedOn = DateTime.Now,
+                    Password = model.Password,
+                    UserName = model.Email,
+                    UserGuid = Guid.NewGuid(),
+                    UserId = 1
+                };
+                _userService.Insert(newUser);
 
-				// Insert UserInfo
-				//var _userInfo = new UserInfo()
-				//{
-				//	FirstName = model.FirstName,
-				//	LastName = model.LastName,
-				//	CreatedOn = DateTime.Now,
-				//	ModifiedOn = DateTime.Now,
-				//	AddressLine1 = "",
-				//	AddressLine2 = "",
-				//	BriefIntroduction = "",
-				//	CityId = 0,
-				//	CoverPictureId = 0,
-				//	Email = model.Email,
-				//	IsEmailVerified = false,
-				//	IsPhoneVerified = false,
-				//	Hobbies = "",
-				//	Phone = "",
-				//	ProfilePictureId = 0,
-				//	Street = "",
-				//	UserId = newUser.Id,
-				//	AcadmicYear = acedmicYear.Value,
-				//	FacebookLink = "",
-				//	FreelancerLink = "",
-				//	GooglePlusLink = "",
-				//	GuruLink = "",
-				//	Hi5Link = "",
-				//	InstagramLink = "",
-				//	LinkedInLink = "",
-				//	PInterestLink = "",
-				//	TweeterLink = "",
-				//	UpworkLink = ""
-				//};
+                // Get Email Settings for Use
+                var _settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
 
-				//_userInfoService.Insert(_userInfo);
+                // Send Notification To The Admin
+                if (_settings.Count > 0)
+                {
+                    var template = _settingService.GetSettingByKey("NewUserRegister");
+                    var Template = _templateService.GetTemplateByName(template.Value);
+                    if (Template != null)
+                    {
+                        var tokens = new List<DataToken>();
+                        _templateService.AddUserTokens(tokens, newUser);
 
-				// Save URL Record
-				//model.SystemName = _userInfo.ValidateSystemName(model.SystemName, model.FirstName, true);
-				//_urlHelper.SaveSlug(_userInfo, model.SystemName);
+                        foreach (var dt in tokens)
+                        {
+                            Template.BodyHtml = EF.Services.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
+                        }
 
-				// Get Email Settings for Use
-				var _settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
+                        var setting = _settingService.GetSettingByKey("FromEmail");
+                        if (!String.IsNullOrEmpty(setting.Value))
+                            _emailService.SendMailUsingTemplate(setting.Value, newUser.UserName + "- Just Registered", Template);
+                    }
+                }
 
-				// Send Notification To The Admin
-				if (_settings.Count > 0)
-				{
-					var template = _settingService.GetSettingByKey("NewUserRegister");
-					var Template = _templateService.GetTemplateByName(template.Value);
-					if (Template != null)
-					{
-						var tokens = new List<DataToken>();
-						_templateService.AddUserTokens(tokens, newUser);
+                SuccessNotification("Your registration is successful, But needs approval from the admin. We will get back to you shortly.");
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
 
-						foreach (var dt in tokens)
-						{
-							Template.BodyHtml = EF.Services.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
-						}
+            return View(model);
+        }
 
-						var setting = _settingService.GetSettingByKey("FromEmail");
-						if (!String.IsNullOrEmpty(setting.Value))
-							_emailService.SendMailUsingTemplate(setting.Value, newUser.UserName + "- Just Registered", Template);
-					}
-				}
+        [AllowAnonymous]
+        public ActionResult Login(string ReturnUrl = null)
+        {
+            var model = new LoginModel();
+            if (!String.IsNullOrEmpty(ReturnUrl))
+                model.ReturnUrl = ReturnUrl;
 
-				SuccessNotification("Your registration is successful, But needs approval from the admin. We will get back to you shortly.");
-				return RedirectToAction(nameof(HomeController.Index), "Home");
-			}
+            return View(model);
+        }
 
-			return View(model);
-		}
+        public ActionResult Developer()
+        {
+            return View();
+        }
 
-		[AllowAnonymous]
-		public ActionResult Login(string ReturnUrl = null)
-		{
-			var model = new LoginModel();
-			if (!String.IsNullOrEmpty(ReturnUrl))
-				model.ReturnUrl = ReturnUrl;
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Login(LoginModel model)
+        {
+            ViewData["ReturnUrl"] = model.ReturnUrl;
+            if (ModelState.IsValid)
+            {
+                var user = _userService.GetUserByUsername(model.Email);
+                if (user != null && user.IsApproved)
+                {
+                    if (user.Password == model.Password)
+                    {
+                        //var userinformation = _userInfoService.GetUserInformationByUserId(_user.Id);
 
-			return View(model);
-		}
+                        // Update Last Login Date
+                        user.LastLoginDate = DateTime.Now;
+                        _userService.Update(user);
 
-		public ActionResult Developer()
-		{
-			return View();
-		}
+                        //sign in customer
+                        _authenticationService.SignIn(user, model.RememberMe);
 
-		[HttpPost]
-		[AllowAnonymous]
-		public ActionResult Login(LoginModel model)
-		{
-			ViewData["ReturnUrl"] = model.ReturnUrl;
-			if (ModelState.IsValid)
-			{
-				var user = _userService.GetUserByUsername(model.Email);
-				if (user != null && user.IsApproved)
-				{
-					if (user.Password == model.Password)
-					{
-						//var userinformation = _userInfoService.GetUserInformationByUserId(_user.Id);
+                        // Send Notification To The User
+                        var template = _settingService.GetSettingByKey("UserSignInAttempt");
+                        if (template != null)
+                        {
+                            var Template = _templateService.GetTemplateByName(template.Value);
 
-						// Update Last Login Date
-						user.LastLoginDate = DateTime.Now;
-						_userService.Update(user);
+                            var tokens = new List<DataToken>();
+                            _templateService.AddUserTokens(tokens, user);
 
-						//sign in customer
-						_authenticationService.SignIn(user, model.RememberMe);
+                            foreach (var dt in tokens)
+                            {
+                                Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), $"[{dt.Name}]", dt.Value, StringComparison.InvariantCulture);
+                            }
 
-						// Send Notification To The User
-						var template = _settingService.GetSettingByKey("UserSignInAttempt");
-						if (template != null)
-						{
-							var Template = _templateService.GetTemplateByName(template.Value);
+                            //var _userInfo = _userInfoService.GetUserInformationByUserId(_user.Id);
+                            //if (_userInfo != null)
+                            //{
+                            //	if (String.IsNullOrEmpty(_userInfo.Email))
+                            //	{
+                            //		SuccessNotification("You haven't updated your eamil address with us. Update your profile <a href='" + Url.Action("EditMyAccount", "Account", new { @id = _user.Id }) + "' title='My Account' >here</a>");
+                            //	}
+                            //	else
+                            //	{
+                            //		_emailService.SendMailUsingTemplate(_userInfo.Email, "Urgent : Login Notification", Template);
+                            //	}
+                            //}
+                        }
 
-							var tokens = new List<DataToken>();
-							_templateService.AddUserTokens(tokens, user);
+                        _userContext.CurrentUser = user;
 
-							foreach (var dt in tokens)
-							{
-								Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), $"[{dt.Name}]", dt.Value, StringComparison.InvariantCulture);
-							}
+                        if (ViewData["ReturnUrl"] == null)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            return Redirect(ViewData["ReturnUrl"].ToString());
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Result", "Username and Password Does Not Match. Please try Again...");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("Result", "Username Does Not Exist. Please try Again...");
+                }
+            }
 
-							//var _userInfo = _userInfoService.GetUserInformationByUserId(_user.Id);
-							//if (_userInfo != null)
-							//{
-							//	if (String.IsNullOrEmpty(_userInfo.Email))
-							//	{
-							//		SuccessNotification("You haven't updated your eamil address with us. Update your profile <a href='" + Url.Action("EditMyAccount", "Account", new { @id = _user.Id }) + "' title='My Account' >here</a>");
-							//	}
-							//	else
-							//	{
-							//		_emailService.SendMailUsingTemplate(_userInfo.Email, "Urgent : Login Notification", Template);
-							//	}
-							//}
-						}
+            return View(model);
+        }
 
-						_userContext.CurrentUser = user;
+        public ActionResult LogOff()
+        {
+            _authenticationService.SignOut();
 
-						if (ViewData["ReturnUrl"] == null)
-						{
-							return RedirectToAction("Index", "Home");
-						}
-						else
-						{
-							return Redirect(ViewData["ReturnUrl"].ToString());
-						}
-					}
-					else
-					{
-						ModelState.AddModelError("Result", "Username and Password Does Not Match. Please try Again...");
-					}
-				}
-				else
-				{
-					ModelState.AddModelError("Result", "Username Does Not Exist. Please try Again...");
-				}
-			}
+            return RedirectToAction("Index", "Home");
+        }
 
-			return View(model);
-		}
+        private ActionResult RedirectToReturnUrl(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+        }
 
-		public ActionResult LogOff()
-		{
-			_authenticationService.SignOut();
-
-			return RedirectToAction("Index", "Home");
-		}
-
-		private ActionResult RedirectToReturnUrl(string returnUrl)
-		{
-			if (Url.IsLocalUrl(returnUrl))
-			{
-				return Redirect(returnUrl);
-			}
-			else
-			{
-				return RedirectToAction(nameof(HomeController.Index), "Home");
-			}
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult ForgotPassword(ForgotPasswordModel model)
-		{
-			var _User = _userService.GetUserByUsername(model.name);
-			if (_User != null)
-			{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(ForgotPasswordModel model)
+        {
+            var _User = _userService.GetUserByUsername(model.name);
+            if (_User != null)
+            {
                 //var _userInfo = _userInfoService.GetUserInformationByUserId(_User.Id);
                 //if (_userInfo != null)
                 //{
@@ -319,183 +279,183 @@ namespace SMS.Controllers
             }
 
             return RedirectToAction("Login");
-		}
+        }
 
-		#region User Information
+        #region User Information
 
-		//public ActionResult MyAccount()
-		//{
-		//	if (_userContext.CurrentUser == null)
-		//		return LogOff();
+        //public ActionResult MyAccount()
+        //{
+        //	if (_userContext.CurrentUser == null)
+        //		return LogOff();
 
-		//	var model = new UserInfoModel();
-		//	var _userinfo = _userInfoService.GetUserInformationByUserId(_userContext.CurrentUser.Id);
+        //	var model = new UserInfoModel();
+        //	var _userinfo = _userInfoService.GetUserInformationByUserId(_userContext.CurrentUser.Id);
 
-		//	if (_userinfo != null)
-		//	{
-		//		model.AddressLine1 = !String.IsNullOrEmpty(_userinfo.AddressLine1) ? _userinfo.AddressLine1 : "";
-		//		model.AddressLine2 = !String.IsNullOrEmpty(_userinfo.AddressLine2) ? _userinfo.AddressLine2 : "";
-		//		model.BriefIntroduction = !String.IsNullOrEmpty(_userinfo.BriefIntroduction) ? _userinfo.BriefIntroduction : "";
-		//		model.CityId = _userinfo.CityId;
-		//		model.CoverPictureId = _userinfo.CoverPictureId;
-		//		model.Email = !String.IsNullOrEmpty(_userinfo.Email) ? _userinfo.Email.Trim().ToLower() : "";
-		//		model.FirstName = !String.IsNullOrEmpty(_userinfo.FirstName) ? _userinfo.FirstName : "";
-		//		model.Hobbies = !String.IsNullOrEmpty(_userinfo.Hobbies) ? _userinfo.Hobbies : "";
-		//		model.IsEmailVerified = _userinfo.IsEmailVerified;
-		//		model.IsPhoneVerified = _userinfo.IsPhoneVerified;
-		//		model.LastName = !String.IsNullOrEmpty(_userinfo.LastName) ? _userinfo.LastName : "";
-		//		model.Phone = !String.IsNullOrEmpty(_userinfo.Phone) ? _userinfo.Phone : "";
-		//		model.ProfilePictureId = _userinfo.ProfilePictureId;
-		//		model.Street = !String.IsNullOrEmpty(_userinfo.Street) ? _userinfo.Street : "";
-		//		model.Id = _userinfo.Id;
-		//		model.FacebookLink = !String.IsNullOrEmpty(_userinfo.FacebookLink) ? _userinfo.FacebookLink : "";
-		//		model.FreelancerLink = !String.IsNullOrEmpty(_userinfo.FreelancerLink) ? _userinfo.FreelancerLink : "";
-		//		model.GooglePlusLink = !String.IsNullOrEmpty(_userinfo.GooglePlusLink) ? _userinfo.GooglePlusLink : "";
-		//		model.GuruLink = !String.IsNullOrEmpty(_userinfo.GuruLink) ? _userinfo.GuruLink : "";
-		//		model.Hi5Link = !String.IsNullOrEmpty(_userinfo.Hi5Link) ? _userinfo.Hi5Link : "";
-		//		model.InstagramLink = !String.IsNullOrEmpty(_userinfo.InstagramLink) ? _userinfo.InstagramLink : "";
-		//		model.LinkedInLink = !String.IsNullOrEmpty(_userinfo.LinkedInLink) ? _userinfo.LinkedInLink : "";
-		//		model.PInterestLink = !String.IsNullOrEmpty(_userinfo.PInterestLink) ? _userinfo.PInterestLink : "";
-		//		model.TweeterLink = !String.IsNullOrEmpty(_userinfo.TweeterLink) ? _userinfo.TweeterLink : "";
-		//		model.UpworkLink = !String.IsNullOrEmpty(_userinfo.UpworkLink) ? _userinfo.UpworkLink : "";
+        //	if (_userinfo != null)
+        //	{
+        //		model.AddressLine1 = !String.IsNullOrEmpty(_userinfo.AddressLine1) ? _userinfo.AddressLine1 : "";
+        //		model.AddressLine2 = !String.IsNullOrEmpty(_userinfo.AddressLine2) ? _userinfo.AddressLine2 : "";
+        //		model.BriefIntroduction = !String.IsNullOrEmpty(_userinfo.BriefIntroduction) ? _userinfo.BriefIntroduction : "";
+        //		model.CityId = _userinfo.CityId;
+        //		model.CoverPictureId = _userinfo.CoverPictureId;
+        //		model.Email = !String.IsNullOrEmpty(_userinfo.Email) ? _userinfo.Email.Trim().ToLower() : "";
+        //		model.FirstName = !String.IsNullOrEmpty(_userinfo.FirstName) ? _userinfo.FirstName : "";
+        //		model.Hobbies = !String.IsNullOrEmpty(_userinfo.Hobbies) ? _userinfo.Hobbies : "";
+        //		model.IsEmailVerified = _userinfo.IsEmailVerified;
+        //		model.IsPhoneVerified = _userinfo.IsPhoneVerified;
+        //		model.LastName = !String.IsNullOrEmpty(_userinfo.LastName) ? _userinfo.LastName : "";
+        //		model.Phone = !String.IsNullOrEmpty(_userinfo.Phone) ? _userinfo.Phone : "";
+        //		model.ProfilePictureId = _userinfo.ProfilePictureId;
+        //		model.Street = !String.IsNullOrEmpty(_userinfo.Street) ? _userinfo.Street : "";
+        //		model.Id = _userinfo.Id;
+        //		model.FacebookLink = !String.IsNullOrEmpty(_userinfo.FacebookLink) ? _userinfo.FacebookLink : "";
+        //		model.FreelancerLink = !String.IsNullOrEmpty(_userinfo.FreelancerLink) ? _userinfo.FreelancerLink : "";
+        //		model.GooglePlusLink = !String.IsNullOrEmpty(_userinfo.GooglePlusLink) ? _userinfo.GooglePlusLink : "";
+        //		model.GuruLink = !String.IsNullOrEmpty(_userinfo.GuruLink) ? _userinfo.GuruLink : "";
+        //		model.Hi5Link = !String.IsNullOrEmpty(_userinfo.Hi5Link) ? _userinfo.Hi5Link : "";
+        //		model.InstagramLink = !String.IsNullOrEmpty(_userinfo.InstagramLink) ? _userinfo.InstagramLink : "";
+        //		model.LinkedInLink = !String.IsNullOrEmpty(_userinfo.LinkedInLink) ? _userinfo.LinkedInLink : "";
+        //		model.PInterestLink = !String.IsNullOrEmpty(_userinfo.PInterestLink) ? _userinfo.PInterestLink : "";
+        //		model.TweeterLink = !String.IsNullOrEmpty(_userinfo.TweeterLink) ? _userinfo.TweeterLink : "";
+        //		model.UpworkLink = !String.IsNullOrEmpty(_userinfo.UpworkLink) ? _userinfo.UpworkLink : "";
 
-		//		// Get User Activities
-		//		model.Activities = _auditService.GetAllAuditsByUser(_userinfo.UserId.ToString()).AsEnumerable().Select(x => new AuditModel()
-		//		{
-		//			AuditLogId = x.AuditLogId,
-		//			EventDateUTC = x.EventDateUTC,
-		//			EventType = x.EventType,
-		//			LogDetails = x.LogDetails.GroupBy(d => d.AuditLogId).Select(d => d.First()).Take(10).ToList(),
-		//			Metadata = x.Metadata.ToList(),
-		//			RecordId = x.RecordId,
-		//			TypeFullName = x.TypeFullName,
-		//			EntityName = GetEntityName(x),
-		//		}).ToList();
+        //		// Get User Activities
+        //		model.Activities = _auditService.GetAllAuditsByUser(_userinfo.UserId.ToString()).AsEnumerable().Select(x => new AuditModel()
+        //		{
+        //			AuditLogId = x.AuditLogId,
+        //			EventDateUTC = x.EventDateUTC,
+        //			EventType = x.EventType,
+        //			LogDetails = x.LogDetails.GroupBy(d => d.AuditLogId).Select(d => d.First()).Take(10).ToList(),
+        //			Metadata = x.Metadata.ToList(),
+        //			RecordId = x.RecordId,
+        //			TypeFullName = x.TypeFullName,
+        //			EntityName = GetEntityName(x),
+        //		}).ToList();
 
-		//		model.Activities = model.Activities.GroupBy(x => x.EntityName).Select(x => x.FirstOrDefault()).Take(10).ToList();
+        //		model.Activities = model.Activities.GroupBy(x => x.EntityName).Select(x => x.FirstOrDefault()).Take(10).ToList();
 
-		//		// Get User Events
-		//		model.EventsUploadedList = _eventService.GetAllEventsByUser(_userinfo.UserId).AsEnumerable().OrderByDescending(x => x.CreatedOn).Take(10).ToList();
+        //		// Get User Events
+        //		model.EventsUploadedList = _eventService.GetAllEventsByUser(_userinfo.UserId).AsEnumerable().OrderByDescending(x => x.CreatedOn).Take(10).ToList();
 
-		//		// Get User Comments
-		//		model.CommentsList = _commentService.GetCommentsByUser(_userinfo.UserId).Take(10).ToList();
+        //		// Get User Comments
+        //		model.CommentsList = _commentService.GetCommentsByUser(_userinfo.UserId).Take(10).ToList();
 
-		//		// Get User Blogs
-		//		model.BlogsUploadedList = _blogService.GetBlogsByUser(_userinfo.UserId).Take(10).ToList();
+        //		// Get User Blogs
+        //		model.BlogsUploadedList = _blogService.GetBlogsByUser(_userinfo.UserId).Take(10).ToList();
 
-		//		// Get User Products
-		//		model.ProductsUploadedList = _productService.GetAllProductByUser(_userinfo.UserId).Take(5).ToList();
-		//		model.user = _userContext.CurrentUser;
-		//	}
+        //		// Get User Products
+        //		model.ProductsUploadedList = _productService.GetAllProductByUser(_userinfo.UserId).Take(5).ToList();
+        //		model.user = _userContext.CurrentUser;
+        //	}
 
-		//	return View(model);
-		//}
+        //	return View(model);
+        //}
 
-		public JsonResult CheckEmailExists(string email)
-		{
-			if (String.IsNullOrEmpty(email))
-				throw new Exception("Email parameter is missing.");
+        public JsonResult CheckEmailExists(string email)
+        {
+            if (String.IsNullOrEmpty(email))
+                throw new Exception("Email parameter is missing.");
 
-			var _userData = _userService.GetUserByUsername(email);
+            var _userData = _userService.GetUserByUsername(email);
 
-			if (_userData != null)
-				return Json(true, JsonRequestBehavior.AllowGet);
+            if (_userData != null)
+                return Json(true, JsonRequestBehavior.AllowGet);
 
-			return Json(false, JsonRequestBehavior.AllowGet);
-		}
+            return Json(false, JsonRequestBehavior.AllowGet);
+        }
 
-		public ActionResult EditMyAccount(int id)
-		{
-			if (id == 0 || _userContext.CurrentUser == null)
-				return RedirectToAction("Login");
+        public ActionResult EditMyAccount(int id)
+        {
+            if (id == 0 || _userContext.CurrentUser == null)
+                return RedirectToAction("Login");
 
-			if (_userContext.CurrentUser.Id != id && _userContext.CurrentUser.Roles.Any(x => x.Id != 1))
-				return LogOff();
+            if (_userContext.CurrentUser.Id != id && _userContext.CurrentUser.Roles.Any(x => x.Id != 1))
+                return LogOff();
 
-			var model = new UserInfoModel();
-			//var _userinfo = _userInfoService.GetUserInformationByUserId(id);
+            var model = new UserInfoModel();
+            //var _userinfo = _userInfoService.GetUserInformationByUserId(id);
 
-			//if (_userinfo != null)
-			//{
-			//	model.AddressLine1 = _userinfo.AddressLine1;
-			//	model.AddressLine2 = _userinfo.AddressLine2;
-			//	model.BriefIntroduction = _userinfo.BriefIntroduction;
-			//	model.CityId = _userinfo.CityId;
-			//	model.CoverPictureId = _userinfo.CoverPictureId;
-			//	model.Email = _userinfo.Email;
-			//	model.FirstName = _userinfo.FirstName;
-			//	model.Hobbies = _userinfo.Hobbies;
-			//	model.IsEmailVerified = _userinfo.IsEmailVerified;
-			//	model.IsPhoneVerified = _userinfo.IsPhoneVerified;
-			//	model.LastName = _userinfo.LastName;
-			//	model.Phone = _userinfo.Phone;
-			//	model.ProfilePictureId = _userinfo.ProfilePictureId;
-			//	model.Street = _userinfo.Street;
-			//	model.Id = _userinfo.Id;
-			//	model.user = _userContext.CurrentUser;
-			//}
+            //if (_userinfo != null)
+            //{
+            //	model.AddressLine1 = _userinfo.AddressLine1;
+            //	model.AddressLine2 = _userinfo.AddressLine2;
+            //	model.BriefIntroduction = _userinfo.BriefIntroduction;
+            //	model.CityId = _userinfo.CityId;
+            //	model.CoverPictureId = _userinfo.CoverPictureId;
+            //	model.Email = _userinfo.Email;
+            //	model.FirstName = _userinfo.FirstName;
+            //	model.Hobbies = _userinfo.Hobbies;
+            //	model.IsEmailVerified = _userinfo.IsEmailVerified;
+            //	model.IsPhoneVerified = _userinfo.IsPhoneVerified;
+            //	model.LastName = _userinfo.LastName;
+            //	model.Phone = _userinfo.Phone;
+            //	model.ProfilePictureId = _userinfo.ProfilePictureId;
+            //	model.Street = _userinfo.Street;
+            //	model.Id = _userinfo.Id;
+            //	model.user = _userContext.CurrentUser;
+            //}
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-		public string GetEntityName(TrackerEnabledDbContext.Common.Models.AuditLog log)
-		{
-			if (log.TypeFullName.Substring(log.TypeFullName.LastIndexOf('.') + 1) == "Product")
-			{
-				return _productService.GetProductById(Convert.ToInt32(log.RecordId)).Name;
-			}
+        public string GetEntityName(TrackerEnabledDbContext.Common.Models.AuditLog log)
+        {
+            if (log.TypeFullName.Substring(log.TypeFullName.LastIndexOf('.') + 1) == "Product")
+            {
+                return _productService.GetProductById(Convert.ToInt32(log.RecordId)).Name;
+            }
 
-			if (log.TypeFullName.Substring(log.TypeFullName.LastIndexOf('.') + 1) == "Events")
-			{
-				return _eventService.GetEventById(Convert.ToInt32(log.RecordId)).Title;
-			}
+            if (log.TypeFullName.Substring(log.TypeFullName.LastIndexOf('.') + 1) == "Events")
+            {
+                return _eventService.GetEventById(Convert.ToInt32(log.RecordId)).Title;
+            }
 
-			if (log.TypeFullName.Substring(log.TypeFullName.LastIndexOf('.') + 1) == "Blogs")
-			{
-				return _blogService.GetBlogById(Convert.ToInt32(log.RecordId)).Name;
-			}
+            if (log.TypeFullName.Substring(log.TypeFullName.LastIndexOf('.') + 1) == "Blogs")
+            {
+                return _blogService.GetBlogById(Convert.ToInt32(log.RecordId)).Name;
+            }
 
-			return "";
-		}
+            return "";
+        }
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditMyAccount(UserInfoModel model)
-		{
-			if (_userContext.CurrentUser == null)
-				return LogOff();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMyAccount(UserInfoModel model)
+        {
+            if (_userContext.CurrentUser == null)
+                return LogOff();
 
-			if (ModelState.IsValid)
-			{
-				//var _userinfo = _userInfoService.GetUserInformationByUserId(model.Id);
+            if (ModelState.IsValid)
+            {
+                //var _userinfo = _userInfoService.GetUserInformationByUserId(model.Id);
 
-				//if (_userinfo != null)
-				//{
-				//	_userinfo.AddressLine1 = model.AddressLine1;
-				//	_userinfo.AddressLine2 = model.AddressLine2;
-				//	_userinfo.BriefIntroduction = model.BriefIntroduction;
-				//	_userinfo.CityId = model.CityId;
-				//	_userinfo.CoverPictureId = model.CoverPictureId;
-				//	_userinfo.Email = model.Email;
-				//	_userinfo.FirstName = model.FirstName;
-				//	_userinfo.Hobbies = model.Hobbies;
-				//	_userinfo.IsEmailVerified = model.IsEmailVerified;
-				//	_userinfo.IsPhoneVerified = model.IsPhoneVerified;
-				//	_userinfo.LastName = model.LastName;
-				//	_userinfo.Phone = model.Phone;
-				//	_userinfo.ProfilePictureId = model.ProfilePictureId;
-				//	_userinfo.Street = model.Street;
-				//	_userinfo.UserId = _userContext.CurrentUser.Id;
-				//	_userinfo.user = _userContext.CurrentUser;
-				//	_userInfoService.Update(_userinfo);
-				//}
+                //if (_userinfo != null)
+                //{
+                //	_userinfo.AddressLine1 = model.AddressLine1;
+                //	_userinfo.AddressLine2 = model.AddressLine2;
+                //	_userinfo.BriefIntroduction = model.BriefIntroduction;
+                //	_userinfo.CityId = model.CityId;
+                //	_userinfo.CoverPictureId = model.CoverPictureId;
+                //	_userinfo.Email = model.Email;
+                //	_userinfo.FirstName = model.FirstName;
+                //	_userinfo.Hobbies = model.Hobbies;
+                //	_userinfo.IsEmailVerified = model.IsEmailVerified;
+                //	_userinfo.IsPhoneVerified = model.IsPhoneVerified;
+                //	_userinfo.LastName = model.LastName;
+                //	_userinfo.Phone = model.Phone;
+                //	_userinfo.ProfilePictureId = model.ProfilePictureId;
+                //	_userinfo.Street = model.Street;
+                //	_userinfo.UserId = _userContext.CurrentUser.Id;
+                //	_userinfo.user = _userContext.CurrentUser;
+                //	_userInfoService.Update(_userinfo);
+                //}
 
-				return RedirectToAction("MyAccount");
-			}
+                return RedirectToAction("MyAccount");
+            }
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

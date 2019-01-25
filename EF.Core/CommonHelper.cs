@@ -19,11 +19,6 @@ namespace EF.Core
     /// </summary>
     public partial class CommonHelper
     {
-        /// <summary>
-        /// Ensures the subscriber email or throw.
-        /// </summary>
-        /// <param name="email">The email.</param>
-        /// <returns></returns>
         public static string EnsureSubscriberEmailOrThrow(string email)
         {
             string output = EnsureNotNull(email);
@@ -38,11 +33,6 @@ namespace EF.Core
             return output;
         }
 
-        /// <summary>
-        /// Verifies that a string is in valid e-mail format
-        /// </summary>
-        /// <param name="email">Email to verify</param>
-        /// <returns>true if the string is a valid e-mail address and false if it's not</returns>
         public static bool IsValidEmail(string email)
         {
             if (String.IsNullOrEmpty(email))
@@ -53,22 +43,12 @@ namespace EF.Core
             return result;
         }
 
-        /// <summary>
-        /// Verifies that string is an valid IP-Address
-        /// </summary>
-        /// <param name="ipAddress">IPAddress to verify</param>
-        /// <returns>true if the string is a valid IpAddress and false if it's not</returns>
         public static bool IsValidIpAddress(string ipAddress)
         {
             IPAddress ip;
             return IPAddress.TryParse(ipAddress, out ip);
         }
 
-        /// <summary>
-        /// Generate random digit code
-        /// </summary>
-        /// <param name="length">Length</param>
-        /// <returns>Result string</returns>
         public static string GenerateRandomDigitCode(int length)
         {
             var random = new Random();
@@ -78,12 +58,6 @@ namespace EF.Core
             return str;
         }
 
-        /// <summary>
-        /// Returns an random interger number within a specified rage
-        /// </summary>
-        /// <param name="min">Minimum number</param>
-        /// <param name="max">Maximum number</param>
-        /// <returns>Result</returns>
         public static int GenerateRandomInteger(int min = 0, int max = int.MaxValue)
         {
             var randomNumberBuffer = new byte[10];
@@ -91,13 +65,6 @@ namespace EF.Core
             return new Random(BitConverter.ToInt32(randomNumberBuffer, 0)).Next(min, max);
         }
 
-        /// <summary>
-        /// Ensure that a string doesn't exceed maximum allowed length
-        /// </summary>
-        /// <param name="str">Input string</param>
-        /// <param name="maxLength">Maximum length</param>
-        /// <param name="postfix">A string to add to the end if the original string was shorten</param>
-        /// <returns>Input string if its lengh is OK; otherwise, truncated input string</returns>
         public static string EnsureMaximumLength(string str, int maxLength, string postfix = null)
         {
             if (String.IsNullOrEmpty(str))
@@ -118,43 +85,21 @@ namespace EF.Core
             return str;
         }
 
-        /// <summary>
-        /// Ensures that a string only contains numeric values
-        /// </summary>
-        /// <param name="str">Input string</param>
-        /// <returns>Input string with only numeric values, empty string if input is null/empty</returns>
         public static string EnsureNumericOnly(string str)
         {
             return string.IsNullOrEmpty(str) ? string.Empty : new string(str.Where(p => char.IsDigit(p)).ToArray());
         }
 
-        /// <summary>
-        /// Ensure that a string is not null
-        /// </summary>
-        /// <param name="str">Input string</param>
-        /// <returns>Result</returns>
         public static string EnsureNotNull(string str)
         {
             return str ?? string.Empty;
         }
 
-        /// <summary>
-        /// Indicates whether the specified strings are null or empty strings
-        /// </summary>
-        /// <param name="stringsToValidate">Array of strings to validate</param>
-        /// <returns>Boolean</returns>
         public static bool AreNullOrEmpty(params string[] stringsToValidate)
         {
             return stringsToValidate.Any(p => string.IsNullOrEmpty(p));
         }
 
-        /// <summary>
-        /// Compare two arrasy
-        /// </summary>
-        /// <typeparam name="T">Type</typeparam>
-        /// <param name="a1">Array 1</param>
-        /// <param name="a2">Array 2</param>
-        /// <returns>Result</returns>
         public static bool ArraysEqual<T>(T[] a1, T[] a2)
         {
             //also see Enumerable.SequenceEqual(a1, a2);
@@ -207,11 +152,6 @@ namespace EF.Core
             return _trustLevel.Value;
         }
 
-        /// <summary>
-        /// Convert enum for front-end
-        /// </summary>
-        /// <param name="str">Input string</param>
-        /// <returns>Converted string</returns>
         public static string ConvertEnum(string str)
         {
             if (string.IsNullOrEmpty(str)) return string.Empty;
@@ -224,25 +164,6 @@ namespace EF.Core
             return result;
         }
 
-        /// <summary>
-        /// Set Telerik (Kendo UI) culture
-        /// </summary>
-        public static void SetTelerikCulture()
-        {
-            //little hack here
-            //always set culture to 'en-US' (Kendo UI has a bug related to editing decimal values in other cultures). Like currently it's done for admin area in Global.asax.cs
-
-            var culture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-        }
-
-        /// <summary>
-        /// Get difference in years
-        /// </summary>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <returns></returns>
         public static int GetDifferenceInYears(DateTime startDate, DateTime endDate)
         {
             int age = endDate.Year - startDate.Year;
@@ -251,11 +172,6 @@ namespace EF.Core
             return age;
         }
 
-        /// <summary>
-        /// Maps a virtual path to a physical disk path.
-        /// </summary>
-        /// <param name="path">The path to map. E.g. "~/bin"</param>
-        /// <returns>The physical path. E.g. "c:\inetpub\wwwroot\bin"</returns>
         public static string MapPath(string path)
         {
             if (HostingEnvironment.IsHosted)
@@ -268,6 +184,56 @@ namespace EF.Core
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             path = path.Replace("~/", "").TrimStart('/').Replace('/', '\\');
             return Path.Combine(baseDirectory, path);
-        }        
+        }
+
+        public static void SetProperty(object instance, string propertyName, object value)
+        {
+            if (instance == null) throw new ArgumentNullException("instance");
+            if (propertyName == null) throw new ArgumentNullException("propertyName");
+
+            Type instanceType = instance.GetType();
+            PropertyInfo pi = instanceType.GetProperty(propertyName);
+            if (pi == null)
+                throw new Exception("No property " + propertyName + " found on the instance of type " + instanceType + ".");
+            if (!pi.CanWrite)
+                throw new Exception("The property " + propertyName + " on the instance of type " + instanceType + " does not have a setter.");
+
+            if (value != null && !value.GetType().IsAssignableFrom(pi.PropertyType))
+                value = To(value, pi.PropertyType);
+            pi.SetValue(instance, value, new object[0]);
+        }
+
+        public static object To(object value, Type destinationType)
+        {
+            return To(value, destinationType, CultureInfo.InvariantCulture);
+        }
+
+        public static object To(object value, Type destinationType, CultureInfo culture)
+        {
+            if (value != null)
+            {
+                var sourceType = value.GetType();
+
+                var destinationConverter = TypeDescriptor.GetConverter(destinationType);
+                if (destinationConverter != null && destinationConverter.CanConvertFrom(value.GetType()))
+                    return destinationConverter.ConvertFrom(null, culture, value);
+
+                var sourceConverter = TypeDescriptor.GetConverter(sourceType);
+                if (sourceConverter != null && sourceConverter.CanConvertTo(destinationType))
+                    return sourceConverter.ConvertTo(null, culture, value, destinationType);
+
+                if (destinationType.IsEnum && value is int)
+                    return Enum.ToObject(destinationType, (int)value);
+
+                if (!destinationType.IsInstanceOfType(value))
+                    return Convert.ChangeType(value, destinationType, culture);
+            }
+            return value;
+        }
+
+        public static T To<T>(object value)
+        {
+            return (T)To(value, typeof(T));
+        }
     }
 }

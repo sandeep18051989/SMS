@@ -103,6 +103,7 @@ namespace SMS.Areas.Admin.Controllers
                             UserId = x.UserId,
                             Name = x.Name.Trim(),
                             IsSystemDefined = x.IsSystemDefined,
+                            Subject = x.Subject,
                             dataTokens = x.Tokens.Select(y => new DataTokenModel()
                             {
                                 Name = y.Name.Trim()
@@ -171,7 +172,8 @@ namespace SMS.Areas.Admin.Controllers
                     UserId = temp.UserId,
                     ModifiedOn = temp.ModifiedOn,
                     CreatedOn = temp.CreatedOn,
-                    IsSystemDefined = temp.IsSystemDefined
+                    IsSystemDefined = temp.IsSystemDefined,
+                    Subject = temp.Subject
                 };
             }
 
@@ -243,6 +245,7 @@ namespace SMS.Areas.Admin.Controllers
                     temp.Id = model.Id;
                     temp.Url = "";
                     temp.ModifiedOn = DateTime.Now;
+                    temp.Subject = model.Subject;
                     temp.UserId = _userContext.CurrentUser.Id;
                     _templateService.Update(temp);
 
@@ -300,7 +303,8 @@ namespace SMS.Areas.Admin.Controllers
                     CreatedOn = DateTime.Now,
                     ModifiedOn = DateTime.Now,
                     Url = "",
-                    IsSystemDefined = false
+                    IsSystemDefined = false,
+                    Subject = model.Subject
                 };
 
                 var dtTokens = _templateService.GetAllDataTokens().ToList();

@@ -14,6 +14,7 @@ namespace EF.Services.Service
         #region Fields
 
         public readonly IRepository<User> _userRepository;
+        public readonly IRoleService _roleService;
         public readonly IRepository<Location> _locationRepository;
         public readonly ICountryReverseGeocodeService _reverseLocationService;
 
@@ -21,11 +22,12 @@ namespace EF.Services.Service
 
         #region Const
 
-        public UserService(IRepository<User> userRepository, IRepository<Location> locationRepository, ICountryReverseGeocodeService reverseLocationService)
+        public UserService(IRepository<User> userRepository, IRepository<Location> locationRepository, ICountryReverseGeocodeService reverseLocationService, IRoleService roleService)
         {
             this._userRepository = userRepository;
             this._locationRepository = locationRepository;
             this._reverseLocationService = reverseLocationService;
+            this._roleService = roleService; 
         }
         #endregion
 
@@ -269,6 +271,64 @@ namespace EF.Services.Service
         public IList<Location> GetAllUserLocations()
         {
             return _locationRepository.Table.ToList();
+        }
+
+        public virtual UserRegistrationResult RegisterUser(UserRegistrationRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException("request");
+
+            if (request.User == null)
+                throw new ArgumentException("Can't load current user");
+
+            var result = new UserRegistrationResult();
+            if (String.IsNullOrEmpty(request.Email))
+            {
+                result.AddError("Email Address is missing!");
+                return result;
+            }
+            if (!CommonHelper.IsValidEmail(request.Email))
+            {
+                result.AddError("Email Address is not valid!");
+                return result;
+            }
+            if (String.IsNullOrWhiteSpace(request.Password))
+            {
+                result.AddError("Password is missing!");
+                return result;
+            }
+            if (String.IsNullOrEmpty(request.Username))
+            {
+                result.AddError("Username is missing!");
+                return result;
+            }
+
+            //validate unique user
+            if (GetUserByEmail(request.Email) != null)
+            {
+                result.AddError("Email Already Exists!");
+                return result;
+            }
+            if (GetUserByUsername(request.Username) != null)
+            {
+                result.AddError("Username Already Exists!");
+                return result;
+            }
+
+            //at this point request is valid
+            request.User.UserName = request.Username;
+            request.User.Email = request.Email;
+            request.User.Password = request.Password;
+            request.User.IsApproved = request.IsApproved;
+            request.User.IsActive = request.IsActive;
+
+            var registeredRole = _roleService.GetRoleByName("General");
+            if (registeredRole == null)
+                throw new Exception("'Registered' role could not be loaded");
+
+            request.User.Roles.Add(registeredRole);
+            Update(request.User);
+            return result;
         }
 
         #endregion

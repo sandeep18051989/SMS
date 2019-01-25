@@ -16,8 +16,14 @@ namespace EF.Data.Mapping
             this.Property(b => b.SeoName).IsOptional();
             this.Property(u => u.UserName).IsRequired().HasMaxLength(400);
 			this.Property(u => u.Password).IsRequired().HasMaxLength(30);
-			// Relationships
-			this.HasMany(u => u.Roles)
+            this.Property(b => b.AddressLine1).IsOptional();
+            this.Property(b => b.AddressLine2).IsOptional();
+            this.Property(b => b.CityId).IsOptional();
+            this.Property(b => b.CoverPictureId).IsOptional();
+            this.Property(b => b.ProfilePictureId).IsOptional();
+
+            // Relationships
+            this.HasMany(u => u.Roles)
 				 .WithMany()
 				 .Map(m => m.ToTable("User_Roles_Map").MapLeftKey("UserId").MapRightKey("RoleId"));
 

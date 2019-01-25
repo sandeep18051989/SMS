@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\CMSEntityTypeConfiguration.cs" />
+    <Compile Include="Configuration\SocialSettingMap.cs" />
     <Compile Include="CreateDatabaseIfNotExists.cs" />
     <Compile Include="CreateTablesIfNotExist.cs" />
     <Compile Include="DatabaseHelper.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Mapping\ClassRoomDivisionMap.cs" />
     <Compile Include="Mapping\ClassRoomMap.cs" />
     <Compile Include="Mapping\BlogVideoMap.cs" />
+    <Compile Include="Mapping\SocialRecordMap.cs" />
     <Compile Include="Mapping\NewsVideoMap.cs" />
     <Compile Include="Mapping\ProductVideoMap.cs" />
     <Compile Include="Mapping\EventVideoMap.cs" />

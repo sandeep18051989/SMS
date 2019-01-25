@@ -175,6 +175,7 @@ namespace EF.Services.Service
 			user.UserGuid = Guid.NewGuid();
 			user.IsApproved = true;
 			user.Email = school.Email;
+            user.UserId = 1;
 
 			_userRepository.Insert(user);
 
@@ -805,6 +806,18 @@ namespace EF.Services.Service
             managePermit.UserId = user.Id;
             _permissionRecordRepository.Insert(managePermit);
 
+            managePermit = new PermissionRecord();
+            managePermit.Name = "Manage Social Settings";
+            managePermit.SystemName = "ManageSocialSettings";
+            managePermit.IsDeleted = false;
+            managePermit.IsSystemDefined = true;
+            managePermit.Category = "Social Settings";
+            managePermit.ModifiedOn = DateTime.Now;
+            managePermit.CreatedOn = DateTime.Now;
+            managePermit.IsActive = true;
+            managePermit.UserId = user.Id;
+            _permissionRecordRepository.Insert(managePermit);
+
             #endregion
 
             #region User Roles
@@ -1312,7 +1325,18 @@ namespace EF.Services.Service
 			emailSetting.UserId = user.Id;
 			_settingRepository.Insert(emailSetting);
 
-			emailSetting = new Settings();
+            emailSetting = new Settings();
+            emailSetting.Name = "DisplayName";
+            emailSetting.Value = "SMS";
+            emailSetting.EntityId = 0;
+            emailSetting.Entity = "Email";
+            emailSetting.SettingType = 7;
+            emailSetting.TypeId = 7;
+            emailSetting.CreatedOn = emailSetting.ModifiedOn = DateTime.Now;
+            emailSetting.UserId = user.Id;
+            _settingRepository.Insert(emailSetting);
+
+            emailSetting = new Settings();
 			emailSetting.Name = "Port";
 			emailSetting.Value = "25";
 			emailSetting.EntityId = 0;
@@ -1936,7 +1960,8 @@ namespace EF.Services.Service
 			assessTemplate.ModifiedOn = DateTime.Now;
 			assessTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[AssessmentName],</td></tr><tr><td colspan='2'>Assessment Has Been Scheduled.</td></tr></tbody></table>";
 			assessTemplate.CreatedOn = DateTime.Now;
-			assessTemplate.UserId = user.Id;
+            assessTemplate.Subject = "Assessment Scheduled";
+            assessTemplate.UserId = user.Id;
 
 			var stuAccessTemplate = new Template();
 			stuAccessTemplate.Name = "AssessmentCompleted";
@@ -1946,7 +1971,8 @@ namespace EF.Services.Service
 			stuAccessTemplate.ModifiedOn = DateTime.Now;
 			stuAccessTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[AssessmentName],</td></tr><tr><td colspan='2'>Assessment Has Been Completed.</td></tr></tbody></table>";
 			stuAccessTemplate.CreatedOn = DateTime.Now;
-			stuAccessTemplate.UserId = user.Id;
+            assessTemplate.Subject = "Assessment Completed";
+            stuAccessTemplate.UserId = user.Id;
 
 			#region Assessment
 
@@ -2331,7 +2357,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>Hello [VisitorName],</td></tr><tr><td colspan='2'>Thanks for sending us query. We will be right back to you shortly.</td></tr></tbody><tfoot><tr><td colspan='2'>Thanks.<br>Artery labs Inc.</td></tr></tfoot></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.Tokens.Add(visitorToken);
+            defaultTemplate.Subject = "Visitor Query";
+            defaultTemplate.Tokens.Add(visitorToken);
 			defaultTemplate.UserId = user.Id;
 
 			// Add Data Tokens
@@ -2352,7 +2379,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>Hello [VisitorName],</td></tr><tr><td colspan='2'>Thanks for your comment.</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "Comment On Event";
+            defaultTemplate.UserId = user.Id;
 
 			defaultTemplate.Tokens.Add(eventDescToken);
 			defaultTemplate.Tokens.Add(eventEndDateToken);
@@ -2373,7 +2401,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>Hello [ProductUser],</td></tr><tr><td colspan='2'>Thanks for your comment.</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "Comment On Product";
+            defaultTemplate.UserId = user.Id;
 
 			defaultTemplate.Tokens.Add(productDescToken);
 			defaultTemplate.Tokens.Add(productIdToken);
@@ -2395,7 +2424,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>Hello [UserName],</td></tr><tr><td colspan='2'>Product Added Successfully.</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "Product Added";
+            defaultTemplate.UserId = user.Id;
 
 			defaultTemplate.Tokens.Add(productDescToken);
 			defaultTemplate.Tokens.Add(productIdToken);
@@ -2415,7 +2445,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[UserName] replied to a comment.</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "Reply On Comment";
+            defaultTemplate.UserId = user.Id;
 
 			defaultTemplate.Tokens.Add(commentIdToken);
 			defaultTemplate.Tokens.Add(commentHtmlToken);
@@ -2431,7 +2462,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[UserName] registered successfully.</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "New User Registration";
+            defaultTemplate.UserId = user.Id;
 
 			defaultTemplate.Tokens.Add(usercreationdateToken);
 			defaultTemplate.Tokens.Add(useridToken);
@@ -2448,7 +2480,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[UserName] just signed in into the system.</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "User Signed In";
+            defaultTemplate.UserId = user.Id;
 
 			defaultTemplate.Tokens.Add(usercreationdateToken);
 			defaultTemplate.Tokens.Add(useridToken);
@@ -2465,7 +2498,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[VisitorName] thanks for your quote.</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "New Quote";
+            defaultTemplate.UserId = user.Id;
 
 			// Add Data Tokens
 			defaultTemplate.Tokens.Add(visitorToken);
@@ -2488,7 +2522,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[UserEmail]</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "Forgot Password";
+            defaultTemplate.UserId = user.Id;
 
 			defaultTemplate.Tokens.Add(usercreationdateToken);
 			defaultTemplate.Tokens.Add(useridToken);
@@ -2505,7 +2540,8 @@ namespace EF.Services.Service
 			defaultTemplate.ModifiedOn = DateTime.Now;
 			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>[BlogName]</td></tr></tbody></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
-			defaultTemplate.UserId = user.Id;
+            defaultTemplate.Subject = "Comment On Blog";
+            defaultTemplate.UserId = user.Id;
 
 			defaultTemplate.Tokens.Add(blogActiveToken);
 			defaultTemplate.Tokens.Add(blogApprovedToken);

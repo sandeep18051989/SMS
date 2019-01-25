@@ -6,6 +6,9 @@ using EF.Core;
 using EF.Core.Data;
 using EF.Core.Enums;
 using EF.Services.Http;
+using System.Web;
+using System.Text.RegularExpressions;
+using System.Linq.Dynamic;
 
 namespace EF.Services.Service
 {
@@ -389,6 +392,116 @@ namespace EF.Services.Service
             tokens.Add(new DataToken() { Name = "Comment Blocked By User Id", SystemName = "CommentBlockedByUserId", Value = comment.BlockedBy.ToString() });
             tokens.Add(new DataToken() { Name = "Comment Blocked By User", SystemName = "CommentBlockedByUser", Value = comment.BlockedBy > 0 ? _userRepository.GetByID(comment.BlockedBy)?.UserName : "Unknown" });
         }
+
+        #region Utilities
+
+        public string Replace(string original, string pattern, string replacement)
+        {
+            var stringComparison = StringComparison.Ordinal;
+            if (stringComparison == StringComparison.Ordinal)
+                return original.Replace(pattern, replacement);
+
+            var count = 0;
+            var position0 = 0;
+            var position1 = 0;
+
+            var inc = (original.Length / pattern.Length) * (replacement.Length - pattern.Length);
+            var chars = new char[original.Length + Math.Max(0, inc)];
+            while ((position1 = original.IndexOf(pattern, position0, stringComparison)) != -1)
+            {
+                for (int i = position0; i < position1; ++i)
+                    chars[count++] = original[i];
+                for (int i = 0; i < replacement.Length; ++i)
+                    chars[count++] = replacement[i];
+                position0 = position1 + pattern.Length;
+            }
+
+            if (position0 == 0)
+                return original;
+
+            for (int i = position0; i < original.Length; ++i)
+                chars[count++] = original[i];
+
+            return new string(chars, 0, count);
+        }
+
+        public string ReplaceTokens(string template, IEnumerable<DataToken> tokens, bool htmlEncode = false, bool stringWithQuotes = false)
+        {
+            foreach (var token in tokens)
+            {
+                var tokenValue = token.Value ?? string.Empty;
+
+                //wrap the value in quotes
+                if (stringWithQuotes && tokenValue is string)
+                    tokenValue = string.Format("\"{0}\"", tokenValue);
+
+                template = Replace(template, string.Format(@"%{0}%", token.Name), tokenValue.ToString());
+            }
+
+            return template;
+        }
+
+        public string ReplaceConditionalStatements(string template, IEnumerable<DataToken> tokens)
+        {
+            //define regex rules
+            var regexFullConditionalSatement = new Regex(@"(?:(?'Group' %if)|(?'Condition-Group' endif%)|(?! (%if|endif%)).)*(?(Group)(?!))",
+                RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            var regexCondition = new Regex(@"\s*\((?:(?'Group' \()|(?'-Group' \))|[^()])*(?(Group)(?!))\)\s*",
+                RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+            //find conditional statements in the original template
+            var conditionalStatements = regexFullConditionalSatement.Matches(template).Cast<Match>()
+                .SelectMany(match => match.Groups["Condition"].Captures.Cast<Capture>().Select(capture => new
+                {
+                    Index = capture.Index,
+                    FullStatement = capture.Value,
+                    Condition = regexCondition.Match(capture.Value).Value
+                })).ToList();
+
+            if (!conditionalStatements.Any())
+                return template;
+
+            //replace conditional statements
+            foreach (var statement in conditionalStatements.OrderBy(statement => statement.Index))
+            {
+                var conditionIsMet = false;
+                if (!string.IsNullOrEmpty(statement.Condition))
+                {
+                    try
+                    {
+                        //replace tokens (string values are wrap in quotes)
+                        var conditionString = ReplaceTokens(statement.Condition, tokens, stringWithQuotes: true);
+                        conditionIsMet = new[] { statement }.Where(conditionString).Any();
+                    }
+                    catch { }
+
+                }
+                template = template.Replace(conditionIsMet ? statement.Condition : statement.FullStatement, string.Empty);
+            }
+            template = template.Replace("%if", string.Empty).Replace("endif%", string.Empty);
+
+            //return template with resolved conditional statements
+            return template;
+        }
+
+        public string Replace(string template, IEnumerable<DataToken> tokens, bool htmlEncode)
+        {
+            if (string.IsNullOrWhiteSpace(template))
+                throw new ArgumentNullException("template");
+
+            if (tokens == null)
+                throw new ArgumentNullException("tokens");
+
+            //replace conditional statements
+            template = ReplaceConditionalStatements(template, tokens);
+
+            //replace tokens
+            template = ReplaceTokens(template, tokens, htmlEncode);
+
+            return template;
+        }
+
+        #endregion
 
     }
 }

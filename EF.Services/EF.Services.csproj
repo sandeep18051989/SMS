@@ -131,6 +131,7 @@
   <ItemGroup>
     <Compile Include="ActionConfirmationModel.cs" />
     <Compile Include="BaseModelValidator.cs" />
+    <Compile Include="BaseSocialController.cs" />
     <Compile Include="CMSController.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="CodeHelper.cs" />
@@ -139,6 +140,15 @@
     <Compile Include="Context\WebContext.cs" />
     <Compile Include="Culture\CultureHelper.cs" />
     <Compile Include="Culture\ICutltureHelper.cs" />
+    <Compile Include="NameValueToken.cs" />
+    <Compile Include="Social\ISocialModelFactory.cs" />
+    <Compile Include="Social\ISocialSettingService.cs" />
+    <Compile Include="Social\SocialModelFactory.cs" />
+    <Compile Include="Social\SocialSettingExtensions.cs" />
+    <Compile Include="Social\SocialSettingService.cs" />
+    <Compile Include="UrlContextExtensions.cs" />
+    <Compile Include="UserRegistrationRequest.cs" />
+    <Compile Include="UserRegistrationResult.cs" />
     <Compile Include="DecimalPropertyValidator.cs" />
     <Compile Include="EFValidatorFactory.cs" />
     <Compile Include="EnumExtensions.cs" />
@@ -170,6 +180,22 @@
     <Compile Include="Service\IInstallationService.cs" />
     <Compile Include="Service\InstallationService.cs" />
     <Compile Include="Service\SMSService.cs" />
+    <Compile Include="Social\AuthorizationResult.cs" />
+    <Compile Include="Social\AuthorizeState.cs" />
+    <Compile Include="Social\ISocialPluginService.cs" />
+    <Compile Include="Social\SocialPluginService.cs" />
+    <Compile Include="Social\SocialAuthorizer.cs" />
+    <Compile Include="Social\SocialAuthorizerHelper.cs" />
+    <Compile Include="Social\IClaimsTranslator.cs" />
+    <Compile Include="Social\ISocialAuthenticationMethod.cs" />
+    <Compile Include="Social\ISocialAuthorizer.cs" />
+    <Compile Include="Social\ISocialProviderAuthorizer.cs" />
+    <Compile Include="Social\IOpenAuthenticationService.cs" />
+    <Compile Include="Social\OpenAuthenticationParameters.cs" />
+    <Compile Include="Social\OpenAuthenticationService.cs" />
+    <Compile Include="Social\OpenAuthentificationExtensions.cs" />
+    <Compile Include="Social\RegistrationDetails.cs" />
+    <Compile Include="Social\UserClaims.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Tasks\DefaultMachineNameProvider.cs" />
     <Compile Include="Tasks\IMachineNameProvider.cs" />
