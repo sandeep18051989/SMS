@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.ClassRoomModel
+@using EF.Services;
 @{
     ViewBag.Title = "Class Rooms";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Class Rooms</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="list-form">
@@ -19,7 +28,7 @@
                     <div class="col-md-12">
                         <br />
                         <div class="form-group">
-                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Number</th>
@@ -39,9 +48,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('ClassRooms')").closest("li").addClass("active");
-
+        $("li#classrooms ul").css("height", "");
         // Initiallize Datatable
         $('.custom-table').DataTable({
             "processing": true, // for show progress bar

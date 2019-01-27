@@ -1,0 +1,15 @@
+﻿@model string
+@Html.TextBoxFor(model => model, new { @class = "form-control timepicker", @data_value = (!string.IsNullOrEmpty(Model) ? Model : ""), @autocomplete="off", @readonly="readonly" })
+<script type="text/javascript">
+    $(function () {
+        $('#@Html.IdFor(model => model)').pickatime({
+            twelvehour: false,
+            beforeDone: function () {
+                $(document.activeElement).blur();
+            },
+            close: function () {
+                $(document.activeElement).blur();
+            },
+        });
+    });
+</script>

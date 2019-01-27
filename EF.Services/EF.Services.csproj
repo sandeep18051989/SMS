@@ -258,6 +258,7 @@
     <Compile Include="Service\SliderService.cs" />
     <Compile Include="Service\VideoService.cs" />
     <Compile Include="ValidatorExtensions .cs" />
+    <Compile Include="RazorViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

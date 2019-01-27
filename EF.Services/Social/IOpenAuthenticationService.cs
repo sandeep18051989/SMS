@@ -7,9 +7,7 @@ namespace EF.Services.Social
     {
         #region Social authentication methods
 
-        IList<Type> LoadActiveSocialAuthenticationMethods(User user = null, bool? onlyActive = null);
-
-        IList<Type> LoadAllSocialAuthenticationMethods(User user = null, bool? onlyActive=null);
+        IList<SocialProvider> LoadActiveSocialAuthenticationMethods(bool? onlyActive = null);
 
         #endregion
 

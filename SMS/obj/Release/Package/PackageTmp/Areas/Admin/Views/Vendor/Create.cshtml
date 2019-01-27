@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.VendorModel
+@using EF.Services;
 @{
     ViewBag.Title = "Create Vendor";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Vendor</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="create-form">
@@ -12,7 +21,6 @@
                 @Html.HiddenFor(model => model.Id)
                 <div class="row text-left">
                     <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">CREATE VENDOR</h3>
                         <button type="submit" name="save" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Create
                         </button>
@@ -73,7 +81,7 @@
                                                 <div class="md-form">
                                                     <i class="fa fa-map prefix" aria-hidden="true"></i>
                                                     @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @tabindex = "3", @maxlength = "500", @title = "Address" } })
-                                                    @Html.LabelFor(model => model.Address, "Name", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.LabelFor(model => model.Address, "Address", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
                                                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -82,9 +90,9 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form date end-date">
                                                     <i class="fa fa-calendar prefix"></i>
-                                                    @Html.EditorFor(model => model.VDate, "DateRange.cshtml")
-                                                    @Html.LabelFor(model => model.VDate, htmlAttributes: new { @class = "control-label", @readonly = "readonly", @title = "Registered On" })
-                                                    @Html.ValidationMessageFor(model => model.VDate, "", new { @class = "text-danger" })
+                                                    @Html.EditorFor(model => model.Date, "DateRange.cshtml")
+                                                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label", @readonly = "readonly", @title = "Registered On" })
+                                                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>
@@ -108,6 +116,21 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "7" })
+                                                    @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-7 mb-4">
+                                                <input type="checkbox" id="IsActive" tabindex="8" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { @class = "form-check-label", @tabindex = "2" })
+                                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +145,20 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Vendors')").closest("li").addClass("active");
+        $("li#vendors ul").css("height", "");
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
     });
 </script>

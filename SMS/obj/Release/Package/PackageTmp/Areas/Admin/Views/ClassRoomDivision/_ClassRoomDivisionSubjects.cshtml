@@ -1,0 +1,292 @@
+﻿@model SMS.Models.ClassRoomDivisionModel
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+            <table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="divisionsubjects-grid">
+                <thead class="mdb-color lighten-5">
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    // Initiallize Datatable
+                    $('#divisionsubjects-grid').DataTable({
+                        "paging": false,
+                        "bLengthChange": false, //thought this line could hide the LengthMenu
+                        "bInfo": false,
+                        "processing": true, // for show progress bar
+                        "serverSide": true, // for process server side
+                        "filter": false, // this is for disable filter (search box)
+                        "orderMulti": true, // for disable multiple column at once
+                        "ajax": {
+                            "url": "/Admin/ClassRoomDivision/LoadSubjectGrid/@(Model.Id)",
+                            "type": "POST",
+                            "datatype": "json"
+                        },
+                        "aaSorting": [],
+                        "columns": [
+                            {
+                                "data": "SubjectCode", "title": "Subject Code", "name": "Subject Code", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
+                            },
+                            {
+                                "data": "SubjectName", "title": "Subject Name", "name": "Subject Name", "autoWidth": true, "orderable": false, "defaultContent": "","className": 'text-center'
+                            },
+                            {
+                                "title": "Actions",
+                                "orderable": false,
+                                "className": 'text-center',
+                                "render": function (data, type, row) {
+                                    if (type === "display") {
+                                        var dateTemplate = '<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="recrem_' + row.Id + '" title="Remove Subject"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Remove</button>';
+                                        return dateTemplate;
+                                    }
+                                    return data;
+                                },
+                                "defaultContent": ""
+                            }
+                        ],
+                        "select": {
+                            "style": 'os',
+                            "selector": 'td:first-child'
+                        }
+                    });
+                    $("#listSubjectsModal").on('show.bs.modal', function () {
+                        $.ajax({
+                            cache: false,
+                            type: "GET",
+                            url: "@(Url.Action("GetAllSubjectsByDivision", "ClassRoomDivision"))",
+                            data: { 'divisionid' : @(Model.Id) },
+                            success: function (data, result) {
+                                if(result === "success"){
+                                    $("#content-body").html('');
+                                    var htmContent = '';
+                                    htmContent += '<table class="table table-bordered">';
+                                    htmContent += '<thead>';
+                                    htmContent += '<tr>';
+                                    htmContent += '<th>';
+                                    htmContent += '<div class="subject-custom-control custom-checkbox"><input type="checkbox" class="subject-custom-control-input" id="subjectDefaultCheck"><label class="subject-custom-control-label" for="subjectDefaultCheck"></label></div>';
+                                    htmContent += '<th>Code</th><th>Name</th>';
+                                    htmContent += '</thead>';
+                                    htmContent += '<tbody id="divisions">';
+                                    for(var i=0;i < data.length;i++){
+                                        htmContent += '<tr>';
+                                        htmContent += '<th scope="row">';
+                                        htmContent += '<div class="subject-custom-control custom-checkbox"><input type="checkbox" class="subject-custom-control-input" value="' + data[i].Id + '" id="' + data[i].Id + '" ' + (data[i].Selected ? "checked" : "") + '><label class="subject-custom-control-label" for="' + data[i].Id + '"></label></div>';
+                                        htmContent += '</th>';
+                                        htmContent += '<td>' + data[i].Code + '</td>';
+                                        htmContent += '<td>' + data[i].Name + '</td>';
+                                        htmContent += '</tr>';
+                                    }
+                                    htmContent += '</tbody>';
+                                    htmContent += '</table>';
+                                    $("#content-body").html(htmContent);
+                                    $(".modal").hide();
+                                    $('#listSubjectsModal').modal('show');
+                                    // Select Default Checkbox
+                                    var childRecords = $("#listSubjectsModal").find('table tbody input[type=checkbox]');
+                                    var allSelected = true;
+                                    if(childRecords.length > 0){
+                                        for(var i=0;i < childRecords.length;i++){
+                                            if(!$(childRecords[i]).prop("checked")){
+                                                allSelected = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if(allSelected){
+                                        $("#subjectDefaultCheck").prop("checked", true);
+                                    }
+                                    else{
+                                        $("#subjectDefaultCheck").prop("checked", false);
+                                    }
+                                }
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                console.log(xhr.responseText);
+                                setTimeout(function () {
+                                    $.gritter.add({
+                                        title: "Failure",
+                                        text: "Failed to load subjects!",
+                                        sticky: !0,
+                                        time: "",
+                                        class_name: "my-sticky-class"
+                                    });
+                                }, 1e3);
+                            }
+                        });
+                    });
+
+                    $(document).on("change","#content-body table tbody .subject-custom-control-input[type=checkbox]", function(){
+                        var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
+                        var allSelected = true;
+                        if(childRecords.length > 0){
+                            for(var i=0;i < childRecords.length;i++){
+                                if(!$(childRecords[i]).prop("checked")){
+                                    allSelected = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(allSelected){
+                            $("#subjectDefaultCheck").prop("checked", true);
+                        }
+                        else{
+                            $("#subjectDefaultCheck").prop("checked", false);
+                        }
+                    });
+
+                    $(document).on("change","#subjectDefaultCheck", function(){
+                        var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
+                        if($(this).prop("checked")){
+                            if(childRecords.length > 0){
+                                for(var i=0;i < childRecords.length;i++){
+                                    $(childRecords[i]).prop("checked", true);
+                                }
+                            }
+                        }
+                        else{
+                            if(childRecords.length > 0){
+                                for(var i=0;i < childRecords.length;i++){
+                                    $(childRecords[i]).prop("checked", false);
+                                }
+                            }
+                        }
+                    });
+
+                    $(document).on("click","#submit-subjects", function(){
+                        var checkedRecords = $('#listSubjectsModal').find("table tbody input[type=checkbox]:checked");
+                        var selectedIds = [];
+                        if(confirm("Are you sure, you want to update subjects for the selected division?")){
+                            for(var i=0;i < checkedRecords.length;i++){
+                                selectedIds.push(parseInt($(checkedRecords[i]).val()));
+                            }
+                            var postData = {
+                                id: @(Model.Id),
+                                subjects: selectedIds
+                            };
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("UpdateSubjectsForDivision", "ClassRoomDivision"))",
+                                data: postData,
+                                success: function (data, result) {
+                                    if(result === "success"){
+                                        $('#teachersubject-grid').DataTable().ajax.reload();
+                                        $('#listSubjectsModal').modal('hide');
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Success",
+                                                text: "Subjects updated successfully!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr.responseText);
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Failed to add subjects!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                }
+                            });
+                        }
+                    });
+
+                    $(document).on("click", 'button[id^=recrem_]', function () {
+                        var subjectid = parseInt($(this).attr('id').split('_')[1]);
+
+                        if (divisionId === 0) {
+                            setTimeout(function () {
+                                $.gritter.add({
+                                    title: "Failure",
+                                    text: "An error occurred while removing subject!",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            }, 1e3);
+                            return;
+                        }
+                        if(confirm("Are you sure, you want to remove selected subjects from the selected teacher?")){
+                            var postData = {
+                                id: @(Model.Id),
+                                subjectid: subjectid
+                            };
+
+                            addAntiForgeryToken(postData);
+
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("RemoveSubjectFromDivision", "ClassRoomDivision"))",
+                                data: postData,
+                                success: function (data, result) {
+                                    if(result === "success"){
+                                        $('#teachersubject-grid').DataTable().ajax.reload();
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Success",
+                                                text: "Subject removed successfully!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr.responseText);
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Failed to remove subject from selected division!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                }
+                            });
+                        }
+                    });
+
+                });
+            </script>
+        </div>
+        <div class="panel-footer">
+            <button type="button" id="add-subjects" class="btn btn-primary pull-right" data-toggle="modal" data-target="#listSubjectsModal"><i class="fa fa-plus-circle"></i> Add Existing Subjects</button>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="listSubjectsModal" tabindex="-1" role="dialog" aria-labelledby="modalSubjects" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div id="content-body" class="col-lg-12">
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="submit-subjects" class="btn btn-primary"> Add To Division <i class="fa fa-book ml-2" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

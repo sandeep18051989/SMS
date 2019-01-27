@@ -1,0 +1,345 @@
+﻿@model SMS.Models.TeacherModel
+@using EF.Services;
+@{
+    ViewBag.Title = "Create Teacher";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Teacher</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="create-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="row text-left">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <button type="submit" name="save" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Create
+                        </button>
+                        <button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Create & Continue
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <div class="tabs-wrapper">
+                            <ul class="nav classic-tabs tabs-pink" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-teacher" role="tab">
+                                        <i class="fa fa-user-plus fa-2x" aria-hidden="true"></i>
+                                        <br> Create Teacher
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-subjects" role="tab">
+                                        <i class="fa fa-file-text fa-2x" aria-hidden="true"></i>
+                                        <br> Subjects
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-classdivisions" role="tab">
+                                        <i class="fa fa-file-text fa-2x" aria-hidden="true"></i>
+                                        <br> Classes &Aacute; Divisions
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-files" role="tab">
+                                        <i class="fa fa-file-text fa-2x" aria-hidden="true"></i>
+                                        <br> Files
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content card">
+                            <div class="tab-pane fade in show active" id="create-teacher" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-12 mb-0">
+                                                <h2 class="my-3 h3 text-left">Teacher Information</h2>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            <i class="fa fa-user-circle prefix"></i>
+                                                            @Html.EditorFor(model => model.ProfilePictureId, "Picture", "ProfilePictureId")
+                                                            @Html.ValidationMessageFor(model => model.ProfilePictureId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            <i class="fa fa-user-circle prefix"></i>
+                                                            @Html.EditorFor(model => model.CoverPictureId, "Picture", "CoverPictureId")
+                                                            @Html.ValidationMessageFor(model => model.CoverPictureId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "3", @maxlength = "100", @title = "System Name(Without Spaces) Used For URLs", @type = "text" } })
+                                                            @Html.LabelFor(model => model.SystemName, "System Name(Without Spaces)", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            @Html.DropDownListFor(model => model.EmployeeId, Model.AvailableEmployees, "Select Employee", new { @class = "mdb-select", @tabindex = "4", @title = "Employee" })
+                                                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "5", @maxlength = "100", @title = "Name", @type = "text" } })
+                                                            @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            @Html.DropDownListFor(model => model.QualificationId, Model.AvailableQualifications, "Select Qualification", new { @class = "mdb-select", @tabindex = "6", @title = "Qualification" })
+                                                            @Html.ValidationMessageFor(model => model.QualificationId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            <input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+                                                            @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+                                                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form date">
+                                                            @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "8", @title = "Acadmic Year" })
+                                                            @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form date">
+                                                            @Html.DropDownListFor(model => model.PersonalityStatusId, Model.AvailablePersonalityStatuses, "Select Personality Status", new { @class = "mdb-select", @tabindex = "9", @title = "Personality Status" })
+                                                            @Html.ValidationMessageFor(model => model.PersonalityStatusId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <label class="control-label">Phone Verified :</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input type="checkbox" tabindex="10" id="PhoneVerifiedYes" data-check="PhoneYes" name="IsPhoneVerified" value="@(Model.IsPhoneVerified)" @(Model.IsPhoneVerified.HasValue && Model.IsPhoneVerified.Value ? "checked=checked" : "") />
+                                                                    <label for="PhoneVerifiedYes">Yes</label>
+                                                                    @Html.ValidationMessageFor(model => model.IsPhoneVerified, "", new { @class = "text-danger" })
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input type="checkbox" tabindex="11" id="PhoneVerifiedNo" data-check="PhoneNo" name="IsPhoneVerified" value="@(Model.IsPhoneVerified)" @(Model.IsPhoneVerified.HasValue ? !Model.IsPhoneVerified.Value ? "checked=checked" : "" : "") />
+                                                                    <label for="PhoneVerifiedNo">No</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <label class="control-label">Email Verified :</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input type="checkbox" tabindex="12" id="EmailVerifiedYes" data-check="EmailYes" name="IsEmailVerified " value="@(Model.IsEmailVerified.HasValue ? Model.IsEmailVerified.Value : false)" @(Model.IsEmailVerified.HasValue && Model.IsEmailVerified.Value ? "checked=checked" : "") />
+                                                                    <label for="EmailVerifiedYes">Yes</label>
+                                                                    @Html.ValidationMessageFor(model => model.IsEmailVerified, "", new { @class = "text-danger" })
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input type="checkbox" tabindex="13" id="EmailVerifiedNo" data-check="EmailNo" name="IsEmailVerified " value="@(Model.IsEmailVerified.HasValue ? Model.IsEmailVerified.Value : false)" @(Model.IsEmailVerified.HasValue ? !Model.IsEmailVerified.Value ? "checked=checked" : "" : "checked=checked") />
+                                                                    <label for="EmailVerifiedNo">No</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-12 mb-0">
+                                                <h2 class="my-3 h3 text-left">Social Media</h2>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <!-- First name -->
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.FacebookLink, new { htmlAttributes = new { @class = "form-control", @tabindex = "14", @maxlength = "250", @title = "Facebook Profile Link", @type = "text" } })
+                                                            @Html.LabelFor(model => model.FacebookLink, "Facebook Profile", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.FacebookLink, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <!-- Middle name -->
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.TweeterLink, new { htmlAttributes = new { @class = "form-control", @tabindex = "15", @maxlength = "250", @title = "Tweeter Profile Link", @type = "text" } })
+                                                            @Html.LabelFor(model => model.TweeterLink, "Tweeter Profile", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.TweeterLink, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <!-- Middle name -->
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.GooglePlusLink, new { htmlAttributes = new { @class = "form-control", @tabindex = "16", @maxlength = "250", @title = "Google+ Profile Link", @type = "text" } })
+                                                            @Html.LabelFor(model => model.GooglePlusLink, "Google+ Profile", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.GooglePlusLink, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <!-- Middle name -->
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.InstagramLink, new { htmlAttributes = new { @class = "form-control", @tabindex = "17", @maxlength = "250", @title = "Instagram Profile Link", @type = "text" } })
+                                                            @Html.LabelFor(model => model.InstagramLink, "Instagram Profile", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.InstagramLink, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <!-- Middle name -->
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.LinkedInLink, new { htmlAttributes = new { @class = "form-control", @tabindex = "18", @maxlength = "250", @title = "LinkedIn Profile Link", @type = "text" } })
+                                                            @Html.LabelFor(model => model.LinkedInLink, "LinkedIn Profile", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.LinkedInLink, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <!-- Middle name -->
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.Hi5Link, new { htmlAttributes = new { @class = "form-control", @tabindex = "19", @maxlength = "250", @title = "HI5 Profile Link", @type = "text" } })
+                                                            @Html.LabelFor(model => model.Hi5Link, "HI5 Profile", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.Hi5Link, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <!-- Middle name -->
+                                                        <div class="md-form">
+                                                            @Html.EditorFor(model => model.PInterestLink, new { htmlAttributes = new { @class = "form-control", @tabindex = "20", @maxlength = "250", @title = "PInterest Profile Link", @type = "text" } })
+                                                            @Html.LabelFor(model => model.PInterestLink, "PInterest Profile", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.PInterestLink, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="upload-subjects" role="tabpanel">
+                                @Html.Partial("_TeacherSubjects", Model)
+                            </div>
+                            <div class="tab-pane" id="upload-classdivisions" role="tabpanel">
+                                @Html.Partial("_TeacherClassDivisions", Model)
+                            </div>
+                            <div class="tab-pane" id="upload-files" role="tabpanel">
+                                @Html.Partial("_TeacherFiles", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li#teachers ul").css("height", "");
+        $("input[type=checkbox][data-check=PhoneYes]").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+                $("input[type=checkbox][data-check=PhoneNo]").attr('checked', false).val(false);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+                $("input[type=checkbox][data-check=PhoneNo]").attr('checked', true).val(true);
+            }
+        });
+
+        $("input[type=checkbox][data-check=PhoneYes]").attr('checked', false).val(false);
+        $("input[type=checkbox][data-check=PhoneNo]").attr('checked', false).val(false);
+
+        $("input[type=checkbox][data-check=PhoneNo]").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+                $("input[type=checkbox][data-check=PhoneYes]").attr('checked', false).val(false);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+                $("input[type=checkbox][data-check=PhoneYes]").attr('checked', true).val(true);
+            }
+        });
+
+        $("input[type=checkbox][data-check=EmailYes]").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+                $("input[type=checkbox][data-check=EmailNo]").attr('checked', false).val(false);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+                $("input[type=checkbox][data-check=EmailNo]").attr('checked', true).val(true);
+            }
+        });
+
+        $("input[type=checkbox][data-check=EmailYes]").attr('checked', false).val(false);
+        $("input[type=checkbox][data-check=EmailNo]").attr('checked', false).val(false);
+
+        $("input[type=checkbox][data-check=EmailNo]").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+                $("input[type=checkbox][data-check=EmailYes]").attr('checked', false).val(false);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+                $("input[type=checkbox][data-check=EmailYes]").attr('checked', true).val(true);
+            }
+        });
+
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
+
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+
+        $('#SystemName').on('input propertychange paste', function () {
+            var parameters = {
+                entityId: '@Model.Id',
+                entityName: 'Teacher',
+                systemName: $(this).val()
+            };
+            warningValidation('@Url.Action("UrlReservedWarning", "Teacher")', '#SystemName', parameters);
+        });
+    });
+</script>

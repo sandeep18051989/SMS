@@ -19,3 +19,37 @@ E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Release\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Release\EF.Core.pdb
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Release\EF.Core.csprojResolveAssemblyReference.cache
+H:\Repositories\SMS\EF.Core\bin\Release\EF.Core.dll.config
+H:\Repositories\SMS\EF.Core\bin\Release\EF.Core.dll
+H:\Repositories\SMS\EF.Core\bin\Release\EF.Core.pdb
+H:\Repositories\SMS\EF.Core\bin\Release\Autofac.dll
+H:\Repositories\SMS\EF.Core\bin\Release\Autofac.Integration.Mvc.dll
+H:\Repositories\SMS\EF.Core\bin\Release\AutoMapper.dll
+H:\Repositories\SMS\EF.Core\bin\Release\EntityFramework.dll
+H:\Repositories\SMS\EF.Core\bin\Release\EntityFramework.SqlServer.dll
+H:\Repositories\SMS\EF.Core\bin\Release\Microsoft.Web.Infrastructure.dll
+H:\Repositories\SMS\EF.Core\bin\Release\Newtonsoft.Json.dll
+H:\Repositories\SMS\EF.Core\bin\Release\System.ValueTuple.dll
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.Helpers.dll
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.Mvc.dll
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.Razor.dll
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.WebPages.Deployment.dll
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.WebPages.dll
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.WebPages.Razor.dll
+H:\Repositories\SMS\EF.Core\bin\Release\Autofac.xml
+H:\Repositories\SMS\EF.Core\bin\Release\Autofac.Integration.Mvc.xml
+H:\Repositories\SMS\EF.Core\bin\Release\AutoMapper.pdb
+H:\Repositories\SMS\EF.Core\bin\Release\AutoMapper.xml
+H:\Repositories\SMS\EF.Core\bin\Release\EntityFramework.xml
+H:\Repositories\SMS\EF.Core\bin\Release\EntityFramework.SqlServer.xml
+H:\Repositories\SMS\EF.Core\bin\Release\System.ValueTuple.xml
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.Helpers.xml
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.Mvc.xml
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.Razor.xml
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.WebPages.xml
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.WebPages.Deployment.xml
+H:\Repositories\SMS\EF.Core\bin\Release\System.Web.WebPages.Razor.xml
+H:\Repositories\SMS\EF.Core\obj\Release\EF.Core.csprojResolveAssemblyReference.cache
+H:\Repositories\SMS\EF.Core\obj\Release\EF.Core.csproj.CoreCompileInputs.cache
+H:\Repositories\SMS\EF.Core\obj\Release\EF.Core.dll
+H:\Repositories\SMS\EF.Core\obj\Release\EF.Core.pdb

@@ -1,8 +1,17 @@
 ﻿@model IEnumerable<SMS.Models.EventModel>
+@using EF.Services;
 @{
 	ViewBag.Title = "Events";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Events</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="list-form">
@@ -19,7 +28,7 @@
 					<div class="col-md-12">
 						<br />
 						<div class="form-group">
-							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
 								<thead>
 									<tr>
 										<th class="no-sort"><input type="checkbox" id="allcheck" value="allcheck" /></th>
@@ -47,33 +56,9 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Events')").closest("li").addClass("active");
-
-		$('#allcheck').on('click', function () {
-			var rows = table.rows({ 'search': 'applied' }).nodes();
-			$('input[type="checkbox"]', rows).prop('checked', this.checked);
-		});
-		$('.custom-table tbody').on('change', 'input[type="checkbox"]', function () {
-			if (!this.checked) {
-				var el = $('#allcheck').get(0);
-				if (el && el.checked && ('indeterminate' in el)) {
-					el.indeterminate = true;
-				}
-			}
-		});
-
-		$("input[name=selectedids]").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
-
+        $("li#events ul").css("height", "");
 		// Initiallize Datatable
-		$('.custom-table').DataTable({
+		var table = $('.custom-table').DataTable({
 			"processing": true, // for show progress bar
 			"serverSide": true, // for process server side
 			"filter": true, // this is for disable filter (search box)
@@ -216,6 +201,28 @@
 				"style": 'os',
 				"selector": 'td:first-child'
 			}
+		});
+
+		$('#allcheck').on('click', function () {
+		    var rows = table.rows({ 'search': 'applied' }).nodes();
+		    $('input[type="checkbox"]', rows).prop('checked', this.checked);
+		});
+		$('.custom-table tbody').on('change', 'input[type="checkbox"]', function () {
+		    if (!this.checked) {
+		        var el = $('#allcheck').get(0);
+		        if (el && el.checked && ('indeterminate' in el)) {
+		            el.indeterminate = true;
+		        }
+		    }
+		});
+
+		$("input[name=selectedids]").change(function () {
+		    if ($(this).prop('checked')) {
+		        $(this).attr('checked', true).val(true);
+		    }
+		    else {
+		        $(this).attr('checked', false).val(false);
+		    }
 		});
 	});
 </script>

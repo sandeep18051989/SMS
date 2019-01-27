@@ -15,7 +15,6 @@ namespace EF.Services.Social
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
         private readonly IUserContext _userContext;
-        private readonly SocialSettings _socialSettings;
         #endregion
 
         #region Ctor
@@ -24,14 +23,12 @@ namespace EF.Services.Social
             IOpenAuthenticationService openAuthenticationService,
             IUserService userService,
             IUserContext userContext,
-            SocialSettings socialSettings,
             IEmailService emailService)
         {
             this._authenticationService = authenticationService;
             this._openAuthenticationService = openAuthenticationService;
             this._userService = userService;
             this._userContext = userContext;
-            this._socialSettings = socialSettings;
             this._emailService = emailService;
         }
 
@@ -85,7 +82,7 @@ namespace EF.Services.Social
                 var details = new RegistrationDetails(parameters);
                 var randomPassword = CommonHelper.GenerateRandomDigitCode(20);
 
-                bool isApproved = !_socialSettings.RequireEmailValidation;
+                bool isApproved = true;
 
                 var registrationRequest = new UserRegistrationRequest(currentUser,
                     details.EmailAddress,

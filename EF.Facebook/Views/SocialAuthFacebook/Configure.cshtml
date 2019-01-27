@@ -1,0 +1,56 @@
+﻿@model EF.Facebook.Models.ConfigurationModel
+@{
+    ViewBag.Title = "Social Media Settings";
+    Layout = "~/Views/Shared/_SocialSettingsLayout.cshtml";
+}
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">@(Model.DisplayName)</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.ActionLink("Back To Dashboard", "Index", "Dashboard", new { @area="Admin" }, new { @class = "btn btn-info pull-right" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <div class="tab-content card">
+            <div class="tab-pane fade in show active" id="config-settings" role="tabpanel">
+                <section class="setting-form">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div id="admin-page-header" class="col-xs-12 col-md-12">
+                                <input type="submit" value="Save Settings" class="btn btn-primary mr-auto" />
+                            </div>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-xs-12 col-md-4 mb-4">
+                                <div class="md-form">
+                                    @Html.EditorFor(model => model.ClientKeyIdentifier, new { htmlAttributes = new { @class = "form-control", @type = "text", @tabindex = "1", @maxlength = "300" } })
+                                    @Html.LabelFor(model => model.ClientKeyIdentifier, "Client Key/Id", new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.ClientKeyIdentifier)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-xs-12 col-md-4 mb-4">
+                                <div class="md-form">
+                                    @Html.EditorFor(model => model.ClientSecret, new { htmlAttributes = new { @class = "form-control", @type = "text", @tabindex = "2", @maxlength = "300" } })
+                                    @Html.LabelFor(model => model.ClientSecret, "Client Secret", new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.ClientSecret)
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </section>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("li#socialsettings ul").css("height", "");
+            });
+        </script>
+    </div>
+</div>

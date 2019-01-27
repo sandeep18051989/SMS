@@ -1,150 +1,159 @@
 ﻿@model SMS.Models.CustomPageModel
-
+@using EF.Services;
 @{
     ViewBag.Title = "Create Custom Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Page</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
-        <section class="create-form">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                <div class="row">
-                    <div id="admin-page-header" class="col-xs-12 col-md-12">
-                        <h3 class="section-heading mr-auto">CREATE CUSTOM PAGE</h3>
-                        <input type="submit" value="CREATE PAGE" class="btn btn-primary" />
-                    </div>
-                </div>
-                <hr />
-                <div class="row text-left">
-                    <div class="col-xs-12 col-md-4 mb-4">
-                        <div class="md-form">
-                            <i class="fa fa-play-circle-o prefix"></i>
-                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "50" } })
-                            @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label" })
-                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        <div class="tab-content card">
+            <div class="tab-pane fade in show active" id="page" role="tabpanel">
+                <section class="create-form">
+                    @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div id="admin-page-header" class="col-xs-12 col-md-12">
+                            <input type="submit" value="CREATE PAGE" class="btn btn-primary" />
                         </div>
                     </div>
-                </div>
-                <div class="row text-left">
-                    <div class="col-xs-12 col-md-4 mb-4">
-                        <div class="md-form">
-                            @Html.DropDownListFor(model => model.TemplateId, Model.AvailableTemplates, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "2" })
-                            @Html.ValidationMessageFor(model => model.TemplateId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <div class="col-xs-12 col-md-4 mb-4">
-                        <div class="md-form">
-                            <i class="fa fa-link prefix"></i>
-                            @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "4", @maxlength = "200" } })
-                            @Html.LabelFor(model => model.SystemName, "System Name(Used For Url)", htmlAttributes: new { @class = "control-label" })
-                            @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <div class="col-xs-12 col-md-4 mb-4">
-                        <div class="md-form">
-                            <i class="fa fa-address-card prefix"></i>
-                            @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @tabindex = "5", @maxlength = "150" } })
-                            @Html.LabelFor(model => model.MetaTitle, "Meta Title", htmlAttributes: new { @class = "control-label" })
-                            @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <div class="col-xs-12 col-md-4 mb-4">
-                        <div class="md-form">
-                            <i class="fa fa-address-book prefix"></i>
-                            @Html.EditorFor(model => model.MetaKeywords, new { htmlAttributes = new { @class = "form-control", @tabindex = "6", @maxlength = "500" } })
-                            @Html.LabelFor(model => model.MetaKeywords, "Meta Keyword(Comma Seperated)", htmlAttributes: new { @class = "control-label" })
-                            @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <div class="col-xs-12 col-md-4 mb-4">
-                        <div class="md-form">
-                            <i class="fa fa-globe prefix"></i>
-                            @Html.EditorFor(model => model.MetaDescription, "HtmlEditor.cshtml")
-                            @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label" })
-                            @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-7 mb-4">
-                        <input type="checkbox" id="IsActive" tabindex="8" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
-                        @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
-                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-7 mb-4">
-                        <input type="checkbox" id="IncludeInTopMenu" tabindex="9" name="IncludeInTopMenu" value="@(Model.IncludeInTopMenu ? "True" : "False")" @(Model.IncludeInTopMenu ? "checked=checked" : "") />
-                        @Html.LabelFor(model => model.IncludeInTopMenu, "Include In Top Menu", htmlAttributes: new { })
-                        @Html.ValidationMessageFor(model => model.IncludeInTopMenu, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-7 mb-4">
-                        <input type="checkbox" id="IncludeInFooterMenu" tabindex="10" name="IncludeInFooterMenu" value="@(Model.IncludeInFooterMenu ? "True" : "False")" @(Model.IncludeInFooterMenu ? "checked=checked" : "") />
-                        @Html.LabelFor(model => model.IncludeInFooterMenu, "Include In Footer", htmlAttributes: new { })
-                        @Html.ValidationMessageFor(model => model.IncludeInFooterMenu, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div id="footer-menu-detail" @(Model.IncludeInFooterMenu ? "" : "style=display:none;") class="row text-left">
-                    <div class="col-md-12 mb-0">
-                        <div class="form-row">
-                            <div class="col">
-                                <input type="checkbox" id="IncludeInFooterColumn1" tabindex="11" name="IncludeInFooterColumn1" value="@(Model.IncludeInFooterColumn1 ? "True" : "False")" @(Model.IncludeInFooterColumn1 ? "checked=checked" : "") />
-                                @Html.LabelFor(model => model.IncludeInFooterColumn1, "Include In Footer Column 1", htmlAttributes: new { })
-                                @Html.ValidationMessageFor(model => model.IncludeInFooterColumn1, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col">
-                                <input type="checkbox" id="IncludeInFooterColumn2" tabindex="12" name="IncludeInFooterColumn2" value="@(Model.IncludeInFooterColumn2 ? "True" : "False")" @(Model.IncludeInFooterColumn2 ? "checked=checked" : "") />
-                                @Html.LabelFor(model => model.IncludeInFooterColumn2, "Include In Footer Column 2", htmlAttributes: new { })
-                                @Html.ValidationMessageFor(model => model.IncludeInFooterColumn2, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col">
-                                <input type="checkbox" id="IncludeInFooterColumn3" tabindex="13" name="IncludeInFooterColumn3" value="@(Model.IncludeInFooterColumn3 ? "True" : "False")" @(Model.IncludeInFooterColumn3 ? "checked=checked" : "") />
-                                @Html.LabelFor(model => model.IncludeInFooterColumn3, "Include In Footer Column 3", htmlAttributes: new { })
-                                @Html.ValidationMessageFor(model => model.IncludeInFooterColumn3, "", new { @class = "text-danger" })
+                    <hr />
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-4 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-play-circle-o prefix"></i>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "50" } })
+                                @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row text-left">
-                    <div class="col-xs-12 col-md-4 mb-4">
-                        <div class="md-form">
-                            <i class="fa fa-sort-numeric-asc prefix"></i>
-                            @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control", @placeholder = "Display Order", @tabindex = "14", @maxlength = "10", @min="0", @max="100" } })
-                            @Html.LabelFor(model => model.DisplayOrder, "Display Order", htmlAttributes: new { @class = "control-label" })
-                            @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-left">
-                    <div class="col-xs-12 col-md-12 mb-4">
-                        <div class="md-form">
-                            <div class="alert alert-info">
-                                <strong>Info!</strong> System defined pages cannot be deleted and you cannot make them active or inactive.
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-4 mb-4">
+                            <div class="md-form">
+                                @Html.DropDownListFor(model => model.TemplateId, Model.AvailableTemplates, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "2" })
+                                @Html.ValidationMessageFor(model => model.TemplateId, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-        </section>
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-4 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-link prefix"></i>
+                                @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "4", @maxlength = "200" } })
+                                @Html.LabelFor(model => model.SystemName, "System Name(Used For Url)", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-4 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-address-card prefix"></i>
+                                @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @tabindex = "5", @maxlength = "150" } })
+                                @Html.LabelFor(model => model.MetaTitle, "Meta Title", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-4 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-address-book prefix"></i>
+                                @Html.EditorFor(model => model.MetaKeywords, new { htmlAttributes = new { @class = "form-control", @tabindex = "6", @maxlength = "500" } })
+                                @Html.LabelFor(model => model.MetaKeywords, "Meta Keyword(Comma Seperated)", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-4 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-globe prefix"></i>
+                                @Html.EditorFor(model => model.MetaDescription, "HtmlEditor.cshtml")
+                                @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7 mb-4">
+                            <input type="checkbox" id="IsActive" tabindex="8" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+                            @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7 mb-4">
+                            <input type="checkbox" id="IncludeInTopMenu" tabindex="9" name="IncludeInTopMenu" value="@(Model.IncludeInTopMenu ? "True" : "False")" @(Model.IncludeInTopMenu ? "checked=checked" : "") />
+                            @Html.LabelFor(model => model.IncludeInTopMenu, "Include In Top Menu", htmlAttributes: new { })
+                            @Html.ValidationMessageFor(model => model.IncludeInTopMenu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7 mb-4">
+                            <input type="checkbox" id="IncludeInFooterMenu" tabindex="10" name="IncludeInFooterMenu" value="@(Model.IncludeInFooterMenu ? "True" : "False")" @(Model.IncludeInFooterMenu ? "checked=checked" : "") />
+                            @Html.LabelFor(model => model.IncludeInFooterMenu, "Include In Footer", htmlAttributes: new { })
+                            @Html.ValidationMessageFor(model => model.IncludeInFooterMenu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div id="footer-menu-detail" @(Model.IncludeInFooterMenu ? "" : "style=display:none;") class="row text-left">
+                        <div class="col-md-12 mb-0">
+                            <div class="form-row">
+                                <div class="col">
+                                    <input type="checkbox" id="IncludeInFooterColumn1" tabindex="11" name="IncludeInFooterColumn1" value="@(Model.IncludeInFooterColumn1 ? "True" : "False")" @(Model.IncludeInFooterColumn1 ? "checked=checked" : "") />
+                                    @Html.LabelFor(model => model.IncludeInFooterColumn1, "Include In Footer Column 1", htmlAttributes: new { })
+                                    @Html.ValidationMessageFor(model => model.IncludeInFooterColumn1, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col">
+                                    <input type="checkbox" id="IncludeInFooterColumn2" tabindex="12" name="IncludeInFooterColumn2" value="@(Model.IncludeInFooterColumn2 ? "True" : "False")" @(Model.IncludeInFooterColumn2 ? "checked=checked" : "") />
+                                    @Html.LabelFor(model => model.IncludeInFooterColumn2, "Include In Footer Column 2", htmlAttributes: new { })
+                                    @Html.ValidationMessageFor(model => model.IncludeInFooterColumn2, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col">
+                                    <input type="checkbox" id="IncludeInFooterColumn3" tabindex="13" name="IncludeInFooterColumn3" value="@(Model.IncludeInFooterColumn3 ? "True" : "False")" @(Model.IncludeInFooterColumn3 ? "checked=checked" : "") />
+                                    @Html.LabelFor(model => model.IncludeInFooterColumn3, "Include In Footer Column 3", htmlAttributes: new { })
+                                    @Html.ValidationMessageFor(model => model.IncludeInFooterColumn3, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-4 mb-4">
+                            <div class="md-form">
+                                <i class="fa fa-sort-numeric-asc prefix"></i>
+                                @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control", @placeholder = "Display Order", @tabindex = "14", @maxlength = "10", @min = "0", @max = "100" } })
+                                @Html.LabelFor(model => model.DisplayOrder, "Display Order", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-12 mb-4">
+                            <div class="md-form">
+                                <div class="alert alert-info">
+                                    <strong>Info!</strong> System defined pages cannot be deleted and you cannot make them active or inactive.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </section>
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Custom Pages')").closest("li").addClass("active");
-
+        $("li#pages ul").css("height", "");
         if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
         }

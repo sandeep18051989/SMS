@@ -1,0 +1,303 @@
+﻿@model SMS.Models.AssignQuestionsModel
+@using EF.Services;
+@{
+    ViewBag.Title = "Assign Questions To Assessment";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Assign Questions To Assessments</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="edit-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <h3 class="section-heading mr-auto">ASSIGN QUESTIONS TO ASSESSMENT</h3>
+                        <a class="btn btn-info mr-auto" href="/Admin/Question/Create">CREATE QUESTION</a>
+                        &nbsp;&nbsp;
+                        @Html.ActionLink("CREATE ASSESSMENT", "Create", "Assessment", new { @class = "btn btn-info mr-auto" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <div class="tab-content card">
+                            <div class="tab-pane fade in show active" id="assign-question-assessment" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(m => m.AssessmentId)
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-md-12">
+                                        <h4 class="section-heading">@(Model.Assessment)</h4>
+                                        <div class="table-responsive text-nowrap">
+                                            <table class="table table-bordered table-primary dataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">Name</th>
+                                                        <th class="text-center">Start</th>
+                                                        <th class="text-center">End</th>
+                                                        <th class="text-center">Passing Marks</th>
+                                                        <th class="text-center">Total Marks</th>
+                                                        <th class="text-center">Subject</th>
+                                                        <th class="text-center">Time Bound</th>
+                                                        <th class="text-center">Difficulty Level</th>
+                                                        <th class="text-center">Questions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-center">@(Model.Assessment)</td>
+                                                        <td class="text-center">@(Model.StringStartTime)</td>
+                                                        <td class="text-center">@(Model.StringEndTime)</td>
+                                                        <td class="text-center">@(Model.PassingMarks)</td>
+                                                        <td class="text-center">@(Model.MaxMarks)</td>
+                                                        <td class="text-center">@(Model.SubjectId.HasValue && Model.SubjectId.Value > 0 ? Model.Subject : "")</td>
+                                                        <td class="text-center">@(Model.IsTimeBound ? "Yes" : "No")</td>
+                                                        <td class="text-center">@(Model.DifficultyLevel)</td>
+                                                        <td class="text-center">
+                                                            @(Model.TotalQuestions)
+                                                            @Html.HiddenFor(m => m.TotalQuestions)
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-md-12 mb-4">
+                                        <div class="table-responsive text-nowrap">
+                                            <table class="table table-striped custom-table dataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" id="allcheck" class="table-check-input" @(Model.List.Count(x => x.IsChecked) == Model.List.Count ? "checked=checked" : "") value="allcheck" />
+                                                                <label for="allcheck"></label>
+                                                            </div>
+                                                        </th>
+                                                        <th class="text-center">Question</th>
+                                                        <th class="text-center">Right Marks</th>
+                                                        <th class="text-center">Negative Marks</th>
+                                                        <th class="text-center">Solve Time</th>
+                                                        <th class="text-center">Time Bound</th>
+                                                        <th class="text-center">Display Order</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{ var count = 0; }
+                                                    @foreach (var q in Model.List)
+                                                    {
+                                                        count += 1;
+                                                        <tr>
+                                                            @{var index = Model.List.IndexOf(q);}
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" id="@(q.QuestionId)" value="@(q.QuestionId)" @(q.IsChecked ? "checked=checked" : "") name="SelectedQuestion[]" class="table-check-input">
+                                                                    <label class="form-check-label" for="@(q.QuestionId)"></label>
+                                                                </div>
+                                                            </td>
+                                                            <td><a tabindex="@(index.ToString())" target="_blank" href="/Admin/Question/Edit/@(q.QuestionId)">@(q.Question)</a></td>
+                                                            @{index += 1;}
+                                                            <td>
+                                                                <input class="form-control text-box single-line" tabindex="@(index.ToString())" id="RightMarks_@(q.QuestionId)" name="RightMarks_@(q.QuestionId)" type="text" value="@(q.RightMarks)" />
+                                                            </td>
+                                                            @{index += 1;}
+                                                            <td>
+                                                                <input class="form-control text-box single-line" tabindex="@(index.ToString())" id="NegativeMarks_@(q.QuestionId)" name="NegativeMarks_@(q.QuestionId)" type="text" value="@(q.NegativeMarks)" />
+                                                            </td>
+                                                            @{index += 1;}
+                                                            <td>
+                                                                <input class="form-control text-box single-line" tabindex="@(index.ToString())" id="SolveTime_@(q.QuestionId)" name="SolveTime_@(q.QuestionId)" type="text" value="@(q.SolveTime)" />
+                                                            </td>
+                                                            @{index += 1;}
+                                                            <td class="text-center">
+                                                                <input type="checkbox" tabindex="@(index.ToString())" id="IsTimeBound_@(q.QuestionId)" name="IsTimeBound_@(q.QuestionId)" value="@(q.IsTimeBound ? "true" : "false")" @(q.IsTimeBound ? "checked=checked" : "") />
+                                                                <label for="IsTimeBound_@(q.QuestionId)"></label>
+                                                            </td>
+                                                            @{index += 1;}
+                                                            <td>
+                                                                <input class="form-control text-box single-line" tabindex="@(index.ToString())" id="DisplayOrder_@(q.QuestionId)" name="DisplayOrder_@(q.QuestionId)" type="number" value="@(q.DisplayOrder)" />
+                                                            </td>
+                                                        </tr>
+                                                                }
+                                                </tbody>
+                                                @if (Model.List.Count > 0)
+                                                {
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="6" class="text-left">
+                                                                <input class="btn btn-primary" type="submit" value="Submit" />
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                                                }
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#allcheck').on('click', function () {
+            $('input[type="checkbox"][class=table-check-input]').prop('checked', this.checked);
+            $("input[type=submit]").attr("disabled", false);
+        });
+        $('.custom-table tbody').on('change', 'input[type="checkbox"][class=table-check-input]', function () {
+            var allchecked = true;
+            var options = $('.custom-table tbody input[type="checkbox"][class=table-check-input]');
+            var count = 0;
+            for (var a = 0; a < options.length; a++) {
+                if (!$(options[a]).prop("checked")) {
+                    allchecked = false;
+                    break;
+                }
+                else {
+                    count += 1;
+                }
+            }
+
+            var totalQuestions = parseInt('@(Model.TotalQuestions)');
+            if (allchecked) {
+                $('#allcheck').prop('checked', true);
+            }
+            else {
+                $('#allcheck').prop('checked', false);
+            }
+
+            if (count > totalQuestions) {
+                $("input[type=submit]").attr("disabled", true);
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "You can only assign " + totalQuestions + " questions to this assessment!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                },
+                1e3);
+            }
+            else {
+                $("input[type=submit]").attr("disabled", false);
+            }
+        });
+
+        $(document).on("click", "input[type=submit]", function (e) {
+            var allchecked = true;
+            var options = $('.custom-table tbody input[type="checkbox"][class=table-check-input]');
+            var count = 0;
+            for (var a = 0; a < options.length; a++) {
+                if (!$(options[a]).prop("checked")) {
+                    allchecked = false;
+                    break;
+                }
+                else {
+                    count += 1;
+                }
+            }
+
+            var totalQuestions = parseInt('@(Model.TotalQuestions)');
+            if ($('.custom-table tbody input[type="checkbox"][class=table-check-input]:checked').length == 0) {
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "Please select a question!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                },
+                1e3);
+                e.preventDefault();
+            }
+            else if (count > totalQuestions) {
+                setTimeout(function () {
+                    $.gritter.add({
+                        title: "Failure",
+                        text: "You can only assign " + totalQuestions + " questions to this assessment!",
+                        sticky: !0,
+                        time: "",
+                        class_name: "my-sticky-class"
+                    });
+                },
+                1e3);
+                e.preventDefault();
+            }
+            else {
+                $("input[type=submit]").attr("disabled", false);
+            }
+        });
+
+        $(document).on("keyup", "input[type=text][id^=RightMarks_]", function () {
+            if ($(this).val() != null && $(this).val() != "") {
+                var negativeMarks = parseFloat(((typeof ($($(this).closest('tr').find('input[type=text][id^=NegativeMarks_]')[0])) != typeof (undefined)) && $($(this).closest('tr').find('input[type=text][id^=NegativeMarks_]')[0]) != null && $($(this).closest('tr').find('input[type=text][id^=NegativeMarks_]')[0]) !== "") ? $($(this).closest('tr').find('input[type=text][id^=NegativeMarks_]')[0]).val() : "0");
+                var rightMarks = parseFloat($(this).val());
+                if (negativeMarks > rightMarks) {
+                    $("input[type=submit]").attr("disabled", true);
+                }
+                else {
+                    $("input[type=submit]").attr("disabled", false);
+                }
+            }
+            else {
+                $("input[type=submit]").attr("disabled", true);
+            }
+        });
+
+        $(document).on("keyup", "input[type=text][id^=NegativeMarks_]", function () {
+            if ($(this).val() != null && $(this).val() != "") {
+                var rightMarks = parseFloat(((typeof ($($(this).closest('tr').find('input[type=text][id^=RightMarks_]')[0])) != typeof (undefined)) && $($(this).closest('tr').find('input[type=text][id^=RightMarks_]')[0]) != null && $($(this).closest('tr').find('input[type=text][id^=RightMarks_]')[0]) !== "") ? $($(this).closest('tr').find('input[type=text][id^=RightMarks_]')[0]).val() : "0");
+                var negativeMarks = parseFloat($(this).val());
+                if (negativeMarks > rightMarks) {
+                    $("input[type=submit]").attr("disabled", true);
+                }
+                else {
+                    $("input[type=submit]").attr("disabled", false);
+                }
+            }
+            else {
+                $("input[type=submit]").attr("disabled", true);
+            }
+        });
+
+        $(document).on("keyup", "input[type=text][id^=DisplayOrder_]", function () {
+            if ($(this).val() != null && $(this).val() != "") {
+                $("input[type=submit]").attr("disabled", false);
+            }
+            else {
+                $("input[type=submit]").attr("disabled", true);
+            }
+        });
+
+        $(document).on("keyup", "input[type=text][id^=SolveTime_]", function () {
+
+        });
+
+        $(document).on("change", "input[type=checkbox][id^=IsTimeBound_]", function () {
+            if ($(this).prop("checked")) {
+                $(this).val("true");
+            }
+            else {
+                $(this).val("false");
+            }
+        });
+    });
+</script>

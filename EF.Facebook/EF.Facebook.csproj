@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\EF.Facebook\bin\debug\</OutputPath>
+    <OutputPath>..\SMS\Plugins\EF.Facebook\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -138,7 +138,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ExternalAuthFacebookController.cs" />
+    <Compile Include="Controllers\SocialAuthFacebookController.cs" />
     <Compile Include="Core\FacebookProviderAuthorizer.cs" />
     <Compile Include="Core\IOAuthProviderFacebookAuthorizer.cs" />
     <Compile Include="Core\OAuthAuthenticationParameters.cs" />
@@ -166,12 +166,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Configure.cshtml">
+    <Content Include="Views\SocialAuthFacebook\Configure.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\PublicInfo.cshtml">
+    <Content Include="Views\SocialAuthFacebook\Info.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

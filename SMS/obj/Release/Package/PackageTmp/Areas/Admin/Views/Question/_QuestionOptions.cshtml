@@ -1,0 +1,225 @@
+﻿@model SMS.Models.QuestionModel
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+            <table class="table table-bordered custom-table" style="width:100%;" cellpadding="0" cellspacing="0" id="questionoptions-grid">
+                <thead class="mdb-color lighten-5">
+                    <tr>
+                        <th>Name</th>
+                        <th>Display Order</th>
+                        <th>Correct Answer</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    // Initiallize Datatable
+                    $('#questionoptions-grid').DataTable({
+                        "paging": false,
+                        "bLengthChange": false, //thought this line could hide the LengthMenu
+                        "bInfo": false,
+                        "processing": true, // for show progress bar
+                        "serverSide": true, // for process server side
+                        "filter": false, // this is for disable filter (search box)
+                        "orderMulti": true, // for disable multiple column at once
+                        "ajax": {
+                            "url": "/Admin/Question/LoadOptionGrid/@(Model.Id)",
+                            "type": "POST",
+                            "datatype": "json"
+                        },
+                        "aaSorting": [],
+                        "columns": [
+                            { "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                            { "data": "DisplayOrder", "title": "Display Order", "name": "Display Order", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                            {
+                                "data": "",
+                                "title": "Correct Answer",
+                                "name": "Correct Answer",
+                                "autoWidth": true,
+                                "defaultContent": "",
+                                "render": function (data, type, row) {
+                                    if (type === "display") {
+                                        switch ('@(Model.QuestionTypeId)') {
+                                            case '1':
+                                                {
+                                                    if ((row.CorrectAnswer != null && row.CorrectAnswer !== "")) {
+                                                        return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                                                    } else {
+                                                        return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+                                                    }
+                                                    break;
+                                                }
+                                            case '2':
+                                                {
+                                                    if ((row.CorrectAnswer != null && row.CorrectAnswer !== "")) {
+                                                        return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                                                    } else {
+                                                        return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+                                                    }
+                                                    break;
+                                                }
+                                            case '3':
+                                                {
+                                                    if ((row.CorrectAnswer != null && row.CorrectAnswer !== "")) {
+                                                        return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                                                    } else {
+                                                        return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+                                                    }
+                                                    break;
+                                                }
+                                            case '4':
+                                                {
+                                                    return row.CorrectAnswer;
+                                                    break;
+                                                }
+                                            case '5':
+                                                {
+                                                    return '';
+                                                    break;
+                                                }
+                                            case '6':
+                                                {
+                                                    if ((row.CorrectAnswer != null && row.CorrectAnswer !== "")) {
+                                                        return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                                                    } else {
+                                                        return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+                                                    }
+                                                    break;
+                                                }
+                                            default:
+                                                {
+                                                    return '';
+                                                    break;
+                                                }
+                                        }
+                                    }
+                                    return data;
+                                },
+                                "className": "text-center"
+                            },
+                            {
+                                "title": "Actions",
+                                "orderable": false,
+                                "className": 'text-center',
+                                "render": function (data, type, row) {
+                                    if (type === "display") {
+                                        var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="recrem_' + row.Id + '" title="Delete"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
+                                        return dateTemplate;
+                                    }
+                                    return data;
+                                },
+                                "defaultContent": ""
+                            }
+                        ],
+                        "select": {
+                            "style": 'os',
+                            "selector": 'td:first-child'
+                        }
+                    });
+
+                    $(document).on("click", 'button[id^=recrem_]', function () {
+                        var optionId = parseInt($(this).attr('id').split('_')[1]);
+
+                        if (optionId === 0) {
+                            setTimeout(function () {
+                                $.gritter.add({
+                                    title: "Failure",
+                                    text: "An error occurred while removing option!",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            }, 1e3);
+                            return;
+                        }
+                        if (confirm("Are you sure, you want to remove selected option from the selected question?")) {
+                            var postData = {
+                                id: optionId
+                            };
+
+                            addAntiForgeryToken(postData);
+
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("RemoveOptionFromQuestion", "Question"))",
+                                data: postData,
+                                success: function (data, result) {
+                                    if (result === "success") {
+                                        $('#questionoptions-grid').DataTable().ajax.reload();
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Success",
+                                                text: "Option removed successfully!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr.responseText);
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Failed to remove option for selected question!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                }
+                            });
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <div class="panel-footer">
+            <div id="option-div" class="row">
+                @if (Model.Id > 0)
+                {
+                    switch (Model.QuestionTypeId)
+                    {
+                        case 1:
+                            {
+                                @Html.Partial("~/Areas/Admin/Views/Option/_MultipleChoice.cshtml", Model)
+                                break;
+                            }
+                        case 2:
+                            {
+                                @Html.Partial("~/Areas/Admin/Views/Option/_MultipleResponse.cshtml", Model)
+                                break;
+                            }
+                        case 3:
+                            {
+                                @Html.Partial("~/Areas/Admin/Views/Option/_FillInTheBlanks.cshtml", Model)
+                                break;
+                            }
+                        case 4:
+                            {
+                                @Html.Partial("~/Areas/Admin/Views/Option/_MatchFollowing.cshtml", Model)
+                                break;
+                            }
+                        case 5:
+                            {
+                                break;
+                            }
+                        case 6:
+                            {
+                                @Html.Partial("~/Areas/Admin/Views/Option/_ChooseAnswer.cshtml", Model)
+                                break;
+                            }
+                        default:
+                            {
+                                break;
+                            }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

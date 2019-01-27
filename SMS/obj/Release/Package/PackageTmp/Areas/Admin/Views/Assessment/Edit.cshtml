@@ -1,0 +1,332 @@
+﻿@model SMS.Models.AssessmentModel
+@using EF.Services;
+@{
+    ViewBag.Title = "Update Assessment";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Update Assessment</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="edit-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <button type="submit" name="save" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Save
+                        </button>&nbsp;&nbsp;
+                        <button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Save & Continue
+                        </button>&nbsp;&nbsp;<span id="assessment-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <div class="tabs-wrapper">
+                            <ul class="nav classic-tabs tabs-pink" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#update-assessment" role="tab">
+                                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                                        <br> Update Assessment
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content card">
+                            <div class="tab-pane fade in show active" id="update-assessment" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "200", @title = "Name" } })
+                                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "2" })
+                                                    @Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-8 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Instructions, "HtmlEditor.cshtml")
+                                                    @Html.LabelFor(model => model.Instructions, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.Instructions, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.SubjectId, Model.AvailableSubjects, "Select Subject", new { @class = "mdb-select", @tabindex = "4" })
+                                                    @Html.LabelFor(model => model.SubjectId, "Subject", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.DifficultyLevelId, Model.AvailableDifficultyLevels, "Select Difficulty Level", new { @class = "mdb-select", @tabindex = "5" })
+                                                    @Html.LabelFor(model => model.DifficultyLevelId, "Difficulty Level", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.DifficultyLevelId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date start-time">
+                                                    <i class="fa fa-calendar prefix"></i>
+                                                    @Html.EditorFor(model => model.StartTime, "DateTimePicker.cshtml")
+                                                    @Html.LabelFor(model => model.StartTime, "Start Time", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date end-time">
+                                                    <i class="fa fa-calendar prefix"></i>
+                                                    @Html.EditorFor(model => model.EndTime, "DateTimePicker.cshtml")
+                                                    @Html.LabelFor(model => model.EndTime, "End Time", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.TotalQuestions, new { htmlAttributes = new { @class = "form-control", @tabindex = "8", @maxlength = "8", @title = "Total Questions", @type = "number" } })
+                                                    @Html.LabelFor(model => model.TotalQuestions, "No. Of Questions", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.TotalQuestions, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.DurationInMinutes, new { htmlAttributes = new { @class = "form-control", @tabindex = "9", @maxlength = "8", @title = "Duration(In Mins.)", @type = "number" } })
+                                                    @Html.LabelFor(model => model.DurationInMinutes, "Duration(In Mins.)", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.DurationInMinutes, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.PassingMarks, new { htmlAttributes = new { @class = "form-control", @tabindex = "10", @min = "1", @maxlength = "10", @type = "number" } })
+                                                    @Html.LabelFor(model => model.PassingMarks, "Passing Marks", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.PassingMarks, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.MaxMarks, new { htmlAttributes = new { @class = "form-control", @tabindex = "11", @min = "1", @maxlength = "10", @type = "number" } })
+                                                    @Html.LabelFor(model => model.MaxMarks, "Maximum Marks", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.MaxMarks, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-8 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.MessageOnSubmitTest, "HtmlEditor.cshtml")
+                                                    @Html.LabelFor(model => model.MessageOnSubmitTest, "Message On Submission", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.MessageOnSubmitTest, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="13" id="ShowResultToCandidate" name="ShowResultToCandidate" value="@(Model.ShowResultToCandidate ? "True" : "False")" @(Model.ShowResultToCandidate ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.ShowResultToCandidate, "Show Result To User", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.ShowResultToCandidate, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="14" id="AllowUserToMoveForwardBackward" name="AllowUserToMoveForwardBackward" value="@(Model.AllowUserToMoveForwardBackward ? "True" : "False")" @(Model.AllowUserToMoveForwardBackward ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.AllowUserToMoveForwardBackward, "Allow User To Move Forward/Backward", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.AllowUserToMoveForwardBackward, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="15" id="MandatoryToSolveAll" name="MandatoryToSolveAll" value="@(Model.MandatoryToSolveAll ? "True" : "False")" @(Model.MandatoryToSolveAll ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.MandatoryToSolveAll, "Mandatory To Solve All", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.MandatoryToSolveAll, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="16" id="IsTimeBound" name="IsTimeBound" value="@(Model.IsTimeBound ? "True" : "False")" @(Model.IsTimeBound ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.IsTimeBound, "Time Bound", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.IsTimeBound, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="17" id="OpenToAnonymousUsers" name="OpenToAnonymousUsers" value="@(Model.OpenToAnonymousUsers ? "True" : "False")" @(Model.OpenToAnonymousUsers ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.OpenToAnonymousUsers, "Open To Anonymous Users", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.OpenToAnonymousUsers, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="18" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    <span><i class="fa fa-image"></i>&nbsp;Logo</span>
+                                                    @Html.EditorFor(model => model.LogoPictureId, "Picture", "LogoPictureId")
+                                                    @Html.ValidationMessageFor(model => model.LogoPictureId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    <span><i class="fa fa-image"></i>&nbsp;Signature</span>
+                                                    @Html.EditorFor(model => model.SignaturePictureId, "Picture", "SignaturePictureId")
+                                                    @Html.ValidationMessageFor(model => model.SignaturePictureId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
+
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', true).val(true);
+            }
+            else {
+                $(this).prop('checked', false).val(false);
+            }
+        });
+
+        if ($("#OpenToAnonymousUsers").val() == "True") {
+            $("#OpenToAnonymousUsers").attr('checked', true).val(true);
+        }
+        else {
+            $("#OpenToAnonymousUsers").attr('checked', false).val(false);
+        }
+
+        $("#OpenToAnonymousUsers").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', true).val(true);
+            }
+            else {
+                $(this).prop('checked', false).val(false);
+            }
+        });
+
+        if ($("#IsTimeBound").val() == "True") {
+            $("#IsTimeBound").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsTimeBound").attr('checked', false).val(false);
+        }
+
+        $("#IsTimeBound").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', true).val(true);
+            }
+            else {
+                $(this).prop('checked', false).val(false);
+            }
+        });
+
+        if ($("#MandatoryToSolveAll").val() == "True") {
+            $("#MandatoryToSolveAll").attr('checked', true).val(true);
+        }
+        else {
+            $("#MandatoryToSolveAll").attr('checked', false).val(false);
+        }
+
+        $("#MandatoryToSolveAll").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', true).val(true);
+            }
+            else {
+                $(this).prop('checked', false).val(false);
+            }
+        });
+
+        if ($("#AllowUserToMoveForwardBackward").val() == "True") {
+            $("#AllowUserToMoveForwardBackward").attr('checked', true).val(true);
+        }
+        else {
+            $("#AllowUserToMoveForwardBackward").attr('checked', false).val(false);
+        }
+
+        $("#AllowUserToMoveForwardBackward").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', true).val(true);
+            }
+            else {
+                $(this).prop('checked', false).val(false);
+            }
+        });
+
+        if ($("#ShowResultToCandidate").val() == "True") {
+            $("#ShowResultToCandidate").attr('checked', true).val(true);
+        }
+        else {
+            $("#ShowResultToCandidate").attr('checked', false).val(false);
+        }
+
+        $("#ShowResultToCandidate").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', true).val(true);
+            }
+            else {
+                $(this).prop('checked', false).val(false);
+            }
+        });
+    });
+</script>
+@Html.DeleteConfirmation("assessment-delete")

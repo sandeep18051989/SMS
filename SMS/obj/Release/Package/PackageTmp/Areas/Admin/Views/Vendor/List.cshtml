@@ -1,143 +1,236 @@
 ﻿@model IEnumerable<SMS.Models.VendorModel>
+@using EF.Services;
 @{
-	ViewBag.Title = "Vendors";
-	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Vendors";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Vendors</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
-	<div class="col-md-12 mr-4">
-		<section class="list-form">
-			@using (Html.BeginForm())
-			{
-				<div class="row">
-					<div class="col-xs-12 col-md-12">
-						<div class="input-group pull-right">
-							@Html.ActionLink("Create Vendor", "Create", "Vendor", null, new { @class = "btn btn-primary" })
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12 col-md-12">
-						<br />
-						<div class="form-group">
-							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
-								<thead>
-									<tr>
-										<th class="no-sort"><input type="checkbox" id="allcheck" value="allcheck" /></th>
-										<th>Registration No</th>
-										<th>Name</th>
-										<th>Address</th>
-										<th>Contact</th>
-										<th class="text-center">Products</th>
-										<th class="text-center">Actions</th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			}
-		</section>
-	</div>
+    <div class="col-md-12 mr-4">
+        <section class="list-form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group pull-right">
+                            @Html.ActionLink("Create Vendor", "Create", "Vendor", null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <br />
+                        <div class="form-group">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th class="no-sort">
+                                            <div class="form-check">
+                                                <input type="checkbox" id="allcheck" class="table-check-input" value="allcheck" />
+                                                <label for="allcheck"></label>
+                                            </div>
+                                        </th>
+                                        <th class="text-center">Registration No</th>
+                                        <th class="text-center">Name</th>
+                                        <th class="text-center">Contact</th>
+                                        <th class="text-center">Products</th>
+                                        <th class="text-center">Active</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>}
+        </section>
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Vendors')").closest("li").addClass("active");
+        $("li#vendors ul").css("height", "");
+        $('#allcheck').on('click', function () {
+            var rows = table.rows({ 'search': 'applied' }).nodes();
+            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+        });
+        $('.custom-table tbody').on('change', 'input[type="checkbox"]', function () {
+            if (!this.checked) {
+                var el = $('#allcheck').get(0);
+                if (el && el.checked && ('indeterminate' in el)) {
+                    el.indeterminate = true;
+                }
+            }
+        });
 
-		$('#allcheck').on('click', function () {
-			var rows = table.rows({ 'search': 'applied' }).nodes();
-			$('input[type="checkbox"]', rows).prop('checked', this.checked);
-		});
-		$('.custom-table tbody').on('change', 'input[type="checkbox"]', function () {
-			if (!this.checked) {
-				var el = $('#allcheck').get(0);
-				if (el && el.checked && ('indeterminate' in el)) {
-					el.indeterminate = true;
+        $("input[name=selectedids]").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+
+        // Initiallize Datatable
+        $('.custom-table').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "ajax": {
+                "url": "/Admin/Vendor/LoadGrid",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "aaSorting": [],
+            "columns": [
+				{
+				    'searchable': false,
+				    "title": "",
+				    "data": "",
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input" id="' + row.Id + '"><label class="form-check-label" for="' + row.Id + '"></label></div>';
+				        }
+				        return data;
+				    },
+				    "orderable": false,
+				    "className": 'text-center',
+				    "defaultContent": ""
+				},
+				{ "data": "RegNumber", "title": "Registration No.", "name": "Registration No.", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "orderable": true, "defaultContent": "", "className": "text-center" },
+				{
+				    "title": "Contact",
+				    "orderable": false,
+				    "className": 'text-center',
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            var template = '';
+				            template += ((row.MobileContact != null && row.MobileContact !== "") ? '<i class="fa fa-2x fa-mobile" aria-hidden="true"></i>&nbsp;&nbsp;' + row.MobileContact : '') + ((row.OfficeContact != null && row.OfficeContact !== "") ? '<br/><i class="fa fa-2x fa-mobile" aria-hidden="true"></i>&nbsp;&nbsp;' + row.OfficeContact : '');
+				            return template;
+				        }
+				        return data;
+				    },
+				    "defaultContent": ""
+				},
+				{
+				    "title": "Products",
+				    "orderable": false,
+				    "className": 'text-center',
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            return '<span><i class="fa fa-2x fa-suitcase" aria-hidden="true"></i><span class="badge up badge-danger">' + row.ProductCount + '</span></span></div>';
+				        }
+				        return data;
+				    },
+				    "defaultContent": ""
+				},
+                {
+                    "data": "IsActive",
+                    "title": "Active",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            if (row.IsActive) {
+                                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="deactivate" data-id="' +
+                                    row.Id +
+                                    '" title="Deactivate Vendor"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+                            } else {
+                                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
+                                    row.Id +
+                                    '" data-operation="activate" data-id="' +
+                                    row.Id +
+                                    '" title="Activate Vendor"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+                            }
+                        }
+                        return data;
+                    },
+                    "className": "text-center",
+                    "orderable": false,
+                    "defaultContent": ""
+                },
+				{
+				    "title": "Actions",
+				    "orderable": false,
+				    "className": 'text-center',
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            return '<a href="/Admin/Vendor/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
+				        }
+				        return data;
+				    },
+				    "defaultContent": ""
 				}
-			}
-		});
+            ],
+            "select": {
+                "style": 'os',
+                "selector": 'td:first-child'
+            }
+        });
 
-		$("input[name=selectedids]").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
+        $(document).on("click", "a[class^='toggle_']", function (e) {
+            if (confirm("Are you sure, you want to update status for the selected vendor?")) {
+                var operation = $(this).data('operation').trim().toLowerCase();
 
-		// Initiallize Datatable
-		$('.custom-table').DataTable({
-			"processing": true, // for show progress bar
-			"serverSide": true, // for process server side
-			"filter": true, // this is for disable filter (search box)
-			"orderMulti": false, // for disable multiple column at once
-			"pageLength": 25,
-			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-			"ajax": {
-				"url": "/Admin/Vendor/LoadGrid",
-				"type": "POST",
-				"datatype": "json"
-			},
-			"aaSorting": [],
-			"columns": [
-				{
-					'searchable': false,
-					"title": "",
-					"data": "",
-					"render": function (data, type, row) {
-						if (type === "display") {
-							return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input" id="' + row.Id + '"><label class="form-check-label" for="' + row.Id + '"></label></div>';
-						}
-						return data;
-					},
-					"orderable": false,
-					"className": 'text-center'
-				},
-				{ "data": "RegNumber", "title": "Registration No.", "name": "Registration No.", "autoWidth": true },
-				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "orderable": true },
-				{ "data": "Address", "title": "Address", "name": "Address", "autoWidth": true, "orderable": false },
-				{
-					"title": "Contact",
-					"orderable": false,
-					"className": 'text-center',
-					"render": function (data, type, row) {
-						if (type === "display") {
-							var template = '';
-							template += ((row.MobileContact != null && row.MobileContact !== "") ? '<i class="fa fa-2x fa-mobile" aria-hidden="true"></i>&nbsp;&nbsp;' + row.MobileContact : '') + ((row.OfficeContact != null && row.OfficeContact !== "") ? '<br/><i class="fa fa-2x fa-mobile" aria-hidden="true"></i>&nbsp;&nbsp;' + row.OfficeContact : '');
-							return template;
-						}
-						return data;
-					}
-				},
-				{
-					"title": "Products",
-					"orderable": false,
-					"className": 'text-center',
-					"render": function (data, type, row) {
-						if (type === "display") {
-							return '<span><i class="fa fa-2x fa-suitcase" aria-hidden="true"></i><span class="badge up badge-danger">' + row.ProductCount + '</span></span></div>';
-						}
-						return data;
-					}
-				},
-				{
-					"title": "Actions",
-					"orderable": false,
-					"className": 'text-center',
-					"render": function (data, type, row) {
-						if (type === "display") {
-						    return '<a href="/Admin/Vendor/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="vendorid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
-						}
-						return data;
-					}
-				}
-			],
-			"select": {
-				"style": 'os',
-				"selector": 'td:first-child'
-			}
-		});
-	});
+                e.preventDefault();
+                var postData = {
+                    id: $(this).attr("id")
+                };
+                addAntiForgeryToken(postData);
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("Toggle", "Vendor"))",
+                    data: postData,
+                    success: function (data, result) {
+                        if (result === "success") {
+                            setTimeout(function () {
+                                $.gritter.add({
+                                    title: "Success",
+                                    text: "Vendor Updated Successfully!",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            },
+                                1e3);
+                            $('.custom-table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.responseText);
+                        setTimeout(function () {
+                            $.gritter.add({
+                                title: "Failure",
+                                text: xhr.responseText,
+                                sticky: !0,
+                                time: "",
+                                class_name: "my-sticky-class"
+                            });
+                        },
+                            1e3);
+                    },
+                    traditional: true
+                });
+            }
+            return false;
+        });
+
+        $('#allcheck').on('click', function () {
+            $('input[type="checkbox"][class=table-check-input]').prop('checked', this.checked);
+            $("input[type=submit]").attr("disabled", false);
+        });
+    });
 </script>

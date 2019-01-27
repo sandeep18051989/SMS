@@ -1,0 +1,121 @@
+﻿@model SMS.Models.ClassRoomDivisionModel
+@using EF.Services;
+@{
+    ViewBag.Title = "Class-Division";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="edit-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <h3 class="section-heading mr-auto">CLASS-DIVISION</h3>
+                        @Html.ActionLink("Back To List", "Divisions", "ClassRoomDivision", new { @class = "btn btn-primary mr-auto" })
+                        &nbsp;&nbsp;
+                        <span id="classdivision-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <div class="tabs-wrapper">
+                            <ul class="nav classic-tabs tabs-pink" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#update-classdivision" role="tab">
+                                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                                        <br> Class-Division
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#update-subjects" role="tab">
+                                        <i class="fa fa-file-picture-o fa-2x" aria-hidden="true"></i>
+                                        <br> Subjects
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#update-exams" role="tab">
+                                        <i class="fa fa-file-video-o fa-2x" aria-hidden="true"></i>
+                                        <br> Exams
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#update-homeworks" role="tab">
+                                        <i class="fa fa-file-video-o fa-2x" aria-hidden="true"></i>
+                                        <br> Homeworks
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#update-students" role="tab">
+                                        <i class="fa fa-file-video-o fa-2x" aria-hidden="true"></i>
+                                        <br> Students
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content card">
+                            <div class="tab-pane fade in show active" id="update-classdivision" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-md-12 mb-4">
+                                        <table class="table display table-bordered text-nowrap dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Class</th>
+                                                    <th class="text-center">Division</th>
+                                                    <th class="text-center">Class Room</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @Model.Class
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Model.Division
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Model.ClassRoom
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.ActionLink("Add/Update Exams", "DivisionExams", "Exam", new { id = Model.Id }, new { @class= "btn btn-info" })
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="update-subjects" role="tabpanel">
+                                @Html.Partial("_ClassRoomDivisionSubjects", Model)
+                            </div>
+                            <div class="tab-pane" id="update-exams" role="tabpanel">
+                                @Html.Partial("_ClassRoomDivisionExams", Model)
+                            </div>
+                            <div class="tab-pane" id="update-homeworks" role="tabpanel">
+                                @Html.Partial("_ClassRoomDivisionHomeworks", Model)
+                            </div>
+                            <div class="tab-pane" id="update-students" role="tabpanel">
+                                @Html.Partial("_ClassRoomDivisionStudents", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li.nav-item").removeClass("active");
+        $("span.nav-title:contains('Divisions')").closest("li").addClass("active");
+    });
+</script>
+@Html.DeleteConfirmation("classdivision-delete")

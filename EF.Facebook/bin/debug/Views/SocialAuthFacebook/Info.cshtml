@@ -1,0 +1,9 @@
+﻿@{
+    Layout = "";
+    Html.AddCssFileParts("~/SMS/SocialAuth.Facebook/Content/facebookstyles.css");    
+}
+<div class="facebook-login-block">
+    <div class="buttons">
+        <a href="@Url.RouteUrl("EF.Facebook.Login", new { ReturnUrl = HttpContext.Current.Request.QueryString["ReturnUrl"] })" class="facebook-btn"></a>
+    </div>
+</div>

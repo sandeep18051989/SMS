@@ -1,0 +1,239 @@
+﻿@model SMS.Models.DivisionExamModel
+@using EF.Services;
+@using System.Web.Optimization;
+@{
+    ViewBag.Title = "Update Division Exam";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Update Division Exam</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mr-4">
+        <section class="edit-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.DivisionId)
+                @Html.HiddenFor(model => model.ClassRoomId)
+                @Html.HiddenFor(model => model.ClassId)
+                @Html.HiddenFor(model => model.ExamId)
+                @Scripts.Render("~/Scripts/datetimepicker")
+                @Scripts.Render("~/Scripts/daterangepicker")
+                @Styles.Render("~/Content/daterangepicker")
+                <div class="row">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <button type="submit" name="save" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Save
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <div class="tabs-wrapper">
+                            <ul class="nav classic-tabs tabs-pink" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#update-exam" role="tab">
+                                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                                        <br> Update Division Exam
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content card">
+                            <div class="tab-pane fade in show active" id="update-exam" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.ExamId, Model.AvailableExams, "Select Exam", new { @class = "mdb-select", @tabindex = "1", @title = "Exam" })
+                                                    @Html.LabelFor(model => model.ExamId, "Exam", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.ExamId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.ClassRoomId, Model.AvailableClassRooms, new { @class = "mdb-select", @tabindex = "2", @title = "Class Room" })
+                                                    @Html.LabelFor(model => model.ClassRoomId, "Classroom", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.ClassRoomId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "3", @title = "Acadmic Year" })
+                                                    @Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.ExamId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date start-date">
+                                                    <i class="fa fa-calendar prefix"></i>
+                                                    @Html.EditorFor(model => model.StartDate, "DateRange.cshtml")
+                                                    @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date end-date">
+                                                    <i class="fa fa-calendar prefix"></i>
+                                                    @Html.EditorFor(model => model.EndDate, "DateRange.cshtml")
+                                                    @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date start-time">
+                                                    <i class="fa fa-clock-o prefix"></i>
+                                                    @Html.EditorFor(model => model.StartTime, "MDTimePicker.cshtml")
+                                                    @Html.LabelFor(model => model.StartTime, "Start Time", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date end-time">
+                                                    <i class="fa fa-clock-o prefix"></i>
+                                                    @Html.EditorFor(model => model.EndTime, "MDTimePicker.cshtml")
+                                                    @Html.LabelFor(model => model.EndTime, "End Time", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.PassingMarks, new { htmlAttributes = new { @class = "form-control", @tabindex = "8", @min = "1", @maxlength = "10", @type = "number" } })
+                                                    @Html.LabelFor(model => model.PassingMarks, "Passing Marks", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.PassingMarks, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.MaxMarks, new { htmlAttributes = new { @class = "form-control", @tabindex = "9", @min = "1", @maxlength = "10", @type = "number" } })
+                                                    @Html.LabelFor(model => model.MaxMarks, "Maximum Marks", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.MaxMarks, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.ResultStatusId, Model.AvailableResultStatuses, "Select Result Status", new { @class = "mdb-select", @tabindex = "10", @title = "Result Status" })
+                                                    @Html.LabelFor(model => model.ResultStatusId, "Result Status", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.ResultStatusId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.GradeSystemId, Model.AvailableGradeSystem, "Select Grade System", new { @class = "mdb-select", @tabindex = "11", @title = "Grade System" })
+                                                    @Html.LabelFor(model => model.GradeSystemId, "Grade System", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.GradeSystemId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="12" id="BreakAllowed" name="BreakAllowed" value="@(Model.BreakAllowed ? "True" : "False")" @(Model.BreakAllowed ? "checked=checked" : "") title="Break Allowed - Yes/No" />
+                                                @Html.LabelFor(model => model.BreakAllowed, "Break Allowed", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.BreakAllowed, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form without_ampm">
+                                                    <i class="fa fa-clock-o prefix"></i>
+                                                    @Html.TextBoxFor(model => model.BreakTime, new { @class = "form-control", @autocomplete = "off", @placeholder = "", @tabindex = "14" })
+                                                    @Html.LabelFor(model => model.BreakTime, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.BreakTime, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li#exams ul").css("height", "");
+        if ($("#BreakAllowed").val() == "True") {
+            $("#BreakAllowed").attr('checked', true).val(true);
+        }
+        else {
+            $("#BreakAllowed").attr('checked', false).val(false);
+        }
+
+        $("#BreakAllowed").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+
+        // Get the elements
+        var from_input = $('.start-date input[type=text]').pickadate(),
+			from_picker = from_input.pickadate('picker');
+        var to_input = $('.end-date input[type=text]').pickadate(),
+			to_picker = to_input.pickadate('picker');
+
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        if (from_picker.get('value')) {
+            to_picker.set('min', from_picker.get('select'));
+        }
+        if (to_picker.get('value')) {
+            from_picker.set('max', to_picker.get('select'));
+        }
+
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        from_picker.on('set',
+			function (event) {
+			    if (event.select) {
+			        to_picker.set('min', from_picker.get('select'));
+			    } else if ('clear' in event) {
+			        to_picker.set('min', false);
+			    }
+			});
+        to_picker.on('set',
+			function (event) {
+			    if (event.select) {
+			        from_picker.set('max', to_picker.get('select'));
+			    } else if ('clear' in event) {
+			        from_picker.set('max', false);
+			    }
+			});
+    });
+</script>

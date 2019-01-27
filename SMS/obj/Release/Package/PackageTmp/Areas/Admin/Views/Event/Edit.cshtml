@@ -4,6 +4,14 @@
 	ViewBag.Title = "Edit Event";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Update Event</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="edit-form">
@@ -114,9 +122,18 @@
 									</div>
 								</div>
 								<div class="row text-left">
+									<div class="col-md-6 mb-4">
+										<div class="md-form">
+											@Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "7" })
+											@Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+											@Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+										</div>
+									</div>
+								</div>
+								<div class="row text-left">
 									<div class="col-md-4 mb-4">
 										<div class="md-form">
-											<input type="checkbox" id="IsActive" tabindex="7" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+											<input type="checkbox" id="IsActive" tabindex="8" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 											@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { @class = "control-label" })
 											@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 										</div>
@@ -124,7 +141,7 @@
 								</div>
 								<div class="row text-left">
 									<div class="col-md-4 mb-4">
-										<input type="checkbox" id="IsApproved" tabindex="8" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
+										<input type="checkbox" id="IsApproved" tabindex="9" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
 										@Html.LabelFor(model => model.IsApproved, "Approved", htmlAttributes: new { })
 										@Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
 									</div>
@@ -145,72 +162,79 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Events')").closest("li").addClass("active");
+        $("li#events ul").css("height", "");
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
 
-		if ($("#IsActive").val() == "True") {
-			$("#IsActive").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsActive").attr('checked', false).val(false);
-		}
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
 
-		$("#IsActive").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
+        if ($("#IsApproved").val() === "True") {
+            $("#IsApproved").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsApproved").attr('checked', false).val(false);
+        }
 
-		if ($("#IsApproved").val() === "True") {
-			$("#IsApproved").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsApproved").attr('checked', false).val(false);
-		}
+        $("#IsApproved").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
 
-		$("#IsApproved").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
-	});
+        $('#SystemName').on('input propertychange paste', function () {
+            var parameters = {
+                entityId: '@Model.Id',
+                entityName: 'Event',
+                systemName: $(this).val()
+            };
+            warningValidation('@Url.Action("UrlReservedWarning", "Event")', '#SystemName', parameters);
+        });
 
-	// Get the elements
-	var from_input = $('.start-date input[type=text]').pickadate(),
-		from_picker = from_input.pickadate('picker');
-	var to_input = $('.end-date input[type=text]').pickadate(),
-		to_picker = to_input.pickadate('picker');
+        // Get the elements
+        var from_input = $('.start-date input[type=text]').pickadate(),
+            from_picker = from_input.pickadate('picker');
+        var to_input = $('.end-date input[type=text]').pickadate(),
+            to_picker = to_input.pickadate('picker');
 
-	// Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
-	if (from_picker.get('value')) {
-		to_picker.set('min', from_picker.get('select'));
-	}
-	if (to_picker.get('value')) {
-		from_picker.set('max', to_picker.get('select'));
-	}
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        if (from_picker.get('value')) {
+            to_picker.set('min', from_picker.get('select'));
+        }
+        if (to_picker.get('value')) {
+            from_picker.set('max', to_picker.get('select'));
+        }
 
-	// Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
-	from_picker.on('set',
-		function (event) {
-			if (event.select) {
-				to_picker.set('min', from_picker.get('select'));
-			} else if ('clear' in event) {
-				to_picker.set('min', false);
-			}
-		});
-	to_picker.on('set',
-		function (event) {
-			if (event.select) {
-				from_picker.set('max', to_picker.get('select'));
-			} else if ('clear' in event) {
-				from_picker.set('max', false);
-			}
-		});
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        from_picker.on('set',
+            function (event) {
+                if (event.select) {
+                    to_picker.set('min', from_picker.get('select'));
+                } else if ('clear' in event) {
+                    to_picker.set('min', false);
+                }
+            });
+        to_picker.on('set',
+            function (event) {
+                if (event.select) {
+                    from_picker.set('max', to_picker.get('select'));
+                } else if ('clear' in event) {
+                    from_picker.set('max', false);
+                }
+            });
+    });
 </script>
 @Html.DeleteConfirmation("event-delete")

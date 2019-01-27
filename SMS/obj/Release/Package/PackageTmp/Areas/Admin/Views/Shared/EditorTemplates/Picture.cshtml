@@ -5,7 +5,7 @@
 @{
 	<link rel="stylesheet" type="text/css" href="~/Areas/Admin/Content/fineuploader.min.css" />
 	<script type="text/javascript" src="~/Areas/Admin/Scripts/fineuploader.min.js"></script>
-	var random = EF.Core.CodeHelper.GenerateRandomInteger();
+	var random = EF.Services.CodeHelper.GenerateRandomInteger();
 	var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
 	var clientId = "picture" + random;
 }
@@ -74,6 +74,7 @@
 		}).on("complete", function(event, id, name, responseJSON, xhr) {
 			if (responseJSON.success) {
 				$("#@(clientId + "value") input").val(responseJSON.PictureId);
+				$("button[data-resource='picture']").removeAttr("disabled");
 			}
 		});
 	});

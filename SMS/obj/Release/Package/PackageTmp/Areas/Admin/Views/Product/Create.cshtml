@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.ProductModel
+@using EF.Services;
 @{
 	ViewBag.Title = "Create Product";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Product</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="create-form">
@@ -12,7 +21,6 @@
 				@Html.HiddenFor(model => model.Id)
 				<div class="row text-left">
 					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">CREATE PRODUCT</h3>
 						<button type="submit" name="save" class="btn btn-primary mr-auto">
 							<i class="fa fa-save">&nbsp;&nbsp;</i>Create
 						</button>
@@ -69,7 +77,7 @@
 												<div class="md-form">
 													<i class="fa fa-html5 prefix"></i>
 													@Html.EditorFor(model => model.Description, "HtmlEditor.cshtml")
-													@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+													@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
 													@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
 												</div>
 											</div>
@@ -87,27 +95,25 @@
 										<div class="row text-left">
 											<div class="col-md-6 mb-4">
 												<div class="md-form">
-													<i class="fa fa-file prefix"></i>
+                                                    <span><i class="fa fa-file"></i>&nbsp;File</span>
 													@Html.EditorFor(model => model.FileId, "File.cshtml")
 													@Html.ValidationMessageFor(model => model.FileId, "", new { @class = "text-danger" })
 												</div>
 											</div>
 										</div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.VendorId, Model.AvailableVendors, "Select Vendor", new { @class = "mdb-select", @tabindex = "5", @title = "Select Vendor" })
+                                                    @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
 										<div class="row">
 											<div class="col-md-7 mb-4">
-												<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" tabindex="5" @(Model.IsActive ? "checked=checked" : "") />
+												<input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" tabindex="6" @(Model.IsActive ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-											</div>
-										</div>
-										<div class="row text-left">
-											<div class="col-md-6 mb-4">
-												<div class="md-form">
-													<i class="fa fa-user prefix"></i>
-													@Html.DropDownListFor(model => model.VendorId, Model.AvailableVendors, "Select Vendor", new { htmlAttributes = new { @class = "mdb-select", @tabindex = "6", @maxlength = "50" } })
-													@Html.LabelFor(model => model.VendorId, htmlAttributes: new { @class = "control-label col-md-2" })
-													@Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
-												</div>
 											</div>
 										</div>
 									</div>
@@ -128,9 +134,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Products')").closest("li").addClass("active");
-
+        $("li#products ul").css("height", "");
 		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
@@ -144,6 +148,15 @@
 			else {
 				$(this).attr('checked', false).val(false);
 			}
+		});
+
+		$('#SystemName').on('input propertychange paste', function () {
+		    var parameters = {
+		        entityId: '@Model.Id',
+		        entityName: 'Product',
+		        systemName: $(this).val()
+		    };
+		    warningValidation('@Url.Action("UrlReservedWarning", "Product")', '#SystemName', parameters);
 		});
 	});
 </script>

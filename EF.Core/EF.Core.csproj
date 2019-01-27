@@ -108,6 +108,7 @@
     <Compile Include="DatabaseSettings.cs" />
     <Compile Include="Data\ClassRoomDivision.cs" />
     <Compile Include="Data\BlogVideo.cs" />
+    <Compile Include="Data\SocialProvider.cs" />
     <Compile Include="Data\SocialRecord.cs" />
     <Compile Include="Data\SocialSettings.cs" />
     <Compile Include="Data\NewsVideo.cs" />

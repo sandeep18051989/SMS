@@ -1,0 +1,86 @@
+﻿@using System.Web.Optimization;
+<!DOCTYPE html>
+<html class="perfect-scrollbar-on">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta name="description" content="SMS Admin">
+    <meta name="author" content="Sandeep Kumar">
+
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/fo")
+    @Styles.Render("~/Content/icons")
+    @Styles.Render("~/Content/jqueryuicss")
+    @Styles.Render("~/Content/boot")
+    @Styles.Render("~/Content/mdb")
+    @Styles.Render("~/Content/ThemeIcons")
+    <link rel="shortcut icon" href="">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="~/Areas/Admin/Scripts/html5shiv.js"></script>
+        <script src="~/Areas/Admin/Scripts/respond.min.js"></script>
+        <script src="~/Areas/Admin/Scripts/excanvas.min.js"></script>
+    <![endif]-->
+</head>
+<body class="fix-header fix-sidebar card-no-border">
+    <div id="page-loader" class="fade in hide"><span class="spinner"></span></div>
+    <div id="main-wrapper">
+        <div class="row hdr-nav-bar">
+            <div class="col-md-12">
+                @Html.Partial("Notifications")
+            </div>
+        </div>
+        <div class="page-wrapper" style="min-height: 428px;">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+            <footer class="page-footer center-on-small-only"></footer>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".throbber").hide();
+            $(document).ajaxStart(function () {
+                $(".throbber").show();
+            });
+
+            $(document).ajaxStop(function () {
+                $(".throbber").hide();
+            });
+
+            //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+
+            for (i = 0; i < dropdown.length; i++) {
+                dropdown[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                    } else {
+                        dropdownContent.style.display = "block";
+                    }
+                });
+            }
+        });
+    </script>
+    <div class="throbber">
+        <div class="curtain">
+        </div>
+        <div class="curtain-content">
+            <div>
+                <p>
+                    <img src="@Url.Content("~/content/images/throbber.gif")" alt="Please Wait..." />
+                </p>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/Scripts/boot")
+    @Scripts.Render("~/Scripts/mdb")
+</body>
+</html>

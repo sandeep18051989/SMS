@@ -179,7 +179,7 @@ namespace EF.Services.Service
 			_systemlogRepository.Insert(systemlog);
 
 			// Send Mail To Admin
-			_emailService.SendMail("sandeep725@gmail.com","Artery Labs Exception Log -" + systemlog.CreatedOn, !String.IsNullOrEmpty(Message) ? Message : "");
+			_emailService.SendMail("sandeep725@gmail.com","SMS Exception Log -" + systemlog.CreatedOn, !String.IsNullOrEmpty(Message) ? Message : "");
 
 
 			return systemlog;

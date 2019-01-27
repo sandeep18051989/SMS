@@ -1,109 +1,76 @@
 ﻿@model SMS.Areas.Admin.Models.RolePermissionModel
 @using EF.Services;
 @{
-	ViewBag.Title = "Role Wise Permissions";
-	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Role Wise Permissions";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Role Wise Permissions</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
-	<div class="col-md-12 mr-4">
-		<section class="permission-form">
-			@using (Html.BeginForm("RolePermissions", "Permission", null,FormMethod.Post, new { @class = "role-permissions-form" } ))
-			{
-				@Html.AntiForgeryToken()
-				@Html.HiddenFor(model => model.Id)
-				<div class="row">
-					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">ASSIGN PERMISSSIONS</h3>
-						<input type="submit" value="Submit" class="btn btn-primary mr-auto" />
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-					</div>
-				</div>
-				<hr />
-				<div class="row text-left">
-					<div class="col-xs-12 col-md-4 mb-4">
-						<div class="md-form">
-							@Html.DropDownListFor(model => model.RoleId, Model.AvailableRoles, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "2" })
-							@Html.LabelFor(model => model.RoleId, "Select Role", htmlAttributes: new { @class = "control-label" })
-							@Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
-						</div>
-					</div>
-				</div>
-				<div id="permissions-wrapper" class="row text-left">
-					<div id="dvUpdate" class="col-xs-12 col-md-12 mb-4">
-						<div class="md-form">
-							@Html.Partial("~/Areas/Admin/Views/Permission/RolePermissionList.cshtml", Model)
-						</div>
-					</div>
-				</div>
-			}
-		</section>
-	</div>
+    <div class="col-md-12 mr-4">
+        <div class="tab-content card">
+            <div class="tab-pane fade in show active" id="role-permissions" role="tabpanel">
+                <section class="permission-form">
+                    @using (Html.BeginForm("RolePermissions", "Permission", null, FormMethod.Post, new { @class = "role-permissions-form" }))
+            {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Id)
+                    <div class="row">
+                        <div id="admin-page-header" class="col-xs-12 col-md-12">
+                            <h3 class="section-heading mr-auto">ASSIGN PERMISSSIONS</h3>
+                            <input type="submit" value="Submit" class="btn btn-primary mr-auto" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row text-left">
+                        <div class="col-xs-12 col-md-4 mb-4">
+                            <div class="md-form">
+                                @Html.DropDownListFor(model => model.RoleId, Model.AvailableRoles, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "2" })
+                                @Html.LabelFor(model => model.RoleId, "Select Role", htmlAttributes: new { @class = "control-label" })
+                                @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div id="permissions-wrapper" class="row text-left">
+                        <div id="dvUpdate" class="col-xs-12 col-md-12 mb-4">
+                            <div class="md-form">
+                                @Html.Partial("~/Areas/Admin/Views/Permission/RolePermissionList.cshtml", Model)
+                            </div>
+                        </div>
+                    </div>}
+                </section>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
-	//var selectedIds = [];
-	$(document).ready(function() {
-		//$(document).on("change",
-		//	"input[type=checkbox][id^=perid_]",
-		//	function() {
-		//		debugger;
-		//		if ($(this).prop('checked')) {
-		//			$(this).attr('checked', true).val(true);
-		//		} else {
-		//			$(this).attr('checked', false).val(false);
-		//		}
-		//	});
-
-		$('#@Html.IdFor(m => m.RoleId)').change(function(e) {
-			$.ajax({
-				cache: false,
-				type: "GET",
-				url: "@(Url.Action("GetRolePermissions", "Permission", new {Area = "Admin"}))",
-				data: { 'id': $(this).val() },
-				complete: function(data) {
-					$("#dvUpdate").html('');
-					$("#dvUpdate").html(data.responseText);
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError);
-				}
-			});
-		});
-	});
-
-    //	$(document).on('click', '#allcheck', function () {
-    //		$('.checkboxGroups').prop('checked', $(this).is(':checked')).change();
-    //	});
-
-    //    //wire up checkboxes.
-    //    $('#roles-table').on('change', 'input[type=checkbox][id!=allcheck]', function (e) {
-    //        var $check = $(this);
-    //        if ($check.is(":checked") == true) {
-    //            var checked = jQuery.inArray($check.val(), selectedIds);
-    //            if (checked == -1) {
-    //                //add id to selectedIds.
-    //                selectedIds.push($check.val());
-    //            }
-    //        }
-    //        else {
-    //            var checked = jQuery.inArray($check.val(), selectedIds);
-    //            if (checked > -1) {
-    //                //remove id from selectedIds.
-    //                selectedIds = $.grep(selectedIds, function (item, index) {
-    //                    return item != $check.val();
-    //                });
-    //            }
-    //        }
-    //        updateMasterCheckbox();
-    //    });
-    //});
-
-    //function updateMasterCheckbox() {
-    //    var numChkBoxes = $('#roles-table input[type=checkbox][id!=allcheck]').length;
-    //    var numChkBoxesChecked = $('#roles-table input[type=checkbox][id!=allcheck]:checked').length;
-    //    $('#allcheck').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
-    //}
+    $(document).ready(function () {
+        $("li#permissions ul").css("height", "");
+        $('#@Html.IdFor(m => m.RoleId)').change(function (e) {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("GetRolePermissions", "Permission", new {Area = "Admin"}))",
+                data: { 'id': $(this).val() },
+                complete: function (data) {
+                    $("#dvUpdate").html('');
+                    $("#dvUpdate").html(data.responseText);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                }
+            });
+        });
+    });
 </script>

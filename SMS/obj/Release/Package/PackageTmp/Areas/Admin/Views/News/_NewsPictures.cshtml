@@ -151,7 +151,7 @@
 						});
 
 						$('#addPicture').click(function() {
-							var pictureId = $("#@Html.IdFor(model => model.InsertPictureModel.PictureId)").val();
+							var pictureId = $("#@Html.IdFor(model => model.PictureId)").val();
 
 							if (pictureId === 0) {
 								setTimeout(function () {
@@ -185,8 +185,8 @@
 								url: "@(Url.Action("NewsPictureAdd", "News"))",
 								data: postData,
 								success: function (data) {
-									$('#addNewsPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
+									$("button[data-resource='picture']").attr("disabled", true);
 									$('#newspictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
@@ -351,12 +351,12 @@
 						});
 					});
 				</script>
-				@Html.EditorFor(model => model.InsertPictureModel.PictureId)
-				@Html.ValidationMessageFor(model => model.InsertPictureModel.PictureId)
+				@Html.EditorFor(model => model.PictureId)
+				@Html.ValidationMessageFor(model => model.PictureId)
 				&nbsp;
 			</div>
 			<div class="panel-footer">
-				<button type="button" id="addPicture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To News</button>
+				<button type="button" id="addPicture" data-resource="picture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To News</button>
 			</div>
 		</div>
 	}

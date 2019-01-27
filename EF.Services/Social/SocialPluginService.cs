@@ -1,5 +1,7 @@
-﻿using EF.Core.Data;
+﻿using EF.Core;
+using EF.Core.Data;
 using EF.Core.Social;
+using EF.Services.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +10,28 @@ using System.Reflection;
 namespace EF.Services.Social
 {
     public class SocialPluginService : ISocialPluginService
-    {      
+    {
+        #region Fields
+
+        private readonly IRepository<SocialProvider> _providerRepository;
+        private readonly IUrlHelper _urlHelper;
+
+        #endregion
+
+        #region Const
+
+        public SocialPluginService(IRepository<SocialProvider> providerRepository, IUrlHelper urlHelper)
+        {
+            this._providerRepository = providerRepository;
+            this._urlHelper = urlHelper;
+        }
+
+        #endregion
         #region Methods
 
-        public virtual IEnumerable<Type> GetSocialPlugins<T>(User user = null, bool? onlyActive=null) where T : class, ISocial
+        public IEnumerable<SocialProvider> GetSocialPlugins(bool? onlyActive=null)
         {
-            var types = Assembly.GetExecutingAssembly().GetTypes().Where(mytype => mytype.GetInterfaces().Contains(typeof(ISocial))).Select(x => x.);
-            return types;
+            return _providerRepository.Table.Where(x => x.IsActive == true).ToList();
         }
 
         #endregion

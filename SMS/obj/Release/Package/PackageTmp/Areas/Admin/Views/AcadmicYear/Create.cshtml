@@ -1,0 +1,98 @@
+﻿@model SMS.Models.AcadmicYearModel
+@using EF.Services;
+@{
+	ViewBag.Title = "Create Acadmic Year";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Acadmic Year</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
+<div class="row">
+	<div class="col-md-12 mr-4">
+		<section class="create-form">
+			@using (Html.BeginForm())
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(model => model.Id)
+				<div class="row text-left">
+					<div id="admin-page-header" class="col-xs-12 col-md-12">
+						<button type="submit" name="save" class="btn btn-primary mr-auto">
+							<i class="fa fa-save">&nbsp;&nbsp;</i>Create
+						</button>
+						<button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
+							<i class="fa fa-save">&nbsp;&nbsp;</i>Create & Continue
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 my-3">
+						<div class="tabs-wrapper">
+							<ul class="nav classic-tabs tabs-pink" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-acadmicyear" role="tab">
+										<i class="fa fa-user fa-2x" aria-hidden="true"></i>
+										<br> Create Acadmic Year
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="tab-content card">
+							<div class="tab-pane fade in show active" id="create-acadmicyear" role="tabpanel">
+								<div class="row">
+									<div class="col-md-12">
+										@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+									</div>
+								</div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "20", @title = "Name" } })
+                                                    @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="2" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("li#acadmicyears ul").css("height", "");
+		if ($("#IsActive").val() == "True") {
+			$("#IsActive").attr('checked', true).val(true);
+		}
+		else {
+			$("#IsActive").attr('checked', false).val(false);
+		}
+
+		$("#IsActive").change(function () {
+			if ($(this).prop('checked')) {
+				$(this).prop('checked', true).val(true);
+			}
+			else {
+			    $(this).prop('checked', false).val(false);
+			}
+		});
+	});
+</script>

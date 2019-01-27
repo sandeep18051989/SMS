@@ -1,2 +1,2 @@
 DataProvider: sqlserver
-DataConnectionString: Data Source=.;Initial Catalog=sandeepk;User id=sa;pwd=Sandeep@765
+DataConnectionString: Data Source=.;Initial Catalog=sandeepk;User id=sa;pwd=Ayush@123

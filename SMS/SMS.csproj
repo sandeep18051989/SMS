@@ -69,8 +69,9 @@
     <Reference Include="EF.Data">
       <HintPath>..\EF.Data\bin\Debug\EF.Data.dll</HintPath>
     </Reference>
-    <Reference Include="EF.Facebook">
-      <HintPath>..\EF.Facebook\bin\debug\EF.Facebook.dll</HintPath>
+    <Reference Include="EF.Facebook, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Plugins\EF.Facebook\EF.Facebook.dll</HintPath>
     </Reference>
     <Reference Include="EF.Services">
       <HintPath>..\EF.Services\bin\Debug\EF.Services.dll</HintPath>
@@ -2097,6 +2098,7 @@
     <Compile Include="Areas\Admin\Controllers\ExamController.cs" />
     <Compile Include="Areas\Admin\Controllers\ClassRoomDivisionController.cs" />
     <Compile Include="Areas\Admin\Controllers\BlogController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SocialController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubjectController.cs" />
     <Compile Include="Areas\Admin\Controllers\QualificationController.cs" />
     <Compile Include="Areas\Admin\Controllers\DesignationController.cs" />
@@ -2436,6 +2438,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Social\OtherLogins.cshtml" />
+    <Content Include="Views\Shared\_SocialSettingsLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2445,6 +2448,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Plugins\" />
     <Folder Include="Uploads\files\" />
     <Folder Include="Uploads\thumbnails\" />
   </ItemGroup>

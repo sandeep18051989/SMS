@@ -14,28 +14,74 @@
     //	avtarpicture = pictureService.GetPictureById(userinfo.ProfilePictureId).PictureSrc;
     //}
 }
-<ul class="nav navbar-nav nav-flex-icons ml-auto">
-    @if (Model.IsAuthenticated)
-    {
-        <li class="nav-item"><a class="nav-link waves-effect waves-light" target="_blank" href="@Url.Action("MyAccount","Account", new { Area = "" })"><i class="fa fa-envelope"></i><span class="clearfix d-none d-sm-inline-block"> My Account</span></a></li>
-        <li class="nav-item"><a class="nav-link waves-effect waves-light" href="@Url.Action("LogOff","Dashboard", new { Area = "Admin" })"><i class="fa fa-envelope"></i><span class="clearfix d-none d-sm-inline-block"> Log Out</span></a></li>
-    } 
-    <li class="nav-item dropdown">@Html.Action("AcadmicYear","Dashboard")</li>
-</ul>
 <script type="text/javascript">
     handleDashboardGritterNotification = function () {
-        $(window).load(function() {
-            setTimeout(function() {
-                    $.gritter.add({
-                        title: "Welcome back, @Model.user.UserName!",
-                        text: "New Dashboard Released",
-                        image: "@avtarpicture",
-                        sticky: !0,
-                        time: "",
-                        class_name: "my-sticky-class"
-                    });
-                },
+        $(window).load(function () {
+            setTimeout(function () {
+                $.gritter.add({
+                    title: "Welcome back, @Model.user.UserName!",
+                    text: "New Dashboard Released",
+                    image: "@avtarpicture",
+                    sticky: !0,
+                    time: "",
+                    class_name: "my-sticky-class"
+                });
+            },
                 1e3);
         });
     }
 </script>
+<ul class="navbar-nav my-lg-0">
+    @* Search *@
+    <li class="nav-item hidden-xs-down search-box">
+        <a class="nav-link hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
+        <form class="app-search" style="display:none;">
+            <input type="text" class="form-control" placeholder="Search &amp; enter"> 
+            <a class="srh-btn"><i class="ti-close"></i></a>
+        </form>
+    </li>
+    @* Notifications *@
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle waves-effect waves-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="mdi mdi-message"></i>
+            <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
+            @* Bell Notifications *@
+        </div>
+    </li>
+    @* Profile *@
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle waves-effect waves-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="~/Content/images/avatarnotfound.png" alt="user" class="profile-pic">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right animated">
+            <ul class="dropdown-user">
+                <li>
+                    <div class="dw-user-box">
+                        <div class="u-img"><img src="~/Content/images/avatarnotfound.png" alt="user"></div>
+                        <div class="u-text">
+                            <h4>Steave Jobs</h4>
+                            <p class="text-muted">sandeep725@gmail.com</p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                        </div>
+                    </div>
+                </li>
+                @if (Model.IsAuthenticated)
+                {
+                    <li><a class="nav-link waves-effect waves-light" target="_blank" href="@Url.Action("MyAccount","Account", new { Area = "" })"><i class="fa fa-envelope"></i><span class="clearfix d-none d-sm-inline-block"> My Account</span></a></li>
+                    <li><a class="nav-link waves-effect waves-light" href="@Url.Action("LogOff","Dashboard", new { Area = "Admin" })"><i class="fa fa-envelope"></i><span class="clearfix d-none d-sm-inline-block"> Log Out</span></a></li>
+                }
+                <li role="separator" class="divider"></li>
+                <li class="nav-item dropdown">@Html.Action("AcadmicYear", "Dashboard")</li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
+                <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="@Url.Action("LogOff","Dashboard", new { Area = "Admin" })"><i class="fa fa-power-off"></i> Logout</a></li>
+            </ul>
+        </div>
+    </li>
+</ul>

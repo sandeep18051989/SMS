@@ -36,14 +36,9 @@ namespace EF.Services.Social
 
         #region Social authentication methods
 
-        public virtual IList<Type> LoadActiveSocialAuthenticationMethods(User user = null, bool? onlyActive=null) // ISocialAuthenticationMethod
+        public virtual IList<SocialProvider> LoadActiveSocialAuthenticationMethods(bool? onlyActive=null)
         {
-            return LoadAllSocialAuthenticationMethods(user, onlyActive).Where(provider => Assembly.GetExecutingAssembly().GetTypes().Any(type => !String.IsNullOrEmpty(type.Namespace) && type.BaseType != null && type.BaseType.IsGenericType && type.BaseType.GetGenericTypeDefinition() == typeof(ISocial))).ToList();
-        }
-
-        public virtual IList<Type> LoadAllSocialAuthenticationMethods(User user = null, bool? onlyActive=null)
-        {
-            return _socialPluginService.GetSocialPlugins<ISocial>(user: user, onlyActive: onlyActive).ToList();
+            return _socialPluginService.GetSocialPlugins(onlyActive: onlyActive).ToList();
         }
 
         #endregion

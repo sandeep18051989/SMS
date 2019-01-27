@@ -18,6 +18,8 @@ using SMS.App_Start;
 using SMS.Controllers;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Mvc;
+using EF.Services.Social;
+using System.Reflection;
 
 namespace SMS
 {
@@ -68,10 +70,25 @@ namespace SMS
                 TaskManager.Instance.Start();
             }
 
-            //miniprofiler
             if (databaseInstalled)
             {
                 GlobalFilters.Filters.Add(new ProfilingActionFilter());
+            }
+
+            // Run Social Engines
+            if (databaseInstalled)
+            {
+                var authenticationService = ContextHelper.Current.Resolve<ISocialPluginService>();
+                var socialFactory = ContextHelper.Current.Resolve<ISocialModelFactory>();
+                var activeSocialPlugins = authenticationService.GetSocialPlugins(true);
+                foreach (var eam in activeSocialPlugins)
+                {
+                    var entryClass = socialFactory.GetEntryPoint(eam.AssemblyName, eam.AuthenticationMethodServiceNamespace, eam.AuthenticationMethodService, "Install");
+                    if(entryClass != null)
+                    {
+                        entryClass.Install();
+                    }
+                }
             }
 
         }

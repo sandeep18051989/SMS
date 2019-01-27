@@ -13,6 +13,7 @@ using EF.Services.Social;
 using EF.Services.Http;
 using EF.Core.Data;
 using EF.Core.Enums;
+using EF.Core;
 
 namespace EF.Facebook.Core
 {
@@ -21,8 +22,7 @@ namespace EF.Facebook.Core
         #region Fields
 
         private readonly ISocialAuthorizer _authorizer;
-        private readonly SocialSettings _externalAuthenticationSettings;
-        private readonly FacebookSocialAuthSettings _facebookSocialAuthSettings;
+        private FacebookSocialAuthSettings _facebookSocialAuthSettings = ContextHelper.Current.Resolve<ISocialSettingService>().LoadSetting<FacebookSocialAuthSettings>();
         private readonly HttpContextBase _httpContext;
         private readonly IUrlHelper _webHelper;
         private FacebookClient _facebookApplication;
@@ -32,14 +32,10 @@ namespace EF.Facebook.Core
         #region Ctor
 
         public FacebookProviderAuthorizer(ISocialAuthorizer authorizer,
-            SocialSettings externalAuthenticationSettings,
-            FacebookSocialAuthSettings facebookSocialAuthSettings,
             HttpContextBase httpContext,
             IUrlHelper webHelper)
         {
             this._authorizer = authorizer;
-            this._externalAuthenticationSettings = externalAuthenticationSettings;
-            this._facebookSocialAuthSettings = facebookSocialAuthSettings;
             this._httpContext = httpContext;
             this._webHelper = webHelper;
         }
@@ -93,8 +89,7 @@ namespace EF.Facebook.Core
                     OAuthAccessToken = authResult.ProviderUserId,
                 };
 
-                if (_externalAuthenticationSettings.AutoRegisterEnabled)
-                    ParseClaims(authResult, parameters);
+                ParseClaims(authResult, parameters);
 
                 var result = _authorizer.Authorize(parameters);
 
@@ -126,7 +121,7 @@ namespace EF.Facebook.Core
                 var name = authenticationResult.ExtraData["name"];
                 if (!String.IsNullOrEmpty(name))
                 {
-                    var nameSplit = name.Split(new [] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var nameSplit = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     if (nameSplit.Length >= 2)
                     {
                         claims.Name.First = nameSplit[0];
@@ -150,7 +145,7 @@ namespace EF.Facebook.Core
 
         private Uri GenerateLocalCallbackUri()
         {
-            string url = string.Format("{0}EF.Facebook/logincallback/", _webHelper.GetLocation());
+            string url = string.Format("{0}SocialAuthFacebook/logincallback/", _webHelper.GetLocation());
             return new Uri(url);
         }
 
@@ -218,7 +213,7 @@ namespace EF.Facebook.Core
 
             if (verifyResponse.Value)
                 return VerifyAuthentication(returnUrl);
-            
+
             return RequestAuthentication();
         }
 

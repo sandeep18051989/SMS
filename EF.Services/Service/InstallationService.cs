@@ -55,9 +55,10 @@ namespace EF.Services.Service
 		private readonly IRepository<Subject> _subjectRepository;
 		private readonly IRepository<Vendor> _vendorRepository;
 		private readonly IRepository<Book> _bookRepository;
+        private readonly IRepository<SocialProvider> _socialProviderRepository;
 
 
-		public InstallationService(IRepository<Blog> blogRepository,
+        public InstallationService(IRepository<Blog> blogRepository,
 	IRepository<Comment> commentRepository,
 	IRepository<CustomPage> customPageRepository,
 	IRepository<DataToken> dataTokenRepository,
@@ -97,50 +98,52 @@ namespace EF.Services.Service
 	 IRepository<Qualification> qualificationRepository,
 	 IRepository<Subject> subjectRepository,
 	 IRepository<Vendor> vendorRepository,
-	 IRepository<Book> bookRepository)
+	 IRepository<Book> bookRepository,
+     IRepository<SocialProvider> socialProviderRepository)
 		{
-			_blogRepository = blogRepository;
-			_commentRepository = commentRepository;
-			_customPageRepository = customPageRepository;
-			_dataTokenRepository = dataTokenRepository;
-			_eventRepository = eventRepository;
-			_feedbackRepository = feedbackRepository;
-			_filesRepository = filesRepository;
-			_menuRepository = menuRepository;
-			_permissionRecordRepository = permissionRecordRepository;
-			_pictureRepository = pictureRepository;
-			_productRepository = productRepository;
-			_replyRepository = replyRepository;
-			_settingRepository = settingRepository;
-			_productRepository = productRepository;
-			_sliderRepository = sliderRepository;
-			_templateRepository = templateRepository;
-			_userRepository = userRepository;
-			_userRoleRepository = userRoleRepository;
-			_videoRepository = videoRepository;
-			_tokenRepository = tokenRepository;
-			_webHelper = webHelper;
-			_scheduleTaskRepository = scheduleTaskRepository;
-			_acadmicYearRepository = acadmicYearRepository;
-			_schoolRepository = schoolRepository;
-			_customPageUrlRepository = customPageUrlRepository;
-			_timeTableSettingRepository = timeTableSettingRepository;
-			_urlService = urlService;
-			_questionTypeRepository = questionTypeRepository;
-			_divisionRepository = divisionRepository;
-			_classroomRepository = classroomRepository;
-			_religionRepository = religionRepository;
-			_casteRepository = casteRepository;
-			_categoryRepository = categoryRepository;
-			_productCategoryRepository = productCategoryRepository;
-			_designationRepository = designationRepository;
-			_holidayRepository = holidayRepository;
-			_houseRepository = houseRepository;
-			_messageGroupRepository = messageGroupRepository;
-			_qualificationRepository = qualificationRepository;
-			_subjectRepository = subjectRepository;
-			_vendorRepository = vendorRepository;
-			_bookRepository = bookRepository;
+            this._blogRepository = blogRepository;
+            this._commentRepository = commentRepository;
+            this._customPageRepository = customPageRepository;
+            this._dataTokenRepository = dataTokenRepository;
+            this._eventRepository = eventRepository;
+            this._feedbackRepository = feedbackRepository;
+            this._filesRepository = filesRepository;
+            this._menuRepository = menuRepository;
+            this._permissionRecordRepository = permissionRecordRepository;
+            this._pictureRepository = pictureRepository;
+            this._productRepository = productRepository;
+            this._replyRepository = replyRepository;
+            this._settingRepository = settingRepository;
+            this._productRepository = productRepository;
+            this._sliderRepository = sliderRepository;
+            this._templateRepository = templateRepository;
+            this._userRepository = userRepository;
+            this._userRoleRepository = userRoleRepository;
+            this._videoRepository = videoRepository;
+            this._tokenRepository = tokenRepository;
+            this._webHelper = webHelper;
+            this._scheduleTaskRepository = scheduleTaskRepository;
+            this._acadmicYearRepository = acadmicYearRepository;
+            this._schoolRepository = schoolRepository;
+            this._customPageUrlRepository = customPageUrlRepository;
+            this._timeTableSettingRepository = timeTableSettingRepository;
+            this._urlService = urlService;
+            this._questionTypeRepository = questionTypeRepository;
+            this._divisionRepository = divisionRepository;
+            this._classroomRepository = classroomRepository;
+            this._religionRepository = religionRepository;
+            this._casteRepository = casteRepository;
+            this._categoryRepository = categoryRepository;
+            this._productCategoryRepository = productCategoryRepository;
+            this._designationRepository = designationRepository;
+            this._holidayRepository = holidayRepository;
+            this._houseRepository = houseRepository;
+            this._messageGroupRepository = messageGroupRepository;
+            this._qualificationRepository = qualificationRepository;
+            this._subjectRepository = subjectRepository;
+            this._vendorRepository = vendorRepository;
+            this._bookRepository = bookRepository;
+            this._socialProviderRepository = socialProviderRepository;
 		}
 
 		#endregion
@@ -2355,7 +2358,7 @@ namespace EF.Services.Service
 			defaultTemplate.IsDeleted = false;
 			defaultTemplate.IsSystemDefined = true;
 			defaultTemplate.ModifiedOn = DateTime.Now;
-			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>Hello [VisitorName],</td></tr><tr><td colspan='2'>Thanks for sending us query. We will be right back to you shortly.</td></tr></tbody><tfoot><tr><td colspan='2'>Thanks.<br>Artery labs Inc.</td></tr></tfoot></table>";
+			defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>Hello [VisitorName],</td></tr><tr><td colspan='2'>Thanks for sending us query. We will be right back to you shortly.</td></tr></tbody><tfoot><tr><td colspan='2'>Thanks.<br>SMS Admin</td></tr></tfoot></table>";
 			defaultTemplate.CreatedOn = DateTime.Now;
             defaultTemplate.Subject = "Visitor Query";
             defaultTemplate.Tokens.Add(visitorToken);
@@ -3367,8 +3370,20 @@ namespace EF.Services.Service
 			timeTableSetting.UserId = user.Id;
 			_timeTableSettingRepository.Insert(timeTableSetting);
 
-			// Update user at last
-			_userRepository.Update(user);
+            var socialEngine = new SocialProvider();
+            socialEngine.AuthenticationMethodService = "FacebookSocialAuthMethod";
+            socialEngine.AuthenticationMethodServiceNamespace = "EF.Facebook";
+            socialEngine.CreatedOn = socialEngine.ModifiedOn = DateTime.Now;
+            socialEngine.IsActive = true;
+            socialEngine.ProviderSystemName = "Facebook";
+            socialEngine.UserId = user.Id;
+            socialEngine.Version = "1.0";
+            socialEngine.DisplayIdentifier = "Facebook Authentication";
+            socialEngine.AssemblyName = "EF.Facebook";
+            _socialProviderRepository.Insert(socialEngine);
+
+            // Update user at last
+            _userRepository.Update(user);
 		}
 	}
 }

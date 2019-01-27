@@ -1,0 +1,66 @@
+﻿@model SMS.Models.QuestionModel
+@using EF.Services.Http;
+@{
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+}
+<div class="col-md-12">
+    <h5 class="display-inline mt-2">Add Multiple Options</h5>
+    <span class="pull-right">
+        <a id="btn-add-option" class="btn btn-sm btn-primary">Add Option</a>
+    </span>
+    <div class="options choice mb-5">
+        <div class="md-form mt-2 option-wrapper">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="multipleresponse_0_1" value="1" name="correctanswer_0_1">
+                <label class="form-check-label" for="multipleresponse_0_1">
+                    <input type="text" name="multipleresponse_0_1" title="Option" tabindex="1" class="form-control text-box single-line" placeholder="Option" value="Option 1" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var allTemplates = $(".options .form-check");
+    var lastTemplate = $(".options .form-check:last-child");
+    var tabIndex = @(Model.OptionCount == 1 ? 1 : Model.OptionCount+1);
+    $($(lastTemplate).find("input[type=checkbox]")[0]).attr('id', 'multipleresponse_0_' + tabIndex).attr('name', 'correctanswer_0_' + tabIndex).val(tabIndex);
+    $($(lastTemplate).find("label")[0]).attr('for', 'correctanswer_0_' + tabIndex);
+    $($(lastTemplate).find("input[type=text]")[0]).attr('name', 'multipleresponse_0_' + tabIndex).attr('tabindex', tabIndex).val('Option ' + tabIndex);
+
+    $(document).ready(function () {
+        $(document).on("click", "#btn-add-option", function () {
+            allTemplates = $(".options .option-wrapper");
+            lastTemplate = $(".options .option-wrapper:last-child");
+            tabIndex = parseInt($($(lastTemplate).find("input[type=text]")[0]).attr("tabindex"));
+            $(".options").append(getTemplate(tabIndex));
+        });
+
+        $(document).on("click", "#btn-remove-option", function () {
+            if (confirm("Are you sure, you want to remove selected option ?")) {
+                $(this).closest(".option-wrapper").remove();
+                allTemplates = $(".options .option-wrapper");
+                if (allTemplates.length > 1) {
+                    lastTemplate = $(".options .option-wrapper:last-child");
+                    tabIndex = parseInt($($(lastTemplate).find("input[type=text]")[0]).attr("tabindex"));
+                    $(lastTemplate).append('<a class="close" id="btn-remove-option">X</a>');
+                }
+            }
+        });
+
+        $(document).on("change", "input[type=text][name^=multipleresponse_]", function () {
+            var enteredValue = $(this).val();
+
+        });
+
+        $(document).on("click", "#admin-page-header button", function (e) {
+            if ($(".options .form-check input[type=checkbox]:checked").length === 0 && ($("#questionoptions-grid tbody tr") == null || $("#questionoptions-grid tbody tr").length == 0)) {
+                e.preventDefault();
+            }
+        });
+    });
+    function getTemplate(tbIndex) {
+        tbIndex += 1;
+        $("#btn-remove-option").remove();
+        return '<div class="md-form mt-2 option-wrapper"><div class="form-check"><input type="checkbox" class="form-check-input" id="multipleresponse_0_' + tbIndex + '" name="correctanswer_0_' + tbIndex + '" value="' + tbIndex + '"><label class="form-check-label" for="multipleresponse_0_' + tbIndex + '"><input type="text" class="form-control text-box single-line pb-1" name="multipleresponse_0_' + tbIndex + '" title="Option" tabindex="' + tbIndex + '" placeholder="Option" value="Option ' + tbIndex + '" /></label><a class="close" id="btn-remove-option">X</a></div></div>';
+    }
+    </script>
+</div>

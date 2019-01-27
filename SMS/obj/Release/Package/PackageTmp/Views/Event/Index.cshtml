@@ -14,7 +14,7 @@
 			<div class="card">
 				<!--Card image-->
 				<div class="view overlay">
-					<img src="@(eve.Pictures.Count > 0 && eve.Pictures.FirstOrDefault(x => x.IsDefault) != null ? eve.Pictures.FirstOrDefault(x => x.IsDefault).Picture.Src : (eve.Pictures.Count > 0 && eve.Pictures.FirstOrDefault() != null) ? eve.Pictures.FirstOrDefault().Picture.Src : string.Empty)" title="@eve.Title" class="img-fluid" alt="@eve.Title">
+					@*<img src="@(eve.Pictures.Count > 0 && eve.Pictures.FirstOrDefault(x => x.IsDefault) != null ? eve.Pictures.FirstOrDefault(x => x.IsDefault).Picture.Src : (eve.Pictures.Count > 0 && eve.Pictures.FirstOrDefault() != null) ? eve.Pictures.FirstOrDefault().Picture.Src : string.Empty)" title="@eve.Title" class="img-fluid" alt="@eve.Title">*@
 					<a title="@eve.Title" href="@Url.RouteUrl("Event", new { name = eve.Url })">
 						<div class="mask rgba-white-slight waves-effect waves-light"></div>
 					</a>
@@ -41,7 +41,7 @@
 						</li>
 						<li class="list-inline-item pr-2">
 							<a href="#" class="white-text">
-								<i class="fa fa-comments-o pr-1"></i>@eve.Comments.Count()
+								@*<i class="fa fa-comments-o pr-1"></i>@eve.Comments.Count()*@
 							</a>
 						</li>
 					</ul>

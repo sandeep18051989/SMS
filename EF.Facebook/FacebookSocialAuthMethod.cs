@@ -3,9 +3,6 @@ using EF.Services.Social;
 using System.Web.Routing;
 namespace EF.Facebook
 {
-    /// <summary>
-    /// Facebook externalAuth processor
-    /// </summary>
     public class FacebookSocialAuthMethod : ISocialAuthenticationMethod
     {
         #region Fields
@@ -41,18 +38,21 @@ namespace EF.Facebook
 
         public void Install()
         {
-            //settings
-            var settings = new FacebookSocialAuthSettings
+            var keyIdentifier = _settingService.GetSocialSettingByKey<FacebookSocialAuthSettings>("ClientKeyIdentifier");
+            var clientSecret = _settingService.GetSocialSettingByKey<FacebookSocialAuthSettings>("ClientSecret");
+            if (keyIdentifier == null && clientSecret == null)
             {
-                ClientKeyIdentifier = "",
-                ClientSecret = "",
-            };
-            _settingService.SaveSetting(settings);
+                var settings = new FacebookSocialAuthSettings
+                {
+                    ClientKeyIdentifier = "",
+                    ClientSecret = ""
+                };
+                _settingService.SaveSetting(settings);
+            }
         }
 
         public void Uninstall()
         {
-            //settings
             _settingService.DeleteSocialSetting<FacebookSocialAuthSettings>();
         }
 

@@ -22,3 +22,39 @@ E:\My Documents\Training Projects\Sms\EF.Data\obj\Release\EF.Data.csprojResolveA
 E:\My Documents\Training Projects\Sms\EF.Data\obj\Release\EF.Data.dll
 E:\My Documents\Training Projects\Sms\EF.Data\obj\Release\EF.Data.pdb
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\EF.Core.dll
+H:\Repositories\SMS\EF.Data\obj\Release\EF.Data.csprojResolveAssemblyReference.cache
+H:\Repositories\SMS\EF.Data\obj\Release\EF.Data.csproj.CoreCompileInputs.cache
+H:\Repositories\SMS\EF.Data\obj\Release\EF.Data.dll
+H:\Repositories\SMS\EF.Data\obj\Release\EF.Data.pdb
+H:\Repositories\SMS\EF.Data\bin\Release\EF.Data.dll
+H:\Repositories\SMS\EF.Data\bin\Release\EF.Data.pdb
+H:\Repositories\SMS\EF.Data\bin\Release\EF.Core.dll
+H:\Repositories\SMS\EF.Data\bin\Release\EntityFramework.dll
+H:\Repositories\SMS\EF.Data\bin\Release\EntityFramework.SqlServer.dll
+H:\Repositories\SMS\EF.Data\bin\Release\System.Data.SqlServerCe.dll
+H:\Repositories\SMS\EF.Data\bin\Release\TrackerEnabledDbContext.Common.dll
+H:\Repositories\SMS\EF.Data\bin\Release\TrackerEnabledDbContext.dll
+H:\Repositories\SMS\EF.Data\bin\Release\Autofac.dll
+H:\Repositories\SMS\EF.Data\bin\Release\AutoMapper.dll
+H:\Repositories\SMS\EF.Data\bin\Release\Autofac.Integration.Mvc.dll
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.Mvc.dll
+H:\Repositories\SMS\EF.Data\bin\Release\System.ValueTuple.dll
+H:\Repositories\SMS\EF.Data\bin\Release\Microsoft.Web.Infrastructure.dll
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.dll
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.Razor.dll
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.Razor.dll
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.Deployment.dll
+H:\Repositories\SMS\EF.Data\bin\Release\EF.Core.pdb
+H:\Repositories\SMS\EF.Data\bin\Release\EF.Core.dll.config
+H:\Repositories\SMS\EF.Data\bin\Release\EntityFramework.xml
+H:\Repositories\SMS\EF.Data\bin\Release\EntityFramework.SqlServer.xml
+H:\Repositories\SMS\EF.Data\bin\Release\Autofac.xml
+H:\Repositories\SMS\EF.Data\bin\Release\AutoMapper.pdb
+H:\Repositories\SMS\EF.Data\bin\Release\AutoMapper.xml
+H:\Repositories\SMS\EF.Data\bin\Release\Autofac.Integration.Mvc.xml
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.Mvc.xml
+H:\Repositories\SMS\EF.Data\bin\Release\System.ValueTuple.xml
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.xml
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.Razor.xml
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.Razor.xml
+H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.Deployment.xml

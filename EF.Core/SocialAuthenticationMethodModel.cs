@@ -11,5 +11,6 @@ namespace EF.Core
         public string ActionName { get; set; }
         public string ControllerName { get; set; }
         public RouteValueDictionary RouteValues { get; set; }
+        public string DisplayName { get; set; }
     }
 }

@@ -1,9 +1,17 @@
 ﻿@model SMS.Models.NewsModel
 @using EF.Services;
 @{
-	ViewBag.Title = "Edit News";
+	ViewBag.Title = "Update News";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Update News</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="edit-form">
@@ -29,7 +37,7 @@
 								<li class="nav-item">
 									<a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-news" role="tab">
 										<i class="fa fa-user fa-2x" aria-hidden="true"></i>
-										<br> Create News
+										<br> Update News
 									</a>
 								</li>
 								<li class="nav-item">
@@ -154,56 +162,62 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('News')").closest("li").addClass("active");
+        if ($("#IsActive").val() == "True") {
+            $("#IsActive").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsActive").attr('checked', false).val(false);
+        }
 
-		if ($("#IsActive").val() == "True") {
-			$("#IsActive").attr('checked', true).val(true);
-		}
-		else {
-			$("#IsActive").attr('checked', false).val(false);
-		}
+        $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
 
-		$("#IsActive").change(function () {
-			if ($(this).prop('checked')) {
-				$(this).attr('checked', true).val(true);
-			}
-			else {
-				$(this).attr('checked', false).val(false);
-			}
-		});
-	});
+        $('#SystemName').on('input propertychange paste', function () {
+            var parameters = {
+                entityId: '@Model.Id',
+                entityName: 'News',
+                systemName: $(this).val()
+            };
+            warningValidation('@Url.Action("UrlReservedWarning", "News")', '#SystemName', parameters);
+        });
 
-	// Get the elements
-	var from_input = $('.start-date input[type=text]').pickadate(),
-		from_picker = from_input.pickadate('picker');
-	var to_input = $('.end-date input[type=text]').pickadate(),
-		to_picker = to_input.pickadate('picker');
+        // Get the elements
+        var from_input = $('.start-date input[type=text]').pickadate(),
+            from_picker = from_input.pickadate('picker');
+        var to_input = $('.end-date input[type=text]').pickadate(),
+            to_picker = to_input.pickadate('picker');
 
-	// Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
-	if (from_picker.get('value')) {
-		to_picker.set('min', from_picker.get('select'));
-	}
-	if (to_picker.get('value')) {
-		from_picker.set('max', to_picker.get('select'));
-	}
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        if (from_picker.get('value')) {
+            to_picker.set('min', from_picker.get('select'));
+        }
+        if (to_picker.get('value')) {
+            from_picker.set('max', to_picker.get('select'));
+        }
 
-	// Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
-	from_picker.on('set',
-		function (event) {
-			if (event.select) {
-				to_picker.set('min', from_picker.get('select'));
-			} else if ('clear' in event) {
-				to_picker.set('min', false);
-			}
-		});
-	to_picker.on('set',
-		function (event) {
-			if (event.select) {
-				from_picker.set('max', to_picker.get('select'));
-			} else if ('clear' in event) {
-				from_picker.set('max', false);
-			}
-		});
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        from_picker.on('set',
+            function (event) {
+                if (event.select) {
+                    to_picker.set('min', from_picker.get('select'));
+                } else if ('clear' in event) {
+                    to_picker.set('min', false);
+                }
+            });
+        to_picker.on('set',
+            function (event) {
+                if (event.select) {
+                    from_picker.set('max', to_picker.get('select'));
+                } else if ('clear' in event) {
+                    from_picker.set('max', false);
+                }
+            });
+    });
 </script>
 @Html.DeleteConfirmation("news-delete")

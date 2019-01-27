@@ -6,5 +6,7 @@ namespace EF.Facebook.Models
     {
         public string ClientKeyIdentifier { get; set; }
         public string ClientSecret { get; set; }
+
+        public string DisplayName { get; set; }
     }
 }

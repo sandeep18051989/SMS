@@ -3,7 +3,7 @@
 @using EF.Services.Http;
 @using EF.Services.Service;
 @{
-	var random1 = EF.Core.CodeHelper.GenerateRandomInteger();
+	var random1 = EF.Services.CodeHelper.GenerateRandomInteger();
 	var basePath1 = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
 	var clientId1 = "video" + random1;
 }

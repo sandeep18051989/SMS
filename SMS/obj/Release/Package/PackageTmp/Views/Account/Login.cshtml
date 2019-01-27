@@ -1,4 +1,5 @@
 ﻿@model SMS.Models.LoginModel
+@using EF.Core;
 @{
 	ViewBag.Title = "Login";
 	Layout = "~/Views/Shared/_InnerLayout.cshtml";
@@ -85,6 +86,9 @@
 									</div>
 								</div>
 							</div>
+                            <div class="external-authentication text-center">
+                                @Html.Action("OtherLogins", "Social")
+                            </div>
 						</div>
 					</div>
 				}

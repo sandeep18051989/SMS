@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="~/Areas/Admin/Content/fineuploader.min.css" />
     <script type="text/javascript" src="~/Areas/Admin/Scripts/fineuploader.min.js"></script>
     //other variables
-    var random = EF.Core.CodeHelper.GenerateRandomInteger();
+    var random = EF.Services.CodeHelper.GenerateRandomInteger();
     var clientId = "file" + random;
     var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
 }
@@ -27,7 +27,7 @@
                 <span>Drop Files</span>
             </div>
             <div class="qq-upload-button-selector qq-upload-button btn btn-primary waves-effect waves-light">
-                <div>Upload Picture</div>
+                <div>Upload File</div>
             </div>
             <span class="qq-drop-processing-selector qq-drop-processing">
                 <span>Processing</span>

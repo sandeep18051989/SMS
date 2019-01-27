@@ -1,9 +1,17 @@
 ﻿@model SMS.Models.RoleModel
-@using EF.Services
+@using EF.Services;
 @{
     ViewBag.Title = "Roles";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Roles</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mr-4">
         <section class="list-form">
@@ -21,7 +29,7 @@
                     <div class="col-md-12">
                         <br />
                         <div class="form-group">
-                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+                            <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
                                 <thead>
                                     <tr>
                                         <th class="text-center"><input type="checkbox" id="allcheck" value="allcheck" /></th>
@@ -39,9 +47,7 @@
                 <script type="text/javascript">
                     var selectedIds = [];
                     $(document).ready(function () {
-                        $("li.nav-item").removeClass("active");
-                        $("span.nav-title:contains('Roles')").closest("li").addClass("active");
-
+                        $("li#roles ul").css("height", "");
                         // Initiallize Footable
                         $('.custom-table').DataTable({
                             "processing": true, // for show progress bar
@@ -145,13 +151,13 @@
                                     "render": function (data, type, row) {
                                         if (type === "display") {
                                             var htmlTemplate = '';
-                                            htmlTemplate += '<a href="/role/edit?id=' +
+                                            htmlTemplate += '<a href="/admin/role/edit/' +
                                                 row.Id +
                                                 '" id="edit_' +
                                                 row.Id +
                                                 '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="roleid_' +
                                                 row.Id +
-                                                '" href="/permission/rolepermissionlist/' +
+                                                '" href="/admin/permission/rolepermissionlist/' +
                                                 row.Id +
                                                 '" title="View Permissions"><i class="fa fa-2x fa-bullseye" aria-hidden="true"></i></a>';
                                             return htmlTemplate;

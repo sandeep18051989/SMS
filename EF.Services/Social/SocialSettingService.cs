@@ -61,8 +61,6 @@ namespace EF.Services.Social
                 }
                 else
                 {
-                    //already added
-                    //most probably it's the setting with the same name but for some certain store (storeId > 0)
                     dictionary[resourceName].Add(settingForCaching);
                 }
             }
@@ -161,6 +159,7 @@ namespace EF.Services.Social
             {
                 var setting = GetSocialSettingById(settingForCaching.Id);
                 setting.Value = valueStr;
+                setting.ModifiedOn = DateTime.Now;
                 UpdateSocialSetting(setting);
             }
             else
@@ -169,7 +168,10 @@ namespace EF.Services.Social
                 var setting = new SocialSetting
                 {
                     Name = key,
-                    Value = valueStr
+                    Value = valueStr,
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    UserId = 1
                 };
                 InsertSocialSetting(setting);
             }
@@ -185,7 +187,7 @@ namespace EF.Services.Social
         }
 
         public virtual bool SettingExists<T, TPropType>(T settings,
-            Expression<Func<T, TPropType>> keySelector, int storeId = 0)
+            Expression<Func<T, TPropType>> keySelector)
             where T : ISettings, new()
         {
             string key = settings.GetSettingKey(keySelector);
@@ -194,7 +196,7 @@ namespace EF.Services.Social
             return setting != null;
         }
 
-        public virtual T LoadSetting<T>(int storeId = 0) where T : ISettings, new()
+        public virtual T LoadSetting<T>() where T : ISettings, new()
         {
             var settings = Activator.CreateInstance<T>();
 
@@ -205,7 +207,6 @@ namespace EF.Services.Social
                     continue;
 
                 var key = typeof(T).Name + "." + prop.Name;
-                //load by store
                 var setting = GetSocialSettingByKey<string>(key);
                 if (setting == null)
                     continue;
@@ -225,7 +226,7 @@ namespace EF.Services.Social
             return settings;
         }
 
-        public virtual void SaveSetting<T>(T settings, int storeId = 0) where T : ISettings, new()
+        public virtual void SaveSetting<T>(T settings) where T : ISettings, new()
         {
             foreach (var prop in typeof(T).GetProperties())
             {
@@ -247,8 +248,7 @@ namespace EF.Services.Social
         }
 
         public virtual void SaveSocialSetting<T, TPropType>(T settings,
-            Expression<Func<T, TPropType>> keySelector,
-            int storeId = 0, bool clearCache = true) where T : ISettings, new()
+            Expression<Func<T, TPropType>> keySelector) where T : ISettings, new()
         {
             var member = keySelector.Body as MemberExpression;
             if (member == null)
@@ -288,7 +288,7 @@ namespace EF.Services.Social
         }
 
         public virtual void DeleteSocialSetting<T, TPropType>(T settings,
-            Expression<Func<T, TPropType>> keySelector, int storeId = 0) where T : ISettings, new()
+            Expression<Func<T, TPropType>> keySelector) where T : ISettings, new()
         {
             string key = settings.GetSettingKey(keySelector);
             key = key.Trim().ToLowerInvariant();

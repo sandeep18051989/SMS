@@ -21,11 +21,6 @@ namespace EF.Core
             return SinglePattern<IEngine>.Instance;
         }
 
-        /// <summary>
-        /// Sets the static engine instance to the supplied engine. Use this method to supply your own engine implementation.
-        /// </summary>
-        /// <param name="engine">The engine to use.</param>
-        /// <remarks>Only use this method if you know what you're doing.</remarks>
         public static void Replace(IEngine engine)
         {
             SinglePattern<IEngine>.Instance = engine;
@@ -35,9 +30,6 @@ namespace EF.Core
 
         #region Properties
 
-        /// <summary>
-        /// Gets the SinglePattern Nop engine used to access Nop services.
-        /// </summary>
         public static IEngine Current
         {
             get

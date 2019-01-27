@@ -4,6 +4,14 @@
 	ViewBag.Title = "Create News";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create News</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="create-form">
@@ -158,9 +166,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('News')").closest("li").addClass("active");
-
+        $("li#news ul").css("height", "");
 		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
@@ -175,6 +181,15 @@
 			else {
 				$(this).attr('checked', false).val(false);
 			}
+		});
+
+		$('#SystemName').on('input propertychange paste', function () {
+		    var parameters = {
+		        entityId: '@Model.Id',
+		        entityName: 'News',
+		        systemName: $(this).val()
+		    };
+		    warningValidation('@Url.Action("UrlReservedWarning", "News")', '#SystemName', parameters);
 		});
 
 		// Get the elements

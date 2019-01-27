@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.EmployeeModel
+@using EF.Services;
 @{
 	ViewBag.Title = "Employees";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Employees</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="list-form">
@@ -19,14 +28,18 @@
 					<div class="col-xs-12 col-md-12">
 						<br />
 						<div class="form-group">
-							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
 								<thead>
                                     <tr>
                                         <th class="text-center"><input type="checkbox" id="allcheck" /></th>
+                                        <th>&nbsp;</th>
                                         <th>Name</th>
+                                        <th>Roll/Unique Number</th>
                                         <th>Joining Date</th>
                                         <th>Designation</th>
                                         <th>Gender</th>
+                                        <th>Contract Start Date</th>
+                                        <th>Contract End Date</th>
                                         <th>Active</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
@@ -42,9 +55,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Employees')").closest("li").addClass("active");
-
+        $("li#employees ul").css("height", "");
 		// Initiallize Datatable
 		$('.custom-table').DataTable({
 			"processing": true, // for show progress bar
@@ -72,7 +83,7 @@
                                 row.Id +
                                 '"><label class="form-check-label" for="' +
                                 row.Id +
-                                '"></label><span class="show-detail"></span></div>';
+                                '"></label></div>';
                         }
                         return data;
                     },
@@ -93,10 +104,37 @@
                     "className": 'text-center',
                     "defaultContent": ""
                 },
-				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center" },
-                { "data": "JoiningDate", "title": "Joining Date", "name": "Joining Date", "autoWidth": true, "orderable": true, "defaultContent": "", "className": "text-center" },
-                { "data": "Designation", "title": "Designation", "name": "Designation", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
+				{
+				    "data": "", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center",
+				    "render": function (data, type, row) {
+				        if (type === "display") {
+				            return row.EmpFName + ((row.EmpMName != null && row.EmpMName !== "") ? (" " + row.EmpMName) : "") + ((row.EmpLName != null && row.EmpLName !== "") ? (" " + row.EmpLName) : "");
+				        }
+				        return data;
+				    }
+				},
+                { "data": "Username", "title": "Roll/Unique Number", "name": "Roll/Unique Number", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                {
+                    "data": "", "title": "Joining Date", "name": "Joining Date", "autoWidth": true, "orderable": true, "defaultContent": "", "className": "text-center",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return moment(row.JoiningDate).format("DD MMMM YYYY");
+                        }
+                        return data;
+                    }
+                },
+                {
+                    "data": "Designation", "title": "Designation", "name": "Designation", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return row.Designation;
+                        }
+                        return data;
+                    }
+                },
 				{ "data": "Sex", "title": "Gender", "name": "Gender", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
+                { "data": "ContractStartDateString", "title": "Contract Start Date", "name": "Contract Start Date", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
+                { "data": "ContractEndDateString", "title": "Contract End Date", "name": "Contract End Date", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
 				{
 				    "data": "IsActive",
 				    "title": "Active",
@@ -107,13 +145,13 @@
                                     row.Id +
                                     '" data-operation="deactivate" data-id="' +
                                     row.Id +
-                                    '" title="Deactivate Division"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+                                    '" title="Deactivate Employee"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
 				            } else {
 				                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
                                     row.Id +
                                     '" data-operation="activate" data-id="' +
                                     row.Id +
-                                    '" title="Activate Division"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+                                    '" title="Activate Employee"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
 				            }
 				        }
 				        return data;
@@ -140,21 +178,6 @@
 				"selector": 'td:first-child'
 			}
 		});
-
-        // Add event listener for opening and closing details
-		$('.custom-table tbody').on('click',
-            'td.details-control',
-            function () {
-                var tr = $(this).closest('tr');
-                var row = table.row(tr);
-                if (row.child.isShown()) {
-                    row.child.hide();
-                    tr.removeClass('shown');
-                } else {
-                    row.child(format(row.data())).show();
-                    tr.addClass('shown');
-                }
-            });
 
 		$(document).on('click',
                            '#allcheck',
@@ -192,21 +215,6 @@
         var numChkBoxes = $('#query-tbl input[type=checkbox][id!=allcheck]').length;
         var numChkBoxesChecked = $('#query-tbl input[type=checkbox][id!=allcheck]:checked').length;
         $('#allcheck').attr('checked', numChkBoxes === numChkBoxesChecked && numChkBoxes > 0);
-    }
-
-    function format(d) {
-        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-            '<tr>' +
-            '<td colspan="3">Message</td>' +
-            '<td style="white-space: pre-wrap;" colspan="4"><span class="log-message">' + d.Message + '</span></td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td colspan="3">Stack Trace</td>' +
-            '<td style="white-space: pre-wrap;" colspan="4"><span class="log-trace">' + d.StackTrace + '</span></td>' +
-            '</tr>' +
-            '<tr>' +
-            '</tr>' +
-            '</table>';
     }
 
 </script>

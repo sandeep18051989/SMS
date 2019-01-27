@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.EventModel
+@using EF.Services;
 @{
 	ViewBag.Title = "Create Event";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Create Event</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="create-form">
@@ -12,7 +21,6 @@
 				@Html.HiddenFor(model => model.Id)
 				<div class="row text-left">
 					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<h3 class="section-heading mr-auto">CREATE EVENT</h3>
 						<button type="submit" name="save" class="btn btn-primary mr-auto">
 							<i class="fa fa-save">&nbsp;&nbsp;</i>Create
 						</button>
@@ -114,16 +122,25 @@
 												</div>
 											</div>
 										</div>
+										<div class="row text-left">
+											<div class="col-md-6 mb-4">
+												<div class="md-form">
+													@Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "7" })
+													@Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+													@Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+												</div>
+											</div>
+										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+												<input type="checkbox" tabindex="8" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="8" id="IsApproved" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
+												<input type="checkbox" tabindex="9" id="IsApproved" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsApproved, "Approved", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
 											</div>
@@ -146,9 +163,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Events')").closest("li").addClass("active");
-
+        $("li#events ul").css("height", "");
 		if ($("#IsActive").val() == "True") {
 			$("#IsActive").attr('checked', true).val(true);
 		}
@@ -179,6 +194,15 @@
 			else {
 				$(this).attr('checked', false).val(false);
 			}
+		});
+
+		$('#SystemName').on('input propertychange paste', function () {
+		    var parameters = {
+		        entityId: '@Model.Id',
+		        entityName: 'Event',
+		        systemName: $(this).val()
+		    };
+		    warningValidation('@Url.Action("UrlReservedWarning", "Event")', '#SystemName', parameters);
 		});
 
 		// Get the elements

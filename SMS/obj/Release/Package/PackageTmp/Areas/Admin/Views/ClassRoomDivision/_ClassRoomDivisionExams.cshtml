@@ -1,0 +1,164 @@
+﻿@model SMS.Models.ClassRoomDivisionModel
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+            <table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="divisionexams-grid">
+                <thead class="mdb-color lighten-5">
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Exam</th>
+                        <th>Grade System</th>
+                        <th>Marks Obtained</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Break Allowed</th>
+                        <th>Room</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    // Initiallize Datatable
+                    $('#divisionexams-grid').DataTable({
+                        "paging": false,
+                        "bLengthChange": false, //thought this line could hide the LengthMenu
+                        "bInfo": false,
+                        "processing": true, // for show progress bar
+                        "serverSide": true, // for process server side
+                        "filter": false, // this is for disable filter (search box)
+                        "orderMulti": true, // for disable multiple column at once
+                        "ajax": {
+                            "url": "/Admin/ClassRoomDivision/LoadExamGrid/@(Model.Id)",
+                            "type": "POST",
+                            "datatype": "json"
+                        },
+                        "aaSorting": [],
+                        "columns": [
+                            {
+                                'searchable': false,
+                                "title": "",
+                                "data": "",
+                                "render": function (data, type, row) {
+                                    if (type === "display") {
+                                        return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input checkboxGroups" value="' +
+                                            row.Id +
+                                            '" id="' +
+                                            row.Id +
+                                            '"><label class="form-check-label" for="' +
+                                            row.Id +
+                                            '"></label></div>';
+                                    }
+                                    return data;
+                                },
+                                "orderable": false,
+                                "className": 'details-control text-center',
+                                "defaultContent": ""
+                            },
+                            { "data": "Exam", "title": "Exam", "name": "Exam", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                            { "data": "GradeSystem", "title": "Grade System", "name": "Grade System", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                            { "data": "MarksObtained", "title": "Marks Obtained", "name": "Marks Obtained", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                            { "data": "StartDate", "title": "Start Date", "name": "Start Date", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                            { "data": "EndDate", "title": "End Date", "name": "End Date", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                            {
+                                "data": "BreakAllowed",
+                                "title": "Default",
+                                "render": function(data, type, row) {
+                                    if (type === "display") {
+                                        if (row.IsActive) {
+                                            return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
+                                        } else {
+                                            return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
+                                        }
+                                    }
+                                    return data;
+                                },
+                                "className": "text-center",
+                                "orderable": false,
+                                "defaultContent": ""
+                            },
+                            { "data": "ClassRoom", "title": "Class Room", "name": "Class Room", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                            {
+                                "title": "Actions",
+                                "orderable": false,
+                                "className": 'text-center',
+                                "render": function(data, type, row) {
+                                    if (type === "display") {
+                                        var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="recrem_' + row.ExamId + '" title="Delete Exam"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
+                                        return dateTemplate;
+                                    }
+                                    return data;
+                                },
+                                "defaultContent": ""
+                            }
+                        ],
+                        "select": {
+                            "style": 'os',
+                            "selector": 'td:first-child'
+                        }
+                    });
+
+                    $(document).on("click", 'button[id^=recrem_]', function () {
+                        var examId = parseInt($(this).attr('id').split('_')[1]);
+
+                        if (examId === 0) {
+                            setTimeout(function () {
+                                $.gritter.add({
+                                    title: "Failure",
+                                    text: "An error occurred while removing exam!",
+                                    sticky: !0,
+                                    time: "",
+                                    class_name: "my-sticky-class"
+                                });
+                            }, 1e3);
+                            return;
+                        }
+                        if(confirm("Are you sure, you want to remove selected exam from the selected division?")){
+                            var postData = {
+                                id: @(Model.Id),
+                                examid: examId
+                            };
+
+                            addAntiForgeryToken(postData);
+
+                            $.ajax({
+                                cache: false,
+                                type: "POST",
+                                url: "@(Url.Action("RemoveExamFromDivision", "ClassRoomDivision"))",
+                                data: postData,
+                                success: function (data, result) {
+                                    if(result === "success"){
+                                        $('#divisionexams-grid').DataTable().ajax.reload();
+                                        setTimeout(function () {
+                                            $.gritter.add({
+                                                title: "Success",
+                                                text: "Exam removed successfully!",
+                                                sticky: !0,
+                                                time: "",
+                                                class_name: "my-sticky-class"
+                                            });
+                                        }, 1e3);
+                                    }
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr.responseText);
+                                    setTimeout(function () {
+                                        $.gritter.add({
+                                            title: "Failure",
+                                            text: "Failed to remove exam for selected class division!",
+                                            sticky: !0,
+                                            time: "",
+                                            class_name: "my-sticky-class"
+                                        });
+                                    }, 1e3);
+                                }
+                            });
+                        }
+                    });
+
+                });
+            </script>
+        </div>
+    </div>
+</div>

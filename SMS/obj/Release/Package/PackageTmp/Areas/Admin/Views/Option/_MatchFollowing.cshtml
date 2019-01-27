@@ -1,0 +1,184 @@
+﻿@model SMS.Models.QuestionModel
+@using EF.Services.Http;
+@{
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+    var displayOrder = 1;
+}
+<div class="col-md-12">
+    <h5 class="display-inline mt-2">Add Multiple Options</h5>
+    <span class="pull-right">
+        <a id="btn-add-option" class="btn btn-sm btn-primary">Add Option</a>
+    </span>
+    <div class="row-fluid mb-5">
+        <div class="col-md-12 options match-following mt-2">
+            @if (Model.MatchFollowingOptions.Count > 0)
+            {
+                foreach (var match in Model.MatchFollowingOptions)
+                {
+                    displayOrder = match.DisplayOrder;
+                    <div class="form-row">
+                        <div class="col left">
+                            <div class="md-form mt-4 option-wrapper">
+                                <input type="text" id="left_@(Model.Id)_@(displayOrder)" name="left_@(Model.Id)_@(displayOrder)" title="Match Option" tabindex="@(displayOrder)" class="form-control text-box single-line disabled" value="@(match.Name.Split(',')[0])" />
+                                <label for="left_@(Model.Id)_@(displayOrder)">@(displayOrder)</label>
+                            </div>
+                        </div>
+                        <div class="col right">
+                            <div class="md-form mt-4">
+                                <input type="text" name="right_@(Model.Id)_@(displayOrder)" title="Match Option" tabindex="@(displayOrder + 1)" class="form-control text-box single-line disabled" value="@(match.Name.Split(',')[1])" />
+                                <label for="right_@(Model.Id)_@(displayOrder)">@(displayOrder)</label>
+                            </div>
+                        </div>
+                    </div>
+                }
+                displayOrder += 1;
+                <div class="form-row">
+                    <div class="col left">
+                        <div class="md-form mt-4 option-wrapper">
+                            <input type="text" id="left_0_" name="left_0_@(displayOrder)" title="Match Option" tabindex="@(displayOrder)" class="form-control text-box single-line" value="Left Match @(displayOrder)" />
+                            <label for="left_0_@(displayOrder)">@(displayOrder)</label>
+                        </div>
+                    </div>
+                    <div class="col right">
+                        <div class="md-form mt-4">
+                            <input type="text" name="right_0_@(displayOrder)" title="Match Option" tabindex="@(displayOrder + 1)" class="form-control text-box single-line" value="Right Match @(displayOrder)" />
+                            <label for="right_0_@(displayOrder)">@(displayOrder)</label>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-row">
+                    <div class="col left">
+                        <div class="md-form mt-4 option-wrapper">
+                            <input type="text" id="left_0_1" name="left_0_1" title="Match Option" tabindex="1" class="form-control text-box single-line" value="Left Match 1" />
+                            <label for="left_0_1">1</label>
+                        </div>
+                    </div>
+                    <div class="col right">
+                        <div class="md-form mt-4">
+                            <input type="text" name="right_0_1" title="Match Option" tabindex="2" class="form-control text-box single-line" value="Right Match 1" />
+                            <label for="right_0_1">1</label>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <div class="md-form mt-2">
+                @if (Model.MatchFollowingOptions.Count > 0)
+                {
+                    <input type="text" id="correctanswer" name="correctanswer" title="Answer" class="form-control text-box single-line" value="@(Model.MatchFollowingOptions.FirstOrDefault().CorrectAnswer)" />
+                }
+                else
+                {
+                    <input type="text" id="correctanswer" name="correctanswer" title="Answer" class="form-control text-box single-line" value="" />
+                }
+                <label for="correctanswer">Correct Answer(Comma Seperated In Correct Sequence Of Right Column)</label>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var allTemplates = $(".options .form-row");
+        var lastTemplate = $(".options .form-row:last-child");
+        var tabIndex = @(Model.OptionCount == 1 ? 1 : Model.OptionCount+1);
+        $($(lastTemplate).find(".left input[type=text]")[0]).attr('id', 'left_0_' + tabIndex).attr('name', 'left_0_' + tabIndex).val("Left Match " + tabIndex);
+        $($(lastTemplate).find(".left label")[0]).attr('for', 'left_0_' + tabIndex).text(tabIndex);
+
+        $($(lastTemplate).find(".right input[type=text]")[0]).attr('id', 'right_0_' + tabIndex).attr('name', 'right_0_' + tabIndex).val("Right Match " + tabIndex);
+        $($(lastTemplate).find(".right label")[0]).attr('for', 'left_0_' + tabIndex).text(tabIndex);
+
+        $(document).ready(function () {
+            $(document).on("click", "#btn-add-option", function () {
+                allTemplates = $(".options .form-row");
+                lastTemplate = $(".options .form-row:last-child");
+                tabIndex = parseInt($($(lastTemplate).find(".right label")[0]).text());
+                $(".options").append(getTemplate(tabIndex));
+                $("input[type=text][id^=left_], input[type=text][id^=right_]").trigger("change");
+            });
+
+            $(document).on("click", "#btn-remove-option", function () {
+                if (confirm("Are you sure, you want to remove selected option ?")) {
+                    $(this).closest(".form-row").remove();
+                    allTemplates = $(".options .form-row");
+                    if (allTemplates.length > 1) {
+                        lastTemplate = $(".options .form-row:last-child");
+                        tabIndex = parseInt($($(lastTemplate).find(".right label")[0]).text());
+                        $(lastTemplate).append('<a class="close" id="btn-remove-option">X</a>');
+                    }
+                }
+            });
+
+            $(document).on("change", "input[type=text][name^=matchfollowing_]", function () {
+                var enteredValue = $(this).val();
+
+            });
+
+            $(document).on("click", "#admin-page-header button", function (e) {
+                if ($("#correctanswer").val() == null || $("#correctanswer").val() === "") {
+                    e.preventDefault();
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: "Please Enter Correct Answer!",
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                }
+                else if ($("input[type=text][id^=left_][value=''], input[type=text][id^=right_][value='']").length > 0) {
+                    e.preventDefault();
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: "All Options Must Be Filled Before Submitting!",
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                }
+                else if($("#correctanswer").val().split(',').length !== $(".match-following .form-row").length){
+                    e.preventDefault();
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: "All options should be included in correct answer!",
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                }
+                else{
+                    var correntAns = (($("#correctanswer").val() == null || $("#correctanswer").val() === "") ? "" : $("#correctanswer").val());
+                    var lstOptions = correntAns.split(',');
+                    var optionLength = $(".match-following .form-row").length;
+                    var valid = true;
+                    for(var a=0;a < lstOptions.length;a++){
+                        if(parseInt(lstOptions[a]) > optionLength){
+                            valid = false;
+                            break;
+                        }
+                    }
+
+                    if(!valid)
+                        e.preventDefault();
+                }
+            });
+        });
+        function getTemplate(tbIndex) {
+            tbIndex += 1;
+            $("#btn-remove-option").remove();
+            var strTemplate = '<div class="form-row"><div class="col left"><div class="md-form mt-4 option-wrapper"><input type="text" id="left_0_' + tbIndex + '" name="left_0_' + tbIndex + '" title="Match Option" tabindex="' + tbIndex + '" class="form-control text-box single-line" value="Left Match ' + tbIndex + '" /><label for="left_0_' + tbIndex + '">' + tbIndex + '</label></div></div>';
+            //tbIndex += 1;
+            strTemplate += '<div class="col right"><div class="md-form mt-4"><input type="text" id="right_0_' + tbIndex + '" name="right_0_' + tbIndex + '" title="Match Option" tabindex="' + (tbIndex+1) + '" class="form-control text-box single-line" value="Right Match ' + tbIndex + '" /><label for="right_0_' + tbIndex + '">' + tbIndex + '</label></div></div>';
+            strTemplate += '<a class="close" id="btn-remove-option">X</a></div>';
+            return strTemplate;
+        }
+    </script>
+</div>

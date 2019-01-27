@@ -1,11 +1,12 @@
 ﻿@model SMS.Areas.Admin.Models.LeftSideBarModel
 @using EF.Services.Service;
 @using EF.Core;
-@using EF.Core.Data;
-@using EF.Services.Context;
+@using EF.Services.Social;
 @{
     var _UserContext = EF.Core.ContextHelper.Current.Resolve<IUserContext>();
     var _permissionService = EF.Core.ContextHelper.Current.Resolve<IPermissionService>();
+    var _socialPluginFactory = EF.Core.ContextHelper.Current.Resolve<ISocialModelFactory>();
+    var activeSocialPlugins = _socialPluginFactory.PrepareSocialConfigurationModel();
 }
 <aside class="left-sidebar">
     <div class="scroll-sidebar ps">
@@ -19,15 +20,15 @@
                     </li>
                 }
                 @if (_permissionService.Authorize("ManageAudits")
-    || _permissionService.Authorize("ManageCustomPages")
-    || _permissionService.Authorize("ManageDataTokens")
-    || _permissionService.Authorize("ManageLogs")
-    || _permissionService.Authorize("ManagePermissions")
-    || _permissionService.Authorize("ManageRoles")
-    || _permissionService.Authorize("ManageSlider")
-    || _permissionService.Authorize("ManageTemplates")
-    || _permissionService.Authorize("ManageUsers")
-    || _permissionService.Authorize("ManageSettings"))
+|| _permissionService.Authorize("ManageCustomPages")
+|| _permissionService.Authorize("ManageDataTokens")
+|| _permissionService.Authorize("ManageLogs")
+|| _permissionService.Authorize("ManagePermissions")
+|| _permissionService.Authorize("ManageRoles")
+|| _permissionService.Authorize("ManageSlider")
+|| _permissionService.Authorize("ManageTemplates")
+|| _permissionService.Authorize("ManageUsers")
+|| _permissionService.Authorize("ManageSettings"))
                 {
                     <li class="nav-small-cap">GLOBAL SETTINGS</li>
                     if (_permissionService.Authorize("ManageAudits"))
@@ -464,6 +465,19 @@
                                 </ul>
                             </li>
                         }
+                    }
+                    if (_permissionService.Authorize("ManageSocialSettings"))
+                    {
+                        <li class="nav-small-cap">SOCIAL MEDIA</li>
+                        <li id="social">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Settings&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                @foreach (var plugin in activeSocialPlugins)
+                                {
+                                    <li><a href="@Url.Action(plugin.ActionName, plugin.ControllerName, new { Area = "" })">@(plugin.DisplayName)&nbsp;</a></li>
+                                }
+                            </ul>
+                        </li>
                     }
                     <li class="nav-small-cap">OTHERS</li>
                     <li id="logs" class="">

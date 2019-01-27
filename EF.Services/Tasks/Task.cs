@@ -69,20 +69,14 @@ namespace EF.Services.Tasks
         /// <param name="ensureRunOnOneWebFarmInstance">A value indicating whether we should ensure this task is run on one farm node at a time</param>
         public void Execute(bool throwException = false, bool dispose = true, bool ensureRunOnOneWebFarmInstance = true)
         {
-            //background tasks has an issue with Autofac
-            //because scope is generated each time it's requested
-            //that's why we get one single scope here
-            //this way we can also dispose resources once a task is completed
             var scope = ContextHelper.Current.ContainerManager.Scope();
             var scheduleTaskService = ContextHelper.Current.ContainerManager.Resolve<IScheduleTaskService>("", scope);
             var scheduleTask = scheduleTaskService.GetTaskByType(this.Type);
 
             try
             {
-                //task is run on one farm node at a time?
                 if (ensureRunOnOneWebFarmInstance)
                 {
-                    //is web farm enabled (multiple instances)?
                     var nopConfig = ContextHelper.Current.ContainerManager.Resolve<CMSConfig>("", scope);
                     if (nopConfig.MultipleInstancesEnabled)
                     {
@@ -91,17 +85,13 @@ namespace EF.Services.Tasks
                         if (String.IsNullOrEmpty(machineName))
                         {
                             throw new Exception("Machine name cannot be detected. You cannot run in web farm.");
-                            //actually in this case we can generate some unique string (e.g. Guid) and store it in some "static" (!!!) variable
-                            //then it can be used as a machine name
                         }
 
-                        //lease can't be aquired only if for a different machine and it has not expired
                         if (scheduleTask.LeasedUntilUtc.HasValue &&
                             scheduleTask.LeasedUntilUtc.Value >= DateTime.UtcNow &&
                             scheduleTask.LeasedByMachineName != machineName)
                             return;
 
-                        //lease the task. so it's run on one farm node at a time
                         scheduleTask.LeasedByMachineName = machineName;
                         scheduleTask.LeasedUntilUtc = DateTime.UtcNow.AddMinutes(30);
                         scheduleTaskService.UpdateTask(scheduleTask);

@@ -7,12 +7,6 @@ using System.Text.RegularExpressions;
 
 namespace EF.Core
 {
-    /// <summary>
-    /// A class that finds types needed by Nop by looping assemblies in the 
-    /// currently executing AppDomain. Only assemblies whose names matches
-    /// certain patterns are investigated and an optional list of assemblies
-    /// referenced by <see cref="AssemblyNames"/> are always investigated.
-    /// </summary>
     public class AppDomainTypeFinder : ITypeFinder
     {
         #region Fields
@@ -27,35 +21,29 @@ namespace EF.Core
 
         #region Properties
 
-        /// <summary>The app domain to look for types in.</summary>
         public virtual AppDomain App
         {
             get { return AppDomain.CurrentDomain; }
         }
 
-        /// <summary>Gets or sets wether Nop should iterate assemblies in the app domain when loading Nop types. Loading patterns are applied when loading these assemblies.</summary>
         public bool LoadAppDomainAssemblies
         {
             get { return loadAppDomainAssemblies; }
             set { loadAppDomainAssemblies = value; }
         }
 
-        /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
         public IList<string> AssemblyNames
         {
             get { return assemblyNames; }
             set { assemblyNames = value; }
         }
 
-        /// <summary>Gets the pattern for dlls that we know don't need to be investigated.</summary>
         public string AssemblySkipLoadingPattern
         {
             get { return assemblySkipLoadingPattern; }
             set { assemblySkipLoadingPattern = value; }
         }
 
-        /// <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes assemblies and your own.</summary>
-        /// <remarks>If you change this so that Nop assemblies arn't investigated (e.g. by not including something like "^Nop|..." you may break core functionality.</remarks>
         public string AssemblyRestrictToLoadingPattern
         {
             get { return assemblyRestrictToLoadingPattern; }
@@ -140,8 +128,6 @@ namespace EF.Core
             return result;
         }
 
-        /// <summary>Gets the assemblies related to the current implementation.</summary>
-        /// <returns>A list of assemblies that should be loaded by the Nop factory.</returns>
         public virtual IList<Assembly> GetAssemblies()
         {
             var addedAssemblyNames = new List<string>();
@@ -196,44 +182,17 @@ namespace EF.Core
             }
         }
 
-        /// <summary>
-        /// Check if a dll is one of the shipped dlls that we know don't need to be investigated.
-        /// </summary>
-        /// <param name="assemblyFullName">
-        /// The name of the assembly to check.
-        /// </param>
-        /// <returns>
-        /// True if the assembly should be loaded into Nop.
-        /// </returns>
         public virtual bool Matches(string assemblyFullName)
         {
             return !Matches(assemblyFullName, AssemblySkipLoadingPattern)
                    && Matches(assemblyFullName, AssemblyRestrictToLoadingPattern);
         }
 
-        /// <summary>
-        /// Check if a dll is one of the shipped dlls that we know don't need to be investigated.
-        /// </summary>
-        /// <param name="assemblyFullName">
-        /// The assembly name to match.
-        /// </param>
-        /// <param name="pattern">
-        /// The regular expression pattern to match against the assembly name.
-        /// </param>
-        /// <returns>
-        /// True if the pattern matches the assembly name.
-        /// </returns>
         protected virtual bool Matches(string assemblyFullName, string pattern)
         {
             return Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
-        /// <summary>
-        /// Makes sure matching assemblies in the supplied folder are loaded in the app domain.
-        /// </summary>
-        /// <param name="directoryPath">
-        /// The physical path to a directory containing dlls to load in the app domain.
-        /// </param>
         protected virtual void LoadMatchingAssemblies(string directoryPath)
         {
             var loadedAssemblyNames = new List<string>();

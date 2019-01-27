@@ -24,16 +24,8 @@ using EF.Services.Social;
 
 namespace EF.Services
 {
-	/// <summary>
-	/// Dependency registrar
-	/// </summary>
 	public class DependencyRegistrar : IDependencyRegistrar
 	{
-		/// <summary>
-		/// Register services and interfaces
-		/// </summary>
-		/// <param name="builder">Container builder</param>
-		/// <param name="typeFinder">Type finder</param>
 		public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, CMSConfig config)
 		{
 			//HTTP context and other related stuff
@@ -91,12 +83,11 @@ namespace EF.Services
 			}
 
 			builder.RegisterGeneric(typeof(EFRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
-
-			builder.RegisterSource(new SettingsSource());
-
 			// Register Services
 			builder.RegisterType<WebContext>().As<IWebContext>().InstancePerLifetimeScope();
             builder.RegisterType<SocialSettingService>().As<ISocialSettingService>().InstancePerLifetimeScope();
+            builder.RegisterSource(new SettingsSource());
+
             builder.RegisterType<SystemLogService>().As<ISystemLogService>().InstancePerLifetimeScope();
 			builder.RegisterType<AuditService>().As<IAuditService>().InstancePerLifetimeScope();
 			builder.RegisterType<BlogService>().As<IBlogService>().InstancePerLifetimeScope();
@@ -112,7 +103,8 @@ namespace EF.Services
 			builder.RegisterType<UserContext>().As<IUserContext>().InstancePerLifetimeScope();
 			builder.RegisterType<SliderService>().As<ISliderService>().InstancePerLifetimeScope();
 			builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
-			builder.RegisterType<ProductService>().As<IProductService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<ProductService>().As<IProductService>().InstancePerLifetimeScope();
 			builder.RegisterType<FileService>().As<IFileService>().InstancePerLifetimeScope();
 			builder.RegisterType<FeedbackService>().As<IFeedbackService>().InstancePerLifetimeScope();
 			builder.RegisterType<EmailService>().As<IEmailService>().InstancePerLifetimeScope();
@@ -169,11 +161,18 @@ namespace EF.Services
 			}
 		}
 
-		static IComponentRegistration BuildRegistration<TSettings>() where TSettings : ITempSettings, new()
-		{
-			return RegistrationBuilder.ForDelegate((c, p) => { return c.Resolve<ISettingService>().GetSettings(); }).InstancePerLifetimeScope().CreateRegistration();
-		}
+        static IComponentRegistration BuildRegistration<TSettings>() where TSettings : ISettings, new()
+        {
+            return RegistrationBuilder
+                .ForDelegate((c, p) =>
+                {
+                    return c.Resolve<ISocialSettingService>().LoadSetting<TSettings>();
+                })
+                .InstancePerLifetimeScope()
+                .CreateRegistration();
+        }
 
-		public bool IsAdapterForIndividualComponents { get { return false; } }
+        public bool IsAdapterForIndividualComponents { get { return false; } }
+
 	}
 }

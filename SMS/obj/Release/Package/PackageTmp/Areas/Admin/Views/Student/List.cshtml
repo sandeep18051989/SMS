@@ -1,8 +1,17 @@
 ﻿@model SMS.Models.StudentListModel
+@using EF.Services;
 @{
 	ViewBag.Title = "Students";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Students</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="list-form">
@@ -19,11 +28,12 @@
 					<div class="col-xs-12 col-md-12">
 						<br />
 						<div class="form-group">
-							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
 								<thead>
                                     <tr>
                                         <th>&nbsp;</th>
                                         <th>Name</th>
+                                        <th>Roll/Unique Number</th>
                                         <th>Admission Date</th>
                                         <th>Date Of Birth</th>
                                         <th>Gender</th>
@@ -42,9 +52,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('Students')").closest("li").addClass("active");
-
+        $("li#students ul").css("height", "");
 		// Initiallize Datatable
 		$('.custom-table').DataTable({
 			"processing": true, // for show progress bar
@@ -65,7 +73,7 @@
                     "title": "",
                     "render": function (data, type, row) {
                         if (type === "display") {
-                            return '<div class="thumb"><img style="max-width:100px;" src="' + row.PictureSrc + '" alt="" class="rounded-circle float-left"></div>';
+                            return '<div class="thumb"><img src="' + row.PictureSrc + '" alt="" class="float-left"></div>';
                         }
                         return data;
                     },
@@ -73,10 +81,11 @@
                     "className": 'text-center',
                     "defaultContent": ""
                 },
-				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true },
-                { "data": "AdmissionDate", "title": "Admission Date", "name": "AdmissionDate", "autoWidth": true, "orderable": true },
-                { "data": "DateOfBirth", "title": "Birth Date", "name": "DateOfBirth", "autoWidth": true, "orderable": false },
-				{ "data": "Sex", "title": "Gender", "name": "Gender", "autoWidth": true, "orderable": false },
+				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                { "data": "Username", "title": "Roll/Unique Number", "name": "Roll/Unique Number", "autoWidth": true, "defaultContent": "", "className": "text-center" },
+                { "data": "AdmissionDate", "title": "Admission Date", "name": "AdmissionDate", "autoWidth": true, "orderable": true, "defaultContent": "", "className": "text-center" },
+                { "data": "DateOfBirth", "title": "Birth Date", "name": "DateOfBirth", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
+				{ "data": "Sex", "title": "Gender", "name": "Gender", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
 				{
 					"data": "IsActive",
 					"title": "Active",
@@ -91,7 +100,8 @@
 						return data;
 					},
 					"className": "text-center",
-					"orderable": false
+					"orderable": false,
+					"defaultContent": ""
 				},
 				{
 					"title": "Actions",
@@ -99,10 +109,11 @@
 					"className": 'text-center',
 					"render": function (data, type, row) {
 						if (type === "display") {
-							return '<a href="/Admin/Student/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="studentid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+						    return '<a href="/Admin/Student/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="studentid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a class="btn btn-info btn-sm" href="/Admin/Exam/StudentExams/' + row.Id + '" id="edit_' + row.Id + '" title="Assign Exams">Add/Update Exams</a>';
 						}
 						return data;
-					}
+					},
+					"defaultContent": ""
 				}
 			],
 			"select": {

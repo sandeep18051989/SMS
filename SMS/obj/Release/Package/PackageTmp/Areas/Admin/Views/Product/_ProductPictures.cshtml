@@ -40,7 +40,7 @@
 									"title": "",
 									"render": function (data, type, row) {
 										if (type === "display") {
-											return '<div class="thumb"><img style="max-width:100px;" src="' + row.PictureSrc + '" alt="" class="rounded-circle float-left"></div>';
+											return '<div class="thumb"><img src="' + row.PictureSrc + '" alt="" class="float-left"></div>';
 										}
 										return data;
 									},
@@ -151,7 +151,7 @@
 						});
 
 						$('#addPicture').click(function() {
-							var pictureId = $("#@Html.IdFor(model => model.InsertPictureModel.PictureId)").val();
+							var pictureId = $("#@Html.IdFor(model => model.PictureId)").val();
 
 							if (pictureId === 0) {
 								setTimeout(function () {
@@ -165,8 +165,6 @@
 								}, 1e3);
 								return;
 							}
-
-							$('#addProductPicture').attr('disabled', true);
 
 							var postData = {
 								pictureId: pictureId,
@@ -185,8 +183,8 @@
 								url: "@(Url.Action("ProductPictureAdd", "Product"))",
 								data: postData,
 								success: function (data) {
-									$('#addProductPicture').attr('disabled', false);
 									$('.uploader').fineUploader('reset');
+									$("button[data-resource='picture']").attr("disabled", true);
 									$('#productpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({
@@ -200,7 +198,6 @@
 								},
 								error: function(xhr, ajaxOptions, thrownError) {
 									console.log(xhr.responseText);
-									$('#addProductPicture').attr('disabled', false);
 								}
 							});
 						});
@@ -351,12 +348,12 @@
 						});
 					});
 				</script>
-				@Html.EditorFor(model => model.InsertPictureModel.PictureId)
-				@Html.ValidationMessageFor(model => model.InsertPictureModel.PictureId)
+				@Html.EditorFor(model => model.PictureId)
+				@Html.ValidationMessageFor(model => model.PictureId)
 				&nbsp;
 			</div>
 			<div class="panel-footer">
-				<button type="button" id="addPicture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Product</button>
+				<button type="button" id="addPicture" data-resource="picture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Product</button>
 			</div>
 		</div>
 	}

@@ -78,3 +78,36 @@ E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.Depl
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.Razor.xml
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.pdb
+H:\Repositories\SMS\EF.Core\bin\Debug\EF.Core.dll.config
+H:\Repositories\SMS\EF.Core\bin\Debug\EF.Core.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\EF.Core.pdb
+H:\Repositories\SMS\EF.Core\bin\Debug\Autofac.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\Autofac.Integration.Mvc.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\AutoMapper.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.SqlServer.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\Microsoft.Web.Infrastructure.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\Newtonsoft.Json.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\System.ValueTuple.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Helpers.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Mvc.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Razor.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.WebPages.Deployment.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.WebPages.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.WebPages.Razor.dll
+H:\Repositories\SMS\EF.Core\bin\Debug\Autofac.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\Autofac.Integration.Mvc.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\AutoMapper.pdb
+H:\Repositories\SMS\EF.Core\bin\Debug\AutoMapper.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\EntityFramework.SqlServer.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\System.ValueTuple.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Helpers.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Mvc.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.Razor.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.WebPages.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.WebPages.Deployment.xml
+H:\Repositories\SMS\EF.Core\bin\Debug\System.Web.WebPages.Razor.xml
+H:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.csproj.CoreCompileInputs.cache
+H:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.dll
+H:\Repositories\SMS\EF.Core\obj\Debug\EF.Core.pdb

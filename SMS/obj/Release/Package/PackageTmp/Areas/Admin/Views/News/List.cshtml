@@ -1,8 +1,17 @@
 ﻿@model IEnumerable<SMS.Models.NewsModel>
+@using EF.Services;
 @{
 	ViewBag.Title = "News";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">News</h3>
+    </div>
+    <div class="col-md-7 align-self-center">
+        @Html.Raw(Html.BuildBreadcrumbNavigation())
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12 mr-4">
 		<section class="list-form">
@@ -19,7 +28,7 @@
 					<div class="col-xs-12 col-md-12">
 						<br />
 						<div class="form-group">
-							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100%;">
+							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
 								<thead>
 									<tr>
 										<th class="no-sort"><input type="checkbox" id="allcheck" value="allcheck" /></th>
@@ -46,9 +55,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("li.nav-item").removeClass("active");
-        $("span.nav-title:contains('News')").closest("li").addClass("active");
-
+        $("li#news ul").css("height", "");
 		$('#allcheck').on('click', function () {
 			var rows = table.rows({ 'search': 'applied' }).nodes();
 			$('input[type="checkbox"]', rows).prop('checked', this.checked);
@@ -169,7 +176,7 @@
 					"className": 'text-center',
 					"render": function (data, type, row) {
 						if (type === "display") {
-						    return '<a href="/Admin/News/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a id="newsid_' + row.Id + '" href="javascript:void(0);" title="Delete"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a>';
+						    return '<a href="/Admin/News/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
 						}
 						return data;
 					}
