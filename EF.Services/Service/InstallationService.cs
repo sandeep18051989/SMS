@@ -3378,7 +3378,7 @@ namespace EF.Services.Service
             socialEngine.ProviderSystemName = "Facebook";
             socialEngine.UserId = user.Id;
             socialEngine.Version = "1.0";
-            socialEngine.DisplayIdentifier = "Facebook Authentication";
+            socialEngine.DisplayIdentifier = "Facebook";
             socialEngine.AssemblyName = "EF.Facebook";
             _socialProviderRepository.Insert(socialEngine);
 

@@ -167,10 +167,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\SocialAuthFacebook\Configure.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\SocialAuthFacebook\Info.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
     <None Include="packages.config">

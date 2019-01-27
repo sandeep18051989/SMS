@@ -3719,6 +3719,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Plugins/EF.Facebook/AutoMapper.xml">
       <publishTime>10/01/2018 22:53:52</publishTime>
     </File>
+    <File Include="Plugins/EF.Facebook/Content/facebookstyles.css">
+      <publishTime>01/26/2019 12:06:09</publishTime>
+    </File>
+    <File Include="Plugins/EF.Facebook/Content/Images/facebook-signing.png">
+      <publishTime>01/26/2019 12:06:09</publishTime>
+    </File>
     <File Include="Plugins/EF.Facebook/Description.txt">
       <publishTime>01/26/2019 12:06:09</publishTime>
     </File>
@@ -3841,6 +3847,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Plugins/EF.Facebook/TrackerEnabledDbContext.dll">
       <publishTime>01/26/2019 12:06:43</publishTime>
+    </File>
+    <File Include="Plugins/EF.Facebook/Views/SocialAuthFacebook/Configure.cshtml">
+      <publishTime>01/26/2019 18:14:07</publishTime>
+    </File>
+    <File Include="Plugins/EF.Facebook/Views/SocialAuthFacebook/Info.cshtml">
+      <publishTime>01/26/2019 16:31:39</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/web.config">
       <publishTime>01/26/2019 17:12:59</publishTime>
