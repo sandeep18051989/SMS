@@ -278,9 +278,6 @@ namespace EF.Services.Service
             if (request == null)
                 throw new ArgumentNullException("request");
 
-            if (request.User == null)
-                throw new ArgumentException("Can't load current user");
-
             var result = new UserRegistrationResult();
             if (String.IsNullOrEmpty(request.Email))
             {
@@ -316,18 +313,33 @@ namespace EF.Services.Service
             }
 
             //at this point request is valid
+            request.User = new User();
             request.User.UserName = request.Username;
             request.User.Email = request.Email;
             request.User.Password = request.Password;
             request.User.IsApproved = request.IsApproved;
             request.User.IsActive = request.IsActive;
+            request.User.AddressLine1 = "";
+            request.User.AddressLine2 = "";
+            request.User.CityId = 0;
+            request.User.CoverPictureId = 0;
+            request.User.FirstName = "";
+            request.User.MiddleName = "";
+            request.User.ProfilePictureId = 0;
+            request.User.SeoName = request.Username;
+            request.User.UserGuid = Guid.NewGuid();
+            request.User.UserId = 1;
+            request.User.CreatedOn = request.User.ModifiedOn = DateTime.Now;
+            request.User.LastLoginDate = DateTime.Now;
 
             var registeredRole = _roleService.GetRoleByName("General");
             if (registeredRole == null)
                 throw new Exception("'Registered' role could not be loaded");
 
             request.User.Roles.Add(registeredRole);
-            Update(request.User);
+            Insert(request.User);
+
+            result.User = request.User;
             return result;
         }
 

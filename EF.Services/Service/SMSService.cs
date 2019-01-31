@@ -256,7 +256,6 @@ namespace EF.Services.Service
 
             return _studentRepository.GetByID(id);
         }
-
         public Student GetStudentByImpersonateId(int id)
         {
             if (id == 0)
@@ -324,12 +323,14 @@ namespace EF.Services.Service
         {
             return _studentRepository.Table.Where(x => x.ClassRoomDivisionId == id).ToList();
         }
-
         public IList<StudentExam> GetAllStudentExamMappings()
         {
             return _studentExamRepository.Table.ToList();
         }
-
+        public Student GetStudentByImpersonatedUser(int userid)
+        {
+            return _studentRepository.Table.FirstOrDefault(x => x.ImpersonateId == userid);
+        }
         #endregion
 
         #region Student Exam
@@ -1563,7 +1564,6 @@ namespace EF.Services.Service
                 _teacherRepository.Update(teacher);
             }
         }
-
         public Teacher GetTeacherByImpersonateId(int id)
         {
             if (id == 0)
@@ -1713,12 +1713,10 @@ namespace EF.Services.Service
             }
 
         }
-
         public IList<TeacherExam> GetAllTeacherExamMappings()
         {
             return _teacherExamRepository.Table.ToList();
         }
-
         public IList<TeacherExam> GetAllExamsByTeacher(int id)
         {
             if (id == 0)
@@ -1726,7 +1724,10 @@ namespace EF.Services.Service
 
             return _teacherExamRepository.Table.Where(x => x.TeacherId == id).ToList();
         }
-
+        public Teacher GetTeacherByImpersonatedUser(int userid)
+        {
+            return _teacherRepository.Table.FirstOrDefault(x => x.ImpersonateId == userid);
+        }
         #endregion
 
         #region Teacher Exam

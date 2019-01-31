@@ -53,3 +53,14 @@ H:\Repositories\SMS\EF.Core\obj\Release\EF.Core.csprojResolveAssemblyReference.c
 H:\Repositories\SMS\EF.Core\obj\Release\EF.Core.csproj.CoreCompileInputs.cache
 H:\Repositories\SMS\EF.Core\obj\Release\EF.Core.dll
 H:\Repositories\SMS\EF.Core\obj\Release\EF.Core.pdb
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\Microsoft.Web.Infrastructure.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.Helpers.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.Razor.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.Deployment.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.Razor.dll
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.Helpers.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.Razor.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.Deployment.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.Razor.xml

@@ -26,8 +26,9 @@ namespace SMS.Controllers
         private readonly IProductService _productService;
         private readonly IBlogService _blogService;
         private readonly IUrlHelper _urlHelper;
+        private readonly ISMSService _smsService;
 
-        public AccountController(IAuthenticationService authenticationService, IUserService userService, IUserContext userContext, ISettingService settingService, ITemplateService templateService, IEmailService emailService, IAuditService auditService, IEventService eventService, ICommentService commentService, IProductService productService, IBlogService blogService, IUrlHelper urlHelper)
+        public AccountController(IAuthenticationService authenticationService, IUserService userService, IUserContext userContext, ISettingService settingService, ITemplateService templateService, IEmailService emailService, IAuditService auditService, IEventService eventService, ICommentService commentService, IProductService productService, IBlogService blogService, IUrlHelper urlHelper, ISMSService smsService)
         {
             this._authenticationService = authenticationService;
             this._userService = userService;
@@ -41,6 +42,7 @@ namespace SMS.Controllers
             this._productService = productService;
             this._blogService = blogService;
             this._urlHelper = urlHelper;
+            this._smsService = smsService;
         }
 
         [AllowAnonymous]
@@ -137,11 +139,13 @@ namespace SMS.Controllers
                 {
                     if (user.Password == model.Password)
                     {
-                        //var userinformation = _userInfoService.GetUserInformationByUserId(_user.Id);
-
                         // Update Last Login Date
                         user.LastLoginDate = DateTime.Now;
                         _userService.Update(user);
+
+                        // Impersonate Relation
+                        var teacher = _smsService.GetTeacherByImpersonateId(user.Id);
+                        var student = _smsService.GetStudentByImpersonateId(user.Id);
 
                         //sign in customer
                         _authenticationService.SignIn(user, model.RememberMe);
@@ -159,30 +163,46 @@ namespace SMS.Controllers
                             {
                                 Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), $"[{dt.Name}]", dt.Value, StringComparison.InvariantCulture);
                             }
-
-                            //var _userInfo = _userInfoService.GetUserInformationByUserId(_user.Id);
-                            //if (_userInfo != null)
-                            //{
-                            //	if (String.IsNullOrEmpty(_userInfo.Email))
-                            //	{
-                            //		SuccessNotification("You haven't updated your eamil address with us. Update your profile <a href='" + Url.Action("EditMyAccount", "Account", new { @id = _user.Id }) + "' title='My Account' >here</a>");
-                            //	}
-                            //	else
-                            //	{
-                            //		_emailService.SendMailUsingTemplate(_userInfo.Email, "Urgent : Login Notification", Template);
-                            //	}
-                            //}
                         }
 
                         _userContext.CurrentUser = user;
 
-                        if (ViewData["ReturnUrl"] == null)
+                        // Teacher
+                        if (teacher != null)
                         {
-                            return RedirectToAction("Index", "Home");
+                            if (ViewData["ReturnUrl"] == null)
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                return Redirect(ViewData["ReturnUrl"].ToString());
+                            }
                         }
+                        // Student
+                        else if (student != null)
+                        {
+                            if (ViewData["ReturnUrl"] == null)
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                return Redirect(ViewData["ReturnUrl"].ToString());
+                            }
+                        }
+                        // Other Users
                         else
                         {
-                            return Redirect(ViewData["ReturnUrl"].ToString());
+
+                            if (ViewData["ReturnUrl"] == null)
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                return Redirect(ViewData["ReturnUrl"].ToString());
+                            }
                         }
                     }
                     else

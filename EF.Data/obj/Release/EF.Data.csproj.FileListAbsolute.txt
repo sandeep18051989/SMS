@@ -58,3 +58,13 @@ H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.xml
 H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.Razor.xml
 H:\Repositories\SMS\EF.Data\bin\Release\System.Web.Razor.xml
 H:\Repositories\SMS\EF.Data\bin\Release\System.Web.WebPages.Deployment.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Data.SqlServerCe.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\Microsoft.Web.Infrastructure.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Web.WebPages.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Web.WebPages.Razor.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Web.Razor.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Web.WebPages.Deployment.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Web.WebPages.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Web.WebPages.Razor.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Web.Razor.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Release\System.Web.WebPages.Deployment.xml

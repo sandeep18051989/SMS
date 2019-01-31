@@ -3380,6 +3380,7 @@ namespace EF.Services.Service
             socialEngine.Version = "1.0";
             socialEngine.DisplayIdentifier = "Facebook";
             socialEngine.AssemblyName = "EF.Facebook";
+            socialEngine.IsInstalled = true;
             _socialProviderRepository.Insert(socialEngine);
 
             // Update user at last

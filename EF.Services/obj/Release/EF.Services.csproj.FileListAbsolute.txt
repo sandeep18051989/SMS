@@ -6,7 +6,6 @@ E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\Autofac.Integratio
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\EntityFramework.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\EntityFramework.SqlServer.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\FluentValidation.dll
-E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\FluentValidation.Mvc.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\GoogleAnalyticsTracker.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\GoogleAnalyticsTracker.MVC5.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\GoogleMaps.LocationServices.dll
@@ -29,7 +28,6 @@ E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\EF.Data.pdb
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\EntityFramework.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\EntityFramework.SqlServer.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\FluentValidation.xml
-E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\FluentValidation.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.Web.Helpers.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.Web.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.Web.WebPages.xml
@@ -93,3 +91,9 @@ H:\Repositories\SMS\EF.Services\obj\Release\EF.Services.csprojResolveAssemblyRef
 H:\Repositories\SMS\EF.Services\obj\Release\EF.Services.csproj.CoreCompileInputs.cache
 H:\Repositories\SMS\EF.Services\obj\Release\EF.Services.dll
 H:\Repositories\SMS\EF.Services\obj\Release\EF.Services.pdb
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\FluentValidation.ValidatorAttribute.dll
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\Microsoft.Web.Infrastructure.dll
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.ComponentModel.Annotations.dll
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.ComponentModel.Primitives.dll
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.Web.Razor.dll
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.Web.Razor.xml

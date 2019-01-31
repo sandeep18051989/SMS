@@ -25,7 +25,7 @@ namespace EF.Facebook.Core
         private FacebookSocialAuthSettings _facebookSocialAuthSettings = ContextHelper.Current.Resolve<ISocialSettingService>().LoadSetting<FacebookSocialAuthSettings>();
         private readonly HttpContextBase _httpContext;
         private readonly IUrlHelper _webHelper;
-        private FacebookClient _facebookApplication;
+        private FacebookOAuth2Client  _facebookApplication;
 
         #endregion
 
@@ -65,9 +65,9 @@ namespace EF.Facebook.Core
 
             return string.Empty;
         }
-        private FacebookClient FacebookApplication
+        private FacebookOAuth2Client  FacebookApplication
         {
-            get { return _facebookApplication ?? (_facebookApplication = new FacebookClient(_facebookSocialAuthSettings.ClientKeyIdentifier, _facebookSocialAuthSettings.ClientSecret)); }
+            get { return _facebookApplication ?? (_facebookApplication = new FacebookOAuth2Client (_facebookSocialAuthSettings.ClientKeyIdentifier, _facebookSocialAuthSettings.ClientSecret)); }
         }
 
         private AuthorizeState VerifyAuthentication(string returnUrl)

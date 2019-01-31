@@ -84,7 +84,7 @@ namespace SMS
                 foreach (var eam in activeSocialPlugins)
                 {
                     var entryClass = socialFactory.GetEntryPoint(eam.AssemblyName, eam.AuthenticationMethodServiceNamespace, eam.AuthenticationMethodService, "Install");
-                    if(entryClass != null)
+                    if(entryClass != null && !eam.IsInstalled)
                     {
                         entryClass.Install();
                     }

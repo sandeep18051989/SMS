@@ -58,12 +58,11 @@ namespace EF.Services.Social
         public virtual AuthorizationResult Authorize(OpenAuthenticationParameters parameters)
         {
             var userFound = _openAuthenticationService.GetUser(parameters);
+            var currentUser = _userContext.CurrentUser;
 
-            var userLoggedIn = _userContext.CurrentUser;
-
-            if (AccountAlreadyExists(userFound, userLoggedIn))
+            if (AccountAlreadyExists(userFound, currentUser))
             {
-                if (AccountIsAssignedToLoggedOnAccount(userFound, userLoggedIn))
+                if (AccountIsAssignedToLoggedOnAccount(userFound, currentUser))
                 {
                     return new AuthorizationResult(OpenAuthenticationStatus.Authenticated);
                 }
@@ -72,13 +71,13 @@ namespace EF.Services.Social
                 result.AddError("Account is already assigned");
                 return result;
             }
-            if (AccountDoesNotExistAndUserIsNotLoggedOn(userFound, userLoggedIn))
+            if (AccountDoesNotExistAndUserIsNotLoggedOn(userFound, currentUser))
             {
                 SocialAuthorizerHelper.StoreParametersForRoundTrip(parameters);
 
                 #region Register user
 
-                var currentUser = _userContext.CurrentUser;
+                currentUser = _userContext.CurrentUser;
                 var details = new RegistrationDetails(parameters);
                 var randomPassword = CommonHelper.GenerateRandomDigitCode(20);
 
@@ -93,13 +92,13 @@ namespace EF.Services.Social
                 var registrationResult = _userService.RegisterUser(registrationRequest);
                 if (registrationResult.Success)
                 {
-                    userFound = currentUser;
+                    currentUser = registrationResult.User;
                     _openAuthenticationService.AssociateSocialAccountWithUser(currentUser, parameters);
                     SocialAuthorizerHelper.RemoveParameters();
 
                     //authenticate
                     if (isApproved)
-                        _authenticationService.SignIn(userFound ?? userLoggedIn, false);
+                        _authenticationService.SignIn(userFound ?? currentUser, false);
 
                     if (isApproved)
                     {
@@ -124,11 +123,11 @@ namespace EF.Services.Social
             }
             if (userFound == null)
             {
-                _openAuthenticationService.AssociateSocialAccountWithUser(userLoggedIn, parameters);
+                _openAuthenticationService.AssociateSocialAccountWithUser(currentUser, parameters);
             }
 
             //authenticate
-            _authenticationService.SignIn(userFound ?? userLoggedIn, false);
+            _authenticationService.SignIn(userFound ?? currentUser, false);
             return new AuthorizationResult(OpenAuthenticationStatus.Authenticated);
         }
 

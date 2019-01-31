@@ -1,27 +1,19 @@
 ﻿using System.Web.Mvc;
-using System.Configuration;
 using System.Linq;
 using EF.Services.Service;
 using SMS.Models;
-using System.Data.Entity;
-using EF.Data;
-using System.Web;
-using System.IO;
 using System;
 using EF.Core.Data;
-using System.Web.Configuration;
 using EF.Core.Enums;
 using System.Data.SqlClient;
 using System.Threading;
 using EF.Core;
 using EF.Services.Http;
-using MaxMind.GeoIP2;
-using GoogleAnalyticsTracker.MVC5;
 using System.Collections.Generic;
 
 namespace SMS.Controllers
 {
-	public class HomeController : PublicHttpController
+    public class HomeController : PublicHttpController
 	{
 
 		#region Fields

@@ -27,7 +27,7 @@ namespace EF.Services.Service
         Student GetStudentByImpersonateId(int id);
         bool CheckUsernameExistsForStudent(string username);
         IList<Student> GetStudentsByDivision(int id);
-
+        Student GetStudentByImpersonatedUser(int userid);
         IList<StudentExam> GetAllStudentExamMappings();
         #endregion
 
@@ -281,6 +281,7 @@ namespace EF.Services.Service
         Teacher GetTeacherByImpersonateId(int id);
         IList<TeacherExam> GetAllExamsByTeacher(int id);
         IList<TeacherExam> GetAllTeacherExamMappings();
+        Teacher GetTeacherByImpersonatedUser(int userid);
         #endregion
 
         #region Teacher Exam

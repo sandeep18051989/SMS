@@ -9,6 +9,7 @@ namespace EF.Core.Data
         public string Version { get; set; }
         public string AuthenticationMethodServiceNamespace { get; set; }
         public string AssemblyName { get; set; }
+        public bool IsInstalled { get; set; }
 
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EF.Core.Data;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EF.Services 
@@ -8,6 +9,7 @@ namespace EF.Services
         public UserRegistrationResult() 
         {
             this.Errors = new List<string>();
+            User = new User();
         }
 
         public bool Success 
@@ -21,5 +23,6 @@ namespace EF.Services
         }
 
         public IList<string> Errors { get; set; }
+        public User User { get; set; }
     }
 }

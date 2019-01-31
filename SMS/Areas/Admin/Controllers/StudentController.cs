@@ -401,7 +401,7 @@ namespace SMS.Areas.Admin.Controllers
                 var newUser = new User();
                 newUser.Email = newStudent.EmailAddress;
                 newUser.CreatedOn = newUser.ModifiedOn = DateTime.Now;
-                newUser.IsActive = false;
+                newUser.IsActive = true;
                 newUser.IsApproved = false;
                 newUser.IsDeleted = false;
                 newUser.Password = CodeHelper.GenerateRandomDigitCode(6);
@@ -410,6 +410,15 @@ namespace SMS.Areas.Admin.Controllers
                 newUser.UserId = _userContext.CurrentUser.Id;
                 newUser.UserName = newStudent.UserName;
                 newUser.Roles.Add(_roleService.GetRoleByName("Student"));
+                newUser.FirstName = newStudent.FName;
+                newUser.AddressLine1 = newStudent.Permanent_Address;
+                newUser.AddressLine2 = newStudent.Temporary_Address;
+                newUser.CityId = 0;
+                newUser.FirstName = newStudent.FName;
+                newUser.CoverPictureId = newStudent.CoverPictureId;
+                newUser.ProfilePictureId = newStudent.StudentPictureId;
+                newUser.MiddleName = newStudent.MName;
+                newUser.LastName = newStudent.LName;
                 _userService.Insert(newUser);
 
                 newStudent.ImpersonateId = newUser.Id;

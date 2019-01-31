@@ -13,7 +13,7 @@ namespace EF.Core.Data
         public string OAuthAccessToken { get; set; }
 
         public string ProviderSystemName { get; set; }
-        
+
         public virtual User User { get; set; }
     }
 

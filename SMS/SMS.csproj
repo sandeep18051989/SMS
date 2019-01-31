@@ -56,73 +56,35 @@
       <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CodeSmear.JQuery.DataTable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CodeSmear.JQuery.DataTable.1.0.1\lib\CodeSmear.JQuery.DataTable.dll</HintPath>
     </Reference>
-    <Reference Include="EF.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\EF.Core\bin\Debug\EF.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="EF.Data">
-      <HintPath>..\EF.Data\bin\Debug\EF.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="EF.Facebook, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Plugins\EF.Facebook\EF.Facebook.dll</HintPath>
-    </Reference>
-    <Reference Include="EF.Services">
-      <HintPath>..\EF.Services\bin\Debug\EF.Services.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.MappingAPI, Version=6.1.0.9, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.MappingAPI.6.1.0.9\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.2.0\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.8.0.100\lib\net45\FluentValidation.dll</HintPath>
+      <HintPath>..\packages\FluentValidation.8.1.3\lib\net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FluentValidation.Mvc, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.Mvc5.8.0.100\lib\net45\FluentValidation.Mvc.dll</HintPath>
+      <HintPath>..\packages\FluentValidation.Mvc5.8.1.3\lib\net45\FluentValidation.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FluentValidation.ValidatorAttribute, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.ValidatorAttribute.8.0.100\lib\net45\FluentValidation.ValidatorAttribute.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis, Version=1.35.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.35.2\lib\net45\Google.Apis.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Analytics.v3, Version=1.35.2.1268, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Analytics.v3.1.35.2.1268\lib\net45\Google.Apis.Analytics.v3.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Auth, Version=1.35.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Auth.1.35.2\lib\net45\Google.Apis.Auth.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.35.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Auth.1.35.2\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Core, Version=1.35.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Core.1.35.2\lib\net45\Google.Apis.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.PlatformServices, Version=1.35.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.35.2\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="GoogleAnalyticsTracker.Core, Version=4.6.7.0, Culture=neutral, PublicKeyToken=04ab204e84b117c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\GoogleAnalyticsTracker.Core.4.6.7\lib\portable45-net45+win8+wpa81\GoogleAnalyticsTracker.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="GoogleAnalyticsTracker.MVC5, Version=4.6.7.0, Culture=neutral, PublicKeyToken=04ab204e84b117c0, processorArchitecture=MSIL">
-      <HintPath>..\packages\GoogleAnalyticsTracker.MVC5.4.6.7\lib\net45\GoogleAnalyticsTracker.MVC5.dll</HintPath>
-    </Reference>
-    <Reference Include="GoogleMaps.LocationServices, Version=0.1.6329.16944, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GoogleMaps.LocationServices.1.2.0.1\lib\net40\GoogleMaps.LocationServices.dll</HintPath>
-    </Reference>
-    <Reference Include="jQueryDataTable.DynamicLinq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jQueryDataTable.DynamicLinq.1.0.2\lib\net45\jQueryDataTable.DynamicLinq.dll</HintPath>
+      <HintPath>..\packages\FluentValidation.ValidatorAttribute.8.1.3\lib\net45\FluentValidation.ValidatorAttribute.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MaxMind.Db, Version=2.0.0.0, Culture=neutral, PublicKeyToken=66afa4cc5ae853ac, processorArchitecture=MSIL">
       <HintPath>..\packages\MaxMind.Db.2.4.0\lib\net45\MaxMind.Db.dll</HintPath>
@@ -137,14 +99,17 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MiniProfiler, Version=3.2.0.157, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
       <HintPath>..\packages\MiniProfiler.3.2.0.157\lib\net40\MiniProfiler.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MiniProfiler.Mvc, Version=3.0.11.0, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
       <HintPath>..\packages\MiniProfiler.MVC4.3.0.11\lib\net40\MiniProfiler.Mvc.dll</HintPath>
@@ -186,7 +151,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -197,8 +162,8 @@
       <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -688,6 +653,54 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="GoogleMaps.LocationServices.readme.txt" />
+    <Content Include="Plugins\EF.Facebook\Autofac.dll" />
+    <Content Include="Plugins\EF.Facebook\Autofac.Integration.Mvc.dll" />
+    <Content Include="Plugins\EF.Facebook\Autofac.Integration.Mvc.xml" />
+    <Content Include="Plugins\EF.Facebook\Autofac.xml" />
+    <Content Include="Plugins\EF.Facebook\AutoMapper.dll" />
+    <Content Include="Plugins\EF.Facebook\AutoMapper.pdb" />
+    <Content Include="Plugins\EF.Facebook\AutoMapper.xml" />
+    <Content Include="Plugins\EF.Facebook\Content\facebookstyles.css" />
+    <Content Include="Plugins\EF.Facebook\Content\Images\facebook-signing.png" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.AspNet.dll" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.AspNet.xml" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.Core.dll" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.Core.xml" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.OAuth.Consumer.dll" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.OAuth.Consumer.xml" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.OAuth.dll" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.OAuth.xml" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.OpenId.dll" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.OpenId.RelyingParty.dll" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.OpenId.RelyingParty.xml" />
+    <Content Include="Plugins\EF.Facebook\DotNetOpenAuth.OpenId.xml" />
+    <Content Include="Plugins\EF.Facebook\EF.Core.dll" />
+    <Content Include="Plugins\EF.Facebook\EF.Core.pdb" />
+    <Content Include="Plugins\EF.Facebook\EF.Data.dll" />
+    <Content Include="Plugins\EF.Facebook\EF.Data.pdb" />
+    <Content Include="Plugins\EF.Facebook\EF.Facebook.dll" />
+    <Content Include="Plugins\EF.Facebook\EF.Facebook.pdb" />
+    <Content Include="Plugins\EF.Facebook\EF.Services.dll" />
+    <Content Include="Plugins\EF.Facebook\EF.Services.pdb" />
+    <Content Include="Plugins\EF.Facebook\EntityFramework.dll" />
+    <Content Include="Plugins\EF.Facebook\EntityFramework.xml" />
+    <Content Include="Plugins\EF.Facebook\FluentValidation.dll" />
+    <Content Include="Plugins\EF.Facebook\FluentValidation.xml" />
+    <Content Include="Plugins\EF.Facebook\logo.jpg" />
+    <Content Include="Plugins\EF.Facebook\Mono.Math.dll" />
+    <Content Include="Plugins\EF.Facebook\Mono.Math.xml" />
+    <Content Include="Plugins\EF.Facebook\Org.Mentalis.Security.Cryptography.dll" />
+    <Content Include="Plugins\EF.Facebook\Org.Mentalis.Security.Cryptography.xml" />
+    <Content Include="Plugins\EF.Facebook\System.Data.SqlServerCe.dll" />
+    <Content Include="Plugins\EF.Facebook\System.Linq.Dynamic.dll" />
+    <Content Include="Plugins\EF.Facebook\System.ValueTuple.dll" />
+    <Content Include="Plugins\EF.Facebook\System.ValueTuple.xml" />
+    <Content Include="Plugins\EF.Facebook\System.Web.Mvc.dll" />
+    <Content Include="Plugins\EF.Facebook\System.Web.Mvc.xml" />
+    <Content Include="Plugins\EF.Facebook\TrackerEnabledDbContext.Common.dll" />
+    <Content Include="Plugins\EF.Facebook\TrackerEnabledDbContext.dll" />
+    <Content Include="Plugins\EF.Facebook\Wibci.CountryReverseGeocode.dll" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -779,14 +792,6 @@
     <Content Include="Scripts\Developer\js\isotope.min.js" />
     <Content Include="Scripts\Developer\js\loadimages.min.js" />
     <Content Include="Scripts\Developer\js\Onepagenav.min.js" />
-    <Content Include="Scripts\dropzone\basic.css" />
-    <Content Include="Scripts\dropzone\basic.min.css" />
-    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
-    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
-    <Content Include="Scripts\dropzone\dropzone.css" />
-    <Content Include="Scripts\dropzone\dropzone.js" />
-    <Content Include="Scripts\dropzone\dropzone.min.css" />
-    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -1674,6 +1679,12 @@
     <Content Include="Areas\Admin\Views\ProductCategory\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\List.cshtml" />
+    <Content Include="Plugins\EF.Facebook\EF.Core.dll.config" />
+    <Content Include="Plugins\EF.Facebook\EF.Facebook.dll.config" />
+    <Content Include="Plugins\EF.Facebook\EF.Services.dll.config" />
+    <Content Include="Plugins\EF.Facebook\Views\SocialAuthFacebook\Configure.cshtml" />
+    <Content Include="Plugins\EF.Facebook\Views\SocialAuthFacebook\Info.cshtml" />
+    <Content Include="Plugins\EF.Facebook\web.config" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -2448,12 +2459,29 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Plugins\" />
     <Folder Include="Uploads\files\" />
     <Folder Include="Uploads\thumbnails\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EF.Core\EF.Core.csproj">
+      <Project>{da2d8945-8eeb-4526-b2d5-9a841aa81d63}</Project>
+      <Name>EF.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EF.Data\EF.Data.csproj">
+      <Project>{6e1f89d6-f39d-4550-9234-e07faf830103}</Project>
+      <Name>EF.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EF.Facebook\EF.Facebook.csproj">
+      <Project>{446fed73-bca1-4d8f-bc13-ea1507c7ef29}</Project>
+      <Name>EF.Facebook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EF.Services\EF.Services.csproj">
+      <Project>{ed4f047d-7080-46e0-ae37-755c3d7c6c5f}</Project>
+      <Name>EF.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

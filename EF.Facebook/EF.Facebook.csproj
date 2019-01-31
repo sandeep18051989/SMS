@@ -62,12 +62,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
-    <Reference Include="EF.Core">
-      <HintPath>..\EF.Core\bin\Debug\EF.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="EF.Services">
-      <HintPath>..\EF.Services\bin\Debug\EF.Services.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
       <Private>False</Private>
@@ -103,6 +97,7 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -139,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\SocialAuthFacebookController.cs" />
+    <Compile Include="Core\FacebookOAuth2Client.cs" />
     <Compile Include="Core\FacebookProviderAuthorizer.cs" />
     <Compile Include="Core\IOAuthProviderFacebookAuthorizer.cs" />
     <Compile Include="Core\OAuthAuthenticationParameters.cs" />
@@ -158,9 +154,6 @@
     <Content Include="Content\Images\facebook-signing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Description.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="logo.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -179,6 +172,16 @@
     <Content Include="web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EF.Core\EF.Core.csproj">
+      <Project>{da2d8945-8eeb-4526-b2d5-9a841aa81d63}</Project>
+      <Name>EF.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EF.Services\EF.Services.csproj">
+      <Project>{ed4f047d-7080-46e0-ae37-755c3d7c6c5f}</Project>
+      <Name>EF.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

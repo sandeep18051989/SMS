@@ -49,7 +49,6 @@ namespace EF.Services
         public virtual void SignIn(User user, bool createPersistentCookie)
         {
             var now = DateTime.UtcNow.ToLocalTime();
-
             var ticket = new FormsAuthenticationTicket(
                 1 /*version*/,
                 user.UserName,

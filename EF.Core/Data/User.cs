@@ -24,9 +24,9 @@ namespace EF.Core.Data
         public string LastName { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
-        public string CityId { get; set; }
-        public string CoverPictureId { get; set; }
-        public string ProfilePictureId { get; set; }
+        public int? CityId { get; set; }
+        public int? CoverPictureId { get; set; }
+        public int? ProfilePictureId { get; set; }
 
         #region Navigation Properties
         public virtual ICollection<UserRole> Roles

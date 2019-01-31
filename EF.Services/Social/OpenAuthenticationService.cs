@@ -65,6 +65,8 @@ namespace EF.Services.Social
                 OAuthToken = parameters.OAuthToken,
                 OAuthAccessToken = parameters.OAuthAccessToken,
                 ProviderSystemName = parameters.ProviderSystemName,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now
             };
 
             _socialRecordRepository.Insert(socialRecord);
