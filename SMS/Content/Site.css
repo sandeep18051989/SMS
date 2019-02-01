@@ -286,3 +286,7 @@ i.green-text{font-size:16px;}
     color: #fff;
 }
 /* GRITTER END */
+
+.block-with-text{overflow: hidden;position: relative;line-height: 1.2em;max-height: 2.4em; text-align: justify !important;padding-right: 40px;padding-left: 1em;}
+.block-with-text:before {content: '...';position: absolute;right: 20px;bottom: 0;}
+.block-with-text:after{content: '';position: absolute;right: 20px;width: 1em;height: 1em;margin-top: 0.2em;background: white;}

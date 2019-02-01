@@ -79,8 +79,8 @@
 									"className": 'text-center',
 									"render": function(data, type, row) {
 										if (type === "display") {
-											var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-info btn-rounded btn-sm my-0" data-file="' + row.FileId + '" data-teacher="' + row.TeacherId + '" id="fileupd_' + row.FileId + '" title="Update File"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
-											dateTemplate += '&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="filedel_' + row.FileId + '" title="Delete File"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
+											var dateTemplate = '<div class="md-form form-group"><button type="button" class="btn btn-info btn-rounded btn-sm my-0" data-file="' + row.Id + '" data-teacher="' + row.TeacherId + '" id="fileupd_' + row.Id + '" title="Update File"><i class="fa fa-refresh" aria-hidden="true">&nbsp;&nbsp;</i>Update</button>';
+											dateTemplate += '&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-rounded btn-sm my-0" id="filedel_' + row.Id + '" title="Delete File"><i class="fa fa-trash-o" aria-hidden="true">&nbsp;&nbsp;</i>Delete</button></div>';
 											return dateTemplate;
 										}
 										return data;
@@ -94,7 +94,8 @@
 							}
 						});
 
-						$('#addFile').click(function() {
+					    $('#addFile').click(function () {
+					        debugger;
 							var fileId = $("#@Html.IdFor(model => model.FileId)").val();
                             var teacherId = $("#@Html.IdFor(model => model.Id)").val();
 							if (fileId === 0) {

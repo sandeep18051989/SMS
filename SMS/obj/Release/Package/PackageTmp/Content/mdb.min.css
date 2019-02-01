@@ -1997,7 +1997,8 @@ body {
 
 	.view img, .view video {
 		position: relative;
-		display: block
+		display: block;
+        margin:0 auto;
 	}
 
 		.view video.video-intro {

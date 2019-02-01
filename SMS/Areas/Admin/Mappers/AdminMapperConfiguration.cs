@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EF.Core.Data;
 using SMS.Models;
+using SMS.Models.Widgets;
 using EF.Services.Http;
 using SMS.Areas.Admin.Models;
 
@@ -22,7 +23,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)));
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
                 cfg.CreateMap<BlogModel, Blog>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
@@ -167,7 +168,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableTemplates, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)))
                     .ForMember(dest => dest.template, mo => mo.Ignore());
                 cfg.CreateMap<CustomPageModel, CustomPage>()
                     .ForMember(dest => dest.PermissionRecord, mo => mo.Ignore())
@@ -209,12 +210,29 @@ namespace SMS.Areas.Admin.Mappers
                 cfg.CreateMap<CommentModel, Comment>()
                     .ForMember(dest => dest.Blogs, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore())
+                    .ForMember(dest => dest.DivisionExams, mo => mo.Ignore())
+                    .ForMember(dest => dest.DivisionHomeworks, mo => mo.Ignore())
+                    .ForMember(dest => dest.News, mo => mo.Ignore())
+                    .ForMember(dest => dest.Products, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Events, mo => mo.Ignore());
+
+                cfg.CreateMap<Comment, CommentWidgetModel>()
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.ProfilePictureSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.Replies, mo => mo.Ignore());
+                cfg.CreateMap<CommentWidgetModel, Comment>()
+                    .ForMember(dest => dest.Blogs, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore())
                     .ForMember(dest => dest.DivisionExams, mo => mo.Ignore())
                     .ForMember(dest => dest.DivisionHomeworks, mo => mo.Ignore())
                     .ForMember(dest => dest.News, mo => mo.Ignore())
                     .ForMember(dest => dest.Products, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.StudentExams, mo => mo.Ignore())
+                    .ForMember(dest => dest.StudentHomeworks, mo => mo.Ignore())
+                    .ForMember(dest => dest.TeacherExams, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.Events, mo => mo.Ignore());
 
@@ -354,7 +372,7 @@ namespace SMS.Areas.Admin.Mappers
                      .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                      .ForMember(dest => dest.PictureId, mo => mo.Ignore())
                      .ForMember(dest => dest.VideoId, mo => mo.Ignore())
-                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
+                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)))
                      .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                      .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                      .ForMember(dest => dest.Url, mo => mo.Ignore());
@@ -385,7 +403,7 @@ namespace SMS.Areas.Admin.Mappers
                      .ForMember(dest => dest.ModifiedOnString, mo => mo.MapFrom(src => src.ModifiedOn.ToString("U")))
                      .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                      .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
-                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)));
+                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
                 cfg.CreateMap<NewsModel, News>()
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
@@ -579,7 +597,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableProductCategories, mo => mo.Ignore())
                     .ForMember(dest => dest.Selected, mo => mo.Ignore())
                     .ForMember(dest => dest.Url, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)))
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ProductCategory, mo => mo.Ignore());
@@ -595,7 +613,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.ProductCategory, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableVendors, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)))
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore());
@@ -698,6 +716,18 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.Comment, mo => mo.Ignore());
 
+                cfg.CreateMap<Reply, ReplyWidgetModel>()
+                    .ForMember(dest => dest.ProfilePictureSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.EmployeeName, mo => mo.Ignore());
+                cfg.CreateMap<ReplyWidgetModel, Reply>()
+                    .ForMember(dest => dest.Student, mo => mo.Ignore())
+                    .ForMember(dest => dest.Teacher, mo => mo.Ignore())
+                    .ForMember(dest => dest.Reactions, mo => mo.Ignore())
+                    .ForMember(dest => dest.User, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Comment, mo => mo.Ignore());
+
                 cfg.CreateMap<Reply, ReplyModel>()
                     .ForMember(dest => dest.Student, mo => mo.Ignore())
                     .ForMember(dest => dest.Teacher, mo => mo.Ignore())
@@ -721,7 +751,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Events, mo => mo.Ignore())
                     .ForMember(dest => dest.News, mo => mo.Ignore())
                     .ForMember(dest => dest.ProfilePicture, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)))
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.CoverPicture, mo => mo.Ignore());
@@ -736,7 +766,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableDivisions, mo => mo.Ignore())
                     .ForMember(dest => dest.FileId, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableReligions, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)))
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)))
                     .ForMember(dest => dest.AvailableHouses, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableCastes, mo => mo.Ignore())
                     .ForMember(dest => dest.MotherPicture, mo => mo.Ignore())
@@ -868,13 +898,28 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Url, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
-                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true, false)));
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
                 cfg.CreateMap<TeacherModel, Teacher>()
                     .ForMember(dest => dest.Qualification, mo => mo.Ignore())
                     .ForMember(dest => dest.MessageGroups, mo => mo.Ignore())
                     .ForMember(dest => dest.ClassRoomDivisions, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.Qualification, mo => mo.Ignore())
+                    .ForMember(dest => dest.PersonalityStatus, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Subjects, mo => mo.Ignore());
+
+                cfg.CreateMap<Teacher, TeacherWidgetModel>()
+                    .ForMember(dest => dest.ProfilePicture, mo => mo.Ignore())
+                    .ForMember(dest => dest.Qualification, mo => mo.Ignore())
+                    .ForMember(dest => dest.Subjects, mo => mo.Ignore())
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
+                cfg.CreateMap<TeacherWidgetModel, Teacher>()
+                    .ForMember(dest => dest.Qualification, mo => mo.Ignore())
+                    .ForMember(dest => dest.MessageGroups, mo => mo.Ignore())
+                    .ForMember(dest => dest.ClassRoomDivisions, mo => mo.Ignore())
+                    .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.PersonalityStatus, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())

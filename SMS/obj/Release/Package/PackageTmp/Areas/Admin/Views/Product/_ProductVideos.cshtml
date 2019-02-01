@@ -59,7 +59,7 @@
 											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="startvid_' + row.VideoId + '"';
 											dateTemplate += ' data-value="' + moment(row.StartDate).format("YYYY/MM/DD") + '"';
 											dateTemplate +=' aria-label="Start Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
-											dateTemplate += ' $("#startvid_' + row.VideoId + '").pickadate({format: "dd mmmm, yyyy",min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD")),selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("YYYY/MM/DD"))});';
+											dateTemplate += ' $("#startvid_' + row.VideoId + '").pickadate({format: "dd mmmm, yyyy",selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("YYYY/MM/DD"))});';
 											dateTemplate += 'var $input' + row.VideoId + ' = $("#startvid_' + row.VideoId + '").pickadate();';
 											dateTemplate += 'var picker' + row.VideoId + ' = $input' + row.VideoId + '.pickadate("picker");';
 											dateTemplate += 'picker' + row.VideoId + '.set("select", "' + (row.StartDate != null && row.StartDate !== "" ? new Date(moment(row.StartDate).format("YYYY/MM/DD")) : "") + '");';
@@ -81,7 +81,7 @@
 											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="endvid_' + row.VideoId + '"';
 											dateTemplate += ' data-value="' + moment(row.EndDate).format("DD MMMM, YYYY") + '" value="' + moment(row.EndDate).format("YYYY/MM/DD") + '"';
 											dateTemplate += ' aria-label="End Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
-											dateTemplate += ' $("#endvid_' + row.VideoId + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false,min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD"))});';
+											dateTemplate += ' $("#endvid_' + row.VideoId + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false });';
 											dateTemplate += 'var $inputend' + row.VideoId + ' = $("#endvid_' + row.VideoId + '").pickadate();';
 											dateTemplate += 'var pickerend' + row.VideoId + ' = $inputend' + row.VideoId + '.pickadate("picker");';
 											dateTemplate += '$("#endvid_' + row.VideoId + '").val($("#endvid_' + row.VideoId + '").attr("data-value"));';

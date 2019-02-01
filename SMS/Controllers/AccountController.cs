@@ -161,7 +161,7 @@ namespace SMS.Controllers
 
                             foreach (var dt in tokens)
                             {
-                                Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), $"[{dt.Name}]", dt.Value, StringComparison.InvariantCulture);
+                                Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
                             }
                         }
 
@@ -267,7 +267,7 @@ namespace SMS.Controllers
                 //                    {
                 //                        foreach (DataToken userdt in _lstTokens)
                 //                        {
-                //                            _templateContent.BodyHtml = EF.Services.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + userdt.Name + "]", userdt.Value, StringComparison.InvariantCulture);
+                //                            _templateContent.BodyHtml = EF.Services.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + userdt.SystemName + "]", userdt.Value, StringComparison.InvariantCulture);
                 //                        }
                 //                    }
 

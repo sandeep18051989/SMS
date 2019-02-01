@@ -66,7 +66,7 @@ namespace EF.Services.Service
 
 		void ToggleNewsPictureDefault(int id, int pictureid);
 
-		IList<EventPicture> GetEventPictureByEventId(int id);
+		IList<EventPicture> GetEventPicturesByEvent(int id);
 
 		IList<BlogPicture> GetBlogPictureByBlogId(int id);
 

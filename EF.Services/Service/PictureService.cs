@@ -18,7 +18,11 @@ namespace EF.Services.Service
 		private readonly IRepository<BlogPicture> _blogPictureRepository;
 		private readonly IRepository<ProductPicture> _productPictureRepository;
 		private readonly IRepository<NewsPicture> _newsPictureRepository;
-		public PictureService(IRepository<Picture> pictureRepository, IRepository<EventPicture> eventPictureRepository, IRepository<BlogPicture> blogPictureRepository, IRepository<ProductPicture> productPictureRepository, IRepository<NewsPicture> newsPictureRepository)
+        public PictureService(IRepository<Picture> pictureRepository, 
+            IRepository<EventPicture> eventPictureRepository, 
+            IRepository<BlogPicture> blogPictureRepository, 
+            IRepository<ProductPicture> productPictureRepository, 
+            IRepository<NewsPicture> newsPictureRepository)
 		{
 			this._pictureRepository = pictureRepository;
 			this._eventPictureRepository = eventPictureRepository;
@@ -444,7 +448,7 @@ namespace EF.Services.Service
 			}
 		}
 
-		public IList<EventPicture> GetEventPictureByEventId(int id)
+		public IList<EventPicture> GetEventPicturesByEvent(int id)
 		{
 			if (id == 0)
 				throw new Exception("Event id is missing");
@@ -453,7 +457,7 @@ namespace EF.Services.Service
 
 		}
 
-		public IList<BlogPicture> GetBlogPictureByBlogId(int id)
+        public IList<BlogPicture> GetBlogPictureByBlogId(int id)
 		{
 			if (id == 0)
 				throw new Exception("Blog id is missing");

@@ -38,9 +38,9 @@
 	<header>
 		@Html.Action("CommonLinks", "Common")
 	</header>
-	<main class="mt-5 common-layout">
+	<div class="container-fluid mt-5">
 		@RenderBody()
-	</main>
+	</div>
 	@Html.Partial("_Footer")
 	@Scripts.Render("~/Scripts/boot")
 	@Scripts.Render("~/Scripts/mdb")

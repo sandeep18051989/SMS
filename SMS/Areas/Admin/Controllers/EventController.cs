@@ -87,11 +87,6 @@ namespace SMS.Areas.Admin.Controllers
 				// Getting all data    
 				var eventData = (from tempevents in _eventService.GetAllEvents() select tempevents);
 
-				//Sorting    
-				//if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-				//{
-				//	eventData = eventData.AsEnumerable().OrderBy($"{sortColumn} {sortColumnDir}");
-				//}
 				//Search    
 				if (!string.IsNullOrEmpty(searchValue))
 				{
@@ -113,7 +108,7 @@ namespace SMS.Areas.Admin.Controllers
 						recordsTotal = recordsTotal,
 						data = data.Select(x => new EventListModel()
 						{
-							Description = !string.IsNullOrEmpty(x.Description) ? x.Description : "",
+							Headline = !string.IsNullOrEmpty(x.Headline) ? x.Headline : "",
 							Venue = !string.IsNullOrEmpty(x.Venue) ? x.Venue : "",
 							CommentsCount = x.Comments.Count,
 							Id = x.Id,
@@ -147,7 +142,7 @@ namespace SMS.Areas.Admin.Controllers
 		{
 			try
 			{
-				var eventData = (from associatedpicture in _pictureService.GetEventPictureByEventId(id) select associatedpicture).OrderByDescending(eve => eve.CreatedOn).ToList();
+				var eventData = (from associatedpicture in _pictureService.GetEventPicturesByEvent(id) select associatedpicture).OrderByDescending(eve => eve.CreatedOn).ToList();
 				return new JsonResult()
 				{
 					Data = new
@@ -596,7 +591,7 @@ namespace SMS.Areas.Admin.Controllers
 				throw new ArgumentNullException();
 
 			var lstEventPictures = new List<EventPictureModel>();
-			var result = _pictureService.GetEventPictureByEventId(id);
+			var result = _pictureService.GetEventPicturesByEvent(id);
 			foreach (var x in result)
 			{
 				var eventpic = x.ToModel();

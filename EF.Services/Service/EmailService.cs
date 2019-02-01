@@ -257,7 +257,7 @@ namespace EF.Services.Service
 
             foreach (var dt in tokens)
             {
-                template.BodyHtml = CodeHelper.Replace(template.BodyHtml.ToString(), $"[{dt.Name}]", dt.Value, StringComparison.InvariantCulture);
+                template.BodyHtml = CodeHelper.Replace(template.BodyHtml.ToString(), $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
             }
 
             var toEmail = user.Email;

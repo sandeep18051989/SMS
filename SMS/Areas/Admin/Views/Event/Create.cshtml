@@ -66,12 +66,21 @@
 											<div class="col-md-6 mb-4">
 												<div class="md-form">
 													<i class="fa fa-play-circle-o prefix"></i>
-													@Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "200", @title = "Name" } })
+													@Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "200", @title = "Name", @onkeypress = "return blockSpecialChar(event);" } })
 													@Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
 													@Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
 												</div>
 											</div>
 										</div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.TextAreaFor(model => model.HeadLine, new { @class = "md-textarea form-control", @tabindex = "2", @maxlength = "500", @rows = "3", @type = "text", @onkeypress = "return blockSpecialChar(event);" })
+                                                    @Html.LabelFor(model => model.HeadLine, "Headline", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.HeadLine, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
 										<div class="row text-left">
 											<div class="col-md-8 mb-4">
 												<div class="md-form">
@@ -86,7 +95,7 @@
 											<div class="col-md-6 mb-4">
 												<div class="md-form">
 													<i class="fa fa-map-marker prefix"></i>
-													@Html.EditorFor(model => model.Venue, new { htmlAttributes = new { @class = "form-control", @tabindex = "3", @maxlength = "50" } })
+													@Html.EditorFor(model => model.Venue, new { htmlAttributes = new { @class = "form-control", @tabindex = "4", @maxlength = "100", @onkeypress = "return blockSpecialChar(event);" } })
 													@Html.LabelFor(model => model.Venue, "Location", htmlAttributes: new { @class = "control-label" })
 													@Html.ValidationMessageFor(model => model.Venue, "", new { @class = "text-danger" })
 												</div>
@@ -116,7 +125,7 @@
 											<div class="col-md-6 mb-4">
 												<div class="md-form">
 													<i class="fa fa-link prefix"></i>
-													@Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "6", @maxlength = "50" } })
+													@Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "7", @maxlength = "50", @onkeypress = "return blockSpecialChar(event);" } })
 													@Html.LabelFor(model => model.SystemName, "System Name", htmlAttributes: new { @class = "control-label" })
 													@Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
 												</div>
@@ -125,7 +134,7 @@
 										<div class="row text-left">
 											<div class="col-md-6 mb-4">
 												<div class="md-form">
-													@Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "7" })
+													@Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "8" })
 													@Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
 													@Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
 												</div>
@@ -133,14 +142,14 @@
 										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="8" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
+												<input type="checkbox" tabindex="9" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="9" id="IsApproved" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
+												<input type="checkbox" tabindex="10" id="IsApproved" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
 												@Html.LabelFor(model => model.IsApproved, "Approved", htmlAttributes: new { })
 												@Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
 											</div>

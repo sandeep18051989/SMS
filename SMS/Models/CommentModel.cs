@@ -26,6 +26,8 @@ namespace SMS.Models
         public int HomeworkId { get; set; }
         public int ExamId { get; set; }
         public int DisplayOrder { get; set; }
+        public int Likes { get; set; }
+        public int DisLikes { get; set; }
         [AllowHtml]
         public string CommentHtml { get; set; }
         public string Username { get; set; }

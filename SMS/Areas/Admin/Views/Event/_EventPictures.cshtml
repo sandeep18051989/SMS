@@ -55,9 +55,8 @@
 										if (type === "display") {
 											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="startpic_' + row.PictureId + '"';
 											dateTemplate += ' data-value="' + moment(row.StartDate).format("YYYY/MM/DD") + '"';
-											dateTemplate +=
-                                                ' aria-label="Start Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
-											dateTemplate += ' $("#startpic_' + row.PictureId + '").pickadate({format: "dd mmmm, yyyy",min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD")),selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("YYYY/MM/DD"))});';
+											dateTemplate += ' aria-label="Start Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
+											dateTemplate += ' $("#startpic_' + row.PictureId + '").pickadate({format: "dd mmmm, yyyy",selectYears: false,selectMonths: false,max:new Date(moment("' + row.EndDate + '").format("YYYY/MM/DD"))});';
 											dateTemplate += 'var $input' + row.PictureId + ' = $("#startpic_' + row.PictureId + '").pickadate();';
 											dateTemplate += 'var picker' + row.PictureId + ' = $input' + row.PictureId + '.pickadate("picker");';
 											dateTemplate += 'picker' + row.PictureId + '.set("select", "' + (row.StartDate != null && row.StartDate !== "" ? new Date(moment(row.StartDate).format("YYYY/MM/DD")) : "") + '");';
@@ -79,7 +78,7 @@
 											var dateTemplate = '<div class="md-form form-group"><i class="fa fa-caledar-alt prefix"></i><input  data-val-required="true" type="text" id="endpic_' + row.PictureId + '"';
 											dateTemplate += ' data-value="' + moment(row.EndDate).format("DD MMMM, YYYY") + '" value="' + moment(row.EndDate).format("YYYY/MM/DD") + '"';
 											dateTemplate += ' aria-label="End Date" class="form-control datepicker" style= "width:200px"><script type="text/javascript">$(function () {';
-											dateTemplate += ' $("#endpic_' + row.PictureId + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false,min:new Date(moment("' + row.StartDate + '").format("YYYY/MM/DD"))});';
+											dateTemplate += ' $("#endpic_' + row.PictureId + '").pickadate({format:"dd mmmm, yyyy",selectYears: false,selectMonths: false });';
 											dateTemplate += 'var $inputend' + row.PictureId + ' = $("#endpic_' + row.PictureId + '").pickadate();';
 											dateTemplate += 'var pickerend' + row.PictureId + ' = $inputend' + row.PictureId + '.pickadate("picker");';
 											dateTemplate += '$("#endpic_' + row.PictureId + '").val($("#endpic_' + row.PictureId + '").attr("data-value"));';

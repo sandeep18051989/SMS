@@ -7,11 +7,9 @@
 				<table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="teachersubject-grid">
 					<thead class="mdb-color lighten-5">
 						<tr>
-							<th>Code</th>
+							<th class="text-center">Code</th>
 							<th class="text-center">Name</th>
-							<th class="text-left">Remarks</th>
-							<th>Active</th>
-							<th>Actions</th>
+							<th class="text-center">Actions</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -36,24 +34,6 @@
 							"columns": [
                                 { "data": "Code", "title": "Code", "name": "Code", "autoWidth": true, "defaultContent": "", "className": "text-center" },
                                 { "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center" },
-                                { "data": "Remarks", "title": "Remarks", "name": "Remarks", "autoWidth": true, "defaultContent": "", "className": "text-center" },
-                                {
-                                    "data": "IsActive",
-                                    "title": "Active",
-                                    "render": function (data, type, row) {
-                                        if (type === "display") {
-                                            if (row.IsActive) {
-                                                return '<i class="fa fa-2x fa-check-circle" aria-hidden="true"></i>';
-                                            } else {
-                                                return '<i class="fa fa-2x fa-close" aria-hidden="true"></i>';
-                                            }
-                                        }
-                                        return data;
-                                    },
-                                    "className": "text-center",
-                                    "orderable": false,
-                                    "defaultContent": ""
-                                },
                                 {
 									"title": "Actions",
 									"orderable": false,
@@ -81,8 +61,9 @@
                                 url: "@(Url.Action("GetAllSubjectsByTeacher", "Teacher"))",
                                 data: { 'teacherid' : @(Model.Id) },
                                 success: function (data, result) {
+                                    debugger;
                                     if(result === "success"){
-                                        $("#content-body").html('');
+                                        $("#subject-body").html('');
                                         var htmContent = '';
                                         htmContent += '<table class="table table-bordered">';
                                         htmContent += '<thead>';
@@ -103,7 +84,7 @@
                                         }
                                         htmContent += '</tbody>';
                                         htmContent += '</table>';
-                                        $("#content-body").html(htmContent);
+                                        $("#subject-body").html(htmContent);
                                         $('#listSubjectsModal').modal('show');
                                         // Select Default Checkbox
                                         var childRecords = $("#listSubjectsModal").find('table tbody input[type=checkbox]');
@@ -140,7 +121,7 @@
                             });
                         });
 
-					    $(document).on("change","#content-body table tbody .subject-custom-control-input[type=checkbox]", function(){
+					    $(document).on("change","#subject-body table tbody .subject-custom-control-input[type=checkbox]", function(){
                             var childRecords = $(this).closest('table').find('tbody input[type=checkbox]');
                             var allSelected = true;
                             if(childRecords.length > 0){
@@ -289,23 +270,6 @@
                 <button type="button" id="add-subjects" class="btn btn-primary pull-right" data-toggle="modal" data-target="#listSubjectsModal"><i class="fa fa-plus-circle"></i> Add Existing Subjects</button>
 			</div>
 		</div>
-        <!-- Modal -->
-        <div class="modal fade" id="listSubjectsModal" tabindex="-1" role="dialog" aria-labelledby="modalSubjects" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div id="content-body" class="col-lg-12">
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" id="submit-subjects" class="btn btn-primary"> Add To Teacher <i class="fa fa-book ml-2" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     }
     else
     {

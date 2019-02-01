@@ -22,22 +22,20 @@ namespace EF.Services.Http
 		public static string GetSystemName<T>(this T entity)
 				where T : BaseEntity, ISlugSupported
 		{
-			return GetSystemName(entity, true, true);
+			return GetSystemName(entity, true);
 		}
 
-		public static string GetSystemName<T>(this T entity, bool returnDefaultValue = true,
-			 bool ensureTwoPublishedLanguages = true)
+		public static string GetSystemName<T>(this T entity, bool returnDefaultValue = true)
 			 where T : BaseEntity, ISlugSupported
 		{
 			if (entity == null)
 				throw new ArgumentNullException("entity");
 
 			string entityName = typeof(T).Name;
-			return GetSystemName(entity.Id, entityName, returnDefaultValue, ensureTwoPublishedLanguages);
+			return GetSystemName(entity.Id, entityName, returnDefaultValue);
 		}
 
-		public static string GetSystemName(int entityId, string entityName, bool returnDefaultValue = true,
-			 bool ensureTwoPublishedLanguages = true)
+		public static string GetSystemName(int entityId, string entityName, bool returnDefaultValue = true)
 		{
 			string result = string.Empty;
 
@@ -88,7 +86,7 @@ namespace EF.Services.Http
 			{
 				var urlRecord = urlRecordService.GetBySlug(tempSystemName);
 				var reserved1 = urlRecord != null && !(urlRecord.EntityId == entityId && urlRecord.EntityName.Equals(entityName, StringComparison.InvariantCultureIgnoreCase));
-				var resurvedSlugs = new string[] { "admin", "install", "login", "register", "logout", "contactus", "passwordrecovery", "subscribenewsletter", "blog", "news", "search", "page-not-found" };
+				var resurvedSlugs = new string[] { "admin", "install", "login", "register", "logout", "contactus", "passwordrecovery", "subscribenewsletter", "blogs", "news", "events", "students", "teachers", "employees", "users", "search", "page-not-found" };
 				var reserved2 = resurvedSlugs.Contains(tempSystemName, StringComparer.InvariantCultureIgnoreCase);
 				if (!reserved1 && !reserved2)
 					break;

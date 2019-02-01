@@ -2147,6 +2147,7 @@
     <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />
     <Compile Include="Areas\Admin\Models\AuditListModel.cs" />
     <Compile Include="Controllers\DeveloperController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\SocialController.cs" />
     <Compile Include="Models\AssignStudentsModel.cs" />
     <Compile Include="Models\AssignQuestionsModel.cs" />
@@ -2163,6 +2164,10 @@
     <Compile Include="Areas\Admin\Models\RolePermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\PermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\NotificationModel.cs" />
+    <Compile Include="Models\Widgets\TeacherWidgetModel.cs" />
+    <Compile Include="Models\Widgets\ReplyWidgetModel.cs" />
+    <Compile Include="Models\Widgets\CommentWidgetModel.cs" />
+    <Compile Include="Models\Widgets\EventWidgetModel.cs" />
     <Compile Include="Models\ReplyModel.cs" />
     <Compile Include="Models\SettingsViewModel.cs" />
     <Compile Include="Models\MenuSettingsModel.cs" />
@@ -2450,6 +2455,7 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Social\OtherLogins.cshtml" />
     <Content Include="Views\Shared\_SocialSettingsLayout.cshtml" />
+    <Content Include="Views\Teacher\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

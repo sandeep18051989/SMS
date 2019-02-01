@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace EF.Core.Data
 {
@@ -17,11 +18,13 @@ namespace EF.Core.Data
 		public string Title { get; set; }
 		public DateTime? StartDate { get; set; }
 		public DateTime? EndDate { get; set; }
+        public String Headline { get; set; }
+        [AllowHtml]
 		public string Description { get; set; }
 		public bool IsClosed { get; set; }
 		public bool IsApproved { get; set; }
 		public string Venue { get; set; }
-		public string SeoName { get; set; }
+		public string SystemName { get; set; }
 		public string Latitude { get; set; }
 		public string Longitude { get; set; }
 		public bool IsDeleted { get; set; }

@@ -74,14 +74,14 @@
                                                 <div class="form-row">
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            <i class="fa fa-user-circle prefix"></i>
+                                                            <span><i class="fa fa-user-circle"></i>&nbsp;Profile Picture</span>
                                                             @Html.EditorFor(model => model.ProfilePictureId, "Picture", "ProfilePictureId")
                                                             @Html.ValidationMessageFor(model => model.ProfilePictureId, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="md-form">
-                                                            <i class="fa fa-user-circle prefix"></i>
+                                                            <span><i class="fa fa-user-circle"></i>&nbsp;Cover Picture</span>
                                                             @Html.EditorFor(model => model.CoverPictureId, "Picture", "CoverPictureId")
                                                             @Html.ValidationMessageFor(model => model.CoverPictureId, "", new { @class = "text-danger" })
                                                         </div>

@@ -47,7 +47,7 @@ namespace SMS.Models
 		public string AcadmicYear { get; set; }
 		public int ImpersonateId { get; set; }
 		[UIHint("File")]
-		public int? FileId { get; set; }
+		public int FileId { get; set; }
 		public int? PersonalityStatusId { get; set; }
 
 		public bool? IsPhoneVerified { get; set; }

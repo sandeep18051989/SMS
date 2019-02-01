@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using EF.Core;
+using SMS.Mappers;
 using EF.Services.Http;
 using EF.Services.Service;
-using SMS.Models;
+using SMS.Models.Widgets;
 
 namespace SMS.Controllers
 {
@@ -49,25 +51,58 @@ namespace SMS.Controllers
 		[ChildActionOnly]
 		public ActionResult Index()
 		{
-			var model = new List<EventModel>();
-			var lstEvents = _eventService.GetActiveEvents();
+			var widgetModel = new List<EventWidgetModel>();
+			var lstEvents = _eventService.GetActiveEvents().OrderByDescending(x => x.CreatedOn).Take(4).ToList();
 			if (lstEvents.Count > 0)
 			{
 				foreach (var eve in lstEvents)
 				{
-					var eventModel = new EventModel();
-					eventModel.StartDate = eve.StartDate;
-					eventModel.EndDate = eve.EndDate;
-					eventModel.Description = eve.Description;
-					eventModel.Id = eve.Id;
-					eventModel.Title = eve.Title;
-					eventModel.UserId = eve.UserId;
-					eventModel.Venue = eve.Venue;
-					eventModel.Url = Url.RouteUrl("Event", new { name = eve.GetSystemName() });
-					model.Add(eventModel);
+					var model = new EventWidgetModel();
+                    model.StartDate = eve.StartDate;
+                    model.EndDate = eve.EndDate;
+                    model.Description = eve.Description;
+                    model.Id = eve.Id;
+                    model.Title = eve.Title;
+                    model.Venue = eve.Venue;
+                    model.SystemName = eve.GetSystemName();
+                    model.AcadmicYear = _smsService.GetAcadmicYearById(eve.AcadmicYearId).Name;
+                    model.Headline = eve.Headline;
+
+                    var eventPictures = _pictureService.GetEventPicturesByEvent(eve.Id).OrderByDescending(x => x.StartDate).ToList();
+                    model.HasDefaultPicture = eventPictures.Any(x => x.IsDefault);
+
+                    var eventVideos = _videoService.GetEventVideosByEventId(eve.Id).OrderByDescending(x => x.StartDate).ToList();
+                    model.HasDefaultVideo = eventVideos.Count > 0;
+
+                    if(eventPictures.Count > 0)
+                    {
+                        model.DefaultPictureSrc = eventPictures.FirstOrDefault(x => model.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                    }
+
+                    if(eventVideos.Count > 0)
+                    {
+                        model.DefaultVideoSrc = eventVideos.FirstOrDefault().Video.VideoSrc;
+                    }
+
+                    model.IsActive = eve.IsActive;
+                    model.IsApproved = eve.IsApproved;
+                    model.Pictures = eventPictures.Select(x => x.ToModel()).ToList();
+                    model.Videos = eventVideos.Select(x => x.ToModel()).ToList();
+                    model.Reactions = _smsService.SearchReactions(eventid: eve.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                    model.Comments = _commentService.GetCommentsByEvent(eve.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                    if(model.Comments.Count > 0)
+                    {
+                        foreach(var comment in model.Comments)
+                        {
+                            comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                        }
+                    }
+
+                    widgetModel.Add(model);
 				}
 			}
-			return PartialView(model);
+			return PartialView(widgetModel);
 		}
 
 		// GET: Event/Details/5

@@ -6,13 +6,10 @@ namespace EF.Core.Data
 {
 	public partial class Teacher : BaseEntity, ISlugSupported
 	{
-
-		[NotMapped]
-		public virtual ICollection<TeacherExam> _TeacherExams { get; set; }
-
 		public int EmployeeId { get; set; }
 		public string Name { get; set; }
-		public int QualificationId { get; set; }
+        public string SystemName { get; set; }
+        public int QualificationId { get; set; }
 		public string Username { get; set; }
 		public int ProfilePictureId { get; set; }
 		public int CoverPictureId { get; set; }
@@ -33,8 +30,12 @@ namespace EF.Core.Data
 		public int ImpersonateId { get; set; }
 		public virtual Qualification Qualification { get; set; }
 
-		[NotMapped]
+        [NotMapped]
+        public virtual ICollection<TeacherExam> _TeacherExams { get; set; }
+
+        [NotMapped]
 		public virtual ICollection<Subject> _Subjects { get; set; }
+
 		[NotMapped]
 		public virtual ICollection<ClassRoomDivision> _ClassRoomDivisions { get; set; }
 

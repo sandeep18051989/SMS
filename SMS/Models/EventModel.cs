@@ -23,6 +23,8 @@ namespace SMS.Models
 		public DateTime? StartDate { get; set; }
 		[UIHint("DateRange")]
 		public DateTime? EndDate { get; set; }
+
+        public string HeadLine { get; set; }
 		[UIHint("HtmlEditor")]
 		public string Description { get; set; }
 		public bool IsActive { get; set; }
@@ -92,6 +94,7 @@ namespace SMS.Models
 		public int PicturesCount { get; set; }
 		public int CommentsCount { get; set; }
 		public int ReactionsCount { get; set; }
-	}
+        public String Headline { get; set; }
+    }
 
 }

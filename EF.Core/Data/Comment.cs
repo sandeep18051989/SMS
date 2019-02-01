@@ -40,8 +40,9 @@ namespace EF.Core.Data
 		public string BlockReason { get; set; }
 		public int BlockedBy { get; set; }
 		public string CommentHtml { get; set; }
-
-		public bool IsDeleted { get; set; }
+        public int Likes { get; set; }
+        public int Dislikes { get; set; }
+        public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public string Username { get; set; }
 

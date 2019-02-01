@@ -4,6 +4,7 @@ using EF.Core.Mapper;
 using SMS.Models;
 using EF.Core.Data;
 using SMS.Areas.Admin.Models;
+using SMS.Models.Widgets;
 
 namespace SMS.Mappers
 {
@@ -376,11 +377,30 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region Data Token
+        #region Comment Widget
 
-		public static DataTokenModel ToModel(this DataToken entity)
+        public static CommentWidgetModel ToWidgetModel(this Comment entity)
+        {
+            return entity.MapTo<Comment, CommentWidgetModel>();
+        }
+
+        public static Comment ToEntity(this CommentWidgetModel model)
+        {
+            return model.MapTo<CommentWidgetModel, Comment>();
+        }
+
+        public static Comment ToEntity(this CommentWidgetModel model, Comment destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Data Token
+
+        public static DataTokenModel ToModel(this DataToken entity)
 		{
 			return entity.MapTo<DataToken, DataTokenModel>();
 		}
@@ -1116,11 +1136,30 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region School
+        #region Reply Widget
 
-		public static SchoolModel ToModel(this School entity)
+        public static ReplyWidgetModel ToWidgetModel(this Reply entity)
+        {
+            return entity.MapTo<Reply, ReplyWidgetModel>();
+        }
+
+        public static Reply ToEntity(this ReplyWidgetModel model)
+        {
+            return model.MapTo<ReplyWidgetModel, Reply>();
+        }
+
+        public static Reply ToEntity(this ReplyWidgetModel model, Reply destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region School
+
+        public static SchoolModel ToModel(this School entity)
 		{
 			return entity.MapTo<School, SchoolModel>();
 		}
@@ -1287,11 +1326,30 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region Teacher Exam
+        #region Teacher Widget
 
-		public static TeacherExamModel ToModel(this TeacherExam entity)
+        public static TeacherWidgetModel ToWidgetModel(this Teacher entity)
+        {
+            return entity.MapTo<Teacher, TeacherWidgetModel>();
+        }
+
+        public static Teacher ToEntity(this TeacherWidgetModel model)
+        {
+            return model.MapTo<TeacherWidgetModel, Teacher>();
+        }
+
+        public static Teacher ToEntity(this TeacherWidgetModel model, Teacher destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Teacher Exam
+
+        public static TeacherExamModel ToModel(this TeacherExam entity)
 		{
 			return entity.MapTo<TeacherExam, TeacherExamModel>();
 		}

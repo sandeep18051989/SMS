@@ -2,6 +2,7 @@
 @Html.TextAreaFor(model => model, new { @class = "Editor-editor", @style = "overflow:auto;", @contenteditable = "true", @placeholder = "Write your comment here" })
 <script type="text/javascript">
     tinyMCE.init({
+        selector: "#@(Html.IdFor(m => m))",
         mode: "textareas",
         theme: "modern",
         plugins: ["placeholder", "code"]

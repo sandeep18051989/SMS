@@ -100,7 +100,8 @@ namespace SMS.Areas.Admin.Controllers
 							Username = x.EmployeeId > 0 ? _smsService.GetEmployeeById(x.EmployeeId).Username : "",
 							PictureSrc = x.ProfilePictureId > 0 ? _pictureService.GetPictureById(x.ProfilePictureId)?.PictureSrc : "",
 							AcadmicYear = x.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(x.AcadmicYearId).Name : "",
-							Url = Url.RouteUrl("Teacher", new { name = x.GetSystemName() }, "http")
+							SystemName = x.SystemName,
+                            IsActive = x.IsActive
 						})
 					},
 					ContentEncoding = Encoding.Default,
@@ -266,7 +267,11 @@ namespace SMS.Areas.Admin.Controllers
 			{
 				teacher = model.ToEntity(teacher);
 				teacher.ModifiedOn = DateTime.Now;
-				_smsService.UpdateTeacher(teacher);
+
+                if (teacher.EmployeeId > 0)
+                    teacher.Username = _smsService.GetEmployeeById(teacher.EmployeeId).Username;
+
+                _smsService.UpdateTeacher(teacher);
 
 				// Save URL Record
 				model.SystemName = teacher.ValidateSystemName(model.SystemName, model.Name, true);
@@ -335,6 +340,10 @@ namespace SMS.Areas.Admin.Controllers
 				var teacher = model.ToEntity();
                 teacher.CreatedOn = teacher.ModifiedOn = DateTime.Now;
                 teacher.UserId = _userContext.CurrentUser.Id;
+
+                if (teacher.EmployeeId > 0)
+                    teacher.Username = _smsService.GetEmployeeById(teacher.EmployeeId).Username;
+
 				_smsService.InsertTeacher(teacher);
 
 				var employ = _smsService.GetEmployeeById(teacher.EmployeeId);

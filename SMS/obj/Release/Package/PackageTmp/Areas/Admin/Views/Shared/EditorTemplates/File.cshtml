@@ -75,7 +75,7 @@
 			multiple: false
 		}).on("complete", function(event, id, name, responseJSON, xhr) {
 			if (responseJSON.success) {
-				$("#@(clientId + "value") input").val(responseJSON.FileId);
+				$("#@(clientId + "value") input").val(responseJSON.fileId);
 			}
 		});
 	});

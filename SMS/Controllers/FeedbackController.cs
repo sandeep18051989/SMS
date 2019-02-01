@@ -149,7 +149,7 @@ namespace SMS.Controllers
 
                         foreach (var dt in tokens)
 						{
-							template.BodyHtml = EF.Services.CodeHelper.Replace(template.BodyHtml, $"[{dt.Name}]", dt.Value, StringComparison.InvariantCulture);
+							template.BodyHtml = EF.Services.CodeHelper.Replace(template.BodyHtml, $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
 						}
 					}
 
