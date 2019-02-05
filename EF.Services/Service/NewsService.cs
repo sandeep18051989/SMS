@@ -35,9 +35,9 @@ namespace EF.Services.Service
 
 		#region Methods
 
-		public IList<News> GetAllNews()
+		public IList<News> GetAllNews(bool? onlyActive = null)
 		{
-			return _newsRepository.Table.OrderByDescending(a => a.CreatedOn).ToList();
+			return _newsRepository.Table.Where(x => (!onlyActive.HasValue || onlyActive.Value == x.IsActive) && !x.IsDeleted).ToList();
 		}
 
 		public IList<News> GetActiveNews()

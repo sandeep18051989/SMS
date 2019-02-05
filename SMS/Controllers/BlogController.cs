@@ -2,8 +2,11 @@
 using System.Linq;
 using System.Web.Mvc;
 using EF.Core;
+using SMS.Mappers;
+using EF.Services.Http;
 using EF.Services.Service;
 using SMS.Models;
+using SMS.Models.Widgets;
 
 namespace SMS.Controllers
 {
@@ -43,34 +46,67 @@ namespace SMS.Controllers
 			this._smsService = smsService;
 		}
 
-		#endregion
+        #endregion
 
-		// GET: Blog
-		public ActionResult Index()
-		{
-			var model = new List<BlogModel>();
-			var lstBlogs = _blogService.GetAllBlogs(true).OrderByDescending(x => x.CreatedOn).ToList();
-			if (lstBlogs.Count > 0)
-			{
-				foreach (var blog in lstBlogs)
-				{
-					model.Add(new BlogModel()
-					{
-						Name = blog.Name,
-						BlogHtml = blog.BlogHtml,
-						CreatedOn = blog.CreatedOn,
-						Email = blog.Email,
-						Id = blog.Id,
-						IpAddress = blog.IpAddress,
-						Subject = blog.Subject,
-						UserId = blog.UserId,
-					});
-				}
-			}
-			return PartialView(model);
-		}
+        [ChildActionOnly]
+        public ActionResult Index()
+        {
+            var widgetModel = new List<BlogWidgetModel>();
+            var lstBlogs = _blogService.GetAllBlogs(true).OrderByDescending(x => x.ModifiedOn).Take(3).ToList();
+            if (lstBlogs.Count > 0)
+            {
+                foreach (var blog in lstBlogs)
+                {
+                    var model = new BlogWidgetModel();
+                    model.Id = blog.Id;
+                    model.AcadmicYear = blog.AcadmicYearId > 0 ? _smsService.GetAcadmicYearById(blog.AcadmicYearId).Name : "";
+                    model.BlogHtml = blog.BlogHtml;
+                    model.CreatedOn = blog.CreatedOn;
+                    model.Email = blog.Email;
+                    model.IpAddress = blog.IpAddress;
+                    model.SystemName = blog.GetSystemName();
+                    model.IsActive = blog.IsActive;
+                    model.IsApproved = blog.IsApproved;
+                    model.ModifiedOn = blog.ModifiedOn;
+                    model.Name = blog.Name;
+                    model.Subject = blog.Subject;
 
-		public ActionResult Detail(int id)
+                    var blogPictures = _pictureService.GetBlogPictureByBlogId(blog.Id).OrderByDescending(x => x.StartDate).ToList();
+                    model.HasDefaultPicture = blogPictures.Any(x => x.IsDefault);
+
+                    var blogVideos = _videoService.GetBlogVideosByBlogId(blog.Id).OrderByDescending(x => x.StartDate).ToList();
+                    model.HasDefaultVideo = blogVideos.Count > 0;
+
+                    if (blogPictures.Count > 0)
+                    {
+                        model.DefaultPictureSrc = blogPictures.FirstOrDefault(x => model.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        model.Pictures = blogPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (blogVideos.Count > 0)
+                    {
+                        model.DefaultVideoSrc = blogVideos.FirstOrDefault().Video.VideoSrc;
+                        model.Videos = blogVideos.Select(x => x.ToModel()).ToList();
+                    }
+
+                    model.Reactions = _smsService.SearchReactions(blogid: blog.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                    model.Comments = _commentService.GetCommentsByBlog(blog.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                    if (model.Comments.Count > 0)
+                    {
+                        foreach (var comment in model.Comments)
+                        {
+                            comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                        }
+                    }
+
+                    widgetModel.Add(model);
+                }
+            }
+            return PartialView(widgetModel);
+        }
+
+        public ActionResult Detail(int id)
 		{
 			var user = _userContext.CurrentUser;
 			var model = new BlogModel();

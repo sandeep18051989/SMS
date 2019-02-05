@@ -243,10 +243,11 @@ namespace SMS.Areas.Admin.Controllers
 			if (id == 0)
 				throw new Exception("Id Not Found");
 
-			if (id != 1)
-				_userService.Delete(id);
+            var attendance = _smsService.GetStudentAttendanceById(id);
+			if (attendance != null)
+				_smsService.DeleteStudentAssessment(id);
 
-			SuccessNotification("Teacher deleted successfully.");
+			SuccessNotification("Selected Attendance deleted successfully.");
 			return RedirectToAction("List");
 		}
 

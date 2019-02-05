@@ -16,8 +16,6 @@ namespace SMS.Models
 		}
 		public IList<SelectListItem> AvailableAcadmicYears { get; set; }
 
-		[AllowHtml]
-		[UIHint("HtmlEditor")]
 		public string Subject { get; set; }
 		public string Email { get; set; }
 		public string Name { get; set; }

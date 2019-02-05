@@ -31,11 +31,10 @@
 							<table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
 								<thead>
 									<tr>
-										<th class="no-sort"><input type="checkbox" id="allcheck" value="allcheck" /></th>
-										<th class="no-sort">&nbsp;</th>
-										<th>Name</th>
-										<th>Subject</th>
-										<th>Email</th>
+										<th class="text-center no-sort"><div class="form-check"><input type="checkbox" id="allcheck" value="allcheck" /><label for="allcheck"></label></div></th>
+										<th class="text-center">Name</th>
+										<th class="text-center">Subject</th>
+										<th class="text-center">Email</th>
 										<th class="text-center">Active</th>
 										<th class="text-center">Actions</th>
 									</tr>
@@ -75,7 +74,7 @@
 		});
 
 		// Initiallize Datatable
-		$('.custom-table').DataTable({
+		var table = $('.custom-table').DataTable({
 			"processing": true, // for show progress bar
 			"serverSide": true, // for process server side
 			"filter": true, // this is for disable filter (search box)
@@ -108,20 +107,6 @@
 					"orderable": false,
 					"className": 'details-control text-center',
 					"defaultContent": ""
-				},
-				{
-					'searchable': false,
-					"title": "",
-					"data": "",
-					"render": function (data, type, row) {
-						if (type === "display") {
-							return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input" id="' + row.Id + '"><label class="form-check-label" for="' + row.Id + '"></label></div>';
-						}
-						return data;
-					},
-					"orderable": false,
-					"defaultContent": "",
-					"className": "text-center"
 				},
 				{ "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "defaultContent": "", "className": "text-center" },
 				{ "data": "Subject", "title": "Subject", "name": "Subject", "autoWidth": true, "orderable": false, "defaultContent": "", "className": "text-center" },
@@ -216,10 +201,10 @@
 	}
 
 	function format(d) {
-		return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+		return '<table Width="100%" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
 			'<tr>' +
-			'<td colspan="7">Content</td>' +
-			'<td style="white-space: pre-wrap;" colspan="3"><span class="log-message">' + d.BlogHtml + '</span></td>' +
+			'<td colspan="2">Content</td>' +
+			'<td style="white-space: pre-wrap;" colspan="5"><span class="log-message">' + d.BlogHtml + '</span></td>' +
 			'</tr>' +
 			'</table>';
 	}

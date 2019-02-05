@@ -10,7 +10,8 @@ namespace EF.Core.Data
 		public string Name { get; set; }
 		public string BlogHtml { get; set; }
 		public string IpAddress { get; set; }
-		public bool IsDeleted { get; set; }
+        public string SystemName { get; set; }
+        public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsApproved { get; set; }
 		public int AcadmicYearId { get; set; }

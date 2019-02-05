@@ -235,7 +235,9 @@ namespace SMS.Areas.Admin.Controllers
 			var teacher = _smsService.GetTeacherById(id);
 			var model = teacher.ToModel();
 
-			model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem() { Text = x.Username, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+            var allEmployees = _smsService.GetAllEmployees();
+
+            model.AvailableEmployees = allEmployees.Where(x => (!_smsService.IsEmployeeAlreadyAssignedToTeacher(x.Id) || teacher.EmployeeId == x.Id)).Select(x => new SelectListItem() { Text = ((x.EmpFName + (!string.IsNullOrEmpty(x.EmpLName) ? (" " + x.EmpLName) : " ")) + ("(" + x.Username + ")")) , Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 			model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 			model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
 			{
@@ -280,7 +282,7 @@ namespace SMS.Areas.Admin.Controllers
 			}
 			else
 			{
-				model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem() { Text = x.Username, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+				model.AvailableEmployees = _smsService.GetAllEmployees().Where(x => (!_smsService.IsEmployeeAlreadyAssignedToTeacher(x.Id) || (model.EmployeeId > 0 && model.EmployeeId == x.Id))).Select(x => new SelectListItem() { Text = ((x.EmpFName + (!string.IsNullOrEmpty(x.EmpLName) ? (" " + x.EmpLName) : " ")) + ("(" + x.Username + ")")), Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 				model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 				model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
 				{
@@ -308,7 +310,7 @@ namespace SMS.Areas.Admin.Controllers
 				return AccessDeniedView();
 
 			var model = new TeacherModel();
-			model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem() { Text = x.Username, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+			model.AvailableEmployees = _smsService.GetAllEmployees().Where(x => (!_smsService.IsEmployeeAlreadyAssignedToTeacher(x.Id) || (model.EmployeeId > 0 && model.EmployeeId == x.Id))).Select(x => new SelectListItem() { Text = ((x.EmpFName + (!string.IsNullOrEmpty(x.EmpLName) ? (" " + x.EmpLName) : " ")) + ("(" + x.Username + ")")), Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 			model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 			model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
 			{
@@ -373,7 +375,7 @@ namespace SMS.Areas.Admin.Controllers
 			}
 			else
 			{
-				model.AvailableEmployees = _smsService.GetAllEmployees().Select(x => new SelectListItem() { Text = x.Username, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+				model.AvailableEmployees = _smsService.GetAllEmployees().Where(x => (!_smsService.IsEmployeeAlreadyAssignedToTeacher(x.Id) || (model.EmployeeId > 0 && model.EmployeeId == x.Id))).Select(x => new SelectListItem() { Text = ((x.EmpFName + (!string.IsNullOrEmpty(x.EmpLName) ? (" " + x.EmpLName) : " ")) + ("(" + x.Username + ")")), Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 				model.AvailableQualifications = _smsService.GetAllQualifications().Select(x => new SelectListItem() { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
 				model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
 				{
@@ -384,7 +386,7 @@ namespace SMS.Areas.Admin.Controllers
 				return View(model);
 			}
 
-			SuccessNotification("User created successfully.");
+			SuccessNotification("Teacher created successfully.");
 			return RedirectToAction("List");
 		}
 
@@ -434,8 +436,12 @@ namespace SMS.Areas.Admin.Controllers
 			if (id == 0)
 				throw new Exception("Id Not Found");
 
-			if (id != 1)
-				_userService.Delete(id);
+
+            var teacher = _smsService.GetTeacherById(id);
+            if (teacher != null)
+            {
+                _smsService.DeleteTeacher(id);
+            }
 
 			SuccessNotification("Teacher deleted successfully.");
 			return RedirectToAction("List");

@@ -147,9 +147,9 @@ namespace SMS.Areas.Admin.Controllers
 						{
 							Id = x.Id,
 							DisplayOrder = x.DisplayOrder,
-							StartDate = x.StartDate?.ToString("yyyy/MM/dd") ?? "",
-							EndDate = x.EndDate?.ToString("yyyy/MM/dd") ?? "",
-							IsDefault = x.IsDefault,
+                            StartDate = x.StartDate != null ? x.StartDate.Value.ToString("yyyy/MM/dd") : "",
+                            EndDate = x.EndDate != null ? x.EndDate.Value.ToString("yyyy/MM/dd") : "",
+                            IsDefault = x.IsDefault,
 							NewsId = id,
 							PictureId = x.PictureId,
 							PictureSrc = x.Picture?.PictureSrc
@@ -260,7 +260,7 @@ namespace SMS.Areas.Admin.Controllers
 			// Check for duplicate news, if any
 			var _news = _newsService.GetNewsByShortName(model.ShortName);
 			if (_news != null && _news.Id != model.Id)
-				ModelState.AddModelError("ShortName", "An News with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("ShortName", "A News with the same name already exists. Please choose a different name.");
 
 			if (ModelState.IsValid)
 			{
@@ -347,7 +347,7 @@ namespace SMS.Areas.Admin.Controllers
 			var newNews = new News();
 			var _news = _newsService.GetNewsByShortName(model.ShortName);
 			if (_news != null)
-				ModelState.AddModelError("ShortName", "An News with the same name already exists. Please choose a different name.");
+				ModelState.AddModelError("ShortName", "A News with the same name already exists. Please choose a different name.");
 
 			model.UserId = currentUser.Id;
 			if (ModelState.IsValid)
@@ -605,8 +605,8 @@ namespace SMS.Areas.Admin.Controllers
 			foreach (var x in result)
 			{
 				var newspic = x.ToModel();
-				newspic.PicStartDate = x.StartDate;
-				newspic.PicEndDate = x.EndDate;
+				newspic.StartDate = x.StartDate;
+				newspic.EndDate = x.EndDate;
 
 				if (x.PictureId > 0)
 				{
@@ -637,8 +637,8 @@ namespace SMS.Areas.Admin.Controllers
 			foreach (var x in result)
 			{
 				var newspic = x.ToModel();
-				newspic.VidStartDate = x.StartDate;
-				newspic.VidEndDate = x.EndDate;
+				newspic.StartDate = x.StartDate;
+				newspic.EndDate = x.EndDate;
 
 				if (x.VideoId > 0)
 				{

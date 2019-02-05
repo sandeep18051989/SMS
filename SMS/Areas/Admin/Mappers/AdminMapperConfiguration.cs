@@ -33,6 +33,26 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore());
 
+                cfg.CreateMap<Blog, BlogWidgetModel>()
+                    .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
+                    .ForMember(dest => dest.DefaultPictureSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.DefaultVideoSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.HasDefaultPicture, mo => mo.Ignore())
+                    .ForMember(dest => dest.HasDefaultVideo, mo => mo.Ignore())
+                    .ForMember(dest => dest.Comments, mo => mo.Ignore())
+                    .ForMember(dest => dest.Pictures, mo => mo.Ignore())
+                    .ForMember(dest => dest.Reactions, mo => mo.Ignore())
+                    .ForMember(dest => dest.Videos, mo => mo.Ignore())
+                    .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
+                cfg.CreateMap<BlogWidgetModel, Blog>()
+                    .ForMember(dest => dest.Comments, mo => mo.Ignore())
+                    .ForMember(dest => dest.Pictures, mo => mo.Ignore())
+                    .ForMember(dest => dest.Reactions, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Files, mo => mo.Ignore())
+                    .ForMember(dest => dest.Videos, mo => mo.Ignore());
+
                 cfg.CreateMap<AssessmentQuestion, AssessmentQuestionModel>()
                     .ForMember(dest => dest.Assessment, mo => mo.Ignore())
                     .ForMember(dest => dest.IsChecked, mo => mo.Ignore())
@@ -196,6 +216,72 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore());
                 cfg.CreateMap<HolidayModel, Holiday>()
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
+
+                cfg.CreateMap<NewsPicture, NewsPictureModel>()
+                    .ForMember(dest => dest.News, mo => mo.Ignore())
+                    .ForMember(dest => dest.Picture, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore());
+                cfg.CreateMap<NewsPictureModel, NewsPicture>()
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Picture, mo => mo.Ignore())
+                    .ForMember(dest => dest.News, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
+
+                cfg.CreateMap<NewsVideo, NewsVideoModel>()
+                    .ForMember(dest => dest.News, mo => mo.Ignore())
+                    .ForMember(dest => dest.Video, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore());
+                cfg.CreateMap<NewsVideoModel, NewsVideo>()
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Video, mo => mo.Ignore())
+                    .ForMember(dest => dest.News, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
+
+                cfg.CreateMap<BlogPicture, BlogPictureModel>()
+                    .ForMember(dest => dest.Blog, mo => mo.Ignore())
+                    .ForMember(dest => dest.Picture, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore());
+                cfg.CreateMap<BlogPictureModel, BlogPicture>()
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Picture, mo => mo.Ignore())
+                    .ForMember(dest => dest.Blog, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
+
+                cfg.CreateMap<BlogVideo, BlogVideoModel>()
+                    .ForMember(dest => dest.Blog, mo => mo.Ignore())
+                    .ForMember(dest => dest.Video, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore());
+                cfg.CreateMap<BlogVideoModel, BlogVideo>()
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Video, mo => mo.Ignore())
+                    .ForMember(dest => dest.Blog, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
+
+                cfg.CreateMap<EventPicture, EventPictureModel>()
+                    .ForMember(dest => dest.Event, mo => mo.Ignore())
+                    .ForMember(dest => dest.Picture, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore());
+                cfg.CreateMap<EventPictureModel, EventPicture>()
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Picture, mo => mo.Ignore())
+                    .ForMember(dest => dest.Event, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
+
+                cfg.CreateMap<EventVideo, EventVideoModel>()
+                    .ForMember(dest => dest.Event, mo => mo.Ignore())
+                    .ForMember(dest => dest.Video, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore());
+                cfg.CreateMap<EventVideoModel, EventVideo>()
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Video, mo => mo.Ignore())
+                    .ForMember(dest => dest.Event, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
 
                 cfg.CreateMap<Comment, CommentModel>()
@@ -406,6 +492,31 @@ namespace SMS.Areas.Admin.Mappers
                      .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
                 cfg.CreateMap<NewsModel, News>()
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
+                    .ForMember(dest => dest.Videos, mo => mo.Ignore())
+                    .ForMember(dest => dest.Comments, mo => mo.Ignore())
+                    .ForMember(dest => dest.User, mo => mo.Ignore())
+                    .ForMember(dest => dest.Files, mo => mo.Ignore())
+                    .ForMember(dest => dest.NewsStatus, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.Reactions, mo => mo.Ignore());
+
+                cfg.CreateMap<News, NewsWidgetModel>()
+                     .ForMember(dest => dest.DefaultPictureSrc, mo => mo.Ignore())
+                     .ForMember(dest => dest.DefaultVideoSrc, mo => mo.Ignore())
+                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
+                     .ForMember(dest => dest.HasDefaultPicture, mo => mo.Ignore())
+                     .ForMember(dest => dest.HasDefaultVideo, mo => mo.Ignore())
+                     .ForMember(dest => dest.Status, mo => mo.Ignore())
+                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
+                     .ForMember(dest => dest.Reactions, mo => mo.Ignore())
+                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
+                     .ForMember(dest => dest.HasDefaultVideo, mo => mo.Ignore())
+                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
+                cfg.CreateMap<NewsWidgetModel, News>()
+                    .ForMember(dest => dest.Comments, mo => mo.Ignore())
+                    .ForMember(dest => dest.Pictures, mo => mo.Ignore())
+                    .ForMember(dest => dest.User, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.NewsStatus, mo => mo.Ignore())

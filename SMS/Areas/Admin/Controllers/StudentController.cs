@@ -495,7 +495,8 @@ namespace SMS.Areas.Admin.Controllers
             if (id == 0)
                 throw new Exception("Id Not Found");
 
-            if (id != 1)
+            var student = _smsService.GetStudentById(id);
+            if (student != null)
                 _userService.Delete(id);
 
             SuccessNotification("Student deleted successfully.");

@@ -59,9 +59,9 @@ namespace SMS.Models
 		public int NewsId { get; set; }
 		public int VideoId { get; set; }
 		public int DisplayOrder { get; set; }
-		public DateTime? VidStartDate { get; set; }
-		public DateTime? VidEndDate { get; set; }
-		public NewsModel News { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public NewsModel News { get; set; }
 		public VideoModel Video { get; set; }
 
 	}

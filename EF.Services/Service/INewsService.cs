@@ -9,7 +9,7 @@ namespace EF.Services.Service
 	{
 		void Insert(News news);
 		void Update(News news);
-		IList<News> GetAllNews();
+        IList<News> GetAllNews(bool? onlyActive = null);
 		IList<News> GetActiveNews();
 		News GetNewsById(int newsId);
 		IList<News> GetAllNewsByUser(int userId);

@@ -103,11 +103,15 @@ namespace SMS.Areas.Admin.Controllers
 							Subject = x.Subject,
 							CommentsCount = x.Comments.Count,
 							Id = x.Id,
+                            AcadmicYearId = x.AcadmicYearId,
 							AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
 							IsActive = x.IsActive,
 							PicturesCount = x.Pictures.Count,
 							ReactionsCount = x.Reactions.Count,
-							VideosCount = x.Videos.Count
+							VideosCount = x.Videos.Count,
+                            BlogHtml = x.BlogHtml,
+                            IpAddress = x.IpAddress,
+                            SystemName = x.SystemName
 						})
 					},
 					ContentEncoding = Encoding.Default,

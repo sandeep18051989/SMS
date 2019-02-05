@@ -391,6 +391,11 @@ namespace EF.Services.Service
         {
             return _employeeRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
         }
+
+        public bool IsEmployeeAlreadyAssignedToTeacher(int id)
+        {
+            return _teacherRepository.Table.Any(x => x.EmployeeId == id);
+        }
         public Employee GetEmployeeById(int id)
         {
             if (id == 0)
@@ -1575,6 +1580,7 @@ namespace EF.Services.Service
         {
             return _teacherRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && x.IsDeleted == false).ToList();
         }
+
         public Teacher GetTeacherById(int id)
         {
             if (id == 0)

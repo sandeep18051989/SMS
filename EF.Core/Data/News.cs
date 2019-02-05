@@ -22,7 +22,8 @@ namespace EF.Core.Data
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
 		public string Description { get; set; }
-		public string Url { get; set; }
+        public string SystemName { get; set; }
+        public string Url { get; set; }
 		public string Author { get; set; }
 		public int NewsStatusId { get; set; }
 		public bool IsDeleted { get; set; }

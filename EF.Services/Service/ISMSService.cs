@@ -50,6 +50,8 @@ namespace EF.Services.Service
         void ToggleActiveStatusEmployee(int id);
         bool CheckEmployeeExists(string name, int? id = null);
         bool CheckUsernameExistsForEmployee(string username);
+
+        bool IsEmployeeAlreadyAssignedToTeacher(int id);
         #endregion
 
         #region Student Attendance

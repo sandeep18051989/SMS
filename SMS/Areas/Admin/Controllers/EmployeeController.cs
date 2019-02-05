@@ -407,7 +407,7 @@ namespace SMS.Areas.Admin.Controllers
                 return View(model);
             }
 
-            SuccessNotification("User created successfully.");
+            SuccessNotification("Employee created successfully.");
             return RedirectToAction("List");
         }
 
@@ -419,8 +419,9 @@ namespace SMS.Areas.Admin.Controllers
             if (id == 0)
                 throw new Exception("Id Not Found");
 
-            if (id != 1)
-                _userService.Delete(id);
+            var employee = _smsService.GetEmployeeById(id);
+            if (employee != null)
+                _smsService.DeleteEmployee(id);
 
             SuccessNotification("Employee deleted successfully.");
             return RedirectToAction("List");

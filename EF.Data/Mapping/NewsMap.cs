@@ -18,6 +18,7 @@ namespace EF.Data.Mapping
             this.Property(e => e.ShortName).IsOptional();
             this.Property(e => e.StartDate).IsOptional();
             this.Property(e => e.Url).IsOptional();
+            this.Property(e => e.SystemName).HasMaxLength(100).IsRequired();
 
             // Relationships
             this.HasRequired(all => all.User).WithMany(n => n.News).HasForeignKey(all => all.UserId);

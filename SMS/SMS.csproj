@@ -701,6 +701,7 @@
     <Content Include="Plugins\EF.Facebook\TrackerEnabledDbContext.Common.dll" />
     <Content Include="Plugins\EF.Facebook\TrackerEnabledDbContext.dll" />
     <Content Include="Plugins\EF.Facebook\Wibci.CountryReverseGeocode.dll" />
+    <Content Include="Scripts\carousel3D.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -2164,6 +2165,8 @@
     <Compile Include="Areas\Admin\Models\RolePermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\PermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\NotificationModel.cs" />
+    <Compile Include="Models\Widgets\BlogWidgetModel.cs" />
+    <Compile Include="Models\Widgets\NewsWidgetModel.cs" />
     <Compile Include="Models\Widgets\TeacherWidgetModel.cs" />
     <Compile Include="Models\Widgets\ReplyWidgetModel.cs" />
     <Compile Include="Models\Widgets\CommentWidgetModel.cs" />

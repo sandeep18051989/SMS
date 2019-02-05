@@ -69,9 +69,9 @@ namespace SMS.Models
 		public int NewsId { get; set; }
 		public bool IsDefault { get; set; }
 		public int DisplayOrder { get; set; }
-		public DateTime? PicStartDate { get; set; }
-		public DateTime? PicEndDate { get; set; }
-		public NewsModel News { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public NewsModel News { get; set; }
 		public PictureModel Picture { get; set; }
 
 	}
@@ -88,7 +88,7 @@ namespace SMS.Models
 		public int DisplayOrder { get; set; }
 		public string StartDate { get; set; }
 		public string EndDate { get; set; }
-		public string PictureSrc { get; set; }
+        public string PictureSrc { get; set; }
 	}
 
 	public partial class ProductPictureModel : BaseEntityModel

@@ -49,6 +49,9 @@ namespace SMS.App_Start
             bundles.Add(new ScriptBundle("~/Scripts/daterangepicker").Include(
                  "~/Scripts/daterangepicker.js"));
 
+            bundles.Add(new ScriptBundle("~/Bundle/3DCarousel").Include(
+                "~/Scripts/carousel3D.min.js"));
+
             bundles.Add(new ScriptBundle("~/Scripts/home").Include(
 				"~/Scripts/public.home.js"));
 

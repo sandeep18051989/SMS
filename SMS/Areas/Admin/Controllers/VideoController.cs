@@ -36,6 +36,7 @@ namespace SMS.Areas.Admin.Controllers
 			HttpPostedFileBase httpPostedFile = Request.Files[0];
 			if (httpPostedFile == null)
 				throw new ArgumentException("No file uploaded");
+
 			stream = httpPostedFile.InputStream;
 			fileName = Path.GetFileName(httpPostedFile.FileName);
 			contentType = httpPostedFile.ContentType;
@@ -47,7 +48,12 @@ namespace SMS.Areas.Admin.Controllers
 			string newFileName = DateTime.Now.ToFileTime().ToString();
 			string nameAndLocation = $"\\Uploads\\videos\\{newFileName}{fileExtension}";
 			string savePath = $"/Uploads/videos/{newFileName}{fileExtension}";
-			httpPostedFile.SaveAs(Server.MapPath(nameAndLocation));
+
+            if (!Directory.Exists(Server.MapPath($"\\Uploads\\videos\\")))
+                Directory.CreateDirectory(Server.MapPath($"\\Uploads\\videos\\"));
+
+
+            httpPostedFile.SaveAs(Server.MapPath(nameAndLocation));
 
 			var video = new EF.Core.Data.Video()
 			{

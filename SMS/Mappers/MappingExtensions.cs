@@ -56,11 +56,31 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region Acadmic Year
+        #region Blog Widget
 
-		public static AcadmicYearModel ToModel(this AcadmicYear entity)
+        public static BlogWidgetModel ToWidgetModel(this Blog entity)
+        {
+            return entity.MapTo<Blog, BlogWidgetModel>();
+        }
+
+        public static Blog ToEntity(this BlogWidgetModel model)
+        {
+            return model.MapTo<BlogWidgetModel, Blog>();
+        }
+
+        public static Blog ToEntity(this BlogWidgetModel model, Blog destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+
+        #region Acadmic Year
+
+        public static AcadmicYearModel ToModel(this AcadmicYear entity)
 		{
 			return entity.MapTo<AcadmicYear, AcadmicYearModel>();
 		}
@@ -643,11 +663,30 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region News Picture
+        #region News Widget
 
-		public static NewsPictureModel ToModel(this NewsPicture entity)
+        public static NewsWidgetModel ToWidgetModel(this News entity)
+        {
+            return entity.MapTo<News, NewsWidgetModel>();
+        }
+
+        public static News ToEntity(this NewsWidgetModel model)
+        {
+            return model.MapTo<NewsWidgetModel, News>();
+        }
+
+        public static News ToEntity(this NewsWidgetModel model, News destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region News Picture
+
+        public static NewsPictureModel ToModel(this NewsPicture entity)
 		{
 			return entity.MapTo<NewsPicture, NewsPictureModel>();
 		}

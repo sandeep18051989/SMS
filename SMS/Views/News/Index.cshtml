@@ -1,37 +1,37 @@
-﻿@model IEnumerable<SMS.Models.NewsModel>
+﻿@model IList<SMS.Models.Widgets.NewsWidgetModel>
 @using EF.Services.Http;
-@using SMS.Models
 @{
-	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
-	var basePath = urlHelperService.GetLocation(false);
+    var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+    var basePath = urlHelperService.GetLocation(false);
 }
-<div class="container">
-	<div class="row section-row">
-		<div class="col section-row-header-center">
-			<h6><i class="fa fa-star-o"></i>WE ARE BEST<i class="fa fa-star-o"></i></h6>
-			<h1>LATEST NEWS</h1>
-			<p>Latest school news board</p>
-		</div>
-		@foreach (var n in Model.ToList())
-		{
-			<div class="col-sm col-md">
-				<div class="news-item-container">
-					<div class="news-img">
-						<div class="news-item-date">
-							<h6><i class="fa fa-calendar"></i>@n.StartDate.Value.ToString("d MMM yyyy")</h6>
-						</div>
-					</div>
-					<div class="news-item">
-						<h5>@n.ShortName</h5>
-						<p>@Html.Raw(n.Description)</p>
-						<a href="@n.SystemName"><i class="fa fa-paper-plane"></i>VIEW DETAILS</a>
-					</div>
-				</div>
-			</div>
-		}
-	</div>
-	<div class="clearfix"></div>
-	<div class="view-all-link">
-		<a href="/news"><i class="fa fa-paper-plane"></i>VIEW ALL</a>
-	</div>
+<div class="section-row news-row">
+    <div class="row text-center">
+        <div class="col section-row-header-center">
+            <h6><i class="fa fa-star-o"></i>WE ARE BEST<i class="fa fa-star-o"></i></h6>
+            <h1>LATEST NEWS</h1>
+            <p>Latest school news board</p>
+        </div>
+    </div>
+    <div class="row mt-2 mb-2">
+        @foreach (var news in Model)
+        {
+            <div class="col-md-3 mb-2">
+                <div class="card default-color-dark">
+                    <div class="view">
+                        <img style="max-height:250px;min-height:250px;" src="@(news.DefaultPictureSrc)" class="card-img-top" alt="@(news.ShortName)">
+                        <a title="@(news.ShortName)" href="@Url.RouteUrl("News", new { name = news.SystemName })">
+                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                        </a>
+                    </div>
+                    <div style="max-height:250px;min-height:250px;" class="card-body text-center">
+                        <a title="@(news.ShortName)" href="@Url.RouteUrl("News", new { name = news.SystemName })">
+                            <h4 class="card-title white-text">@(news.ShortName)</h4>
+                        </a>
+                        @{ var description = (!string.IsNullOrEmpty(news.Description) ? news.Description.Length > 200 ? ("<p class='card-text white-text'>" + news.Description.Substring(0, 200) + "...</p>") : ("<p class='card-text white-text'>" + news.Description + "</p>") : ("<p class='card-text white-text'>" + (news.ShortName) + "</p>")); }
+                        @Html.Raw(description)
+                    </div>
+                </div>
+            </div>
+                            }
+    </div>
 </div>

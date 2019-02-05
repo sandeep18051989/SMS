@@ -10,10 +10,9 @@ namespace SMS.Validations
         {
             RuleFor(x => x.BlogHtml).NotEmpty().WithMessage("Please enter blog description text or html");
             RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Email Address required");
-
-
+            RuleFor(x => x.SystemName).NotEmpty().WithMessage("Please enter system name");
             RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter name");
-            RuleFor(x => x.Subject).NotEmpty().WithMessage("Please Enter subject");
+            RuleFor(x => x.Subject).NotEmpty().WithMessage("Please enter subject");
 
         }
 
