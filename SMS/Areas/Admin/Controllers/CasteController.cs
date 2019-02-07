@@ -88,8 +88,8 @@ namespace SMS.Areas.Admin.Controllers
                         data = data.Select(x => new CasteModel() {
                             AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
                             AcadmicYearId = x.AcadmicYearId,
-                            CreatedOnString = x.CreatedOn.ToString("U"),
-                            ModifiedOnString = x.ModifiedOn.ToString("U"),
+                            CreatedOnString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
+                            ModifiedOnString = x.ModifiedOn.HasValue ? x.ModifiedOn.Value.ToString("U") : "",
                             Id = x.Id,
                             Name = x.Name,
                             ReligionId = x.ReligionId,

@@ -175,7 +175,7 @@ namespace SMS.Controllers
 									if (_event != null)
 									{
 										template.BodyHtml = template.BodyHtml.Replace("[EventName]", _event.Title);
-										template.BodyHtml = template.BodyHtml.Replace("[EventDate]", _event.ModifiedOn.ToShortDateString());
+										template.BodyHtml = template.BodyHtml.Replace("[EventDate]", _event.ModifiedOn.HasValue ? _event.ModifiedOn.Value.ToString("U") : "");
 										template.BodyHtml = template.BodyHtml.Replace("[EventDescription]", _event.Description);
 										template.BodyHtml = template.BodyHtml.Replace("[EventComment]", model.CommentHtml);
 										template.BodyHtml = template.BodyHtml.Replace("[Username]", model.Username);

@@ -93,8 +93,8 @@ namespace SMS.Areas.Admin.Controllers
                             Number = x.Number.Trim().ToUpper(),
                             AcadmicYearId = x.AcadmicYearId,
                             AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
-                            CreatedOnString = x.CreatedOn.ToString("U"),
-                            ModifiedOnString = x.ModifiedOn.ToString("U"),
+                            CreatedOnString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
+                            ModifiedOnString = x.ModifiedOn.HasValue ? x.ModifiedOn.Value.ToString("U") : "",
                             Description = x.Description,
                             Id = x.Id
                         }).OrderBy(x => x.Number).ToList()

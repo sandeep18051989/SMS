@@ -103,7 +103,7 @@ namespace EF.Services.Service
 			{
 				foreach (var aud in query.OrderByDescending(x => x.CreatedOn).Take(5).ToList())
 				{
-					if (aud.CreatedOn.Date == fromUtc.Value.Date)
+					if (aud.CreatedOn.HasValue && aud.CreatedOn.Value.Date == fromUtc.Value.Date)
 					{
 						lstReturn.Add(aud);
 					}

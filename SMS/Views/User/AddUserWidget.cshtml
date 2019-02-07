@@ -1,0 +1,45 @@
+﻿@model SMS.Models.UserModel
+@Html.AntiForgeryToken()
+<div class="row text-left">
+    <div class="col">
+        <div class="md-form mt-0 mb-4">
+            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control no-special-char", @aria_describedby = "username", @type = "text", @max_length = "50", @tabindex="1" } })
+            @Html.LabelFor(model => model.Username, "Username", new { htmlAttributes = new { @class = "control-label" } })
+            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col">
+        <div class="md-form mt-0 mb-4">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @aria_describedby = "email", @type = "email", @max_length = "100", @tabindex = "2" } })
+            @Html.LabelFor(model => model.Email, "Email Address", new { htmlAttributes = new { @class = "control-label" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+<div class="row text-left">
+    <div class="col">
+        <div class="md-form mt-0 mb-4">
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @aria_describedby = "password", @type = "password", @min_length = "6", @max_length = "50", @tabindex = "3" } })
+            @Html.LabelFor(model => model.Password, "Password", new { htmlAttributes = new { @class="control-label" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col">
+        <div class="md-form mt-0 mb-4">
+            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @aria_describedby = "con-password", @type = "password", @min_length = "6", @max_length = "50", @tabindex = "4" } })
+            @Html.LabelFor(model => model.ConfirmPassword, "Confirm Password", new { htmlAttributes = new { @class = "control-label" } })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+<div class="row text-left">
+    <div class="col">
+        <div class="md-form mt-0 mb-4">
+            <textarea class="form-control md-textarea" id="txtcomment" tabindex="5" name="txtcomment" rows="5"></textarea>
+            <label for="txtcomment">Write Your Comment...</label>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-grey btn-sm waves-effect waves-light">Submit</button>
+        </div>
+    </div>
+</div>

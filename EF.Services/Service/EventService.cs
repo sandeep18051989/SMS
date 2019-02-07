@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EF.Core;
 using EF.Core.Data;
+using System.Data.Entity;
 
 namespace EF.Services.Service
 {
@@ -74,6 +75,33 @@ namespace EF.Services.Service
 			return _eventRepository.Table.Count(e => (e.StartDate.Value >= createddate) && (e.EndDate.Value <= createddate));
 		}
 
-		#endregion
-	}
+        public IList<Event> GetLatestEvents(int? excepteventid = null, int userid = 0)
+        {
+            int totalDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).Date;
+            DateTime endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, totalDays).Date;
+            return _eventRepository.Table.Where(x => (!excepteventid.HasValue || x.Id != excepteventid.Value) && (userid == 0 || x.UserId == userid) && !x.IsDeleted && ((DbFunctions.TruncateTime(x.CreatedOn) >= startDate && DbFunctions.TruncateTime(x.CreatedOn) <= endDate))).ToList();
+        }
+
+        public IList<Event> GetOlderEvents(int? excepteventid = null, int userid = 0)
+        {
+            int totalDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).Date;
+            return _eventRepository.Table.Where(x => (!excepteventid.HasValue || x.Id != excepteventid.Value) && (userid == 0 || x.UserId == userid) && !x.IsDeleted && ((DbFunctions.TruncateTime(x.CreatedOn) < startDate))).ToList();
+        }
+
+        public IDictionary<string, int> GetDistinctVenueAndCount(bool? onlyActive = null, int userid = 0)
+        {
+            var allVenues = _eventRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && (userid == 0 || x.UserId == userid) && !x.IsDeleted).Distinct().ToList();
+            var lstDistinct = allVenues.Select(x => x.Venue).Distinct().ToList();
+            return lstDistinct.ToDictionary(x => x, x => GetCountByVenue(x));
+        }
+
+        public int GetCountByVenue(string venue, int userid = 0)
+        {
+            return _eventRepository.Table.Count(x => (userid == 0 || x.UserId == userid) && !x.IsDeleted && x.Venue.Trim().ToLower().Contains(venue.Trim().ToLower()));
+        }
+
+        #endregion
+    }
 }

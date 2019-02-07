@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using EF.Core;
+using System.Data.Entity;
 
 namespace EF.Services.Service
 {
@@ -112,37 +113,7 @@ namespace EF.Services.Service
             if (createddate == null)
                 throw new ArgumentNullException("createddate");
 
-            int commentCount = 0;
-            var comments = _commentRepository.Table.ToList();
-
-            foreach (var q in comments)
-            {
-                DateTime dtcomment = q.CreatedOn;
-                if (Equals(dtcomment.Date.Day, createddate.Date.Day) && Equals(dtcomment.Date.Month, createddate.Date.Month) && dtcomment.Date.Year == createddate.Date.Year)
-                {
-                    commentCount += 1;
-                }
-            }
-
-            return commentCount;
-        }
-
-        public IList<Comment> GetCommentsByManualDate(DateTime date)
-        {
-            if (date == null)
-                throw new ArgumentNullException("date is empty.");
-
-            IList<Comment> lstComments = new List<Comment>();
-            var query = _commentRepository.Table.ToList();
-
-            foreach (var q in query)
-            {
-                if (q.CreatedOn.Date == date.Date)
-                    lstComments.Add(q);
-            }
-
-            return lstComments.ToList();
-
+            return _commentRepository.Table.Count(x => DbFunctions.TruncateTime(x.CreatedOn) == createddate.Date);
         }
 
         public IList<Comment> GetCommentsByNews(int id)
@@ -150,7 +121,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            return _commentRepository.Table.Where(c => c.News.All(h => h.Id == id)).ToList();
+            return _commentRepository.Table.Where(c => c.News.Any(h => h.Id == id)).ToList();
         }
 
         public IList<Comment> GetCommentsByProduct(int id)
@@ -158,7 +129,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            return _commentRepository.Table.Where(c => c.Products.All(h => h.Id == id)).ToList();
+            return _commentRepository.Table.Where(c => c.Products.Any(h => h.Id == id)).ToList();
         }
 
         public IList<Comment> GetCommentsByReactions(int id)
@@ -166,7 +137,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            return _commentRepository.Table.Where(c => c.Reactions.All(h => h.Id == id)).ToList();
+            return _commentRepository.Table.Where(c => c.Reactions.Any(h => h.Id == id)).ToList();
         }
 
         public IList<Comment> GetCommentsByEvent(int id)
@@ -174,7 +145,7 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            return _commentRepository.Table.Where(c => c.Events.All(h => h.Id == id)).ToList();
+            return _commentRepository.Table.Where(c => c.Events.Any(h => h.Id == id)).ToList();
         }
 
         public IList<Comment> GetCommentsByBlog(int id)
@@ -182,7 +153,12 @@ namespace EF.Services.Service
             if (id == 0)
                 throw new ArgumentNullException("id");
 
-            return _commentRepository.Table.Where(c => c.Blogs.All(h => h.Id == id)).ToList();
+            return _commentRepository.Table.Where(c => c.Blogs.Any(h => h.Id == id)).ToList();
+        }
+
+        public IList<Comment> GetCommentsByDate(DateTime createddate)
+        {
+            return _commentRepository.Table.Where(x => DbFunctions.TruncateTime(x.CreatedOn) == createddate.Date).ToList();
         }
 
         #endregion

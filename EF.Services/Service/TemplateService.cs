@@ -122,8 +122,8 @@ namespace EF.Services.Service
                 return new List<Template>();
 
             var query = from r in _templateRepository.Table
-                where templateIds.Contains(r.Id)
-                select r;
+                        where templateIds.Contains(r.Id)
+                        select r;
 
             var templates = query.ToList();
 
@@ -194,7 +194,8 @@ namespace EF.Services.Service
             tokens.Add(new DataToken() { Name = "User Password", SystemName = "UserPassword", Value = user.Password.ToString() });
             tokens.Add(new DataToken() { Name = "User Approved", SystemName = "UserApproved", Value = user.IsApproved ? "Yes" : "No" });
             tokens.Add(new DataToken() { Name = "User Active/Inactive", SystemName = "UserActive", Value = user.IsActive ? "Yes" : "No" });
-            tokens.Add(new DataToken() { Name = "User Created On", SystemName = "UserCreationDate", Value = user.CreatedOn.ToString("dd MMM yyyy HH:mm") });
+            if (user.CreatedOn.HasValue)
+                tokens.Add(new DataToken() { Name = "User Created On", SystemName = "UserCreationDate", Value = user.CreatedOn.Value.ToString("dd MMM yyyy HH:mm") });
         }
 
         public virtual void AddFeedbackTokens(IList<DataToken> tokens, Feedback feedback)
@@ -361,7 +362,9 @@ namespace EF.Services.Service
 
         public virtual void AddBlogTokens(IList<DataToken> tokens, Blog blog)
         {
-            tokens.Add(new DataToken() { Name = "Blog Created On", SystemName = "BlogCreatedOn", Value = CodeHelper.TimeAgo(blog.CreatedOn) });
+            if (blog.CreatedOn.HasValue)
+                tokens.Add(new DataToken() { Name = "Blog Created On", SystemName = "BlogCreatedOn", Value = CodeHelper.TimeAgo(blog.CreatedOn.Value) });
+
             tokens.Add(new DataToken() { Name = "Blog Email", SystemName = "BlogEmail", Value = blog.Email });
             tokens.Add(new DataToken() { Name = "Blog Id", SystemName = "BlogId", Value = blog.Id.ToString() });
             tokens.Add(new DataToken() { Name = "Blog User Id", SystemName = "BlogUserId", Value = blog.UserId.ToString() });
@@ -386,7 +389,8 @@ namespace EF.Services.Service
             tokens.Add(new DataToken() { Name = "Comment Message", SystemName = "CommentHtml", Value = comment.CommentHtml });
             tokens.Add(new DataToken() { Name = "Comment Id", SystemName = "CommentId", Value = comment.Id.ToString() });
             tokens.Add(new DataToken() { Name = "Comment User", SystemName = "CommentUser", Value = comment.Username });
-            tokens.Add(new DataToken() { Name = "Comment Added On", SystemName = "CommentAddedOn", Value = CodeHelper.TimeAgo(comment.CreatedOn) });
+            if (comment.CreatedOn.HasValue)
+                tokens.Add(new DataToken() { Name = "Comment Added On", SystemName = "CommentAddedOn", Value = CodeHelper.TimeAgo(comment.CreatedOn.Value) });
             tokens.Add(new DataToken() { Name = "Comment Approved", SystemName = "CommentApproved", Value = comment.IsApproved ? "Yes" : "No" });
             tokens.Add(new DataToken() { Name = "Comment Block Reason", SystemName = "CommentBlockReason", Value = comment.BlockReason });
             tokens.Add(new DataToken() { Name = "Comment Blocked By User Id", SystemName = "CommentBlockedByUserId", Value = comment.BlockedBy.ToString() });

@@ -92,8 +92,8 @@ namespace SMS.Areas.Admin.Controllers
                             UserId = x.UserId,
                             Name = x.Name.Trim(),
                             AcadmicYearId = x.AcadmicYearId,
-                            CreatedOnString = x.CreatedOn.ToString("U"),
-                            ModifiedOnString = x.ModifiedOn.ToString("U"),
+                            CreatedOnString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
+                            ModifiedOnString = x.ModifiedOn.HasValue ? x.ModifiedOn.Value.ToString("U") : "",
                             Id = x.Id,
                             DisplayOrder = x.DisplayOrder
                         }).OrderBy(x => x.DisplayOrder).ToList()
@@ -138,8 +138,8 @@ namespace SMS.Areas.Admin.Controllers
                             Id = x.Id,
                             IsActive = x.Division.IsActive,
                             UserId = x.UserId,
-                            CreatedOnString = x.Division.CreatedOn.ToString("U"),
-                            ModifiedOnString = x.Division.ModifiedOn.ToString("U"),
+                            CreatedOnString = x.Division.CreatedOn.HasValue ? x.Division.CreatedOn.Value.ToString("U") : "",
+                            ModifiedOnString = x.Division.ModifiedOn.HasValue ? x.Division.ModifiedOn.Value.ToString("U") : "",
                             Description = !string.IsNullOrEmpty(x.Division.Description) ? x.Division.Description.Trim() : "",
                             Name = !string.IsNullOrEmpty(x.Division.Name) ? x.Division.Name.Trim() : "",
                             AcadmicYearId = x.Division.AcadmicYearId,

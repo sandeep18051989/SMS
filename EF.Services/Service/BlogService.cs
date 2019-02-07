@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EF.Core;
 using EF.Core.Data;
+using System.Data.Entity;
 
 namespace EF.Services.Service
 {
@@ -52,7 +53,7 @@ namespace EF.Services.Service
 			if (userid == 0)
 				throw new Exception("User Id Not Specified.");
 
-			return _repositoryBlog.Table.Where(x => x.UserId == userid).OrderByDescending(x => x.CreatedOn).ToList();
+			return _repositoryBlog.Table.Where(x => x.UserId == userid && x.IsDeleted == false).OrderByDescending(x => x.CreatedOn).ToList();
 		}
 
 		public Blog GetBlogByName(string name)
@@ -63,6 +64,33 @@ namespace EF.Services.Service
 			return null;
 		}
 
-		#endregion
-	}
+        public IList<Blog> GetLatestBlogs(int? exceptblogid=null, int userid=0)
+        {
+            int totalDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).Date;
+            DateTime endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, totalDays).Date;
+            return _repositoryBlog.Table.Where(x => (!exceptblogid.HasValue || x.Id != exceptblogid.Value) && (userid == 0 || x.UserId == userid) && !x.IsDeleted && ((DbFunctions.TruncateTime(x.CreatedOn) >= startDate && DbFunctions.TruncateTime(x.CreatedOn) <= endDate))).ToList();
+        }
+
+        public IList<Blog> GetOlderBlogs(int? exceptblogid = null, int userid = 0)
+        {
+            int totalDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).Date;
+            return _repositoryBlog.Table.Where(x => (!exceptblogid.HasValue || x.Id != exceptblogid.Value) && (userid == 0 || x.UserId == userid) && !x.IsDeleted && ((DbFunctions.TruncateTime(x.CreatedOn) < startDate))).ToList();
+        }
+
+        public IDictionary<string, int> GetDistinctSubjectAndCount(bool? onlyActive=null, int userid = 0)
+        {
+            var allSubjects = _repositoryBlog.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && (userid == 0 || x.UserId == userid) && !x.IsDeleted).Distinct().ToList();
+            var lstDistinct = allSubjects.Select(x => x.Subject).Distinct().ToList();
+            return lstDistinct.ToDictionary(x => x, x => GetCountBySubject(x));
+        }
+
+        public int GetCountBySubject(string subject, int userid = 0)
+        {
+            return _repositoryBlog.Table.Count(x => (userid==0 || x.UserId == userid) && !x.IsDeleted && x.Subject.Trim().ToLower().Contains(subject.Trim().ToLower()));
+        }
+
+        #endregion
+    }
 }

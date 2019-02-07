@@ -606,11 +606,30 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region Event Picture
+        #region Event Widget
 
-		public static EventPictureModel ToModel(this EventPicture entity)
+        public static EventWidgetModel ToWidgetModel(this Event entity)
+        {
+            return entity.MapTo<Event, EventWidgetModel>();
+        }
+
+        public static Event ToEntity(this EventWidgetModel model)
+        {
+            return model.MapTo<EventWidgetModel, Event>();
+        }
+
+        public static Event ToEntity(this EventWidgetModel model, Event destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Event Picture
+
+        public static EventPictureModel ToModel(this EventPicture entity)
 		{
 			return entity.MapTo<EventPicture, EventPictureModel>();
 		}

@@ -93,7 +93,7 @@ namespace SMS.Areas.Admin.Controllers
                             IsActive = x.IsActive,
                             UserId = x.UserId,
                             Description = x.Description,
-                            CreatedOnString = x.CreatedOn.ToString("U")
+                            CreatedOnString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
                         }).OrderBy(x => x.Name).ToList()
                     },
                     ContentEncoding = Encoding.Default,

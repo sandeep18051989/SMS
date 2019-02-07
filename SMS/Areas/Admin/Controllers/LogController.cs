@@ -93,8 +93,8 @@ namespace SMS.Areas.Admin.Controllers
                             Message = eve.Message,
                             StackTrace = eve.StackTrace,
                             Url = eve.Url,
-                            Date = eve.CreatedOn,
-                            LogDateString = eve.CreatedOn.ToString("U")
+                            Date = eve.CreatedOn.Value,
+                            LogDateString = eve.CreatedOn.Value.ToString("U")
                         }).OrderByDescending(x => x.CreatedOn).ToList()
                     },
                     ContentEncoding = Encoding.Default,

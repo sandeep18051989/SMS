@@ -21,7 +21,7 @@ namespace EF.Services.Service
         IList<Comment> GetCommentsByUser(int userid);
 
 		int GetCommentCountByCreatedDate(DateTime createddate);
-		IList<Comment> GetCommentsByManualDate(DateTime date);
+        IList<Comment> GetCommentsByDate(DateTime createddate);
 
         #region Get Related Comments
 

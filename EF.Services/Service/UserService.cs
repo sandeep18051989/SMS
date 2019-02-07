@@ -97,6 +97,10 @@ namespace EF.Services.Service
         {
             return _userRepository.Table.Any(u => u.UserName.Trim().ToLower() == username.Trim().ToLower() && (!id.HasValue || u.Id != id));
         }
+        public bool CheckEmailExists(string email, int? id = null)
+        {
+            return _userRepository.Table.Any(u => u.Email.Trim().ToLower() == email.Trim().ToLower() && (!id.HasValue || u.Id != id));
+        }
 
         public User GetUserByEmail(string email)
         {

@@ -87,8 +87,8 @@ namespace SMS.Areas.Admin.Controllers
                         recordsTotal = recordsTotal,
                         data = data.Select(x => new CategoryModel()
                         {
-                            CreatedOnString = x.CreatedOn.ToString("U"),
-                            ModifiedOnString = x.ModifiedOn.ToString("U"),
+                            CreatedOnString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
+                            ModifiedOnString = x.ModifiedOn.HasValue ? x.ModifiedOn.Value.ToString("U") : "",
                             Id = x.Id,
                             Name = x.Name,
                             IsActive = x.IsActive
@@ -122,8 +122,8 @@ namespace SMS.Areas.Admin.Controllers
                     Name = x.Name.Trim(),
                     AcadmicYearId = x.AcadmicYearId,
                     AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
-                    CreatedOnString = x.CreatedOn.ToString("U"),
-                    ModifiedOnString = x.ModifiedOn.ToString("U"),
+                    CreatedOnString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
+                    ModifiedOnString = x.ModifiedOn.HasValue ? x.ModifiedOn.Value.ToString("U") : "",
                     Id = x.Id,
                     Selected = castesByCategory.Any(y => y.Id == x.Id)
                 }).OrderBy(x => x.Name).ToList(),
@@ -281,8 +281,8 @@ namespace SMS.Areas.Admin.Controllers
                             Id = x.Id,
                             IsActive = x.IsActive,
                             UserId = x.UserId,
-                            CreatedOnString = x.CreatedOn.ToString("U"),
-                            ModifiedOnString = x.ModifiedOn.ToString("U"),
+                            CreatedOnString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
+                            ModifiedOnString = x.ModifiedOn.HasValue ? x.ModifiedOn.Value.ToString("U") : "",
                             Name = !string.IsNullOrEmpty(x.Name) ? x.Name.Trim() : "",
                             Religion = x.Religion != null && !string.IsNullOrEmpty(x.Religion.Name) ? x.Religion.Name : "",
                             ReligionId = x.ReligionId

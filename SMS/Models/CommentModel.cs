@@ -20,6 +20,7 @@ namespace SMS.Models
             Reactions = new List<ReactionModel>();
         }
         public int CommentId { get; set; }
+        public int EventId { get; set; }
         public int ProductId { get; set; }
         public int NewsId { get; set; }
         public int BlogId { get; set; }

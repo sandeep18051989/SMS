@@ -2,80 +2,80 @@
 @model SMS.Models.UserLinksModel
 <!--user menu-->
 <ul class="navbar-nav mr-auto">
-	&nbsp;&nbsp;&nbsp;
-	<li class="nav-item active"><a class="nav-link waves-effect waves-light" href="/"><i class="fa fa-home"></i>HOME</a></li>
-	<li class="nav-item dropdown">
-		<a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link waves-effect waves-light"><i class="fa fa-graduation-cap"></i>ACADEMICS <b class="caret"></b></a>
-		<ul class="dropdown-menu">
-			<li><a href="academic.html"><i class="fa fa-certificate"></i>UPPER</a></li>
-			<li><a href="academic.html"><i class="fa fa-child"></i>MIDDLE</a></li>
-			<li><a href="academic.html"><i class="fa fa-puzzle-piece"></i>LOWER</a></li>
-			<li><a href="preschool.html"><i class="fa fa-cube"></i>PRESCHOOL</a></li>
-		</ul>
-	</li>
-	<li class="nav-item"><a class="nav-link waves-effect waves-light" href="admission.html"><i class="fa fa-users"></i>ADMISSIONS</a></li>
-	<li class="nav-item dropdown">
-		<a href="events.html" data-toggle="dropdown" class="dropdown-toggle nav-link waves-effect waves-light"><i class="fa fa-calendar-check-o"></i>EVENTS <b class="caret"></b></a>
-		<ul class="dropdown-menu">
-			<li><a href="events.html"><i class="fa fa-calendar"></i>EVENTS</a></li>
-			<li><a href="event-single.html"><i class="fa fa-calendar-o"></i>EVENT SINGLE</a></li>
-		</ul>
-	</li>
-	<li class="nav-item dropdown">
-		<a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link waves-effect waves-light"><i class="fa fa-dashboard"></i>DASHBOARD <b class="caret"></b></a>
-		<ul class="dropdown-menu">
-			<li><a href="dashboard/admin-dashboard.html"><i class="fa fa-user-secret"></i>ADMIN</a></li>
-			<li><a href="dashboard/teacher-dashboard.html"><i class="fa fa-user"></i>TEACHER</a></li>
-			<li><a href="dashboard/student-dashboard.html"><i class="fa fa-child"></i>STUDENT</a></li>
-		</ul>
-	</li>
-	<li class="nav-item dropdown">
-		<a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link waves-effect waves-light"><i class="fa fa-file"></i>PAGES <b class="caret"></b></a>
-		<ul class="dropdown-menu">
-			<li><a href="gallery.html"><i class="fa fa-picture-o"></i>CAMPUS GALLERY</a></li>
-			<li><a href="about.html"><i class="fa fa-info-circle"></i>ABOUT</a></li>
-			<li><a href="contact.html"><i class="fa fa-phone-square"></i>CONTACT US</a></li>
-		</ul>
-	</li>
-	@if (Model.IsAuthenticated)
-	{
-		if (Model.RoleId == 1)
-		{
-			<li class="nav-item top-nav-login-btn dropdown">
-				<a href="javascript:void(0);" class="dropdown-toggle nav-link waves-effect waves-light text-uppercase" data-toggle="dropdown">
-					<i class="glyphicon glyphicon-user"></i> <span class="hidden-sm">Admin</span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu cms-user">
-					<li><a class="text-uppercase" href="@Url.Action("MyAccount","Account", null)"><i class="fa fa-address-card" aria-hidden="true"></i><span class="hidden-xs hidden-sm visible-md visible-lg"> My Account</span></a></li>
-					<li><a class="text-uppercase" href="@Url.Action("Index", "Dashboard", new { Area = "admin" })" title="Dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i><span class="hidden-xs hidden-sm visible-md visible-lg"> Dashboard</span></a> </li>
-				</ul>
-			</li>
-			<li><a class="text-uppercase nav-link waves-effect waves-light" href="@Url.Action("LogOff", "Account")"><i class="glyphicon glyphicon-off"></i> <span class="hidden-sm">Logout</span></a></li> }
-		else
-		{
-			<li class="nav-item dropdown">
-				<a href="javascript:void(0);" class="dropdown-toggle nav-link waves-effect waves-light" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <span class="hidden-sm"><text></text>@Model.user.UserName</span><span class="caret"></span></a>
-				<ul class="dropdown-menu cms-user">
-					<li>&nbsp;<a class="text-uppercase" href="@Url.Action("MyAccount","Account", null)"><i class="fa fa-address-card" aria-hidden="true"></i><span class="hidden-xs hidden-sm visible-md visible-lg"> My Account</span></a></li>
-					<li>&nbsp;<a class="text-uppercase" href="@Url.Action("Index", "Dashboard", new { Area = "admin" })" title="Dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i><span class="hidden-xs hidden-sm visible-md visible-lg"> Dashboard</span></a> </li>
-				</ul>
-			</li>
-			<li class="nav-item top-nav-login-btn"><a class="text-uppercase nav-link waves-effect waves-light" href="@Url.Action("LogOff", "Account")"><i class="glyphicon glyphicon-off"></i> <span class="hidden-sm">Logout</span></a></li> }
-	}
-	else
-	{
-		<li class="nav-item"><a class="text-uppercase nav-link waves-effect waves-light" href="@Url.Action("Login","Account", new { Area = String.Empty })"><i class="fa fa-sign-in"></i><span class="hidden-sm">Login</span></a></li>
-		<li class="nav-item"><a class="text-uppercase nav-link waves-effect waves-light" href="@Url.Action("Register","Account", new { Area = String.Empty })"><i class="fa fa-user"></i><span class="hidden-sm">Register</span></a></li>
-	}
+    &nbsp;&nbsp;&nbsp;
+    <li class="nav-item active"><a class="nav-link waves-effect waves-light" href="/"><i class="fa fa-home"></i>HOME</a></li>
+    <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link waves-effect waves-light"><i class="fa fa-graduation-cap"></i>ACADEMICS <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="academic.html"><i class="fa fa-certificate"></i>UPPER</a></li>
+            <li><a href="academic.html"><i class="fa fa-child"></i>MIDDLE</a></li>
+            <li><a href="academic.html"><i class="fa fa-puzzle-piece"></i>LOWER</a></li>
+            <li><a href="preschool.html"><i class="fa fa-cube"></i>PRESCHOOL</a></li>
+        </ul>
+    </li>
+    <li class="nav-item"><a class="nav-link waves-effect waves-light" href="admission.html"><i class="fa fa-users"></i>ADMISSIONS</a></li>
+    <li class="nav-item dropdown">
+        <a href="events.html" data-toggle="dropdown" class="dropdown-toggle nav-link waves-effect waves-light"><i class="fa fa-calendar-check-o"></i>EVENTS <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="events.html"><i class="fa fa-calendar"></i>EVENTS</a></li>
+            <li><a href="event-single.html"><i class="fa fa-calendar-o"></i>EVENT SINGLE</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link waves-effect waves-light"><i class="fa fa-dashboard"></i>DASHBOARD <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="dashboard/admin-dashboard.html"><i class="fa fa-user-secret"></i>ADMIN</a></li>
+            <li><a href="dashboard/teacher-dashboard.html"><i class="fa fa-user"></i>TEACHER</a></li>
+            <li><a href="dashboard/student-dashboard.html"><i class="fa fa-child"></i>STUDENT</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link waves-effect waves-light"><i class="fa fa-file"></i>PAGES <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="gallery.html"><i class="fa fa-picture-o"></i>CAMPUS GALLERY</a></li>
+            <li><a href="about.html"><i class="fa fa-info-circle"></i>ABOUT</a></li>
+            <li><a href="contact.html"><i class="fa fa-phone-square"></i>CONTACT US</a></li>
+        </ul>
+    </li>
+    @if (Model.IsAuthenticated)
+    {
+        if (Model.RoleId == 1)
+        {
+            <li class="nav-item top-nav-login-btn dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle nav-link waves-effect waves-light text-uppercase" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-user"></i> <span class="hidden-sm">Admin</span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu cms-user">
+                    <li><a class="text-uppercase" href="@Url.Action("MyAccount","Account", null)"><i class="fa fa-address-card" aria-hidden="true"></i><span class="hidden-xs hidden-sm visible-md visible-lg"> My Account</span></a></li>
+                    <li><a class="text-uppercase" href="@Url.Action("Index", "Dashboard", new { Area = "admin" })" title="Dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i><span class="hidden-xs hidden-sm visible-md visible-lg"> Dashboard</span></a> </li>
+                </ul>
+            </li>
+            <li><a class="text-uppercase nav-link waves-effect waves-light" href="@Url.Action("LogOff", "Account")"><i class="glyphicon glyphicon-off"></i> <span class="hidden-sm">Logout</span></a></li> }
+        else
+        {
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle nav-link waves-effect waves-light" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <span class="hidden-sm"><text></text>@Model.user.UserName</span><span class="caret"></span></a>
+                <ul class="dropdown-menu cms-user">
+                    <li>&nbsp;<a class="text-uppercase" href="@Url.Action("MyAccount","Account", null)"><i class="fa fa-address-card" aria-hidden="true"></i><span class="hidden-xs hidden-sm visible-md visible-lg"> My Account</span></a></li>
+                    <li>&nbsp;<a class="text-uppercase" href="@Url.Action("Index", "Dashboard", new { Area = "admin" })" title="Dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i><span class="hidden-xs hidden-sm visible-md visible-lg"> Dashboard</span></a> </li>
+                </ul>
+            </li>
+            <li class="nav-item top-nav-login-btn"><a class="text-uppercase nav-link waves-effect waves-light" href="@Url.Action("LogOff", "Account")"><i class="glyphicon glyphicon-off"></i> <span class="hidden-sm">Logout</span></a></li> }
+    }
+    else
+    {
+        <li class="nav-item"><a class="text-uppercase nav-link waves-effect waves-light" href="@Url.Action("Login","Account", new { Area = String.Empty })"><i class="fa fa-sign-in"></i><span class="hidden-sm">Login</span></a></li>
+        <li class="nav-item"><a class="text-uppercase nav-link waves-effect waves-light" href="@Url.Action("Register","Account", new { Area = String.Empty })"><i class="fa fa-user"></i><span class="hidden-sm">Register</span></a></li>
+    }
 
 </ul>
 @if (Model.IsAuthenticated)
 {
-	<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             var userid = @Model.user.Id;
             ga('set', 'userId', userid);
         });
-	</script>
+    </script>
 }

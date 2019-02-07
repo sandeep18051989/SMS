@@ -20,6 +20,7 @@ namespace EF.Services.Service
 		User GetUserByGuid(Guid userGuid);
 		IList<User> GetAllUsers(bool? active = null, bool? approved = null);
         bool CheckUsernameExists(string username, int? id = null);
+        bool CheckEmailExists(string email, int? id = null);
         string GetUsernameByUser(int id);
 
         void ApproveUsers(IList<User> users);

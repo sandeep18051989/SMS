@@ -151,19 +151,21 @@ namespace SMS.Controllers
                         _authenticationService.SignIn(user, model.RememberMe);
 
                         // Send Notification To The User
-                        var template = _settingService.GetSettingByKey("UserSignInAttempt");
-                        if (template != null)
-                        {
-                            var Template = _templateService.GetTemplateByName(template.Value);
+                        //var template = _settingService.GetSettingByKey("UserSignInAttempt");
+                        //if (template != null)
+                        //{
+                        //    var Template = _templateService.GetTemplateByName(template.Value);
 
-                            var tokens = new List<DataToken>();
-                            _templateService.AddUserTokens(tokens, user);
+                        //    var tokens = new List<DataToken>();
+                        //    _templateService.AddUserTokens(tokens, user);
 
-                            foreach (var dt in tokens)
-                            {
-                                Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
-                            }
-                        }
+                        //    foreach (var dt in tokens)
+                        //    {
+                        //        Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
+                        //    }
+
+                        //    _emailService.
+                        //}
 
                         _userContext.CurrentUser = user;
 
@@ -371,17 +373,14 @@ namespace SMS.Controllers
         //	return View(model);
         //}
 
-        public JsonResult CheckEmailExists(string email)
+        public JsonResult CheckEmailExists(string Email)
         {
-            if (String.IsNullOrEmpty(email))
-                throw new Exception("Email parameter is missing.");
+            return Json(!_userService.CheckEmailExists(Email), JsonRequestBehavior.AllowGet);
+        }
 
-            var _userData = _userService.GetUserByUsername(email);
-
-            if (_userData != null)
-                return Json(true, JsonRequestBehavior.AllowGet);
-
-            return Json(false, JsonRequestBehavior.AllowGet);
+        public JsonResult CheckUsernameExists(string Username)
+        {
+            return Json(!_userService.CheckUsernameExists(Username), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult EditMyAccount(int id)

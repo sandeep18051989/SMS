@@ -65,14 +65,16 @@
       <HintPath>..\packages\CodeSmear.JQuery.DataTable.1.0.1\lib\CodeSmear.JQuery.DataTable.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.MappingAPI, Version=6.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.MappingAPI.6.2.0\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.8.1.3\lib\net45\FluentValidation.dll</HintPath>
@@ -2364,6 +2366,7 @@
     <Compile Include="Validations\RoleValidation.cs" />
     <Compile Include="Validations\PermissionRecordValidation.cs" />
     <Compile Include="Validations\SliderValidation.cs" />
+    <Compile Include="Validations\UserAddWidgetValidation.cs" />
     <Compile Include="Validations\VendorModelValidator.cs" />
     <Compile Include="Validations\UserValidation.cs" />
   </ItemGroup>
@@ -2383,7 +2386,7 @@
     <Content Include="Views\Slider\SliderItem.cshtml" />
     <Content Include="Views\Product\FooterProductListColumn1.cshtml" />
     <Content Include="Views\Product\FooterProductListColumn2.cshtml" />
-    <Content Include="Views\Product\Detail.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Shared\_InnerLayout.cshtml" />
     <Content Include="Views\Comment\PostComment.cshtml" />
     <Content Include="Views\Comment\GetComments.cshtml" />
@@ -2404,8 +2407,6 @@
     <Content Include="Views\Feedback\Index.cshtml" />
     <Content Include="Views\Common\About.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
-    <Content Include="Views\Common\ThirdPartyManufacturing.cshtml" />
-    <Content Include="Views\Common\Pharma.cshtml" />
     <Content Include="Views\Account\Developer.cshtml" />
     <Content Include="Views\Common\AccessDenied.cshtml" />
     <Content Include="Views\Shared\Query.cshtml" />
@@ -2423,7 +2424,7 @@
     <Content Include="Views\Blog\Index.cshtml" />
     <Content Include="Views\Common\MainMenu.cshtml" />
     <Content Include="Views\Home\HappyUsers.cshtml" />
-    <Content Include="Views\Blog\Detail.cshtml" />
+    <Content Include="Views\Blog\Details.cshtml" />
     <Content Include="Scripts\steller.min.js" />
     <Content Include="Views\Page\Page.cshtml" />
     <Content Include="Views\Page\PageDetails.cshtml" />
@@ -2459,6 +2460,8 @@
     <Content Include="Views\Social\OtherLogins.cshtml" />
     <Content Include="Views\Shared\_SocialSettingsLayout.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
+    <Content Include="Views\User\AddUserWidget.cshtml" />
+    <Content Include="Views\Event\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

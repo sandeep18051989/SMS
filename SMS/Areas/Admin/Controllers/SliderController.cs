@@ -128,7 +128,7 @@ namespace SMS.Areas.Admin.Controllers
                             Src = x.PictureSrc,
                             IsActive = x.IsActive,
                             UserId = x.UserId,
-                            CreatedDateString = x.CreatedOn.ToString("U"),
+                            CreatedDateString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
                             AlternateText = x.AlternateText
                         })
                     },

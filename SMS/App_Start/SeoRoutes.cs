@@ -88,7 +88,7 @@ namespace SMS.App_Start
 						{
 							data.Values["controller"] = "Account";
 							data.Values["action"] = "Details";
-							data.Values["userid"] = urlRecord.EntityId;
+							data.Values["id"] = urlRecord.EntityId;
 							data.Values["name"] = urlRecord.Slug;
 						}
 						break;
@@ -96,7 +96,7 @@ namespace SMS.App_Start
 						{
 							data.Values["controller"] = "Teacher";
 							data.Values["action"] = "Details";
-							data.Values["teacherid"] = urlRecord.EntityId;
+							data.Values["id"] = urlRecord.EntityId;
 							data.Values["name"] = urlRecord.Slug;
 						}
 						break;
@@ -104,14 +104,14 @@ namespace SMS.App_Start
 						{
 							data.Values["controller"] = "Student";
 							data.Values["action"] = "Details";
-							data.Values["studentid"] = urlRecord.EntityId;
+							data.Values["id"] = urlRecord.EntityId;
 							data.Values["name"] = urlRecord.Slug;
 						}
 						break;
 					case "product":
 						{
 							data.Values["controller"] = "Product";
-							data.Values["action"] = "Detail";
+							data.Values["action"] = "Details";
 							data.Values["id"] = urlRecord.EntityId;
 							data.Values["name"] = urlRecord.Slug;
 						}
@@ -119,7 +119,7 @@ namespace SMS.App_Start
                     case "productcategory":
                         {
                             data.Values["controller"] = "ProductCategory";
-                            data.Values["action"] = "Detail";
+                            data.Values["action"] = "Details";
                             data.Values["id"] = urlRecord.EntityId;
                             data.Values["name"] = urlRecord.Slug;
                         }
@@ -128,7 +128,7 @@ namespace SMS.App_Start
 						{
 							data.Values["controller"] = "News";
 							data.Values["action"] = "Details";
-							data.Values["newsid"] = urlRecord.EntityId;
+							data.Values["id"] = urlRecord.EntityId;
 							data.Values["name"] = urlRecord.Slug;
 						}
 						break;
@@ -136,7 +136,7 @@ namespace SMS.App_Start
 						{
 							data.Values["controller"] = "Event";
 							data.Values["action"] = "Details";
-							data.Values["eventid"] = urlRecord.EntityId;
+							data.Values["id"] = urlRecord.EntityId;
 							data.Values["name"] = urlRecord.Slug;
 						}
 						break;
@@ -144,7 +144,7 @@ namespace SMS.App_Start
 						{
 							data.Values["controller"] = "Page";
 							data.Values["action"] = "PageDetails";
-							data.Values["custompageid"] = urlRecord.EntityId;
+							data.Values["id"] = urlRecord.EntityId;
 							data.Values["name"] = urlRecord.Slug;
 						}
 						break;
@@ -152,7 +152,7 @@ namespace SMS.App_Start
 						{
 							data.Values["controller"] = "Blog";
 							data.Values["action"] = "Details";
-							data.Values["blogid"] = urlRecord.EntityId;
+							data.Values["id"] = urlRecord.EntityId;
 							data.Values["name"] = urlRecord.Slug;
 						}
 						break;

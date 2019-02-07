@@ -5,8 +5,8 @@ namespace EF.Core
 	public abstract partial class BaseEntity
 	{
 		public int Id { get; set; }
-		public DateTime CreatedOn { get; set; }
-		public DateTime ModifiedOn { get; set; }
+		public DateTime? CreatedOn { get; set; }
+		public DateTime? ModifiedOn { get; set; }
 		public int UserId { get; set; }
         public override bool Equals(object obj)
 		{

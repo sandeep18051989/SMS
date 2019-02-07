@@ -489,8 +489,8 @@ namespace SMS.Areas.Admin.Controllers
                     Name = x.Name,
                     StartDate = homeworksByDivision.Any(y => y.HomeworkId == x.Id) ? homeworksByDivision.FirstOrDefault(y => y.HomeworkId == x.Id).StartDate : null,
                     EndDate = homeworksByDivision.Any(y => y.HomeworkId == x.Id) ? homeworksByDivision.FirstOrDefault(y => y.HomeworkId == x.Id).EndDate : null,
-                    CreatedOnString = x.CreatedOn.ToString("U"),
-                    ModifiedOnString = x.ModifiedOn.ToString("U"),
+                    CreatedOnString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
+                    ModifiedOnString = x.ModifiedOn.HasValue ? x.ModifiedOn.Value.ToString("U") : "",
                     Description = x.Description,
                     IsActive = x.IsActive,
                     Selected = homeworksByDivision.Any(y => y.Id == x.Id)

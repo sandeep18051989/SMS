@@ -315,7 +315,6 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageEvents"))
 				return AccessDeniedView();
 
-			var currentUser = _userContext.CurrentUser;
 			// Check for duplicate event, if any
 			var newEvent = new Event();
 			var _event = _eventService.GetEventByName(model.Title);
@@ -326,7 +325,7 @@ namespace SMS.Areas.Admin.Controllers
 			{
 				newEvent = model.ToEntity();
 				newEvent.CreatedOn = newEvent.ModifiedOn = DateTime.Now;
-				newEvent.UserId = currentUser.Id;
+				newEvent.UserId = _userContext.CurrentUser.Id;
 
 				_eventService.Insert(newEvent);
 

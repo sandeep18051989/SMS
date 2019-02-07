@@ -73,7 +73,7 @@ namespace EF.Services.Service
 			var lstNews = new List<News>();
 			foreach (var q in query)
 			{
-				if (q.CreatedOn.Date == createddate.Date)
+				if (q.CreatedOn.HasValue && q.CreatedOn.Value.Date == createddate.Date)
 				{
 					lstNews.Add(q);
 				}

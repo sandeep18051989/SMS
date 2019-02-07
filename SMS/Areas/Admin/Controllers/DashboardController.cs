@@ -179,9 +179,9 @@ namespace SMS.Areas.Admin.Controllers
             //	Date = mu.Key,
             //}).ToList();
 
-            model.Comments = _commentService.GetCommentsByManualDate(DateTime.Now).Select(c => new AdminCommentsModel()
+            model.Comments = _commentService.GetCommentsByDate(DateTime.Now).Select(c => new AdminCommentsModel()
 			{
-				CommentDate = c.CreatedOn,
+				CommentDate = c.CreatedOn.Value,
 				CommentHtml = c.CommentHtml,
 				DisplayOrder = c.DisplayOrder,
 				UserId = c.UserId,
@@ -218,7 +218,7 @@ namespace SMS.Areas.Admin.Controllers
 					_chartModel.WeekStart = Convert.ToDateTime(weekGroup.Item2).Date;
 					_chartModel.WeekEnd = Convert.ToDateTime(weekGroup.Item3).Date;
 					var q = (from x in _regUsers
-								where x.CreatedOn.Date >= _chartModel.WeekStart.Date && x.CreatedOn.Date <= _chartModel.WeekEnd.Date
+								where x.CreatedOn.Value.Date >= _chartModel.WeekStart.Date && x.CreatedOn.Value.Date <= _chartModel.WeekEnd.Date
 								select new { x.Id, x.UserName }).ToList();
 
 					_chartModel.RegisteredUsers = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.UserName)).ToList();
@@ -296,7 +296,7 @@ namespace SMS.Areas.Admin.Controllers
 					_chartModel.Feedbacks_WeekStart = Convert.ToDateTime(weekGroup.Item2).Date;
 					_chartModel.Feedbacks_WeekEnd = Convert.ToDateTime(weekGroup.Item3).Date;
 					var q = (from x in _feedbacks
-								where x.CreatedOn.Date >= _chartModel.Feedbacks_WeekStart.Date && x.CreatedOn.Date <= _chartModel.Feedbacks_WeekEnd.Date
+								where x.CreatedOn.Value.Date >= _chartModel.Feedbacks_WeekStart.Date && x.CreatedOn.Value.Date <= _chartModel.Feedbacks_WeekEnd.Date
 								select new { x.Id, x.Email }).ToList();
 
 					_chartModel.Feedbacks = q.AsEnumerable().Select(item => new KeyValuePair<int, string>(item.Id, item.Email)).ToList();
@@ -614,7 +614,7 @@ namespace SMS.Areas.Admin.Controllers
 
 			notification.SystemLogs = _systemLogService.GetAllSystemLogs(fromUtc: DateTime.UtcNow, toUtc: DateTime.UtcNow).Select(s => new SystemLogModel()
 			{
-				Date = s.CreatedOn.Date,
+				Date = s.CreatedOn.Value.Date,
 				EntityId = s.EntityId,
 				Id = s.Id,
 				EntityTypeName = s.EntityTypeName,

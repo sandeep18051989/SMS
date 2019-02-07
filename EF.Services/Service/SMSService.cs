@@ -1689,7 +1689,7 @@ namespace EF.Services.Service
             var lstTeachers = new List<Teacher>();
             foreach (var q in query)
             {
-                if (q.ModifiedOn.Date == logindate.Date)
+                if (q.ModifiedOn.HasValue && q.ModifiedOn.Value.Date == logindate.Date)
                     lstTeachers.Add(q);
             }
             return lstTeachers.ToList().Count;

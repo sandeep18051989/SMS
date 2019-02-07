@@ -17,7 +17,11 @@
         <div class="col-md-4 mb-4">
             <div class="card">
                 <div style="max-height:250px;min-height:250px;" class="card-body">
-                    <h4 class="card-title">@(blog.Name)</h4>
+                    <h4 class="card-title">
+                        <a href="@Url.RouteUrl("Blog", new { name = blog.SystemName })" class="dark-text">
+                            @(blog.Name)
+                        </a>
+                    </h4>
                     @{ var description = (!string.IsNullOrEmpty(blog.BlogHtml) ? blog.BlogHtml.Length > 200 ? ("<p class='card-text'>" + blog.BlogHtml.Substring(0, 200) + "...</p>") : ("<p class='card-text'>" + blog.BlogHtml + "</p>") : ("<p class='card-text'>" + (blog.Subject) + "</p>")); }<p class='card-text'></p><p class='card-text'></p><p class='card-text'></p>
                     @Html.Raw(description)
                 </div>
