@@ -125,7 +125,7 @@ namespace SMS.Areas.Admin.Controllers
                         data = eventData.Select(x => new PictureModel()
                         {
                             Id = x.Id,
-                            Src = x.PictureSrc,
+                            PictureSrc = x.PictureSrc,
                             IsActive = x.IsActive,
                             UserId = x.UserId,
                             CreatedDateString = x.CreatedOn.HasValue ? x.CreatedOn.Value.ToString("U") : "",
@@ -410,7 +410,7 @@ namespace SMS.Areas.Admin.Controllers
                 Height = item.Height,
                 IsActive = item.IsActive,
                 IsLogo = item.IsLogo,
-                Src = item.PictureSrc,
+                PictureSrc = item.PictureSrc,
                 Url = item.Url,
                 UserId = item.UserId,
                 Id = item.Id

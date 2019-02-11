@@ -45,37 +45,27 @@ namespace EF.Services.Service
 
 		#region Utilities
 
-		public IList<Video> GetAllVideos()
+		public IList<Video> GetAllVideos(bool? onlyActive = null, bool? onlyOpenResource = null)
 		{
-			return _videoRepository.Table.OrderBy(a => a.DisplayOrder).ToList();
+			return _videoRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && (!onlyOpenResource.HasValue || x.IsOpenResource == onlyOpenResource.Value)).ToList();
 		}
 
-		public IList<Video> GetVideos(bool active = true)
-		{
-			if (active)
-				return _videoRepository.Table.OrderBy(a => a.DisplayOrder).ToList();
+        public IList<User> GetAllVideosByUser(int userId, bool? onlyActive = null, bool? onlyOpenResource = null)
+        {
+            if (userId > 0)
+            {
+                var query = _videoRepository.Table.Where(x => x.UserId == userId && (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && (!onlyOpenResource.HasValue || x.IsOpenResource == onlyOpenResource.Value)).OrderBy(a => a.DisplayOrder).ToList();
+            }
 
-			return _videoRepository.Table.OrderBy(a => a.DisplayOrder).ToList();
+            return null;
+        }
 
-
-		}
-
-		public Video GetVideoById(int videoId)
+        public Video GetVideoById(int videoId)
 		{
 			if (videoId == 0)
 				return null;
 
 			return _videoRepository.Table.FirstOrDefault(a => a.Id == videoId);
-		}
-
-		public IList<User> GetAllVideosByUser(int userId)
-		{
-			if (userId > 0)
-			{
-				var query = _videoRepository.Table.Where(a => a.UserId == userId).OrderBy(a => a.DisplayOrder).ToList();
-			}
-
-			return null;
 		}
 
 		public EventVideo GetEventVideoByVideoId(int id)
@@ -145,13 +135,27 @@ namespace EF.Services.Service
 
 		}
 
-		#endregion
+        public void ToggleActiveStatus(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
 
-		#region Video Definetions
+            var objVideo = _videoRepository.GetByID(id);
+            if (objVideo != null)
+            {
+                objVideo.IsActive = !objVideo.IsActive;
+                objVideo.ModifiedOn = DateTime.Now;
+                _videoRepository.Update(objVideo);
+            }
+        }
 
-		#region Event
+        #endregion
 
-		public void InsertEventVideo(EventVideo eventVideo)
+        #region Video Definetions
+
+        #region Event
+
+        public void InsertEventVideo(EventVideo eventVideo)
 		{
 			_eventVideoRepository.Insert(eventVideo);
 		}

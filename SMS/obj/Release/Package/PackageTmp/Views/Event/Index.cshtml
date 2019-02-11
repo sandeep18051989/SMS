@@ -45,7 +45,7 @@
                             <i class="fa fa-clock-o pr-1"></i>@CodeHelper.TimeAgo(eve.StartDate.Value)
                         </li>
                         <li class="list-inline-item pr-2">
-                            <a href="#" class="white-text">
+                            <a href="@Url.RouteUrl("Event", new { name = eve.SystemName })" class="white-text">
                                 <i class="fa fa-comments-o pr-1"></i>@eve.Comments.Count
                             </a>
                         </li>

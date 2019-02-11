@@ -8,14 +8,15 @@ namespace EF.Services.Service
 		void Insert(Video videos);
 		void Update(Video videos);
 		void Delete(int id);
-		IList<Video> GetAllVideos();
-		IList<Video> GetVideos(bool active = true);
-		Video GetVideoById(int videoId);
-		IList<User> GetAllVideosByUser(int userId);
+        IList<Video> GetAllVideos(bool? onlyActive = null, bool? onlyOpenResource = null);
 
-		#region Video Definetions
+        IList<User> GetAllVideosByUser(int userId, bool? onlyActive = null, bool? onlyOpenResource = null);
+        Video GetVideoById(int videoId);
+        void ToggleActiveStatus(int id);
 
-		IList<EventVideo> GetEventVideosByEventId(int id);
+        #region Video Definetions
+
+        IList<EventVideo> GetEventVideosByEventId(int id);
 		IList<NewsVideo> GetNewsVideosByNewsId(int id);
 		IList<ProductVideo> GetProductVideosByProductId(int id);
 

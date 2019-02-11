@@ -785,6 +785,25 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.Picture, mo => mo.Ignore());
 
+                cfg.CreateMap<Picture, PictureModel>()
+                    .ForMember(dest => dest.CaptionOff, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.PictureSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedDateString, mo => mo.MapFrom(src => src.CreatedOn.Value.ToString("U")))
+                    .ForMember(dest => dest.UploadedBy, mo => mo.Ignore());
+                cfg.CreateMap<PictureModel, Picture>()
+                    .ForMember(dest => dest.Blogs, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.News, mo => mo.Ignore())
+                    .ForMember(dest => dest.PictureSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.Products, mo => mo.Ignore())
+                    .ForMember(dest => dest.Events, mo => mo.Ignore())
+                    .ForMember(dest => dest.Sliders, mo => mo.Ignore())
+                    .ForMember(dest => dest.Reactions, mo => mo.Ignore());
+
                 cfg.CreateMap<Purchase, PurchaseModel>()
                     .ForMember(dest => dest.AvailableVendors, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
@@ -1166,6 +1185,21 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.SocialRecords, mo => mo.Ignore());
+
+                cfg.CreateMap<Video, VideoModel>()
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.UploadedBy, mo => mo.Ignore())
+                    .ForMember(dest => dest.VideoSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
+                cfg.CreateMap<VideoModel, Video>()
+                    .ForMember(dest => dest.Blogs, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.News, mo => mo.Ignore())
+                    .ForMember(dest => dest.VideoSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.Products, mo => mo.Ignore())
+                    .ForMember(dest => dest.Events, mo => mo.Ignore())
+                    .ForMember(dest => dest.Reactions, mo => mo.Ignore());
 
             });
             _mapper = _mapperConfiguration.CreateMapper();

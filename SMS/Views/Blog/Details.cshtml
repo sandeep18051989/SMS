@@ -174,9 +174,9 @@
                             <div class="card">
                                 <!--Card image-->
                                 <div class="view overlay">
-                                    @if (!string.IsNullOrEmpty(Model.User.ProfilePicture.Src))
+                                    @if (!string.IsNullOrEmpty(Model.User.ProfilePicture.PictureSrc))
                                     {
-                                        <img src="@(Model.User.ProfilePicture.Src)" class="card-img-top" alt="@(Model.User.Username)">
+                                        <img src="@(Model.User.ProfilePicture.PictureSrc)" class="card-img-top" alt="@(Model.User.Username)">
                                     }
                                     else
                                     {

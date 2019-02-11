@@ -5,18 +5,12 @@ namespace EF.Core.Data
 {
 	public partial class Picture : BaseEntity
 	{
-		[NotMapped]
-		public virtual ICollection<BlogPicture> _Blog { get; set; }
-		[NotMapped]
-		public virtual ICollection<ProductPicture> _Products { get; set; }
-		[NotMapped]
-		public virtual ICollection<EventPicture> _Events { get; set; }
-		[NotMapped]
-		public virtual ICollection<Slider> _Sliders { get; set; }
-		[NotMapped]
-		public virtual ICollection<NewsPicture> _News { get; set; }
-		[NotMapped]
-		public virtual ICollection<Reaction> _Reactions { get; set; }
+        private ICollection<BlogPicture> _Blog;
+        private ICollection<ProductPicture> _Products;
+        private ICollection<EventPicture> _Events;
+        private ICollection<Slider> _Sliders;
+        private ICollection<NewsPicture> _News;
+        private ICollection<Reaction> _Reactions;
 		public string PictureSrc { get; set; }
 		public string Url { get; set; }
 		public decimal Width { get; set; }
@@ -25,7 +19,8 @@ namespace EF.Core.Data
 		public bool IsThumb { get; set; }
 		public int DisplayOrder { get; set; }
 		public bool IsLogo { get; set; }
-		public bool IsActive { get; set; }
+	    public bool IsOpenResource { get; set; }
+        public bool IsActive { get; set; }
 		public string AlternateText { get; set; }
 		public int AcadmicYearId { get; set; }
 
@@ -59,7 +54,13 @@ namespace EF.Core.Data
 			protected set { Reactions = value; }
 		}
 
-		#endregion
+        public virtual ICollection<Slider> Sliders
+        {
+            get { return _Sliders ?? (_Sliders = new List<Slider>()); }
+            protected set { _Sliders = value; }
+        }
 
-	}
+        #endregion
+
+    }
 }

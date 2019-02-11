@@ -67,7 +67,7 @@ namespace SMS.Controllers
 					model.CoverPicture = new PictureModel()
 					{
 						AlternateText = coverpic.AlternateText,
-						Src = coverpic.PictureSrc,
+                        PictureSrc = coverpic.PictureSrc,
 						Url = coverpic.Url
 					};
 				}
@@ -96,7 +96,7 @@ namespace SMS.Controllers
 					model.ProfilePicture = new PictureModel()
 					{
 						AlternateText = profilepic.AlternateText,
-						Src = profilepic.PictureSrc,
+                        PictureSrc = profilepic.PictureSrc,
 						Url = profilepic.Url
 					};
 				}

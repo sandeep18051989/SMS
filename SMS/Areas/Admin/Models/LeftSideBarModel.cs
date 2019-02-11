@@ -21,6 +21,8 @@ namespace SMS.Areas.Admin.Models
         public int LatestFeedbacksCount { get; set; }
         public int LatestAuditLogsCount { get; set; }
         public int LatestSystemLogsCount { get; set; }
+        public int VideoResourceCount { get; set; }
+        public int PictureResourceCount { get; set; }
 
         public int LatestUsersCount { get; set; }
         #endregion

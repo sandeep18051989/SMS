@@ -130,7 +130,9 @@
                     }
                     if (_permissionService.Authorize("ManageBlogs")
                         || _permissionService.Authorize("ManageEvents")
-                        || _permissionService.Authorize("ManageNews"))
+                        || _permissionService.Authorize("ManageNews")
+                        || _permissionService.Authorize("ManagePictures")
+                        || _permissionService.Authorize("ManageVideos"))
                     {
                         <li class="nav-small-cap">CONTENTS</li>
                         if (_permissionService.Authorize("ManageBlogs"))
@@ -163,330 +165,348 @@
                                 </ul>
                             </li>
                         }
-                    }
-                    if (_permissionService.Authorize("ManageProducts")
-                        || _permissionService.Authorize("ManageVendors"))
-                    {
-                        <li class="nav-small-cap">PRODUCTS/CATEGORIES</li>
-                        if (_permissionService.Authorize("ManageProducts"))
+                        if (_permissionService.Authorize("ManageVideos") || _permissionService.Authorize("ManagePictures"))
                         {
-                            <li id="productcategory" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Product Categories&nbsp;</span></a>
+                            <li id="resources" class="">
+                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Resources&nbsp;<span class="label label-rouded label-themecolor pull-right">@(Model.PictureResourceCount)</span></span></a>
                                 <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "ProductCategory", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "ProductCategory", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                            <li id="products" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Products&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Product", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Product", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageVendors"))
-                        {
-                            <li id="vendors" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Vendors&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Vendor", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Vendor", new { Area = "Admin" })">List&nbsp;</a></li>
+                                    @if (_permissionService.Authorize("ManagePictures"))
+                                    {
+                                        <li><a href="@Url.Action("Create", "Picture", new { Area = "Admin" })">Add Picture&nbsp;</a></li>
+                                        <li><a href="@Url.Action("List", "Picture", new { Area = "Admin" })">Picture List&nbsp;</a></li>
+                                    }
+                                    @if (_permissionService.Authorize("ManageVideos"))
+                                    {
+                                        <li><a href="@Url.Action("Create", "Video", new { Area = "Admin" })">Add Video&nbsp;</a></li>
+                                        <li><a href="@Url.Action("List", "Video", new { Area = "Admin" })">Video List&nbsp;</a></li>
+                                    }
                                 </ul>
                             </li>
                         }
                     }
-                    if (_permissionService.Authorize("ManageCaste")
-                        || _permissionService.Authorize("ManageCategory")
-                        || _permissionService.Authorize("ManageFeeCategory")
-                        || _permissionService.Authorize("ManageDesignations")
-                        || _permissionService.Authorize("ManageAllowance")
-                        || _permissionService.Authorize("ManageExam")
-                        || _permissionService.Authorize("ManageAssessment")
-                        || _permissionService.Authorize("ManageHomework")
-                        || _permissionService.Authorize("ManageEmployees")
-                        || _permissionService.Authorize("ManageSubject")
-                        || _permissionService.Authorize("ManageClassRoom")
-                        || _permissionService.Authorize("ManageClass")
-                        || _permissionService.Authorize("ManageDivision")
-                        || _permissionService.Authorize("ManageQuestion")
-                        || _permissionService.Authorize("ManageBook")
-                        || _permissionService.Authorize("ManageHouse")
-                        || _permissionService.Authorize("ManageAcadmicYear")
-                        || _permissionService.Authorize("ManageReligions")
-                        || _permissionService.Authorize("ManageQualifications")
-                        || _permissionService.Authorize("ManageTeachers")
-                        || _permissionService.Authorize("ManageStudents")
-                        || _permissionService.Authorize("ManagePayment")
-                        || _permissionService.Authorize("ManageHoliday"))
+                }
+                @if (_permissionService.Authorize("ManageProducts")
+|| _permissionService.Authorize("ManageVendors"))
+                {
+                    <li class="nav-small-cap">PRODUCTS/CATEGORIES</li>
+                    if (_permissionService.Authorize("ManageProducts"))
                     {
-                        <li class="nav-small-cap">SMS SETTINGS</li>
-                        if (_permissionService.Authorize("ManageAcadmicYear"))
-                        {
-                            <li id="acadmicyears" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Acadmic Years&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "AcadmicYear", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "AcadmicYear", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageAllowance"))
-                        {
-                            <li id="allowances" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Allowances&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Allowance", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Allowance", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageAssessment"))
-                        {
-                            <li id="assessments" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Assessments&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Assessment", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Assessment", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageBook"))
-                        {
-                            <li id="books" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Books&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Book", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Book", new { Area = "Admin" })">List&nbsp;</a></li>
-                                    <li><a href="@Url.Action("Create", "BookIssue", new { Area = "Admin" })">Issue A Book&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "BookIssue", new { Area = "Admin" })">All Book Issues&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageCaste"))
-                        {
-                            <li id="castes" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Castes&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Caste", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Caste", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageCategory"))
-                        {
-                            <li id="categories" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Categories&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Category", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Category", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageClass"))
-                        {
-                            <li id="classes" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Classes&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Class", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Class", new { Area = "Admin" })">List&nbsp;</a></li>
-                                    <li><a href="@Url.Action("Divisions", "ClassRoomDivision", new { Area = "Admin" })">Class Division Mappings&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageClassRoom"))
-                        {
-                            <li id="classrooms" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Class Rooms&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "ClassRoom", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "ClassRoom", new { Area = "Admin" })">List&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "ClassRoomDivision", new { Area = "Admin" })">Allot Divisions&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageDesignations"))
-                        {
-                            <li id="designations" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Designations&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Designation", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Designation", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageDivision"))
-                        {
-                            <li id="divisions" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Divisions&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Division", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Division", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageEmployees"))
-                        {
-                            <li id="employees" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Employees&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Employee", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Employee", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageExam"))
-                        {
-                            <li id="exams" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Exams&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Exam", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Exam", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageFeeCategory"))
-                        {
-                            <li id="feecategories" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Fee Categories&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "FeeCategory", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "FeeCategory", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageFeeCategory"))
-                        {
-                            <li id="feedetails" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Fee Details&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "FeeDetail", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "FeeDetail", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageHoliday"))
-                        {
-                            <li id="holidays" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Holidays&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Holiday", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Holiday", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageHomework"))
-                        {
-                            <li id="homeworks" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Homeworks&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Homework", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Homework", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageHouse"))
-                        {
-                            <li id="houses" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Houses&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "House", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "House", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManagePayment"))
-                        {
-                            <li id="payments" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Payments&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Payment", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Payment", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageQualifications"))
-                        {
-                            <li id="qualifications" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Qualifications&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Qualification", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Qualification", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageQuestion"))
-                        {
-                            <li id="questions" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Questions&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Question", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Question", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageReligions"))
-                        {
-                            <li id="religions" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Religions&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Religion", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Religion", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageStudents"))
-                        {
-                            <li id="students" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Students&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Student", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Student", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageSubject"))
-                        {
-                            <li id="subjects" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Subjects&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Subject", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Subject", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                        if (_permissionService.Authorize("ManageTeachers"))
-                        {
-                            <li id="teachers" class="">
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Teachers&nbsp;</span></a>
-                                <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                    <li><a href="@Url.Action("Create", "Teacher", new { Area = "Admin" })">Create&nbsp;</a></li>
-                                    <li><a href="@Url.Action("List", "Teacher", new { Area = "Admin" })">List&nbsp;</a></li>
-                                </ul>
-                            </li>
-                        }
-                    }
-                    if (_permissionService.Authorize("ManageSocialSettings"))
-                    {
-                        <li class="nav-small-cap">SOCIAL MEDIA</li>
-                        <li id="social">
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Settings&nbsp;</span></a>
+                        <li id="productcategory" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Product Categories&nbsp;</span></a>
                             <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                                @foreach (var plugin in activeSocialPlugins)
-                                {
-                                    <li><a href="@Url.Action(plugin.ActionName, plugin.ControllerName, new { Area = "" })">@(plugin.DisplayName)&nbsp;</a></li>
-                                }
+                                <li><a href="@Url.Action("Create", "ProductCategory", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "ProductCategory", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                        <li id="products" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Products&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Product", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Product", new { Area = "Admin" })">List&nbsp;</a></li>
                             </ul>
                         </li>
                     }
-                    <li class="nav-small-cap">OTHERS</li>
-                    <li id="logs" class="">
-                        <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Feedbacks&nbsp;<span class="label label-rouded label-themecolor pull-right">@(Model.LatestFeedbacksCount)</span></span></a>
+                    if (_permissionService.Authorize("ManageVendors"))
+                    {
+                        <li id="vendors" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Vendors&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Vendor", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Vendor", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                }
+                @if (_permissionService.Authorize("ManageCaste")
+|| _permissionService.Authorize("ManageCategory")
+|| _permissionService.Authorize("ManageFeeCategory")
+|| _permissionService.Authorize("ManageDesignations")
+|| _permissionService.Authorize("ManageAllowance")
+|| _permissionService.Authorize("ManageExam")
+|| _permissionService.Authorize("ManageAssessment")
+|| _permissionService.Authorize("ManageHomework")
+|| _permissionService.Authorize("ManageEmployees")
+|| _permissionService.Authorize("ManageSubject")
+|| _permissionService.Authorize("ManageClassRoom")
+|| _permissionService.Authorize("ManageClass")
+|| _permissionService.Authorize("ManageDivision")
+|| _permissionService.Authorize("ManageQuestion")
+|| _permissionService.Authorize("ManageBook")
+|| _permissionService.Authorize("ManageHouse")
+|| _permissionService.Authorize("ManageAcadmicYear")
+|| _permissionService.Authorize("ManageReligions")
+|| _permissionService.Authorize("ManageQualifications")
+|| _permissionService.Authorize("ManageTeachers")
+|| _permissionService.Authorize("ManageStudents")
+|| _permissionService.Authorize("ManagePayment")
+|| _permissionService.Authorize("ManageHoliday"))
+                {
+                    <li class="nav-small-cap">SMS SETTINGS</li>
+                    if (_permissionService.Authorize("ManageAcadmicYear"))
+                    {
+                        <li id="acadmicyears" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Acadmic Years&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "AcadmicYear", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "AcadmicYear", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageAllowance"))
+                    {
+                        <li id="allowances" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Allowances&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Allowance", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Allowance", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageAssessment"))
+                    {
+                        <li id="assessments" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Assessments&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Assessment", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Assessment", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageBook"))
+                    {
+                        <li id="books" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Books&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Book", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Book", new { Area = "Admin" })">List&nbsp;</a></li>
+                                <li><a href="@Url.Action("Create", "BookIssue", new { Area = "Admin" })">Issue A Book&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "BookIssue", new { Area = "Admin" })">All Book Issues&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageCaste"))
+                    {
+                        <li id="castes" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Castes&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Caste", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Caste", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageCategory"))
+                    {
+                        <li id="categories" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Categories&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Category", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Category", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageClass"))
+                    {
+                        <li id="classes" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Classes&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Class", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Class", new { Area = "Admin" })">List&nbsp;</a></li>
+                                <li><a href="@Url.Action("Divisions", "ClassRoomDivision", new { Area = "Admin" })">Class Division Mappings&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageClassRoom"))
+                    {
+                        <li id="classrooms" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Class Rooms&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "ClassRoom", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "ClassRoom", new { Area = "Admin" })">List&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "ClassRoomDivision", new { Area = "Admin" })">Allot Divisions&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageDesignations"))
+                    {
+                        <li id="designations" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Designations&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Designation", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Designation", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageDivision"))
+                    {
+                        <li id="divisions" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Divisions&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Division", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Division", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageEmployees"))
+                    {
+                        <li id="employees" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Employees&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Employee", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Employee", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageExam"))
+                    {
+                        <li id="exams" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Exams&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Exam", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Exam", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageFeeCategory"))
+                    {
+                        <li id="feecategories" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Fee Categories&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "FeeCategory", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "FeeCategory", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageFeeCategory"))
+                    {
+                        <li id="feedetails" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Fee Details&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "FeeDetail", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "FeeDetail", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageHoliday"))
+                    {
+                        <li id="holidays" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Holidays&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Holiday", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Holiday", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageHomework"))
+                    {
+                        <li id="homeworks" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Homeworks&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Homework", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Homework", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageHouse"))
+                    {
+                        <li id="houses" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Houses&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "House", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "House", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManagePayment"))
+                    {
+                        <li id="payments" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Payments&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Payment", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Payment", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageQualifications"))
+                    {
+                        <li id="qualifications" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Qualifications&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Qualification", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Qualification", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageQuestion"))
+                    {
+                        <li id="questions" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Questions&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Question", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Question", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageReligions"))
+                    {
+                        <li id="religions" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Religions&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Religion", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Religion", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageStudents"))
+                    {
+                        <li id="students" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Students&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Student", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Student", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageSubject"))
+                    {
+                        <li id="subjects" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Subjects&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Subject", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Subject", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                    if (_permissionService.Authorize("ManageTeachers"))
+                    {
+                        <li id="teachers" class="">
+                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Teachers&nbsp;</span></a>
+                            <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                                <li><a href="@Url.Action("Create", "Teacher", new { Area = "Admin" })">Create&nbsp;</a></li>
+                                <li><a href="@Url.Action("List", "Teacher", new { Area = "Admin" })">List&nbsp;</a></li>
+                            </ul>
+                        </li>
+                    }
+                }
+                @if (_permissionService.Authorize("ManageSocialSettings"))
+                {
+                    <li class="nav-small-cap">SOCIAL MEDIA</li>
+                    <li id="social">
+                        <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Settings&nbsp;</span></a>
                         <ul aria-expanded="false" class="collapse" style="height: 0px;">
-                            <li><a href="@Url.Action("List", "Feedback", new {Area = "Admin"})">List </a></li>
+                            @foreach (var plugin in activeSocialPlugins)
+                            {
+                            <li><a href="@Url.Action(plugin.ActionName, plugin.ControllerName, new { Area = "" })">@(plugin.DisplayName)&nbsp;</a></li>
+                            }
                         </ul>
                     </li>
                 }
+                <li class="nav-small-cap">OTHERS</li>
+                <li id="logs" class="">
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Feedbacks&nbsp;<span class="label label-rouded label-themecolor pull-right">@(Model.LatestFeedbacksCount)</span></span></a>
+                    <ul aria-expanded="false" class="collapse" style="height: 0px;">
+                        <li><a href="@Url.Action("List", "Feedback", new {Area = "Admin"})">List </a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>

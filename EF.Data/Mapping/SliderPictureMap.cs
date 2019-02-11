@@ -20,7 +20,7 @@ namespace EF.Data.Mapping
             this.Property(b => b.ShowThumbnails).IsOptional();
 
             this.HasMany(sl => sl.Pictures).
-                WithMany()
+                WithMany(p => p.Sliders)
                 .Map(m => m.ToTable("Slider_Picture_Map").MapLeftKey("SliderId").MapRightKey("PictureId"));
 
             EntityTracker.TrackAllProperties<Slider>().Except(x => x.Pictures).And(x => x.ModifiedOn).And(x => x.CreatedOn);

@@ -1,13 +1,20 @@
 ﻿using EF.Core.Data;
 using EF.Services;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace SMS.Models
 {
 	public partial class PictureModel : BaseEntityModel
 	{
+        public PictureModel()
+        {
+            AvailableAcadmicYears = new List<SelectListItem>();
+        }
 		public string Url { get; set; }
-		public string Src { get; set; }
+		public string PictureSrc { get; set; }
 		public decimal Width { get; set; }
 		public decimal Height { get; set; }
 		public decimal Size { get; set; }
@@ -15,9 +22,15 @@ namespace SMS.Models
 		public bool IsLogo { get; set; }
 		public bool IsActive { get; set; }
 		public string AlternateText { get; set; }
-		public bool CaptionOff { get; set; }
+	    public string UploadedBy { get; set; }
+        public bool CaptionOff { get; set; }
+	    public bool IsOpenResource { get; set; }
+        public string CreatedDateString { get; set; }
 
-	    public string CreatedDateString { get; set; }
+        public int DisplayOrder { get; set; }
+        public int AcadmicYearId { get; set; }
+
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
     }
 
 	public partial class BlogPictureModel : BaseEntityModel

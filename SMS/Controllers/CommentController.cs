@@ -328,13 +328,13 @@ namespace SMS.Controllers
 					{
 						Id = p.Id,
 						PictureId = p.PictureId,
-						Picture = new SMS.Models.PictureModel()
+						Picture = new PictureModel()
 						{
 							Id = p.Picture.Id,
 							IsActive = p.Picture.IsActive,
 							Url = p.Picture.Url,
 							AlternateText = p.Picture.AlternateText,
-							Src = p.Picture.PictureSrc
+                            PictureSrc = p.Picture.PictureSrc
 						},
 						DisplayOrder = p.DisplayOrder,
 						PicEndDate = p.EndDate,

@@ -50,7 +50,7 @@ namespace SMS.Controllers
                         AlternateText = picture.AlternateText,
                         IsActive = picture.IsActive,
                         Id = picture.Id,
-                        Src = picture.PictureSrc,
+                        PictureSrc = picture.PictureSrc,
                         Size = picture.Size,
                         Url = picture.Url,
                         CaptionOff = model.ShowCaption,

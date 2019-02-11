@@ -20,7 +20,10 @@ namespace EF.Core.Data
 		public int DisplayOrder { get; set; }
 		public bool IsActive { get; set; }
 		public bool IsDeleted { get; set; }
-		public string VideoSrc { get; set; }
+
+        public bool IsOpenResource { get; set; }
+
+        public string VideoSrc { get; set; }
 
 		#region Navigation Properties
 		public virtual ICollection<BlogVideo> Blogs

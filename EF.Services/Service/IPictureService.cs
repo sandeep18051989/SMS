@@ -13,14 +13,12 @@ namespace EF.Services.Service
 		void Insert(Picture picture);
 		void Update(Picture picture);
 		void Delete(int id);
-
-		IList<Picture> GetAllPictures();
 		Picture GetHomeLogo();
 		Picture GetPictureById(int pictureId);
-		IList<Picture> GetPictures(bool active = true);
-		//IList<Pictures> GetAllPicturesByEvent(int eventId);
-		IList<Picture> GetAllPicturesByUser(int userId);
-		string GetDefaultPictureSrc();
+        IList<Picture> GetAllPictures(bool? onlyActive = null, bool? onlyOpenResource = null);
+
+        IList<Picture> GetAllPicturesByUser(int userId, bool? onlyActive = null, bool? onlyOpenResource = null);
+        string GetDefaultPictureSrc();
 		MemoryStream BytearrayToStream(byte[] arr);
 		Image RezizeImage(Image img, int maxWidth, int maxHeight);
 		void TogglePicture(int id);
@@ -74,13 +72,15 @@ namespace EF.Services.Service
 
 		IList<NewsPicture> GetNewsPictureByNewsId(int id);
 
-		#endregion
+        void ToggleActiveStatusPicture(int id);
 
-		#endregion
+        #endregion
 
-		#region Utilities
+        #endregion
 
-		byte[] scaleImage(Image image, int maxWidth, int maxHeight, bool padImage);
+        #region Utilities
+
+        byte[] scaleImage(Image image, int maxWidth, int maxHeight, bool padImage);
 
 		ImageCodecInfo getEncoderInfo(string mimeType);
 		Image applyPaddingToImage(Image image);

@@ -142,7 +142,7 @@
     <Compile Include="Mapping\EventMap.cs" />
     <Compile Include="Mapping\FilesMap.cs" />
     <Compile Include="Mapping\SliderPictureMap.cs" />
-    <Compile Include="Mapping\PicturesMap.cs" />
+    <Compile Include="Mapping\PictureMap.cs" />
     <Compile Include="Mapping\ReplyMap.cs" />
     <Compile Include="Mapping\IPAddressMap.cs" />
     <Compile Include="Mapping\CustomPageUrlMap.cs" />

@@ -580,7 +580,7 @@ namespace SMS.Areas.Admin.Controllers
 						CreatedOn = picture.CreatedOn,
 						Id = picture.Id,
 						ModifiedOn = picture.ModifiedOn,
-						Src = picture.PictureSrc,
+                        PictureSrc = picture.PictureSrc,
 						Url = picture.Url,
 						UserId = picture.UserId
 					};

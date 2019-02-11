@@ -148,7 +148,7 @@ namespace SMS.Areas.Admin.Controllers
 					var defaultPicture = _pictureService.GetDefaultProductPicture(x.Id);
 					if (defaultPicture != null)
 					{
-						model.DefaultPicture.Src = defaultPicture.Picture.PictureSrc;
+						model.DefaultPicture.PictureSrc = defaultPicture.Picture.PictureSrc;
 					}
 					lstProduct.Add(model);
 				}

@@ -655,7 +655,6 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="GoogleMaps.LocationServices.readme.txt" />
     <Content Include="Plugins\EF.Facebook\Autofac.dll" />
     <Content Include="Plugins\EF.Facebook\Autofac.Integration.Mvc.dll" />
     <Content Include="Plugins\EF.Facebook\Autofac.Integration.Mvc.xml" />
@@ -1688,6 +1687,14 @@
     <Content Include="Plugins\EF.Facebook\Views\SocialAuthFacebook\Configure.cshtml" />
     <Content Include="Plugins\EF.Facebook\Views\SocialAuthFacebook\Info.cshtml" />
     <Content Include="Plugins\EF.Facebook\web.config" />
+    <Content Include="Areas\Admin\Views\Picture\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Picture\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Picture\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PictureResource.cshtml" />
+    <Content Include="Areas\Admin\Views\Video\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Video\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Video\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\VideoResource.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -2462,6 +2469,7 @@
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\User\AddUserWidget.cshtml" />
     <Content Include="Views\Event\Details.cshtml" />
+    <Content Include="Views\Teacher\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

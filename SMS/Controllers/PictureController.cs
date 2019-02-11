@@ -87,9 +87,6 @@ namespace SMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Settings(PictureSettingsModel model)
         {
-            //if (!_permissionService.Authorize("ManageConfiguration"))
-            //    return AccessDeniedView();
-
             var user = _userContext.CurrentUser;
 
             try

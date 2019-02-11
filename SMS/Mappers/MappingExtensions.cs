@@ -209,11 +209,30 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region Book
+        #region Picture
 
-		public static BookModel ToModel(this Book entity)
+        public static PictureModel ToModel(this Picture entity)
+        {
+            return entity.MapTo<Picture, PictureModel>();
+        }
+
+        public static Picture ToEntity(this PictureModel model)
+        {
+            return model.MapTo<PictureModel, Picture>();
+        }
+
+        public static Picture ToEntity(this PictureModel model, Picture destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Book
+
+        public static BookModel ToModel(this Book entity)
 		{
 			return entity.MapTo<Book, BookModel>();
 		}
@@ -962,25 +981,6 @@ namespace SMS.Mappers
 		}
 
 		public static PermissionRecord ToEntity(this PermissionRecordModel model, PermissionRecord destination)
-		{
-			return model.MapTo(destination);
-		}
-
-		#endregion
-
-		#region Picture
-
-		public static PictureModel ToModel(this Picture entity)
-		{
-			return entity.MapTo<Picture, PictureModel>();
-		}
-
-		public static Picture ToEntity(this PictureModel model)
-		{
-			return model.MapTo<PictureModel, Picture>();
-		}
-
-		public static Picture ToEntity(this PictureModel model, Picture destination)
 		{
 			return model.MapTo(destination);
 		}
