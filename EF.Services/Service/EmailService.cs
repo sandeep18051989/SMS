@@ -246,10 +246,34 @@ namespace EF.Services.Service
         public void SendUserWelcomeMessage(User user)
         {
             if (user == null)
-                throw new ArgumentNullException("customer");
+                throw new ArgumentNullException("user");
 
             // Send Notification To The User
             var templateSetting = _settingService.GetSettingByKey("UserSignInAttempt");
+            var tokens = new List<DataToken>();
+
+            var template = _templateService.GetTemplateByName(templateSetting.Value);
+            _templateService.AddUserTokens(tokens, user);
+
+            foreach (var dt in tokens)
+            {
+                template.BodyHtml = CodeHelper.Replace(template.BodyHtml.ToString(), $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
+            }
+
+            var toEmail = user.Email;
+            var toName = user.GetFullName();
+            var fromEmail = _settingService.GetSettingByKey("FromEmail");
+
+            SendNotification(template, tokens, toEmail, toName);
+        }
+
+        public void SendUserRegistrationMessage(User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            // Send Notification To The User
+            var templateSetting = _settingService.GetSettingByKey("NewUserRegister");
             var tokens = new List<DataToken>();
 
             var template = _templateService.GetTemplateByName(templateSetting.Value);

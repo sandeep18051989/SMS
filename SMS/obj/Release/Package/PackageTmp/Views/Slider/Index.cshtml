@@ -17,7 +17,7 @@
 				{
 					int hyt = (int)Math.Round(pic.Height);
 				<div class="carousel-item item">
-					<img height="@hyt" width="100%" class="img-fluid center-block" src="@pic.Src">
+					<img height="@hyt" width="100%" class="img-fluid center-block" src="@pic.PictureSrc">
 					<div class="carousel-caption d-none d-md-block">
 						<p>@Html.Raw(pic.AlternateText.Length > 200 ? pic.AlternateText.Substring(0, 197) + "..." : pic.AlternateText)</p>
 					</div>

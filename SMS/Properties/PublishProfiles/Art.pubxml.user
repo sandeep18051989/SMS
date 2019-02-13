@@ -165,10 +165,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:20:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Blog/Create.cshtml">
-      <publishTime>02/05/2019 11:51:30</publishTime>
+      <publishTime>02/11/2019 16:15:40</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Blog/Edit.cshtml">
-      <publishTime>02/05/2019 11:51:34</publishTime>
+      <publishTime>02/11/2019 17:21:19</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Blog/List.cshtml">
       <publishTime>02/05/2019 12:54:35</publishTime>
@@ -243,7 +243,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:20:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Class/_ClassDivisions.cshtml">
-      <publishTime>01/31/2019 12:20:07</publishTime>
+      <publishTime>02/11/2019 13:54:31</publishTime>
     </File>
     <File Include="Areas/Admin/Views/ClassRoom/Create.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
@@ -444,10 +444,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:20:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/News/Create.cshtml">
-      <publishTime>01/31/2019 12:20:07</publishTime>
+      <publishTime>02/11/2019 14:23:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/News/Edit.cshtml">
-      <publishTime>01/31/2019 12:20:07</publishTime>
+      <publishTime>02/11/2019 14:25:02</publishTime>
     </File>
     <File Include="Areas/Admin/Views/News/List.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
@@ -502,6 +502,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Areas/Admin/Views/Permission/RolePermissions.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Picture/Create.cshtml">
+      <publishTime>02/11/2019 15:54:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Picture/Edit.cshtml">
+      <publishTime>02/11/2019 15:55:07</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Picture/List.cshtml">
+      <publishTime>02/11/2019 15:09:35</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Picture/Settings.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
@@ -620,6 +629,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/Admin/Views/Shared/EditorTemplates/Picture.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
     </File>
+    <File Include="Areas/Admin/Views/Shared/EditorTemplates/PictureResource.cshtml">
+      <publishTime>02/11/2019 15:25:46</publishTime>
+    </File>
     <File Include="Areas/Admin/Views/Shared/EditorTemplates/SliderPictures.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
     </File>
@@ -633,7 +645,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:20:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/EditorTemplates/Video.cshtml">
-      <publishTime>01/31/2019 12:20:07</publishTime>
+      <publishTime>02/11/2019 16:05:18</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Shared/EditorTemplates/VideoResource.cshtml">
+      <publishTime>02/11/2019 16:05:06</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/EditorTemplates/VideoUpload.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
@@ -651,7 +666,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/07/2019 14:21:28</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Links.cshtml">
-      <publishTime>01/31/2019 12:20:07</publishTime>
+      <publishTime>02/11/2019 15:53:43</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_logo.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
@@ -720,7 +735,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:20:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Template/Edit.cshtml">
-      <publishTime>01/31/2019 12:20:07</publishTime>
+      <publishTime>02/11/2019 14:11:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Template/List.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
@@ -754,6 +769,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Areas/Admin/Views/Vendor/_VendorProducts.cshtml">
       <publishTime>01/31/2019 12:20:07</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Video/Create.cshtml">
+      <publishTime>02/11/2019 16:11:25</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Video/Edit.cshtml">
+      <publishTime>02/11/2019 13:33:12</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Video/List.cshtml">
+      <publishTime>02/11/2019 15:09:45</publishTime>
     </File>
     <File Include="Areas/Admin/Views/web.config">
       <publishTime>01/31/2019 12:20:07</publishTime>
@@ -1392,7 +1416,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:19:40</publishTime>
     </File>
     <File Include="bin/EF.Core.dll">
-      <publishTime>02/07/2019 17:58:24</publishTime>
+      <publishTime>02/11/2019 17:48:13</publishTime>
     </File>
     <File Include="bin/EF.Core.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1401,13 +1425,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/EF.Data.dll">
-      <publishTime>02/07/2019 17:58:25</publishTime>
+      <publishTime>02/11/2019 17:48:14</publishTime>
     </File>
     <File Include="bin/EF.Data.pdb">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/EF.Facebook.dll">
-      <publishTime>02/07/2019 17:58:27</publishTime>
+      <publishTime>02/11/2019 17:48:16</publishTime>
     </File>
     <File Include="bin/EF.Facebook.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1416,7 +1440,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/EF.Services.dll">
-      <publishTime>02/07/2019 17:58:27</publishTime>
+      <publishTime>02/11/2019 17:48:15</publishTime>
     </File>
     <File Include="bin/EF.Services.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1542,7 +1566,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:19:52</publishTime>
     </File>
     <File Include="bin/SMS.dll">
-      <publishTime>02/07/2019 17:58:31</publishTime>
+      <publishTime>02/11/2019 17:48:19</publishTime>
     </File>
     <File Include="bin/SMS.pdb">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -3786,7 +3810,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:19:39</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Core.dll">
-      <publishTime>02/07/2019 17:57:53</publishTime>
+      <publishTime>02/11/2019 17:40:42</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Core.dll.config">
       <publishTime>01/31/2019 12:20:20</publishTime>
@@ -3795,22 +3819,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Data.dll">
-      <publishTime>02/07/2019 17:57:54</publishTime>
+      <publishTime>02/11/2019 17:40:49</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Data.pdb">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Facebook.dll">
-      <publishTime>02/07/2019 17:57:58</publishTime>
+      <publishTime>02/11/2019 17:41:07</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Facebook.dll.config">
-      <publishTime>02/07/2019 17:57:58</publishTime>
+      <publishTime>02/11/2019 17:41:02</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Facebook.pdb">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Services.dll">
-      <publishTime>02/07/2019 17:57:57</publishTime>
+      <publishTime>02/11/2019 17:40:59</publishTime>
     </File>
     <File Include="Plugins/EF.Facebook/EF.Services.dll.config">
       <publishTime>01/31/2019 12:20:21</publishTime>
@@ -5460,7 +5484,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:20:27</publishTime>
     </File>
     <File Include="Views/Blog/Details.cshtml">
-      <publishTime>02/07/2019 16:19:40</publishTime>
+      <publishTime>02/11/2019 17:25:10</publishTime>
     </File>
     <File Include="Views/Blog/Index.cshtml">
       <publishTime>02/07/2019 13:30:51</publishTime>
@@ -5541,10 +5565,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:20:27</publishTime>
     </File>
     <File Include="Views/Event/Details.cshtml">
-      <publishTime>02/07/2019 17:53:09</publishTime>
+      <publishTime>02/11/2019 17:25:01</publishTime>
     </File>
     <File Include="Views/Event/Index.cshtml">
-      <publishTime>02/05/2019 13:35:04</publishTime>
+      <publishTime>02/11/2019 14:57:46</publishTime>
     </File>
     <File Include="Views/Feedback/Index.cshtml">
       <publishTime>01/31/2019 12:20:27</publishTime>
@@ -5688,13 +5712,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/31/2019 12:20:27</publishTime>
     </File>
     <File Include="Views/Slider/Index.cshtml">
-      <publishTime>01/31/2019 12:20:27</publishTime>
+      <publishTime>02/11/2019 14:57:03</publishTime>
     </File>
     <File Include="Views/Slider/SliderItem.cshtml">
       <publishTime>01/31/2019 12:20:27</publishTime>
     </File>
     <File Include="Views/Social/OtherLogins.cshtml">
       <publishTime>01/31/2019 12:20:27</publishTime>
+    </File>
+    <File Include="Views/Teacher/Details.cshtml">
+      <publishTime>02/11/2019 17:24:53</publishTime>
     </File>
     <File Include="Views/Teacher/Index.cshtml">
       <publishTime>02/04/2019 19:37:21</publishTime>

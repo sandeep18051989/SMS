@@ -2558,11 +2558,53 @@ namespace EF.Services.Service
 
 			_templateRepository.Insert(defaultTemplate);
 
-			#endregion
+            // Terms And Conditions Template
+            defaultTemplate = new Template();
+            defaultTemplate.Name = "TermsAndConditions";
+            defaultTemplate.IsActive = true;
+            defaultTemplate.IsDeleted = false;
+            defaultTemplate.IsSystemDefined = true;
+            defaultTemplate.ModifiedOn = DateTime.Now;
+            defaultTemplate.BodyHtml = "<table cell-padding='10' border-spacing='2' Width='100%' ><tbody><tr><td colspan='2'>Terms And Conditions</td></tr></tbody></table>";
+            defaultTemplate.CreatedOn = DateTime.Now;
+            defaultTemplate.Subject = "Terms & Conditions";
+            defaultTemplate.UserId = user.Id;
+            _templateRepository.Insert(defaultTemplate);
 
-			#region Scheduled Tasks
+            // Default Custom Pages
+            var termAndCondition = new CustomPage();
+            termAndCondition.TemplateId = defaultTemplate.Id;
+            termAndCondition.AcadmicYearId = acadmicYear.Id;
+            termAndCondition.BodyHtml = "";
+            termAndCondition.CreatedOn = termAndCondition.ModifiedOn = DateTime.Now;
+            termAndCondition.DisplayOrder = 1;
+            termAndCondition.IncludeInFooterColumn1 = false;
+            termAndCondition.IncludeInFooterColumn2 = false;
+            termAndCondition.IncludeInFooterColumn3 = false;
+            termAndCondition.IncludeInFooterMenu = false;
+            termAndCondition.IncludeInTopMenu = false;
+            termAndCondition.IsActive = true;
+            termAndCondition.IsDeleted = false;
+            termAndCondition.IsSystemDefined = true;
+            termAndCondition.MetaDescription = "";
+            termAndCondition.MetaKeywords = "";
+            termAndCondition.MetaTitle = "";
+            termAndCondition.Name = "Terms & Conditions";
+            termAndCondition.PermissionOriented = false;
+            termAndCondition.SystemName = "TermsAndConditions";
+            termAndCondition.Url = "";
+            termAndCondition.UserId = user.Id;
+            _customPageRepository.Insert(termAndCondition);
 
-			_scheduleTaskRepository.Insert(new ScheduleTask
+            // Save URL Record
+            termAndCondition.SystemName = termAndCondition.ValidateSystemName(termAndCondition.SystemName, termAndCondition.Name, true);
+            _urlService.SaveSlug(termAndCondition, termAndCondition.SystemName);
+
+            #endregion
+
+            #region Scheduled Tasks
+
+            _scheduleTaskRepository.Insert(new ScheduleTask
 			{
 				Name = "Keep alive",
 				Seconds = 300,

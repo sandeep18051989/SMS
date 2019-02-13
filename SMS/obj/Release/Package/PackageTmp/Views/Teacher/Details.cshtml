@@ -1,0 +1,296 @@
+﻿@model SMS.Models.Widgets.TeacherWidgetModel
+    @using EF.Services;
+    @using System.Web.Mvc;
+    @using EF.Services.Http;
+    @using EF.Services.Service;
+    @{
+        ViewBag.Title = (!String.IsNullOrEmpty(Model.Title) ? Model.Title : "Teacher");
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>
+        ().GetLocation(false);
+        var school = EF.Core.ContextHelper.Current.Resolve<ISMSService>
+            ().GetAllSchools(true).FirstOrDefault();
+    }
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.SystemName)
+        <div class="row-fluid">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+        <div class="row-fluid">
+            <h1 class="text-center dark-grey-text pb-3 mt-5 pt-5 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                <strong>@(Model.Title.ToUpper())</strong>
+            </h1>
+            <div class="row flex-center">
+                <div class="col-md-10 col-xl-5 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                    <p class="grey-text text-center">
+                        <em>
+                            @(Model.Headline)
+                        </em>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <hr class="my-5">
+            <div class="container">
+                <div class="row mb-2 mt-1">
+                    <div class="col-md-12">
+                        <div class="view">
+                            <img src="@(Model.DefaultPictureSrc)" class="img-fluid z-depth-1 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4 pt-3">
+                    <div class="col-lg-9 col-12 mt-1">
+                        <section class="extra-margins pb-5 text-lg-left">
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <h4 class="font-weight-bold wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                                        <strong>@(Model.Title)</strong>
+                                    </h4>
+                                    <hr>
+                                    @Html.Raw("<p class='dark-grey-text mb-3 mt-4 mx-4 wow fadeIn' data-wow-delay='0.2s' style='visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;'>" + Model.Description + "</p>")
+                                </div>
+                            </div>
+                            <hr />
+                            @if (Model.IsStudent || Model.IsTeacher || (Model.User.Id == 1 && school != null))
+                            {
+                                <div class="row mb-4 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                                    <!--Grid column-->
+                                    <div class="col-md-12 text-center">
+                                        <h4 class="text-center font-weight-bold dark-grey-text mt-3 mb-3">
+                                            <strong>Share this post: </strong>
+                                        </h4>
+
+                                        @if (Model.IsStudent)
+                                        {
+                                            <a href="@(Model.Student.FacebookLink)" class="btn btn-fb btn-sm waves-effect waves-light">
+                                                <i class="fa fa-facebook-f left"></i> Facebook
+                                            </a>
+                                            <a href="@(Model.Student.TweeterLink)" class="btn btn-tw btn-sm waves-effect waves-light">
+                                                <i class="fa fa-twitter left"></i> Twitter
+                                            </a>
+                                            <a href="@(Model.Student.GooglePlusLink)" class="btn btn-gplus btn-sm waves-effect waves-light">
+                                                <i class="fa fa-google-plus-g left"></i> Google +
+                                            </a>
+                                        }
+                                        else if (Model.IsTeacher)
+                                        {
+                                            <a href="@(Model.Teacher.FacebookLink)" class="btn btn-fb btn-sm waves-effect waves-light">
+                                                <i class="fa fa-facebook-f left"></i> Facebook
+                                            </a>
+                                            <a href="@(Model.Teacher.TweeterLink)" class="btn btn-tw btn-sm waves-effect waves-light">
+                                                <i class="fa fa-twitter left"></i> Twitter
+                                            </a>
+                                            <a href="@(Model.Teacher.GooglePlusLink)" class="btn btn-gplus btn-sm waves-effect waves-light">
+                                                <i class="fa fa-google-plus-g left"></i> Google +
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@(school.FacebookLink)" class="btn btn-fb btn-sm waves-effect waves-light">
+                                                <i class="fa fa-facebook-f left"></i> Facebook
+                                            </a>
+                                            <a href="@(school.TweeterLink)" class="btn btn-tw btn-sm waves-effect waves-light">
+                                                <i class="fa fa-twitter left"></i> Twitter
+                                            </a>
+                                            <a href="@(school.GooglePlusLink)" class="btn btn-gplus btn-sm waves-effect waves-light">
+                                                <i class="fa fa-google-plus-g left"></i> Google +
+                                            </a>
+                                        }
+
+                                        <hr class="mt-5">
+                                    </div>
+                                    <!--Grid column-->
+
+                                </div>
+                            }
+                            @if (Model.Comments.Count > 0)
+                            {
+                                <section>
+                                    <!--Main wrapper-->
+                                    <div class="comments-list text-center text-md-left">
+                                        <div class="text-center my-5">
+                                            <h3 class="font-weight-bold">
+                                                Comments
+                                                <span class="badge indigo">@(Model.Comments.Count)</span>
+                                            </h3>
+                                        </div>
+                                        @foreach (var comment in Model.Comments)
+                                        {
+                                            <div class="row mb-5">
+                                                <div class="col-sm-2 col-12 mb-3">
+                                                    <img src="@(!string.IsNullOrEmpty(comment.ProfilePictureSrc) ? (comment.ProfilePictureSrc) : (basePath + "Content/images/noimage.png"))" class="avatar rounded-circle z-depth-1-half" alt="@(comment.Username)">
+                                                </div>
+                                                <div class="col-sm-10 col-12">
+                                                    <a>
+                                                        <h5 class="user-name font-weight-bold">@(comment.Username)</h5>
+                                                    </a>
+                                                    <div class="card-data">
+                                                        <ul class="list-unstyled">
+                                                            <li class="comment-date font-small">
+                                                                <i class="fa fa-clock-o"></i> @CodeHelper.TimeAgo(comment.CreatedOn.Value)
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    @Html.Raw("<p class='dark-grey-text article'>" + comment.CommentHtml + "</p>")
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </section>
+                                <hr />
+                            }
+                        </section>
+                        <section class="mb-4 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                            <h3 class="font-weight-bold text-center my-5">Leave a comment</h3>
+                            @if (Model.IsAuthenticated)
+                            {
+                                <div class="row">
+                                    <div class="col-12 mt-1">
+                                        <div class="form-group basic-textarea rounded-corners shadow-textarea">
+                                            <textarea class="form-control" id="txtcomment" name="txtcomment" rows="5" placeholder="Write Your Comments Here..."></textarea>
+                                        </div>
+                                        <div class="text-right">
+                                            <button type="submit" class="btn btn-grey btn-sm waves-effect waves-light">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.Partial("~/Views/User/AddUserWidget.cshtml", new SMS.Models.UserModel());
+                            }
+                        </section>
+                    </div>
+                    <!--Main listing-->
+                    <!--Sidebar-->
+                    <div class="col-lg-3 col-12 mt-1 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                        <!--Card-->
+                        @if (Model.User != null && Model.User.ProfilePicture != null)
+                        {
+                            <div class="card">
+                                <!--Card image-->
+                                <div class="view overlay">
+                                    @if (!string.IsNullOrEmpty(Model.User.ProfilePicture.PictureSrc))
+                                    {
+                                        <img src="@(Model.User.ProfilePicture.PictureSrc)" class="card-img-top" alt="@(Model.User.Username)">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/images/noimage.png" class="card-img-top" alt="Profile Picture Does Not Exist">
+                                    }
+                                    <a>
+                                        <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title dark-grey-text text-center grey lighten-4 py-2">
+                                        <strong>Email At :</strong>
+                                        @(!string.IsNullOrEmpty(Model.User.FirstName) ? Model.User.FirstName : "")@(!string.IsNullOrEmpty(Model.User.LastName) ? (" " + Model.User.LastName) : Model.User.Email)
+                                    </h5>
+                                    @if (Model.IsStudent || Model.IsTeacher)
+                                    {
+                                        <ul class="list-unstyled list-inline-item circle-icons list-unstyled flex-center">
+                                            <!--Facebook-->
+                                            <li>
+                                                <a href="@(Model.IsStudent ? Model.Student.FacebookLink : Model.Teacher.FacebookLink)" target="_blank" class="fb-ic">
+                                                    <i class="fab fa-facebook-f"> </i>
+                                                </a>
+                                            </li>
+                                            <!--Twitter-->
+                                            <li>
+                                                <a href="@(Model.IsStudent ? Model.Student.TweeterLink : Model.Teacher.TweeterLink)" target="_blank" class="tw-ic">
+                                                    <i class="fab fa-twitter mx-3"> </i>
+                                                </a>
+                                            </li>
+                                            <!--Google +-->
+                                            <li>
+                                                <a href="@(Model.IsStudent ? Model.Student.GooglePlusLink : Model.Teacher.GooglePlusLink)" target="_blank" class="gplus-ic">
+                                                    <i class="fab fa-google-plus-g"> </i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    }
+                                </div>
+                                <!--/.Card content-->
+                            </div>
+                        }
+                        <!--/.Card-->
+                        <!-- Section: Featured posts -->
+                        @if (Model.PopularPosts.Count > 0)
+                        {
+                            <section class="section widget-content mt-5">
+                                <!--/ Card -->
+                                <div class="card card-body pb-0">
+                                    <div class="single-post">
+                                        <p class="font-weight-bold dark-grey-text text-center spacing grey lighten-4 py-2 mb-4">
+                                            <strong>POPULAR EVENTS</strong>
+                                        </p>
+                                        <!-- Grid row -->
+                                        @foreach (var post in Model.PopularPosts)
+                                        {
+                                            <div class="row mb-4">
+                                                <div class="col-5">
+                                                    <!-- Image -->
+                                                    <div class="view overlay">
+                                                        <img src="@(post.DefaultPictureSrc)" class="img-fluid z-depth-1 rounded-0" alt="@(post.Title)">
+                                                        <a>
+                                                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <!-- Excerpt -->
+                                                <div class="col-7">
+                                                    <h6 class="mt-0 font-small">
+                                                        <a>
+                                                            <strong>@(post.Headline)</strong>
+                                                        </a>
+                                                    </h6>
+                                                    <div class="post-data">
+                                                        <p class="font-small grey-text mb-0">
+                                                            <i class="fa fa-clock-o"></i> @CodeHelper.TimeAgo(post.StartDate.Value)
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <!--/ Excerpt -->
+                                            </div>
+                                        }
+                                        <!--/ Grid row -->
+                                    </div>
+                                </div>
+                            </section>
+                        }
+                        <!--/ Section: Featured posts -->
+                        @if (Model.Venues.Count > 0)
+                        {
+                            <section class="section my-5">
+                                <!--/ Card -->
+                                <div class="card card-body pb-0">
+                                    <div class="single-post">
+                                        <p class="font-weight-bold dark-grey-text text-center spacing grey lighten-4 py-2 mb-4">
+                                            <strong>VENUES</strong>
+                                        </p>
+                                        <ul class="list-group my-4">
+                                            @foreach (var sub in Model.Venues)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <a class="">
+                                                        <p class="mb-0">@(sub.Key)</p>
+                                                    </a>
+                                                    <span class="badge teal badge-pill font-small">@(sub.Value)</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

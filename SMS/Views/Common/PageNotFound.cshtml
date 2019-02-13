@@ -1,29 +1,21 @@
 ﻿@{
-	ViewBag.Title = "Page Not Found";
-	Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    ViewBag.Title = "Page Not Found";
+    Layout = "~/Views/Shared/_OneColumnLayout.cshtml";
 }
-<div class="row nt-found-page-body">
-	<div class="col-xs-12 xol-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 nt-found-bg">
-		<!-- text area -->
-		<p class="error">Error 404</p>
-		<p class="details">
-			There was a problem<br>
-			<br>
-			The page you are looking for is not here or moved.
-		</p>
-		<!-- text area -->
-		<div class="clearfix"></div>
-		<!-- home page -->
-		<div class="row homepage nt-found-rotate">
-			<div class="col-xs-12 xol-sm-12 col-md-12 col-lg-12">
-				<a href="@Url.Action("Index", "Home", null)" class="btn btn-link">
-					<i class='fa fa-home'></i>
-					<span>
-						<strong>Back To Homepage</strong>
-					</span>
-				</a>
-			</div>
-		</div>
-		<!-- home page -->
-	</div>
+<div class="row">
+    <div id="register-form-wrapper" class="col-md-7 offset-md-2 mt-8">
+        @using (Html.BeginForm("Register", "Account", new { Area = "" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "register-form" }))
+        {
+            <div class="card">
+                <div class="card-block">
+                    <div class="form-header green-gradient">
+                        <h3><i class="fa fa-user"></i> Page Not Found</h3>
+                    </div>
+                    <div class="text-center">
+                        Go Back To <a href="@Url.Action("Index", "Home", null)" class="btn btn-link"><i class='fa fa-home'></i><span><strong>Homepage</strong></span></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

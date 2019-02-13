@@ -1,8 +1,10 @@
 ﻿@model SMS.Models.BlogModel
 @using EF.Services;
+@using EF.Services.Http;
 @{
-	ViewBag.Title = "Edit Blog";
-	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Edit Blog";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
 }
 <div class="row page-titles">
     <div class="col-md-5 align-self-center">
@@ -13,136 +15,190 @@
     </div>
 </div>
 <div class="row">
-	<div class="col-md-12 mr-4">
-		<section class="edit-form">
-			@using (Html.BeginForm())
-			{
-				@Html.AntiForgeryToken()
-				@Html.HiddenFor(model => model.Id)
-				<div class="row">
-					<div id="admin-page-header" class="col-xs-12 col-md-12">
-						<button type="submit" name="save" class="btn btn-primary mr-auto">
-							<i class="fa fa-save">&nbsp;&nbsp;</i>Save
-						</button>&nbsp;&nbsp;
-						<button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
-							<i class="fa fa-save">&nbsp;&nbsp;</i>Save & Continue
-						</button>&nbsp;&nbsp;<span id="blog-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 my-3">
-						<div class="tabs-wrapper">
-							<ul class="nav classic-tabs tabs-pink" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-blog" role="tab">
-										<i class="fa fa-user fa-2x" aria-hidden="true"></i>
-										<br> Update Blog
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-pictures" role="tab">
-										<i class="fa fa-file-picture-o fa-2x" aria-hidden="true"></i>
-										<br>Pictures
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-videos" role="tab">
-										<i class="fa fa-file-video-o fa-2x" aria-hidden="true"></i>
-										<br>Videos
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div class="tab-content card">
-							<div class="tab-pane fade in show active" id="create-blog" role="tabpanel">
-								<div class="row">
-									<div class="col-md-12">
-										@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<div class="row text-left">
-											<div class="col-md-6 mb-4">
-												<div class="md-form">
-													<i class="fa fa-play-circle-o prefix"></i>
-													@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "200", @title = "Name" } })
-													@Html.LabelFor(model => model.Name, "Name Of Blog", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
-													@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-												</div>
-											</div>
-										</div>
-										<div class="row text-left">
-											<div class="col-md-8 mb-4">
-												<div class="md-form">
+    <div class="col-md-12 mr-4">
+        <section class="edit-form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="row">
+                    <div id="admin-page-header" class="col-xs-12 col-md-12">
+                        <button type="submit" name="save" class="btn btn-primary mr-auto">
+                            <i class="fa fa-save">&nbsp;&nbsp;</i>Save
+                        </button>&nbsp;&nbsp;
+                        <span id="blog-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 my-3">
+                        <div class="tabs-wrapper">
+                            <ul class="nav classic-tabs tabs-pink" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light active waves-effect waves-light" data-toggle="tab" href="#create-blog" role="tab">
+                                        <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                                        <br> Update Blog
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-pictures" role="tab">
+                                        <i class="fa fa-file-picture-o fa-2x" aria-hidden="true"></i>
+                                        <br>Pictures
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link waves-light waves-effect waves-light" data-toggle="tab" href="#upload-videos" role="tab">
+                                        <i class="fa fa-file-video-o fa-2x" aria-hidden="true"></i>
+                                        <br>Videos
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content card">
+                            <div class="tab-pane fade in show active" id="create-blog" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" value="Add Video Resource" data-toggle="modal" data-target="#videoModal" class="btn btn-info mr-auto pull-right">
+                                            <i class="fa fa-file-video-o">&nbsp;&nbsp;</i>Add Video Resource
+                                        </button>
+                                        <button type="button" value="Add Picture Resource" data-toggle="modal" data-target="#pictureModal" class="btn btn-info mr-auto pull-right">
+                                            <i class="fa fa-file-picture-o">&nbsp;&nbsp;</i>Add Picture Resource
+                                        </button>&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    <i class="fa fa-play-circle-o prefix"></i>
+                                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "200", @title = "Name" } })
+                                                    @Html.LabelFor(model => model.Name, "Name Of Blog", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-8 mb-4">
+                                                <div class="md-form">
                                                     <i class="fa fa-bullseye prefix"></i>
                                                     @Html.TextAreaFor(model => model.Subject, new { @class = "md-textarea form-control", @tabindex = "2", @maxlength = "500", @rows = "3", @type = "text" })
                                                     @Html.LabelFor(model => model.Subject, "Subject", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
-												</div>
-											</div>
-										</div>
-										<div class="row text-left">
-											<div class="col-md-6 mb-4">
-												<div class="md-form">
-													<i class="fa fa-user prefix"></i>
-													@Html.EditorFor(model => model.BlogHtml, "HtmlEditor.cshtml")
-													@Html.LabelFor(model => model.BlogHtml, "Blog Body", htmlAttributes: new { @class = "control-label" })
-													@Html.ValidationMessageFor(model => model.BlogHtml, "", new { @class = "text-danger" })
-												</div>
-											</div>
-										</div>
-										<div class="row text-left">
-											<div class="col-md-6 mb-4">
-												<div class="md-form date start-date">
-													<i class="fa fa-address-card prefix"></i>
-													@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @tabindex = "4", @maxlength = "200", @title = "Email Address", @type = "email" } })
-													@Html.LabelFor(model => model.Email, "Email Address", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
-													@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-												</div>
-											</div>
-										</div>
-										<div class="row text-left">
-											<div class="col-md-6 mb-4">
-												<div class="md-form">
-													<i class="fa fa-link prefix"></i>
-													@Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "5", @maxlength = "50" } })
-													@Html.LabelFor(model => model.SystemName, "System Name", htmlAttributes: new { @class = "control-label" })
-													@Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
-												</div>
-											</div>
-										</div>
-										<div class="row text-left">
-											<div class="col-xs-12 col-md-4 mb-4">
-												<div class="md-form">
-													@Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "6" })
-													@Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
-													@Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
-												</div>
-											</div>
-										</div>
-										<div class="row text-left">
-											<div class="col-md-6 mb-4">
-												<input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" @(Model.IsActive ? "checked=checked" : "") />
-												@Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
-												@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane" id="upload-pictures" role="tabpanel">
-								@Html.Partial("_BlogPictures", Model)
-							</div>
-							<div class="tab-pane" id="upload-videos" role="tabpanel">
-								@Html.Partial("_BlogVideos", Model)
-							</div>
-						</div>
-					</div>
-				</div>
-			}
-		</section>
-	</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    <i class="fa fa-user prefix"></i>
+                                                    @Html.EditorFor(model => model.BlogHtml, "HtmlEditor.cshtml")
+                                                    @Html.LabelFor(model => model.BlogHtml, "Blog Body", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.BlogHtml, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form date start-date">
+                                                    <i class="fa fa-address-card prefix"></i>
+                                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @tabindex = "4", @maxlength = "200", @title = "Email Address", @type = "email" } })
+                                                    @Html.LabelFor(model => model.Email, "Email Address", htmlAttributes: new { @class = "control-label", @data_error = "wrong", @data_success = "right" })
+                                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    <i class="fa fa-link prefix"></i>
+                                                    @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "5", @maxlength = "50" } })
+                                                    @Html.LabelFor(model => model.SystemName, "System Name", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-xs-12 col-md-4 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select colorful-select dropdown-primary", @tabindex = "6" })
+                                                    @Html.LabelFor(model => model.AcadmicYearId, "Acadmic Year", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? " True" : "False" )" @(Model.IsActive ? "checked=checked" : "" ) />
+                                                @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="upload-pictures" role="tabpanel">
+                                @Html.Partial("_BlogPictures", Model)
+                            </div>
+                            <div class="tab-pane" id="upload-videos" role="tabpanel">
+                                @Html.Partial("_BlogVideos", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Picture Modal -->
+                <div class="modal" id="pictureModal" tabindex="-1" role="dialog" aria-labelledby="modalPictures" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div style="background-color:#fff;" class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalPictures">Select Picture Resources</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div id="content-pictures" class="col-lg-12">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" id="submit-picture" class="btn btn-primary"> Append To Blog <i class="fa fa-book ml-2" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Video Modal -->
+                <div class="modal" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="modalVideos" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div style="background-color:#fff;" class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalVideos">Select Video Resources</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div id="content-videos" class="col-lg-12">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" id="submit-video" class="btn btn-primary"> Append To Blog <i class="fa fa-book ml-2" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -159,6 +215,123 @@
             }
             else {
                 $(this).attr('checked', false).val(false);
+            }
+        });
+
+        $("#pictureModal").on('show.bs.modal', function () {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("GetPictureResources", "Picture", new { @Area="Admin" }))",
+                data: {},
+                success: function (data, result) {
+                    if (result === "success") {
+                        $("#content-pictures").html('');
+                        var htmContent = '';
+                        htmContent += '<table class="table table-bordered">';
+                        htmContent += '<thead>';
+                        htmContent += '<tr>';
+                        htmContent += '<th></th><th>Picture</th><th>Url</th>';
+                        htmContent += '</thead>';
+                        htmContent += '<tbody id="picture-resources">';
+                        for (var i = 0; i < data.length; i++) {
+                            htmContent += '<tr data-url="' + data[i].Url + '">';
+                            htmContent += '<th scope="row">';
+                            htmContent += '<div class="custom-control custom-radio"><input type="radio" name="picture-resource" class="custom-control-input" value="' + data[i].Id + '" id="' + data[i].Id + '"><label class="custom-control-label" for="' + data[i].Id + '"></label></div>';
+                            htmContent += '</th>';
+                            htmContent += '<td><div class="thumb"><img src="' + row.PictureSrc + '" alt="" class="float-left"></div></td>';
+                            htmContent += '<td style="word-wrap: break-word;word-break: break-all;">' + data[i].Url + '</td>';
+                            htmContent += '</tr>';
+                        }
+                        htmContent += '</tbody>';
+                        htmContent += '</table>';
+                        $("#content-pictures").html(htmContent);
+                        $('#pictureModal').modal('show');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: "Failed to load pictures!",
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                }
+            });
+        });
+
+        $("#videoModal").on('show.bs.modal', function () {
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("GetVideoResources", "Video", new { @Area="Admin" }))",
+                data: {},
+                success: function (data, result) {
+                    if (result === "success") {
+                        $("#content-videos").html('');
+                        var htmContent = '';
+                        htmContent += '<table class="table table-bordered">';
+                        htmContent += '<thead>';
+                        htmContent += '<tr>';
+                        htmContent += '<th></th><th>Video</th><th>Url</th>';
+                        htmContent += '</thead>';
+                        htmContent += '<tbody id="video-resources">';
+                        for (var i = 0; i < data.length; i++) {
+                            htmContent += '<tr data-url="' + data[i].Url + '">';
+                            htmContent += '<th scope="row">';
+                            htmContent += '<div class="custom-control custom-radio"><input type="radio" name="video-resource" class="custom-control-input" value="' + data[i].Id + '" id="' + data[i].Id + '"><label class="custom-control-label" for="' + data[i].Id + '"></label></div>';
+                            htmContent += '</th>';
+                            htmContent += '<td><video controls="controls" style="width:200px;" preload="auto" poster="@(basePath + "Content/images/video-poster.png")" playsinline muted><source src="' + data[i].VideoSrc + '" type="video/mp4"></video></td>';
+                            htmContent += '<td style="word-wrap:break-word;word-break:break-all;">' + data[i].Url + '</td>';
+                            htmContent += '</tr>';
+                        }
+                        htmContent += '</tbody>';
+                        htmContent += '</table>';
+                        $("#content-videos").html(htmContent);
+                        $('#videoModal').modal('show');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.responseText);
+                    setTimeout(function () {
+                        $.gritter.add({
+                            title: "Failure",
+                            text: "Failed to load videos!",
+                            sticky: !0,
+                            time: "",
+                            class_name: "my-sticky-class"
+                        });
+                    }, 1e3);
+                }
+            });
+        });
+
+        $(document).on("change", "#content-pictures table tbody .custom-control-input[type=radio]", function () { });
+        $(document).on("change", "#content-videos table tbody .custom-control-input[type=radio]", function () { });
+
+        $(document).on("click", "#submit-picture", function () {
+            var checkedRecord = $('#pictureModal').find("table tbody input[type=radio]:checked");
+            if (confirm("Are you sure, you want to append picture to selected blog?")) {
+                var pictureUrl = $($(checkedRecord)[0]).closest('tr').data('url');
+                tinyMCE.activeEditor.execCommand('mceInsertContent', false, '<img src=' + pictureUrl + ' />');
+                var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
+                tinyMCE.activeEditor.setContent(content, { format: 'raw' });
+                $('#pictureModal').modal('hide');
+            }
+        });
+
+        $(document).on("click", "#submit-video", function () {
+            var checkedRecord = $('#videoModal').find("table tbody input[type=radio]:checked");
+            if (confirm("Are you sure, you want to append video to selected blog?")) {
+                var videoUrl = $($(checkedRecord)[0]).closest('tr').data('url');
+                tinyMCE.activeEditor.execCommand('mceInsertContent', false, '<video controls="controls" style="width:200px;" preload="auto" poster="@(basePath + "Content/images/video-poster.png")" playsinline><source src="' + videoUrl + '" type="video/mp4"></video>');
+                var content = tinyMCE.activeEditor.getContent({ format: 'raw' });
+                tinyMCE.activeEditor.setContent(content, { format: 'raw' });
+                $('#videoModal').modal('hide');
             }
         });
 

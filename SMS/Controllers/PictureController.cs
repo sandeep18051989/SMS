@@ -154,12 +154,12 @@ namespace SMS.Controllers
         }
 
         [HttpPost]
-        public ActionResult AsyncUserProfilePictureUpload()
+        public ActionResult AsyncPictureUpload()
         {
             Stream stream = null;
             var fileName = "";
             var contentType = "";
-            var thumbPath = "";
+            byte[] bin = null;
             if (String.IsNullOrEmpty(Request["qqfile"]))
             {
                 // IE
@@ -169,16 +169,12 @@ namespace SMS.Controllers
                 stream = httpPostedFile.InputStream;
                 fileName = Path.GetFileName(httpPostedFile.FileName);
                 contentType = httpPostedFile.ContentType;
-                string nameAndLocation = "~/Uploads/images/" + httpPostedFile.FileName;
-                httpPostedFile.SaveAs(Server.MapPath(nameAndLocation));
             }
             else
             {
                 //Webkit, Mozilla
                 stream = Request.InputStream;
                 fileName = Request["qqfile"];
-                System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
-                img.Save("~/Uploads/images/" + fileName, System.Drawing.Imaging.ImageFormat.Jpeg);
             }
 
             var fileExtension = Path.GetExtension(fileName);
@@ -216,27 +212,26 @@ namespace SMS.Controllers
             }
 
             // Create Thumbnails
-            var pictureSettings = _settingService.GetSettingsByType(SettingTypeEnum.PictureSetting).ToList();
-            if (pictureSettings.Count > 0)
+            var maxWidthSetting = _settingService.GetSettingByKey("MaxWidthAllowedForSmallThumbnails");
+            var maxHeightSetting = _settingService.GetSettingByKey("MaxHeightAllowedForSmallThumbnails");
+            var sliderImageWidth = maxWidthSetting.Value;
+            var sliderImageHeight = maxHeightSetting.Value;
+            // ReSharper disable once ComplexConditionExpression
+            if (!string.IsNullOrEmpty(sliderImageWidth) && !string.IsNullOrEmpty(sliderImageHeight))
             {
-                var sliderImageWidth = pictureSettings.Where(s => s.Name == "MaxWidthAllowedForMediumThumbnails").FirstOrDefault().Value;
-                var sliderImageHeight = pictureSettings.Where(s => s.Name == "MaxHeightAllowedForMediumThumbnails").FirstOrDefault().Value;
-                if (!string.IsNullOrEmpty(sliderImageWidth) && !string.IsNullOrEmpty(sliderImageHeight))
-                {
-                    int newWidth = Convert.ToInt32(sliderImageWidth);
-                    int newHeight = Convert.ToInt32(sliderImageHeight);
-                    stream = Request.InputStream;
-                    fileName = Request.Files[0].FileName;
-                    System.Drawing.Image img = System.Drawing.Image.FromFile(Server.MapPath("~/Uploads/images/" + fileName));
-                    var thumbnail = _pictureService.RezizeImage(img, newWidth, newHeight);
-                    if (thumbnail != null)
+                int newWidth = Convert.ToInt32(sliderImageWidth);
+                int newHeight = Convert.ToInt32(sliderImageHeight);
+                stream = Request.InputStream;
+                fileName = Request["qqfile"];
+
+                // Save File
+                HttpPostedFileBase httpPostedFile = Request.Files[0];
+                if (httpPostedFile != null)
+                    using (System.Drawing.Bitmap postedImage = new System.Drawing.Bitmap(httpPostedFile.InputStream))
                     {
-                        string namewithoutext = Path.GetFileNameWithoutExtension(Server.MapPath("~/Uploads/images/" + fileName));
-                        string ext = Path.GetExtension(Server.MapPath("~/Uploads/images/" + fileName));
-                        thumbPath = "Uploads/thumbnails/" + namewithoutext + DateTime.Now.Ticks.ToString().Trim() + ext;
-                        thumbnail.Save(Server.MapPath("~/" + thumbPath), System.Drawing.Imaging.ImageFormat.Jpeg);
+                        bin = _pictureService.scaleImage(postedImage, newWidth, newHeight, false);
+                        fileName = "data:image/jpeg;base64," + Convert.ToBase64String(bin);
                     }
-                }
             }
 
             int bytes = Request.Files[0].ContentLength;
@@ -246,34 +241,36 @@ namespace SMS.Controllers
             int MBs = temp / (1024 * 1024);
             temp = temp % (1024 * 1024);
 
-            int KBs = temp / 1024;
-            temp = temp % 1024;
+            int kBs = temp / 1024;
 
             var picture = new EF.Core.Data.Picture()
             {
-                PictureSrc = _urlHelper.GetLocation(false) + "Uploads/images/" + fileName,
+                PictureSrc = fileName,
                 AlternateText = "",
                 DisplayOrder = 0,
                 IsActive = true,
                 IsLogo = false,
                 IsThumb = false,
-                Url = _urlHelper.GetLocation(false) + thumbPath,
+                Url = fileName,
+                IsOpenResource = false,
                 Size = MBs,
-                UserId = _userContext.CurrentUser.Id,
+                UserId = _userContext.CurrentUser != null ? _userContext.CurrentUser.Id : 1,
                 CreatedOn = DateTime.Now,
                 ModifiedOn = DateTime.Now
             };
 
             _pictureService.Insert(picture);
-            //when returning JSON the mime-type must be set to text/plain
-            //otherwise some browsers will pop-up a "Save As" dialog.
+
             return Json(new
             {
                 success = true,
-                pictureId = picture.Id,
-                imageUrl = _pictureService.GetPictureById(picture.Id).PictureSrc
-            },
-                "text/plain");
+                PictureId = picture.Id,
+                Picture = _pictureService.GetPictureById(picture.Id).PictureSrc,
+                Default = false,
+                DisplayOrder = "",
+                StartDate = "",
+                EndDate = ""
+            }, "text/plain");
         }
 
     }

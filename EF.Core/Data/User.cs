@@ -27,6 +27,7 @@ namespace EF.Core.Data
         public int? CityId { get; set; }
         public int? CoverPictureId { get; set; }
         public int? ProfilePictureId { get; set; }
+        public bool AcceptTermAndConditions { get; set; }
 
         #region Navigation Properties
         public virtual ICollection<UserRole> Roles

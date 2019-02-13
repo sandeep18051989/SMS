@@ -16,6 +16,7 @@ namespace SMS.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
         private readonly IUserContext _userContext;
         private readonly ISettingService _settingService;
         private readonly ITemplateService _templateService;
@@ -28,7 +29,7 @@ namespace SMS.Controllers
         private readonly IUrlHelper _urlHelper;
         private readonly ISMSService _smsService;
 
-        public AccountController(IAuthenticationService authenticationService, IUserService userService, IUserContext userContext, ISettingService settingService, ITemplateService templateService, IEmailService emailService, IAuditService auditService, IEventService eventService, ICommentService commentService, IProductService productService, IBlogService blogService, IUrlHelper urlHelper, ISMSService smsService)
+        public AccountController(IAuthenticationService authenticationService, IUserService userService, IUserContext userContext, ISettingService settingService, ITemplateService templateService, IEmailService emailService, IAuditService auditService, IEventService eventService, ICommentService commentService, IProductService productService, IBlogService blogService, IUrlHelper urlHelper, ISMSService smsService, IRoleService roleService)
         {
             this._authenticationService = authenticationService;
             this._userService = userService;
@@ -43,6 +44,7 @@ namespace SMS.Controllers
             this._blogService = blogService;
             this._urlHelper = urlHelper;
             this._smsService = smsService;
+            this._roleService = roleService;
         }
 
         [AllowAnonymous]
@@ -57,14 +59,6 @@ namespace SMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            // Get Acedmic Year
-            var acedmicYear = _settingService.GetSettingByKey("acedemicyear");
-            if (acedmicYear == null)
-            {
-                ErrorNotification("Acedmic Year is missing.");
-                return View(model);
-            }
-
             if (ModelState.IsValid)
             {
                 var newUser = new User()
@@ -76,34 +70,33 @@ namespace SMS.Controllers
                     ModifiedOn = DateTime.Now,
                     Password = model.Password,
                     UserName = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    AcceptTermAndConditions = model.AcceptTermAndConditions,
+                    AddressLine1 = "",
+                    AddressLine2 = "",
+                    CityId = 0,
+                    CoverPictureId = model.CoverPictureId,
+                    Email = model.Email,
+                    MiddleName = "",
+                    ProfilePictureId = model.ProfilePictureId,
                     UserGuid = Guid.NewGuid(),
                     UserId = 1
                 };
+
+                var defaultRole = _roleService.GetRoleByName("General");
+                if (defaultRole != null)
+                    newUser.Roles.Add(defaultRole);
+
                 _userService.Insert(newUser);
 
                 // Get Email Settings for Use
                 var _settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
 
                 // Send Notification To The Admin
-                if (_settings.Count > 0)
-                {
-                    var template = _settingService.GetSettingByKey("NewUserRegister");
-                    var Template = _templateService.GetTemplateByName(template.Value);
-                    if (Template != null)
-                    {
-                        var tokens = new List<DataToken>();
-                        _templateService.AddUserTokens(tokens, newUser);
-
-                        foreach (var dt in tokens)
-                        {
-                            Template.BodyHtml = EF.Services.CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
-                        }
-
-                        var setting = _settingService.GetSettingByKey("FromEmail");
-                        if (!String.IsNullOrEmpty(setting.Value))
-                            _emailService.SendMailUsingTemplate(setting.Value, newUser.UserName + "- Just Registered", Template);
-                    }
-                }
+                //var setting = _settingService.GetSettingByKey("FromEmail");
+                //if (!String.IsNullOrEmpty(setting.Value))
+                //    _emailService.SendUserRegistrationMessage(newUser);
 
                 SuccessNotification("Your registration is successful, But needs approval from the admin. We will get back to you shortly.");
                 return RedirectToAction(nameof(HomeController.Index), "Home");
@@ -135,6 +128,10 @@ namespace SMS.Controllers
             if (ModelState.IsValid)
             {
                 var user = _userService.GetUserByUsername(model.Email);
+
+                if (user == null)
+                    user = _userService.GetUserByEmail(model.Email);
+
                 if (user != null && user.IsApproved)
                 {
                     if (user.Password == model.Password)
@@ -168,6 +165,7 @@ namespace SMS.Controllers
                         //}
 
                         _userContext.CurrentUser = user;
+                        _userContext.CurrentSchool = _smsService.GetSchoolById(1);
 
                         // Teacher
                         if (teacher != null)

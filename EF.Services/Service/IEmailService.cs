@@ -11,6 +11,8 @@ namespace EF.Services.Service
 
         void SendUserWelcomeMessage(User user);
 
+        void SendUserRegistrationMessage(User user);
+
         void SendNotification(Template messageTemplate,
             IList<DataToken> tokens,
             string toEmailAddress,

@@ -1,27 +1,4 @@
-﻿$(document).ready(function ($) {
-    // Prevent Special Char
-    $('input.no-special-char').on('keypress', function (event) {
-        var regex = new RegExp("^[a-zA-Z0-9]+$");
-        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-        if (!regex.test(key)) {
-            event.preventDefault();
-            return false;
-        }
-    });
-    //Datepicker
-    //jQuery("#studentDOB").datepicker();
-    //jQuery("#dptDate").datepicker();
-
-    //accordion
-    //$("#pathshalaAccordion").accordion({
-    //    collapsible: true,
-    //    icons: { "header": "fa fa-plus", "activeHeader": "fa fa-minus" },
-    //    heightStyle: "content"
-    //});
-});
-
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $(".carousel-indicators li:first-child").addClass("active");
     $(".carousel-inner div:first-child").addClass("active");
 
@@ -36,6 +13,20 @@ $(document).ready(function () {
             }
         },
     });
+
+    // Prevent Special Char
+    $('input.no-special-char').on('keypress', function (event) {
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    setTimeout(function () {
+        $(".notify").alert('close');
+    }, 10000);
 
     // Tooltip & popovers
     $('[data-toggle="tooltip"]').tooltip();

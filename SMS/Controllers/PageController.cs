@@ -73,9 +73,9 @@ namespace SMS.Controllers
 
 		#region Methods
 
-		public ActionResult PageDetails(int custompageid)
+		public ActionResult PageDetails(int id)
 		{
-			var page = _customPageService.GetCustomPageById(custompageid);
+			var page = _customPageService.GetCustomPageById(id);
 			if (page == null)
 				return null;
 			if (!page.IsActive)

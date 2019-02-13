@@ -89,10 +89,9 @@ textarea {
 
 /* Custom Styles */
 
-div#login-form-wrapper {
+div#login-form-wrapper, div#register-form-wrapper {
 	margin-top:10px;
 }
-
 .green-text{color: #10a11c !important;}
 i.green-text{font-size:16px;}
 .md-form input[type=text], .md-form input[type=password]{padding-left: 3px;}
@@ -306,3 +305,4 @@ i.green-text{font-size:16px;}
 .imgCap-left, .imgCap-top{position: relative;overflow: hidden;}
 .imgCap-image{width: 100%;height: auto;position: absolute;top: 50%;-webkit-transform: translate(0,-50%);-ms-transform: translate(0,-50%);transform: translate(0,-50%)}
 .blog-carousel .carousel-item{float:left;margin-right:10px;}
+.notify{z-index: 99999;right:10px;position: absolute;top:10%;padding-right:20px;}

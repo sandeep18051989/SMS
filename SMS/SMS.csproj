@@ -2470,6 +2470,7 @@
     <Content Include="Views\User\AddUserWidget.cshtml" />
     <Content Include="Views\Event\Details.cshtml" />
     <Content Include="Views\Teacher\Details.cshtml" />
+    <Content Include="Views\Shared\_OneColumnLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
