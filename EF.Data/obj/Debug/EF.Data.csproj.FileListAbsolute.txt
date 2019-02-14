@@ -100,13 +100,13 @@ E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\TrackerEnabledDbContext.
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\TrackerEnabledDbContext.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\AutoMapper.dll
-E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.Integration.Mvc.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.Mvc.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.Integration.Mvc.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.ValueTuple.dll
-E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Microsoft.Web.Infrastructure.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.WebPages.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.WebPages.Razor.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.Razor.dll
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Microsoft.Web.Infrastructure.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.WebPages.Deployment.dll
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Core.pdb
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.xml
@@ -114,8 +114,8 @@ E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EntityFramework.SqlServe
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\AutoMapper.pdb
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\AutoMapper.xml
-E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.Integration.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.Mvc.xml
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.Integration.Mvc.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.ValueTuple.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.WebPages.xml
 E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.WebPages.Razor.xml

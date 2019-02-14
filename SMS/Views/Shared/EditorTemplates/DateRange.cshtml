@@ -1,0 +1,11 @@
+﻿@model DateTime?
+@Html.TextBoxFor(model => model, new { @class = "form-control datepicker", @value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy") : "" : "") , @data_value = (Model.HasValue ? Model.Value.Year != 0001 ? Model.Value.ToString("dd MMMM yyyy") : "" : ""), @readonly="readonly" })
+<script type="text/javascript">
+	$(function () {
+	    $('#@Html.IdFor(model => model)').pickadate({ format: 'dd mmmm yyyy' }).pickadate('picker').on({
+			close: function() {
+				$(document.activeElement).blur();
+			}
+		});
+	});
+</script>

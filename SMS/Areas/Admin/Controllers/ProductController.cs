@@ -83,7 +83,7 @@ namespace SMS.Areas.Admin.Controllers
 				int recordsTotal = 0;
 
 				// Getting all data    
-				var productData = (from tempproducts in _productService.GetActiveProducts() select tempproducts);
+				var productData = (from tempproducts in _productService.GetAllProducts() select tempproducts);
 
 				//Sorting    
 				//if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -101,28 +101,29 @@ namespace SMS.Areas.Admin.Controllers
 				//Paging     
 				var data = productData.Skip(skip).Take(pageSize).ToList();
 
-				//Returning Json Data 
-				return new JsonResult()
-				{
-					Data = new
-					{
-						draw = draw,
-						recordsFiltered = recordsTotal,
-						recordsTotal = recordsTotal,
-						data = data.Select(x => new ProductListModel()
-						{
-							Description = !string.IsNullOrEmpty(x.Description) ? x.Description : "",
-							CommentsCount = x.Comments.Count,
-							Id = x.Id,
-							AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
-							Url = Url.RouteUrl("Product", new { name = x.GetSystemName() }, "http"),
-							IsActive = x.IsActive,
-							PicturesCount = x.Pictures.Count,
-							ReactionsCount = x.Reactions.Count,
-							FilesCount = x.Files.Count,
-							Name = x.Name,
-							VideosCount = x.Videos.Count
-						})
+                //Returning Json Data 
+                return new JsonResult()
+                {
+                    Data = new
+                    {
+                        draw = draw,
+                        recordsFiltered = recordsTotal,
+                        recordsTotal = recordsTotal,
+                        data = data.Select(x => new ProductListModel()
+                        {
+                            Description = !string.IsNullOrEmpty(x.Description) ? x.Description : "",
+                            CommentsCount = x.Comments.Count,
+                            Id = x.Id,
+                            AcadmicYear = x.AcadmicYearId.HasValue ? _smsService.GetAcadmicYearById(x.AcadmicYearId.Value)?.Name : "",
+                            Url = Url.RouteUrl("Product", new { name = x.GetSystemName() }, "http"),
+                            IsActive = x.IsActive,
+                            PicturesCount = x.Pictures.Count,
+                            ReactionsCount = x.Reactions.Count,
+                            FilesCount = x.Files.Count,
+                            Name = x.Name,
+                            Price = x.Price.ToString("f2"),
+                            VideosCount = x.Videos.Count
+                        })
 					},
 					ContentEncoding = Encoding.Default,
 					ContentType = "application/json",
@@ -205,11 +206,27 @@ namespace SMS.Areas.Admin.Controllers
 
 		}
 
-		#endregion
+        public JsonResult GetAllProductsByCategpry(int categoryid)
+        {
+            var allProducts = _productService.GetAllProducts();
+            var productsByCategory = _smsService.GetAllProductsByProductCategory(categoryid);
 
-		#region Product Methods
+            allProducts = allProducts.Where(x => !productsByCategory.Any(y => y.Id == x.Id)).ToList();
+            return new JsonResult()
+            {
+                Data = allProducts.Select(x => x.ToModel()).OrderBy(x => x.Name).ToList(),
+                ContentEncoding = Encoding.Default,
+                ContentType = "application/json",
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+        }
 
-		public ActionResult List()
+        #endregion
+
+        #region Product Methods
+
+        public ActionResult List()
 		{
 			if (!_permissionService.Authorize("ManageProducts"))
 				return AccessDeniedView();
@@ -229,18 +246,19 @@ namespace SMS.Areas.Admin.Controllers
 			if (id == 0)
 				throw new Exception("Product Id Missing");
 
-			var record = _productService.GetProductById(id);
-			if (record != null)
+			var product = _productService.GetProductById(id);
+			if (product != null)
 			{
-				model = new ProductModel();
-				model.Name = record.Name;
-				model.UserId = record.UserId;
-				model.Id = record.Id;
-				model.Description = record.Description;
-				model.SystemName = record.GetSystemName();
+				model = product.ToModel();
 			}
 
-			return View(model);
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
+            return View(model);
 		}
 
 		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
@@ -271,8 +289,18 @@ namespace SMS.Areas.Admin.Controllers
 				_urlService.SaveSlug(pro, model.SystemName);
 
 			}
+            else
+            {
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.IsActive
+                }).ToList();
+                return View(model);
+            }
 
-			SuccessNotification("Product updated successfully.");
+            SuccessNotification("Product updated successfully.");
 			if (continueEditing)
 			{
 				return RedirectToAction("Edit", new { id = model.Id });
@@ -286,7 +314,13 @@ namespace SMS.Areas.Admin.Controllers
 				return AccessDeniedView();
 
 			var model = new ProductModel();
-			return View(model);
+            model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+            {
+                Text = x.Name.Trim(),
+                Value = x.Id.ToString(),
+                Selected = x.IsActive
+            }).ToList();
+            return View(model);
 		}
 
 		[HttpPost, ParameterOnFormSubmit("save-continue", "continueEditing")]
@@ -304,44 +338,14 @@ namespace SMS.Areas.Admin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var newProduct = new Product()
-				{
-					CreatedOn = DateTime.Now,
-					ModifiedOn = DateTime.Now,
-					Name = model.Name,
-					UserId = _userContext.CurrentUser.Id,
-					Description = model.Description
-				};
-
+                var newProduct = model.ToEntity();
+                newProduct.CreatedOn = newProduct.ModifiedOn = DateTime.Now;
+                newProduct.UserId = _userContext.CurrentUser.Id;
 				_productService.Insert(newProduct);
 
 				// Save URL Record
 				model.SystemName = newProduct.ValidateSystemName(model.SystemName, model.Name, true);
 				_urlService.SaveSlug(newProduct, model.SystemName);
-
-				// Get Email Settings for Use
-				var settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
-
-				// Send Notification To The Admin
-				if (settings.Count > 0)
-				{
-					var productaddedtemplate = _settingService.GetSettingByKey("ProductAdded");
-					var Template = _templateService.GetTemplateByName(productaddedtemplate.Value);
-					if (Template != null)
-					{
-						var tokens = new List<DataToken>();
-						_templateService.AddProductTokens(tokens, newProduct);
-
-						foreach (var dt in tokens)
-						{
-							Template.BodyHtml = CodeHelper.Replace(Template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
-						}
-
-						var setting = _settingService.GetSettingByKey("FromEmail");
-						if (!String.IsNullOrEmpty(setting.Value))
-							_emailService.SendMailUsingTemplate(setting.Value, newProduct.Name + "- Just Added", Template);
-					}
-				}
 
 				SuccessNotification("Product created successfully.");
 				if (continueEditing)
@@ -350,11 +354,17 @@ namespace SMS.Areas.Admin.Controllers
 				}
 				return RedirectToAction("List");
 			}
-			else
-			{
-				return View(model);
-			}
-		}
+            else
+            {
+                model.AvailableAcadmicYears = _smsService.GetAllAcadmicYears().Select(x => new SelectListItem()
+                {
+                    Text = x.Name.Trim(),
+                    Value = x.Id.ToString(),
+                    Selected = x.IsActive
+                }).ToList();
+                return View(model);
+            }
+        }
 
 		public ActionResult Delete(int id)
 		{
@@ -370,11 +380,37 @@ namespace SMS.Areas.Admin.Controllers
 			return RedirectToAction("List");
 		}
 
-		#endregion
+        public ActionResult ToggleActiveStatusProduct(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
 
-		#region Product Picture
+            _productService.ToggleActiveStatusProduct(id);
+            SuccessNotification("Product updated successfully");
 
-		[HttpPost]
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteSelected(ICollection<int> selectedIds)
+        {
+            if (!_permissionService.Authorize("ManageProducts"))
+                return AccessDeniedView();
+
+            if (selectedIds != null)
+            {
+                _productService.DeleteProducts(_productService.GetProductsByIds(selectedIds.ToArray()).ToList());
+            }
+
+            SuccessNotification("Products deleted successfully.");
+            return RedirectToAction("List");
+        }
+
+        #endregion
+
+        #region Product Picture
+
+        [HttpPost]
 		public ActionResult DeleteProductPicture(int id)
 		{
 			if (!_permissionService.Authorize("ManageProducts"))

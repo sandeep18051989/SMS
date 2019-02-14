@@ -361,12 +361,49 @@ namespace SMS.Areas.Admin.Controllers
 			return RedirectToAction("List");
 		}
 
+        public ActionResult ToggleActiveStatusEvent(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
 
-		#endregion
+            _eventService.ToggleActiveStatusEvent(id);
+            SuccessNotification("Event updated successfully");
 
-		#region Event Picture
+            return Json(new { Result = true });
+        }
 
-		[HttpPost]
+        public ActionResult ToggleApproveStatusEvent(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            _eventService.ToggleApproveStatusEvent(id);
+            SuccessNotification("Event updated successfully");
+
+            return Json(new { Result = true });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteSelected(ICollection<int> selectedIds)
+        {
+            if (!_permissionService.Authorize("ManageEvents"))
+                return AccessDeniedView();
+
+            if (selectedIds != null)
+            {
+                _eventService.DeleteEvents(_eventService.GetEventsByIds(selectedIds.ToArray()).ToList());
+            }
+
+            SuccessNotification("Events deleted successfully.");
+            return RedirectToAction("List");
+        }
+
+
+        #endregion
+
+        #region Event Picture
+
+        [HttpPost]
 		public ActionResult DeleteEventPicture(int id)
 		{
 			if (!_permissionService.Authorize("ManageEvents"))

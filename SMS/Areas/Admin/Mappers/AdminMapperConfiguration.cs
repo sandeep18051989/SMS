@@ -758,6 +758,7 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.ProductCategory, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableVendors, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableAcadmicYears, mo => mo.Ignore())
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)))
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
@@ -769,7 +770,6 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.ProductCategories, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
-                    .ForMember(dest => dest.Vendor, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore());

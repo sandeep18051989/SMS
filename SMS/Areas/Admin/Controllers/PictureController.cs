@@ -795,11 +795,14 @@ namespace SMS.Areas.Admin.Controllers
 
             _pictureService.Insert(picture);
 
+            var bitMapImage = _pictureService.ConvertBase64IntoImage(picture.PictureSrc.Replace("data:image/jpeg;base64,", ""));
+            var resizedImage = _pictureService.ResizeImage(bitMapImage, 100, 100);
+
             return Json(new
             {
                 success = true,
                 PictureId = picture.Id,
-                Picture = _pictureService.GetPictureById(picture.Id).PictureSrc,
+                Picture = _pictureService.ImageToBase64String(resizedImage, System.Drawing.Imaging.ImageFormat.Jpeg),
                 Default = false,
                 DisplayOrder = "",
                 StartDate = "",

@@ -530,6 +530,8 @@ H:\Repositories\SMS\SMS\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
 H:\Repositories\SMS\SMS\bin\DotNetOpenAuth.OpenId.xml
 H:\Repositories\SMS\SMS\bin\Org.Mentalis.Security.Cryptography.xml
 H:\Repositories\SMS\SMS\bin\Mono.Math.xml
+E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.csprojResolveAssemblyReference.cache
+E:\My Documents\Training Projects\Sms\SMS\bin\web.config
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.svg
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\HelveticaNeueLTPro-Bd.svg
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\HelveticaNeueLTPro-BdCn.svg
@@ -726,6 +728,11 @@ E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.woff
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.ttf
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.eot
+E:\My Documents\Training Projects\Sms\SMS\bin\Content\facebookstyles.css
+E:\My Documents\Training Projects\Sms\SMS\bin\Content\Images\facebook-signing.png
+E:\My Documents\Training Projects\Sms\SMS\bin\logo.jpg
+E:\My Documents\Training Projects\Sms\SMS\bin\Views\SocialAuthFacebook\Configure.cshtml
+E:\My Documents\Training Projects\Sms\SMS\bin\Views\SocialAuthFacebook\Info.cshtml
 E:\My Documents\Training Projects\Sms\SMS\bin\SMS.dll.config
 E:\My Documents\Training Projects\Sms\SMS\bin\SMS.dll
 E:\My Documents\Training Projects\Sms\SMS\bin\SMS.pdb
@@ -787,15 +794,15 @@ E:\My Documents\Training Projects\Sms\SMS\bin\DotNetOpenAuth.OpenId.RelyingParty
 E:\My Documents\Training Projects\Sms\SMS\bin\DotNetOpenAuth.OpenId.dll
 E:\My Documents\Training Projects\Sms\SMS\bin\Org.Mentalis.Security.Cryptography.dll
 E:\My Documents\Training Projects\Sms\SMS\bin\Mono.Math.dll
+E:\My Documents\Training Projects\Sms\SMS\bin\EF.Core.pdb
+E:\My Documents\Training Projects\Sms\SMS\bin\EF.Data.pdb
+E:\My Documents\Training Projects\Sms\SMS\bin\EF.Facebook.pdb
+E:\My Documents\Training Projects\Sms\SMS\bin\EF.Services.pdb
 E:\My Documents\Training Projects\Sms\SMS\bin\Antlr3.Runtime.pdb
 E:\My Documents\Training Projects\Sms\SMS\bin\Autofac.xml
 E:\My Documents\Training Projects\Sms\SMS\bin\Autofac.Integration.Mvc.xml
 E:\My Documents\Training Projects\Sms\SMS\bin\AutoMapper.pdb
 E:\My Documents\Training Projects\Sms\SMS\bin\AutoMapper.xml
-E:\My Documents\Training Projects\Sms\SMS\bin\EF.Core.pdb
-E:\My Documents\Training Projects\Sms\SMS\bin\EF.Data.pdb
-E:\My Documents\Training Projects\Sms\SMS\bin\EF.Facebook.pdb
-E:\My Documents\Training Projects\Sms\SMS\bin\EF.Services.pdb
 E:\My Documents\Training Projects\Sms\SMS\bin\EntityFramework.xml
 E:\My Documents\Training Projects\Sms\SMS\bin\EntityFramework.SqlServer.xml
 E:\My Documents\Training Projects\Sms\SMS\bin\FluentValidation.xml
@@ -830,12 +837,5 @@ E:\My Documents\Training Projects\Sms\SMS\bin\DotNetOpenAuth.OpenId.RelyingParty
 E:\My Documents\Training Projects\Sms\SMS\bin\DotNetOpenAuth.OpenId.xml
 E:\My Documents\Training Projects\Sms\SMS\bin\Org.Mentalis.Security.Cryptography.xml
 E:\My Documents\Training Projects\Sms\SMS\bin\Mono.Math.xml
-E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.dll
 E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.pdb
-E:\My Documents\Training Projects\Sms\SMS\bin\web.config
-E:\My Documents\Training Projects\Sms\SMS\bin\Content\facebookstyles.css
-E:\My Documents\Training Projects\Sms\SMS\bin\Content\Images\facebook-signing.png
-E:\My Documents\Training Projects\Sms\SMS\bin\logo.jpg
-E:\My Documents\Training Projects\Sms\SMS\bin\Views\SocialAuthFacebook\Configure.cshtml
-E:\My Documents\Training Projects\Sms\SMS\bin\Views\SocialAuthFacebook\Info.cshtml

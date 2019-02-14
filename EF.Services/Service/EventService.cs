@@ -7,73 +7,73 @@ using System.Data.Entity;
 
 namespace EF.Services.Service
 {
-	public class EventService : IEventService
-	{
-		public readonly IRepository<Event> _eventRepository;
-		public EventService(IRepository<Event> eventRepository)
-		{
-			this._eventRepository = eventRepository;
-		}
-		#region IEventService Members
+    public class EventService : IEventService
+    {
+        public readonly IRepository<Event> _eventRepository;
+        public EventService(IRepository<Event> eventRepository)
+        {
+            this._eventRepository = eventRepository;
+        }
+        #region IEventService Members
 
-		public void Insert(Event events)
-		{
-			_eventRepository.Insert(events);
-		}
+        public void Insert(Event events)
+        {
+            _eventRepository.Insert(events);
+        }
 
-		public void Update(Event events)
-		{
-			_eventRepository.Update(events);
-		}
+        public void Update(Event events)
+        {
+            _eventRepository.Update(events);
+        }
 
-		public void Delete(int id)
-		{
-			_eventRepository.Delete(id);
-		}
+        public void Delete(int id)
+        {
+            _eventRepository.Delete(id);
+        }
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		public IList<Event> GetAllEvents(bool? onlyActive=null)
-		{
-			return _eventRepository.Table.Where(e => !onlyActive.HasValue || e.IsActive == onlyActive.Value).OrderByDescending(a => a.CreatedOn).ToList();
-		}
+        public IList<Event> GetAllEvents(bool? onlyActive = null)
+        {
+            return _eventRepository.Table.Where(e => !onlyActive.HasValue || e.IsActive == onlyActive.Value).OrderByDescending(a => a.CreatedOn).ToList();
+        }
 
-		public IList<Event> GetActiveEvents()
-		{
-			return _eventRepository.Table.Where(a => a.IsActive == true && a.IsDeleted == false).OrderByDescending(a => a.CreatedOn).ToList();
-		}
-		public Event GetEventById(int eventId)
-		{
-			if (eventId > 0)
-				return _eventRepository.Table.FirstOrDefault(a => a.Id == eventId);
+        public IList<Event> GetActiveEvents()
+        {
+            return _eventRepository.Table.Where(a => a.IsActive == true && a.IsDeleted == false).OrderByDescending(a => a.CreatedOn).ToList();
+        }
+        public Event GetEventById(int eventId)
+        {
+            if (eventId > 0)
+                return _eventRepository.Table.FirstOrDefault(a => a.Id == eventId);
 
-			return null;
-		}
-		public IList<Event> GetAllEventsByUser(int userId)
-		{
-			if (userId > 0)
-				return _eventRepository.Table.Where(a => a.UserId == userId).ToList();
+            return null;
+        }
+        public IList<Event> GetAllEventsByUser(int userId)
+        {
+            if (userId > 0)
+                return _eventRepository.Table.Where(a => a.UserId == userId).ToList();
 
-			return new List<Event>();
-		}
+            return new List<Event>();
+        }
 
-		public Event GetEventByName(string title)
-		{
-			if (!string.IsNullOrEmpty(title))
-				return _eventRepository.Table.FirstOrDefault(a => a.Title.ToLower() == title.ToLower() && a.IsDeleted == false);
+        public Event GetEventByName(string title)
+        {
+            if (!string.IsNullOrEmpty(title))
+                return _eventRepository.Table.FirstOrDefault(a => a.Title.ToLower() == title.ToLower() && a.IsDeleted == false);
 
-			return null;
-		}
+            return null;
+        }
 
-		public int GetEventCountByCreatedDate(DateTime createddate)
-		{
-			if (createddate == null)
-				throw new ArgumentNullException("created date empty.");
+        public int GetEventCountByCreatedDate(DateTime createddate)
+        {
+            if (createddate == null)
+                throw new ArgumentNullException("created date empty.");
 
-			return _eventRepository.Table.Count(e => (e.StartDate.Value >= createddate) && (e.EndDate.Value <= createddate));
-		}
+            return _eventRepository.Table.Count(e => (e.StartDate.Value >= createddate) && (e.EndDate.Value <= createddate));
+        }
 
         public IList<Event> GetLatestEvents(int? excepteventid = null, int userid = 0)
         {
@@ -100,6 +100,69 @@ namespace EF.Services.Service
         public int GetCountByVenue(string venue, int userid = 0)
         {
             return _eventRepository.Table.Count(x => (userid == 0 || x.UserId == userid) && !x.IsDeleted && x.Venue.Trim().ToLower().Contains(venue.Trim().ToLower()));
+        }
+
+        public void ToggleApproveStatusEvent(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objEvent = _eventRepository.GetByID(id);
+            if (objEvent != null)
+            {
+                objEvent.IsActive = !objEvent.IsApproved;
+                objEvent.ModifiedOn = DateTime.Now;
+                _eventRepository.Update(objEvent);
+            }
+
+        }
+
+        public void ToggleActiveStatusEvent(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException("id");
+
+            var objEvent = _eventRepository.GetByID(id);
+            if (objEvent != null)
+            {
+                objEvent.IsActive = !objEvent.IsActive;
+                objEvent.ModifiedOn = DateTime.Now;
+                _eventRepository.Update(objEvent);
+            }
+
+        }
+
+        public virtual void DeleteEvents(IList<Event> events)
+        {
+            if (events == null)
+                throw new ArgumentNullException("events");
+
+            foreach (var _event in events)
+            {
+                _event.IsDeleted = true;
+                _eventRepository.Update(_event);
+            }
+        }
+
+        public virtual IList<Event> GetEventsByIds(int[] roleIds)
+        {
+            if (roleIds == null || roleIds.Length == 0)
+                return new List<Event>();
+
+            var query = from r in _eventRepository.Table
+                        where roleIds.Contains(r.Id)
+                        select r;
+
+            var events = query.ToList();
+
+            var sortedEvents = new List<Event>();
+            foreach (int id in roleIds)
+            {
+                var qevent = events.Find(x => x.Id == id);
+                if (qevent != null)
+                    sortedEvents.Add(qevent);
+            }
+            return sortedEvents;
         }
 
         #endregion

@@ -247,6 +247,7 @@
     <Content Include="Content\fonts\Roboto-Medium.svg" />
     <Content Include="Content\fonts\Roboto-Regular.svg" />
     <Content Include="Content\fonts\Roboto-Thin.svg" />
+    <Content Include="Content\images\image-placeholder100x100.jpg" />
     <Content Include="Content\images\logo-sm.png" />
     <Content Include="Content\themeicons.css" />
     <Content Include="Areas\Admin\Scripts\dashboard.min.js" />
@@ -2471,6 +2472,7 @@
     <Content Include="Views\Event\Details.cshtml" />
     <Content Include="Views\Teacher\Details.cshtml" />
     <Content Include="Views\Shared\_OneColumnLayout.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateRange.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

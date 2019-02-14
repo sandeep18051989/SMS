@@ -131,7 +131,7 @@ namespace SMS.Areas.Admin.Controllers
 		{
 			try
 			{
-				var productData = (from associatedproduct in _productService.GetAllProduct().Where(p => p.VendorId == 0 || p.VendorId == id) select associatedproduct).OrderByDescending(eve => eve.CreatedOn).ToList();
+				var productData = (from associatedproduct in _productService.GetAllProducts().Where(p => p.VendorId == 0 || p.VendorId == id) select associatedproduct).OrderByDescending(eve => eve.CreatedOn).ToList();
 				var lstProduct = new List<ProductModel>();
 				foreach (var x in productData)
 				{

@@ -52,7 +52,7 @@ namespace SMS.Controllers
 		{
 			var user = _userContext.CurrentUser;
 			var model = new List<ProductModel>();
-			var lstProduct = _productService.GetActiveProducts(true);
+			var lstProduct = _productService.GetAllProducts(true);
 			if (lstProduct.Count > 0)
 			{
 				foreach (var record in lstProduct)
@@ -109,7 +109,7 @@ namespace SMS.Controllers
 		public ActionResult List()
 		{
 			var model = new List<ProductModel>();
-			var lstProduct = _productService.GetAllProduct().Where(x => x.IsActive == true).OrderByDescending(x => x.CreatedOn).ToList();
+			var lstProduct = _productService.GetAllProducts(true).Where(x => x.IsActive == true).OrderByDescending(x => x.CreatedOn).ToList();
 			if (lstProduct.Count > 0)
 			{
 				foreach (var record in lstProduct)
@@ -284,7 +284,6 @@ namespace SMS.Controllers
 			model.postCommentModel.Type = model.postCommentModel.postReplyModel.Type = "Product";
 			model.postCommentModel.EntityId = id;
 			model.postCommentModel.Username = user != null ? user.UserName : "";
-			model.IsInValidState = success;
 
 			return View("~/Views/Product/Detail.cshtml", model);
 		}
@@ -293,7 +292,7 @@ namespace SMS.Controllers
 		public ActionResult FooterProductListColumn1()
 		{
 			var model = new List<ProductModel>();
-			var lstProducts = _productService.GetActiveProducts(true);
+			var lstProducts = _productService.GetAllProducts(true);
 			if (lstProducts.Count > 0)
 			{
 				foreach (var record in lstProducts)
@@ -313,7 +312,7 @@ namespace SMS.Controllers
 		public ActionResult FooterProductListColumn2()
 		{
 			var model = new List<ProductModel>();
-			var lstProducts = _productService.GetActiveProducts(true);
+			var lstProducts = _productService.GetAllProducts(true);
 			if (lstProducts.Count > 0)
 			{
 				foreach (var record in lstProducts)

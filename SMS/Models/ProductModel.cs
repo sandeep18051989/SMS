@@ -22,7 +22,8 @@ namespace SMS.Models
 			Reactions = new List<ReactionModel>();
 			ProductCategory = new ProductCategoryModel();
 			AvailableVendors = new List<SelectListItem>();
-			DefaultPicture = new PictureModel();
+            AvailableAcadmicYears = new List<SelectListItem>();
+            DefaultPicture = new PictureModel();
 		}
 		public string Name { get; set; }
 		public string SystemName { get; set; }
@@ -33,16 +34,33 @@ namespace SMS.Models
 		public string SeoName { get; set; }
 		[UIHint("File")]
 		public int FileId { get; set; }
-		public int VendorId { get; set; }
-		public bool IsInValidState { get; set; }
-		public bool IsActive { get; set; }
+		public int? VendorId { get; set; }
+        public string MetaKeywords { get; set; }
+        public string MetaDescription { get; set; }
+        public string MetaTitle { get; set; }
+        [UIHint("DateRange")]
+        public DateTime? AvailableStartDate { get; set; }
+        [UIHint("DateRange")]
+        public DateTime? AvailableEndDate { get; set; }
+        public bool IsUpcoming { get; set; }
+        public bool MarkAsNew { get; set; }
+        [UIHint("DateRange")]
+        public DateTime? MarkAsNewStartDate { get; set; }
+        [UIHint("DateRange")]
+        public DateTime? MarkAsNewEndDate { get; set; }
+        public double? OldPrice { get; set; }
+        public double Price { get; set; }
+        public double BasePrice { get; set; }
+        public bool DisableBuyButton { get; set; }
+        public int StockQuantity { get; set; }
+        public bool IsActive { get; set; }
 		public bool Selected { get; set; }
 		[UIHint("Picture")]
 		public int PictureId { get; set; }
 		[UIHint("Video")]
 		public int VideoId { get; set; }
-
-		public PostCommentsModel postCommentModel { get; set; }
+        public int? AcadmicYearId { get; set; }
+        public PostCommentsModel postCommentModel { get; set; }
 		public PictureModel DefaultPicture { get; set; }
 		public ProductCategoryModel ProductCategory { get; set; }
 		public IList<VideoModel> Videos { get; set; }
@@ -51,7 +69,8 @@ namespace SMS.Models
 		public IList<CommentModel> Comments { get; set; }
 		public IList<ReactionModel> Reactions { get; set; }
 		public IList<SelectListItem> AvailableVendors { get; set; }
-	}
+        public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+    }
 
 	[Validator(typeof(PostCommentModelValidator))]
 	public partial class PostCommentsModel : BaseEntityModel
@@ -106,5 +125,6 @@ namespace SMS.Models
 		public int PicturesCount { get; set; }
 		public int CommentsCount { get; set; }
 		public int ReactionsCount { get; set; }
+        public string Price { get; set; }
 	}
 }

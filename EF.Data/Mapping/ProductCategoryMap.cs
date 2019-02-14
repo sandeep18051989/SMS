@@ -17,6 +17,9 @@ namespace EF.Data.Mapping
             this.Property(b => b.IncludeInTopMenu).IsOptional();
             this.Property(b => b.Name).IsRequired();
             this.Property(b => b.ParentCategoryId).IsOptional();
+            this.Property(b => b.MetaDescription).IsOptional();
+            this.Property(b => b.MetaKeywords).IsOptional();
+            this.Property(b => b.MetaTitle).IsOptional();
             this.Property(b => b.PictureId).IsOptional();
 
             EntityTracker.TrackAllProperties<ProductCategory>().Except(x => x.ModifiedOn).And(x => x.CreatedOn);

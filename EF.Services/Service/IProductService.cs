@@ -8,16 +8,21 @@ namespace EF.Services.Service
 		void Insert(Product product);
 		void Update(Product product);
 		void Delete(int id);
-		IList<Product> GetAllProduct();
-		IList<Product> GetActiveProducts(bool? onlyActive = null);
+        IList<Product> GetAllProducts(bool? onlyActive = null);
 		Product GetProductById(int productId);
 		IList<Product> GetAllProductByUser(int userId);
 
 		Product GetProductByName(string productName);
 
-		#region ProductCategory
+        void ToggleActiveStatusProduct(int id);
 
-		void DeleteCategory(ProductCategory productcategory);
+        void DeleteProducts(IList<Product> products);
+
+        IList<Product> GetProductsByIds(int[] roleIds);
+
+        #region ProductCategory
+
+        void DeleteCategory(ProductCategory productcategory);
 
 		IPagedList<ProductCategory> GetAllCategories(string categoryName = "", int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false);
 

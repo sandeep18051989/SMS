@@ -8,14 +8,16 @@ namespace EF.Core.Data
     {
 		public string Name { get; set; }
         public string Description { get; set; }
-        public int ParentCategoryId { get; set; }
+        public int? ParentCategoryId { get; set; }
         public int PictureId { get; set; }
         public bool IncludeInTopMenu { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public int DisplayOrder { get; set; }
         public string SystemName { get; set; }
-
+        public string MetaKeywords { get; set; }
+        public string MetaDescription { get; set; }
+        public string MetaTitle { get; set; }
     }
 
     public partial class ProductCategoryMapping : BaseEntity

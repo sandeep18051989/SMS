@@ -20,7 +20,7 @@ namespace EF.Services.Service
         IList<Picture> GetAllPicturesByUser(int userId, bool? onlyActive = null, bool? onlyOpenResource = null);
         string GetDefaultPictureSrc();
 		MemoryStream BytearrayToStream(byte[] arr);
-		Image RezizeImage(Image img, int maxWidth, int maxHeight);
+		Image ResizeImage(Image img, int maxWidth, int maxHeight);
 		void TogglePicture(int id);
 
 		#region Picture Definetions
@@ -29,8 +29,9 @@ namespace EF.Services.Service
 		void DeleteEventPicture(int id);
 		EventPicture GetEventPictureById(int id);
 		EventPicture GetEventPictureByPictureId(int id);
+        Image ConvertBase64IntoImage(string base64Image);
 
-		void InsertBlogPicture(BlogPicture newsPicture);
+        void InsertBlogPicture(BlogPicture newsPicture);
 		void UpdateBlogPicture(BlogPicture newsPicture);
 		void DeleteBlogPicture(int id);
 		BlogPicture GetBlogPictureById(int id);
@@ -86,7 +87,8 @@ namespace EF.Services.Service
 		Image applyPaddingToImage(Image image);
 		RotateFlipType getRotateFlipType(int rotateValue);
 		Image byteArrayToImage(byte[] imgBytes);
+        string ImageToBase64String(Image bitmap, ImageFormat format);
 
-		#endregion
-	}
+        #endregion
+    }
 }

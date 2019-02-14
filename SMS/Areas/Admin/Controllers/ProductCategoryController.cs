@@ -26,12 +26,13 @@ namespace SMS.Areas.Admin.Controllers
         private readonly ICommentService _commentService;
         private readonly IReplyService _replyService;
         private readonly IPictureService _pictureService;
+        private readonly IUrlService _urlService;
 
         #endregion Fileds
 
         #region Constructor
 
-        public ProductCategoryController(IUserService userService, IUserContext userContext, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, ISMSService smsService, ICommentService commentService, IReplyService replyService, IPictureService pictureService)
+        public ProductCategoryController(IUserService userService, IUserContext userContext, ISettingService settingService, IRoleService roleService, IPermissionService permissionService, ISMSService smsService, ICommentService commentService, IReplyService replyService, IPictureService pictureService, IUrlService urlService)
         {
             this._userService = userService;
             this._userContext = userContext;
@@ -42,6 +43,7 @@ namespace SMS.Areas.Admin.Controllers
             this._commentService = commentService;
             this._replyService = replyService;
             this._pictureService = pictureService;
+            this._urlService = urlService;
         }
 
         #endregion
@@ -234,6 +236,10 @@ namespace SMS.Areas.Admin.Controllers
                     objCategory = model.ToEntity(objCategory);
                     objCategory.ModifiedOn = DateTime.Now;
                     _smsService.UpdateProductCategory(objCategory);
+
+                    // Save URL Record
+                    model.SystemName = objCategory.ValidateSystemName(model.SystemName, model.Name, true);
+                    _urlService.SaveSlug(objCategory, model.SystemName);
                 }
             }
             else
@@ -290,6 +296,11 @@ namespace SMS.Areas.Admin.Controllers
                 objCategory.CreatedOn = objCategory.ModifiedOn = DateTime.Now;
                 objCategory.UserId = _userContext.CurrentUser.Id;
                 _smsService.InsertProductCategory(objCategory);
+
+                // Save URL Record
+                model.SystemName = objCategory.ValidateSystemName(model.SystemName, model.Name, true);
+                _urlService.SaveSlug(objCategory, model.SystemName);
+
                 SuccessNotification("Category created successfully.");
                 if (continueEditing)
                 {

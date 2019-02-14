@@ -26,7 +26,7 @@
                         </button>&nbsp;&nbsp;
                         <button type="submit" value="Create" name="save-continue" class="btn btn-primary mr-auto">
                             <i class="fa fa-save">&nbsp;&nbsp;</i>Save & Continue
-                        </button>&nbsp;&nbsp;<span id="class-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
+                        </button>&nbsp;&nbsp;<span id="productcategory-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</span>
                     </div>
                 </div>
                 <div class="row">
@@ -60,7 +60,7 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
                                                     <span><i class="fa fa-image"></i>&nbsp;Picture</span>
-                                                    @Html.EditorFor(model => model.PictureId, "Picture", "StudentPictureId")
+                                                    @Html.EditorFor(model => model.PictureId, "Picture")
                                                     @Html.ValidationMessageFor(model => model.PictureId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -95,7 +95,6 @@
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    <i class="fa fa-link prefix"></i>
                                                     @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "5", @maxlength = "50" } })
                                                     @Html.LabelFor(model => model.SystemName, "System Name", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
@@ -137,9 +136,9 @@
                 <!-- Modal -->
                 <div class="modal" id="productModal" tabindex="-1" role="dialog" aria-labelledby="modalDivisions" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
+                        <div style="background-color:#fff;" class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="modalDivisions">Select Products</h5>
+                                <h5 class="modal-title text-dark" id="modalDivisions">Select Products</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -206,4 +205,4 @@
         });
     });
 </script>
-@Html.DeleteConfirmation("class-delete")
+@Html.DeleteConfirmation("productcategory-delete")

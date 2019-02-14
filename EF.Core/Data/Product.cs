@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EF.Core.Data
@@ -20,14 +21,26 @@ namespace EF.Core.Data
 		public virtual ICollection<ProductCategoryMapping> _ProductCategories { get; set; }
 		#endregion
 
-		public int VendorId { get; set; }
+		public int? VendorId { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public bool IsDeleted { get; set; }
 		public bool IsActive { get; set; }
-		public int AcadmicYearId { get; set; }
-
-		public virtual Vendor Vendor { get; set; }
+		public int? AcadmicYearId { get; set; }
+        public string MetaKeywords { get; set; }
+        public string MetaDescription { get; set; }
+        public string MetaTitle { get; set; }
+        public DateTime? AvailableStartDate { get; set; }
+        public DateTime? AvailableEndDate { get; set; }
+        public bool IsUpcoming { get; set; }
+        public bool MarkAsNew { get; set; }
+        public DateTime? MarkAsNewStartDate { get; set; }
+        public DateTime? MarkAsNewEndDate { get; set; }
+        public double? OldPrice { get; set; }
+        public double Price { get; set; }
+        public double BasePrice { get; set; }
+        public bool DisableBuyButton { get; set; }
+        public int StockQuantity { get; set; }
 
 		#region Navigation Properties
 		public virtual ICollection<ProductPicture> Pictures

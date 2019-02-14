@@ -16,7 +16,7 @@ namespace SMS.Models
         }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int ParentCategoryId { get; set; }
+        public int? ParentCategoryId { get; set; }
         public int PictureId { get; set; }
         public bool IncludeInTopMenu { get; set; }
         public bool IsActive { get; set; }
@@ -26,6 +26,9 @@ namespace SMS.Models
         public string SystemName { get; set; }
         public string PictureSrc { get; set; }
         public string Url { get; set; }
+        public string MetaKeywords { get; set; }
+        public string MetaDescription { get; set; }
+        public string MetaTitle { get; set; }
 
         public ProductSubCategoryModel ProductCategory { get; set; }
         public IList<SelectListItem> AvailableProductCategories { get; set; }

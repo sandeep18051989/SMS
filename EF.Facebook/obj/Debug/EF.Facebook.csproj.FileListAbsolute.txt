@@ -119,6 +119,8 @@ H:\Repositories\SMS\EF.Facebook\obj\Debug\EF.Facebook.csprojResolveAssemblyRefer
 H:\Repositories\SMS\EF.Facebook\obj\Debug\EF.Facebook.csproj.CoreCompileInputs.cache
 H:\Repositories\SMS\EF.Facebook\obj\Debug\EF.Facebook.dll
 H:\Repositories\SMS\EF.Facebook\obj\Debug\EF.Facebook.pdb
+E:\My Documents\Training Projects\Sms\EF.Facebook\obj\Debug\EF.Facebook.csproj.App.config
+E:\My Documents\Training Projects\Sms\EF.Facebook\obj\Debug\EF.Facebook.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\SMS\Plugins\EF.Facebook\web.config
 E:\My Documents\Training Projects\Sms\SMS\Plugins\EF.Facebook\Content\facebookstyles.css
 E:\My Documents\Training Projects\Sms\SMS\Plugins\EF.Facebook\Content\Images\facebook-signing.png
@@ -128,7 +130,5 @@ E:\My Documents\Training Projects\Sms\SMS\Plugins\EF.Facebook\Views\SocialAuthFa
 E:\My Documents\Training Projects\Sms\SMS\Plugins\EF.Facebook\EF.Facebook.dll.config
 E:\My Documents\Training Projects\Sms\SMS\Plugins\EF.Facebook\EF.Facebook.dll
 E:\My Documents\Training Projects\Sms\SMS\Plugins\EF.Facebook\EF.Facebook.pdb
-E:\My Documents\Training Projects\Sms\EF.Facebook\obj\Debug\EF.Facebook.csproj.App.config
-E:\My Documents\Training Projects\Sms\EF.Facebook\obj\Debug\EF.Facebook.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\EF.Facebook\obj\Debug\EF.Facebook.dll
 E:\My Documents\Training Projects\Sms\EF.Facebook\obj\Debug\EF.Facebook.pdb

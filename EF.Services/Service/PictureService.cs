@@ -86,7 +86,7 @@ namespace EF.Services.Service
 
             return filePath;
         }
-        public Image RezizeImage(Image img, int maxWidth, int maxHeight)
+        public Image ResizeImage(Image img, int maxWidth, int maxHeight)
         {
             if (img.Height < maxHeight && img.Width < maxWidth) return img;
             using (img)
@@ -130,7 +130,16 @@ namespace EF.Services.Service
             }
 
         }
-
+        public Image ConvertBase64IntoImage(string base64Image)
+        {
+            byte[] bytes = Convert.FromBase64String(base64Image);
+            Image image;
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                image = Image.FromStream(ms);
+            }
+            return image;
+        }
         #region Picture Definetions
         public void InsertEventPicture(EventPicture eventPicture)
         {
@@ -679,6 +688,17 @@ namespace EF.Services.Service
                 return Image.FromStream(imgStream);
             }
         }
+
+        public string ImageToBase64String(Image bitmap, ImageFormat format)
+        {
+            MemoryStream ms = new MemoryStream();
+            bitmap.Save(ms, format);
+            var base64Data = Convert.ToBase64String(ms.ToArray());
+            return "data:image/gif;base64," + base64Data;
+        }
+        #endregion
+
+        #region Thumbnails
 
         #endregion
 

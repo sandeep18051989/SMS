@@ -21,8 +21,9 @@ namespace EF.Services.Service
         private readonly IRepository<Assessment> _assessmentRepository;
         private readonly IRepository<AssessmentStudent> _studentAssessmentRepository;
         private readonly IRepository<AcadmicYear> _acadmicYearRepository;
+        private readonly IRepository<Vendor> _vendorRepository;
 
-        public TemplateService(IRepository<Template> templateRepository, IRepository<DataToken> tokenRepository, IRepository<CustomPage> customPageRepository, IRepository<User> userRepository, IRepository<Assessment> assessmentRepository, IRepository<AssessmentStudent> studentAssessmentRepository, IRepository<AcadmicYear> acadmicYearRepository)
+        public TemplateService(IRepository<Template> templateRepository, IRepository<DataToken> tokenRepository, IRepository<CustomPage> customPageRepository, IRepository<User> userRepository, IRepository<Assessment> assessmentRepository, IRepository<AssessmentStudent> studentAssessmentRepository, IRepository<AcadmicYear> acadmicYearRepository, IRepository<Vendor> vendorRepository)
         {
             this._templateRepository = templateRepository;
             this._tokenRepository = tokenRepository;
@@ -31,6 +32,7 @@ namespace EF.Services.Service
             this._assessmentRepository = assessmentRepository;
             this._studentAssessmentRepository = studentAssessmentRepository;
             this._acadmicYearRepository = acadmicYearRepository;
+            this._vendorRepository = vendorRepository;
         }
         #region ITemplateService Members
 
@@ -378,7 +380,7 @@ namespace EF.Services.Service
         public virtual void AddProductTokens(IList<DataToken> tokens, Product product)
         {
             tokens.Add(new DataToken() { Name = "Product Name", SystemName = "ProductName", Value = product.Name });
-            tokens.Add(new DataToken() { Name = "Product Vendor", SystemName = "ProductVendorName", Value = product.Vendor.Name });
+            tokens.Add(new DataToken() { Name = "Product Vendor", SystemName = "ProductVendorName", Value = (product.VendorId.HasValue ? _vendorRepository.Table.FirstOrDefault(v => v.Id == product.VendorId.Value).Name : "") });
             tokens.Add(new DataToken() { Name = "Product Id", SystemName = "ProductId", Value = product.Id.ToString() });
             tokens.Add(new DataToken() { Name = "Product Description", SystemName = "ProductDescription", Value = product.Description });
             tokens.Add(new DataToken() { Name = "Product Url", SystemName = "ProductUrl", Value = product.GetSystemName() });

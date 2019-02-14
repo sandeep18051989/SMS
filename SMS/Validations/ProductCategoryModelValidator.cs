@@ -9,6 +9,7 @@ namespace SMS.Validations
 		public ProductCategoryModelValidator()
 		{
 			RuleFor(x => x.Name).NotEmpty().WithMessage("Please enter name");
+            RuleFor(x => x.SystemName).NotEmpty().WithMessage("Please enter system name");
             RuleFor(x => x.PictureId).NotEmpty().WithMessage("Please select picture");
         }
 
