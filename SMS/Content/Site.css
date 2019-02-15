@@ -306,3 +306,12 @@ i.green-text{font-size:16px;}
 .imgCap-image{width: 100%;height: auto;position: absolute;top: 50%;-webkit-transform: translate(0,-50%);-ms-transform: translate(0,-50%);transform: translate(0,-50%)}
 .blog-carousel .carousel-item{float:left;margin-right:10px;}
 .notify{z-index: 99999;right:10px;position: absolute;top:10%;padding-right:20px;}
+.hover-content{position:relative;}
+.btn-view-all{position:absolute;top:10px;right:10px;}
+.rating li i[class^=ti-]{font-size:24px;color: gray;transition: transform .2s; /* Animation */}
+.rating li i[class^=ti-]:hover{color: blue;transform: scale(1.5);}
+.rating li.active i[class^=ti-]{color: blue;transform: scale(1.5);}
+.rating li.active i[class^=ti-]:hover{color: gray;transition: transform .2s; /* Animation */}
+.ratingStar{cursor:pointer;}
+.form-mandatory-info{text-align:left;}
+.form-mandatory-info li{font-size:12px;color:red;padding-left:0;border:0;padding-bottom:5px;line-height:5px;}

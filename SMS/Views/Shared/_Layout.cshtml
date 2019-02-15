@@ -22,6 +22,7 @@
 	@Styles.Render("~/Content/boot")
 	@Styles.Render("~/Content/mdb")
 	@Styles.Render("~/Content/common")
+    @Styles.Render("~/Content/ThemeIcons")
 	@{
 		var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
 		var basePath = urlHelperService.GetLocation(false);

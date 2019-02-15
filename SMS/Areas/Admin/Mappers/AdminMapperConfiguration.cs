@@ -291,7 +291,6 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore());
 
                 cfg.CreateMap<Comment, CommentModel>()
-                    .ForMember(dest => dest.postReplyModel, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore())
                     .ForMember(dest => dest.User, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
@@ -754,7 +753,11 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
                     .ForMember(dest => dest.Files, mo => mo.Ignore())
                     .ForMember(dest => dest.Pictures, mo => mo.Ignore())
-                    .ForMember(dest => dest.postCommentModel, mo => mo.Ignore())
+                    .ForMember(dest => dest.HasDefaultPicture, mo => mo.Ignore())
+                    .ForMember(dest => dest.IsAuthenticated, mo => mo.Ignore())
+                    .ForMember(dest => dest.HasDefaultVideo, mo => mo.Ignore())
+                    .ForMember(dest => dest.DefaultVideoSrc, mo => mo.Ignore())
+                    .ForMember(dest => dest.DefaultPictureSrc, mo => mo.Ignore())
                     .ForMember(dest => dest.ProductCategory, mo => mo.Ignore())
                     .ForMember(dest => dest.Videos, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableVendors, mo => mo.Ignore())

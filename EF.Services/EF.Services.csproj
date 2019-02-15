@@ -141,6 +141,7 @@
     <Compile Include="CMSController.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="CodeHelper.cs" />
+    <Compile Include="ConfirmationReactionModel.cs" />
     <Compile Include="ConfirmationForDeleteModel.cs" />
     <Compile Include="Context\IWebContext.cs" />
     <Compile Include="Context\WebContext.cs" />

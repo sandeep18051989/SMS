@@ -367,8 +367,8 @@ namespace SMS.Controllers
                         _userService.Insert(userEntity);
 
                         // Impersonate Relation
-                        var teacher = _smsService.GetTeacherByImpersonateId(userEntity.Id);
-                        var student = _smsService.GetStudentByImpersonateId(userEntity.Id);
+                        //var teacher = _smsService.GetTeacherByImpersonateId(userEntity.Id);
+                        //var student = _smsService.GetStudentByImpersonateId(userEntity.Id);
 
                         //sign in customer
                         _authenticationService.SignIn(userEntity, false);
@@ -388,7 +388,7 @@ namespace SMS.Controllers
                         commentEntity.CreatedOn = commentEntity.ModifiedOn = DateTime.Now;
                         _commentService.Insert(commentEntity);
 
-                        if (newComment.Id > 0)
+                        if (commentEntity.Id > 0)
                             selectedEvent.Comments.Add(commentEntity);
 
                         // Update Event

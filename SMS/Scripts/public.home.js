@@ -24,6 +24,12 @@
         }
     });
 
+    $(".hover-content").hover(function () {
+        $($(this).find('.btn-view-all')[0]).show();
+    }, function () {
+        $($(this).find('.btn-view-all')[0]).hide();
+    });
+
     setTimeout(function () {
         $(".notify").alert('close');
     }, 10000);
@@ -41,13 +47,6 @@
         $this.css('backgroundImage', 'url(' + bgImg + ')').addClass('block-bg-img');
     });
 
-    // jQuery counterUp
-    //if (jQuery().counterUp) {
-    //    $('[data-counter-up]').counterUp({
-    //        delay: 20,
-    //    });
-    //}
-
     //Scroll Top link
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
@@ -63,11 +62,6 @@
         }, 600);
         return false;
     });
-
-    //initialise Stellar.js
-    //$(window).stellar({
-    //    responsive: true,
-    //});
 
     $(document).on("change", ".reg-email", function () {
         $.ajax({
@@ -115,10 +109,10 @@ function isValidEmailAddress(emailAddress) {
 }
 
 (function (i, s, o, g, r, a, m) {
-i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-    (i[r].q = i[r].q || []).push(arguments)
-}, i[r].l = 1 * new Date(); a = s.createElement(o),
-    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
 })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
 ga('create', 'UA-96031423-1', 'auto', {

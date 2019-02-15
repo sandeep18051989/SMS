@@ -7,6 +7,8 @@ using System.Web.Routing;
 //using System.Web.WebPages;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using EF.Core.Data;
+using EF.Services.Service;
 
 namespace EF.Services
 {
@@ -81,26 +83,6 @@ namespace EF.Services
 			window.AppendLine("</script>");
 
 			return MvcHtmlString.Create(window.ToString());
-		}
-
-		/// <summary>
-		/// Gets a selected tab name (used in admin area to store selected tab name)
-		/// </summary>
-		/// <returns>Name</returns>
-		public static string GetSelectedTabName(this HtmlHelper helper)
-		{
-			//keep this method synchornized with
-			//"SaveSelectedTab" method of \Administration\Controllers\BaseAdminController.cs
-			var tabName = string.Empty;
-			const string dataKey = "nop.selected-tab-name";
-
-			if (helper.ViewData.ContainsKey(dataKey))
-				tabName = helper.ViewData[dataKey].ToString();
-
-			if (helper.ViewContext.Controller.TempData.ContainsKey(dataKey))
-				tabName = helper.ViewContext.Controller.TempData[dataKey].ToString();
-
-			return tabName;
 		}
 
 		#region Form fields
@@ -398,6 +380,49 @@ namespace EF.Services
             }
 
             return breadcrumb.Append("</ol>").ToString();
+        }
+
+        #endregion
+
+        #region Fron-End Extensions
+
+        public static MvcHtmlString ReactionModal<T>(this HtmlHelper<T> helper, string buttonsSelector, int id, bool IsAuthenticated, int UserId, bool? IsEvent=null, bool? IsNews = null, bool? IsComment=null, bool? IsReply=null, bool? IsProduct = null, bool? IsBlog = null) where T : BaseEntityModel
+        {
+            return ReactionModal(helper, "", buttonsSelector, id, IsAuthenticated, UserId, IsEvent, IsNews, IsComment, IsReply, IsProduct, IsBlog);
+        }
+
+        public static MvcHtmlString ReactionModal<T>(this HtmlHelper<T> helper, string actionName,
+             string buttonsSelector, int id, bool IsAuthenticated, int UserId, bool? IsEvent = null, bool? IsNews = null, bool? IsComment = null, bool? IsReply = null, bool? IsProduct = null, bool? IsBlog = null) where T : BaseEntityModel
+        {
+            if (String.IsNullOrEmpty(actionName)) {
+                actionName = "Reaction";
+            }
+
+            var modalId = MvcHtmlString.Create("reaction-confirmation-" + id.ToString()).ToHtmlString();
+            var reactionService = EF.Core.ContextHelper.Current.Resolve<ISMSService>();
+            var reactionModel = new ConfirmationReactionModel
+            {
+                Id = id,
+                ControllerName = (IsEvent.HasValue ? "Event" : IsNews.HasValue ? "News" : IsComment.HasValue ? "Comment" : IsReply.HasValue ? "Reply" : IsProduct.HasValue ? "Product" : IsBlog.HasValue ? "Blog" : ""),
+                ActionName = actionName,
+                WindowId = modalId,
+                IsAuthenticated = IsAuthenticated,
+                UserId = UserId,
+                Reactions = IsAuthenticated ? (IsEvent.HasValue ? reactionService.SearchReactions(eventid: id, userid: UserId) : IsNews.HasValue ? reactionService.SearchReactions(newsid: id, userid: UserId) : IsComment.HasValue ? reactionService.SearchReactions(commentid: id, userid: UserId) : IsReply.HasValue ? reactionService.SearchReactions(replyid: id, userid: UserId) : IsProduct.HasValue ? reactionService.SearchReactions(productid: id, userid: UserId) : IsBlog.HasValue ? reactionService.SearchReactions(blogid: id, userid: UserId) : new List<Reaction>()) : new List<Reaction>()
+            };
+
+            var window = new StringBuilder();
+            window.AppendLine($"<div id='{modalId}' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='{modalId}-title' aria-hidden='true'>");
+            window.AppendLine(helper.Partial("Reaction", reactionModel).ToHtmlString());
+            window.AppendLine("</div>");
+
+            window.AppendLine("<script>");
+            window.AppendLine("$(document).ready(function() {");
+            window.AppendLine(string.Format("$('#{0}').attr(\"data-toggle\", \"modal\").attr(\"data-target\", \"#{1}\")", buttonsSelector, modalId));
+            window.AppendLine("});");
+            window.AppendLine("</script>");
+
+            return MvcHtmlString.Create(window.ToString());
         }
 
         #endregion

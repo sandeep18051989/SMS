@@ -79,141 +79,141 @@ namespace SMS.Controllers
 
 		#region Actions
 
-		[HttpPost]
-		[ValidateInput(false)]
-		public ActionResult PostComment(FormCollection frm)
-		{
-			TempData.Clear();
-			var user = _userContext.CurrentUser;
-			var model = new PostCommentsModel();
-			if (!String.IsNullOrEmpty(frm["Username"].ToString()))
-			{
-				model.Id = model.EntityId = frm["EntityId"] != null ? Convert.ToInt32(frm["EntityId"].ToString()) : 0;
-				model.CommentHtml = frm["CommentHtml"]?.ToString() ?? "";
-				model.CreatedOn = DateTime.Now;
-				model.Username = frm["Username"]?.ToString() ?? "";
-				model.Type = frm["Type"]?.ToString() ?? "";
+		//[HttpPost]
+		//[ValidateInput(false)]
+		//public ActionResult PostComment(FormCollection frm)
+		//{
+		//	TempData.Clear();
+		//	var user = _userContext.CurrentUser;
+		//	var model = new PostCommentsModel();
+		//	if (!String.IsNullOrEmpty(frm["Username"].ToString()))
+		//	{
+		//		model.Id = model.EntityId = frm["EntityId"] != null ? Convert.ToInt32(frm["EntityId"].ToString()) : 0;
+		//		model.CommentHtml = frm["CommentHtml"]?.ToString() ?? "";
+		//		model.CreatedOn = DateTime.Now;
+		//		model.Username = frm["Username"]?.ToString() ?? "";
+		//		model.Type = frm["Type"]?.ToString() ?? "";
 
-				var comment = new Comment()
-				{
-					CommentHtml = frm["CommentHtml"]?.ToString() ?? "",
-					CreatedOn = DateTime.Now,
-					IsActive = true,
-					IsDeleted = false,
-					IsApproved = true,
-					ModifiedOn = DateTime.Now,
-					UserId = user != null ? user.Id : 0,
-					Username = frm["Username"]?.ToString() ?? ""
-				};
+		//		var comment = new Comment()
+		//		{
+		//			CommentHtml = frm["CommentHtml"]?.ToString() ?? "",
+		//			CreatedOn = DateTime.Now,
+		//			IsActive = true,
+		//			IsDeleted = false,
+		//			IsApproved = true,
+		//			ModifiedOn = DateTime.Now,
+		//			UserId = user != null ? user.Id : 0,
+		//			Username = frm["Username"]?.ToString() ?? ""
+		//		};
 
-				// Get Email Settings for Use
-				var settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
-				switch (model.Type)
-				{
-					case "Blog":
-						var blog = _blogService.GetBlogById(model.Id);
-						if (blog != null)
-						{
-							comment.DisplayOrder = blog.Comments.Count + 1;
-							_commentService.Insert(comment);
-							blog.Comments.Add(comment);
-							_blogService.Update(blog);
-						}
+		//		// Get Email Settings for Use
+		//		var settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
+		//		switch (model.Type)
+		//		{
+		//			case "Blog":
+		//				var blog = _blogService.GetBlogById(model.Id);
+		//				if (blog != null)
+		//				{
+		//					comment.DisplayOrder = blog.Comments.Count + 1;
+		//					_commentService.Insert(comment);
+		//					blog.Comments.Add(comment);
+		//					_blogService.Update(blog);
+		//				}
 
-						// Send Notification To The Admin
-						if (settings.Count > 0)
-						{
-							var settingTeplate = _settingService.GetSettingByKey("CommentOnBlog");
-							var template = _templateService.GetTemplateByName(settingTeplate.Value);
-							if (template != null)
-							{
-								// Replace Dynamic Data
-								var tokens = new List<DataToken>();
-								_templateService.AddBlogTokens(tokens, blog);
-								if (_userContext.CurrentUser != null)
-								{
-									_templateService.AddUserTokens(tokens, _userContext.CurrentUser);
-								}
+		//				// Send Notification To The Admin
+		//				if (settings.Count > 0)
+		//				{
+		//					var settingTeplate = _settingService.GetSettingByKey("CommentOnBlog");
+		//					var template = _templateService.GetTemplateByName(settingTeplate.Value);
+		//					if (template != null)
+		//					{
+		//						// Replace Dynamic Data
+		//						var tokens = new List<DataToken>();
+		//						_templateService.AddBlogTokens(tokens, blog);
+		//						if (_userContext.CurrentUser != null)
+		//						{
+		//							_templateService.AddUserTokens(tokens, _userContext.CurrentUser);
+		//						}
 
-								foreach (var dt in tokens)
-								{
-									template.BodyHtml = EF.Services.CodeHelper.Replace(template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
-								}
+		//						foreach (var dt in tokens)
+		//						{
+		//							template.BodyHtml = EF.Services.CodeHelper.Replace(template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
+		//						}
 
-								var adminEmail = _settingService.GetSettingByKey("FromEmail");
-								if (adminEmail != null)
-								{
-									if (!String.IsNullOrEmpty(adminEmail.Value))
-										_emailService.SendMailUsingTemplate(adminEmail.Value, model.Username + "Posted A Comment", template);
-								}
-							}
-						}
+		//						var adminEmail = _settingService.GetSettingByKey("FromEmail");
+		//						if (adminEmail != null)
+		//						{
+		//							if (!String.IsNullOrEmpty(adminEmail.Value))
+		//								_emailService.SendMailUsingTemplate(adminEmail.Value, model.Username + "Posted A Comment", template);
+		//						}
+		//					}
+		//				}
 
-						SuccessNotification("Comment successfully added on blog.");
-						return RedirectToAction("Detail", "Blog", new { id = blog.Id });
-					case "Event":
-						if (model.Id > 0)
-						{
-							var _event = _eventService.GetEventById(model.Id);
-							if (_event != null)
-							{
-								comment.DisplayOrder = _event.Comments.Count + 1;
-								_commentService.Insert(comment);
-								_event.Comments.Add(comment);
-								_eventService.Update(_event);
-							}
+		//				SuccessNotification("Comment successfully added on blog.");
+		//				return RedirectToAction("Detail", "Blog", new { id = blog.Id });
+		//			case "Event":
+		//				if (model.Id > 0)
+		//				{
+		//					var _event = _eventService.GetEventById(model.Id);
+		//					if (_event != null)
+		//					{
+		//						comment.DisplayOrder = _event.Comments.Count + 1;
+		//						_commentService.Insert(comment);
+		//						_event.Comments.Add(comment);
+		//						_eventService.Update(_event);
+		//					}
 
-							// Send Notification To The Admin
-							if (settings.Count > 0)
-							{
-								var settingTeplate = _settingService.GetSettingByKey("CommentOnEvent");
-								var template = _templateService.GetTemplateByName(settingTeplate.Value);
-								if (template != null)
-								{
+		//					// Send Notification To The Admin
+		//					if (settings.Count > 0)
+		//					{
+		//						var settingTeplate = _settingService.GetSettingByKey("CommentOnEvent");
+		//						var template = _templateService.GetTemplateByName(settingTeplate.Value);
+		//						if (template != null)
+		//						{
 
-									// Replace Dynamic Data
-									if (_event != null)
-									{
-										template.BodyHtml = template.BodyHtml.Replace("[EventName]", _event.Title);
-										template.BodyHtml = template.BodyHtml.Replace("[EventDate]", _event.ModifiedOn.HasValue ? _event.ModifiedOn.Value.ToString("U") : "");
-										template.BodyHtml = template.BodyHtml.Replace("[EventDescription]", _event.Description);
-										template.BodyHtml = template.BodyHtml.Replace("[EventComment]", model.CommentHtml);
-										template.BodyHtml = template.BodyHtml.Replace("[Username]", model.Username);
-									}
+		//							// Replace Dynamic Data
+		//							if (_event != null)
+		//							{
+		//								template.BodyHtml = template.BodyHtml.Replace("[EventName]", _event.Title);
+		//								template.BodyHtml = template.BodyHtml.Replace("[EventDate]", _event.ModifiedOn.HasValue ? _event.ModifiedOn.Value.ToString("U") : "");
+		//								template.BodyHtml = template.BodyHtml.Replace("[EventDescription]", _event.Description);
+		//								template.BodyHtml = template.BodyHtml.Replace("[EventComment]", model.CommentHtml);
+		//								template.BodyHtml = template.BodyHtml.Replace("[Username]", model.Username);
+		//							}
 
-									var tokens = new List<DataToken>();
-									_templateService.AddEventTokens(tokens, _event);
-									if (_userContext.CurrentUser != null)
-									{
-										_templateService.AddUserTokens(tokens, _userContext.CurrentUser);
-									}
+		//							var tokens = new List<DataToken>();
+		//							_templateService.AddEventTokens(tokens, _event);
+		//							if (_userContext.CurrentUser != null)
+		//							{
+		//								_templateService.AddUserTokens(tokens, _userContext.CurrentUser);
+		//							}
 
-									foreach (var dt in tokens)
-									{
-										template.BodyHtml = EF.Services.CodeHelper.Replace(template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
-									}
+		//							foreach (var dt in tokens)
+		//							{
+		//								template.BodyHtml = EF.Services.CodeHelper.Replace(template.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
+		//							}
 
-									var adminEmail = _settingService.GetSettingByKey("FromEmail");
-									if (adminEmail != null)
-									{
-										if (!String.IsNullOrEmpty(adminEmail.Value))
-											_emailService.SendMailUsingTemplate(adminEmail.Value, model.Username + "Posted A Comment", template);
-									}
-								}
-							}
+		//							var adminEmail = _settingService.GetSettingByKey("FromEmail");
+		//							if (adminEmail != null)
+		//							{
+		//								if (!String.IsNullOrEmpty(adminEmail.Value))
+		//									_emailService.SendMailUsingTemplate(adminEmail.Value, model.Username + "Posted A Comment", template);
+		//							}
+		//						}
+		//					}
 
-							SuccessNotification("Comment successfully added on event.");
-							return RedirectToAction("Detail", "Event", new { id = GenerateSlug(model.EntityId.ToString(), _eventService.GetEventById(model.EntityId).Title) });
-						}
-						break;
-					default:
-						break;
-				}
+		//					SuccessNotification("Comment successfully added on event.");
+		//					return RedirectToAction("Detail", "Event", new { id = GenerateSlug(model.EntityId.ToString(), _eventService.GetEventById(model.EntityId).Title) });
+		//				}
+		//				break;
+		//			default:
+		//				break;
+		//		}
 
-			}
+		//	}
 
-			return RedirectToAction("Detail", "Product", new { id = GenerateSlug(model.EntityId.ToString(), _productService.GetProductById(model.EntityId).Name) });
-		}
+		//	return RedirectToAction("Detail", "Product", new { id = GenerateSlug(model.EntityId.ToString(), _productService.GetProductById(model.EntityId).Name) });
+		//}
 
 		public PartialViewResult GetComments(int id, string type)
 		{
@@ -257,7 +257,6 @@ namespace SMS.Controllers
 												UserName = rep.UserId.ToString()
 											});
 										}
-										comm.postReplyModel.Type = "Blog";
 										model.Add(comm);
 									}
 								}
@@ -298,7 +297,6 @@ namespace SMS.Controllers
 												UserName = rep.UserId.ToString()
 											});
 										}
-										comm.postReplyModel.Type = "Event";
 										model.Add(comm);
 									}
 								}

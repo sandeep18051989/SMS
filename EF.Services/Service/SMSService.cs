@@ -2544,7 +2544,7 @@ namespace EF.Services.Service
 
             return _reactionRepository.GetByID(id);
         }
-        public IList<Reaction> SearchReactions(int? blogid = null, int? productid = null, int? eventid = null, int? pictureid = null, int? videoid = null, int? newsid = null, int? commentid = null, int? replyid = null)
+        public IList<Reaction> SearchReactions(int? blogid = null, int? productid = null, int? eventid = null, int? pictureid = null, int? videoid = null, int? newsid = null, int? commentid = null, int? replyid = null, int? userid=null)
         {
             var query = _reactionRepository.Table.OrderByDescending(x => x.CreatedOn).ToList();
 
@@ -2571,6 +2571,9 @@ namespace EF.Services.Service
 
             if (replyid.HasValue)
                 query = query.Where(x => x.ReplyId == replyid.Value).ToList();
+
+            if (userid.HasValue)
+                query = query.Where(x => x.UserId == userid.Value).ToList();
 
             return query;
         }

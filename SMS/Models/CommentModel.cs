@@ -16,7 +16,6 @@ namespace SMS.Models
         {
             Replies = new List<ReplyModel>();
             User = new UserModel();
-            postReplyModel = new PostReplyModel();
             Reactions = new List<ReactionModel>();
         }
         public int CommentId { get; set; }
@@ -40,21 +39,5 @@ namespace SMS.Models
         public IList<ReplyModel> Replies { get; set; }
         public IList<ReactionModel> Reactions { get; set; }
 
-        public PostReplyModel postReplyModel { get; set; }
-
-    }
-
-    [Validator(typeof(PostReplyModelValidator))]
-    public partial class PostReplyModel : BaseEntityModel
-    {
-        public int EntityId { get; set; }
-        public int CommentId { get; set; }
-        [AllowHtml]
-        [UIHint("ReplyEditor")]
-        public string ReplyHtml { get; set; }
-        public int DisplayOrder { get; set; }
-        public bool IsModified { get; set; }
-        public string Type { get; set; }
-        public string Username { get; set; }
     }
 }

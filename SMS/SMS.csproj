@@ -249,6 +249,7 @@
     <Content Include="Content\fonts\Roboto-Thin.svg" />
     <Content Include="Content\images\image-placeholder100x100.jpg" />
     <Content Include="Content\images\logo-sm.png" />
+    <Content Include="Content\images\product-picture-not-available700x500.png" />
     <Content Include="Content\themeicons.css" />
     <Content Include="Areas\Admin\Scripts\dashboard.min.js" />
     <Content Include="Areas\Admin\Scripts\jquery-jvectormap.min.js" />
@@ -2175,6 +2176,7 @@
     <Compile Include="Areas\Admin\Models\RolePermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\PermissionModel.cs" />
     <Compile Include="Areas\Admin\Models\NotificationModel.cs" />
+    <Compile Include="Models\Widgets\ProductListWidgetModel.cs" />
     <Compile Include="Models\Widgets\BlogWidgetModel.cs" />
     <Compile Include="Models\Widgets\NewsWidgetModel.cs" />
     <Compile Include="Models\Widgets\TeacherWidgetModel.cs" />
@@ -2321,8 +2323,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validations\BlogModelValidator.cs" />
     <Compile Include="Validations\DivisionSubjectModelValidator.cs" />
-    <Compile Include="Validations\PostReplyModelValidator.cs" />
-    <Compile Include="Validations\PostCommentModelValidator.cs" />
     <Compile Include="Validations\CommentModelValidator.cs" />
     <Compile Include="Validations\FeedbackValidator.cs" />
     <Compile Include="Validations\EventModelValidator.cs" />
@@ -2473,6 +2473,8 @@
     <Content Include="Views\Teacher\Details.cshtml" />
     <Content Include="Views\Shared\_OneColumnLayout.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateRange.cshtml" />
+    <Content Include="Views\Shared\_ProductTile.cshtml" />
+    <Content Include="Views\Shared\Reaction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

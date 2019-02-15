@@ -389,7 +389,7 @@ namespace SMS.Controllers
                         commentEntity.CreatedOn = commentEntity.ModifiedOn = DateTime.Now;
                         _commentService.Insert(commentEntity);
 
-                        if (newComment.Id > 0)
+                        if (commentEntity.Id > 0)
                             blog.Comments.Add(commentEntity);
 
                         // Update Blog
