@@ -49,6 +49,14 @@ namespace EF.Services
 
         public int TotalPages { get; set; }
 
+        public string Keyword { get; set; }
+
+        public int ProductCategoryId { get; set; }
+        public string Subject { get; set; }
+        public string Venue { get; set; }
+        public int UserId { get; set; }
+        public string ProductSubCategoryId { get; set; }
+
         #endregion
     }
 }

@@ -24,8 +24,15 @@ namespace EF.Services.Service
         IDictionary<string, int> GetDistinctVenueAndCount(bool? onlyActive = null, int userid = 0);
         int GetCountByVenue(string venue, int userid = 0);
         void DeleteEvents(IList<Event> events);
-
+        IDictionary<string, int> GetDistinctLocationAndCount(bool? onlyActive = null);
         IList<Event> GetEventsByIds(int[] roleIds);
+        int GetCountByVenue(string subject);
+
+        #region Paging
+
+        IPagedList<Event> GetPagedEvents(string keyword = null, string venue = null, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null);
+
+        #endregion
 
     }
 }

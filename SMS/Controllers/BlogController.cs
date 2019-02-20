@@ -591,28 +591,365 @@ namespace SMS.Controllers
             return RedirectToRoute("Blog", new { name = model.SystemName });
         }
 
-        public ActionResult PostCommentDetail(int id, bool success)
+        public ActionResult List(PagingFilteringModel command)
         {
-            var user = _userContext.CurrentUser;
-            var model = new BlogModel();
-            var blog = _blogService.GetBlogById(id);
-            if (blog != null)
+            var model = new BlogListWidgetModel();
+            var itemsPerPageSetting = _settingService.GetSettingByKey("ItemsPerPage");
+            if (command.PageSize <= 0) command.PageSize = itemsPerPageSetting != null ? Convert.ToInt32(itemsPerPageSetting.Value) : 25;
+            if (command.PageNumber <= 0) command.PageNumber = 1;
+
+            var blogs = _blogService.GetPagedBlogs(keyword: command.Keyword, subject: command.Subject, userid: command.UserId, pageIndex: command.PageNumber - 1, pageSize: command.PageSize, onlyActive: true);
+            model.PagingFilteringContext.LoadPagedList(blogs);
+            model.PagingFilteringContext.Keyword = command.Keyword;
+            model.PagingFilteringContext.Subject = command.Subject;
+            model.PagingFilteringContext.UserId = command.UserId;
+
+            foreach (var blog in blogs)
             {
-                model = new BlogModel()
+                var objBlog = blog.ToWidgetModel();
+                objBlog.IsAuthenticated = false;
+                objBlog.ModifiedOn = blog.ModifiedOn;
+                objBlog.CreatedOn = blog.CreatedOn;
+
+                var blogPictures = _pictureService.GetBlogPictureByBlogId(blog.Id).OrderByDescending(x => x.StartDate).ToList();
+                objBlog.HasDefaultPicture = blogPictures.Any(x => x.IsDefault);
+
+                var blogVideos = _videoService.GetBlogVideosByBlogId(blog.Id).OrderByDescending(x => x.StartDate).ToList();
+                objBlog.HasDefaultVideo = blogVideos.Count > 0;
+
+                if (blogPictures.Count > 0)
                 {
-                    Name = blog.Name,
-                    BlogHtml = blog.BlogHtml,
-                    CreatedOn = blog.CreatedOn,
-                    Email = blog.Email,
-                    Id = blog.Id,
-                    IpAddress = blog.IpAddress,
-                    Subject = blog.Subject,
-                    UserId = blog.UserId,
-                };
+                    objBlog.DefaultPictureSrc = blogPictures.FirstOrDefault(x => objBlog.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                    objBlog.Pictures = blogPictures.Select(x => x.ToModel()).ToList();
+                }
+
+                if (blogVideos.Count > 0)
+                {
+                    objBlog.DefaultVideoSrc = blogVideos.FirstOrDefault().Video.VideoSrc;
+                    objBlog.Videos = blogVideos.Select(x => x.ToModel()).ToList();
+                }
+
+                objBlog.Reactions = _smsService.SearchReactions(blogid: blog.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                objBlog.Comments = _commentService.GetCommentsByBlog(blog.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                if (objBlog.Comments.Count > 0)
+                {
+                    foreach (var comment in objBlog.Comments)
+                    {
+                        comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                    }
+                }
+
+                var fromUser = _userService.GetUserById(objBlog.UserId);
+                if (fromUser != null)
+                {
+                    objBlog.User = fromUser.ToModel();
+                    objBlog.Username = !string.IsNullOrEmpty(fromUser.FirstName) ? (fromUser.FirstName + (!string.IsNullOrEmpty(fromUser.LastName) ? (" " + fromUser.LastName) : "")) : !string.IsNullOrEmpty(fromUser.UserName) ? fromUser.UserName : fromUser.Email;
+
+                    if (objBlog.User.ProfilePictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objBlog.User.ProfilePictureId);
+                        objBlog.User.ProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objBlog.User.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objBlog.User.CoverPictureId);
+                        objBlog.User.CoverPicture = coverPicture.ToModel();
+                    }
+                }
+                var studentUser = _smsService.GetStudentByImpersonatedUser(fromUser.Id);
+                var teacherUser = _smsService.GetTeacherByImpersonatedUser(fromUser.Id);
+                if (studentUser != null)
+                {
+                    objBlog.IsStudent = true;
+                    objBlog.Student = studentUser.ToModel();
+
+                    if (objBlog.Student.StudentPictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objBlog.Student.StudentPictureId);
+                        objBlog.User.StudentProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objBlog.Student.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objBlog.Student.CoverPictureId);
+                        objBlog.User.StudentCoverPicture = coverPicture.ToModel();
+                    }
+                }
+
+                if (teacherUser != null)
+                {
+                    objBlog.IsTeacher = true;
+                    objBlog.Teacher = teacherUser.ToModel();
+
+                    if (objBlog.Teacher.ProfilePictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objBlog.Teacher.ProfilePictureId);
+                        objBlog.User.TeacherProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objBlog.Teacher.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objBlog.Teacher.CoverPictureId);
+                        objBlog.User.TeacherCoverPicture = coverPicture.ToModel();
+                    }
+                }
+
+                objBlog.LatestPosts = _blogService.GetLatestBlogs(objBlog.Id, (objBlog.User != null ? objBlog.User.Id : 0)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.CreatedOn).Take(3).ToList();
+                foreach (var post in objBlog.LatestPosts)
+                {
+                    var postPictures = _pictureService.GetBlogPictureByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetBlogVideosByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                objBlog.OlderPosts = _blogService.GetOlderBlogs(objBlog.Id, (objBlog.User != null ? objBlog.User.Id : 0)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.CreatedOn).Take(3).ToList();
+                foreach (var post in objBlog.OlderPosts)
+                {
+                    var postPictures = _pictureService.GetBlogPictureByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetBlogVideosByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                objBlog.PopularPosts = _blogService.GetAllBlogs(true).Where(x => x.Id != objBlog.Id && (objBlog.User != null ? x.UserId == objBlog.User.Id : true)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.Comments.Count).Take(3).ToList();
+                foreach (var post in objBlog.PopularPosts)
+                {
+                    var postPictures = _pictureService.GetBlogPictureByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetBlogVideosByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+                model.Blogs.Add(objBlog);
             }
 
-            return View("~/Views/Blog/Detail.cshtml", model);
+            model.Subjects = _blogService.GetDistinctSubjectAndCount(true);
+            model.Users = _userService.GetAllUsers(true, true).Where(x => _blogService.IsUserBlogger(x.UserId)).Select(x => x.ToModel()).OrderByDescending(x => _blogService.GetBlogCountByUser(x.UserId)).ToList();
+
+            return View(model);
         }
+
+        [HttpPost]
+        public ActionResult List(PagingFilteringModel command, FormCollection frm)
+        {
+            var model = new BlogListWidgetModel();
+            var itemsPerPageSetting = _settingService.GetSettingByKey("ItemsPerPage");
+            if (command.PageSize <= 0) command.PageSize = itemsPerPageSetting != null ? Convert.ToInt32(itemsPerPageSetting.Value) : 25;
+            if (command.PageNumber <= 0) command.PageNumber = 1;
+
+            var blogs = _blogService.GetPagedBlogs(keyword: command.Keyword, subject: command.Subject, userid: command.UserId, pageIndex: command.PageNumber - 1, pageSize: command.PageSize, onlyActive: true);
+            model.PagingFilteringContext.LoadPagedList(blogs);
+            model.PagingFilteringContext.Keyword = command.Keyword;
+            model.PagingFilteringContext.Subject = command.Subject;
+            model.PagingFilteringContext.UserId = command.UserId;
+
+            foreach (var blog in blogs)
+            {
+                var objBlog = blog.ToWidgetModel();
+                objBlog.IsAuthenticated = false;
+                objBlog.ModifiedOn = blog.ModifiedOn;
+                objBlog.CreatedOn = blog.CreatedOn;
+
+                var blogPictures = _pictureService.GetBlogPictureByBlogId(blog.Id).OrderByDescending(x => x.StartDate).ToList();
+                objBlog.HasDefaultPicture = blogPictures.Any(x => x.IsDefault);
+
+                var blogVideos = _videoService.GetBlogVideosByBlogId(blog.Id).OrderByDescending(x => x.StartDate).ToList();
+                objBlog.HasDefaultVideo = blogVideos.Count > 0;
+
+                if (blogPictures.Count > 0)
+                {
+                    objBlog.DefaultPictureSrc = blogPictures.FirstOrDefault(x => objBlog.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                    objBlog.Pictures = blogPictures.Select(x => x.ToModel()).ToList();
+                }
+
+                if (blogVideos.Count > 0)
+                {
+                    objBlog.DefaultVideoSrc = blogVideos.FirstOrDefault().Video.VideoSrc;
+                    objBlog.Videos = blogVideos.Select(x => x.ToModel()).ToList();
+                }
+
+                objBlog.Reactions = _smsService.SearchReactions(blogid: blog.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                objBlog.Comments = _commentService.GetCommentsByBlog(blog.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                if (objBlog.Comments.Count > 0)
+                {
+                    foreach (var comment in objBlog.Comments)
+                    {
+                        comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                    }
+                }
+
+                var fromUser = _userService.GetUserById(objBlog.UserId);
+                if (fromUser != null)
+                {
+                    objBlog.User = fromUser.ToModel();
+                    objBlog.Username = !string.IsNullOrEmpty(fromUser.FirstName) ? (fromUser.FirstName + (!string.IsNullOrEmpty(fromUser.LastName) ? (" " + fromUser.LastName) : "")) : !string.IsNullOrEmpty(fromUser.UserName) ? fromUser.UserName : fromUser.Email;
+
+                    if (objBlog.User.ProfilePictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objBlog.User.ProfilePictureId);
+                        objBlog.User.ProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objBlog.User.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objBlog.User.CoverPictureId);
+                        objBlog.User.CoverPicture = coverPicture.ToModel();
+                    }
+                }
+                var studentUser = _smsService.GetStudentByImpersonatedUser(fromUser.Id);
+                var teacherUser = _smsService.GetTeacherByImpersonatedUser(fromUser.Id);
+                if (studentUser != null)
+                {
+                    objBlog.IsStudent = true;
+                    objBlog.Student = studentUser.ToModel();
+
+                    if (objBlog.Student.StudentPictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objBlog.Student.StudentPictureId);
+                        objBlog.User.StudentProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objBlog.Student.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objBlog.Student.CoverPictureId);
+                        objBlog.User.StudentCoverPicture = coverPicture.ToModel();
+                    }
+                }
+
+                if (teacherUser != null)
+                {
+                    objBlog.IsTeacher = true;
+                    objBlog.Teacher = teacherUser.ToModel();
+
+                    if (objBlog.Teacher.ProfilePictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objBlog.Teacher.ProfilePictureId);
+                        objBlog.User.TeacherProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objBlog.Teacher.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objBlog.Teacher.CoverPictureId);
+                        objBlog.User.TeacherCoverPicture = coverPicture.ToModel();
+                    }
+                }
+
+                objBlog.LatestPosts = _blogService.GetLatestBlogs(objBlog.Id, (objBlog.User != null ? objBlog.User.Id : 0)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.CreatedOn).Take(3).ToList();
+                foreach (var post in objBlog.LatestPosts)
+                {
+                    var postPictures = _pictureService.GetBlogPictureByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetBlogVideosByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                objBlog.OlderPosts = _blogService.GetOlderBlogs(objBlog.Id, (objBlog.User != null ? objBlog.User.Id : 0)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.CreatedOn).Take(3).ToList();
+                foreach (var post in objBlog.OlderPosts)
+                {
+                    var postPictures = _pictureService.GetBlogPictureByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetBlogVideosByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                objBlog.PopularPosts = _blogService.GetAllBlogs(true).Where(x => x.Id != objBlog.Id && (objBlog.User != null ? x.UserId == objBlog.User.Id : true)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.Comments.Count).Take(3).ToList();
+                foreach (var post in objBlog.PopularPosts)
+                {
+                    var postPictures = _pictureService.GetBlogPictureByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetBlogVideosByBlogId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+                model.Blogs.Add(objBlog);
+            }
+
+            model.Subjects = _blogService.GetDistinctSubjectAndCount(true);
+            model.Users = _userService.GetAllUsers(true, true).Where(x => _blogService.IsUserBlogger(x.UserId)).Select(x => x.ToModel()).OrderByDescending(x => _blogService.GetBlogCountByUser(x.UserId)).ToList();
+
+            return View(model);
+        }
+
 
     }
 }

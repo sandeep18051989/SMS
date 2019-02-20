@@ -1,0 +1,162 @@
+﻿@model SMS.Models.BlogListWidgetModel
+@using EF.Core;
+@using EF.Services;
+@using EF.Services.Http;
+@{
+    ViewBag.Title = "Blogs";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    var urlHelperService = ContextHelper.Current.Resolve<IUrlHelper>();
+    var userContext = ContextHelper.Current.Resolve<IUserContext>();
+    var basePath = urlHelperService.GetLocation(false);
+}
+<form class="form-horizontal" id="blog-list-form" method="post" action="@Url.Action("List", "Blog" , new { @Area="" })">
+    <div class="row">
+        <div class="col-lg-3 col-12 mt-1 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+            @if (Model.Users.Count > 0)
+            {
+                <section class="section widget-content mt-5">
+                    <!--/ Card -->
+                    <div class="card card-body pb-0">
+                        <div class="single-post">
+                            <p class="font-weight-bold dark-grey-text text-center spacing grey lighten-4 py-2 mb-4">
+                                <strong>BLOGGERS</strong>
+                            </p>
+                            @foreach (var user in Model.Users)
+                            {
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <button data-value="@(user.Id)" type="submit" class="link btn btn-block btn-success btn-user">
+                                            @((!string.IsNullOrEmpty(user.FirstName) ? (user.FirstName + ((!string.IsNullOrEmpty(user.LastName) ? (" " + user.LastName) : ""))) : user.Username))
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </section>
+            }
+            @if (Model.Users.Count > 0)
+            {
+                <section class="section my-5">
+                    <!--/ Card -->
+                    <div class="card card-body pb-0">
+                        <div class="single-post">
+                            <p class="font-weight-bold dark-grey-text text-center spacing grey lighten-4 py-2 mb-4">
+                                <strong>SUBJECTS</strong>
+                            </p>
+                            <ul class="list-group my-4">
+                                @foreach (var sub in Model.Subjects)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <button type="submit" data-value="@(sub.Value)" class="link un-button bg-transparent btn-subject">
+                                            <p class="mb-0">@(sub.Key)</p>
+                                        </button>
+                                        <span class="badge teal badge-pill font-small">@(sub.Value)</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <hr />
+            }
+        </div>
+        <div class="col-lg-9 col-12 mt-1 wow fadeIn">
+            <div class="row">
+                <div class="col-md-12 pt-3 mb-4">
+                    <div class="form-inline pull-right">
+                        <div class="md-form input-group col-md-12 my-0 p-relative">
+                            <input class="form-control no-special-char mr-sm-2" type="text" id="Keyword" placeholder="Search..." name="Keyword" value="@(!string.IsNullOrEmpty(Model.PagingFilteringContext.Keyword) ? Model.PagingFilteringContext.Keyword : "")" aria-label="Search">
+                            <span class="input-group-append">
+                                <button disabled="disabled" class="btn btn-primary btn-sm btn-search" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.Blogs.Count > 0)
+                {
+                    <div class="row-fluid wow fadeIn" style="visibility: visible; animation-name: fadeIn;width:100%;">
+                        @foreach (var blog in Model.Blogs)
+                        {
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="view overlay">
+                                        @if (!string.IsNullOrEmpty(blog.DefaultPictureSrc))
+                                        {
+                                            <img style="min-height:300px;max-height:300px;" src="@(blog.DefaultPictureSrc)" class="card-img-top" alt="@(blog.Name)">
+                                        }
+                                        else
+                                        {
+                                            <img style="min-height:300px;max-height:300px;" src="@(basePath)Content/Images/product-picture-not-available700x500.png" title="@blog.Name" class="card-img-top" alt="@blog.Name">
+                                        }
+                                        <a>
+                                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                        </a>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5>
+                                            <strong>
+                                                <a href="@Url.RouteUrl("Blog", new { name=blog.SystemName })" class="dark-grey-text">
+                                                    @(blog.Name)
+                                                </a>
+                                            </strong>
+                                        </h5>
+                                        <h5 style="min-height:30px;">
+                                            @blog.Subject
+                                        </h5>
+                                        <h4 class="font-weight-bold blue-text">
+                                            <strong>Last Updated -&nbsp;@(CodeHelper.TimeAgo(blog.ModifiedOn.Value))</strong>
+                                        </h4>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="reaction-cell text-center">
+                                            <button title="Likes" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-heart text-dark"></i>&nbsp;<span class="badge badge-info ml-2">@(blog.Reactions.Count(x => x.IsLike.HasValue && x.IsLike.Value))</span><span class="sr-only">Likes</span></button>
+                                            <button title="Dis-Likes" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-heart-broken text-dark"></i>&nbsp;<span class="badge badge-dark ml-2">@(blog.Reactions.Count(x => x.IsDislike.HasValue && x.IsDislike.Value))</span><span class="sr-only">Dis-Likes</span></button>
+                                            <button title="Angry" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-angry text-dark"></i>&nbsp;<span class="badge badge-danger ml-2">@(blog.Reactions.Count(x => x.IsAngry.HasValue && x.IsAngry.Value))</span><span class="sr-only">Angry</span></button>
+                                            <button title="Happy" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-happy text-dark"></i>&nbsp;<span class="badge badge-success ml-2">@(blog.Reactions.Count(x => x.IsHappy.HasValue && x.IsHappy.Value))</span><span class="sr-only">Happy</span></button>
+                                            <button title="Sad" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-sad text-dark"></i>&nbsp;<span class="badge badge-light ml-2">@(blog.Reactions.Count(x => x.IsSad.HasValue && x.IsSad.Value))</span><span class="sr-only">Sad</span></button>
+                                            <button title="LOL" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-grin text-dark"></i>&nbsp;<span class="badge badge-secondary ml-2">@(blog.Reactions.Count(x => x.IsLol.HasValue && x.IsLol.Value))</span><span class="sr-only">Lol</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info green-theme">No Blogs Found!</div>
+                }
+            </div>
+
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("keyup", "#Keyword", function () {
+            if ($(this).val() == null || $(this).val() === "") {
+                $(".btn-search").attr('disabled', true);
+            }
+            else {
+                $(".btn-search").removeAttr("disabled");
+            }
+        });
+
+        // User Filter
+        $(document).on("click", ".btn-user", function () {
+            var userSelected = $(this).data('value');
+            var $form = $(this).closest('form');
+            $form.append('<input type="hidden" id="UserId" name="UserId" value="' + userSelected + '" />');
+        });
+
+        // Subject Filter
+        $(document).on("click", ".btn-subject", function () {
+            var subjectSelected = $(this).data('value');
+            var $form = $(this).closest('form');
+            $form.append('<input type="hidden" id="Subject" name="Subject" value="' + subjectSelected + '" />');
+        });
+    });
+</script>

@@ -23,6 +23,10 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.AcadmicYear, mo => mo.Ignore())
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CommentsCount, mo => mo.Ignore())
+                    .ForMember(dest => dest.PicturesCount, mo => mo.Ignore())
+                    .ForMember(dest => dest.ReactionsCount, mo => mo.Ignore())
+                    .ForMember(dest => dest.VideosCount, mo => mo.Ignore())
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
                 cfg.CreateMap<BlogModel, Blog>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())
@@ -765,6 +769,10 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)))
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.FeaturedProducts, mo => mo.Ignore())
+                    .ForMember(dest => dest.NewProducts, mo => mo.Ignore())
+                    .ForMember(dest => dest.UpcomingProducts, mo => mo.Ignore())
+                    .ForMember(dest => dest.RelatedProducts, mo => mo.Ignore())
                     .ForMember(dest => dest.Reactions, mo => mo.Ignore());
                 cfg.CreateMap<ProductModel, Product>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())

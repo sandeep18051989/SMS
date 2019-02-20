@@ -590,5 +590,365 @@ namespace SMS.Controllers
             return RedirectToRoute("Event", new { name = model.SystemName });
         }
 
+        public ActionResult List(PagingFilteringModel command)
+        {
+            var model = new EventListWidgetModel();
+            var itemsPerPageSetting = _settingService.GetSettingByKey("ItemsPerPage");
+            if (command.PageSize <= 0) command.PageSize = itemsPerPageSetting != null ? Convert.ToInt32(itemsPerPageSetting.Value) : 25;
+            if (command.PageNumber <= 0) command.PageNumber = 1;
+
+            var events = _eventService.GetPagedEvents(keyword: command.Keyword, venue: command.Venue, pageIndex: command.PageNumber - 1, pageSize: command.PageSize, onlyActive: true);
+            model.PagingFilteringContext.LoadPagedList(events);
+            model.PagingFilteringContext.Keyword = command.Keyword;
+            model.PagingFilteringContext.Venue = command.Venue;
+
+            foreach (var eve in events)
+            {
+                var objEvent = eve.ToWidgetModel();
+                objEvent.ModifiedOn = eve.ModifiedOn;
+                objEvent.CreatedOn = eve.CreatedOn;
+
+                var eventPictures = _pictureService.GetEventPicturesByEvent(eve.Id).OrderByDescending(x => x.StartDate).ToList();
+                objEvent.HasDefaultPicture = eventPictures.Any(x => x.IsDefault);
+
+                var eventVideos = _videoService.GetEventVideosByEventId(eve.Id).OrderByDescending(x => x.StartDate).ToList();
+                objEvent.HasDefaultVideo = eventVideos.Count > 0;
+
+                if (eventPictures.Count > 0)
+                {
+                    objEvent.DefaultPictureSrc = eventPictures.FirstOrDefault(x => objEvent.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                    objEvent.Pictures = eventPictures.Select(x => x.ToModel()).ToList();
+                }
+
+                if (eventVideos.Count > 0)
+                {
+                    objEvent.DefaultVideoSrc = eventVideos.FirstOrDefault().Video.VideoSrc;
+                    objEvent.Videos = eventVideos.Select(x => x.ToModel()).ToList();
+                }
+
+                objEvent.Reactions = _smsService.SearchReactions(eventid: eve.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                objEvent.Comments = _commentService.GetCommentsByEvent(eve.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                if (objEvent.Comments.Count > 0)
+                {
+                    foreach (var comment in objEvent.Comments)
+                    {
+                        comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                    }
+                }
+
+                var fromUser = _userService.GetUserById(objEvent.UserId);
+                if (fromUser != null)
+                {
+                    objEvent.User = fromUser.ToModel();
+                    objEvent.Username = !string.IsNullOrEmpty(fromUser.FirstName) ? (fromUser.FirstName + (!string.IsNullOrEmpty(fromUser.LastName) ? (" " + fromUser.LastName) : "")) : !string.IsNullOrEmpty(fromUser.UserName) ? fromUser.UserName : fromUser.Email;
+
+                    if (objEvent.User.ProfilePictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objEvent.User.ProfilePictureId);
+                        objEvent.User.ProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objEvent.User.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objEvent.User.CoverPictureId);
+                        objEvent.User.CoverPicture = coverPicture.ToModel();
+                    }
+                }
+                var studentUser = _smsService.GetStudentByImpersonatedUser(fromUser.Id);
+                var teacherUser = _smsService.GetTeacherByImpersonatedUser(fromUser.Id);
+                if (studentUser != null)
+                {
+                    objEvent.IsStudent = true;
+                    objEvent.Student = studentUser.ToModel();
+
+                    if (objEvent.Student.StudentPictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objEvent.Student.StudentPictureId);
+                        objEvent.User.StudentProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objEvent.Student.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objEvent.Student.CoverPictureId);
+                        objEvent.User.StudentCoverPicture = coverPicture.ToModel();
+                    }
+                }
+
+                if (teacherUser != null)
+                {
+                    objEvent.IsTeacher = true;
+                    objEvent.Teacher = teacherUser.ToModel();
+
+                    if (objEvent.Teacher.ProfilePictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objEvent.Teacher.ProfilePictureId);
+                        objEvent.User.TeacherProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objEvent.Teacher.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objEvent.Teacher.CoverPictureId);
+                        objEvent.User.TeacherCoverPicture = coverPicture.ToModel();
+                    }
+                }
+
+                objEvent.LatestPosts = _eventService.GetLatestEvents(objEvent.Id, (objEvent.User != null ? objEvent.User.Id : 0)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.CreatedOn).Take(3).ToList();
+                foreach (var post in objEvent.LatestPosts)
+                {
+                    var postPictures = _pictureService.GetEventPicturesByEvent(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetEventVideosByEventId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                objEvent.OlderPosts = _eventService.GetOlderEvents(objEvent.Id, (objEvent.User != null ? objEvent.User.Id : 0)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.CreatedOn).Take(3).ToList();
+                foreach (var post in objEvent.OlderPosts)
+                {
+                    var postPictures = _pictureService.GetEventPicturesByEvent(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetEventVideosByEventId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                objEvent.PopularPosts = _eventService.GetAllEvents(true).Where(x => x.Id != objEvent.Id && (objEvent.User != null ? x.UserId == objEvent.User.Id : true)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.Comments.Count).Take(3).ToList();
+                foreach (var post in objEvent.PopularPosts)
+                {
+                    var postPictures = _pictureService.GetEventPicturesByEvent(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetEventVideosByEventId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                //model.Pictures = eventPictures.Select(x => _pictureService.GetPictureById(x.PictureId).ToModel()).OrderByDescending(x => x.CreatedOn.HasValue ? x.CreatedOn.Value : x.ModifiedOn.Value).ToList();
+                //model.Videos = eventVideos.Select(x => _videoService.GetVideoById(x.VideoId).ToModel()).OrderByDescending(x => x.CreatedOn.HasValue ? x.CreatedOn.Value : x.ModifiedOn.Value).ToList();
+                model.Events.Add(objEvent);
+            }
+
+            model.Locations = _eventService.GetDistinctLocationAndCount(true);
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public ActionResult List(PagingFilteringModel command, FormCollection frm)
+        {
+            var model = new EventListWidgetModel();
+            var itemsPerPageSetting = _settingService.GetSettingByKey("ItemsPerPage");
+            if (command.PageSize <= 0) command.PageSize = itemsPerPageSetting != null ? Convert.ToInt32(itemsPerPageSetting.Value) : 25;
+            if (command.PageNumber <= 0) command.PageNumber = 1;
+
+            var events = _eventService.GetPagedEvents(keyword: command.Keyword, venue: command.Venue, pageIndex: command.PageNumber - 1, pageSize: command.PageSize, onlyActive: true);
+            model.PagingFilteringContext.LoadPagedList(events);
+            model.PagingFilteringContext.Keyword = command.Keyword;
+            model.PagingFilteringContext.Venue = command.Venue;
+
+            foreach (var eve in events)
+            {
+                var objEvent = eve.ToWidgetModel();
+                objEvent.ModifiedOn = eve.ModifiedOn;
+                objEvent.CreatedOn = eve.CreatedOn;
+
+                var eventPictures = _pictureService.GetEventPicturesByEvent(eve.Id).OrderByDescending(x => x.StartDate).ToList();
+                objEvent.HasDefaultPicture = eventPictures.Any(x => x.IsDefault);
+
+                var eventVideos = _videoService.GetEventVideosByEventId(eve.Id).OrderByDescending(x => x.StartDate).ToList();
+                objEvent.HasDefaultVideo = eventVideos.Count > 0;
+
+                if (eventPictures.Count > 0)
+                {
+                    objEvent.DefaultPictureSrc = eventPictures.FirstOrDefault(x => objEvent.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                    objEvent.Pictures = eventPictures.Select(x => x.ToModel()).ToList();
+                }
+
+                if (eventVideos.Count > 0)
+                {
+                    objEvent.DefaultVideoSrc = eventVideos.FirstOrDefault().Video.VideoSrc;
+                    objEvent.Videos = eventVideos.Select(x => x.ToModel()).ToList();
+                }
+
+                objEvent.Reactions = _smsService.SearchReactions(eventid: eve.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                objEvent.Comments = _commentService.GetCommentsByEvent(eve.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                if (objEvent.Comments.Count > 0)
+                {
+                    foreach (var comment in objEvent.Comments)
+                    {
+                        comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                    }
+                }
+
+                var fromUser = _userService.GetUserById(objEvent.UserId);
+                if (fromUser != null)
+                {
+                    objEvent.User = fromUser.ToModel();
+                    objEvent.Username = !string.IsNullOrEmpty(fromUser.FirstName) ? (fromUser.FirstName + (!string.IsNullOrEmpty(fromUser.LastName) ? (" " + fromUser.LastName) : "")) : !string.IsNullOrEmpty(fromUser.UserName) ? fromUser.UserName : fromUser.Email;
+
+                    if (objEvent.User.ProfilePictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objEvent.User.ProfilePictureId);
+                        objEvent.User.ProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objEvent.User.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objEvent.User.CoverPictureId);
+                        objEvent.User.CoverPicture = coverPicture.ToModel();
+                    }
+                }
+                var studentUser = _smsService.GetStudentByImpersonatedUser(fromUser.Id);
+                var teacherUser = _smsService.GetTeacherByImpersonatedUser(fromUser.Id);
+                if (studentUser != null)
+                {
+                    objEvent.IsStudent = true;
+                    objEvent.Student = studentUser.ToModel();
+
+                    if (objEvent.Student.StudentPictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objEvent.Student.StudentPictureId);
+                        objEvent.User.StudentProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objEvent.Student.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objEvent.Student.CoverPictureId);
+                        objEvent.User.StudentCoverPicture = coverPicture.ToModel();
+                    }
+                }
+
+                if (teacherUser != null)
+                {
+                    objEvent.IsTeacher = true;
+                    objEvent.Teacher = teacherUser.ToModel();
+
+                    if (objEvent.Teacher.ProfilePictureId > 0)
+                    {
+                        var proPicture = _pictureService.GetPictureById(objEvent.Teacher.ProfilePictureId);
+                        objEvent.User.TeacherProfilePicture = proPicture.ToModel();
+                    }
+
+                    if (objEvent.Teacher.CoverPictureId > 0)
+                    {
+                        var coverPicture = _pictureService.GetPictureById(objEvent.Teacher.CoverPictureId);
+                        objEvent.User.TeacherCoverPicture = coverPicture.ToModel();
+                    }
+                }
+
+                objEvent.LatestPosts = _eventService.GetLatestEvents(objEvent.Id, (objEvent.User != null ? objEvent.User.Id : 0)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.CreatedOn).Take(3).ToList();
+                foreach (var post in objEvent.LatestPosts)
+                {
+                    var postPictures = _pictureService.GetEventPicturesByEvent(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetEventVideosByEventId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                objEvent.OlderPosts = _eventService.GetOlderEvents(objEvent.Id, (objEvent.User != null ? objEvent.User.Id : 0)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.CreatedOn).Take(3).ToList();
+                foreach (var post in objEvent.OlderPosts)
+                {
+                    var postPictures = _pictureService.GetEventPicturesByEvent(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetEventVideosByEventId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                objEvent.PopularPosts = _eventService.GetAllEvents(true).Where(x => x.Id != objEvent.Id && (objEvent.User != null ? x.UserId == objEvent.User.Id : true)).Select(x => x.ToWidgetModel()).OrderByDescending(x => x.Comments.Count).Take(3).ToList();
+                foreach (var post in objEvent.PopularPosts)
+                {
+                    var postPictures = _pictureService.GetEventPicturesByEvent(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultPicture = postPictures.Any(x => x.IsDefault);
+
+                    var postVideos = _videoService.GetEventVideosByEventId(post.Id).OrderByDescending(x => x.StartDate).ToList();
+                    post.HasDefaultVideo = postVideos.Count > 0;
+
+                    if (postPictures.Count > 0)
+                    {
+                        post.DefaultPictureSrc = postPictures.FirstOrDefault(x => post.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                        post.Pictures = postPictures.Select(x => x.ToModel()).ToList();
+                    }
+
+                    if (postVideos.Count > 0)
+                    {
+                        post.DefaultVideoSrc = postVideos.FirstOrDefault().Video.VideoSrc;
+                        post.Videos = postVideos.Select(x => x.ToModel()).ToList();
+                    }
+                }
+
+                //model.Pictures = eventPictures.Select(x => _pictureService.GetPictureById(x.PictureId).ToModel()).OrderByDescending(x => x.CreatedOn.HasValue ? x.CreatedOn.Value : x.ModifiedOn.Value).ToList();
+                //model.Videos = eventVideos.Select(x => _videoService.GetVideoById(x.VideoId).ToModel()).OrderByDescending(x => x.CreatedOn.HasValue ? x.CreatedOn.Value : x.ModifiedOn.Value).ToList();
+                model.Events.Add(objEvent);
+            }
+
+            model.Locations = _eventService.GetDistinctLocationAndCount(true);
+
+            return View(model);
+        }
+
     }
 }

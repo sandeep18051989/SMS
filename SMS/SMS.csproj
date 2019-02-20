@@ -49,8 +49,10 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.9.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.4.9.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
@@ -65,7 +67,7 @@
       <HintPath>..\packages\CodeSmear.JQuery.DataTable.1.0.1\lib\CodeSmear.JQuery.DataTable.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.MappingAPI, Version=6.2.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -73,7 +75,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
@@ -139,8 +141,8 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Linq.Dynamic.Core, Version=1.0.9.2, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Linq.Dynamic.Core.1.0.9.2\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
+    <Reference Include="System.Linq.Dynamic.Core, Version=1.0.10.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.Core.1.0.10\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -148,6 +150,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Extensions.4.3.1\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
@@ -239,6 +249,13 @@
     <Content Include="Areas\Admin\Content\fineuploader.min.css" />
     <Content Include="Areas\Admin\Content\morris.css" />
     <Content Include="Areas\Admin\Scripts\waves.min.js" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\Roboto-Black.svg" />
     <Content Include="Content\fonts\Roboto-BlackItalic.svg" />
     <Content Include="Content\fonts\Roboto-Bold.svg" />
@@ -259,12 +276,6 @@
     <Content Include="Areas\Admin\Scripts\pace.min.js" />
     <Content Include="Areas\Admin\Scripts\raphel.min.js" />
     <Content Include="Content\animate.min.css" />
-    <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -424,9 +435,6 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\datetimepicker.css" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\fonts\HelveticaNeueLTPro-Bd.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -704,11 +712,11 @@
     <Content Include="Plugins\EF.Facebook\TrackerEnabledDbContext.Common.dll" />
     <Content Include="Plugins\EF.Facebook\TrackerEnabledDbContext.dll" />
     <Content Include="Plugins\EF.Facebook\Wibci.CountryReverseGeocode.dll" />
-    <Content Include="Scripts\carousel3D.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\carousel3D.min.js" />
     <Content Include="Scripts\colortoggle.min.js" />
     <Content Include="Scripts\counter.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
@@ -1559,24 +1567,65 @@
     <Content Include="Areas\Admin\Views\Assessment\List.cshtml" />
     <Content Include="Areas\Admin\Views\Assessment\AssessmentStudents.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\DateTimePicker.cshtml" />
-    <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\fonts\themeicon.woff" />
+    <Content Include="Content\fonts\themeicon.eot" />
+    <Content Include="Content\fonts\themeicon.ttf" />
+    <Content Include="Content\fonts\materialdesignicons-webfont.woff2" />
+    <Content Include="Content\fonts\materialdesignicons-webfont.eot" />
+    <Content Include="Content\fonts\materialdesignicons-webfont.woff" />
+    <Content Include="Content\fonts\materialdesignicons-webfont.ttf" />
+    <Content Include="Content\fonts\Roboto-Black.eot" />
+    <Content Include="Content\fonts\Roboto-Black.ttf" />
+    <Content Include="Content\fonts\Roboto-Black.woff" />
+    <Content Include="Content\fonts\Roboto-BlackItalic.eot" />
+    <Content Include="Content\fonts\Roboto-BlackItalic.ttf" />
+    <Content Include="Content\fonts\Roboto-BlackItalic.woff" />
+    <Content Include="Content\fonts\Roboto-Bold.eot" />
+    <Content Include="Content\fonts\Roboto-Bold.ttf" />
+    <Content Include="Content\fonts\Roboto-Bold.woff" />
+    <Content Include="Content\fonts\Roboto-BoldItalic.eot" />
+    <Content Include="Content\fonts\Roboto-BoldItalic.ttf" />
+    <Content Include="Content\fonts\Roboto-BoldItalic.woff" />
+    <Content Include="Content\fonts\Roboto-Light.eot" />
+    <Content Include="Content\fonts\Roboto-Light.ttf" />
+    <Content Include="Content\fonts\Roboto-Light.woff" />
+    <Content Include="Content\fonts\Roboto-Medium.eot" />
+    <Content Include="Content\fonts\Roboto-Medium.ttf" />
+    <Content Include="Content\fonts\Roboto-Medium.woff" />
+    <Content Include="Content\fonts\Roboto-Regular.eot" />
+    <Content Include="Content\fonts\Roboto-Regular.ttf" />
+    <Content Include="Content\fonts\Roboto-Regular.woff" />
+    <Content Include="Content\fonts\Roboto-Thin.eot" />
+    <Content Include="Content\fonts\Roboto-Thin.ttf" />
+    <Content Include="Content\fonts\Roboto-Thin.woff" />
+    <Content Include="Areas\Admin\Views\ProductCategory\_CategoryProducts.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\List.cshtml" />
+    <Content Include="Plugins\EF.Facebook\EF.Core.dll.config" />
+    <Content Include="Plugins\EF.Facebook\EF.Facebook.dll.config" />
+    <Content Include="Plugins\EF.Facebook\EF.Services.dll.config" />
+    <Content Include="Plugins\EF.Facebook\Views\SocialAuthFacebook\Configure.cshtml" />
+    <Content Include="Plugins\EF.Facebook\Views\SocialAuthFacebook\Info.cshtml" />
+    <Content Include="Plugins\EF.Facebook\web.config" />
+    <Content Include="Areas\Admin\Views\Picture\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Picture\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Picture\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PictureResource.cshtml" />
+    <Content Include="Areas\Admin\Views\Video\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Video\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Video\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\VideoResource.cshtml" />
     <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap\wells.less" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\utilities.less" />
@@ -1648,55 +1697,6 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <Content Include="Content\fonts\themeicon.woff" />
-    <Content Include="Content\fonts\themeicon.eot" />
-    <Content Include="Content\fonts\themeicon.ttf" />
-    <Content Include="Content\fonts\materialdesignicons-webfont.woff2" />
-    <Content Include="Content\fonts\materialdesignicons-webfont.eot" />
-    <Content Include="Content\fonts\materialdesignicons-webfont.woff" />
-    <Content Include="Content\fonts\materialdesignicons-webfont.ttf" />
-    <Content Include="Content\fonts\Roboto-Black.eot" />
-    <Content Include="Content\fonts\Roboto-Black.ttf" />
-    <Content Include="Content\fonts\Roboto-Black.woff" />
-    <Content Include="Content\fonts\Roboto-BlackItalic.eot" />
-    <Content Include="Content\fonts\Roboto-BlackItalic.ttf" />
-    <Content Include="Content\fonts\Roboto-BlackItalic.woff" />
-    <Content Include="Content\fonts\Roboto-Bold.eot" />
-    <Content Include="Content\fonts\Roboto-Bold.ttf" />
-    <Content Include="Content\fonts\Roboto-Bold.woff" />
-    <Content Include="Content\fonts\Roboto-BoldItalic.eot" />
-    <Content Include="Content\fonts\Roboto-BoldItalic.ttf" />
-    <Content Include="Content\fonts\Roboto-BoldItalic.woff" />
-    <Content Include="Content\fonts\Roboto-Light.eot" />
-    <Content Include="Content\fonts\Roboto-Light.ttf" />
-    <Content Include="Content\fonts\Roboto-Light.woff" />
-    <Content Include="Content\fonts\Roboto-Medium.eot" />
-    <Content Include="Content\fonts\Roboto-Medium.ttf" />
-    <Content Include="Content\fonts\Roboto-Medium.woff" />
-    <Content Include="Content\fonts\Roboto-Regular.eot" />
-    <Content Include="Content\fonts\Roboto-Regular.ttf" />
-    <Content Include="Content\fonts\Roboto-Regular.woff" />
-    <Content Include="Content\fonts\Roboto-Thin.eot" />
-    <Content Include="Content\fonts\Roboto-Thin.ttf" />
-    <Content Include="Content\fonts\Roboto-Thin.woff" />
-    <Content Include="Areas\Admin\Views\ProductCategory\_CategoryProducts.cshtml" />
-    <Content Include="Areas\Admin\Views\ProductCategory\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\ProductCategory\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\ProductCategory\List.cshtml" />
-    <Content Include="Plugins\EF.Facebook\EF.Core.dll.config" />
-    <Content Include="Plugins\EF.Facebook\EF.Facebook.dll.config" />
-    <Content Include="Plugins\EF.Facebook\EF.Services.dll.config" />
-    <Content Include="Plugins\EF.Facebook\Views\SocialAuthFacebook\Configure.cshtml" />
-    <Content Include="Plugins\EF.Facebook\Views\SocialAuthFacebook\Info.cshtml" />
-    <Content Include="Plugins\EF.Facebook\web.config" />
-    <Content Include="Areas\Admin\Views\Picture\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Picture\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Picture\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\PictureResource.cshtml" />
-    <Content Include="Areas\Admin\Views\Video\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Video\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Video\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\VideoResource.cshtml" />
     <None Include="Properties\PublishProfiles\Art.pubxml" />
     <Content Include="Scripts\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\i18n\grid.locale-bg.js" />
@@ -1943,55 +1943,24 @@
     <Content Include="Scripts\tinymce\plugins\bbcode\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\charmap\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\charmap\plugin.min.js" />
-    <Content Include="Scripts\tinymce\plugins\codesample\css\prism.css" />
     <Content Include="Scripts\tinymce\plugins\codesample\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\codesample\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\code\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\code\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\colorpicker\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\colorpicker\plugin.min.js" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\css\dialog.css" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\img\buttons.png" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\img\icons.gif" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\img\items.gif" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\img\menu_arrow.gif" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\img\menu_check.gif" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\img\progress.gif" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\img\tabs.gif" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\plugin.js" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\plugin.min.js" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\tiny_mce_popup.js" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\utils\editable_selects.js" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\utils\form_utils.js" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\utils\mctabs.js" />
-    <Content Include="Scripts\tinymce\plugins\compat3x\utils\validate.js" />
     <Content Include="Scripts\tinymce\plugins\contextmenu\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\contextmenu\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\directionality\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\directionality\plugin.min.js" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-cool.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-cry.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-embarassed.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-foot-in-mouth.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-frown.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-innocent.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-kiss.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-laughing.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-money-mouth.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-sealed.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-smile.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-surprised.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-tongue-out.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-undecided.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-wink.gif" />
-    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-yell.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\js\emojis.js" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\js\emojis.min.js" />
     <Content Include="Scripts\tinymce\plugins\emoticons\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\emoticons\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\fullpage\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\fullpage\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\fullscreen\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\fullscreen\plugin.min.js" />
-    <Content Include="Scripts\tinymce\plugins\help\img\logo.png" />
     <Content Include="Scripts\tinymce\plugins\help\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\help\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\hr\plugin.js" />
@@ -2026,6 +1995,8 @@
     <Content Include="Scripts\tinymce\plugins\preview\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\print\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\print\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\quickbars\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\quickbars\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\save\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\save\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\searchreplace\plugin.js" />
@@ -2044,30 +2015,30 @@
     <Content Include="Scripts\tinymce\plugins\textpattern\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\toc\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\toc\plugin.min.js" />
-    <Content Include="Scripts\tinymce\plugins\visualblocks\css\visualblocks.css" />
     <Content Include="Scripts\tinymce\plugins\visualblocks\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\visualblocks\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\visualchars\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\visualchars\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\wordcount\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\wordcount\plugin.min.js" />
-    <Content Include="Scripts\tinymce\skins\lightgray\content.inline.min.css" />
-    <Content Include="Scripts\tinymce\skins\lightgray\content.min.css" />
-    <Content Include="Scripts\tinymce\skins\lightgray\content.mobile.min.css" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.svg" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.svg" />
-    <Content Include="Scripts\tinymce\skins\lightgray\img\anchor.gif" />
-    <Content Include="Scripts\tinymce\skins\lightgray\img\loader.gif" />
-    <Content Include="Scripts\tinymce\skins\lightgray\img\object.gif" />
-    <Content Include="Scripts\tinymce\skins\lightgray\img\trans.gif" />
-    <Content Include="Scripts\tinymce\skins\lightgray\skin.min.css" />
-    <Content Include="Scripts\tinymce\skins\lightgray\skin.mobile.min.css" />
-    <Content Include="Scripts\tinymce\themes\inlite\theme.js" />
-    <Content Include="Scripts\tinymce\themes\inlite\theme.min.js" />
+    <Content Include="Scripts\tinymce\skins\content\default\content.css" />
+    <Content Include="Scripts\tinymce\skins\content\default\content.min.css" />
+    <Content Include="Scripts\tinymce\skins\content\document\content.css" />
+    <Content Include="Scripts\tinymce\skins\content\document\content.min.css" />
+    <Content Include="Scripts\tinymce\skins\content\writer\content.css" />
+    <Content Include="Scripts\tinymce\skins\content\writer\content.min.css" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide-dark\content.inline.min.css" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide-dark\content.min.css" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide-dark\skin.min.css" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide\content.inline.min.css" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide\content.min.css" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide\content.mobile.min.css" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide\skin.min.css" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide\skin.mobile.min.css" />
     <Content Include="Scripts\tinymce\themes\mobile\theme.js" />
     <Content Include="Scripts\tinymce\themes\mobile\theme.min.js" />
-    <Content Include="Scripts\tinymce\themes\modern\theme.js" />
-    <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
+    <Content Include="Scripts\tinymce\themes\silver\theme.js" />
+    <Content Include="Scripts\tinymce\themes\silver\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
@@ -2457,14 +2428,6 @@
     <Content Include="Views\Developer\Footer.cshtml" />
     <Content Include="Views\Developer\Copyright.cshtml" />
     <Content Include="Views\Developer\Index.cshtml" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
-    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
-    <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Social\OtherLogins.cshtml" />
     <Content Include="Views\Shared\_SocialSettingsLayout.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
@@ -2475,6 +2438,9 @@
     <Content Include="Views\Shared\EditorTemplates\DateRange.cshtml" />
     <Content Include="Views\Shared\_ProductTile.cshtml" />
     <Content Include="Views\Shared\Reaction.cshtml" />
+    <Content Include="Scripts\tinymce\skins\ui\oxide\fonts\tinymce-mobile.woff" />
+    <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\Blog\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -120,113 +120,405 @@ namespace SMS.Controllers
             return PartialView(widgetModel);
         }
 
-        public ActionResult List()
+        public ActionResult List(PagingFilteringModel command)
         {
-            var model = new List<ProductModel>();
-            var lstProduct = _productService.GetAllProducts(true).Where(x => x.IsActive == true).OrderByDescending(x => x.CreatedOn).ToList();
-            if (lstProduct.Count > 0)
+            var model = new ProductListWidgetModel();
+            var itemsPerPageSetting = _settingService.GetSettingByKey("ItemsPerPage");
+            if (command.PageSize <= 0) command.PageSize = itemsPerPageSetting != null ? Convert.ToInt32(itemsPerPageSetting.Value) : 25;
+            if (command.PageNumber <= 0) command.PageNumber = 1;
+
+            var products = _productService.GetPagedProducts(keyword: command.Keyword, pageIndex: command.PageNumber - 1, pageSize: command.PageSize, onlyActive: true);
+            model.PagingFilteringContext.LoadPagedList(products);
+
+            foreach (var product in products)
             {
-                foreach (var record in lstProduct)
+                var objProduct = new ProductModel();
+                objProduct.Id = product.Id;
+                objProduct.Description = product.Description;
+                objProduct.CreatedOn = product.CreatedOn;
+                objProduct.AvailableStartDate = product.AvailableStartDate;
+                objProduct.AvailableEndDate = product.AvailableEndDate;
+                objProduct.BasePrice = product.BasePrice;
+                objProduct.DisableBuyButton = product.DisableBuyButton;
+                objProduct.IsUpcoming = product.IsUpcoming;
+                objProduct.MarkAsNew = product.MarkAsNew;
+                objProduct.MarkAsNewStartDate = product.MarkAsNewStartDate;
+                objProduct.MarkAsNewEndDate = product.MarkAsNewEndDate;
+                objProduct.ModifiedOn = product.ModifiedOn;
+                objProduct.Name = product.Name;
+                objProduct.OldPrice = product.OldPrice;
+                objProduct.Price = product.Price;
+                objProduct.ProductCategory = product.ProductCategories.Count > 0 ? product.ProductCategories.Select(x => x.ProductCategory.Name).FirstOrDefault() : "";
+                objProduct.StockQuantity = product.StockQuantity;
+                objProduct.SystemName = product.GetSystemName(true);
+
+                var productPictures = _pictureService.GetProductPictureByProductId(product.Id).OrderByDescending(x => x.StartDate).ToList();
+                objProduct.HasDefaultPicture = productPictures.Any(x => x.IsDefault);
+
+                var productVideos = _videoService.GetProductVideosByProductId(product.Id).OrderByDescending(x => x.StartDate).ToList();
+                objProduct.HasDefaultVideo = productVideos.Count > 0;
+
+                if (productPictures.Count > 0)
                 {
-                    var product = new ProductModel();
-                    product.Name = record.Name;
-                    product.Url = record.GetSystemName();
-                    product.Description = record.Description;
-                    product.Id = record.Id;
-                    product.Comments = record.Comments.Select(c => c.ToWidgetModel()).ToList();
-                    product.CreatedOn = record.CreatedOn;
-                    product.ModifiedOn = record.ModifiedOn;
-                    product.UserId = record.UserId;
-
-                    foreach (var pic in record.Pictures)
-                    {
-                        var picture = new ProductPictureModel();
-                        picture.Id = pic.Id;
-                        picture.IsDefault = pic.IsDefault;
-                        picture.DisplayOrder = pic.DisplayOrder;
-                        picture.PicEndDate = pic.EndDate;
-                        picture.PicStartDate = pic.StartDate;
-                        product.Pictures.Add(picture);
-
-                        var productReactions = _smsService.SearchReactions(productid: record.Id);
-                        if (productReactions.Count > 0)
-                        {
-                            foreach (var react in productReactions)
-                            {
-                                var reaction = new ReactionModel();
-                                reaction.ProductId = react.ProductId;
-                                reaction.IsLike = react.IsLike;
-                                reaction.IsDislike = react.IsDislike;
-                                reaction.IsAngry = react.IsAngry;
-                                reaction.IsHappy = react.IsHappy;
-                                reaction.IsLol = react.IsLOL;
-                                reaction.IsSad = react.IsSad;
-                                reaction.Rating = react.Rating;
-                                product.Reactions.Add(reaction);
-                            }
-                        }
-                    }
-
-                    model.Add(product);
+                    objProduct.DefaultPictureSrc = productPictures.FirstOrDefault(x => objProduct.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                    objProduct.Pictures = productPictures.Select(x => x.ToModel()).ToList();
                 }
+
+                if (productVideos.Count > 0)
+                {
+                    objProduct.DefaultVideoSrc = productVideos.FirstOrDefault().Video.VideoSrc;
+                    objProduct.Videos = productVideos.Select(x => x.ToModel()).ToList();
+                }
+
+                objProduct.Reactions = _smsService.SearchReactions(productid: product.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                objProduct.Comments = _commentService.GetCommentsByProduct(product.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                if (objProduct.Comments.Count > 0)
+                {
+                    foreach (var comment in objProduct.Comments)
+                    {
+                        comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                    }
+                }
+
+                objProduct.IsAuthenticated = _userContext.CurrentUser != null;
+                model.Products.Add(objProduct);
             }
 
+            model.ProductCategories = _smsService.GetAllProductCategories(true).Select(x => x.ToModel()).ToList();
             return View(model);
         }
 
-        public ActionResult Detail(int id)
+        [HttpPost]
+        public ActionResult List(PagingFilteringModel command, FormCollection frm)
         {
-            var user = _userContext.CurrentUser;
-            var model = new ProductModel();
-            var record = _productService.GetProductById(id);
-            if (record != null)
+            var model = new ProductListWidgetModel();
+            var itemsPerPageSetting = _settingService.GetSettingByKey("ItemsPerPage");
+            if (command.PageSize <= 0) command.PageSize = itemsPerPageSetting != null ? Convert.ToInt32(itemsPerPageSetting.Value) : 25;
+            if (command.PageNumber <= 0) command.PageNumber = 1;
+
+            var products = _productService.GetPagedProducts(keyword: command.Keyword, productcategoryid: command.ProductCategoryId, pageIndex: command.PageNumber - 1, pageSize: command.PageSize, onlyActive: true);
+            model.PagingFilteringContext.LoadPagedList(products);
+            model.PagingFilteringContext.Keyword = command.Keyword;
+            model.PagingFilteringContext.ProductCategoryId = command.ProductCategoryId;
+
+            foreach (var product in products)
             {
-                var product = new ProductModel();
-                product.Name = record.Name;
-                product.Url = record.GetSystemName();
-                product.Description = record.Description;
-                product.Id = record.Id;
-                product.Comments = record.Comments.Select(c => c.ToWidgetModel()).ToList();
-                product.CreatedOn = record.CreatedOn;
-                product.ModifiedOn = record.ModifiedOn;
-                product.UserId = record.UserId;
+                var objProduct = new ProductModel();
+                objProduct.Id = product.Id;
+                objProduct.Description = product.Description;
+                objProduct.CreatedOn = product.CreatedOn;
+                objProduct.AvailableStartDate = product.AvailableStartDate;
+                objProduct.AvailableEndDate = product.AvailableEndDate;
+                objProduct.BasePrice = product.BasePrice;
+                objProduct.DisableBuyButton = product.DisableBuyButton;
+                objProduct.IsUpcoming = product.IsUpcoming;
+                objProduct.MarkAsNew = product.MarkAsNew;
+                objProduct.MarkAsNewStartDate = product.MarkAsNewStartDate;
+                objProduct.MarkAsNewEndDate = product.MarkAsNewEndDate;
+                objProduct.ModifiedOn = product.ModifiedOn;
+                objProduct.Name = product.Name;
+                objProduct.OldPrice = product.OldPrice;
+                objProduct.Price = product.Price;
+                objProduct.ProductCategory = product.ProductCategories.Count > 0 ? product.ProductCategories.Select(x => x.ProductCategory.Name).FirstOrDefault() : "";
+                objProduct.StockQuantity = product.StockQuantity;
+                objProduct.SystemName = product.GetSystemName(true);
 
-                foreach (var pic in record.Pictures)
+                var productPictures = _pictureService.GetProductPictureByProductId(product.Id).OrderByDescending(x => x.StartDate).ToList();
+                objProduct.HasDefaultPicture = productPictures.Any(x => x.IsDefault);
+
+                var productVideos = _videoService.GetProductVideosByProductId(product.Id).OrderByDescending(x => x.StartDate).ToList();
+                objProduct.HasDefaultVideo = productVideos.Count > 0;
+
+                if (productPictures.Count > 0)
                 {
-                    var picture = new ProductPictureModel();
-                    picture.Id = pic.Id;
-                    picture.IsDefault = pic.IsDefault;
-                    picture.DisplayOrder = pic.DisplayOrder;
-                    picture.PicEndDate = pic.EndDate;
-                    picture.PicStartDate = pic.StartDate;
-                    product.Pictures.Add(picture);
+                    objProduct.DefaultPictureSrc = productPictures.FirstOrDefault(x => objProduct.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                    objProduct.Pictures = productPictures.Select(x => x.ToModel()).ToList();
+                }
 
-                    var productReactions = _smsService.SearchReactions(productid: record.Id);
-                    if (productReactions.Count > 0)
+                if (productVideos.Count > 0)
+                {
+                    objProduct.DefaultVideoSrc = productVideos.FirstOrDefault().Video.VideoSrc;
+                    objProduct.Videos = productVideos.Select(x => x.ToModel()).ToList();
+                }
+
+                objProduct.Reactions = _smsService.SearchReactions(productid: product.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                objProduct.Comments = _commentService.GetCommentsByProduct(product.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                if (objProduct.Comments.Count > 0)
+                {
+                    foreach (var comment in objProduct.Comments)
                     {
-                        foreach (var react in productReactions)
-                        {
-                            var reaction = new ReactionModel();
-                            reaction.ProductId = react.ProductId;
-                            reaction.IsLike = react.IsLike;
-                            reaction.IsDislike = react.IsDislike;
-                            reaction.IsAngry = react.IsAngry;
-                            reaction.IsHappy = react.IsHappy;
-                            reaction.IsLol = react.IsLOL;
-                            reaction.IsSad = react.IsSad;
-                            reaction.Rating = react.Rating;
-                            product.Reactions.Add(reaction);
-                        }
+                        comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
                     }
                 }
 
-                model = product;
+                objProduct.IsAuthenticated = _userContext.CurrentUser != null;
+                model.Products.Add(objProduct);
             }
-            else
-            {
-                return RedirectToAction("PageNotFound");
-            }
+
+            model.ProductCategories = _smsService.GetAllProductCategories(true).Select(x => x.ToModel()).ToList();
             return View(model);
+        }
+
+        public ActionResult Details(int id)
+        {
+            var user = _userContext.CurrentUser;
+            var product = _productService.GetProductById(id);
+            if (product != null)
+            {
+                var model = new ProductModel();
+                model.Id = product.Id;
+                model.Description = product.Description;
+                model.CreatedOn = product.CreatedOn;
+                model.AvailableStartDate = product.AvailableStartDate;
+                model.AvailableEndDate = product.AvailableEndDate;
+                model.BasePrice = product.BasePrice;
+                model.DisableBuyButton = product.DisableBuyButton;
+                model.IsUpcoming = product.IsUpcoming;
+                model.MarkAsNew = product.MarkAsNew;
+                model.MarkAsNewStartDate = product.MarkAsNewStartDate;
+                model.MarkAsNewEndDate = product.MarkAsNewEndDate;
+                model.ModifiedOn = product.ModifiedOn;
+                model.Name = product.Name;
+                model.OldPrice = product.OldPrice;
+                model.Price = product.Price;
+                model.ProductCategory = product.ProductCategories.Count > 0 ? product.ProductCategories.Select(x => x.ProductCategory.Name).FirstOrDefault() : "";
+                model.StockQuantity = product.StockQuantity;
+                model.SystemName = product.GetSystemName(true);
+
+                var productPictures = _pictureService.GetProductPictureByProductId(product.Id).OrderByDescending(x => x.StartDate).ToList();
+                model.HasDefaultPicture = productPictures.Any(x => x.IsDefault);
+
+                var productVideos = _videoService.GetProductVideosByProductId(product.Id).OrderByDescending(x => x.StartDate).ToList();
+                model.HasDefaultVideo = productVideos.Count > 0;
+
+                if (productPictures.Count > 0)
+                {
+                    model.DefaultPictureSrc = productPictures.FirstOrDefault(x => model.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                    model.Pictures = productPictures.Select(x => x.ToModel()).ToList();
+                }
+
+                if (productVideos.Count > 0)
+                {
+                    model.DefaultVideoSrc = productVideos.FirstOrDefault().Video.VideoSrc;
+                    model.Videos = productVideos.Select(x => x.ToModel()).ToList();
+                }
+
+                model.Reactions = _smsService.SearchReactions(productid: product.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                model.Comments = _commentService.GetCommentsByProduct(product.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                if (model.Comments.Count > 0)
+                {
+                    foreach (var comment in model.Comments)
+                    {
+                        comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                    }
+                }
+
+                model.IsAuthenticated = _userContext.CurrentUser != null;
+
+                #region Related Products
+                if (product.ProductCategories.Count > 0)
+                {
+                    model.RelatedProducts.Clear();
+                    foreach (var cat in product.ProductCategories)
+                    {
+                        var productsByCategories = _smsService.GetAllProductsByProductCategory(cat.Id);
+                        foreach (var catproduct in productsByCategories)
+                        {
+                            var relatedProduct = new ProductModel();
+                            if (!model.RelatedProducts.Any(x => x.Id == catproduct.Id))
+                            {
+                                relatedProduct.Id = catproduct.Id;
+                                relatedProduct.Description = catproduct.Description;
+                                relatedProduct.CreatedOn = catproduct.CreatedOn;
+                                relatedProduct.AvailableStartDate = catproduct.AvailableStartDate;
+                                relatedProduct.AvailableEndDate = catproduct.AvailableEndDate;
+                                relatedProduct.BasePrice = catproduct.BasePrice;
+                                relatedProduct.DisableBuyButton = catproduct.DisableBuyButton;
+                                relatedProduct.IsUpcoming = catproduct.IsUpcoming;
+                                relatedProduct.MarkAsNew = catproduct.MarkAsNew;
+                                relatedProduct.MarkAsNewStartDate = catproduct.MarkAsNewStartDate;
+                                relatedProduct.MarkAsNewEndDate = catproduct.MarkAsNewEndDate;
+                                relatedProduct.ModifiedOn = catproduct.ModifiedOn;
+                                relatedProduct.Name = catproduct.Name;
+                                relatedProduct.OldPrice = catproduct.OldPrice;
+                                relatedProduct.Price = catproduct.Price;
+                                relatedProduct.ProductCategory = catproduct.ProductCategories.Count > 0 ? catproduct.ProductCategories.Select(x => x.ProductCategory.Name).FirstOrDefault() : "";
+                                relatedProduct.StockQuantity = catproduct.StockQuantity;
+                                relatedProduct.SystemName = catproduct.GetSystemName(true);
+
+                                productPictures = _pictureService.GetProductPictureByProductId(catproduct.Id).OrderByDescending(x => x.StartDate).ToList();
+                                relatedProduct.HasDefaultPicture = productPictures.Any(x => x.IsDefault);
+
+                                productVideos = _videoService.GetProductVideosByProductId(catproduct.Id).OrderByDescending(x => x.StartDate).ToList();
+                                relatedProduct.HasDefaultVideo = productVideos.Count > 0;
+
+                                if (productPictures.Count > 0)
+                                {
+                                    relatedProduct.DefaultPictureSrc = productPictures.FirstOrDefault(x => relatedProduct.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                                    relatedProduct.Pictures = productPictures.Select(x => x.ToModel()).ToList();
+                                }
+
+                                if (productVideos.Count > 0)
+                                {
+                                    relatedProduct.DefaultVideoSrc = productVideos.FirstOrDefault().Video.VideoSrc;
+                                    relatedProduct.Videos = productVideos.Select(x => x.ToModel()).ToList();
+                                }
+
+                                relatedProduct.Reactions = _smsService.SearchReactions(productid: catproduct.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                                relatedProduct.Comments = _commentService.GetCommentsByProduct(catproduct.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                                if (relatedProduct.Comments.Count > 0)
+                                {
+                                    foreach (var comment in relatedProduct.Comments)
+                                    {
+                                        comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                                    }
+                                }
+
+                                relatedProduct.IsAuthenticated = _userContext.CurrentUser != null;
+
+                                // Add To Model
+                                model.RelatedProducts.Add(relatedProduct);
+                            }
+                        }
+
+                    }
+                }
+                #endregion
+
+                #region New Products
+                var newProducts = _productService.GetNewProducts(true);
+                foreach (var newproduct in newProducts)
+                {
+                    var newProduct = new ProductModel();
+                    if (!model.NewProducts.Any(x => x.Id == newproduct.Id))
+                    {
+                        newProduct.Id = newproduct.Id;
+                        newProduct.Description = newproduct.Description;
+                        newProduct.CreatedOn = newproduct.CreatedOn;
+                        newProduct.AvailableStartDate = newproduct.AvailableStartDate;
+                        newProduct.AvailableEndDate = newproduct.AvailableEndDate;
+                        newProduct.BasePrice = newproduct.BasePrice;
+                        newProduct.DisableBuyButton = newproduct.DisableBuyButton;
+                        newProduct.IsUpcoming = newproduct.IsUpcoming;
+                        newProduct.MarkAsNew = newproduct.MarkAsNew;
+                        newProduct.MarkAsNewStartDate = newproduct.MarkAsNewStartDate;
+                        newProduct.MarkAsNewEndDate = newproduct.MarkAsNewEndDate;
+                        newProduct.ModifiedOn = newproduct.ModifiedOn;
+                        newProduct.Name = newproduct.Name;
+                        newProduct.OldPrice = newproduct.OldPrice;
+                        newProduct.Price = newproduct.Price;
+                        newProduct.ProductCategory = newproduct.ProductCategories.Count > 0 ? newproduct.ProductCategories.Select(x => x.ProductCategory.Name).FirstOrDefault() : "";
+                        newProduct.StockQuantity = newproduct.StockQuantity;
+                        newProduct.SystemName = newproduct.GetSystemName(true);
+
+                        productPictures = _pictureService.GetProductPictureByProductId(newproduct.Id).OrderByDescending(x => x.StartDate).ToList();
+                        newProduct.HasDefaultPicture = productPictures.Any(x => x.IsDefault);
+
+                        productVideos = _videoService.GetProductVideosByProductId(newproduct.Id).OrderByDescending(x => x.StartDate).ToList();
+                        newProduct.HasDefaultVideo = productVideos.Count > 0;
+
+                        if (productPictures.Count > 0)
+                        {
+                            newProduct.DefaultPictureSrc = productPictures.FirstOrDefault(x => newProduct.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                            newProduct.Pictures = productPictures.Select(x => x.ToModel()).ToList();
+                        }
+
+                        if (productVideos.Count > 0)
+                        {
+                            newProduct.DefaultVideoSrc = productVideos.FirstOrDefault().Video.VideoSrc;
+                            newProduct.Videos = productVideos.Select(x => x.ToModel()).ToList();
+                        }
+
+                        newProduct.Reactions = _smsService.SearchReactions(productid: newproduct.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                        newProduct.Comments = _commentService.GetCommentsByProduct(newproduct.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                        if (newProduct.Comments.Count > 0)
+                        {
+                            foreach (var comment in newProduct.Comments)
+                            {
+                                comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                            }
+                        }
+
+                        newProduct.IsAuthenticated = _userContext.CurrentUser != null;
+
+                        // Add To Model
+                        model.NewProducts.Add(newProduct);
+                    }
+                }
+                #endregion
+
+                #region Upcoming Products
+                var upcomingProducts = _productService.GetUpcomingProducts(true);
+                foreach (var upcomingproduct in upcomingProducts)
+                {
+                    var upcomingProduct = new ProductModel();
+                    if (!model.NewProducts.Any(x => x.Id == upcomingproduct.Id))
+                    {
+                        upcomingProduct.Id = upcomingproduct.Id;
+                        upcomingProduct.Description = upcomingproduct.Description;
+                        upcomingProduct.CreatedOn = upcomingproduct.CreatedOn;
+                        upcomingProduct.AvailableStartDate = upcomingproduct.AvailableStartDate;
+                        upcomingProduct.AvailableEndDate = upcomingproduct.AvailableEndDate;
+                        upcomingProduct.BasePrice = upcomingproduct.BasePrice;
+                        upcomingProduct.DisableBuyButton = upcomingproduct.DisableBuyButton;
+                        upcomingProduct.IsUpcoming = upcomingproduct.IsUpcoming;
+                        upcomingProduct.MarkAsNew = upcomingproduct.MarkAsNew;
+                        upcomingProduct.MarkAsNewStartDate = upcomingproduct.MarkAsNewStartDate;
+                        upcomingProduct.MarkAsNewEndDate = upcomingproduct.MarkAsNewEndDate;
+                        upcomingProduct.ModifiedOn = upcomingproduct.ModifiedOn;
+                        upcomingProduct.Name = upcomingproduct.Name;
+                        upcomingProduct.OldPrice = upcomingproduct.OldPrice;
+                        upcomingProduct.Price = upcomingproduct.Price;
+                        upcomingProduct.ProductCategory = upcomingproduct.ProductCategories.Count > 0 ? upcomingproduct.ProductCategories.Select(x => x.ProductCategory.Name).FirstOrDefault() : "";
+                        upcomingProduct.StockQuantity = upcomingproduct.StockQuantity;
+                        upcomingProduct.SystemName = upcomingproduct.GetSystemName(true);
+
+                        productPictures = _pictureService.GetProductPictureByProductId(upcomingproduct.Id).OrderByDescending(x => x.StartDate).ToList();
+                        upcomingProduct.HasDefaultPicture = productPictures.Any(x => x.IsDefault);
+
+                        productVideos = _videoService.GetProductVideosByProductId(upcomingproduct.Id).OrderByDescending(x => x.StartDate).ToList();
+                        upcomingProduct.HasDefaultVideo = productVideos.Count > 0;
+
+                        if (productPictures.Count > 0)
+                        {
+                            upcomingProduct.DefaultPictureSrc = productPictures.FirstOrDefault(x => upcomingProduct.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
+                            upcomingProduct.Pictures = productPictures.Select(x => x.ToModel()).ToList();
+                        }
+
+                        if (productVideos.Count > 0)
+                        {
+                            upcomingProduct.DefaultVideoSrc = productVideos.FirstOrDefault().Video.VideoSrc;
+                            upcomingProduct.Videos = productVideos.Select(x => x.ToModel()).ToList();
+                        }
+
+                        upcomingProduct.Reactions = _smsService.SearchReactions(productid: upcomingproduct.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
+                        upcomingProduct.Comments = _commentService.GetCommentsByProduct(upcomingproduct.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
+
+                        if (upcomingProduct.Comments.Count > 0)
+                        {
+                            foreach (var comment in upcomingProduct.Comments)
+                            {
+                                comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
+                            }
+                        }
+
+                        upcomingProduct.IsAuthenticated = _userContext.CurrentUser != null;
+
+                        // Add To Model
+                        model.NewProducts.Add(upcomingProduct);
+                    }
+                }
+                #endregion
+
+                return View(model);
+            }
+
+            return RedirectToAction("List");
         }
 
         public ActionResult PostCommentDetail(int id, bool success)

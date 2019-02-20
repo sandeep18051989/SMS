@@ -124,3 +124,5 @@ E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\System.Web.WebPages.Depl
 E:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.dll
 E:\My Documents\Training Projects\Sms\EF.Data\obj\Debug\EF.Data.pdb
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\EF.Data.dll.config
+E:\My Documents\Training Projects\Sms\EF.Data\bin\Debug\Autofac.pdb

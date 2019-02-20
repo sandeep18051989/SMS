@@ -95,7 +95,6 @@
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
                                                 <div class="md-form">
-                                                    <i class="fa fa-user prefix"></i>
                                                     @Html.EditorFor(model => model.BlogHtml, "HtmlEditor.cshtml")
                                                     @Html.LabelFor(model => model.BlogHtml, "Blog Body", htmlAttributes: new { @class = "control-label" })
                                                     @Html.ValidationMessageFor(model => model.BlogHtml, "", new { @class = "text-danger" })
@@ -133,9 +132,16 @@
                                         </div>
                                         <div class="row text-left">
                                             <div class="col-md-6 mb-4">
-                                                <input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? " True" : "False" )" @(Model.IsActive ? "checked=checked" : "" ) />
+                                                <input type="checkbox" tabindex="7" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False" )" @(Model.IsActive ? "checked=checked" : "" ) />
                                                 @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
                                                 @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <input type="checkbox" tabindex="8" id="IsApproved" name="IsApproved" value="@(Model.IsApproved ? "True" : "False")" @(Model.IsApproved ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.IsApproved, "Approved", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -210,6 +216,22 @@
         }
 
         $("#IsActive").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+
+        if ($("#IsApproved").val() == "True") {
+            $("#IsApproved").attr('checked', true).val(true);
+        }
+        else {
+            $("#IsApproved").attr('checked', false).val(false);
+        }
+
+        $("#IsApproved").change(function () {
             if ($(this).prop('checked')) {
                 $(this).attr('checked', true).val(true);
             }

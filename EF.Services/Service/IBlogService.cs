@@ -15,6 +15,14 @@ namespace EF.Services.Service
         IList<Blog> GetOlderBlogs(int? exceptblogid = null, int userid = 0);
         IDictionary<string, int> GetDistinctSubjectAndCount(bool? onlyActive = null, int userid = 0);
         int GetCountBySubject(string subject, int userid=0);
+        bool IsUserBlogger(int userid);
+        int GetBlogCountByUser(int userid);
+
+        #region Paging
+
+        IPagedList<Blog> GetPagedBlogs(string keyword = null, string subject = null, int userid = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null);
+
+        #endregion
 
     }
 }

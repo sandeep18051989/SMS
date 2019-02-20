@@ -71,7 +71,10 @@ namespace SMS.App_Start
 			bundles.Add(new StyleBundle("~/Content/boot").Include(
 				 "~/Content/bootstrap.min.css"));
 
-			bundles.Add(new StyleBundle("~/Content/datatable").Include(
+            bundles.Add(new StyleBundle("~/Content/PagedList").Include(
+                 "~/Content/PagedList.css"));
+
+            bundles.Add(new StyleBundle("~/Content/datatable").Include(
 				"~/Content/DataTables/css/dataTables.bootstrap4.min.css",
 				"~/Content/DataTables/css/responsive.dataTables.min.css"));
 

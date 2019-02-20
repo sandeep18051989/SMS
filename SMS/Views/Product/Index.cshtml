@@ -5,10 +5,12 @@
     var basePath = urlHelperService.GetLocation(false);
 }
 <h5 style="text-align:left;" class="py-5">PRODUCTS</h5>
-<div class="row-fluid hover-content">
+<div class="row text-left hover-content">
     @foreach (var product in Model.Products.Take(4))
     {
-        @Html.Partial("_ProductTile", product)
+        <div class="col-lg-3 col-md-6 mb-4">
+            @Html.Partial("_ProductTile", product)
+        </div>
     }
     <a href="@Url.Action("List", "Product", new { @Area="" })" class="btn btn-sm btn-outline-info btn-view-all text-black-50 pull-right"><b>VIEW ALL</b></a>
 </div>

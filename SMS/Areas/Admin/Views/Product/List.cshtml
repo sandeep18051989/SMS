@@ -35,7 +35,6 @@
                                     <tr>
                                         <th class="no-sort"><div class="form-check"><input type="checkbox" id="allcheck" value="allcheck" /><label for="allcheck"></label></div></th>
                                         <th>Name</th>
-                                        <th>Description</th>
                                         <th>Price</th>
                                         <th>Active</th>
                                         <th>Comments</th>
@@ -95,23 +94,15 @@
 				    "defaultContent": ""
 				},
 				{
-				    "data": "Name", "title": "Name", "name": "Name", "autoWidth": true, "render": function (data, type, row) {
+				    "data": "Name", "title": "Name", "name": "Name", "render": function (data, type, row) {
 				        if (type === "display") {
 				            return '<a href="' + row.Url + '" target="_blank" title="' + row.Name + '" >' + row.Name + '</a>';
 				        }
 				        return data;
 				    }
 				},
-				{
-				    "data": "Description", "title": "Description", "name": "Description", "autoWidth": true, "orderable": true, "render": function (data, type, row) {
-				        if (type === "display") {
-				            return '<p style="text-align:justify;">' + row.Description + '</p>';
-				        }
-				        return data;
-				    }
-				},
                 {
-                    "data": "Price", "title": "Price", "name": "Price", "autoWidth": true, "render": function (data, type, row) {
+                    "data": "Price", "title": "Price", "name": "Price", "render": function (data, type, row) {
                         if (type === "display") {
                             return row.Price;
                         }

@@ -1,5 +1,6 @@
 ﻿using EF.Services;
 using FluentValidation.Attributes;
+using SMS.Models.Widgets;
 using SMS.Validations;
 using System;
 using System.Collections.Generic;
@@ -41,41 +42,24 @@ namespace SMS.Models
 
 	}
 
-	public partial class InsertPicturesModel : BaseEntityModel
-	{
-		[UIHint("Picture")]
-		public int PictureId { get; set; }
-		public int DisplayOrder { get; set; }
-		public string Url { get; set; }
-		public string PictureSrc { get; set; }
-		public decimal Width { get; set; }
-		public decimal Height { get; set; }
-		public decimal Size { get; set; }
-		public bool IsThumb { get; set; }
-		public bool IsLogo { get; set; }
-		public bool IsDefault { get; set; }
-		[UIHint("DateRange")]
-		public DateTime? PicStartDate { get; set; }
-		[UIHint("DateRange")]
-		public DateTime? PicEndDate { get; set; }
-		public string AlternateText { get; set; }
-	}
+    public partial class EventListWidgetModel
+    {
+        public EventListWidgetModel()
+        {
+            Events = new List<EventWidgetModel>();
+            Pictures = new List<PictureModel>();
+            Videos = new List<VideoModel>();
+            Locations = new Dictionary<string, int>();
+            PagingFilteringContext = new PagingFilteringModel();
+        }
+        public IList<EventWidgetModel> Events { get; set; }
+        public IList<PictureModel> Pictures { get; set; }
+        public IList<VideoModel> Videos { get; set; }
+        public PagingFilteringModel PagingFilteringContext { get; set; }
+        public IDictionary<string, int> Locations { get; set; }
+    }
 
-	public partial class InsertVideoModel : BaseEntityModel
-	{
-		[UIHint("Video")]
-		public int VideoId { get; set; }
-		public int DisplayOrder { get; set; }
-		public string Url { get; set; }
-		public string VideoSrc { get; set; }
-		public decimal Size { get; set; }
-		[UIHint("DateRange")]
-		public DateTime? VidStartDate { get; set; }
-		[UIHint("DateRange")]
-		public DateTime? VidEndDate { get; set; }
-	}
-
-	public partial class EventListModel
+    public partial class EventListModel
 	{
 		public int Id { get; set; }
 		public string Title { get; set; }

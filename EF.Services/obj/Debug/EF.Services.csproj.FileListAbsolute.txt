@@ -194,3 +194,4 @@ E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\AutoMapper.pdb
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\AutoMapper.xml
 E:\My Documents\Training Projects\Sms\EF.Services\obj\Debug\EF.Services.dll
 E:\My Documents\Training Projects\Sms\EF.Services\obj\Debug\EF.Services.pdb
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Debug\Autofac.pdb

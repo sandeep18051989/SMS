@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EF.Services;
+using System.Collections.Generic;
 
 namespace SMS.Models.Widgets
 {
@@ -7,8 +8,15 @@ namespace SMS.Models.Widgets
 		public ProductListWidgetModel()
 		{
             Products = new List<ProductModel>();
+            ProductCategories = new List<ProductCategoryModel>();
+            PagingFilteringContext = new PagingFilteringModel();
         }
-        public string KeyWord { get; set; }
         public IList<ProductModel> Products { get; set; }
+        public PagingFilteringModel PagingFilteringContext { get; set; }
+        public IList<ProductCategoryModel> ProductCategories { get; set; }
+    }
+
+    public partial class PagingFilteringModel : BasePageModel
+    {
     }
 }

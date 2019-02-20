@@ -96,19 +96,19 @@ namespace SMS.Areas.Admin.Controllers
 						draw = draw,
 						recordsFiltered = recordsTotal,
 						recordsTotal = recordsTotal,
-						data = data.Select(x => new BlogListModel()
+						data = data.Select(x => new BlogModel()
 						{
 							Name = !string.IsNullOrEmpty(x.Name) ? x.Name : "",
 							Email = !string.IsNullOrEmpty(x.Email) ? x.Email : "",
 							Subject = x.Subject,
 							CommentsCount = x.Comments.Count,
-							Id = x.Id,
+                            PicturesCount = x.Pictures.Count,
+                            ReactionsCount = x.Reactions.Count,
+                            VideosCount = x.Videos.Count,
+                            Id = x.Id,
                             AcadmicYearId = x.AcadmicYearId,
 							AcadmicYear = _smsService.GetAcadmicYearById(x.AcadmicYearId)?.Name,
 							IsActive = x.IsActive,
-							PicturesCount = x.Pictures.Count,
-							ReactionsCount = x.Reactions.Count,
-							VideosCount = x.Videos.Count,
                             BlogHtml = x.BlogHtml,
                             IpAddress = x.IpAddress,
                             SystemName = x.SystemName

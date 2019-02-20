@@ -532,7 +532,6 @@ H:\Repositories\SMS\SMS\bin\Org.Mentalis.Security.Cryptography.xml
 H:\Repositories\SMS\SMS\bin\Mono.Math.xml
 E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.csprojResolveAssemblyReference.cache
 E:\My Documents\Training Projects\Sms\SMS\bin\web.config
-E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.svg
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\HelveticaNeueLTPro-Bd.svg
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\HelveticaNeueLTPro-BdCn.svg
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\HelveticaNeueLTPro-BdCnO.svg
@@ -724,10 +723,6 @@ E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\fontawesome-webfont.
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\fontawesome-webfont.woff
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\fontawesome-webfont.ttf
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\fontawesome-webfont.eot
-E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.woff2
-E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.woff
-E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.ttf
-E:\My Documents\Training Projects\Sms\SMS\bin\Content\fonts\glyphicons-halflings-regular.eot
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\facebookstyles.css
 E:\My Documents\Training Projects\Sms\SMS\bin\Content\Images\facebook-signing.png
 E:\My Documents\Training Projects\Sms\SMS\bin\logo.jpg
@@ -839,3 +834,6 @@ E:\My Documents\Training Projects\Sms\SMS\bin\Org.Mentalis.Security.Cryptography
 E:\My Documents\Training Projects\Sms\SMS\bin\Mono.Math.xml
 E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.dll
 E:\My Documents\Training Projects\Sms\SMS\obj\Debug\SMS.pdb
+E:\My Documents\Training Projects\Sms\SMS\bin\System.Runtime.dll
+E:\My Documents\Training Projects\Sms\SMS\bin\System.Runtime.Extensions.dll
+E:\My Documents\Training Projects\Sms\SMS\bin\Autofac.pdb

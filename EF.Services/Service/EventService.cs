@@ -165,6 +165,42 @@ namespace EF.Services.Service
             return sortedEvents;
         }
 
+        public IDictionary<string, int> GetDistinctLocationAndCount(bool? onlyActive = null)
+        {
+            var allVenues = _eventRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && !x.IsDeleted).Distinct().ToList();
+            var lstDistinct = allVenues.Select(x => x.Venue).Distinct().ToList();
+            return lstDistinct.ToDictionary(x => x, x => GetCountByVenue(x));
+        }
+
+        public int GetCountByVenue(string subject)
+        {
+            return _eventRepository.Table.Count(x => !x.IsDeleted && x.Venue.Trim().ToLower().Contains(subject.Trim().ToLower()));
+        }
+
+        #endregion
+
+        #region Paging
+
+        public virtual IPagedList<Event> GetPagedEvents(string keyword = null, string venue = null, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null)
+        {
+            var query = _eventRepository.Table;
+            if (onlyActive.HasValue)
+            {
+                query = query.Where(n => n.IsActive == onlyActive.Value);
+            }
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.Title.Contains(keyword) || x.Headline.Contains(keyword) || x.Description.Contains(keyword) || x.Venue.Contains(keyword));
+
+            if (!string.IsNullOrEmpty(venue))
+                query = query.Where(x => x.Venue.Contains(venue));
+
+            query = query.Where(n => n.IsApproved && !n.IsDeleted).OrderByDescending(n => n.ModifiedOn);
+
+            var events = new PagedList<Event>(query, pageIndex, pageSize);
+            return events;
+        }
+
         #endregion
     }
 }

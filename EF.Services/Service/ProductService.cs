@@ -5,6 +5,7 @@ using EF.Core.Data;
 using System;
 using System.Data;
 using EF.Data;
+using System.Data.Entity;
 
 namespace EF.Services.Service
 {
@@ -77,6 +78,42 @@ namespace EF.Services.Service
                 throw new Exception("Vendor id missing!");
 
             return _productRepository.Table.Where(a => a.VendorId == vendorId).ToList();
+        }
+
+        public IList<Product> GetNewProducts(bool? onlyActive = null)
+        {
+            DateTime currentDate = DateTime.Now.Date;
+            return _productRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && !x.IsDeleted && x.MarkAsNew && (!x.MarkAsNewStartDate.HasValue || (x.MarkAsNewStartDate.HasValue && DbFunctions.TruncateTime(x.MarkAsNewStartDate.Value) <= currentDate)) && (!x.MarkAsNewEndDate.HasValue || (x.MarkAsNewEndDate.HasValue && DbFunctions.TruncateTime(x.MarkAsNewEndDate.Value) >= currentDate))).ToList();
+        }
+
+        public IList<Product> GetUpcomingProducts(bool? onlyActive = null)
+        {
+            DateTime currentDate = DateTime.Now.Date;
+            return _productRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && !x.IsDeleted && x.IsUpcoming && (!x.AvailableStartDate.HasValue || (x.AvailableStartDate.HasValue && DbFunctions.TruncateTime(x.AvailableStartDate.Value) <= currentDate)) && (!x.AvailableEndDate.HasValue || (x.AvailableEndDate.HasValue && DbFunctions.TruncateTime(x.AvailableEndDate.Value) >= currentDate))).ToList();
+        }
+
+        #endregion
+
+        #region Paging
+
+        public virtual IPagedList<Product> GetPagedProducts(string keyword=null, int productcategoryid=0, int productsubcategoryid=0, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null)
+        {
+            var query = _productRepository.Table;
+            if (onlyActive.HasValue)
+            {
+                query = query.Where(n => n.IsActive == onlyActive.Value);
+            }
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.Name.Contains(keyword) || x.Description.Contains(keyword));
+
+            if (productcategoryid > 0)
+                query = query.Where(x => x.ProductCategories.Any(y => y.ProductCategoryId == productcategoryid || y.ProductCategory.ParentCategoryId == productcategoryid));
+
+            query = query.Where(n => !n.IsDeleted).OrderByDescending(n => n.ModifiedOn);
+
+            var products = new PagedList<Product>(query, pageIndex, pageSize);
+            return products;
         }
 
         #endregion

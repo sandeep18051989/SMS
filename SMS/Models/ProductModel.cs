@@ -22,6 +22,10 @@ namespace SMS.Models
             Reactions = new List<ReactionModel>();
             AvailableVendors = new List<SelectListItem>();
             AvailableAcadmicYears = new List<SelectListItem>();
+            FeaturedProducts = new List<ProductModel>();
+            NewProducts = new List<ProductModel>();
+            UpcomingProducts = new List<ProductModel>();
+            RelatedProducts = new List<ProductModel>();
         }
         public string Name { get; set; }
         public string SystemName { get; set; }
@@ -71,6 +75,12 @@ namespace SMS.Models
         public IList<ReactionModel> Reactions { get; set; }
         public IList<SelectListItem> AvailableVendors { get; set; }
         public IList<SelectListItem> AvailableAcadmicYears { get; set; }
+
+        public IList<ProductModel> FeaturedProducts { get; set; }
+        public IList<ProductModel> NewProducts { get; set; }
+        public IList<ProductModel> UpcomingProducts { get; set; }
+
+        public IList<ProductModel> RelatedProducts { get; set; }
     }
 
     public partial class ProductListModel

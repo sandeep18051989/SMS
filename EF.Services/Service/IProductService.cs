@@ -20,6 +20,16 @@ namespace EF.Services.Service
 
         IList<Product> GetProductsByIds(int[] roleIds);
 
+        IList<Product> GetNewProducts(bool? onlyActive = null);
+
+        IList<Product> GetUpcomingProducts(bool? onlyActive = null);
+
+        #region Paging
+
+        IPagedList<Product> GetPagedProducts(string keyword = null, int productcategoryid = 0, int productsubcategoryid = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null);
+
+        #endregion
+
         #region ProductCategory
 
         void DeleteCategory(ProductCategory productcategory);

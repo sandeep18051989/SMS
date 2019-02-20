@@ -3,12 +3,12 @@
 @using EF.Services;
 @using EF.Services.Http;
 @{
-    var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
-    var userContext = EF.Core.ContextHelper.Current.Resolve<IUserContext>();
+    var urlHelperService = ContextHelper.Current.Resolve<IUrlHelper>();
+    var userContext = ContextHelper.Current.Resolve<IUserContext>();
     var basePath = urlHelperService.GetLocation(false);
 }
 <!--Card-->
-<div class="card card-cascade card-ecommerce col-md-3">
+<div class="card card-cascade card-ecommerce">
     <!--Card image-->
     <div class="view view-cascade overlay">
         @if (Model.HasDefaultPicture)
@@ -44,59 +44,59 @@
             <ul class="rating">
                 @if (avgRating > 0 && avgRating <= 1)
                 {
-                    <li data-value="1" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="2" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="3" class="ratingStar"><i class="ti-star-full"></i></li>
-                    <li data-value="4" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="5" class="ratingStar"><i class="ti-star-empty"></i></li>
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="3" class=""><i class="ti-star-full"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
                 }
                 else if (avgRating > 1 && avgRating <= 2)
                 {
-                    <li data-value="1" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="2" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="3" class="ratingStar"><i class="ti-star-full"></i></li>
-                    <li data-value="4" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="5" class="ratingStar"><i class="ti-star-empty"></i></li>
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class=""><i class="ti-star-full"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
                 }
                 else if (avgRating > 2 && avgRating <= 3)
                 {
-                    <li data-value="1" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="2" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="3" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="4" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="5" class="ratingStar"><i class="ti-star-empty"></i></li>
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
                 }
                 else if (avgRating > 3 && avgRating <= 4)
                 {
-                    <li data-value="1" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="2" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="3" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="4" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="5" class="ratingStar"><i class="ti-star-empty"></i></li>
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
                 }
                 else if (avgRating > 4 && avgRating <= 5)
                 {
-                    <li data-value="1" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="2" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="3" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="4" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="5" class="ratingStar"><i class="ti-star-empty"></i></li>
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="4" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
                 }
                 else if (avgRating <= 5)
                 {
-                    <li data-value="1" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="2" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="3" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="4" class="ratingStar active"><i class="ti-star-full"></i></li>
-                    <li data-value="5" class="ratingStar active"><i class="ti-star-full"></i></li>
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="4" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="5" class="active"><i class="ti-star-full"></i></li>
                 }
                 else
                 {
-                    <li data-value="1" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="2" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="3" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="4" class="ratingStar"><i class="ti-star-empty"></i></li>
-                    <li data-value="5" class="ratingStar"><i class="ti-star-empty"></i></li>
+                    <li data-value="1" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="2" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="3" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
                 }
             </ul>
         }
@@ -129,5 +129,5 @@
             </span>
         </div>
     </div>
+    @Html.ReactionModal(buttonsSelector: "reaction-" + Model.Id, id: Model.Id, IsAuthenticated: Model.IsAuthenticated, UserId: userContext.CurrentUser != null ? userContext.CurrentUser.Id : 0, IsProduct: true)
 </div>
-@Html.ReactionModal(buttonsSelector: "reaction-" + Model.Id, id: Model.Id, IsAuthenticated: Model.IsAuthenticated, UserId: userContext.CurrentUser != null ? userContext.CurrentUser.Id : 0, IsProduct: true)
