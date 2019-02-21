@@ -30,7 +30,7 @@ namespace EF.Services.Service
 
         #region Paging
 
-        IPagedList<Event> GetPagedEvents(string keyword = null, string venue = null, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null);
+        IPagedList<Event> GetPagedEvents(string keyword = null, string venue = null, string schedule = null, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null);
 
         #endregion
 

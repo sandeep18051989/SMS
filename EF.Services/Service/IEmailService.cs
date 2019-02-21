@@ -22,6 +22,9 @@ namespace EF.Services.Service
             string replyToEmailAddress = null,
             string replyToName = null,
             string subject = null);
+        void SendUserEmailVerificationMessage(User user, string verificationLink);
+        void SendUserForgotPasswordMessage(User user, string passwordLink);
+        void SendUserPasswordChangedMessage(User user);
 
         void SendEmail(string subject, string body, string toAddress, string toName, string replyTo = null, string replyToName = null, IEnumerable<string> bcc = null, IEnumerable<string> cc = null, string attachmentFilePath = null, string attachmentFileName = null, int attachedDownloadId = 0, IDictionary<string, string> headers = null);
     }

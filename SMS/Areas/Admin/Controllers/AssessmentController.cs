@@ -754,7 +754,7 @@ namespace SMS.Areas.Admin.Controllers
 
         #endregion
 
-        #region ssessment URLs
+        #region Assessment URLs
         [MVCDecryptFilter(secret = "AssessmentUrl")]
         public ActionResult GetAssessmentExam(int studentid, int assessmentid)
         {

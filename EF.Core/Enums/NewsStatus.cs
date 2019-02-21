@@ -2,27 +2,18 @@
 
 namespace EF.Core.Enums
 {
-	public enum NewsStatus
-	{
+    public enum NewsStatus
+    {
         [Description("Breaking")]
         Breaking = 1,
 
-        [Description("Current")]
-        Current = 2,
-
         [Description("Expired")]
-        Expired = 3,
-
-        [Description("Fresh")]
-        Fresh = 4,
+        Expired = 2,
 
         [Description("Latest")]
-        Latest = 5,
+        Latest = 3,
 
-        [Description("Outdated")]
-        Outdated = 6,
-
-        [Description("Repeated")]
-        Repeated = 7
-	}
+        [Description("Important")]
+        Important = 4
+    }
 }

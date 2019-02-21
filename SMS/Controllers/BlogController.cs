@@ -24,7 +24,6 @@ namespace SMS.Controllers
         private readonly IUserContext _userContext;
         private readonly ISliderService _sliderService;
         private readonly ISettingService _settingService;
-        private readonly IEventService _eventService;
         private readonly IVideoService _videoService;
         private readonly ICommentService _commentService;
         private readonly IReplyService _replyService;
@@ -38,14 +37,13 @@ namespace SMS.Controllers
 
         #region Constructor
 
-        public BlogController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IEventService eventService, IVideoService videoService, ICommentService commentService, IReplyService replyService, IBlogService blogService, ISMSService smsService, IAuthenticationService authenticationService, ITemplateService templateService, IEmailService emailService, IRoleService roleService)
+        public BlogController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IVideoService videoService, ICommentService commentService, IReplyService replyService, IBlogService blogService, ISMSService smsService, IAuthenticationService authenticationService, ITemplateService templateService, IEmailService emailService, IRoleService roleService)
         {
             this._userService = userService;
             this._pictureService = pictureService;
             this._userContext = userContext;
             this._sliderService = sliderService;
             this._settingService = settingService;
-            this._eventService = eventService;
             this._videoService = videoService;
             this._commentService = commentService;
             this._replyService = replyService;

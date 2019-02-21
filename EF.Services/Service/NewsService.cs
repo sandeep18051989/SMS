@@ -4,6 +4,7 @@ using System.Linq;
 using EF.Core;
 using EF.Core.Data;
 using EF.Core.Enums;
+using System.Data.Entity;
 
 namespace EF.Services.Service
 {
@@ -90,6 +91,60 @@ namespace EF.Services.Service
 			return null;
 		}
 
-		#endregion
-	}
+        public IDictionary<string, int> GetDistinctAuthorAndCount(bool? onlyActive = null)
+        {
+            var allAuthors = _newsRepository.Table.Where(x => (!onlyActive.HasValue || x.IsActive == onlyActive.Value) && !x.IsDeleted).Distinct().ToList();
+            var lstDistinct = allAuthors.Select(x => x.Author).Distinct().ToList();
+            return lstDistinct.ToDictionary(x => x, x => GetCountByAuthor(x));
+        }
+
+        public int GetCountByAuthor(string author)
+        {
+            return _newsRepository.Table.Count(x => !x.IsDeleted && x.Author.Trim().ToLower().Contains(author.Trim().ToLower()));
+        }
+
+        public IList<News> GetLatestNews(int? excepteventid = null)
+        {
+            int totalDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).Date;
+            DateTime endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, totalDays).Date;
+            return _newsRepository.Table.Where(x => (!excepteventid.HasValue || x.Id != excepteventid.Value) && !x.IsDeleted && ((DbFunctions.TruncateTime(x.CreatedOn) >= startDate && DbFunctions.TruncateTime(x.CreatedOn) <= endDate))).ToList();
+        }
+
+        public IList<News> GetOlderNews(int? excepteventid = null)
+        {
+            int totalDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).Date;
+            return _newsRepository.Table.Where(x => (!excepteventid.HasValue || x.Id != excepteventid.Value) && !x.IsDeleted && ((DbFunctions.TruncateTime(x.CreatedOn) < startDate))).ToList();
+        }
+
+        #endregion
+
+        #region Paging
+
+        public virtual IPagedList<News> GetPagedNews(string keyword = null, string author = null, int statusid = 0, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null)
+        {
+            var query = _newsRepository.Table;
+            if (onlyActive.HasValue)
+            {
+                query = query.Where(n => n.IsActive == onlyActive.Value);
+            }
+
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.ShortName.Contains(keyword) || x.Author.Contains(keyword) || x.Description.Contains(keyword));
+
+            if (!string.IsNullOrEmpty(author))
+                query = query.Where(x => x.Author.Contains(author));
+
+            if (statusid > 0)
+                query = query.Where(x => x.NewsStatusId == statusid);
+
+            query = query.Where(n => !n.IsDeleted).OrderByDescending(n => n.ModifiedOn);
+
+            var news = new PagedList<News>(query, pageIndex, pageSize);
+            return news;
+        }
+
+        #endregion
+    }
 }

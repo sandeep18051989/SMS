@@ -6,7 +6,7 @@
     var basePath = urlHelperService.GetLocation(false);
 }
 <h5 class="py-5">EVENTS</h5>
-<div class="row text-left">
+<div class="row text-left hover-content">
     @foreach (var eve in Model)
     {
         <div class="col-lg-3 col-md-6 mb-4">
@@ -16,11 +16,11 @@
                 <div class="view overlay">
                     @if (eve.Pictures.Count > 0 && eve.HasDefaultPicture)
                     {
-                        <img src="@(eve.DefaultPictureSrc)" title="@eve.Title" class="img-fluid" alt="@eve.Title">
+                    <img src="@(eve.DefaultPictureSrc)" title="@eve.Title" class="img-fluid" alt="@eve.Title">
                     }
                     else
                     {
-                        <img src="@(eve.Pictures.FirstOrDefault().Picture.PictureSrc)" title="@eve.Title" class="img-fluid" alt="@eve.Title">
+                    <img src="@(eve.Pictures.FirstOrDefault().Picture.PictureSrc)" title="@eve.Title" class="img-fluid" alt="@eve.Title">
                     }
                     <a title="@eve.Title" href="@Url.RouteUrl("Event", new { name = eve.SystemName })">
                         <div class="mask rgba-white-slight waves-effect waves-light"></div>
@@ -55,4 +55,5 @@
             </div>
         </div>
     }
+    <a href="@Url.Action("List", "Event", new { @Area="" })" class="btn btn-sm btn-outline-info btn-view-all text-black-50 pull-right"><b>VIEW ALL</b></a>
 </div>

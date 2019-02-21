@@ -153,7 +153,7 @@
                             </div>
                             <div class="row text-left">
                                 <div class="col-md-6 mb-4">
-                                    <input type="checkbox" tabindex="9" id="IsActive" name="IsActive" value="@(Model.IsActive ? " True" : "False" )" @(Model.IsActive ? "checked=checked" : "" ) />
+                                    <input type="checkbox" tabindex="9" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False" )" @(Model.IsActive ? "checked=checked" : "" ) />
                                     @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
                                     @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                                 </div>

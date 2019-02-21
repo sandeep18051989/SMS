@@ -9,6 +9,11 @@
     var userContext = ContextHelper.Current.Resolve<IUserContext>();
     var basePath = urlHelperService.GetLocation(false);
 }
+<div class="row-fluid">
+    <h2 class="text-center dark-grey-text pb-2 mt-3 pt-3 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+        <strong>BLOGS</strong>
+    </h2>
+</div>
 <form class="form-horizontal" id="blog-list-form" method="post" action="@Url.Action("List", "Blog" , new { @Area="" })">
     <div class="row">
         <div class="col-lg-3 col-12 mt-1 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
@@ -35,7 +40,7 @@
                     </div>
                 </section>
             }
-            @if (Model.Users.Count > 0)
+            @if (Model.Subjects.Count > 0)
             {
                 <section class="section my-5">
                     <!--/ Card -->

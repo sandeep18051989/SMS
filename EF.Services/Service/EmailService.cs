@@ -267,6 +267,85 @@ namespace EF.Services.Service
             SendNotification(template, tokens, toEmail, toName);
         }
 
+        public void SendUserEmailVerificationMessage(User user, string verificationLink)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            // Send Notification To The User
+            var templateSetting = _settingService.GetSettingByKey("Email Verification");
+            var template = _templateService.GetTemplateByName(templateSetting.Value);
+
+            var tokens = template.Tokens.Count > 0 ? template.Tokens.ToList() : new List<DataToken>();
+
+            if (tokens.Count == 0)
+                _templateService.AddUserTokens(tokens, user);
+
+            foreach (var dt in tokens)
+            {
+                template.BodyHtml = CodeHelper.Replace(template.BodyHtml.ToString(), $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
+            }
+
+            template.BodyHtml = CodeHelper.Replace(template.BodyHtml.ToString(), $"[RedirecLink]", verificationLink, StringComparison.InvariantCulture);
+            var toEmail = user.Email;
+            var toName = user.GetFullName();
+            var fromEmail = _settingService.GetSettingByKey("FromEmail");
+
+            SendNotification(template, tokens, toEmail, toName);
+        }
+
+        public void SendUserForgotPasswordMessage(User user, string passwordLink)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            // Send Notification To The User
+            var templateSetting = _settingService.GetSettingByKey("ForgotPassword");
+            var template = _templateService.GetTemplateByName(templateSetting.Value);
+
+            var tokens = template.Tokens.Count > 0 ? template.Tokens.ToList() : new List<DataToken>();
+
+            if (tokens.Count == 0)
+                _templateService.AddUserTokens(tokens, user);
+
+            foreach (var dt in tokens)
+            {
+                template.BodyHtml = CodeHelper.Replace(template.BodyHtml.ToString(), $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
+            }
+
+            template.BodyHtml = CodeHelper.Replace(template.BodyHtml.ToString(), $"[RedirecLink]", passwordLink, StringComparison.InvariantCulture);
+            var toEmail = user.Email;
+            var toName = user.GetFullName();
+            var fromEmail = _settingService.GetSettingByKey("FromEmail");
+
+            SendNotification(template, tokens, toEmail, toName);
+        }
+
+        public void SendUserPasswordChangedMessage(User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            // Send Notification To The User
+            var templateSetting = _settingService.GetSettingByKey("ResetPassword");
+            var template = _templateService.GetTemplateByName(templateSetting.Value);
+
+            var tokens = template.Tokens.Count > 0 ? template.Tokens.ToList() : new List<DataToken>();
+
+            if (tokens.Count == 0)
+                _templateService.AddUserTokens(tokens, user);
+
+            foreach (var dt in tokens)
+            {
+                template.BodyHtml = CodeHelper.Replace(template.BodyHtml.ToString(), $"[{dt.SystemName}]", dt.Value, StringComparison.InvariantCulture);
+            }
+            var toEmail = user.Email;
+            var toName = user.GetFullName();
+            var fromEmail = _settingService.GetSettingByKey("FromEmail");
+
+            SendNotification(template, tokens, toEmail, toName);
+        }
+
         public void SendUserRegistrationMessage(User user)
         {
             if (user == null)

@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using EF.Services;
 using FluentValidation.Attributes;
 using SMS.Validations;
+using SMS.Models.Widgets;
 
 namespace SMS.Models
 {
@@ -43,7 +44,23 @@ namespace SMS.Models
 
 	}
 
-	public partial class NewsListModel
+    public partial class NewsListWidgetModel
+    {
+        public NewsListWidgetModel()
+        {
+            News = new List<NewsWidgetModel>();
+            Authors = new Dictionary<string, int>();
+            PagingFilteringContext = new PagingFilteringModel();
+            AvailableStatuses = new List<SelectListItem>();
+        }
+        public IList<NewsWidgetModel> News { get; set; }
+        public PagingFilteringModel PagingFilteringContext { get; set; }
+        public IDictionary<string, int> Authors { get; set; }
+
+        public IList<SelectListItem> AvailableStatuses { get; set; }
+    }
+
+    public partial class NewsListModel
 	{
 		public int Id { get; set; }
 		public string ShortName { get; set; }

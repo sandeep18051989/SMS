@@ -1,0 +1,158 @@
+﻿@model SMS.Models.NewsListWidgetModel
+@using EF.Core;
+@using EF.Services;
+@using EF.Services.Http;
+@{
+    ViewBag.Title = "News Corner";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    var urlHelperService = ContextHelper.Current.Resolve<IUrlHelper>();
+    var userContext = ContextHelper.Current.Resolve<IUserContext>();
+    var basePath = urlHelperService.GetLocation(false);
+}
+<div class="row-fluid">
+    <h2 class="text-center dark-grey-text pb-2 mt-3 pt-3 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+        <strong>NEWS</strong>
+    </h2>
+</div>
+<form class="form-horizontal" id="event-list-form" method="post" action="@Url.Action("List", "News" , new { @Area="" })">
+    <div class="row">
+        <div class="col-lg-3 col-12 mt-1 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+            <section class="section widget-content mt-5">
+                <div class="card card-body pb-0">
+                    <div class="single-post">
+                        <p class="font-weight-bold dark-grey-text text-center spacing grey lighten-4 py-2 mb-4">
+                            <strong>BY STATUS</strong>
+                        </p>
+                        <div class="row mb-4">
+                            <div class="col-12 text-center">
+                                @foreach (var status in Model.AvailableStatuses)
+                                {
+                                    <button data-value="@(status.Value)" type="submit" class="link btn-sm btn-status @((Model.PagingFilteringContext.NewsStatusId == Convert.ToInt32(status.Value)) ? "btn-success" : "un-button")">@(status.Text)</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            @if (Model.Authors.Count > 0)
+            {
+                <section class="section my-5">
+                    <!--/ Card -->
+                    <div class="card card-body pb-0">
+                        <div class="single-post">
+                            <p class="font-weight-bold dark-grey-text text-center spacing grey lighten-4 py-2 mb-4">
+                                <strong>CORRESPONDENTS</strong>
+                            </p>
+                            <ul class="list-group my-4">
+                                @foreach (var sub in Model.Authors)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center  @((!string.IsNullOrEmpty(Model.PagingFilteringContext.Author) && Model.PagingFilteringContext.Author.Trim().ToLower() == sub.Key.Trim().ToLower()) ? "active" : "")">
+                                        <button type="submit" data-value="@(sub.Value)" class="link un-button bg-transparent btn-author">
+                                            <p class="mb-0">@(sub.Key)</p>
+                                        </button>
+                                        <span class="badge teal badge-pill font-small">@(sub.Value)</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                    <hr />
+            }
+        </div>
+        <div class="col-lg-9 col-12 mt-1 wow fadeIn">
+            <div class="row-fluid">
+                <div class="col-md-12 pt-3 mb-4">
+                    <div class="form-inline pull-right">
+                        <div class="md-form input-group col-md-12 my-0 p-relative">
+                            <input class="form-control no-special-char mr-sm-2" type="text" id="Keyword" placeholder="Search..." name="Keyword" value="@(!string.IsNullOrEmpty(Model.PagingFilteringContext.Keyword) ? Model.PagingFilteringContext.Keyword : "")" aria-label="Search">
+                            <span class="input-group-append">
+                                <button disabled="disabled" class="btn btn-primary btn-sm btn-search" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.News.Count > 0)
+                {
+                    <div class="row wow fadeIn" style="visibility: visible; animation-name: fadeIn;width:100%;">
+                        @foreach (var eve in Model.News)
+                        {
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="view overlay">
+                                        @if (!string.IsNullOrEmpty(eve.DefaultPictureSrc))
+                                        {
+                                            <img style="min-height:300px;max-height:300px;" src="@(eve.DefaultPictureSrc)" class="card-img-top" alt="@(eve.ShortName)">
+                                        }
+                                        else
+                                        {
+                                            <img style="min-height:300px;max-height:300px;" src="@(basePath)Content/Images/product-picture-not-available700x500.png" title="@eve.ShortName" class="card-img-top" alt="@eve.ShortName">
+                                        }
+                                        <a>
+                                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                        </a>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5>
+                                            <strong>
+                                                <a href="@Url.RouteUrl("News", new { name=eve.SystemName })" class="dark-grey-text">
+                                                    @(eve.ShortName)
+                                                </a>
+                                            </strong>
+                                        </h5>
+                                        <h5 class="font-weight-bold blue-text">
+                                            <div style="font-size:14px;font-weight:normal;" class="badge badge-info">Lst Updated&nbsp;-&nbsp;@(CodeHelper.TimeAgo(eve.ModifiedOn.Value))</div>
+                                        </h5>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="reaction-cell text-center">
+                                            <button title="Likes" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-heart text-dark"></i>&nbsp;<span class="badge badge-info ml-2">@(eve.Reactions.Count(x => x.IsLike.HasValue && x.IsLike.Value))</span><span class="sr-only">Likes</span></button>
+                                            <button title="Dis-Likes" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-heart-broken text-dark"></i>&nbsp;<span class="badge badge-dark ml-2">@(eve.Reactions.Count(x => x.IsDislike.HasValue && x.IsDislike.Value))</span><span class="sr-only">Dis-Likes</span></button>
+                                            <button title="Angry" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-angry text-dark"></i>&nbsp;<span class="badge badge-danger ml-2">@(eve.Reactions.Count(x => x.IsAngry.HasValue && x.IsAngry.Value))</span><span class="sr-only">Angry</span></button>
+                                            <button title="Happy" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-happy text-dark"></i>&nbsp;<span class="badge badge-success ml-2">@(eve.Reactions.Count(x => x.IsHappy.HasValue && x.IsHappy.Value))</span><span class="sr-only">Happy</span></button>
+                                            <button title="Sad" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-sad text-dark"></i>&nbsp;<span class="badge badge-light ml-2">@(eve.Reactions.Count(x => x.IsSad.HasValue && x.IsSad.Value))</span><span class="sr-only">Sad</span></button>
+                                            <button title="LOL" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-grin text-dark"></i>&nbsp;<span class="badge badge-secondary ml-2">@(eve.Reactions.Count(x => x.IsLol.HasValue && x.IsLol.Value))</span><span class="sr-only">Lol</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info green-theme">No News Found!</div>
+                }
+            </div>
+
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("keyup", "#Keyword", function () {
+            if ($(this).val() == null || $(this).val() === "") {
+                $(".btn-search").attr('disabled', true);
+            }
+            else {
+                $(".btn-search").removeAttr("disabled");
+            }
+        });
+
+        // User Filter
+        $(document).on("click", ".btn-status", function () {
+            var statusSelected = $(this).data('value');
+            var $form = $(this).closest('form');
+            $form.append('<input type="hidden" id="EventStatusId" name="EventStatusId" value="' + statusSelected + '" />');
+        });
+
+        // Subject Filter
+        $(document).on("click", ".btn-author", function () {
+            var authorSelected = $(this).data('value');
+            var $form = $(this).closest('form');
+            $form.append('<input type="hidden" id="Author" name="Author" value="' + authorSelected + '" />');
+        });
+    });
+</script>

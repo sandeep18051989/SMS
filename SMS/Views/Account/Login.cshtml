@@ -1,10 +1,12 @@
 ﻿@model SMS.Models.LoginModel
-@using EF.Core;
 @using EF.Services;
 @using EF.Services.Http;
+@using EF.Services.Service;
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_OneColumnLayout.cshtml";
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+    var school = EF.Core.ContextHelper.Current.Resolve<ISMSService>().GetAllSchools(true).FirstOrDefault();
 }
 <div class="row">
     <div id="login-form-wrapper" class="col-md-6 offset-md-3 mt-8">
@@ -40,20 +42,32 @@
                         <div class="col-md-12 col-md-12 text-center">
                             <div class="row d-flex align-items-center">
                                 <div class="col-md-3 col-md-6 text-center">
-                                    <a class="p-2 m-2 fa-lg" href="javascript:void(0);" id="fogot-link"><i class="fa fa-key green-text"></i> </a>
-                                    <a class="p-2 m-2 fa-lg" href="@Url.Action("Index","Feedback")"><i class="fa fa-phone green-text"></i></a>
+                                    <a class="p-2 m-2 fa-lg" href="javascript:void(0);" id="fogot-link" data-toggle="modal" data-target="#forgotpassword_modal" data-placement="top" title="Forget Password"><i class="fa fa-key green-text"></i> </a>
+                                    <a class="p-2 m-2 fa-lg" href="@Url.Action("Index","Feedback")" data-toggle="tooltip" data-placement="top" title="Send Feedback/Complaint"><i class="fa fa-phone green-text"></i></a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a class="p-2 m-2 fa-lg tw-ic"><i class="fa fa-twitter green-text"></i></a>
-                                    <a class="p-2 m-2 fa-lg li-ic"><i class="fa fa-linkedin green-text"> </i></a>
-                                    <a class="p-2 m-2 fa-lg ins-ic"><i class="fa fa-instagram green-text"> </i></a>
+                                    @if (school != null)
+                                    {
+                                        if (!string.IsNullOrEmpty(school.FacebookLink))
+                                        {
+                                            <a href="@(school.FacebookLink)" class="p-2 m-2 fa-lg tw-ic"><i class="fa fa-twitter green-text"></i></a>
+                                        }
+                                        if (!string.IsNullOrEmpty(school.LinkedInLink))
+                                        {
+                                            <a href="@(school.LinkedInLink)" class="p-2 m-2 fa-lg li-ic"><i class="fa fa-linkedin green-text"> </i></a>
+                                        }
+                                        if (!string.IsNullOrEmpty(school.InstagramLink))
+                                        {
+                                            <a href="@(school.InstagramLink)" class="p-2 m-2 fa-lg ins-ic"><i class="fa fa-instagram green-text"> </i></a>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="external-authentication text-center">
+                    @*<div class="external-authentication text-center">
                         @Html.Action("OtherLogins", "Social")
-                    </div>
+                    </div>*@
                 </div>
             </div>
         }

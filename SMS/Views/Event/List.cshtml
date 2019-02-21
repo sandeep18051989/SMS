@@ -1,0 +1,159 @@
+﻿@model SMS.Models.EventListWidgetModel
+@using EF.Core;
+@using EF.Services.Http;
+@{
+    ViewBag.Title = "Events";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    var urlHelperService = ContextHelper.Current.Resolve<IUrlHelper>();
+    var userContext = ContextHelper.Current.Resolve<IUserContext>();
+    var basePath = urlHelperService.GetLocation(false);
+}
+<div class="row-fluid">
+    <h2 class="text-center dark-grey-text pb-2 mt-3 pt-3 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+        <strong>EVENTS</strong>
+    </h2>
+</div>
+<form class="form-horizontal" id="event-list-form" method="post" action="@Url.Action("List", "Event" , new { @Area="" })">
+    <div class="row">
+        <div class="col-lg-3 col-12 mt-1 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+            <section class="section widget-content mt-5">
+                <div class="card card-body pb-0">
+                    <div class="single-post">
+                        <p class="font-weight-bold dark-grey-text text-center spacing grey lighten-4 py-2 mb-4">
+                            <strong>SCHEDULES</strong>
+                        </p>
+                        <div class="row mb-4">
+                            <div class="col-12 text-center">
+                                <button data-value="0" type="submit" class="link btn-sm btn-schedule @((!string.IsNullOrEmpty(Model.PagingFilteringContext.EventSchedule) && Model.PagingFilteringContext.EventSchedule == "0") ? "btn-success" : "un-button")">Old</button>
+                                <button data-value="1" type="submit" class="link btn-sm btn-schedule @((!string.IsNullOrEmpty(Model.PagingFilteringContext.EventSchedule) && Model.PagingFilteringContext.EventSchedule == "1") ? "btn-success" : "un-button")">New</button>
+                                <button data-value="2" type="submit" class="link btn-sm btn-schedule @((!string.IsNullOrEmpty(Model.PagingFilteringContext.EventSchedule) && Model.PagingFilteringContext.EventSchedule == "2") ? "btn-success" : "un-button")">Upcoming</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            @if (Model.Locations.Count > 0)
+            {
+                <section class="section my-5">
+                    <!--/ Card -->
+                    <div class="card card-body pb-0">
+                        <div class="single-post">
+                            <p class="font-weight-bold dark-grey-text text-center spacing grey lighten-4 py-2 mb-4">
+                                <strong>LOCATIONS</strong>
+                            </p>
+                            <ul class="list-group my-4">
+                                @foreach (var sub in Model.Locations)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center  @((!string.IsNullOrEmpty(Model.PagingFilteringContext.Venue) && Model.PagingFilteringContext.Venue.Trim().ToLower() == sub.Key.Trim().ToLower()) ? "active" : "")">
+                                        <button type="submit" data-value="@(sub.Value)" class="link un-button bg-transparent btn-venue">
+                                            <p class="mb-0">@(sub.Key)</p>
+                                        </button>
+                                        <span class="badge teal badge-pill font-small">@(sub.Value)</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <hr />
+            }
+        </div>
+        <div class="col-lg-9 col-12 mt-1 wow fadeIn">
+            <div class="row-fluid">
+                <div class="col-md-12 pt-3 mb-4">
+                    <div class="form-inline pull-right">
+                        <div class="md-form input-group col-md-12 my-0 p-relative">
+                            <input class="form-control no-special-char mr-sm-2" type="text" id="Keyword" placeholder="Search..." name="Keyword" value="@(!string.IsNullOrEmpty(Model.PagingFilteringContext.Keyword) ? Model.PagingFilteringContext.Keyword : "")" aria-label="Search">
+                            <span class="input-group-append">
+                                <button disabled="disabled" class="btn btn-primary btn-sm btn-search" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.Events.Count > 0)
+                {
+                    <div class="row wow fadeIn" style="visibility: visible; animation-name: fadeIn;width:100%;">
+                        @foreach (var eve in Model.Events)
+                        {
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="view overlay">
+                                        @if (!string.IsNullOrEmpty(eve.DefaultPictureSrc))
+                                        {
+                                            <img style="min-height:300px;max-height:300px;" src="@(eve.DefaultPictureSrc)" class="card-img-top" alt="@(eve.Title)">
+                                        }
+                                        else
+                                        {
+                                            <img style="min-height:300px;max-height:300px;" src="@(basePath)Content/Images/product-picture-not-available700x500.png" title="@eve.Title" class="card-img-top" alt="@eve.Title">
+                                        }
+                                        <a>
+                                            <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                        </a>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5>
+                                            <strong>
+                                                <a href="@Url.RouteUrl("Event", new { name=eve.SystemName })" class="dark-grey-text">
+                                                    @(eve.Title)
+                                                </a>
+                                            </strong>
+                                        </h5>
+                                        <h5 style="min-height:30px;">
+                                            @eve.Headline
+                                        </h5>
+                                        <h5 class="font-weight-bold blue-text">
+                                            <div style="font-size:14px;font-weight:normal;" class="badge badge-info">FROM&nbsp;-&nbsp;@(eve.StartDate.Value.ToString("MMMM dd, yyyy"))&nbsp;&nbsp;TO&nbsp;-&nbsp;@(eve.EndDate.Value.ToString("MMMM dd, yyyy"))</div>
+                                        </h5>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="reaction-cell text-center">
+                                            <button title="Likes" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-heart text-dark"></i>&nbsp;<span class="badge badge-info ml-2">@(eve.Reactions.Count(x => x.IsLike.HasValue && x.IsLike.Value))</span><span class="sr-only">Likes</span></button>
+                                            <button title="Dis-Likes" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-heart-broken text-dark"></i>&nbsp;<span class="badge badge-dark ml-2">@(eve.Reactions.Count(x => x.IsDislike.HasValue && x.IsDislike.Value))</span><span class="sr-only">Dis-Likes</span></button>
+                                            <button title="Angry" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-angry text-dark"></i>&nbsp;<span class="badge badge-danger ml-2">@(eve.Reactions.Count(x => x.IsAngry.HasValue && x.IsAngry.Value))</span><span class="sr-only">Angry</span></button>
+                                            <button title="Happy" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-happy text-dark"></i>&nbsp;<span class="badge badge-success ml-2">@(eve.Reactions.Count(x => x.IsHappy.HasValue && x.IsHappy.Value))</span><span class="sr-only">Happy</span></button>
+                                            <button title="Sad" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-sad text-dark"></i>&nbsp;<span class="badge badge-light ml-2">@(eve.Reactions.Count(x => x.IsSad.HasValue && x.IsSad.Value))</span><span class="sr-only">Sad</span></button>
+                                            <button title="LOL" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-grin text-dark"></i>&nbsp;<span class="badge badge-secondary ml-2">@(eve.Reactions.Count(x => x.IsLol.HasValue && x.IsLol.Value))</span><span class="sr-only">Lol</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info green-theme">No Blogs Found!</div>
+                }
+            </div>
+
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("keyup", "#Keyword", function () {
+            if ($(this).val() == null || $(this).val() === "") {
+                $(".btn-search").attr('disabled', true);
+            }
+            else {
+                $(".btn-search").removeAttr("disabled");
+            }
+        });
+
+        // User Filter
+        $(document).on("click", ".btn-schedule", function () {
+            var scheduleSelected = $(this).data('value');
+            var $form = $(this).closest('form');
+            $form.append('<input type="hidden" id="EventSchedule" name="EventSchedule" value="' + scheduleSelected + '" />');
+        });
+
+        // Subject Filter
+        $(document).on("click", ".btn-venue", function () {
+            var venueSelected = $(this).data('value');
+            var $form = $(this).closest('form');
+            $form.append('<input type="hidden" id="Venue" name="Venue" value="' + venueSelected + '" />');
+        });
+    });
+</script>

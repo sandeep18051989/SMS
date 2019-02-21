@@ -12,22 +12,21 @@ using System;
 
 namespace SMS.Controllers
 {
-	public class EventController : PublicHttpController
-	{
+    public class EventController : PublicHttpController
+    {
 
-		#region Fields
+        #region Fields
 
-		private readonly IUserService _userService;
+        private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IPictureService _pictureService;
-		private readonly IUserContext _userContext;
-		private readonly ISliderService _sliderService;
-		private readonly ISettingService _settingService;
-		private readonly IEventService _eventService;
-		private readonly IVideoService _videoService;
-		private readonly ICommentService _commentService;
-		private readonly IReplyService _replyService;
-		private readonly IBlogService _blogService;
+        private readonly IUserContext _userContext;
+        private readonly ISliderService _sliderService;
+        private readonly ISettingService _settingService;
+        private readonly IEventService _eventService;
+        private readonly IVideoService _videoService;
+        private readonly ICommentService _commentService;
+        private readonly IReplyService _replyService;
         private readonly ISMSService _smsService;
         private readonly ITemplateService _templateService;
         private readonly IEmailService _emailService;
@@ -37,8 +36,8 @@ namespace SMS.Controllers
 
         #region Constructor
 
-        public EventController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IEventService eventService, IVideoService videoService, ICommentService commentService, IReplyService replyService, IBlogService blogService, ISMSService smsService, IAuthenticationService authenticationService, ITemplateService templateService, IEmailService emailService, IRoleService roleService)
-		{
+        public EventController(IUserService userService, IPictureService pictureService, IUserContext userContext, ISliderService sliderService, ISettingService settingService, IEventService eventService, IVideoService videoService, ICommentService commentService, IReplyService replyService, ISMSService smsService, IAuthenticationService authenticationService, ITemplateService templateService, IEmailService emailService, IRoleService roleService)
+        {
             this._userService = userService;
             this._pictureService = pictureService;
             this._userContext = userContext;
@@ -48,7 +47,6 @@ namespace SMS.Controllers
             this._videoService = videoService;
             this._commentService = commentService;
             this._replyService = replyService;
-            this._blogService = blogService;
             this._smsService = smsService;
             this._authenticationService = authenticationService;
             this._templateService = templateService;
@@ -56,19 +54,18 @@ namespace SMS.Controllers
             this._roleService = roleService;
         }
 
-		#endregion
+        #endregion
 
-		// GET: Event
-		[ChildActionOnly]
-		public ActionResult Index()
-		{
-			var widgetModel = new List<EventWidgetModel>();
-			var lstEvents = _eventService.GetActiveEvents().OrderByDescending(x => x.CreatedOn).Take(4).ToList();
-			if (lstEvents.Count > 0)
-			{
-				foreach (var eve in lstEvents)
-				{
-					var model = new EventWidgetModel();
+        [ChildActionOnly]
+        public ActionResult Index()
+        {
+            var widgetModel = new List<EventWidgetModel>();
+            var lstEvents = _eventService.GetActiveEvents().OrderByDescending(x => x.CreatedOn).Take(4).ToList();
+            if (lstEvents.Count > 0)
+            {
+                foreach (var eve in lstEvents)
+                {
+                    var model = new EventWidgetModel();
                     model.StartDate = eve.StartDate;
                     model.EndDate = eve.EndDate;
                     model.Description = eve.Description;
@@ -85,12 +82,12 @@ namespace SMS.Controllers
                     var eventVideos = _videoService.GetEventVideosByEventId(eve.Id).OrderByDescending(x => x.StartDate).ToList();
                     model.HasDefaultVideo = eventVideos.Count > 0;
 
-                    if(eventPictures.Count > 0)
+                    if (eventPictures.Count > 0)
                     {
                         model.DefaultPictureSrc = eventPictures.FirstOrDefault(x => model.HasDefaultPicture ? x.IsDefault : true).Picture.PictureSrc;
                     }
 
-                    if(eventVideos.Count > 0)
+                    if (eventVideos.Count > 0)
                     {
                         model.DefaultVideoSrc = eventVideos.FirstOrDefault().Video.VideoSrc;
                     }
@@ -102,19 +99,19 @@ namespace SMS.Controllers
                     model.Reactions = _smsService.SearchReactions(eventid: eve.Id).Select(x => x.ToModel()).OrderByDescending(x => x.CreatedOn).ToList();
                     model.Comments = _commentService.GetCommentsByEvent(eve.Id).OrderByDescending(x => x.CreatedOn).Select(x => x.ToWidgetModel()).ToList();
 
-                    if(model.Comments.Count > 0)
+                    if (model.Comments.Count > 0)
                     {
-                        foreach(var comment in model.Comments)
+                        foreach (var comment in model.Comments)
                         {
                             comment.Replies = _replyService.GetAllRepliesByComment(comment.Id).OrderBy(x => x.DisplayOrder).Select(x => x.ToWidgetModel()).ToList();
                         }
                     }
 
                     widgetModel.Add(model);
-				}
-			}
-			return PartialView(widgetModel);
-		}
+                }
+            }
+            return PartialView(widgetModel);
+        }
 
         public ActionResult Details(int id)
         {
@@ -654,42 +651,42 @@ namespace SMS.Controllers
                         var coverPicture = _pictureService.GetPictureById(objEvent.User.CoverPictureId);
                         objEvent.User.CoverPicture = coverPicture.ToModel();
                     }
-                }
-                var studentUser = _smsService.GetStudentByImpersonatedUser(fromUser.Id);
-                var teacherUser = _smsService.GetTeacherByImpersonatedUser(fromUser.Id);
-                if (studentUser != null)
-                {
-                    objEvent.IsStudent = true;
-                    objEvent.Student = studentUser.ToModel();
-
-                    if (objEvent.Student.StudentPictureId > 0)
+                    var studentUser = _smsService.GetStudentByImpersonatedUser(fromUser.Id);
+                    var teacherUser = _smsService.GetTeacherByImpersonatedUser(fromUser.Id);
+                    if (studentUser != null)
                     {
-                        var proPicture = _pictureService.GetPictureById(objEvent.Student.StudentPictureId);
-                        objEvent.User.StudentProfilePicture = proPicture.ToModel();
+                        objEvent.IsStudent = true;
+                        objEvent.Student = studentUser.ToModel();
+
+                        if (objEvent.Student.StudentPictureId > 0)
+                        {
+                            var proPicture = _pictureService.GetPictureById(objEvent.Student.StudentPictureId);
+                            objEvent.User.StudentProfilePicture = proPicture.ToModel();
+                        }
+
+                        if (objEvent.Student.CoverPictureId > 0)
+                        {
+                            var coverPicture = _pictureService.GetPictureById(objEvent.Student.CoverPictureId);
+                            objEvent.User.StudentCoverPicture = coverPicture.ToModel();
+                        }
                     }
 
-                    if (objEvent.Student.CoverPictureId > 0)
+                    if (teacherUser != null)
                     {
-                        var coverPicture = _pictureService.GetPictureById(objEvent.Student.CoverPictureId);
-                        objEvent.User.StudentCoverPicture = coverPicture.ToModel();
-                    }
-                }
+                        objEvent.IsTeacher = true;
+                        objEvent.Teacher = teacherUser.ToModel();
 
-                if (teacherUser != null)
-                {
-                    objEvent.IsTeacher = true;
-                    objEvent.Teacher = teacherUser.ToModel();
+                        if (objEvent.Teacher.ProfilePictureId > 0)
+                        {
+                            var proPicture = _pictureService.GetPictureById(objEvent.Teacher.ProfilePictureId);
+                            objEvent.User.TeacherProfilePicture = proPicture.ToModel();
+                        }
 
-                    if (objEvent.Teacher.ProfilePictureId > 0)
-                    {
-                        var proPicture = _pictureService.GetPictureById(objEvent.Teacher.ProfilePictureId);
-                        objEvent.User.TeacherProfilePicture = proPicture.ToModel();
-                    }
-
-                    if (objEvent.Teacher.CoverPictureId > 0)
-                    {
-                        var coverPicture = _pictureService.GetPictureById(objEvent.Teacher.CoverPictureId);
-                        objEvent.User.TeacherCoverPicture = coverPicture.ToModel();
+                        if (objEvent.Teacher.CoverPictureId > 0)
+                        {
+                            var coverPicture = _pictureService.GetPictureById(objEvent.Teacher.CoverPictureId);
+                            objEvent.User.TeacherCoverPicture = coverPicture.ToModel();
+                        }
                     }
                 }
 
@@ -769,7 +766,6 @@ namespace SMS.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         public ActionResult List(PagingFilteringModel command, FormCollection frm)
         {
@@ -778,10 +774,11 @@ namespace SMS.Controllers
             if (command.PageSize <= 0) command.PageSize = itemsPerPageSetting != null ? Convert.ToInt32(itemsPerPageSetting.Value) : 25;
             if (command.PageNumber <= 0) command.PageNumber = 1;
 
-            var events = _eventService.GetPagedEvents(keyword: command.Keyword, venue: command.Venue, pageIndex: command.PageNumber - 1, pageSize: command.PageSize, onlyActive: true);
+            var events = _eventService.GetPagedEvents(keyword: command.Keyword, venue: command.Venue, schedule: command.EventSchedule, pageIndex: command.PageNumber - 1, pageSize: command.PageSize, onlyActive: true);
             model.PagingFilteringContext.LoadPagedList(events);
             model.PagingFilteringContext.Keyword = command.Keyword;
             model.PagingFilteringContext.Venue = command.Venue;
+            model.PagingFilteringContext.EventSchedule = command.EventSchedule;
 
             foreach (var eve in events)
             {

@@ -549,6 +549,11 @@ namespace SMS.Areas.Admin.Mappers
                      .ForMember(dest => dest.Reactions, mo => mo.Ignore())
                      .ForMember(dest => dest.Videos, mo => mo.Ignore())
                      .ForMember(dest => dest.HasDefaultVideo, mo => mo.Ignore())
+                     .ForMember(dest => dest.LatestPosts, mo => mo.Ignore())
+                     .ForMember(dest => dest.OlderPosts, mo => mo.Ignore())
+                     .ForMember(dest => dest.User, mo => mo.Ignore())
+                     .ForMember(dest => dest.Student, mo => mo.Ignore())
+                     .ForMember(dest => dest.Teacher, mo => mo.Ignore())
                      .ForMember(dest => dest.SystemName, mo => mo.MapFrom(src => src.GetSystemName(true)));
                 cfg.CreateMap<NewsWidgetModel, News>()
                     .ForMember(dest => dest.Comments, mo => mo.Ignore())

@@ -2346,6 +2346,7 @@
     <Compile Include="Validations\PermissionRecordValidation.cs" />
     <Compile Include="Validations\SliderValidation.cs" />
     <Compile Include="Validations\UserAddWidgetValidation.cs" />
+    <Compile Include="Validations\ResetPasswordModelValidator.cs" />
     <Compile Include="Validations\VendorModelValidator.cs" />
     <Compile Include="Validations\UserValidation.cs" />
   </ItemGroup>
@@ -2441,6 +2442,11 @@
     <Content Include="Scripts\tinymce\skins\ui\oxide\fonts\tinymce-mobile.woff" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Blog\List.cshtml" />
+    <Content Include="Views\Event\List.cshtml" />
+    <Content Include="Views\News\Details.cshtml" />
+    <Content Include="Views\News\List.cshtml" />
+    <Content Include="Views\Account\EmailVerification.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

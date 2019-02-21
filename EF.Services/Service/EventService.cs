@@ -181,7 +181,7 @@ namespace EF.Services.Service
 
         #region Paging
 
-        public virtual IPagedList<Event> GetPagedEvents(string keyword = null, string venue = null, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null)
+        public virtual IPagedList<Event> GetPagedEvents(string keyword = null, string venue = null, string schedule=null, int pageIndex = 0, int pageSize = int.MaxValue, bool? onlyActive = null)
         {
             var query = _eventRepository.Table;
             if (onlyActive.HasValue)
@@ -194,6 +194,32 @@ namespace EF.Services.Service
 
             if (!string.IsNullOrEmpty(venue))
                 query = query.Where(x => x.Venue.Contains(venue));
+
+            if (!string.IsNullOrEmpty(schedule))
+            {
+                var currentDate = DateTime.Now.Date;
+                var archiveDate = currentDate.AddDays(-30);
+                switch (schedule)
+                {
+                    case "0":
+                        {
+                            query = query.Where(x => DbFunctions.TruncateTime(x.EndDate.Value) < archiveDate);
+                            break;
+                        }
+                    case "1":
+                        {
+                            query = query.Where(x => DbFunctions.TruncateTime(x.StartDate.Value) <= currentDate && DbFunctions.TruncateTime(x.EndDate.Value) >= currentDate);
+                            break;
+                        }
+                    case "2":
+                        {
+                            query = query.Where(x => DbFunctions.TruncateTime(x.StartDate.Value) >= currentDate);
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
 
             query = query.Where(n => n.IsApproved && !n.IsDeleted).OrderByDescending(n => n.ModifiedOn);
 

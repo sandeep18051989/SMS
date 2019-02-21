@@ -1,0 +1,199 @@
+﻿@model SMS.Models.Widgets.NewsWidgetModel
+@using EF.Services;
+@using EF.Services.Http;
+@using EF.Services.Service;
+@{
+    ViewBag.Title = (!String.IsNullOrEmpty(Model.ShortName) ? Model.ShortName : "News");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+    var school = EF.Core.ContextHelper.Current.Resolve<ISMSService>().GetAllSchools(true).FirstOrDefault();
+}
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.SystemName)
+    <div class="row-fluid">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+    <div class="row-fluid">
+        <h1 class="text-center dark-grey-text pb-3 mt-5 pt-5 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+            <strong>@(Model.ShortName.ToUpper())</strong>
+        </h1>
+    </div>
+    <div class="row-fluid">
+        <hr class="my-5">
+        <div class="container">
+            <div class="row mb-2 mt-1">
+                <div class="col-md-12">
+                    <div class="view">
+                        <img src="@(Model.DefaultPictureSrc)" class="img-fluid z-depth-1 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4 pt-3">
+                <div class="col-lg-9 col-12 mt-1">
+                    <section class="extra-margins pb-5 text-lg-left">
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <h4 class="font-weight-bold wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                                    <strong>@(Model.ShortName)</strong>
+                                </h4>
+                                <hr>
+                                @Html.Raw("<p class='dark-grey-text mb-3 mt-4 mx-4 wow fadeIn' data-wow-delay='0.2s' style='visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;'>" + Model.Description + "</p>")
+                            </div>
+                        </div>
+                        <hr />
+                        @if (Model.Comments.Count > 0)
+                        {
+                            <section>
+                                <!--Main wrapper-->
+                                <div class="comments-list text-center text-md-left">
+                                    <div class="text-center my-5">
+                                        <h3 class="font-weight-bold">
+                                            Comments
+                                            <span class="badge indigo">@(Model.Comments.Count)</span>
+                                        </h3>
+                                    </div>
+                                    @foreach (var comment in Model.Comments)
+                                    {
+                                        <div class="row mb-5">
+                                            <div class="col-sm-2 col-12 mb-3">
+                                                <img src="@(!string.IsNullOrEmpty(comment.ProfilePictureSrc) ? (comment.ProfilePictureSrc) : (basePath + "Content/images/noimage.png"))" class="avatar rounded-circle z-depth-1-half" alt="@(comment.Username)">
+                                            </div>
+                                            <div class="col-sm-10 col-12">
+                                                <a>
+                                                    <h5 class="user-name font-weight-bold">@(comment.Username)</h5>
+                                                </a>
+                                                <div class="card-data">
+                                                    <ul class="list-unstyled">
+                                                        <li class="comment-date font-small">
+                                                            <i class="fa fa-clock-o"></i> @CodeHelper.TimeAgo(comment.CreatedOn.Value)
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                @Html.Raw("<p class='dark-grey-text article'>" + comment.CommentHtml + "</p>")
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </section>
+                            <hr />
+                        }
+                    </section>
+                    <section class="mb-4 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                        <h3 class="font-weight-bold text-center my-5">Leave a comment</h3>
+                        @if (Model.IsAuthenticated)
+                        {
+                            <div class="row">
+                                <div class="col-12 mt-1">
+                                    <div class="form-group basic-textarea rounded-corners shadow-textarea">
+                                        <textarea class="form-control" id="txtcomment" name="txtcomment" rows="5" placeholder="Write Your Comments Here..."></textarea>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-grey btn-sm waves-effect waves-light">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.Partial("~/Views/User/AddUserWidget.cshtml", new SMS.Models.UserModel());
+                            <div class="row text-left">
+                                <div class="col">
+                                    <div class="md-form mt-0 mb-4">
+                                        <textarea class="form-control md-textarea" id="txtcomment" tabindex="5" name="txtcomment" rows="5"></textarea>
+                                        <label for="txtcomment">Write Your Comment...</label>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-grey btn-sm waves-effect waves-light">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </section>
+                </div>
+                <!--Main listing-->
+                <!--Sidebar-->
+                <div class="col-lg-3 col-12 mt-1 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+                    <!--Card-->
+                    @if (Model.User != null && Model.User.ProfilePicture != null)
+                    {
+                        <div class="card">
+                            <!--Card image-->
+                            <div class="view overlay">
+                                @if (!string.IsNullOrEmpty(Model.User.ProfilePicture.PictureSrc))
+                                {
+                                    <img src="@(Model.User.ProfilePicture.PictureSrc)" class="card-img-top" alt="@(Model.User.Username)">
+                                }
+                                else
+                                {
+                                    <img src="~/Content/images/noimage.png" class="card-img-top" alt="Profile Picture Does Not Exist">
+                                }
+                                <a>
+                                    <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title dark-grey-text text-center grey lighten-4 py-2">
+                                    <strong>Correspondent :</strong>
+                                    @(!string.IsNullOrEmpty(Model.User.FirstName) ? Model.User.FirstName : "")@(!string.IsNullOrEmpty(Model.User.LastName) ? (" " + Model.User.LastName) : Model.User.Email)
+                                </h5>
+                                @if (Model.IsStudent || Model.IsTeacher)
+                                {
+                                    <ul class="list-unstyled list-inline-item circle-icons list-unstyled flex-center">
+                                        <!--Facebook-->
+                                        <li>
+                                            <a href="@(Model.IsStudent ? Model.Student.FacebookLink : Model.Teacher.FacebookLink)" target="_blank" class="fb-ic">
+                                                <i class="fab fa-facebook-f"> </i>
+                                            </a>
+                                        </li>
+                                        <!--Twitter-->
+                                        <li>
+                                            <a href="@(Model.IsStudent ? Model.Student.TweeterLink : Model.Teacher.TweeterLink)" target="_blank" class="tw-ic">
+                                                <i class="fab fa-twitter mx-3"> </i>
+                                            </a>
+                                        </li>
+                                        <!--Google +-->
+                                        <li>
+                                            <a href="@(Model.IsStudent ? Model.Student.GooglePlusLink : Model.Teacher.GooglePlusLink)" target="_blank" class="gplus-ic">
+                                                <i class="fab fa-google-plus-g"> </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                }
+                            </div>
+                            <!--/.Card content-->
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr class="my-5" />
+            <h3 class="font-weight-bold pb-2 text-center">
+                <strong>Gallery</strong>
+            </h3>
+            <div class="row gallery" id="gallery">
+                @foreach (var pic in Model.Pictures)
+                {
+                    <div class="mb-3 pics animation all 2">
+                        <img class="img-fluid" src="@(pic.Picture.Url)" alt="@(pic.News.ShortName)">
+                    </div>
+                }
+                @*<div class="mb-3 pics animation all 1">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg" alt="Card image cap">
+                    </div>
+                    <div class="mb-3 pics animation all 1">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain2.jpg" alt="Card image cap">
+                    </div>
+                    <div class="mb-3 pics animation all 2">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg" alt="Card image cap">
+                    </div>
+                    <div class="mb-3 pics animation all 2">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg" alt="Card image cap">
+                    </div>
+                    <div class="mb-3 pics animation all 1">
+                        <img class="img-fluid" src="https://mdbootstrap.com/img/Photos/Vertical/mountain3.jpg" alt="Card image cap">
+                    </div>*@
+            </div>
+        </div>
+    </div>
+}

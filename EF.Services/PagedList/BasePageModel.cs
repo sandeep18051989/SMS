@@ -54,7 +54,11 @@ namespace EF.Services
         public int ProductCategoryId { get; set; }
         public string Subject { get; set; }
         public string Venue { get; set; }
+        public string Author { get; set; }
+        public string EventSchedule { get; set; }
         public int UserId { get; set; }
+
+        public int NewsStatusId { get; set; }
         public string ProductSubCategoryId { get; set; }
 
         #endregion

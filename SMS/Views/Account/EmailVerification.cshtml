@@ -1,0 +1,39 @@
+﻿@model SMS.Models.VerificationModel
+@using EF.Services;
+@using EF.Services.Http;
+@using EF.Services.Service;
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_OneColumnLayout.cshtml";
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+    var school = EF.Core.ContextHelper.Current.Resolve<ISMSService>().GetAllSchools(true).FirstOrDefault();
+}
+<div class="row">
+    <div id="login-form-wrapper" class="col-md-6 offset-md-3 mt-8">
+        @using (Html.BeginForm("EmailVerification", "Account", new { Area = "" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "verification-form" }))
+        {
+            <div class="card wow fadeIn" data-wow-delay="0.3s">
+                <div class="card-body">
+                    <div class="form-header green-gradient">
+                        <h3><i class="fa fa-user mt-2 mb-2"></i>&nbsp;User Email Verification</h3>
+                    </div>
+                    @if (Model.Success)
+                    {
+                        <div class="alert alert-danger">
+                            @Html.Raw(Model.Message)
+                        </div>
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(Model.Message))
+                        {
+                            <div class="alert alert-danger">
+                                @Html.Raw(Model.Message)
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

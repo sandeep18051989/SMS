@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using MVCEncrypt;
 using EF.Core;
 using EF.Core.Data;
-using EF.Core.Enums;
 using EF.Services;
 using EF.Services.Http;
 using EF.Services.Service;
 using SMS.Models;
+using EF.Core.Enums;
+using System.Collections.Generic;
 
 namespace SMS.Controllers
 {
@@ -64,10 +65,10 @@ namespace SMS.Controllers
                 var newUser = new User()
                 {
                     CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
                     IsActive = true,
                     IsApproved = false,
                     IsDeleted = false,
-                    ModifiedOn = DateTime.Now,
                     Password = model.Password,
                     UserName = model.Email,
                     FirstName = model.FirstName,
@@ -90,15 +91,13 @@ namespace SMS.Controllers
 
                 _userService.Insert(newUser);
 
-                // Get Email Settings for Use
-                var _settings = _settingService.GetSettingsByType(SettingTypeEnum.EmailSetting);
-
+                var verificationLink = Url.ActionEnc("VerificationUrl", "EmailVerification", new { email = newUser.Email, code = newUser.UserGuid });
                 // Send Notification To The Admin
-                //var setting = _settingService.GetSettingByKey("FromEmail");
-                //if (!String.IsNullOrEmpty(setting.Value))
-                //    _emailService.SendUserRegistrationMessage(newUser);
+                var setting = _settingService.GetSettingByKey("FromEmail");
+                if (!String.IsNullOrEmpty(setting.Value))
+                    _emailService.SendUserEmailVerificationMessage(newUser, verificationLink);
 
-                SuccessNotification("Your registration is successful, But needs approval from the admin. We will get back to you shortly.");
+                SuccessNotification("You Are Registered Successfully. Please Check Your Inbox For Verification.");
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
@@ -239,137 +238,44 @@ namespace SMS.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(ForgotPasswordModel model)
         {
-            var _User = _userService.GetUserByUsername(model.name);
-            if (_User != null)
+            if (string.IsNullOrEmpty(model.Emailaddress))
             {
-                //var _userInfo = _userInfoService.GetUserInformationByUserId(_User.Id);
-                //if (_userInfo != null)
-                //{
-                //    if (!String.IsNullOrEmpty(_userInfo.Email))
-                //    {
-                //        // Get Forgot Password Template
-                //        var configSetting = _settingService.GetSettingsByType(SettingTypeEnum.ConfigurationSetting);
-                //        if (configSetting.Count > 0)
-                //        {
-                //            var templateName = configSetting.FirstOrDefault(x => x.Name.Trim().ToLower() == "forgotpasswordtemplate").Value;
-                //            if (!String.IsNullOrEmpty(templateName))
-                //            {
-                //                var _templateContent = _templateService.GetTemplateByName(templateName);
-                //                if (_templateContent != null)
-                //                {
-                //                    var _lstTokens = new List<DataToken>();
-                //                    _templateService.AddUserTokens(_lstTokens, _User);
+                model.Success = false;
+                model.Message = "Please enter a valid email address.";
+                return View(model);
+            }
 
-                //                    if (_lstTokens.Count > 0)
-                //                    {
-                //                        foreach (DataToken userdt in _lstTokens)
-                //                        {
-                //                            _templateContent.BodyHtml = EF.Services.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + userdt.SystemName + "]", userdt.Value, StringComparison.InvariantCulture);
-                //                        }
-                //                    }
+            var user = _userService.GetUserByEmail(model.Emailaddress);
+            if (user != null)
+            {
+                // Get Forgot Password Template
+                var configSetting = _settingService.GetSettingByKey("ForgotTemplate");
+                if (configSetting != null)
+                {
+                    var templateName = configSetting.Value;
+                    var template = _templateService.GetTemplateByName(templateName);
+                    if (template != null)
+                    {
+                        var _lstTokens = template.Tokens.ToList();
+                        _templateService.AddUserTokens(_lstTokens, user);
 
-                //                    foreach (var dt in _templateService.GetAllDataTokensByTemplate(_templateContent.Id).Where(x => x.IsActive).ToList())
-                //                    {
-                //                        _templateContent.BodyHtml = EF.Services.CodeHelper.Replace(_templateContent.BodyHtml.ToString(), "[" + dt.SystemName + "]", dt.Value, StringComparison.InvariantCulture);
-                //                    }
-
-                //                    _emailService.SendMail(_userInfo.Email, "Artery Labs:Password Request", _templateContent != null ? _templateContent.BodyHtml : "Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
-                //                    SuccessNotification("A mail has been sent to your account email address with your password.");
-                //                }
-                //            }
-                //        }
-                //        else
-                //        {
-                //            ErrorNotification("Configuration Template setting not available, contact administratorSS.");
-                //        }
-                //    }
-                //    else
-                //    {
-                //        ErrorNotification("Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
-                //    }
-                //}
-                //else
-                //{
-                //    ErrorNotification("Username does not exist or You haven't an updated email address. Please write to us using complaint link.");
-                //}
-
+                        string passwordLink = Url.ActionEnc("ForgotPassword", "ResetPassword", new { @email = user.Email, @code = user.UserGuid.ToString(), @isreset = false });
+                        _emailService.SendUserForgotPasswordMessage(user, passwordLink);
+                        SuccessNotification("A password change request has been sent on your email address. Please follow instructions written in the mail.");
+                    }
+                }
+                else
+                {
+                    ErrorNotification("Configuration Template setting not available, contact administrator.");
+                }
             }
 
             return RedirectToAction("Login");
         }
 
         #region User Information
-
-        //public ActionResult MyAccount()
-        //{
-        //	if (_userContext.CurrentUser == null)
-        //		return LogOff();
-
-        //	var model = new UserInfoModel();
-        //	var _userinfo = _userInfoService.GetUserInformationByUserId(_userContext.CurrentUser.Id);
-
-        //	if (_userinfo != null)
-        //	{
-        //		model.AddressLine1 = !String.IsNullOrEmpty(_userinfo.AddressLine1) ? _userinfo.AddressLine1 : "";
-        //		model.AddressLine2 = !String.IsNullOrEmpty(_userinfo.AddressLine2) ? _userinfo.AddressLine2 : "";
-        //		model.BriefIntroduction = !String.IsNullOrEmpty(_userinfo.BriefIntroduction) ? _userinfo.BriefIntroduction : "";
-        //		model.CityId = _userinfo.CityId;
-        //		model.CoverPictureId = _userinfo.CoverPictureId;
-        //		model.Email = !String.IsNullOrEmpty(_userinfo.Email) ? _userinfo.Email.Trim().ToLower() : "";
-        //		model.FirstName = !String.IsNullOrEmpty(_userinfo.FirstName) ? _userinfo.FirstName : "";
-        //		model.Hobbies = !String.IsNullOrEmpty(_userinfo.Hobbies) ? _userinfo.Hobbies : "";
-        //		model.IsEmailVerified = _userinfo.IsEmailVerified;
-        //		model.IsPhoneVerified = _userinfo.IsPhoneVerified;
-        //		model.LastName = !String.IsNullOrEmpty(_userinfo.LastName) ? _userinfo.LastName : "";
-        //		model.Phone = !String.IsNullOrEmpty(_userinfo.Phone) ? _userinfo.Phone : "";
-        //		model.ProfilePictureId = _userinfo.ProfilePictureId;
-        //		model.Street = !String.IsNullOrEmpty(_userinfo.Street) ? _userinfo.Street : "";
-        //		model.Id = _userinfo.Id;
-        //		model.FacebookLink = !String.IsNullOrEmpty(_userinfo.FacebookLink) ? _userinfo.FacebookLink : "";
-        //		model.FreelancerLink = !String.IsNullOrEmpty(_userinfo.FreelancerLink) ? _userinfo.FreelancerLink : "";
-        //		model.GooglePlusLink = !String.IsNullOrEmpty(_userinfo.GooglePlusLink) ? _userinfo.GooglePlusLink : "";
-        //		model.GuruLink = !String.IsNullOrEmpty(_userinfo.GuruLink) ? _userinfo.GuruLink : "";
-        //		model.Hi5Link = !String.IsNullOrEmpty(_userinfo.Hi5Link) ? _userinfo.Hi5Link : "";
-        //		model.InstagramLink = !String.IsNullOrEmpty(_userinfo.InstagramLink) ? _userinfo.InstagramLink : "";
-        //		model.LinkedInLink = !String.IsNullOrEmpty(_userinfo.LinkedInLink) ? _userinfo.LinkedInLink : "";
-        //		model.PInterestLink = !String.IsNullOrEmpty(_userinfo.PInterestLink) ? _userinfo.PInterestLink : "";
-        //		model.TweeterLink = !String.IsNullOrEmpty(_userinfo.TweeterLink) ? _userinfo.TweeterLink : "";
-        //		model.UpworkLink = !String.IsNullOrEmpty(_userinfo.UpworkLink) ? _userinfo.UpworkLink : "";
-
-        //		// Get User Activities
-        //		model.Activities = _auditService.GetAllAuditsByUser(_userinfo.UserId.ToString()).AsEnumerable().Select(x => new AuditModel()
-        //		{
-        //			AuditLogId = x.AuditLogId,
-        //			EventDateUTC = x.EventDateUTC,
-        //			EventType = x.EventType,
-        //			LogDetails = x.LogDetails.GroupBy(d => d.AuditLogId).Select(d => d.First()).Take(10).ToList(),
-        //			Metadata = x.Metadata.ToList(),
-        //			RecordId = x.RecordId,
-        //			TypeFullName = x.TypeFullName,
-        //			EntityName = GetEntityName(x),
-        //		}).ToList();
-
-        //		model.Activities = model.Activities.GroupBy(x => x.EntityName).Select(x => x.FirstOrDefault()).Take(10).ToList();
-
-        //		// Get User Events
-        //		model.EventsUploadedList = _eventService.GetAllEventsByUser(_userinfo.UserId).AsEnumerable().OrderByDescending(x => x.CreatedOn).Take(10).ToList();
-
-        //		// Get User Comments
-        //		model.CommentsList = _commentService.GetCommentsByUser(_userinfo.UserId).Take(10).ToList();
-
-        //		// Get User Blogs
-        //		model.BlogsUploadedList = _blogService.GetBlogsByUser(_userinfo.UserId).Take(10).ToList();
-
-        //		// Get User Products
-        //		model.ProductsUploadedList = _productService.GetAllProductByUser(_userinfo.UserId).Take(5).ToList();
-        //		model.user = _userContext.CurrentUser;
-        //	}
-
-        //	return View(model);
-        //}
 
         public JsonResult CheckEmailExists(string Email)
         {
@@ -379,40 +285,6 @@ namespace SMS.Controllers
         public JsonResult CheckUsernameExists(string Username)
         {
             return Json(!_userService.CheckUsernameExists(Username), JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult EditMyAccount(int id)
-        {
-            if (id == 0 || _userContext.CurrentUser == null)
-                return RedirectToAction("Login");
-
-            if (_userContext.CurrentUser.Id != id && _userContext.CurrentUser.Roles.Any(x => x.Id != 1))
-                return LogOff();
-
-            var model = new UserInfoModel();
-            //var _userinfo = _userInfoService.GetUserInformationByUserId(id);
-
-            //if (_userinfo != null)
-            //{
-            //	model.AddressLine1 = _userinfo.AddressLine1;
-            //	model.AddressLine2 = _userinfo.AddressLine2;
-            //	model.BriefIntroduction = _userinfo.BriefIntroduction;
-            //	model.CityId = _userinfo.CityId;
-            //	model.CoverPictureId = _userinfo.CoverPictureId;
-            //	model.Email = _userinfo.Email;
-            //	model.FirstName = _userinfo.FirstName;
-            //	model.Hobbies = _userinfo.Hobbies;
-            //	model.IsEmailVerified = _userinfo.IsEmailVerified;
-            //	model.IsPhoneVerified = _userinfo.IsPhoneVerified;
-            //	model.LastName = _userinfo.LastName;
-            //	model.Phone = _userinfo.Phone;
-            //	model.ProfilePictureId = _userinfo.ProfilePictureId;
-            //	model.Street = _userinfo.Street;
-            //	model.Id = _userinfo.Id;
-            //	model.user = _userContext.CurrentUser;
-            //}
-
-            return View(model);
         }
 
         public string GetEntityName(TrackerEnabledDbContext.Common.Models.AuditLog log)
@@ -435,42 +307,128 @@ namespace SMS.Controllers
             return "";
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditMyAccount(UserInfoModel model)
+        public ActionResult EmailVerification(string email, Guid code)
         {
-            if (_userContext.CurrentUser == null)
-                return LogOff();
+            var model = new VerificationModel();
 
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(email))
             {
-                //var _userinfo = _userInfoService.GetUserInformationByUserId(model.Id);
-
-                //if (_userinfo != null)
-                //{
-                //	_userinfo.AddressLine1 = model.AddressLine1;
-                //	_userinfo.AddressLine2 = model.AddressLine2;
-                //	_userinfo.BriefIntroduction = model.BriefIntroduction;
-                //	_userinfo.CityId = model.CityId;
-                //	_userinfo.CoverPictureId = model.CoverPictureId;
-                //	_userinfo.Email = model.Email;
-                //	_userinfo.FirstName = model.FirstName;
-                //	_userinfo.Hobbies = model.Hobbies;
-                //	_userinfo.IsEmailVerified = model.IsEmailVerified;
-                //	_userinfo.IsPhoneVerified = model.IsPhoneVerified;
-                //	_userinfo.LastName = model.LastName;
-                //	_userinfo.Phone = model.Phone;
-                //	_userinfo.ProfilePictureId = model.ProfilePictureId;
-                //	_userinfo.Street = model.Street;
-                //	_userinfo.UserId = _userContext.CurrentUser.Id;
-                //	_userinfo.user = _userContext.CurrentUser;
-                //	_userInfoService.Update(_userinfo);
-                //}
-
-                return RedirectToAction("MyAccount");
+                model.Success = false;
+                model.Message = "User Email Does Not Exists In Our Records!";
+                return View(model);
             }
 
-            return View(model);
+            if (string.IsNullOrEmpty(code.ToString()))
+            {
+                model.Success = false;
+                model.Message = "User Identification Not Met, Please Contact Support!";
+                return View(model);
+            }
+
+            var registeredUser = _userService.GetUserByEmail(email);
+            if (registeredUser == null)
+            {
+                model.Success = false;
+                model.Message = "User Email Does Not Exists In Our Records!";
+                return View(model);
+            }
+            else
+            {
+                if (registeredUser.UserGuid.ToString() != code.ToString())
+                {
+                    model.Success = false;
+                    model.Message = "User Identification Not Met, Please Contact Support!";
+                    return View(model);
+                }
+                else if (registeredUser.IsApproved)
+                {
+                    model.Success = false;
+                    model.Message = "Email address already verified! You can directly login&nbsp;<a title='Login' href='/Account/Login'><u>here</u></a>&nbsp;";
+                    return View(model);
+                }
+                else
+                {
+                    registeredUser.IsApproved = true;
+                    _userService.Update(registeredUser);
+                    model.Success = true;
+                    model.Message = "Email address successfully verified! Click&nbsp;<a title='Login' href='/Account/Login'><u>here</u></a>&nbsp;to login.";
+                    return View(model);
+                }
+            }
+        }
+
+        public ActionResult ResetPassword(string email, Guid code, bool isreset)
+        {
+            var model = new ResetPasswordModel();
+            model.IsReset = isreset;
+            model.EmailAddress = email;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                model.Success = false;
+                model.Message = "User Email Does Not Exists In Our Records!";
+                return View(model);
+            }
+
+            if (string.IsNullOrEmpty(code.ToString()))
+            {
+                model.Success = false;
+                model.Message = "User Identification Not Met, Please Contact Support!";
+                return View(model);
+            }
+
+            var registeredUser = _userService.GetUserByEmail(email);
+            if (registeredUser == null)
+            {
+                model.Success = false;
+                model.Message = "User Email Does Not Exists In Our Records!";
+                return View(model);
+            }
+            else
+            {
+                if (registeredUser.UserGuid.ToString() != code.ToString())
+                {
+                    model.Success = false;
+                    model.Message = "User Identification Not Met, Please Contact Support!";
+                    return View(model);
+                }
+                else
+                {
+                    model.Success = true;
+                    model.Message = "";
+                    return View(model);
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            var user = _userService.GetUserByEmail(model.EmailAddress);
+            if (user != null)
+            {
+                // Get Forgot Password Template
+                var configSetting = _settingService.GetSettingByKey("ResetPassword");
+                if (configSetting != null)
+                {
+                    var templateName = configSetting.Value;
+                    var template = _templateService.GetTemplateByName(templateName);
+                    if (template != null)
+                    {
+                        var _lstTokens = template.Tokens.ToList();
+                        _templateService.AddUserTokens(_lstTokens, user);
+
+                        _emailService.SendUserPasswordChangedMessage(user);
+                        SuccessNotification("Password successfully changed.");
+                    }
+                }
+                else
+                {
+                    ErrorNotification("Configuration Template setting not available, contact administrator.");
+                }
+            }
+
+            return RedirectToAction("Login");
         }
 
         #endregion

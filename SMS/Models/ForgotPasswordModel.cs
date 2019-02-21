@@ -10,6 +10,8 @@ namespace SMS.Models
 {
 	public class ForgotPasswordModel : BaseEntityModel
 	{
-		public string name { get; set; }
-	}
+		public string Emailaddress { get; set; }
+        public bool Success { get; set; }
+        public string Message { get; set; }
+    }
 }
