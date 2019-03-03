@@ -112,3 +112,4 @@ E:\My Documents\Training Projects\Sms\EF.Facebook\EntityFramework.xml
 E:\My Documents\Training Projects\Sms\EF.Facebook\Org.Mentalis.Security.Cryptography.xml
 E:\My Documents\Training Projects\Sms\EF.Facebook\System.ValueTuple.xml
 E:\My Documents\Training Projects\Sms\EF.Facebook\Mono.Math.xml
+E:\My Documents\Training Projects\Sms\EF.Facebook\Autofac.pdb

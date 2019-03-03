@@ -19,10 +19,10 @@
     var clientId = "picture" + random;
 }
 <div class="row-fluid">
-    <div style="width:100px !important;height:100px !important;margin-left: 4%;">
+    <div id="picture-preview" class="text-center">
         <div class="md-form">
             <div class="file-field upload-preview">
-                <div id="@(clientId + "image")" class="@(Model)-uploaded-image mb-4">
+                <div id="@(clientId + "image")" class="@(Model)-uploaded-image mb-2">
                     <img src="@(pictureSrc)" class="img-fluid" alt="" />
                 </div>
                 @if (Model > 0)
@@ -41,8 +41,8 @@
     @Html.HiddenFor(x => x, new { @data_element=clientId })
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <div id="@clientId" class="upload-image-button uploader pull-left margin-t-5">
+    <div class="col-md-12 text-center">
+        <div id="@clientId" class="upload-image-button uploader margin-t-5">
             <noscript>
                 <p>Please enable JavaScript to use file uploader.</p>
             </noscript>

@@ -1,20 +1,24 @@
 ﻿@model SMS.Models.SliderModel
+@using EF.Services.Http;
+@{
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+}
 <div class="panel-group">
-	@if (Model.Id > 0)
-	{
-		<div class="panel panel-default">
-			<div class="panel-body table-responsive">
-				<table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="sliderpictures-grid">
-					<thead class="mdb-color lighten-5">
-						<tr>
-							<th>&nbsp;</th>
-							<th>Caption</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
-				<script type="text/javascript">
+    @if (Model.Id > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body table-responsive">
+                <table class="table table-bordered custom-table" style="width: 100% !important;" cellpadding="0" cellspacing="0" id="sliderpictures-grid">
+                    <thead class="mdb-color lighten-5">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Caption</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <script type="text/javascript">
                     $(document).ready(function() {
                         // Initiallize Datatable
                         $('#sliderpictures-grid').DataTable({
@@ -126,9 +130,15 @@
                                         url: "@(Url.Action("SliderPictureAdd", "Slider"))",
                                         data: postData,
                                         success: function(data, result) {
-														 $('.uploader').fineUploader('reset');
-														 $("button[data-resource='picture']").attr("disabled", true);
-														 $('#sliderpictures-grid').DataTable().ajax.reload();
+                                            $('.uploader').fineUploader('reset');
+                                            $("button[data-resource='picture']").attr("disabled", true);
+                                            var fieldId = $("#@(Html.IdFor(m => m.PictureId))").data('element');
+                                            if(fieldId != null && fieldId !== ""){
+                                                $("#" + fieldId + "image").html("<img class='img-fluid' alt='' src='@(basePath)Content/images/image-placeholder100x100.jpg'/>");
+                                                $("#" + fieldId + "remove").hide();
+                                            }
+
+                                            $('#sliderpictures-grid').DataTable().ajax.reload();
                                             setTimeout(function() {
                                                 $.gritter.add({
                                                     title: "Success",
@@ -293,24 +303,24 @@
                                 }
                             });
                     });
-				</script>
-				@Html.EditorFor(model => model.PictureId)
-				@Html.ValidationMessageFor(model => model.PictureId)
-				&nbsp;
-			</div>
-			<div class="panel-footer">
-				<button type="button" id="addPicture" data-resource="picture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Slider</button>
-			</div>
-		</div>
-	}
-	else
-	{
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="alert alert-info" role="alert">
-					<strong>Heads up!</strong> Please save slider first to upload picture.
-				</div>
-			</div>
-		</div>
-	}
+                </script>
+                @Html.EditorFor(model => model.PictureId)
+                @Html.ValidationMessageFor(model => model.PictureId)
+                &nbsp;
+            </div>
+            <div class="panel-footer">
+                <button type="button" id="addPicture" data-resource="picture" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Add Picture To Slider</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="alert alert-info" role="alert">
+                    <strong>Heads up!</strong> Please save slider first to upload picture.
+                </div>
+            </div>
+        </div>
+    }
 </div>

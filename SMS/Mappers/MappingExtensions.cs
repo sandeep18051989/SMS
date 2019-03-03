@@ -1498,11 +1498,30 @@ namespace SMS.Mappers
 			return model.MapTo(destination);
 		}
 
-		#endregion
+        #endregion
 
-		#region User Role
+        #region Edit User
 
-		public static RoleModel ToModel(this UserRole entity)
+        public static AdminUserModel ToAdminModel(this User entity)
+        {
+            return entity.MapTo<User, AdminUserModel>();
+        }
+
+        public static User ToEntity(this AdminUserModel model)
+        {
+            return model.MapTo<AdminUserModel, User>();
+        }
+
+        public static User ToEntity(this AdminUserModel model, User destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region User Role
+
+        public static RoleModel ToModel(this UserRole entity)
 		{
 			return entity.MapTo<UserRole, RoleModel>();
 		}

@@ -1,67 +1,16 @@
-﻿@model IEnumerable<SMS.Models.ProductModel>
+﻿@model SMS.Models.Widgets.ProductListWidgetModel
 @using EF.Services.Http;
 @{
-	var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
-	var basePath = urlHelperService.GetLocation(false);
+    var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+    var basePath = urlHelperService.GetLocation(false);
 }
-<div class="showcase block block-border-bottom-grey">
-	<div class="container">
-		<h2 class="block-title">
-			Products
-		</h2>
-		<div id="productCarousel" class="carousel slide">
-			@*<ol class="carousel-indicators">
-					@if (Model.ToList().Count > 0)
-					{
-						foreach (var prod in Model.ToList())
-						{
-							int index = Model.OrderByDescending(p => p.ProductId).ToList().IndexOf(prod);
-							<li data-target="#productCarousel" data-slide-to="@index"></li>
-						}
-					}
-				</ol>*@
-			<!-- Carousel items -->
-			<div class="carousel-inner carousel-wrapper-outer">
-				@if (Model.ToList().Count > 0)
-				{
-					for (int i = 0; i <= Model.ToList().Count() / 4; i++)
-					{
-						<div class="item @(i==0 ? "active" : "" )">
-							@foreach (var product in Model.ToList().Skip(i * 4).Take(4))
-							{
-								<div class="row">
-									<div class="col-md-12">
-
-										@if (product.pictures.ToList().Count > 0)
-										{
-											var picture = product.pictures.FirstOrDefault();
-											<a href="/Product/Detail/@product.Url" class="overlay-wrapper">
-												<img title="@product.Name" class="img-responsive underlay" src="@picture.Url" alt="@picture.AlternateText" />
-												<span class="overlay">
-													<span class="overlay-content"><span class="h4">@product.Name</span> </span>
-												</span>
-											</a>
-										}
-
-										<div class="item-details bg-noise">
-											<h4 class="item-title">
-												<a href="/Product/Detail/@product.Url">@product.Name</a>
-											</h4>
-											<a href="/Product/Detail/@product.Url" class="btn btn-more"><i class="fa fa-plus"></i>Read more</a>
-										</div>
-									</div>
-								</div>
-							}
-						</div>
-					}
-					<div class="owl-controls clickable">
-						<div class="owl-buttons">
-							<a data-slide="prev" href="#productCarousel" class="left carousel-control owl-prev"></a>
-							<a data-slide="next" href="#productCarousel" class="right carousel-control owl-next"></a>
-						</div>
-					</div>
-				}
-			</div><!--.carousel-inner-->
-		</div><!--.Carousel-->
-	</div>
+<h5 style="text-align:left;" class="py-5">PRODUCTS</h5>
+<div class="row text-left hover-content">
+    @foreach (var product in Model.Products.Take(4))
+    {
+        <div class="col-lg-3 col-md-6 mb-4">
+            @Html.Partial("_ProductTile", product)
+        </div>
+    }
+    <a href="@Url.Action("List", "Product", new { @Area="" })" class="btn btn-sm btn-outline-info btn-view-all text-black-50 pull-right"><b>VIEW ALL</b></a>
 </div>

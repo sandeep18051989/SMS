@@ -4,7 +4,9 @@
     tinyMCE.init({
         selector: "#@(Html.IdFor(m => m))",
         mode: "textareas",
-        theme: "modern",
+        theme: "silver",
+        force_p_newlines: false,
+        forced_root_block: '',
         plugins: ["placeholder", "code"]
     });
     tinymce.init({

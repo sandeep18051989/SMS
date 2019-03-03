@@ -136,7 +136,7 @@
                     "className": 'text-center',
                     "render": function (data, type, row) {
                         if (type === "display") {
-                            return '<a href="/Admin/Assessment/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="/Admin/Assessment/AssessmentQuestions?id=' + row.Id + '" title="Add/Update Questions"><i class="fa fa-2x fa-question-circle" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="/Admin/Assessment/AssessmentStudents?id=' + row.Id + '" title="Add/Update Students"><i class="fa fa-2x fa-users" aria-hidden="true"></i></a>';
+                            return '<a href="/Admin/Assessment/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="/Admin/Assessment/AssessmentQuestions?id=' + row.Id + '" title="Add/Update Questions"><i class="fa fa-2x fa-question-circle" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="/Admin/Assessment/AssessmentStudents?id=' + row.Id + '" title="Add/Update Students"><i class="fa fa-2x fa-users" aria-hidden="true"></i></a>';
                         }
                         return data;
                     },

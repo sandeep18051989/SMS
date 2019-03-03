@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.0.0-1 (2019-02-04)
+ */
 (function () {
 var visualchars = (function () {
     'use strict';
@@ -245,7 +253,7 @@ var visualchars = (function () {
       div.innerHTML = html;
       if (!div.hasChildNodes() || div.childNodes.length > 1) {
         console.error('HTML does not have a single root node', html);
-        throw 'HTML must have a single root node';
+        throw new Error('HTML must have a single root node');
       }
       return fromDom(div.childNodes[0]);
     };
@@ -260,8 +268,9 @@ var visualchars = (function () {
       return fromDom(node);
     };
     var fromDom = function (node) {
-      if (node === null || node === undefined)
+      if (node === null || node === undefined) {
         throw new Error('Node cannot be null or undefined');
+      }
       return { dom: constant(node) };
     };
     var fromPoint = function (docElm, x, y) {
@@ -412,36 +421,56 @@ var visualchars = (function () {
     };
     var Keyboard = { setup: setup };
 
-    var toggleActiveState = function (editor) {
-      return function (e) {
-        var ctrl = e.control;
-        editor.on('VisualChars', function (e) {
-          ctrl.active(e.state);
-        });
+    var isEnabledByDefault = function (editor) {
+      return editor.getParam('visualchars_default_state', false);
+    };
+    var Settings = { isEnabledByDefault: isEnabledByDefault };
+
+    var setup$1 = function (editor, toggleState) {
+      editor.on('init', function () {
+        var valueForToggling = !Settings.isEnabledByDefault(editor);
+        toggleState.set(valueForToggling);
+        Actions.toggleVisualChars(editor, toggleState);
+      });
+    };
+    var Bindings = { setup: setup$1 };
+
+    var toggleActiveState = function (editor, enabledStated) {
+      return function (api) {
+        api.setActive(enabledStated.get());
+        var editorEventCallback = function (e) {
+          return api.setActive(e.state);
+        };
+        editor.on('VisualChars', editorEventCallback);
+        return function () {
+          return editor.off('VisualChars', editorEventCallback);
+        };
       };
     };
-    var register$1 = function (editor) {
-      editor.addButton('visualchars', {
-        active: false,
-        title: 'Show invisible characters',
-        cmd: 'mceVisualChars',
-        onPostRender: toggleActiveState(editor)
+    var register$1 = function (editor, toggleState) {
+      editor.ui.registry.addToggleButton('visualchars', {
+        tooltip: 'Show invisible characters',
+        icon: 'paragraph',
+        onAction: function () {
+          return editor.execCommand('mceVisualChars');
+        },
+        onSetup: toggleActiveState(editor, toggleState)
       });
-      editor.addMenuItem('visualchars', {
+      editor.ui.registry.addToggleMenuItem('visualchars', {
         text: 'Show invisible characters',
-        cmd: 'mceVisualChars',
-        onPostRender: toggleActiveState(editor),
-        selectable: true,
-        context: 'view',
-        prependToContext: true
+        onAction: function () {
+          return editor.execCommand('mceVisualChars');
+        },
+        onSetup: toggleActiveState(editor, toggleState)
       });
     };
 
     global.add('visualchars', function (editor) {
       var toggleState = Cell(false);
       Commands.register(editor, toggleState);
-      register$1(editor);
+      register$1(editor, toggleState);
       Keyboard.setup(editor, toggleState);
+      Bindings.setup(editor, toggleState);
       return Api.get(toggleState);
     });
     function Plugin () {

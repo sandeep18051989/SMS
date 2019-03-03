@@ -132,7 +132,7 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageUsers"))
 				return AccessDeniedView();
 
-			var model = new UserModel();
+			var model = new AdminUserModel();
 			if (id == 0)
 				throw new Exception("User Id Missing");
 
@@ -142,78 +142,85 @@ namespace SMS.Areas.Admin.Controllers
 			var user = _userService.GetUserById(id);
 			if (user != null)
 			{
-				model = new UserModel
-				{
-					Id = id,
-					IsActive = user.IsActive,
-					CreatedOn = user.CreatedOn,
-					IsApproved = user.IsApproved,
-					ChangePassword = new ChangePasswordModel() { Id = user.Id, OldPassword = user.Password },
-					AvailableRoles = _roleService.GetAllRoles().Select(r => new RoleModel()
-					{
-						Id = r.Id,
-						IsActive = r.IsActive,
-						IsDeleted = r.IsDeleted,
-						IsSystemDefined = r.IsSystemDefined,
-						RoleName = r.RoleName,
-					}).ToList(),
-					Username = user.UserName,
-					Email = user.Email,
-					UserGuid = user.UserGuid,
-					ModifiedOn = user.ModifiedOn
-				};
-			}
+                model = user.ToAdminModel();
+                model.ChangePassword.OldPassword = user.Password;
+                model.SelectedRoleIds = user.Roles.Select(x => x.Id).ToArray();
+            }
 
-			return View(model);
+            model.AvailableRoles = _roleService.GetAllRoles().Select(x => new RoleModel()
+            {
+                Id = x.Id,
+                IsActive = x.IsActive,
+                IsSystemDefined = x.IsSystemDefined,
+                RoleName = x.RoleName
+            }).ToList();
+
+            return View(model);
 		}
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		[ValidateInput(false)]
-		public ActionResult Edit(UserModel model, FormCollection frm)
-		{
-			if (!_permissionService.Authorize("ManageUsers"))
-				return AccessDeniedView();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Edit(AdminUserModel model, FormCollection frm)
+        {
+            if (!_permissionService.Authorize("ManageUsers"))
+                return AccessDeniedView();
 
-			// Check for duplicate user, if any
-			var allActiveUsers = _userService.GetAllUsers(true, false);
+            if (_userService.CheckUsernameExists(model.Username, model.Id))
+                ModelState.AddModelError("UserName", "A User with the same name already exists. Please choose a different name.");
 
-			if (allActiveUsers.Any(u => u.UserName == model.Username && u.Id != model.Id))
-				ModelState.AddModelError("UserName", "A User with the same name already exists. Please choose a different name.");
+            if (_userService.CheckEmailExists(model.Email, model.Id))
+                ModelState.AddModelError("Email", "A User with the same emailaddress already exists. Please choose a different email address.");
 
-			var user = _userService.GetUserById(model.Id);
+            var user = _userService.GetUserById(model.Id);
+            if (ModelState.IsValid)
+            {
+                var availableRoles = _roleService.GetAllRoles();
+                if (user != null)
+                {
+                    user = model.ToEntity(user);
+                    user.ModifiedOn = DateTime.Now;
+                    user.Password = model.Password;
 
-			if (ModelState.IsValid)
-			{
-				var availableRoles = _roleService.GetAllRoles();
-				if (user != null && availableRoles.Count > 0)
-				{
-					user.UserName = model.Username;
-					user.IsActive = model.IsActive;
-					user.ModifiedOn = DateTime.Now;
+                    if (model.SelectedRoleIds.Length > 0)
+                    {
+                        user.Roles.Clear();
+                        foreach (var id in model.SelectedRoleIds)
+                        {
+                            var assignedRole = _roleService.GetRoleById(id);
+                            if (assignedRole != null)
+                            {
+                                user.Roles.Add(assignedRole);
+                            }
+                        }
+                        _userService.Update(user);
 
-					if (frm.Keys.Count > 0)
-					{
-						user.Roles.Clear();
-						foreach (string key in frm.AllKeys.Where(x => availableRoles.Any(r => r.RoleName == x)).ToList())
-						{
-							var assignedRole = availableRoles.FirstOrDefault(ar => ar.RoleName == key);
-							if (assignedRole != null)
-							{
-								user.Roles.Add(assignedRole);
-							}
-						}
-						_userService.Update(user);
+                    }
+                    else
+                    {
+                        user.Roles.Clear();
+                        _userService.Update(user);
+                    }
+                }
+                else
+                {
+                    return View(model);
+                }
+            }
+            else
+            {
+                model.AvailableRoles = _roleService.GetAllRoles().Select(x => new RoleModel()
+                {
+                    Id = x.Id,
+                    IsActive = x.IsActive,
+                    IsSystemDefined = x.IsSystemDefined,
+                    RoleName = x.RoleName
+                }).ToList();
+                return View(model);
+            }
 
-					}
-				}
-				else
-				{
-					return View(model);
-				}
-			}
 
-			SuccessNotification("User updated successfully.");
+            SuccessNotification("User updated successfully.");
 			return RedirectToAction("List");
 		}
 
@@ -242,33 +249,21 @@ namespace SMS.Areas.Admin.Controllers
 			if (!_permissionService.Authorize("ManageUsers"))
 				return AccessDeniedView();
 
-			// Check for duplicate user, if any
+            // Check for duplicate user, if any
+            if (_userService.CheckUsernameExists(model.Username))
+                ModelState.AddModelError("UserName", "A User with the same name already exists. Please choose a different name.");
 
-			var userbyname = _userService.GetUserByUsername(model.Username);
-			if (userbyname != null)
-				ModelState.AddModelError("UserName", "Username already exists. Please choose a different name.");
+            if (_userService.CheckEmailExists(model.Username))
+                ModelState.AddModelError("Email", "A User with the same emailaddress already exists. Please choose a different email address.");
 
-			var userbyemail = _userService.GetUserByEmail(model.Email);
-			if (userbyemail != null)
-				ModelState.AddModelError("UserName", "Email address already exists. Please choose a different email address.");
-
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
 			{
-				var newUser = new User()
-				{
-					CreatedOn = DateTime.Now,
-					IsActive = model.IsActive,
-					ModifiedOn = DateTime.Now,
-					UserName = model.Username,
-					IsDeleted = false,
-					UserGuid = new Guid(),
-					IsApproved = model.IsApproved,
-					Email = model.Email,
-					Password = model.Password,
-					UserId = _userContext.CurrentUser.Id
-				};
+                var newUser = model.ToEntity();
+                newUser.ModifiedOn = newUser.CreatedOn = DateTime.Now;
+                newUser.UserGuid = new Guid();
+                newUser.UserId = _userContext.CurrentUser.Id;
 
-				if (model.SelectedRoleIds.Length > 0)
+                if (model.SelectedRoleIds.Length > 0)
 				{
 					foreach (var id in model.SelectedRoleIds)
 					{
@@ -480,9 +475,19 @@ namespace SMS.Areas.Admin.Controllers
 					ErrorNotification("Password does not match, Please enter your current password.");
 					return RedirectToAction("Edit", new { @id = model.Id });
 				}
-				else
+                else if (model.NewPassword.Trim().ToLower() != model.ConfirmNewPassword.Trim().ToLower())
+                {
+                    ErrorNotification("Passwords does not match, password and confirm password must match!");
+                    return RedirectToAction("Edit", new { @id = model.Id });
+                }
+                else if (_User.Password.Trim().ToLower() == model.OldPassword.Trim().ToLower())
+                {
+                    ErrorNotification("New Password cannot be same as old password!");
+                    return RedirectToAction("Edit", new { @id = model.Id });
+                }
+                else
 				{
-					_User.Password = model.Password.Trim();
+					_User.Password = model.NewPassword.Trim();
 					_userService.Update(_User);
 					SuccessNotification("Password Changed Successfully.");
 				}

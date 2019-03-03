@@ -595,7 +595,7 @@ namespace SMS.Areas.Admin.Controllers
 			if (_user != null)
 			{
 				model.adminUserModel.UserId = _user.UserId;
-				model.adminUserModel.UserName = _user.UserName;
+				model.adminUserModel.Username = _user.UserName;
 			}
 
 			return View("~/Areas/Admin/Views/Shared/_Links.cshtml", model);

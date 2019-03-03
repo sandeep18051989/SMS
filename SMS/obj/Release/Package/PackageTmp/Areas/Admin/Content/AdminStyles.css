@@ -7253,3 +7253,5 @@ a.link:hover, a.link:focus {
   .mini-sidebar .sidebar-nav #sidebarnav > li:hover > a {
     background: #1c2128; } }
 .app-search > div.waves-effect{width:100%;display:block;}
+.upload-preview{position:relative;}
+.upload-preview span[class*=-btn-remove-picture]{position:absolute;z-index:999;top:-20px;right:-15px;padding:1px 7px 2px 7px;}

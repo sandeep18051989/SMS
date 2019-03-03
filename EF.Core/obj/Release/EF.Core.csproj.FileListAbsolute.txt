@@ -64,3 +64,4 @@ E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.Razor.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.Deployment.xml
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\System.Web.WebPages.Razor.xml
+E:\My Documents\Training Projects\Sms\EF.Core\bin\Release\Autofac.pdb

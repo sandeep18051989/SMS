@@ -56,64 +56,205 @@
                             </ul>
                         </div>
                         <div class="tab-content card">
-                            <div class="tab-pane fade in show active" id="create-product" role="tabpanel">
+                            <div class="tab-pane fade in show active" id="create-event" role="tabpanel">
                                 <div class="row">
                                     <div class="col-md-12">
                                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="row text-left">
-                                    <div class="col-md-12 mb-4">
-                                        <div class="md-form">
-                                            <i class="fa fa-play-circle-o prefix"></i>
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "50" } })
-                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-md-10 mb-4">
-                                        <div class="md-form">
-                                            <i class="fa fa-html5 prefix"></i>
-                                            @Html.EditorFor(model => model.Description, "HtmlEditor.cshtml")
-                                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-md-12 mb-4">
-                                        <div class="md-form">
-                                            <i class="fa fa-link prefix"></i>
-                                            @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "3", @maxlength = "50" } })
-                                            @Html.LabelFor(model => model.SystemName, htmlAttributes: new { @class = "control-label" })
-                                            @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="md-form">
-                                            <i class="fa fa-file prefix"></i>
-                                            @Html.EditorFor(model => model.FileId, "File.cshtml")
-                                            @Html.ValidationMessageFor(model => model.FileId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-left">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="md-form">
-                                            @Html.DropDownListFor(model => model.VendorId, Model.AvailableVendors, "Select Vendor", new { @class = "mdb-select", @tabindex = "5", @title = "Select Vendor" })
-                                            @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
-                                    <div class="col-md-7 mb-4">
-                                        <input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" tabindex="6" @(Model.IsActive ? "checked=checked" : "") />
-                                        @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
-                                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                    <div class="col-md-12">
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @tabindex = "1", @maxlength = "50" } })
+                                                    @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Description, "HtmlEditor.cshtml")
+                                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.SystemName, new { htmlAttributes = new { @class = "form-control", @tabindex = "3", @maxlength = "50" } })
+                                                    @Html.LabelFor(model => model.SystemName, "System Name", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.SystemName, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    <span><i class="fa fa-file"></i>&nbsp;File</span>
+                                                    @Html.EditorFor(model => model.FileId, "File.cshtml")
+                                                    @Html.ValidationMessageFor(model => model.FileId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.VendorId, Model.AvailableVendors, "Select Vendor", new { @class = "mdb-select", @tabindex = "5", @title = "Select Vendor" })
+                                                    @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.DropDownListFor(model => model.AcadmicYearId, Model.AvailableAcadmicYears, new { @class = "mdb-select", @tabindex = "6", @title = "Select Acadmic Year" })
+                                                    @Html.ValidationMessageFor(model => model.AcadmicYearId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @tabindex = "7", @maxlength = "200" } })
+                                                    @Html.LabelFor(model => model.MetaTitle, "Meta Title", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.TextAreaFor(model => model.MetaDescription, new { @class = "md-textarea form-control", @tabindex = "8", @maxlength = "500", @rows = "3", @type = "text" })
+                                                    @Html.LabelFor(model => model.MetaDescription, "Meta Description", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.MetaKeywords, new { htmlAttributes = new { @class = "form-control", @tabindex = "9", @maxlength = "500" } })
+                                                    @Html.LabelFor(model => model.MetaKeywords, "Meta Keywords", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-12 mb-0">
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            <input type="checkbox" tabindex="10" id="IsUpcoming" name="IsUpcoming" value="@(Model.IsUpcoming ? "True" : "False")" @(Model.IsUpcoming ? "checked=checked" : "") />
+                                                            @Html.LabelFor(model => model.IsUpcoming, "Upcoming", htmlAttributes: new { })
+                                                            @Html.ValidationMessageFor(model => model.IsUpcoming, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="upcoming-product" @(Model.IsUpcoming ? "" : "style=display:none;") class="form-row">
+                                                    <div class="col">
+                                                        <div class="md-form start-date">
+                                                            <i class="fa fa-calendar prefix"></i>
+                                                            @Html.EditorFor(model => model.AvailableStartDate, "DateRange.cshtml")
+                                                            @Html.LabelFor(model => model.AvailableStartDate, "Start Date", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.AvailableStartDate, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form end-date">
+                                                            <i class="fa fa-calendar prefix"></i>
+                                                            @Html.EditorFor(model => model.AvailableEndDate, "DateRange.cshtml")
+                                                            @Html.LabelFor(model => model.AvailableEndDate, "End Date", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.AvailableEndDate, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-12 mb-4">
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <div class="md-form">
+                                                            <input type="checkbox" tabindex="13" id="MarkAsNew" name="MarkAsNew" value="@(Model.MarkAsNew ? "True" : "False")" @(Model.MarkAsNew ? "checked=checked" : "") />
+                                                            @Html.LabelFor(model => model.MarkAsNew, "Mark As New", htmlAttributes: new { })
+                                                            @Html.ValidationMessageFor(model => model.MarkAsNew, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="mark-new-product" @(Model.MarkAsNew ? "" : "style=display:none;") class="form-row">
+                                                    <div class="col">
+                                                        <div class="md-form new-start-date">
+                                                            <i class="fa fa-calendar prefix"></i>
+                                                            @Html.EditorFor(model => model.MarkAsNewStartDate, "DateRange.cshtml")
+                                                            @Html.LabelFor(model => model.MarkAsNewStartDate, "Start Date", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.MarkAsNewStartDate, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="md-form new-end-date">
+                                                            <i class="fa fa-calendar prefix"></i>
+                                                            @Html.EditorFor(model => model.MarkAsNewEndDate, "DateRange.cshtml")
+                                                            @Html.LabelFor(model => model.MarkAsNewEndDate, "End Date", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.ValidationMessageFor(model => model.MarkAsNewEndDate, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @class = "form-control", @tabindex = "16", @maxlength = "10", @type = "number" } })
+                                                    @Html.LabelFor(model => model.BasePrice, "Base Price", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.OldPrice, new { htmlAttributes = new { @class = "form-control", @tabindex = "17", @maxlength = "10", @type = "number" } })
+                                                    @Html.LabelFor(model => model.OldPrice, "Old Price", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.OldPrice, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @tabindex = "18", @maxlength = "10", @type = "number" } })
+                                                    @Html.LabelFor(model => model.Price, "Price", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-left">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="md-form">
+                                                    @Html.EditorFor(model => model.StockQuantity, new { htmlAttributes = new { @class = "form-control", @tabindex = "19", @maxlength = "10", @type = "number" } })
+                                                    @Html.LabelFor(model => model.StockQuantity, "In Stock Quantity", htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-7 mb-4">
+                                                <input type="checkbox" id="DisableBuyButton" name="DisableBuyButton" value="@(Model.DisableBuyButton ? "True" : "False")" tabindex="20" @(Model.DisableBuyButton ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.DisableBuyButton, "Disable Buy Button", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.DisableBuyButton, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-7 mb-4">
+                                                <input type="checkbox" id="IsActive" name="IsActive" value="@(Model.IsActive ? "True" : "False")" tabindex="21" @(Model.IsActive ? "checked=checked" : "") />
+                                                @Html.LabelFor(model => model.IsActive, "Active", htmlAttributes: new { })
+                                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +266,8 @@
                             </div>
                         </div>
                     </div>
-                </div>}
+                </div>
+            }
         </section>
     </div>
 </div>
@@ -133,13 +275,25 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("li#products ul").css("height", "");
+
+        // Get the elements
+        var from_input = $('.start-date input[type=text]').pickadate(),
+			from_picker = from_input.pickadate('picker');
+        var to_input = $('.end-date input[type=text]').pickadate(),
+			to_picker = to_input.pickadate('picker');
+
+        // Get the elements
+        var from_input1 = $('.new-start-date input[type=text]').pickadate(),
+			from_picker1 = from_input1.pickadate('picker');
+        var to_input1 = $('.new-end-date input[type=text]').pickadate(),
+			to_picker1 = to_input1.pickadate('picker');
+
         if ($("#IsActive").val() == "True") {
             $("#IsActive").attr('checked', true).val(true);
         }
         else {
             $("#IsActive").attr('checked', false).val(false);
         }
-
         $("#IsActive").change(function () {
             if ($(this).prop('checked')) {
                 $(this).attr('checked', true).val(true);
@@ -148,6 +302,117 @@
                 $(this).attr('checked', false).val(false);
             }
         });
+
+        if ($("#DisableBuyButton").val() == "True") {
+            $("#DisableBuyButton").attr('checked', true).val(true);
+        }
+        else {
+            $("#DisableBuyButton").attr('checked', false).val(false);
+        }
+        $("#DisableBuyButton").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
+
+        if ($("#IsUpcoming").val() === "True") {
+            $("#IsUpcoming").prop('checked', true);
+        }
+        else {
+            $("#IsUpcoming").prop('checked', false);
+        }
+
+        $("#IsUpcoming").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', true).val(true);
+                $("#upcoming-product").show();
+            }
+            else {
+                $(this).prop('checked', false).val(false);
+                $("#upcoming-product").hide();
+                from_picker.set("select", "");
+                to_picker.set("select", "");
+                $("#AvailableStartDate").val("");
+                $("#AvailableEndDate").val("");
+            }
+        });
+
+        if ($("#MarkAsNew").val() === "True") {
+            $("#MarkAsNew").prop('checked', true);
+        }
+        else {
+            $("#MarkAsNew").prop('checked', false);
+        }
+
+        $("#MarkAsNew").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).prop('checked', true).val(true);
+                $("#mark-new-product").show();
+            }
+            else {
+                $(this).prop('checked', false).val(false);
+                $("#mark-new-product").hide();
+                from_picker1.set("select", "");
+                to_picker1.set("select", "");
+                $("#MarkAsNewStartDate").val("");
+                $("#MarkAsNewEndDate").val("");
+            }
+        });
+
+
+
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        if (from_picker.get('value')) {
+            to_picker.set('min', from_picker.get('select'));
+        }
+        if (to_picker.get('value')) {
+            from_picker.set('max', to_picker.get('select'));
+        }
+
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        from_picker.on('set',
+			function (event) {
+			    if (event.select) {
+			        to_picker.set('min', from_picker.get('select'));
+			    } else if ('clear' in event) {
+			        to_picker.set('min', false);
+			    }
+			});
+        to_picker.on('set',
+			function (event) {
+			    if (event.select) {
+			        from_picker.set('max', to_picker.get('select'));
+			    } else if ('clear' in event) {
+			        from_picker.set('max', false);
+			    }
+			});
+
+        if (from_picker1.get('value')) {
+            to_picker1.set('min', from_picker1.get('select'));
+        }
+        if (to_picker1.get('value')) {
+            from_picker1.set('max', to_picker1.get('select'));
+        }
+
+        from_picker1.on('set',
+			function (event) {
+			    if (event.select) {
+			        to_picker1.set('min', from_picker1.get('select'));
+			    } else if ('clear' in event) {
+			        to_picker1.set('min', false);
+			    }
+			});
+        to_picker1.on('set',
+			function (event) {
+			    if (event.select) {
+			        from_picker1.set('max', to_picker1.get('select'));
+			    } else if ('clear' in event) {
+			        from_picker1.set('max', false);
+			    }
+			});
 
         $('#SystemName').on('input propertychange paste', function () {
             var parameters = {
@@ -159,3 +424,4 @@
         });
     });
 </script>
+

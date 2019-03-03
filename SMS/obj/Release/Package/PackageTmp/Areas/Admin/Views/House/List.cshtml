@@ -31,7 +31,8 @@
                             <table cellspacing="0" class="table display table-striped w-auto text-nowrap custom-table" style="width: 100% !important;">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">&nbsp;&nbsp;</th>
+                                        <th class="text-center"><div class="form-check"><input type="checkbox" id="allcheck" value="allcheck" /><label for="allcheck"></label></div></th>
+                                        <th class="text-center">&nbsp;</th>
                                         <th class="text-center">Picture</th>
                                         <th class="text-center">Name</th>
                                         <th class="text-center">Active</th>
@@ -51,7 +52,7 @@
     $(document).ready(function () {
         $("li#houses ul").css("height", "");
         // Initiallize Datatable
-        $('.custom-table').DataTable({
+        var table = $('.custom-table').DataTable({
             "processing": true, // for show progress bar
             "serverSide": true, // for process server side
             "filter": true, // this is for disable filter (search box)
@@ -65,6 +66,20 @@
             },
             "aaSorting": [],
             "columns": [
+                {
+                    'searchable': false,
+                    "title": "",
+                    "data": "",
+                    "render": function (data, type, row) {
+                        if (type === "display") {
+                            return '<div class="form-check"><input type="checkbox" name="selectedids" class="form-check-input" id="' + row.Id + '"><label class="form-check-label" for="' + row.Id + '"></label></div>';
+                        }
+                        return data;
+                    },
+                    "orderable": false,
+                    "className": 'text-center',
+                    "defaultContent": ""
+                },
                 {
                     'searchable': false,
                     "title": "",
@@ -105,13 +120,13 @@
                                     row.Id +
                                     '" data-operation="deactivate" data-id="' +
                                     row.Id +
-                                    '" title="Deactivate ClassRoom"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
+                                    '" title="Deactivate House"><i class="fa fa-2x fa-check-circle" aria-hidden="true"></i></a>';
 				            } else {
 				                return '<a href="javascript:void(0);" id="' + row.Id + '" class="toggle_' +
                                     row.Id +
                                     '" data-operation="activate" data-id="' +
                                     row.Id +
-                                    '" title="Activate ClassRoom"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
+                                    '" title="Activate House"><i class="fa fa-2x fa-close" aria-hidden="true"></i></a>';
 				            }
 				        }
 				        return data;
@@ -153,6 +168,28 @@
                     tr.addClass('shown');
                 }
             });
+
+        $('#allcheck').on('click', function () {
+            var rows = table.rows({ 'search': 'applied' }).nodes();
+            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+        });
+        $('.custom-table tbody').on('change', 'input[type="checkbox"]', function () {
+            if (!this.checked) {
+                var el = $('#allcheck').get(0);
+                if (el && el.checked && ('indeterminate' in el)) {
+                    el.indeterminate = true;
+                }
+            }
+        });
+
+        $("input[name=selectedids]").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+            }
+        });
 
         $(document).on("click","a[class^='toggle_']", function (e) {
             if (confirm("Are you sure, you want to update status for the selected house?")) {
@@ -208,7 +245,7 @@
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
             '<tr>' +
             '<td colspan="2">Description</td>' +
-            '<td style="white-space: pre-wrap;" colspan="3"><span class="log-trace">' + d.Description + '</span></td>' +
+            '<td style="white-space: pre-wrap;" colspan="4"><span class="log-trace">' + d.Description + '</span></td>' +
             '</tr>' +
             '<tr>' +
             '</tr>' +

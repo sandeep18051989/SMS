@@ -26,16 +26,14 @@
 
 @foreach (var message in successMessages)
 {
-    <div class="alert alert-success alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <div class="alert alert-success alert-dismissable notify" role="alert">
         @message
     </div>
 }
 
 @foreach (var message in errorMessages)
 {
-    <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <div class="alert alert-danger alert-dismissable notify" role="alert">
         @message
     </div>
 }

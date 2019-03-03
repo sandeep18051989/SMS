@@ -161,7 +161,7 @@
                                     "render": function (data, type, row) {
                                         if (type === "display") {
                                             var htmlTemplate = '';
-                                            htmlTemplate += '<a href="/User/Edit?id=' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
+                                            htmlTemplate += '<a href="/Admin/User/Edit/' + row.Id + '" id="edit_' + row.Id + '" title="Edit"><i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i></a>';
                                             return htmlTemplate;
                                         }
                                         return data;

@@ -9,10 +9,10 @@ namespace SMS.Models
 	public class ChangePasswordModel : BaseEntityModel
 	{
 		[DataType(DataType.Password)]
-		public string Password { get; set; }
+		public string NewPassword { get; set; }
 
 		[DataType(DataType.Password)]
-		public string ConfirmPassword { get; set; }
+		public string ConfirmNewPassword { get; set; }
 
 		[DataType(DataType.Password)]
 		public string OldPassword { get; set; }

@@ -1,0 +1,45 @@
+﻿@using EF.Services.Http;
+<!DOCTYPE html>
+<html style="height:100%;">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta name="description" content="SMS" />
+    <meta name="author" content="Sandeep Kumar" />
+    <title>@ViewBag.Title</title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/home")
+    @Styles.Render("~/Content/fo")
+    @Styles.Render("~/Content/icons")
+    @Styles.Render("~/Content/jqueryuicss")
+    @Styles.Render("~/Content/boot")
+    @Styles.Render("~/Content/mdb")
+    @Styles.Render("~/Content/common")
+    @{
+        var urlHelperService = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>();
+        var basePath = urlHelperService.GetLocation(false);
+    }
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="~/Scripts/html5shiv.js"></script>
+        <script src="~/Scripts/respond.min.js"></script>
+        <script src="~/Scripts/excanvas.min.js"></script>
+    <![endif]-->
+</head>
+<body style="background-color:#4caf50;">
+    <header class="container-fluid">
+        <div class="row">
+            @Html.Partial("Notifications")
+        </div>
+    </header>
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/Scripts/boot")
+    @Scripts.Render("~/Scripts/mdb")
+</body>
+</html>

@@ -1,79 +1,107 @@
 ﻿@model SMS.Models.ProductModel
+@using EF.Core;
+@using EF.Services;
+@using EF.Services.Http;
 @{
-	ViewBag.Title = "Product Detail";
-	Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    ViewBag.Title = "Product Detail";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    var urlHelperService = ContextHelper.Current.Resolve<IUrlHelper>();
+    var basePath = urlHelperService.GetLocation(false);
+    var userContext = ContextHelper.Current.Resolve<IUserContext>();
 }
-<div class="item-container main-content">
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<h3 class="page-header">@Model.Name</h3>
-		</div>
-	</div>
-	@if (TempData["Success"] != null)
-	{
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i>&nbsp;&nbsp;Comment/Reply Added Successfully.</div>
-			</div>
-		</div>
-	}
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12">
-			<div class="product">
-				<center class="thumbnail col-xs-12 col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4">
-					@if (Model.pictures != null && Model.pictures.Count > 0)
-					{
-						<img id="item-display" src="@Model.pictures.FirstOrDefault().Url.Replace("~/","../../")" alt="" />
-					}
-					else
-					{
-						<img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
-					}
-				</center>
-			</div>
-			<br />
-			<div class="panel panel-default">
-				<div class="panel-body">
-					@Html.Raw(Model.Description)
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="clearfix"></div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 product-file-section">
-			<div class="panel panel-info">
-				<div class="panel-heading"><h3 class="panel-h3" >DOCUMENTS</h3></div>
-				<div class="panel-body">
-					@if (Model.files != null && Model.files.Count > 0)
-					{
-						foreach (var fle in Model.files)
-						{
-							<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-								<a style="text-decoration:none;text-align:center;" href="@fle.Src" class="thumbnail">
-									<img style="max-width:100px;" src='../../Content/images/file.png' />
-									<p style="font-size:16px;font-weight:bold;" class="file-upload-date">Upoaded On - @fle.Date.Date.ToShortDateString()</p>
-								</a>
-							</div>
-						}
-					}
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 product-info">
-			<div class="pull-left" style="display:inline-block;">
-				<h3 style="font-family: 'Lato', sans-serif;">YOUR COMMENTS</h3>
-			</div>
-		</div>
-	</div>
-	<div class="clearfix"></div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			@Html.Action("GetComments", "Comment", new { id = Model.ProductId, type = "Product" })
-			@Html.Partial("~/Views/Comment/PostComment.cshtml", Model.postCommentModel)
-			<hr />
-		</div>
-	</div>
+<div class="row wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+    <div class="col-md-6 mb-4">
+        <img src="@(Model.DefaultPictureSrc)" class="img-fluid" alt="@(Model.Name)">
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="p-4">
+            <div class="mb-3">
+                <a href="@Url.RouteUrl("Product", new { name = Model.SystemName })">
+                    <span class="badge purple mr-1">@(Model.ProductCategory)</span>
+                </a>
+                <a href="@Url.RouteUrl("Product", new { name = Model.SystemName })">
+                    <span class="badge blue mr-1">New</span>
+                </a>
+                <a href="@Url.RouteUrl("Product", new { name = Model.SystemName })">
+                    <span class="badge red mr-1">Upcoming</span>
+                </a>
+            </div>
+            <p class="lead">
+                @if (Model.OldPrice.HasValue && Model.OldPrice.Value > 0 && Model.OldPrice > Model.Price)
+                {
+                    <span class="mr-1">
+                        <del>@(Model.OldPrice.Value.ToString("f2"))</del>
+                    </span>
+                }
+                <span>@(Model.Price.ToString("f2"))</span>
+            </p>
+            <p class="lead font-weight-bold">Description</p>
+            @{ var description = (!string.IsNullOrEmpty(Model.Description) ? Model.Description.Length > 200 ? ("<p class='card-text white-text'>" + Model.Description.Substring(0, 200) + "...</p>") : ("<p class='card-text white-text'>" + Model.Description + "</p>") : ("")); }
+            @Html.Raw(description)
+            <form action="@(Url.Action("AddToCart", "Product", new { @id=Model.Id }))" class="d-flex justify-content-left add-to-cart-form" method="post">
+                <input type="number" readonly="readonly" value="1" aria-label="Search" class="form-control" style="width: 100px">
+                @if (!Model.DisableBuyButton)
+                {
+                    <button class="btn btn-primary btn-md my-0 p waves-effect waves-light" type="submit">
+                        Add to cart
+                        <i class="fa fa-shopping-cart ml-1"></i>
+                    </button>
+                }
+                <a id="reaction-@(Model.Id)" data-toggle="tooltip" class="submit-reaction" data-placement="top" title="Submit Reaction"><i class="fa fa-2x fa-heart"></i></a>
+            </form>
+        </div>
+    </div>
 </div>
+<hr>
+<div class="row d-flex justify-content-center wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+    <div class="col-md-12 text-center">
+        <h4 class="my-4 h4">Additional information</h4>
+        @Html.Raw(Model.Description)
+    </div>
+</div>
+@if (Model.RelatedProducts.Count > 0)
+{
+    <hr>
+    <div class="row wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+        <h4 class="my-4 h4">Related Products</h4>
+        @foreach (var product in Model.RelatedProducts.Take(3).ToList())
+        {
+            <div class="col-lg-4 col-md-12 mb-4">
+                <a href="@Url.RouteUrl("Product", new { name = Model.SystemName })" title="@(product.Name)" target="_blank">
+                    <img src="@(product.DefaultPictureSrc)" class="img-fluid" alt="@(product.Name)">
+                </a>
+            </div>
+        }
+    </div>
+}
+@if (Model.NewProducts.Count > 0)
+{
+    <hr>
+    <div class="row wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+        <h4 class="my-4 h4">New Products</h4>
+        @foreach (var product in Model.NewProducts.Take(3).ToList())
+        {
+            <div class="col-lg-4 col-md-12 mb-4">
+                <a href="@Url.RouteUrl("Product", new { name = Model.SystemName })" title="@(product.Name)" target="_blank">
+                    <img src="@(product.DefaultPictureSrc)" class="img-fluid" alt="@(product.Name)">
+                </a>
+            </div>
+        }
+    </div>
+}
+@if (Model.UpcomingProducts.Count > 0)
+{
+    <hr>
+    <div class="row wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+        <h4 class="my-4 h4">Upcoming Products</h4>
+        @foreach (var product in Model.UpcomingProducts.Take(3).ToList())
+        {
+            <div class="col-lg-4 col-md-12 mb-4">
+                <a href="@Url.RouteUrl("Product", new { name = Model.SystemName })" title="@(product.Name)" target="_blank">
+                    <img src="@(product.DefaultPictureSrc)" class="img-fluid" alt="@(product.Name)">
+                </a>
+            </div>
+        }
+    </div>
+}
+@Html.ReactionModal(buttonsSelector: "reaction-" + Model.Id, id: Model.Id, IsAuthenticated: userContext.CurrentUser != null, UserId: userContext.CurrentUser != null ? userContext.CurrentUser.Id : 0, IsProduct: true)

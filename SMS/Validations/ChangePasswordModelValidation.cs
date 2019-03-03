@@ -8,8 +8,8 @@ namespace SMS.Validations
 	{
 		public ChangePasswordModelValidator()
 		{
-			RuleFor(x => x.Password).NotEmpty().Length(8, 50).WithMessage("Invalid Password, Password must have 8 characters long");
-			RuleFor(x => x.ConfirmPassword).NotEmpty().Equal(x => x.Password).WithMessage("Both Passwords Must Match");
+			RuleFor(x => x.NewPassword).NotEmpty().Length(8, 50).When(x => x.Id > 0).WithMessage("Invalid Password, Password must have 8 characters long");
+			RuleFor(x => x.ConfirmNewPassword).NotEmpty().Equal(x => x.NewPassword).When(x => x.Id > 0).WithMessage("Both Passwords Must Match");
 		}
 	}
 }

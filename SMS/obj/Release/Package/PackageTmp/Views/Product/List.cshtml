@@ -1,62 +1,181 @@
-﻿@model IEnumerable<SMS.Models.ProductModel>
+﻿@model SMS.Models.Widgets.ProductListWidgetModel
+@using EF.Core;
+@using EF.Services;
+@using EF.Services.Http;
 @{
-	ViewBag.Title = "Product List";
-	Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    var urlHelperService = ContextHelper.Current.Resolve<IUrlHelper>
+    ();
+    var userContext = ContextHelper.Current.Resolve<IUserContext>
+        ();
+    var basePath = urlHelperService.GetLocation(false);
 }
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#main-menu li").removeClass('active');
-        $("#main-menu li:nth-child(2)").addClass('active');
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#list').click(function (event) { event.preventDefault(); $('#products .item').addClass('list-group-item'); });
-        $('#grid').click(function (event) { event.preventDefault(); $('#products .item').removeClass('list-group-item'); $('#products .item').addClass('grid-group-item'); });
-    });
-</script>
-<div class="item-container main-content">
-	<div class="row">
-		<div class="well well-sm lstpage">
-			<strong style="font-family: 'Lato', sans-serif;font-size:20px;">Products</strong>
-			@*<div class="btn-group">
-					 <a href="#" id="list" class="btn btn-default btn-sm">
-						  <span class="glyphicon glyphicon-th-list">
-						  </span>List
-					 </a> <a href="#" id="grid" class="btn btn-default btn-sm">
-						  <span class="glyphicon glyphicon-th"></span>Grid
-					 </a>
-				</div>*@
-		</div>
-		<div id="products" class="col-md-12 list-group lstpage">
-			@foreach (var pro in Model)
-			{
-			<div class="item  col-xs-3 col-lg-3">
-				<div style="border:0 !important;box-shadow:none !important;" class="thumbnail">
-					@if (pro.pictures.Count > 0)
-						{
-						<a href="@Url.Action("Detail", "Product", new { id = @pro.GenerateSlug() })" title="@pro.Name"><img class="group list-group-image" src="@pro.pictures.FirstOrDefault().Url" alt="@pro.Name" /></a>
-						}
-						else
-						{
-						<a href="@Url.Action("Detail", "Product", new { id = @pro.GenerateSlug() })" title="@pro.Name">
-							<img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
-						</a>
-						}
-					<div class="caption">
-						<a href="@Url.Action("Detail", "Product", new { id = @pro.GenerateSlug() , Area="" })" title="@pro.Name">
-							<h4 class="group inner list-group-item-heading">
-								@pro.Name
-							</h4>
-						</a>
-						<p class="group inner list-group-item-text">
-							@Html.Raw(pro.Description.Length > 200 ? pro.Description.Substring(0, 200) : pro.Description)
-						</p>
-					</div>
-				</div>
-			</div>
-			}
-		</div>
-	</div>
+<div class="row-fluid">
+    <h2 class="text-center dark-grey-text pb-2 mt-3 pt-3 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-name: fadeIn; animation-delay: 0.2s;">
+        <strong>PRODUCTS</strong>
+    </h2>
 </div>
+<form class="form-horizontal" id="product-list-form" method="post" action="@Url.Action(" List", "Product" , new { @Area="" })">
+    <div class="row">
+        <div class="col-md-12 pt-3 mb-4">
+            <div class="row">
+                <div class="col-md-12 form-inline pt-3 mb-4">
+                    <span style="font-size:14px;" class="navbar-brand">Categories:</span>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item mr-1 @(Model.PagingFilteringContext.ProductCategoryId == 0 ? " active" : "" )">
+                            @if (Model.PagingFilteringContext.ProductCategoryId == 0)
+                            {
+                                <button data-value="0" type="submit" class="btn btn-primary btn-sm btn-category-filter active waves-effect waves-light">
+                                    All
+                                    <span class="sr-only">(current)</span>
+                                </button>
+                            }
+                            else
+                            {
+                                <button data-value="0" type="submit" class="btn btn-primary btn-sm btn-category-filter waves-effect waves-light">
+                                    All
+                                    <span class="sr-only">(current)</span>
+                                </button>
+                            }
+                        </li>
+                        @foreach (var category in Model.ProductCategories)
+                        {
+                            <li class="nav-item mr-1 @((Model.PagingFilteringContext.ProductCategoryId > 0 && Model.PagingFilteringContext.ProductCategoryId == category.Id) ? " active" : "" )">
+                                @if (Model.PagingFilteringContext.ProductCategoryId > 0 && Model.PagingFilteringContext.ProductCategoryId == category.Id)
+                                {
+                                    <button data-value="@(category.Id)" type="submit" class="btn btn-primary btn-sm btn-category-filter active waves-effect waves-light">
+                                        @(category.Name)
+                                        <span class="sr-only">(current)</span>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button data-value="@(category.Id)" type="submit" class="btn btn-primary btn-sm btn-category-filter waves-effect waves-light">
+                                        @(category.Name)
+                                        <span class="sr-only">(current)</span>
+                                    </button>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    <div class="form-inline">
+                        <div class="md-form input-group col-md-12 my-0 p-relative">
+                            <input class="form-control no-special-char mr-sm-2" type="text" id="Keyword" placeholder="Search..." name="Keyword" aria-label="Search">
+                            <span class="input-group-append">
+                                <button disabled="disabled" class="btn btn-primary btn-sm btn-search" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <section class="text-center mb-4">
+            @if (Model.Products.Count > 0)
+            {
+                <div class="row wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card">
+                                <div class="view overlay">
+                                    @if (!string.IsNullOrEmpty(product.DefaultPictureSrc))
+                                    {
+                                        <img style="min-height:300px;max-height:300px;" src="@(product.DefaultPictureSrc)" class="card-img-top" alt="@(product.Name)">
+                                    }
+                                    else
+                                    {
+                                        <img style="min-height:300px;max-height:300px;" src="@(basePath)Content/Images/product-picture-not-available700x500.png" title="@product.Name" class="card-img-top" alt="@product.Name">
+                                    }
+                                    <a>
+                                        <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                    </a>
+                                </div>
+                                <div class="card-body text-center">
+                                    @{ var selectedProductCategory = Model.ProductCategories.FirstOrDefault(x => !string.IsNullOrEmpty(product.ProductCategory) && x.Name.Trim().ToLower() == product.ProductCategory.Trim().ToLower()); }
+                                    @if (selectedProductCategory != null)
+                                    {
+                                        <a href="@(Url.RouteUrl("ProductCategory", new { name=selectedProductCategory.SystemName }))" class="grey-text"><h5 style="min-height:30px;">@product.ProductCategory</h5></a>
+                                    }
+                                    else
+                                    {
+                                        <h5 style="min-height:30px;">
+                                            @product.ProductCategory
+                                        </h5>
+                                    }
+                                    <h5>
+                                        <strong>
+                                            <a href="" class="dark-grey-text">
+                                                @(product.Name)
+                                                @if (product.MarkAsNew && (!product.MarkAsNewStartDate.HasValue || (product.MarkAsNewStartDate.HasValue && product.MarkAsNewStartDate.Value.Date >= DateTime.Now.Date) && (product.MarkAsNewEndDate.HasValue && product.MarkAsNewEndDate.Value.Date <= DateTime.Now.Date)))
+                                                {
+                                                    <span class="badge badge-pill danger-color">NEW</span>
+                                                }
+                                            </a>
+                                        </strong>
+                                    </h5>
+                                    <h4 class="font-weight-bold blue-text">
+                                        <strong>@(product.Price.ToString("f2"))</strong>
+                                        @if (product.OldPrice.HasValue && product.OldPrice > 0 && product.OldPrice > product.Price)
+                                        {
+                                            <span style="text-decoration:line-through;" class="discount text-danger">@product.OldPrice.Value.ToString("f2")</span>
+                                        }
+                                    </h4>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="float-right reaction-cell">
+                                        <button title="Likes" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-heart text-dark"></i>&nbsp;<span class="badge badge-info ml-2">@(product.Reactions.Count(x => x.IsLike.HasValue && x.IsLike.Value))</span><span class="sr-only">Likes</span></button>
+                                        <button title="Dis-Likes" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-heart-broken text-dark"></i>&nbsp;<span class="badge badge-dark ml-2">@(product.Reactions.Count(x => x.IsDislike.HasValue && x.IsDislike.Value))</span><span class="sr-only">Dis-Likes</span></button>
+                                        <button title="Angry" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-angry text-dark"></i>&nbsp;<span class="badge badge-danger ml-2">@(product.Reactions.Count(x => x.IsAngry.HasValue && x.IsAngry.Value))</span><span class="sr-only">Angry</span></button>
+                                        <button title="Happy" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-happy text-dark"></i>&nbsp;<span class="badge badge-success ml-2">@(product.Reactions.Count(x => x.IsHappy.HasValue && x.IsHappy.Value))</span><span class="sr-only">Happy</span></button>
+                                        <button title="Sad" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-sad text-dark"></i>&nbsp;<span class="badge badge-light ml-2">@(product.Reactions.Count(x => x.IsSad.HasValue && x.IsSad.Value))</span><span class="sr-only">Sad</span></button>
+                                        <button title="LOL" type="button" class="btn-floating btn-sm bg-transparent"><i class="ti-grin text-dark"></i>&nbsp;<span class="badge badge-secondary ml-2">@(product.Reactions.Count(x => x.IsLol.HasValue && x.IsLol.Value))</span><span class="sr-only">Lol</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                        }
+                </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-info green-theme">No Products Found!</div>
+                                        }
+        </section>
+        <nav class="d-flex justify-content-center wow fadeIn" style="visibility: hidden; animation-name: none;">
+            @{
+                var pager = Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber");
+            }
+            @if (!pager.IsEmpty())
+            {
+                <div class="pager">
+                    @pager
+                </div>
+            }
+        </nav>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("keyup", "#Keyword", function () {
+            if ($(this).val() == null || $(this).val() === "") {
+                $(".btn-search").attr('disabled', true);
+            }
+            else {
+                $(".btn-search").removeAttr("disabled");
+            }
+        });
+
+        // btn-category-filter
+        $(document).on("click", ".btn-category-filter", function () {
+            var categorySelected = $(this).data('value');
+            var $form = $(this).closest('form');
+            $form.append('<input type="hidden" id="ProductCategoryId" name="ProductCategoryId" value="' + categorySelected + '" />');
+        });
+    });
+</script>

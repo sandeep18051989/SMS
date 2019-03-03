@@ -1202,6 +1202,18 @@ namespace SMS.Areas.Admin.Mappers
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.SocialRecords, mo => mo.Ignore());
 
+                cfg.CreateMap<User, AdminUserModel>()
+                   .ForMember(dest => dest.AvailableRoles, mo => mo.Ignore())
+                   .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                   .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                   .ForMember(dest => dest.ChangePassword, mo => mo.Ignore());
+                cfg.CreateMap<AdminUserModel, User>()
+                    .ForMember(dest => dest.News, mo => mo.Ignore())
+                    .ForMember(dest => dest.Roles, mo => mo.Ignore())
+                    .ForMember(dest => dest.ModifiedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.SocialRecords, mo => mo.Ignore());
+
                 cfg.CreateMap<Video, VideoModel>()
                     .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
                     .ForMember(dest => dest.UploadedBy, mo => mo.Ignore())

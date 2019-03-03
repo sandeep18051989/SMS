@@ -97,3 +97,4 @@ E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.ComponentMo
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.ComponentModel.Primitives.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.Web.Razor.dll
 E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\System.Web.Razor.xml
+E:\My Documents\Training Projects\Sms\EF.Services\bin\Release\Autofac.pdb

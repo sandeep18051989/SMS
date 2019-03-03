@@ -1,0 +1,368 @@
+﻿@model EF.Services.ConfirmationReactionModel
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header text-center">
+            <h4 id="@(Model.WindowId)-title" class="modal-title w-100 font-weight-bold">Submit Reaction</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @Html.AntiForgeryToken()
+        @if (Model.IsAuthenticated && Model.Reactions.Count > 0)
+        {
+            bool isLike = Model.Reactions.Any(x => x.IsLike.HasValue && x.IsLike.Value);
+            bool isDisLike = Model.Reactions.Any(x => x.IsDislike.HasValue && x.IsDislike.Value);
+            bool isAngry = Model.Reactions.Any(x => x.IsAngry.HasValue && x.IsAngry.Value);
+            bool isHappy = Model.Reactions.Any(x => x.IsHappy.HasValue && x.IsHappy.Value);
+            bool isSad = Model.Reactions.Any(x => x.IsSad.HasValue && x.IsSad.Value);
+            bool isLOL = Model.Reactions.Any(x => x.IsLOL.HasValue && x.IsLOL.Value);
+            int rating = Model.Reactions.Sum(x => x.Rating.HasValue ? x.Rating.Value : 0);
+            int avgRating = rating > 0 ? (rating / Model.Reactions.Count * 5) : 0;
+
+            using (Html.BeginForm(Model.ActionName, Model.ControllerName, new { }))
+            {
+                <input type="hidden" name="submitid_@(Model.Id)" id="submitid_@(Model.Id)" value="@(Model.Id)" />
+                <input type="hidden" name="submituserid_@(Model.Id)" id="submituserid_@(Model.Id)" value="@(Model.UserId)" />
+                <input type="hidden" name="submitreaction_@(Model.Id)" id="submitreaction_@(Model.Id)" value="" />
+                <input type="hidden" name="submitrating_@(Model.Id)" id="submitrating_@(Model.Id)" value="" />
+
+                <div class="modal-body mx-3">
+                    <div class="row text-left">
+                        <div class="col">
+                            <div class="md-form mt-0 mb-4">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col">
+                            <div class="md-form mt-0 mb-4">
+                                <textarea class="form-control md-textarea" id="txtcomment" tabindex="5" name="txtcomment" rows="5"></textarea>
+                                <label for="txtcomment">Write Your Comment...</label>
+                            </div>
+                        </div>
+                    </div>
+                    <ul id="reactionDiv@(Model.Id)" class="rating">
+                        @if (isLike)
+                        {
+                            <li data-value="like" class="active"><a class="reaction" href="javascript:void(0);"><i class="ti-heart"></i>&nbsp;</a></li>
+                            <li data-value="dislike"><a class="reaction" href="javascript:void(0);"><i class="ti-heart-broken"></i>&nbsp;</a></li>
+                            <li data-value="angry"><a class="reaction" href="javascript:void(0);"><i class="ti-angry"></i>&nbsp;</a></li>
+                            <li data-value="happy"><a class="reaction" href="javascript:void(0);"><i class="ti-happy"></i>&nbsp;</a></li>
+                            <li data-value="sad"><a class="reaction" href="javascript:void(0);"><i class="ti-sad"></i>&nbsp;</a></li>
+                            <li data-value="grin"><a class="reaction" href="javascript:void(0);"><i class="ti-grin"></i>&nbsp;</a></li>
+                        }
+                        else if (isDisLike)
+                        {
+                            <li data-value="like"><a class="reaction" href="javascript:void(0);"><i class="ti-heart"></i>&nbsp;</a></li>
+                            <li data-value="dislike" class="active"><a class="reaction" href="javascript:void(0);"><i class="ti-heart-broken"></i>&nbsp;</a></li>
+                            <li data-value="angry"><a class="reaction" href="javascript:void(0);"><i class="ti-angry"></i>&nbsp;</a></li>
+                            <li data-value="happy"><a class="reaction" href="javascript:void(0);"><i class="ti-happy"></i>&nbsp;</a></li>
+                            <li data-value="sad"><a class="reaction" href="javascript:void(0);"><i class="ti-sad"></i>&nbsp;</a></li>
+                            <li data-value="grin"><a class="reaction" href="javascript:void(0);"><i class="ti-grin"></i>&nbsp;</a></li>
+                        }
+                        else if (isAngry)
+                        {
+                            <li data-value="like"><a class="reaction" href="javascript:void(0);"><i class="ti-heart"></i>&nbsp;</a></li>
+                            <li data-value="dislike"><a class="reaction" href="javascript:void(0);"><i class="ti-heart-broken"></i>&nbsp;</a></li>
+                            <li data-value="angry" class="active"><a class="reaction" href="javascript:void(0);"><i class="ti-angry"></i>&nbsp;</a></li>
+                            <li data-value="happy"><a class="reaction" href="javascript:void(0);"><i class="ti-happy"></i>&nbsp;</a></li>
+                            <li data-value="sad"><a class="reaction" href="javascript:void(0);"><i class="ti-sad"></i>&nbsp;</a></li>
+                            <li data-value="grin"><a class="reaction" href="javascript:void(0);"><i class="ti-grin"></i>&nbsp;</a></li>
+                        }
+                        else if (isHappy)
+                        {
+                            <li data-value="like"><a class="reaction" href="javascript:void(0);"><i class="ti-heart"></i>&nbsp;</a></li>
+                            <li data-value="dislike"><a class="reaction" href="javascript:void(0);"><i class="ti-heart-broken"></i>&nbsp;</a></li>
+                            <li data-value="angry"><a class="reaction" href="javascript:void(0);"><i class="ti-angry"></i>&nbsp;</a></li>
+                            <li data-value="happy" class="active"><a class="reaction" href="javascript:void(0);"><i class="ti-happy"></i>&nbsp;</a></li>
+                            <li data-value="sad"><a class="reaction" href="javascript:void(0);"><i class="ti-sad"></i>&nbsp;</a></li>
+                            <li data-value="grin"><a class="reaction" href="javascript:void(0);"><i class="ti-grin"></i>&nbsp;</a></li>
+                        }
+                        else if (isSad)
+                        {
+                            <li data-value="like"><a class="reaction" href="javascript:void(0);"><i class="ti-heart"></i>&nbsp;</a></li>
+                            <li data-value="dislike"><a class="reaction" href="javascript:void(0);"><i class="ti-heart-broken"></i>&nbsp;</a></li>
+                            <li data-value="angry"><a class="reaction" href="javascript:void(0);"><i class="ti-angry"></i>&nbsp;</a></li>
+                            <li data-value="happy"><a class="reaction" href="javascript:void(0);"><i class="ti-happy"></i>&nbsp;</a></li>
+                            <li class="active"><a class="reaction" href="javascript:void(0);"><i class="ti-sad"></i>&nbsp;</a></li>
+                            <li data-value="grin"><a class="reaction" href="javascript:void(0);"><i class="ti-grin"></i>&nbsp;</a></li>
+                        }
+                        else if (isLOL)
+                        {
+                            <li data-value="like"><a class="reaction" href="javascript:void(0);"><i class="ti-heart"></i>&nbsp;</a></li>
+                            <li data-value="dislike"><a class="reaction" href="javascript:void(0);"><i class="ti-heart-broken"></i>&nbsp;</a></li>
+                            <li data-value="angry"><a class="reaction" href="javascript:void(0);"><i class="ti-angry"></i>&nbsp;</a></li>
+                            <li data-value="happy"><a class="reaction" href="javascript:void(0);"><i class="ti-happy"></i>&nbsp;</a></li>
+                            <li data-value="sad"><a class="reaction" href="javascript:void(0);"><i class="ti-sad"></i>&nbsp;</a></li>
+                            <li data-value="grin" class="active"><a class="reaction" href="javascript:void(0);"><i class="ti-grin"></i>&nbsp;</a></li>
+                        }
+                        else
+                        {
+                            <li data-value="like"><a class="reaction" href="javascript:void(0);"><i class="ti-heart"></i>&nbsp;</a></li>
+                            <li data-value="dislike"><a class="reaction" href="javascript:void(0);"><i class="ti-heart-broken"></i>&nbsp;</a></li>
+                            <li data-value="angry"><a class="reaction" href="javascript:void(0);"><i class="ti-angry"></i>&nbsp;</a></li>
+                            <li data-value="happy"><a class="reaction" href="javascript:void(0);"><i class="ti-happy"></i>&nbsp;</a></li>
+                            <li data-value="sad"><a class="reaction" href="javascript:void(0);"><i class="ti-sad"></i>&nbsp;</a></li>
+                            <li data-value="grin"><a class="reaction" href="javascript:void(0);"><i class="ti-grin"></i>&nbsp;</a></li>
+                        }
+                    </ul>
+                    <ul id="ratingDiv@(Model.Id)" class="rating">
+                        @if (avgRating > 0 && avgRating <= 20)
+                        {
+                            <li data-value="1" class="ratingStar active" title="Only 20%"><i class="ti-star-full"></i></li>
+                            <li data-value="2" class="ratingStar" title="Only 40%"><i class="ti-star-empty"></i></li>
+                            <li data-value="3" class="ratingStar" title="Only 60%"><i class="ti-star-full"></i></li>
+                            <li data-value="4" class="ratingStar" title="Only 80%"><i class="ti-star-empty"></i></li>
+                            <li data-value="5" class="ratingStar" title="100%"><i class="ti-star-empty"></i></li>
+                        }
+                        else if (avgRating > 20 && avgRating <= 40)
+                        {
+                            <li data-value="1" class="ratingStar active" title="Only 20%"><i class="ti-star-full"></i></li>
+                            <li data-value="2" class="ratingStar active" title="Only 40%"><i class="ti-star-full"></i></li>
+                            <li data-value="3" class="ratingStar" title="Only 60%"><i class="ti-star-full"></i></li>
+                            <li data-value="4" class="ratingStar" title="Only 80%"><i class="ti-star-empty"></i></li>
+                            <li data-value="5" class="ratingStar" title="100%"><i class="ti-star-empty"></i></li>
+                        }
+                        else if (avgRating > 40 && avgRating <= 60)
+                        {
+                            <li data-value="1" class="ratingStar active" title="Only 20%"><i class="ti-star-full"></i></li>
+                            <li data-value="2" class="ratingStar active" title="Only 40%"><i class="ti-star-full"></i></li>
+                            <li data-value="3" class="ratingStar active" title="Only 60%"><i class="ti-star-full"></i></li>
+                            <li data-value="4" class="ratingStar" title="Only 80%"><i class="ti-star-empty"></i></li>
+                            <li data-value="5" class="ratingStar" title="100%"><i class="ti-star-empty"></i></li>
+                        }
+                        else if (avgRating > 60 && avgRating <= 80)
+                        {
+                            <li data-value="1" class="ratingStar active" title="Only 20%"><i class="ti-star-full"></i></li>
+                            <li data-value="2" class="ratingStar active" title="Only 40%"><i class="ti-star-full"></i></li>
+                            <li data-value="3" class="ratingStar active" title="Only 60%"><i class="ti-star-full"></i></li>
+                            <li data-value="4" class="ratingStar active" title="Only 80%"><i class="ti-star-full"></i></li>
+                            <li data-value="5" class="ratingStar" title="100%"><i class="ti-star-empty"></i></li>
+                        }
+                        else if (avgRating > 80 && avgRating <= 100)
+                        {
+                            <li data-value="1" class="ratingStar active" title="Only 20%"><i class="ti-star-full"></i></li>
+                            <li data-value="2" class="ratingStar active" title="Only 40%"><i class="ti-star-full"></i></li>
+                            <li data-value="3" class="ratingStar active" title="Only 60%"><i class="ti-star-full"></i></li>
+                            <li data-value="4" class="ratingStar active" title="Only 80%"><i class="ti-star-full"></i></li>
+                            <li data-value="5" class="ratingStar active" title="100%"><i class="ti-star-full"></i></li>
+                        }
+                        else
+                        {
+                            <li data-value="1" class="ratingStar" title="Only 20%"><i class="ti-star-empty"></i></li>
+                            <li data-value="2" class="ratingStar" title="Only 40%"><i class="ti-star-empty"></i></li>
+                            <li data-value="3" class="ratingStar" title="Only 60%"><i class="ti-star-empty"></i></li>
+                            <li data-value="4" class="ratingStar" title="Only 80%"><i class="ti-star-empty"></i></li>
+                            <li data-value="5" class="ratingStar" title="100%"><i class="ti-star-empty"></i></li>
+                        }
+                    </ul>
+                    <script type="text/javascript">
+                                $(document).ready(function () {
+                                    $(document).on("keyup", $($("#@(Model.Id)").find("textarea[id=comment]")[0]), function () {
+                                        ValidateSubmit();
+                                    });
+                                });
+
+                                function ValidateSubmit() {
+                                    var flag = true;
+                                    var comment = $($("#reaction-confirmation-@(Model.Id)").find("textarea[id=txtcomment]")[0]);
+                                    var reaction = $($("#reaction-confirmation-@(Model.Id)").find("#reactionDiv li.active")[0]);
+                                    var rating = $($("#reaction-confirmation-@(Model.Id)").find("#ratingDiv li.active")[0]);
+
+                                    if (typeof (comment) == typeof (undefined) || comment == null || comment === "" || comment.val() == null || comment.val() === "") {
+                                        flag = false;
+                                    }
+
+                                    if (flag) {
+                                        $("#submit-@(Model.Id)").removeAttr("disabled");
+                                    }
+                                    else {
+                                        $("#submit-@(Model.Id)").attr("disabled", true);
+                                    }
+                                }
+                    </script>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="submit-@(Model.Id)" type="submit" disabled="disabled" class="btn btn-primary">Submit</button>
+                </div>
+            }
+        }
+        else
+        {
+            using (Html.BeginForm(Model.ActionName, Model.ControllerName, new { }))
+            {
+                <input type="hidden" name="submitid_@(Model.Id)" id="submitid_@(Model.Id)" value="@(Model.Id)" />
+                <input type="hidden" name="submituserid_@(Model.Id)" id="submituserid_@(Model.Id)" value="@(Model.UserId)" />
+                <input type="hidden" name="submitreaction_@(Model.Id)" id="submitreaction_@(Model.Id)" value="" />
+                <input type="hidden" name="submitrating_@(Model.Id)" id="submitrating_@(Model.Id)" value="" />
+
+                <div class="modal-body mx-3">
+                    <div class="row text-left">
+                        <div class="col">
+                            <div class="md-form mt-0 mb-4">
+                                <ul class="list-group form-mandatory-info">
+                                    <li class="list-group-item">*&nbsp;Username, Email Address, Comment and Password fields are mandatory!</li>
+                                    <li class="list-group-item">*&nbsp;Passwords must be greater or equal to 6 characters!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    @Html.Partial("~/Views/User/AddUserWidget.cshtml", new SMS.Models.UserModel())
+                    <div class="row text-left">
+                        <div class="col">
+                            <div class="md-form mt-0 mb-4">
+                                <textarea class="form-control md-textarea" id="txtcomment" tabindex="5" name="txtcomment" rows="5"></textarea>
+                                <label for="txtcomment">Write Your Comment...</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-left">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-form-label">Reaction</label>
+                                <div class="col-sm-10">
+                                    <div class="md-form mt-0 mb-4">
+                                        <ul id="reactionDiv@(Model.Id)" class="rating">
+                                            <li data-value="like"><a class="reaction" title="I Like It" href="javascript:void(0);"><i class="ti-heart"></i>&nbsp;</a></li>
+                                            <li data-value="dislike"><a class="reaction" title="I Don't Like It" href="javascript:void(0);"><i class="ti-heart-broken"></i>&nbsp;</a></li>
+                                            <li data-value="angry"><a class="reaction" title="I Am Angry" href="javascript:void(0);"><i class="ti-angry"></i>&nbsp;</a></li>
+                                            <li data-value="happy"><a class="reaction" title="I Am Happy" href="javascript:void(0);"><i class="ti-happy"></i>&nbsp;</a></li>
+                                            <li data-value="sad"><a class="reaction" title="I Am Not Happy" href="javascript:void(0);"><i class="ti-sad"></i>&nbsp;</a></li>
+                                            <li data-value="grin"><a class="reaction" title="HA HA HA HA" href="javascript:void(0);"><i class="ti-grin"></i>&nbsp;</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-form-label">Rating</label>
+                                <div class="col-sm-10">
+                                    <div class="md-form mt-0 mb-4">
+                                        <ul id="ratingDiv@(Model.Id)" class="rating">
+                                            <li data-value="1" class="ratingStar" title="Only 20%"><i class="ti-star-empty"></i>&nbsp;</li>
+                                            <li data-value="2" class="ratingStar" title="Only 40%"><i class="ti-star-empty"></i>&nbsp;</li>
+                                            <li data-value="3" class="ratingStar" title="Only 60%"><i class="ti-star-empty"></i>&nbsp;</li>
+                                            <li data-value="4" class="ratingStar" title="Only 80%"><i class="ti-star-empty"></i>&nbsp;</li>
+                                            <li data-value="5" class="ratingStar" title="100%"><i class="ti-star-empty"></i>&nbsp;</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $(document).on("keyup", $($("#reaction-confirmation-@(Model.Id)").find("textarea[id=comment]")[0]), function () {
+                                ValidateSubmit();
+                            });
+                            $(document).on("keyup", $($("#reaction-confirmation-@(Model.Id)").find("input[id=Username]")[0]), function () {
+                                ValidateSubmit();
+                            });
+                            $(document).on("keyup", $($("#reaction-confirmation-@(Model.Id)").find("input[id=Email]")[0]), function () {
+                                ValidateSubmit();
+                            });
+                            $(document).on("keyup", $($("#reaction-confirmation-@(Model.Id)").find("input[id=Password]")[0]), function () {
+                                ValidateSubmit();
+                            });
+                            $(document).on("keyup", $($("#reaction-confirmation-@(Model.Id)").find("input[id=ConfirmPassword]")[0]), function () {
+                                ValidateSubmit();
+                            });
+                        });
+
+                        function ValidateSubmit() {
+                            var flag = true;
+                            var userName = $($("#reaction-confirmation-@(Model.Id)").find("input[id=Username]")[0]);
+                            var emailAddress = $($("#reaction-confirmation-@(Model.Id)").find("input[id=Email]")[0]);
+                            var passWord = $($("#reaction-confirmation-@(Model.Id)").find("input[id=Password]")[0]);
+                            var confirmPassword = $($("#reaction-confirmation-@(Model.Id)").find("input[id=ConfirmPassword]")[0]);
+                            var comment = $($("#reaction-confirmation-@(Model.Id)").find("textarea[id=txtcomment]")[0]);
+
+                            if (typeof (comment) == typeof (undefined) || comment == null || comment === "" || comment.val() == null || comment.val() === "") {
+                                flag = false;
+                            }
+
+                            if (typeof (userName) == typeof (undefined) || userName == null || userName === "" || userName.val() == null || userName.val() === "") {
+                                flag = false;
+                            }
+
+                            if (typeof (emailAddress) == typeof (undefined) || emailAddress == null || emailAddress === "" || emailAddress.val() == null || emailAddress.val() === "") {
+                                flag = false;
+                            }
+                            else {
+                                if (!isValidEmailAddress(emailAddress.val())) {
+                                    flag = false;
+                                }
+                            }
+
+                            if (typeof (passWord) == typeof (undefined) || passWord == null || passWord === "" || passWord.val() == null || passWord.val() === "" || passWord.val().length < 6) {
+                                flag = false;
+                            }
+                            else {
+                                if ((typeof (confirmPassword) != typeof (undefined) && confirmPassword != null && confirmPassword !== "") && passWord.val().trim().toLowerCase() !== confirmPassword.val().trim().toLowerCase()) {
+                                    flag = false;
+                                }
+                            }
+
+                            if (typeof (confirmPassword) == typeof (undefined) || confirmPassword == null || confirmPassword === "" || confirmPassword.val() == null || confirmPassword.val() === "" || confirmPassword.val().length < 6) {
+                                flag = false;
+                            }
+                            else {
+                                if ((typeof (passWord) != typeof (undefined) && passWord != null && passWord !== "") && passWord.val().trim().toLowerCase() !== passWord.val().trim().toLowerCase()) {
+                                    flag = false;
+                                }
+                            }
+
+                            if (flag) {
+                                $("#submit-@(Model.Id)").removeAttr("disabled");
+                            }
+                            else {
+                                $("#submit-@(Model.Id)").attr("disabled", true);
+                            }
+                        }
+                    </script>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="submit-@(Model.Id)" type="submit" disabled="disabled" class="btn btn-primary">Submit</button>
+                </div>
+            }
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var clickedFlag = false;
+        $("#ratingDiv@(Model.Id) .ratingStar").mouseover(function () {
+            $(this).addClass("active").prevAll("li").removeClass('active').addClass("active");
+        });
+        $("#ratingDiv@(Model.Id) .ratingStar", "#ratingDiv@(Model.Id)").mouseout(function () {
+            $(this).removeClass('active');
+        });
+        $("#ratingDiv@(Model.Id)").mouseout(function () {
+            if (!clickedFlag) {
+                $(".ratingStar").closest('li').removeClass('active');
+            }
+        });
+        $("#ratingDiv@(Model.Id) .ratingStar").click(function () {
+            clickedFlag = true;
+            $(this).addClass('active');
+            $("#submitrating_@(Model.Id)").val($(this).data('value'));
+            $("#ratingDiv@(Model.Id) .ratingStar").unbind("mouseout mouseover click").css("cursor", "default");
+        });
+
+        $("#reactionDiv@(Model.Id) .reaction").click(function () {
+            $(this).closest('ul').find('li').removeClass("active");
+            $(this).closest('li').addClass('active');
+            $("#submitreaction_@(Model.Id)").val($(this).closest('li').data('value'));
+        });
+
+        $("#submit-@(Model.Id)").ajaxStart(function () {
+            $("#submit-@(Model.Id)").val("Processing ....");
+        });
+        $("#submit-@(Model.Id)").ajaxError(function () {
+            $("#submit-@(Model.Id)").val("<br />Error occured.");
+        });
+    });
+</script>

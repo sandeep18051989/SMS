@@ -162,6 +162,17 @@
                             else
                             {
                                 @Html.Partial("~/Views/User/AddUserWidget.cshtml", new SMS.Models.UserModel());
+                                <div class="row text-left">
+                                    <div class="col">
+                                        <div class="md-form mt-0 mb-4">
+                                            <textarea class="form-control md-textarea" id="txtcomment" tabindex="5" name="txtcomment" rows="5"></textarea>
+                                            <label for="txtcomment">Write Your Comment...</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-grey btn-sm waves-effect waves-light">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
                             }
                         </section>
                     </div>

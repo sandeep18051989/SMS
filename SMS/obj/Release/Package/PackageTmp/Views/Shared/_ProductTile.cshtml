@@ -1,0 +1,133 @@
+﻿@model SMS.Models.ProductModel
+@using EF.Core;
+@using EF.Services;
+@using EF.Services.Http;
+@{
+    var urlHelperService = ContextHelper.Current.Resolve<IUrlHelper>();
+    var userContext = ContextHelper.Current.Resolve<IUserContext>();
+    var basePath = urlHelperService.GetLocation(false);
+}
+<!--Card-->
+<div class="card card-cascade card-ecommerce">
+    <!--Card image-->
+    <div class="view view-cascade overlay">
+        @if (Model.HasDefaultPicture)
+        {
+            <img src="@(Model.DefaultPictureSrc)" title="@Model.Name" class="card-img-top" alt="@Model.Name">
+        }
+        else if (!string.IsNullOrEmpty(Model.DefaultPictureSrc))
+        {
+            <img src="@(Model.DefaultPictureSrc)" title="@Model.Name" class="card-img-top" alt="@Model.Name">
+        }
+        else
+        {
+            <img src="@(basePath)Content/Images/product-picture-not-available700x500.png" title="@Model.Name" class="card-img-top" alt="@Model.Name">
+        }
+        <a title="@Model.Name" href="@Url.RouteUrl("Product", new { name = Model.SystemName })">
+            <div class="mask rgba-white-slight"></div>
+        </a>
+    </div>
+    <!--/.Card image-->
+    <!--Card content-->
+    <div class="card-body card-body-cascade text-center">
+        <!--Category & Title-->
+        @if (!string.IsNullOrEmpty(Model.ProductCategory))
+        {
+            <h5>@Model.ProductCategory</h5>
+        }
+        <h4 class="card-title"><strong><a title="@Model.Name" href="@Url.RouteUrl("Product", new { name = Model.SystemName })">@Model.Name</a></strong></h4>
+        <!--Rating-->
+        @if (Model.Reactions.Count > 0)
+        {
+            var totalRating = Model.Reactions.Sum(x => x.Rating.HasValue ? x.Rating : 0);
+            var avgRating = totalRating / Model.Reactions.Count;
+            <ul class="rating">
+                @if (avgRating > 0 && avgRating <= 1)
+                {
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="3" class=""><i class="ti-star-full"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
+                }
+                else if (avgRating > 1 && avgRating <= 2)
+                {
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class=""><i class="ti-star-full"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
+                }
+                else if (avgRating > 2 && avgRating <= 3)
+                {
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
+                }
+                else if (avgRating > 3 && avgRating <= 4)
+                {
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
+                }
+                else if (avgRating > 4 && avgRating <= 5)
+                {
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="4" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
+                }
+                else if (avgRating <= 5)
+                {
+                    <li data-value="1" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="2" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="3" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="4" class="active"><i class="ti-star-full"></i></li>
+                    <li data-value="5" class="active"><i class="ti-star-full"></i></li>
+                }
+                else
+                {
+                    <li data-value="1" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="2" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="3" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="4" class=""><i class="ti-star-empty"></i></li>
+                    <li data-value="5" class=""><i class="ti-star-empty"></i></li>
+                }
+            </ul>
+        }
+        else
+        {
+            <ul class="rating">
+                <li data-value="1" class="ratingStar"><i class="ti-star-empty"></i></li>
+                <li data-value="2" class="ratingStar"><i class="ti-star-empty"></i></li>
+                <li data-value="3" class="ratingStar"><i class="ti-star-empty"></i></li>
+                <li data-value="4" class="ratingStar"><i class="ti-star-empty"></i></li>
+                <li data-value="5" class="ratingStar"><i class="ti-star-empty"></i></li>
+            </ul>
+        }
+        <!--Description-->
+        @{ var description = (!string.IsNullOrEmpty(Model.Description) ? Model.Description.Length >= 200 ? ("<p class='card-text'>" + Model.Description.Substring(0, 200) + "...</p>") : ("<p class='card-text'>" + Model.Description + "</p>") : ("<p class='card-text'></p>")); }
+        @Html.Raw(description)
+        <!--Card footer-->
+        <div class="card-footer">
+            <span class="float-left">
+                @Model.Price.ToString("f2")<text>&nbsp;</text>
+                @if (Model.OldPrice.HasValue && Model.OldPrice > 0 && Model.OldPrice > Model.Price)
+                {
+                    <span style="text-decoration:line-through;" class="discount">@Model.OldPrice.Value.ToString("f2")</span>
+                }
+            </span>
+            <span class="float-right">
+                <a id="reaction-@(Model.Id)" data-toggle="tooltip" data-placement="top" title="Submit Reaction">
+                    <i class="fa fa-heart"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+    @Html.ReactionModal(buttonsSelector: "reaction-" + Model.Id, id: Model.Id, IsAuthenticated: Model.IsAuthenticated, UserId: userContext.CurrentUser != null ? userContext.CurrentUser.Id : 0, IsProduct: true)
+</div>

@@ -1,4 +1,8 @@
 ﻿@model SMS.Models.BlogModel
+@using EF.Services.Http;
+@{
+    var basePath = EF.Core.ContextHelper.Current.Resolve<IUrlHelper>().GetLocation(false);
+}
 <div class="panel-group">
 	@if (Model.Id > 0)
 	{
@@ -187,6 +191,11 @@
 								success: function (data) {
 									$('.uploader').fineUploader('reset');
 									$("button[data-resource='picture']").attr("disabled", true);
+									var fieldId = $("#@(Html.IdFor(m => m.PictureId))").data('element');
+									if(fieldId != null && fieldId !== ""){
+									    $("#" + fieldId + "image").html("<img class='img-fluid' alt='' src='@(basePath)Content/images/image-placeholder100x100.jpg'/>");
+									    $("#" + fieldId + "remove").hide();
+									}
 									$('#blogpictures-grid').DataTable().ajax.reload();
 									setTimeout(function () {
 										$.gritter.add({

@@ -1,85 +1,133 @@
 ﻿@model SMS.Models.RegisterModel
-
 @{
-	ViewBag.Title = "Register";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_OneColumnLayout.cshtml";
 }
-<div class="container">
-	<div class="row h-100">
-		<div class="col-md-12">
-			<section class="register-form mt-5 h-100">
-				@using (Html.BeginForm())
-				{
-					@Html.AntiForgeryToken()
-					<div class="row">
-						<div id="admin-page-header" class="col-xs-12 col-md-12">
-							<h3 class="section-heading mr-auto">REGISTER</h3>
-							<button type="submit" class="btn btn-primary">Submit&nbsp;&nbsp;<i class="fa fa-plane"></i></button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							@Html.ValidationSummary(true, "", new { @class="text-danger" })
-						</div>
-					</div>
-					<hr />
-					<div class="row text-left">
-						<div class="col-md-6 mb-4">
-							<div class="md-form">
-								<i class="fa fa-user prefix"></i>
-								@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class="form-control", @tabindex="1", @maxlength="50" } })
-								@Html.LabelFor(model => model.FirstName, "First Name", htmlAttributes: new { @class="control-label" })
-								@Html.ValidationMessageFor(model => model.FirstName, "", new { @class="text-danger" })
-							</div>
-						</div>
-						<div class="col-md-6 mb-4">
-							<div class="md-form">
-								<i class="fa fa-user prefix"></i>
-								@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class="form-control", @tabindex="2", @maxlength="50" } })
-								@Html.LabelFor(model => model.LastName, "Last Name", htmlAttributes: new { @class="control-label" })
-								@Html.ValidationMessageFor(model => model.LastName, "", new { @class="text-danger" })
-							</div>
-						</div>
-					</div>
-					<div class="row text-left">
-						<div class="col-md-6 mb-4">
-							<div class="md-form">
-								<i class="fa fa-envelope prefix"></i>
-								@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class="form-control validate", @tabindex="3", @maxlength="100", @autocomplete="off", type="email" } })
-								@Html.LabelFor(model => model.Email, "Email Address", htmlAttributes: new { @data_error="wrong", @data_success="right", @class="control-label" })
-								@Html.ValidationMessageFor(model => model.Email, "", new { @class="text-danger" })
-							</div>
-						</div>
-						<div class="col-md-6 mb-4">
-							<div class="md-form">
-								<i class="fa fa-phone prefix"></i>
-								@Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class="form-control validate", @tabindex="4", @onkeypress="return checkNumber(event);", @maxlength="10" } })
-								@Html.LabelFor(model => model.Phone, "Contact", htmlAttributes: new { @class="control-label" })
-								@Html.ValidationMessageFor(model => model.Phone, "", new { @class="text-danger" })
-							</div>
-						</div>
-					</div>
-
-					<div class="row text-left">
-						<div class="col-md-6 mb-4">
-							<div class="md-form">
-								<i class="fa fa-key prefix"></i>
-								@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class="form-control", @tabindex="5", @type="password", @maxlength="100" } })
-								@Html.LabelFor(model => model.Password, "Password", htmlAttributes: new { @class="control-label", @data_error="wrong", @data_success="right" })
-								@Html.ValidationMessageFor(model => model.Password, "", new { @class="text-danger" })
-							</div>
-						</div>
-						<div class="col-md-6 mb-4">
-							<div class="md-form">
-								<i class="fa fa-key prefix"></i>
-								@Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class="form-control", @tabindex="6", @type="password", @maxlength="100" } })
-								@Html.LabelFor(model => model.ConfirmPassword, "Confirm Password", htmlAttributes: new { @class="control-label", @data_error="wrong", @data_success="right" })
-								@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class="text-danger" })
-							</div>
-						</div>
-					</div>
-			}
-			</section>
-		</div>
-	</div>
+<div class="row">
+    <div id="register-form-wrapper" class="col-md-7 offset-md-2 mb-4">
+        @using (Html.BeginForm("Register", "Account", new { Area = "" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "register-form" }))
+        {
+            @Html.AntiForgeryToken()
+            <!--Form with header-->
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-header green-gradient">
+                        <h3>Register</h3>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="md-form">
+                                <i class="fa fa-user prefix green-text"></i>
+                                @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control no-special-char", @max_length = "20" } })
+                                @Html.LabelFor(m => m.FirstName, "First Name", new { @class = "control-label active" })
+                                @Html.ValidationMessageFor(m => m.FirstName)
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="md-form">
+                                @Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control no-special-char", @max_length = "20" } })
+                                @Html.LabelFor(m => m.LastName, "Last Name", new { @class = "control-label active" })
+                                @Html.ValidationMessageFor(m => m.LastName)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="md-form">
+                                <i class="fa fa-user-secret prefix green-text"></i>
+                                @Html.EditorFor(m => m.Username, new { htmlAttributes = new { @class = "form-control no-special-char", @max_length = "20" } })
+                                @Html.LabelFor(m => m.Username, "Username", new { @class = "control-label active" })
+                                @Html.ValidationMessageFor(m => m.Username)
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="md-form">
+                                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                                @Html.LabelFor(m => m.Email, "Email Address", new { @class = "control-label active" })
+                                @Html.ValidationMessageFor(m => m.Email)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="md-form">
+                                <i class="fa fa-key prefix green-text"></i>
+                                @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @max_length = "20" } })
+                                @Html.LabelFor(m => m.Password, "Password", new { @class = "control-label active" })
+                                @Html.ValidationMessageFor(m => m.Password)
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="md-form">
+                                @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @max_length = "20" } })
+                                @Html.LabelFor(m => m.ConfirmPassword, "Confirm Password", new { @class = "control-label active" })
+                                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="md-form">
+                                <span><i class="fa fa-image green-text"></i>&nbsp;Profile Picture</span>
+                                @Html.EditorFor(model => model.ProfilePictureId, "Picture")
+                                @Html.ValidationMessageFor(m => m.ProfilePictureId)
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="md-form">
+                                <span><i class="fa fa-file-image-o green-text"></i>&nbsp;Cover Picture</span>
+                                @Html.EditorFor(model => model.CoverPictureId, "Picture")
+                                @Html.ValidationMessageFor(m => m.CoverPictureId)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="md-form">
+                                <i class="fa fa-phone prefix green-text"></i>
+                                @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @class = "form-control", @type = "text", @max_length = "10" } })
+                                @Html.LabelFor(m => m.Phone, "Contact", new { @class = "control-label active" })
+                                @Html.ValidationMessageFor(m => m.Phone)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="md-form">
+                                <input type="checkbox" tabindex="10" id="AcceptTermAndConditions" name="AcceptTermAndConditions" value="@(Model.AcceptTermAndConditions ? "True" : "False")" @(Model.AcceptTermAndConditions ? "checked=checked" : "") />
+                                <label for="AcceptTermAndConditions">Accept&nbsp;<a target="_blank" href='@Url.RouteUrl("Page", new { name = "TermsAndConditions" })'>Terms And Conditions</a></label>
+                                @Html.ValidationMessageFor(model => model.AcceptTermAndConditions, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" disabled="disabled" class="btn btn-indigo">Sign up</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($("#AcceptTermAndConditions").val() == "True") {
+            $("#AcceptTermAndConditions").attr('checked', true).val(true);
+            $("button[type=submit]").removeClass("disable").removeAttr("disabled");
+        }
+        else {
+            $("#AcceptTermAndConditions").attr('checked', false).val(false);
+            $("button[type=submit]").addClass("disable").attr("disabled", true);
+        }
+
+        $("#AcceptTermAndConditions").change(function () {
+            if ($(this).prop('checked')) {
+                $(this).attr('checked', true).val(true);
+                $("button[type=submit]").removeClass("disable").removeAttr("disabled");
+            }
+            else {
+                $(this).attr('checked', false).val(false);
+                $("button[type=submit]").addClass("disable").attr("disabled", true);
+            }
+        });
+    });
+</script>

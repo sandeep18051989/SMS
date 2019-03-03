@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace SMS.Models
 {
-    [Validator(typeof(AdminUserModelValidation))]
+    [Validator(typeof(UserModelValidation))]
     public partial class UserModel : BaseEntityModel
 	{
 		public UserModel()
@@ -44,6 +44,9 @@ namespace SMS.Models
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+
         public bool IsStudent { get; set; }
         public bool IsTeacher { get; set; }
         public Guid UserGuid { get; set; }
@@ -64,4 +67,35 @@ namespace SMS.Models
 		public IList<RoleModel> AvailableRoles { get; set; }
 
 	}
+
+    [Validator(typeof(AdminUserModelValidation))]
+    public partial class AdminUserModel : BaseEntityModel
+    {
+        public AdminUserModel()
+        {
+            ChangePassword = new ChangePasswordModel();
+            AvailableRoles = new List<RoleModel>();
+        }
+
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+        public int[] SelectedRoleIds { get; set; }
+        public bool IsApproved { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsBlocked { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public Guid UserGuid { get; set; }
+        public int ProfilePictureId { get; set; }
+        public int CoverPictureId { get; set; }
+        public ChangePasswordModel ChangePassword { get; set; }
+        public IList<RoleModel> AvailableRoles { get; set; }
+
+    }
 }

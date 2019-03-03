@@ -49,7 +49,7 @@
     $(document).ready(function () {
         $("li#acadmicyears ul").css("height", "");
         // Initiallize Datatable
-        $('.custom-table').DataTable({
+        var table = $('.custom-table').DataTable({
             "processing": true, // for show progress bar
             "serverSide": true, // for process server side
             "filter": true, // this is for disable filter (search box)

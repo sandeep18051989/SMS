@@ -2127,7 +2127,6 @@
     <Compile Include="Areas\Admin\Mappers\AutoMapperStartupTask.cs" />
     <Compile Include="Areas\Admin\Models\AdminCommentsModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminPictureModel.cs" />
-    <Compile Include="Areas\Admin\Models\AdminUserModel.cs" />
     <Compile Include="Areas\Admin\Models\AuditListModel.cs" />
     <Compile Include="Controllers\DeveloperController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />

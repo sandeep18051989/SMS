@@ -10,7 +10,7 @@
     @Html.Action("Index", "Slider")
 </div>
 <div class="row-fluid principal-message text-center no-gutters">
-    @Html.Action("Page", "Page", new { systemName = "PrincipalMessage" })
+    @Html.Action("Page", "Page", new { name = "PrincipalMessage" })
 </div>
 @*<div class="container principal-intro-row">
          <div class="row">
@@ -32,6 +32,10 @@
 <!-- Event Section -->
 <div class="row-fluid events no-gutters">
     @Html.Action("Index", "Event", new { area = "" })
+</div>
+<!-- Products Section -->
+<div class="row-fluid products text-center no-gutters">
+    @Html.Action("Index", "Product", new { area = "" })
 </div>
 <!-- Teacher Section -->
 <div class="row-fluid teachers text-center no-gutters mt-2">

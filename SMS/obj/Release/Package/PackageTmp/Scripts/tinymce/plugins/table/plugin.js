@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.0.0-1 (2019-02-04)
+ */
 (function () {
 var table = (function () {
     'use strict';
@@ -333,6 +341,7 @@ var table = (function () {
     };
 
     var keys = Object.keys;
+    var hasOwnProperty = Object.hasOwnProperty;
     var each$1 = function (obj, f) {
       var props = keys(obj);
       for (var k = 0, len = props.length; k < len; k++) {
@@ -356,6 +365,12 @@ var table = (function () {
         r[tuple.k] = tuple.v;
       });
       return r;
+    };
+    var get = function (obj, key) {
+      return has(obj, key) ? Option.some(obj[key]) : Option.none();
+    };
+    var has = function (obj, key) {
+      return hasOwnProperty.call(obj, key);
     };
 
     var Immutable = function () {
@@ -474,7 +489,7 @@ var table = (function () {
       div.innerHTML = html;
       if (!div.hasChildNodes() || div.childNodes.length > 1) {
         console.error('HTML does not have a single root node', html);
-        throw 'HTML must have a single root node';
+        throw new Error('HTML must have a single root node');
       }
       return fromDom(div.childNodes[0]);
     };
@@ -489,8 +504,9 @@ var table = (function () {
       return fromDom(node);
     };
     var fromDom = function (node) {
-      if (node === null || node === undefined)
+      if (node === null || node === undefined) {
         throw new Error('Node cannot be null or undefined');
+      }
       return { dom: constant(node) };
     };
     var fromPoint = function (docElm, x, y) {
@@ -522,18 +538,19 @@ var table = (function () {
     var DOCUMENT$1 = DOCUMENT;
     var is = function (element, selector) {
       var elem = element.dom();
-      if (elem.nodeType !== ELEMENT$1)
+      if (elem.nodeType !== ELEMENT$1) {
         return false;
-      else if (elem.matches !== undefined)
+      } else if (elem.matches !== undefined) {
         return elem.matches(selector);
-      else if (elem.msMatchesSelector !== undefined)
+      } else if (elem.msMatchesSelector !== undefined) {
         return elem.msMatchesSelector(selector);
-      else if (elem.webkitMatchesSelector !== undefined)
+      } else if (elem.webkitMatchesSelector !== undefined) {
         return elem.webkitMatchesSelector(selector);
-      else if (elem.mozMatchesSelector !== undefined)
+      } else if (elem.mozMatchesSelector !== undefined) {
         return elem.mozMatchesSelector(selector);
-      else
+      } else {
         throw new Error('Browser lacks native selectors');
+      }
     };
     var bypassSelector = function (dom) {
       return dom.nodeType !== ELEMENT$1 && dom.nodeType !== DOCUMENT$1 || dom.childElementCount === 0;
@@ -794,6 +811,9 @@ var table = (function () {
     var contains$1 = function (str, substr) {
       return str.indexOf(substr) !== -1;
     };
+    var startsWith = function (str, prefix) {
+      return checkRange(str, prefix, 0);
+    };
     var endsWith = function (str, suffix) {
       return checkRange(str, suffix, str.length - suffix.length);
     };
@@ -932,7 +952,8 @@ var table = (function () {
       return e1.dom() === e2.dom();
     };
     var regularContains = function (e1, e2) {
-      var d1 = e1.dom(), d2 = e2.dom();
+      var d1 = e1.dom();
+      var d2 = e2.dom();
       return d1 === d2 ? false : d1.contains(d2);
     };
     var ieContains = function (e1, e2) {
@@ -947,8 +968,8 @@ var table = (function () {
     };
     var defaultView = function (element) {
       var el = element.dom();
-      var defaultView = el.ownerDocument.defaultView;
-      return Element$$1.fromDom(defaultView);
+      var defView = el.ownerDocument.defaultView;
+      return Element$$1.fromDom(defView);
     };
     var parent = function (element) {
       var dom = element.dom();
@@ -960,12 +981,13 @@ var table = (function () {
       var ret = [];
       while (dom.parentNode !== null && dom.parentNode !== undefined) {
         var rawParent = dom.parentNode;
-        var parent = Element$$1.fromDom(rawParent);
-        ret.push(parent);
-        if (stop(parent) === true)
+        var p = Element$$1.fromDom(rawParent);
+        ret.push(p);
+        if (stop(p) === true) {
           break;
-        else
+        } else {
           dom = rawParent;
+        }
       }
       return ret;
     };
@@ -982,8 +1004,8 @@ var table = (function () {
       return map(dom.childNodes, Element$$1.fromDom);
     };
     var child = function (element, index) {
-      var children = element.dom().childNodes;
-      return Option.from(children[index]).map(Element$$1.fromDom);
+      var cs = element.dom().childNodes;
+      return Option.from(cs[index]).map(Element$$1.fromDom);
     };
     var firstChild = function (element) {
       return child(element, 0);
@@ -1065,10 +1087,11 @@ var table = (function () {
       return getBody(Element$$1.fromDom(document));
     });
     var getBody = function (doc) {
-      var body = doc.dom().body;
-      if (body === null || body === undefined)
-        throw 'Body is not available yet';
-      return Element$$1.fromDom(body);
+      var b = doc.dom().body;
+      if (b === null || b === undefined) {
+        throw new Error('Body is not available yet');
+      }
+      return Element$$1.fromDom(b);
     };
 
     var ancestors = function (scope, predicate, isRoot) {
@@ -1112,16 +1135,17 @@ var table = (function () {
       while (element.parentNode) {
         element = element.parentNode;
         var el = Element$$1.fromDom(element);
-        if (predicate(el))
+        if (predicate(el)) {
           return Option.some(el);
-        else if (stop(el))
+        } else if (stop(el)) {
           break;
+        }
       }
       return Option.none();
     };
     var closest = function (scope, predicate, isRoot) {
-      var is = function (scope) {
-        return predicate(scope);
+      var is = function (s) {
+        return predicate(s);
       };
       return ClosestOrAncestor(is, ancestor, scope, predicate, isRoot);
     };
@@ -1132,11 +1156,13 @@ var table = (function () {
     var descendant = function (scope, predicate) {
       var descend = function (node) {
         for (var i = 0; i < node.childNodes.length; i++) {
-          if (predicate(Element$$1.fromDom(node.childNodes[i])))
+          if (predicate(Element$$1.fromDom(node.childNodes[i]))) {
             return Option.some(Element$$1.fromDom(node.childNodes[i]));
+          }
           var res = descend(node.childNodes[i]);
-          if (res.isSome())
+          if (res.isSome()) {
             return res;
+          }
         }
         return Option.none();
       };
@@ -1337,12 +1363,14 @@ var table = (function () {
         console.error('Invalid call to CSS.set. Property ', property, ':: Value ', value$$1, ':: Element ', dom);
         throw new Error('CSS value must be a string: ' + value$$1);
       }
-      if (isSupported(dom))
+      if (isSupported(dom)) {
         dom.style.setProperty(property, value$$1);
+      }
     };
     var internalRemove = function (dom, property) {
-      if (isSupported(dom))
+      if (isSupported(dom)) {
         dom.style.removeProperty(property);
+      }
     };
     var set$1 = function (element, property, value$$1) {
       var dom = element.dom();
@@ -1444,13 +1472,15 @@ var table = (function () {
     };
     var remove$2 = function (element) {
       var dom = element.dom();
-      if (dom.parentNode !== null)
+      if (dom.parentNode !== null) {
         dom.parentNode.removeChild(dom);
+      }
     };
     var unwrap = function (wrapper) {
       var children$$1 = children(wrapper);
-      if (children$$1.length > 0)
+      if (children$$1.length > 0) {
         before$1(wrapper, children$$1);
+      }
       remove$2(wrapper);
     };
 
@@ -1537,8 +1567,8 @@ var table = (function () {
     };
     var CopySelected = { extract: extract };
 
-    var clone$1 = function (original, deep) {
-      return Element$$1.fromDom(original.dom().cloneNode(deep));
+    var clone$1 = function (original, isDeep) {
+      return Element$$1.fromDom(original.dom().cloneNode(isDeep));
     };
     var shallow = function (original) {
       return clone$1(original, false);
@@ -1561,8 +1591,9 @@ var table = (function () {
 
     function NodeValue (is, name) {
       var get = function (element) {
-        if (!is(element))
+        if (!is(element)) {
           throw new Error('Can only get ' + name + ' value of a ' + name + ' node');
+        }
         return getOption(element).getOr('');
       };
       var getOptionIE10 = function (element) {
@@ -1578,8 +1609,9 @@ var table = (function () {
       var browser = PlatformDetection$1.detect().browser;
       var getOption = browser.isIE() && browser.version.major === 10 ? getOptionIE10 : getOptionSafe;
       var set = function (element, value) {
-        if (!is(element))
+        if (!is(element)) {
           throw new Error('Can only set raw ' + name + ' value of a ' + name + ' node');
+        }
         element.dom().nodeValue = value;
       };
       return {
@@ -1633,11 +1665,13 @@ var table = (function () {
         var children$$1 = children(element);
         for (var i = children$$1.length - 1; i >= 0; i--) {
           var child$$1 = children$$1[i];
-          if (predicate(child$$1))
+          if (predicate(child$$1)) {
             return Option.some(child$$1);
+          }
           var res = descend(child$$1);
-          if (res.isSome())
+          if (res.isSome()) {
             return res;
+          }
         }
         return Option.none();
       };
@@ -2532,11 +2566,13 @@ var table = (function () {
 
     function Dimension (name, getOffset) {
       var set = function (element, h) {
-        if (!isNumber(h) && !h.match(/^[0-9]+$/))
-          throw name + '.set accepts only positive integer values. Value was ' + h;
+        if (!isNumber(h) && !h.match(/^[0-9]+$/)) {
+          throw new Error(name + '.set accepts only positive integer values. Value was ' + h);
+        }
         var dom = element.dom();
-        if (isSupported(dom))
+        if (isSupported(dom)) {
           dom.style[name] = h + 'px';
+        }
       };
       var get = function (element) {
         var r = getOffset(element);
@@ -2766,8 +2802,9 @@ var table = (function () {
     };
     var windowOf = function (element) {
       var dom = element.dom();
-      if (dom === dom.window && element instanceof Window)
+      if (dom === dom.window && element instanceof Window) {
         return element;
+      }
       return isDocument(element) ? dom.defaultView || dom.parentWindow : null;
     };
 
@@ -2806,10 +2843,12 @@ var table = (function () {
       var doc = dom.ownerDocument;
       var body = doc.body;
       var html = Element$$1.fromDom(doc.documentElement);
-      if (body === dom)
+      if (body === dom) {
         return Position(body.offsetLeft, body.offsetTop);
-      if (!attached(element, html))
+      }
+      if (!attached(element, html)) {
         return Position(0, 0);
+      }
       return boxPosition(dom);
     };
 
@@ -3698,10 +3737,11 @@ var table = (function () {
       var nu = filter(read(element, attr), function (v) {
         return v !== id;
       });
-      if (nu.length > 0)
+      if (nu.length > 0) {
         set(element, attr, nu.join(' '));
-      else
+      } else {
         remove(element, attr);
+      }
       return false;
     };
 
@@ -3719,10 +3759,11 @@ var table = (function () {
     };
 
     var add$2 = function (element, clazz) {
-      if (supports(element))
+      if (supports(element)) {
         element.dom().classList.add(clazz);
-      else
+      } else {
         add$1(element, clazz);
+      }
     };
     var cleanClass = function (element) {
       var classList = supports(element) ? element.dom().classList : get$7(element);
@@ -3734,8 +3775,9 @@ var table = (function () {
       if (supports(element)) {
         var classList = element.dom().classList;
         classList.remove(clazz);
-      } else
+      } else {
         remove$4(element, clazz);
+      }
       cleanClass(element);
     };
     var has$2 = function (element, clazz) {
@@ -4649,7 +4691,7 @@ var table = (function () {
         return a + b;
       }, 0);
       if (newSizes.length > 0) {
-        tableSize.setElementWidth(table, total);
+        tableSize.setTableWidth(table, total);
       }
     };
     var Adjustments = {
@@ -4852,7 +4894,7 @@ var table = (function () {
       insertColumnsBefore: RunOperation.run(insertColumnsBefore, RunOperation.onCells, resize, noop, Generators.modification),
       insertColumnAfter: RunOperation.run(insertColumnAfter, RunOperation.onCell, resize, noop, Generators.modification),
       insertColumnsAfter: RunOperation.run(insertColumnsAfter, RunOperation.onCells, resize, noop, Generators.modification),
-      splitCellIntoColumns: RunOperation.run(splitCellIntoColumns$1, RunOperation.onCell, noop, noop, Generators.modification),
+      splitCellIntoColumns: RunOperation.run(splitCellIntoColumns$1, RunOperation.onCell, resize, noop, Generators.modification),
       splitCellIntoRows: RunOperation.run(splitCellIntoRows$1, RunOperation.onCell, noop, noop, Generators.modification),
       eraseColumns: RunOperation.run(eraseColumns, RunOperation.onCells, resize, prune, Generators.modification),
       eraseRows: RunOperation.run(eraseRows, RunOperation.onCells, noop, prune, Generators.modification),
@@ -4861,7 +4903,7 @@ var table = (function () {
       makeRowHeader: RunOperation.run(makeRowHeader, RunOperation.onCell, noop, noop, Generators.transform('col', 'th')),
       unmakeRowHeader: RunOperation.run(unmakeRowHeader, RunOperation.onCell, noop, noop, Generators.transform(null, 'td')),
       mergeCells: RunOperation.run(mergeCells, RunOperation.onMergable, noop, noop, Generators.merging),
-      unmergeCells: RunOperation.run(unmergeCells, RunOperation.onUnmergable, noop, noop, Generators.merging),
+      unmergeCells: RunOperation.run(unmergeCells, RunOperation.onUnmergable, resize, noop, Generators.merging),
       pasteCells: RunOperation.run(pasteCells, RunOperation.onPaste, resize, noop, Generators.modification),
       pasteRowsBefore: RunOperation.run(pasteRowsBefore, RunOperation.onPasteRows, noop, noop, Generators.modification),
       pasteRowsAfter: RunOperation.run(pasteRowsAfter, RunOperation.onPasteRows, noop, noop, Generators.modification)
@@ -4910,18 +4952,7 @@ var table = (function () {
     };
     var Direction = { directionAt: directionAt };
 
-    var defaultTableToolbar = [
-      'tableprops',
-      'tabledelete',
-      '|',
-      'tableinsertrowbefore',
-      'tableinsertrowafter',
-      'tabledeleterow',
-      '|',
-      'tableinsertcolbefore',
-      'tableinsertcolafter',
-      'tabledeletecol'
-    ];
+    var defaultTableToolbar = 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol';
     var defaultStyles = {
       'border-collapse': 'collapse',
       'width': '100%'
@@ -4966,11 +4997,11 @@ var table = (function () {
     var getTableClassList = function (editor) {
       return editor.getParam('table_class_list', [], 'array');
     };
-    var getColorPickerCallback = function (editor) {
-      return editor.getParam('color_picker_callback');
-    };
     var isPixelsForced = function (editor) {
       return editor.getParam('table_responsive_width') === false;
+    };
+    var getToolbar = function (editor) {
+      return editor.getParam('table_toolbar', defaultTableToolbar);
     };
     var getCloneElements = function (editor) {
       var cloneElements = editor.getParam('table_clone_elements');
@@ -4985,18 +5016,6 @@ var table = (function () {
     var hasObjectResizing = function (editor) {
       var objectResizing = editor.getParam('object_resizing', true);
       return objectResizing === 'table' || objectResizing;
-    };
-    var getToolbar = function (editor) {
-      var toolbar = editor.getParam('table_toolbar', defaultTableToolbar);
-      if (toolbar === '' || toolbar === false) {
-        return [];
-      } else if (isString(toolbar)) {
-        return toolbar.split(/[ ,]/);
-      } else if (isArray(toolbar)) {
-        return toolbar;
-      } else {
-        return [];
-      }
     };
 
     var fireNewRow = function (editor, row) {
@@ -5143,10 +5162,23 @@ var table = (function () {
       getTDTHOverallStyle: getTDTHOverallStyle
     };
 
+    var __assign = function () {
+      __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p))
+              t[p] = s[p];
+        }
+        return t;
+      };
+      return __assign.apply(this, arguments);
+    };
+
     var buildListItems = function (inputList, itemCallback, startItems) {
-      var appendItems = function (values, output) {
+      var appendItems = function (values$$1, output) {
         output = output || [];
-        global$1.each(values, function (item) {
+        global$1.each(values$$1, function (item) {
           var menuItem = { text: item.text || item.title };
           if (item.menu) {
             menuItem.menu = appendItems(item.menu);
@@ -5162,245 +5194,450 @@ var table = (function () {
       };
       return appendItems(inputList, startItems || []);
     };
-    function styleFieldHasFocus(e) {
-      return e.control.rootControl.find('#style')[0].getEl().isEqualNode(document.activeElement);
-    }
-    var syncAdvancedStyleFields = function (editor, evt) {
-      if (styleFieldHasFocus(evt)) {
-        updateAdvancedFields(editor, evt);
-      } else {
-        updateStyleField(editor, evt);
-      }
-    };
-    var updateStyleField = function (editor, evt) {
-      var dom = editor.dom;
-      var rootControl = evt.control.rootControl;
-      var data = rootControl.toJSON();
-      var css = dom.parseStyle(data.style);
-      css['border-style'] = data.borderStyle;
-      css['border-color'] = data.borderColor;
-      css['background-color'] = data.backgroundColor;
-      css.width = data.width ? addSizeSuffix(data.width) : '';
-      css.height = data.height ? addSizeSuffix(data.height) : '';
-      rootControl.find('#style').value(dom.serializeStyle(dom.parseStyle(dom.serializeStyle(css))));
-    };
-    var updateAdvancedFields = function (editor, evt) {
-      var dom = editor.dom;
-      var rootControl = evt.control.rootControl;
-      var data = rootControl.toJSON();
-      var css = dom.parseStyle(data.style);
-      rootControl.find('#borderStyle').value(css['border-style'] || '');
-      rootControl.find('#borderColor').value(css['border-color'] || '');
-      rootControl.find('#backgroundColor').value(css['background-color'] || '');
-      rootControl.find('#width').value(css.width || '');
-      rootControl.find('#height').value(css.height || '');
-    };
     var extractAdvancedStyles = function (dom, elm) {
-      var css = dom.parseStyle(dom.getAttrib(elm, 'style'));
-      var data = {};
-      if (css['border-style']) {
-        data.borderStyle = css['border-style'];
-      }
-      if (css['border-color']) {
-        data.borderColor = css['border-color'];
-      }
-      if (css['background-color']) {
-        data.backgroundColor = css['background-color'];
-      }
-      data.style = dom.serializeStyle(css);
-      return data;
-    };
-    var createStyleForm = function (editor) {
-      var createColorPickAction = function () {
-        var colorPickerCallback = getColorPickerCallback(editor);
-        if (colorPickerCallback) {
-          return function (evt) {
-            return colorPickerCallback.call(editor, function (value) {
-              evt.control.value(value).fire('change');
-            }, evt.control.value());
-          };
-        }
+      var rgbToHex = function (value) {
+        return startsWith(value, 'rgb') ? dom.toHex(value) : value;
       };
+      var borderStyle = getRaw(Element$$1.fromDom(elm), 'border-style').getOr('');
+      var borderColor = getRaw(Element$$1.fromDom(elm), 'border-color').map(rgbToHex).getOr('');
+      var bgColor = getRaw(Element$$1.fromDom(elm), 'background-color').map(rgbToHex).getOr('');
+      return {
+        borderstyle: borderStyle,
+        bordercolor: borderColor,
+        backgroundcolor: bgColor
+      };
+    };
+    var getSharedValues = function (data) {
+      var baseData = data[0];
+      var comparisonData = data.slice(1);
+      var keys$$1 = keys(baseData);
+      each(comparisonData, function (items) {
+        each(keys$$1, function (key) {
+          each$1(items, function (itemValue, itemKey, _) {
+            var comparisonValue = baseData[key];
+            if (comparisonValue !== '' && key === itemKey) {
+              if (comparisonValue !== itemValue) {
+                baseData[key] = '';
+              }
+            }
+          });
+        });
+      });
+      return baseData;
+    };
+    var getAdvancedTab = function () {
+      var items = [
+        {
+          name: 'borderstyle',
+          type: 'selectbox',
+          label: 'Border style',
+          items: [
+            {
+              text: 'Select...',
+              value: ''
+            },
+            {
+              text: 'Solid',
+              value: 'solid'
+            },
+            {
+              text: 'Dotted',
+              value: 'dotted'
+            },
+            {
+              text: 'Dashed',
+              value: 'dashed'
+            },
+            {
+              text: 'Double',
+              value: 'double'
+            },
+            {
+              text: 'Groove',
+              value: 'groove'
+            },
+            {
+              text: 'Ridge',
+              value: 'ridge'
+            },
+            {
+              text: 'Inset',
+              value: 'inset'
+            },
+            {
+              text: 'Outset',
+              value: 'outset'
+            },
+            {
+              text: 'None',
+              value: 'none'
+            },
+            {
+              text: 'Hidden',
+              value: 'hidden'
+            }
+          ]
+        },
+        {
+          name: 'bordercolor',
+          type: 'colorinput',
+          label: 'Border color'
+        },
+        {
+          name: 'backgroundcolor',
+          type: 'colorinput',
+          label: 'Background color'
+        }
+      ];
       return {
         title: 'Advanced',
-        type: 'form',
-        defaults: { onchange: curry(updateStyleField, editor) },
-        items: [
-          {
-            label: 'Style',
-            name: 'style',
-            type: 'textbox',
-            onchange: curry(updateAdvancedFields, editor)
-          },
-          {
-            type: 'form',
-            padding: 0,
-            formItemDefaults: {
-              layout: 'grid',
-              alignH: [
-                'start',
-                'right'
-              ]
-            },
-            defaults: { size: 7 },
-            items: [
-              {
-                label: 'Border style',
-                type: 'listbox',
-                name: 'borderStyle',
-                width: 90,
-                onselect: curry(updateStyleField, editor),
-                values: [
-                  {
-                    text: 'Select...',
-                    value: ''
-                  },
-                  {
-                    text: 'Solid',
-                    value: 'solid'
-                  },
-                  {
-                    text: 'Dotted',
-                    value: 'dotted'
-                  },
-                  {
-                    text: 'Dashed',
-                    value: 'dashed'
-                  },
-                  {
-                    text: 'Double',
-                    value: 'double'
-                  },
-                  {
-                    text: 'Groove',
-                    value: 'groove'
-                  },
-                  {
-                    text: 'Ridge',
-                    value: 'ridge'
-                  },
-                  {
-                    text: 'Inset',
-                    value: 'inset'
-                  },
-                  {
-                    text: 'Outset',
-                    value: 'outset'
-                  },
-                  {
-                    text: 'None',
-                    value: 'none'
-                  },
-                  {
-                    text: 'Hidden',
-                    value: 'hidden'
-                  }
-                ]
-              },
-              {
-                label: 'Border color',
-                type: 'colorbox',
-                name: 'borderColor',
-                onaction: createColorPickAction()
-              },
-              {
-                label: 'Background color',
-                type: 'colorbox',
-                name: 'backgroundColor',
-                onaction: createColorPickAction()
-              }
-            ]
-          }
-        ]
+        items: items
       };
     };
-    var Helpers = {
-      createStyleForm: createStyleForm,
-      buildListItems: buildListItems,
-      updateStyleField: updateStyleField,
-      extractAdvancedStyles: extractAdvancedStyles,
-      updateAdvancedFields: updateAdvancedFields,
-      syncAdvancedStyleFields: syncAdvancedStyleFields
+    var getAlignment = function (alignments, formatName, dataName, editor, elm) {
+      var alignmentData = {};
+      global$1.each(alignments.split(' '), function (name) {
+        if (editor.formatter.matchNode(elm, formatName + name)) {
+          alignmentData[dataName] = name;
+        }
+      });
+      if (!alignmentData[dataName]) {
+        alignmentData[dataName] = '';
+      }
+      return alignmentData;
     };
-
-    var updateStyles = function (elm, cssText) {
-      delete elm.dataset.mceStyle;
-      elm.style.cssText += ';' + cssText;
-    };
-    var extractDataFromElement = function (editor, elm) {
+    var getHAlignment = curry(getAlignment, 'left center right');
+    var getVAlignment = curry(getAlignment, 'top middle bottom');
+    var extractDataFromSettings = function (editor, hasAdvTableTab) {
+      var style = getDefaultStyles(editor);
+      var attrs = getDefaultAttributes(editor);
+      var extractAdvancedStyleData = function (dom) {
+        var rgbToHex = function (value) {
+          return startsWith(value, 'rgb') ? dom.toHex(value) : value;
+        };
+        var borderStyle = get(style, 'border-style').getOr('');
+        var borderColor = get(style, 'border-color').getOr('');
+        var bgColor = get(style, 'background-color').getOr('');
+        return {
+          borderstyle: borderStyle,
+          bordercolor: rgbToHex(borderColor),
+          backgroundcolor: rgbToHex(bgColor)
+        };
+      };
+      var defaultData = {
+        height: '',
+        width: '100%',
+        cellspacing: '',
+        cellpadding: '',
+        caption: false,
+        class: '',
+        align: '',
+        border: ''
+      };
+      var getBorder = function () {
+        var borderWidth = style['border-width'];
+        if (shouldStyleWithCss(editor) && borderWidth) {
+          return { border: borderWidth };
+        }
+        return get(attrs, 'border').fold(function () {
+          return {};
+        }, function (border) {
+          return { border: border };
+        });
+      };
       var dom = editor.dom;
-      var data = {
+      var advStyle = hasAdvTableTab ? extractAdvancedStyleData(dom) : {};
+      var getCellPaddingCellSpacing = function () {
+        var spacing = get(style, 'border-spacing').or(get(attrs, 'cellspacing')).fold(function () {
+          return {};
+        }, function (cellspacing) {
+          return { cellspacing: cellspacing };
+        });
+        var padding = get(style, 'border-padding').or(get(attrs, 'cellpadding')).fold(function () {
+          return {};
+        }, function (cellpadding) {
+          return { cellpadding: cellpadding };
+        });
+        return __assign({}, spacing, padding);
+      };
+      var data = __assign({}, defaultData, style, attrs, advStyle, getBorder(), getCellPaddingCellSpacing());
+      return data;
+    };
+    var extractDataFromTableElement = function (editor, elm, hasAdvTableTab) {
+      var getBorder = function (dom, elm) {
+        var optBorderWidth = getRaw(Element$$1.fromDom(elm), 'border-width');
+        if (shouldStyleWithCss(editor) && optBorderWidth.isSome()) {
+          return optBorderWidth.getOr('');
+        }
+        return dom.getAttrib(elm, 'border') || Styles$1.getTDTHOverallStyle(editor.dom, elm, 'border-width') || Styles$1.getTDTHOverallStyle(editor.dom, elm, 'border');
+      };
+      var dom = editor.dom;
+      var data = __assign({
+        width: dom.getStyle(elm, 'width') || dom.getAttrib(elm, 'width'),
+        height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
+        cellspacing: dom.getStyle(elm, 'border-spacing') || dom.getAttrib(elm, 'cellspacing'),
+        cellpadding: dom.getAttrib(elm, 'cellpadding') || Styles$1.getTDTHOverallStyle(editor.dom, elm, 'padding'),
+        border: getBorder(dom, elm),
+        caption: !!dom.select('caption', elm)[0],
+        class: dom.getAttrib(elm, 'class', '')
+      }, getHAlignment('align', 'align', editor, elm), hasAdvTableTab ? extractAdvancedStyles(dom, elm) : {});
+      return data;
+    };
+    var extractDataFromRowElement = function (editor, elm, hasAdvancedRowTab$$1) {
+      var dom = editor.dom;
+      var data = __assign({
+        height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
+        scope: dom.getAttrib(elm, 'scope'),
+        class: dom.getAttrib(elm, 'class', ''),
+        align: '',
+        type: elm.parentNode.nodeName.toLowerCase()
+      }, getHAlignment('align', 'align', editor, elm), hasAdvancedRowTab$$1 ? extractAdvancedStyles(dom, elm) : {});
+      return data;
+    };
+    var extractDataFromCellElement = function (editor, elm, hasAdvancedCellTab$$1) {
+      var dom = editor.dom;
+      var data = __assign({
         width: dom.getStyle(elm, 'width') || dom.getAttrib(elm, 'width'),
         height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
         scope: dom.getAttrib(elm, 'scope'),
-        class: dom.getAttrib(elm, 'class'),
-        type: elm.nodeName.toLowerCase(),
-        style: '',
-        align: '',
-        valign: ''
-      };
-      global$1.each('left center right'.split(' '), function (name) {
-        if (editor.formatter.matchNode(elm, 'align' + name)) {
-          data.align = name;
-        }
-      });
-      global$1.each('top middle bottom'.split(' '), function (name) {
-        if (editor.formatter.matchNode(elm, 'valign' + name)) {
-          data.valign = name;
-        }
-      });
-      if (hasAdvancedCellTab(editor)) {
-        global$1.extend(data, Helpers.extractAdvancedStyles(dom, elm));
-      }
+        celltype: elm.nodeName.toLowerCase(),
+        class: dom.getAttrib(elm, 'class', '')
+      }, getHAlignment('align', 'halign', editor, elm), getVAlignment('valign', 'valign', editor, elm), hasAdvancedCellTab$$1 ? extractAdvancedStyles(dom, elm) : {});
       return data;
     };
-    var onSubmitCellForm = function (editor, cells, evt) {
-      var dom = editor.dom;
-      var data;
-      function setAttrib(elm, name, value) {
-        if (cells.length === 1 || value) {
-          dom.setAttrib(elm, name, value);
+    var Helpers = {
+      buildListItems: buildListItems,
+      extractAdvancedStyles: extractAdvancedStyles,
+      getSharedValues: getSharedValues,
+      getAdvancedTab: getAdvancedTab,
+      extractDataFromTableElement: extractDataFromTableElement,
+      extractDataFromRowElement: extractDataFromRowElement,
+      extractDataFromCellElement: extractDataFromCellElement,
+      extractDataFromSettings: extractDataFromSettings
+    };
+
+    var getClassList = function (editor) {
+      var rowClassList = getCellClassList(editor);
+      var classes = Helpers.buildListItems(rowClassList, function (item) {
+        if (item.value) {
+          item.textStyle = function () {
+            return editor.formatter.getCssText({
+              block: 'tr',
+              classes: [item.value]
+            });
+          };
         }
-      }
-      function setStyle(elm, name, value) {
-        if (cells.length === 1 || value) {
-          dom.setStyle(elm, name, value);
-        }
-      }
-      if (hasAdvancedCellTab(editor)) {
-        Helpers.syncAdvancedStyleFields(editor, evt);
-      }
-      data = evt.control.rootControl.toJSON();
-      editor.undoManager.transact(function () {
-        global$1.each(cells, function (cellElm) {
-          setAttrib(cellElm, 'scope', data.scope);
-          if (cells.length === 1) {
-            setAttrib(cellElm, 'style', data.style);
-          } else {
-            updateStyles(cellElm, data.style);
-          }
-          setAttrib(cellElm, 'class', data.class);
-          setStyle(cellElm, 'width', addSizeSuffix(data.width));
-          setStyle(cellElm, 'height', addSizeSuffix(data.height));
-          if (data.type && cellElm.nodeName.toLowerCase() !== data.type) {
-            cellElm = dom.rename(cellElm, data.type);
-          }
-          if (cells.length === 1) {
-            Styles$1.unApplyAlign(editor, cellElm);
-            Styles$1.unApplyVAlign(editor, cellElm);
-          }
-          if (data.align) {
-            Styles$1.applyAlign(editor, cellElm, data.align);
-          }
-          if (data.valign) {
-            Styles$1.applyVAlign(editor, cellElm, data.valign);
-          }
+      });
+      if (rowClassList.length > 0) {
+        return Option.some({
+          name: 'class',
+          type: 'selectbox',
+          label: 'Class',
+          items: classes
         });
+      }
+      return Option.none();
+    };
+    var children$3 = [
+      {
+        name: 'width',
+        type: 'input',
+        label: 'Width'
+      },
+      {
+        name: 'height',
+        type: 'input',
+        label: 'Height'
+      },
+      {
+        name: 'celltype',
+        type: 'selectbox',
+        label: 'Cell type',
+        items: [
+          {
+            text: 'Cell',
+            value: 'td'
+          },
+          {
+            text: 'Header cell',
+            value: 'th'
+          }
+        ]
+      },
+      {
+        name: 'scope',
+        type: 'selectbox',
+        label: 'Scope',
+        items: [
+          {
+            text: 'None',
+            value: ''
+          },
+          {
+            text: 'Row',
+            value: 'row'
+          },
+          {
+            text: 'Column',
+            value: 'col'
+          },
+          {
+            text: 'Row group',
+            value: 'rowgroup'
+          },
+          {
+            text: 'Column group',
+            value: 'colgroup'
+          }
+        ]
+      },
+      {
+        name: 'halign',
+        type: 'selectbox',
+        label: 'H Align',
+        items: [
+          {
+            text: 'None',
+            value: ''
+          },
+          {
+            text: 'Left',
+            value: 'left'
+          },
+          {
+            text: 'Center',
+            value: 'center'
+          },
+          {
+            text: 'Right',
+            value: 'right'
+          }
+        ]
+      },
+      {
+        name: 'valign',
+        type: 'selectbox',
+        label: 'V Align',
+        items: [
+          {
+            text: 'None',
+            value: ''
+          },
+          {
+            text: 'Top',
+            value: 'top'
+          },
+          {
+            text: 'Middle',
+            value: 'middle'
+          },
+          {
+            text: 'Bottom',
+            value: 'bottom'
+          }
+        ]
+      }
+    ];
+    var items = function (editor) {
+      return getClassList(editor).fold(function () {
+        return children$3;
+      }, function (classlist) {
+        return children$3.concat(classlist);
+      });
+    };
+    var CellDialogGeneralTab = { items: items };
+
+    var normal = function (dom, node) {
+      var setAttrib = function (attr, value) {
+        dom.setAttrib(node, attr, value);
+      };
+      var setStyle = function (prop, value) {
+        dom.setStyle(node, prop, value);
+      };
+      return {
+        setAttrib: setAttrib,
+        setStyle: setStyle
+      };
+    };
+    var ifTruthy = function (dom, node) {
+      var setAttrib = function (attr, value) {
+        if (value) {
+          dom.setAttrib(node, attr, value);
+        }
+      };
+      var setStyle = function (prop, value) {
+        if (value) {
+          dom.setStyle(node, prop, value);
+        }
+      };
+      return {
+        setAttrib: setAttrib,
+        setStyle: setStyle
+      };
+    };
+    var DomModifiers = {
+      normal: normal,
+      ifTruthy: ifTruthy
+    };
+
+    var updateSimpleProps = function (modifiers, data) {
+      modifiers.setAttrib('scope', data.scope);
+      modifiers.setAttrib('class', data.class);
+      modifiers.setStyle('width', addSizeSuffix(data.width));
+      modifiers.setStyle('height', addSizeSuffix(data.height));
+    };
+    var updateAdvancedProps = function (modifiers, data) {
+      modifiers.setStyle('background-color', data.backgroundcolor);
+      modifiers.setStyle('border-color', data.bordercolor);
+      modifiers.setStyle('border-style', data.borderstyle);
+    };
+    var applyToSingle = function (editor, cells, data) {
+      var dom = editor.dom;
+      var cellElm = data.celltype && cells[0].nodeName.toLowerCase() !== data.celltype ? dom.rename(cells[0], data.celltype) : cells[0];
+      var modifiers = DomModifiers.normal(dom, cellElm);
+      updateSimpleProps(modifiers, data);
+      if (hasAdvancedCellTab(editor)) {
+        updateAdvancedProps(modifiers, data);
+      }
+      Styles$1.unApplyAlign(editor, cellElm);
+      Styles$1.unApplyVAlign(editor, cellElm);
+      if (data.halign) {
+        Styles$1.applyAlign(editor, cellElm, data.halign);
+      }
+      if (data.valign) {
+        Styles$1.applyVAlign(editor, cellElm, data.valign);
+      }
+    };
+    var applyToMultiple = function (editor, cells, data) {
+      var dom = editor.dom;
+      global$1.each(cells, function (cellElm) {
+        if (data.celltype && cellElm.nodeName.toLowerCase() !== data.celltype) {
+          cellElm = dom.rename(cellElm, data.celltype);
+        }
+        var modifiers = DomModifiers.ifTruthy(dom, cellElm);
+        updateSimpleProps(modifiers, data);
+        if (hasAdvancedCellTab(editor)) {
+          updateAdvancedProps(modifiers, data);
+        }
+        if (data.halign) {
+          Styles$1.applyAlign(editor, cellElm, data.halign);
+        }
+        if (data.valign) {
+          Styles$1.applyVAlign(editor, cellElm, data.valign);
+        }
+      });
+    };
+    var onSubmitCellForm = function (editor, cells, api) {
+      var data = api.getData();
+      api.close();
+      editor.undoManager.transact(function () {
+        var applicator = cells.length === 1 ? applyToSingle : applyToMultiple;
+        applicator(editor, cells, data);
         editor.focus();
       });
     };
     var open = function (editor) {
-      var cellElm, data, classListCtrl, cells = [];
+      var cellElm, cells = [];
       cells = editor.dom.select('td[data-mce-selected],th[data-mce-selected]');
       cellElm = editor.dom.getParent(editor.selection.getStart(), 'td,th');
       if (!cells.length && cellElm) {
@@ -5410,216 +5647,131 @@ var table = (function () {
       if (!cellElm) {
         return;
       }
-      if (cells.length > 1) {
-        data = {
-          width: '',
-          height: '',
-          scope: '',
-          class: '',
-          align: '',
-          valign: '',
-          style: '',
-          type: cellElm.nodeName.toLowerCase()
-        };
-      } else {
-        data = extractDataFromElement(editor, cellElm);
-      }
-      if (getCellClassList(editor).length > 0) {
-        classListCtrl = {
-          name: 'class',
-          type: 'listbox',
-          label: 'Class',
-          values: Helpers.buildListItems(getCellClassList(editor), function (item) {
-            if (item.value) {
-              item.textStyle = function () {
-                return editor.formatter.getCssText({
-                  block: 'td',
-                  classes: [item.value]
-                });
-              };
-            }
-          })
-        };
-      }
-      var generalCellForm = {
-        type: 'form',
-        layout: 'flex',
-        direction: 'column',
-        labelGapCalc: 'children',
-        padding: 0,
-        items: [
+      var cellsData = global$1.map(cells, function (cellElm) {
+        return Helpers.extractDataFromCellElement(editor, cellElm, hasAdvancedCellTab(editor));
+      });
+      var data = Helpers.getSharedValues(cellsData);
+      var dialogTabPanel = {
+        type: 'tabpanel',
+        tabs: [
           {
-            type: 'form',
-            layout: 'grid',
-            columns: 2,
-            labelGapCalc: false,
-            padding: 0,
-            defaults: {
-              type: 'textbox',
-              maxWidth: 50
-            },
-            items: [
-              {
-                label: 'Width',
-                name: 'width',
-                onchange: curry(Helpers.updateStyleField, editor)
-              },
-              {
-                label: 'Height',
-                name: 'height',
-                onchange: curry(Helpers.updateStyleField, editor)
-              },
-              {
-                label: 'Cell type',
-                name: 'type',
-                type: 'listbox',
-                text: 'None',
-                minWidth: 90,
-                maxWidth: null,
-                values: [
-                  {
-                    text: 'Cell',
-                    value: 'td'
-                  },
-                  {
-                    text: 'Header cell',
-                    value: 'th'
-                  }
-                ]
-              },
-              {
-                label: 'Scope',
-                name: 'scope',
-                type: 'listbox',
-                text: 'None',
-                minWidth: 90,
-                maxWidth: null,
-                values: [
-                  {
-                    text: 'None',
-                    value: ''
-                  },
-                  {
-                    text: 'Row',
-                    value: 'row'
-                  },
-                  {
-                    text: 'Column',
-                    value: 'col'
-                  },
-                  {
-                    text: 'Row group',
-                    value: 'rowgroup'
-                  },
-                  {
-                    text: 'Column group',
-                    value: 'colgroup'
-                  }
-                ]
-              },
-              {
-                label: 'H Align',
-                name: 'align',
-                type: 'listbox',
-                text: 'None',
-                minWidth: 90,
-                maxWidth: null,
-                values: [
-                  {
-                    text: 'None',
-                    value: ''
-                  },
-                  {
-                    text: 'Left',
-                    value: 'left'
-                  },
-                  {
-                    text: 'Center',
-                    value: 'center'
-                  },
-                  {
-                    text: 'Right',
-                    value: 'right'
-                  }
-                ]
-              },
-              {
-                label: 'V Align',
-                name: 'valign',
-                type: 'listbox',
-                text: 'None',
-                minWidth: 90,
-                maxWidth: null,
-                values: [
-                  {
-                    text: 'None',
-                    value: ''
-                  },
-                  {
-                    text: 'Top',
-                    value: 'top'
-                  },
-                  {
-                    text: 'Middle',
-                    value: 'middle'
-                  },
-                  {
-                    text: 'Bottom',
-                    value: 'bottom'
-                  }
-                ]
-              }
-            ]
+            title: 'General',
+            items: CellDialogGeneralTab.items(editor)
           },
-          classListCtrl
+          Helpers.getAdvancedTab()
         ]
       };
-      if (hasAdvancedCellTab(editor)) {
-        editor.windowManager.open({
-          title: 'Cell properties',
-          bodyType: 'tabpanel',
-          data: data,
-          body: [
-            {
-              title: 'General',
-              type: 'form',
-              items: generalCellForm
-            },
-            Helpers.createStyleForm(editor)
-          ],
-          onsubmit: curry(onSubmitCellForm, editor, cells)
-        });
-      } else {
-        editor.windowManager.open({
-          title: 'Cell properties',
-          data: data,
-          body: generalCellForm,
-          onsubmit: curry(onSubmitCellForm, editor, cells)
-        });
-      }
+      var dialogPanel = {
+        type: 'panel',
+        items: [{
+            type: 'grid',
+            columns: 2,
+            items: CellDialogGeneralTab.items(editor)
+          }]
+      };
+      editor.windowManager.open({
+        title: 'Cell Properties',
+        size: 'normal',
+        body: hasAdvancedCellTab(editor) ? dialogTabPanel : dialogPanel,
+        buttons: [
+          {
+            type: 'cancel',
+            name: 'cancel',
+            text: 'Cancel'
+          },
+          {
+            type: 'submit',
+            name: 'save',
+            text: 'Save',
+            primary: true
+          }
+        ],
+        initialData: data,
+        onSubmit: curry(onSubmitCellForm, editor, cells)
+      });
     };
     var CellDialog = { open: open };
 
-    var extractDataFromElement$1 = function (editor, elm) {
-      var dom = editor.dom;
-      var data = {
-        height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
-        scope: dom.getAttrib(elm, 'scope'),
-        class: dom.getAttrib(elm, 'class'),
-        align: '',
-        style: '',
-        type: elm.parentNode.nodeName.toLowerCase()
-      };
-      global$1.each('left center right'.split(' '), function (name) {
-        if (editor.formatter.matchNode(elm, 'align' + name)) {
-          data.align = name;
+    var getClassList$1 = function (editor) {
+      var rowClassList = getRowClassList(editor);
+      var classes = Helpers.buildListItems(rowClassList, function (item) {
+        if (item.value) {
+          item.textStyle = function () {
+            return editor.formatter.getCssText({
+              block: 'tr',
+              classes: [item.value]
+            });
+          };
         }
       });
-      if (hasAdvancedRowTab(editor)) {
-        global$1.extend(data, Helpers.extractAdvancedStyles(dom, elm));
+      if (rowClassList.length > 0) {
+        return Option.some({
+          name: 'class',
+          type: 'selectbox',
+          label: 'Class',
+          items: classes
+        });
       }
-      return data;
+      return Option.none();
     };
+    var formChildren = [
+      {
+        type: 'selectbox',
+        name: 'type',
+        label: 'Row type',
+        items: [
+          {
+            text: 'Header',
+            value: 'thead'
+          },
+          {
+            text: 'Body',
+            value: 'tbody'
+          },
+          {
+            text: 'Footer',
+            value: 'tfoot'
+          }
+        ]
+      },
+      {
+        type: 'selectbox',
+        name: 'align',
+        label: 'Alignment',
+        items: [
+          {
+            text: 'None',
+            value: ''
+          },
+          {
+            text: 'Left',
+            value: 'left'
+          },
+          {
+            text: 'Center',
+            value: 'center'
+          },
+          {
+            text: 'Right',
+            value: 'right'
+          }
+        ]
+      },
+      {
+        label: 'Height',
+        name: 'height',
+        type: 'input'
+      }
+    ];
+    var items$1 = function (editor) {
+      return getClassList$1(editor).fold(function () {
+        return formChildren;
+      }, function (classes) {
+        return formChildren.concat(classes);
+      });
+    };
+    var RowDialogGeneralTab = { items: items$1 };
+
     var switchRowType = function (dom, rowElm, toType) {
       var tableElm = dom.getParent(rowElm, 'table');
       var oldParentElm = rowElm.parentNode;
@@ -5641,30 +5793,27 @@ var table = (function () {
         dom.remove(oldParentElm);
       }
     };
-    function onSubmitRowForm(editor, rows, oldData, evt) {
+    var updateAdvancedProps$1 = function (modifiers, data) {
+      modifiers.setStyle('background-color', data.backgroundcolor);
+      modifiers.setStyle('border-color', data.bordercolor);
+      modifiers.setStyle('border-style', data.borderstyle);
+    };
+    var onSubmitRowForm = function (editor, rows, oldData, api) {
       var dom = editor.dom;
-      function setAttrib(elm, name, value) {
-        if (rows.length === 1 || value) {
-          dom.setAttrib(elm, name, value);
-        }
-      }
-      function setStyle(elm, name, value) {
-        if (rows.length === 1 || value) {
-          dom.setStyle(elm, name, value);
-        }
-      }
-      if (hasAdvancedRowTab(editor)) {
-        Helpers.syncAdvancedStyleFields(editor, evt);
-      }
-      var data = evt.control.rootControl.toJSON();
+      var data = api.getData();
+      api.close();
+      var createModifier = rows.length === 1 ? DomModifiers.normal : DomModifiers.ifTruthy;
       editor.undoManager.transact(function () {
         global$1.each(rows, function (rowElm) {
-          setAttrib(rowElm, 'scope', data.scope);
-          setAttrib(rowElm, 'style', data.style);
-          setAttrib(rowElm, 'class', data.class);
-          setStyle(rowElm, 'height', addSizeSuffix(data.height));
           if (data.type !== rowElm.parentNode.nodeName.toLowerCase()) {
             switchRowType(editor.dom, rowElm, data.type);
+          }
+          var modifiers = createModifier(dom, rowElm);
+          modifiers.setAttrib('scope', data.scope);
+          modifiers.setAttrib('class', data.class);
+          modifiers.setStyle('height', addSizeSuffix(data.height));
+          if (hasAdvancedRowTab(editor)) {
+            updateAdvancedProps$1(modifiers, data);
           }
           if (data.align !== oldData.align) {
             Styles$1.unApplyAlign(editor, rowElm);
@@ -5673,17 +5822,19 @@ var table = (function () {
         });
         editor.focus();
       });
-    }
+    };
     var open$1 = function (editor) {
       var dom = editor.dom;
-      var tableElm, cellElm, rowElm, classListCtrl, data;
+      var tableElm, cellElm, rowElm;
       var rows = [];
-      var generalRowForm;
       tableElm = dom.getParent(editor.selection.getStart(), 'table');
+      if (!tableElm) {
+        return;
+      }
       cellElm = dom.getParent(editor.selection.getStart(), 'td,th');
       global$1.each(tableElm.rows, function (row) {
         global$1.each(row.cells, function (cell) {
-          if (dom.getAttrib(cell, 'data-mce-selected') || cell === cellElm) {
+          if ((dom.getAttrib(cell, 'data-mce-selected') || cell === cellElm) && rows.indexOf(row) < 0) {
             rows.push(row);
             return false;
           }
@@ -5693,117 +5844,48 @@ var table = (function () {
       if (!rowElm) {
         return;
       }
-      if (rows.length > 1) {
-        data = {
-          height: '',
-          scope: '',
-          style: '',
-          class: '',
-          align: '',
-          type: rowElm.parentNode.nodeName.toLowerCase()
-        };
-      } else {
-        data = extractDataFromElement$1(editor, rowElm);
-      }
-      if (getRowClassList(editor).length > 0) {
-        classListCtrl = {
-          name: 'class',
-          type: 'listbox',
-          label: 'Class',
-          values: Helpers.buildListItems(getRowClassList(editor), function (item) {
-            if (item.value) {
-              item.textStyle = function () {
-                return editor.formatter.getCssText({
-                  block: 'tr',
-                  classes: [item.value]
-                });
-              };
-            }
-          })
-        };
-      }
-      generalRowForm = {
-        type: 'form',
-        columns: 2,
-        padding: 0,
-        defaults: { type: 'textbox' },
-        items: [
+      var rowsData = global$1.map(rows, function (rowElm) {
+        return Helpers.extractDataFromRowElement(editor, rowElm, hasAdvancedRowTab(editor));
+      });
+      var data = Helpers.getSharedValues(rowsData);
+      var dialogTabPanel = {
+        type: 'tabpanel',
+        tabs: [
           {
-            type: 'listbox',
-            name: 'type',
-            label: 'Row type',
-            text: 'Header',
-            maxWidth: null,
-            values: [
-              {
-                text: 'Header',
-                value: 'thead'
-              },
-              {
-                text: 'Body',
-                value: 'tbody'
-              },
-              {
-                text: 'Footer',
-                value: 'tfoot'
-              }
-            ]
+            title: 'General',
+            items: RowDialogGeneralTab.items(editor)
           },
-          {
-            type: 'listbox',
-            name: 'align',
-            label: 'Alignment',
-            text: 'None',
-            maxWidth: null,
-            values: [
-              {
-                text: 'None',
-                value: ''
-              },
-              {
-                text: 'Left',
-                value: 'left'
-              },
-              {
-                text: 'Center',
-                value: 'center'
-              },
-              {
-                text: 'Right',
-                value: 'right'
-              }
-            ]
-          },
-          {
-            label: 'Height',
-            name: 'height'
-          },
-          classListCtrl
+          Helpers.getAdvancedTab()
         ]
       };
-      if (hasAdvancedRowTab(editor)) {
-        editor.windowManager.open({
-          title: 'Row properties',
-          data: data,
-          bodyType: 'tabpanel',
-          body: [
-            {
-              title: 'General',
-              type: 'form',
-              items: generalRowForm
-            },
-            Helpers.createStyleForm(editor)
-          ],
-          onsubmit: curry(onSubmitRowForm, editor, rows, data)
-        });
-      } else {
-        editor.windowManager.open({
-          title: 'Row properties',
-          data: data,
-          body: generalRowForm,
-          onsubmit: curry(onSubmitRowForm, editor, rows, data)
-        });
-      }
+      var dialogPanel = {
+        type: 'panel',
+        items: [{
+            type: 'grid',
+            columns: 2,
+            items: RowDialogGeneralTab.items(editor)
+          }]
+      };
+      editor.windowManager.open({
+        title: 'Row Properties',
+        size: 'normal',
+        body: hasAdvancedRowTab(editor) ? dialogTabPanel : dialogPanel,
+        buttons: [
+          {
+            type: 'cancel',
+            name: 'cancel',
+            text: 'Cancel'
+          },
+          {
+            type: 'submit',
+            name: 'save',
+            text: 'Save',
+            primary: true
+          }
+        ],
+        initialData: data,
+        onSubmit: curry(onSubmitRowForm, editor, rows, data)
+      });
     };
     var RowDialog = { open: open$1 };
 
@@ -5915,7 +5997,7 @@ var table = (function () {
     };
     var InsertTable = { insert: insert$1 };
 
-    function styleTDTH(dom, elm, name, value) {
+    var styleTDTH = function (dom, elm, name, value) {
       if (elm.tagName === 'TD' || elm.tagName === 'TH') {
         dom.setStyle(elm, name, value);
       } else {
@@ -5925,28 +6007,6 @@ var table = (function () {
           }
         }
       }
-    }
-    var extractDataFromElement$2 = function (editor, tableElm) {
-      var dom = editor.dom;
-      var data = {
-        width: dom.getStyle(tableElm, 'width') || dom.getAttrib(tableElm, 'width'),
-        height: dom.getStyle(tableElm, 'height') || dom.getAttrib(tableElm, 'height'),
-        cellspacing: dom.getStyle(tableElm, 'border-spacing') || dom.getAttrib(tableElm, 'cellspacing'),
-        cellpadding: dom.getAttrib(tableElm, 'data-mce-cell-padding') || dom.getAttrib(tableElm, 'cellpadding') || Styles$1.getTDTHOverallStyle(editor.dom, tableElm, 'padding'),
-        border: dom.getAttrib(tableElm, 'data-mce-border') || dom.getAttrib(tableElm, 'border') || Styles$1.getTDTHOverallStyle(editor.dom, tableElm, 'border'),
-        borderColor: dom.getAttrib(tableElm, 'data-mce-border-color'),
-        caption: !!dom.select('caption', tableElm)[0],
-        class: dom.getAttrib(tableElm, 'class')
-      };
-      global$1.each('left center right'.split(' '), function (name) {
-        if (editor.formatter.matchNode(tableElm, 'align' + name)) {
-          data.align = name;
-        }
-      });
-      if (hasAdvancedTableTab(editor)) {
-        global$1.extend(data, Helpers.extractAdvancedStyles(dom, tableElm));
-      }
-      return data;
     };
     var applyDataToElement = function (editor, tableElm, data) {
       var dom = editor.dom;
@@ -5962,51 +6022,43 @@ var table = (function () {
       if (shouldStyleWithCss(editor)) {
         styles['border-width'] = addSizeSuffix(data.border);
         styles['border-spacing'] = addSizeSuffix(data.cellspacing);
-        global$1.extend(attrs, {
-          'data-mce-border-color': data.borderColor,
-          'data-mce-cell-padding': data.cellpadding,
-          'data-mce-border': data.border
-        });
       } else {
-        global$1.extend(attrs, {
-          border: data.border,
-          cellpadding: data.cellpadding,
-          cellspacing: data.cellspacing
-        });
+        attrs.border = data.border;
+        attrs.cellpadding = data.cellpadding;
+        attrs.cellspacing = data.cellspacing;
       }
-      if (shouldStyleWithCss(editor)) {
-        if (tableElm.children) {
-          for (var i = 0; i < tableElm.children.length; i++) {
-            styleTDTH(dom, tableElm.children[i], {
-              'border-width': addSizeSuffix(data.border),
-              'border-color': data.borderColor,
-              'padding': addSizeSuffix(data.cellpadding)
-            });
+      if (shouldStyleWithCss(editor) && tableElm.children) {
+        for (var i = 0; i < tableElm.children.length; i++) {
+          styleTDTH(dom, tableElm.children[i], {
+            'border-width': addSizeSuffix(data.border),
+            'padding': addSizeSuffix(data.cellpadding)
+          });
+          if (hasAdvancedTableTab(editor)) {
+            styleTDTH(dom, tableElm.children[i], { 'border-color': data.bordercolor });
           }
         }
       }
-      if (data.style) {
-        global$1.extend(styles, dom.parseStyle(data.style));
-      } else {
-        styles = global$1.extend({}, dom.parseStyle(dom.getAttrib(tableElm, 'style')), styles);
+      if (hasAdvancedTableTab(editor)) {
+        styles['background-color'] = data.backgroundcolor;
+        styles['border-color'] = data.bordercolor;
+        styles['border-style'] = data.borderstyle;
       }
-      attrs.style = dom.serializeStyle(styles);
-      dom.setAttribs(tableElm, attrs);
+      attrs.style = dom.serializeStyle(merge$1(getDefaultStyles(editor), styles));
+      dom.setAttribs(tableElm, merge$1(getDefaultAttributes(editor), attrs));
     };
-    var onSubmitTableForm = function (editor, tableElm, evt) {
+    var onSubmitTableForm = function (editor, tableElm, api) {
       var dom = editor.dom;
       var captionElm;
-      var data;
-      if (hasAdvancedTableTab(editor)) {
-        Helpers.syncAdvancedStyleFields(editor, evt);
-      }
-      data = evt.control.rootControl.toJSON();
-      if (data.class === false) {
+      var data = api.getData();
+      api.close();
+      if (data.class === '') {
         delete data.class;
       }
       editor.undoManager.transact(function () {
         if (!tableElm) {
-          tableElm = InsertTable.insert(editor, data.cols || 1, data.rows || 1);
+          var cols = parseInt(data.cols, 10) || 1;
+          var rows = parseInt(data.rows, 10) || 1;
+          tableElm = InsertTable.insert(editor, cols, rows);
         }
         applyDataToElement(editor, tableElm, data);
         captionElm = dom.select('caption', tableElm)[0];
@@ -6018,41 +6070,123 @@ var table = (function () {
           captionElm.innerHTML = !global$2.ie ? '<br data-mce-bogus="1"/>' : '\xA0';
           tableElm.insertBefore(captionElm, tableElm.firstChild);
         }
-        Styles$1.unApplyAlign(editor, tableElm);
-        if (data.align) {
+        if (data.align === '') {
+          Styles$1.unApplyAlign(editor, tableElm);
+        } else {
           Styles$1.applyAlign(editor, tableElm, data.align);
         }
         editor.focus();
         editor.addVisual();
       });
     };
-    var open$2 = function (editor, isProps) {
+    var open$2 = function (editor, isNew) {
       var dom = editor.dom;
-      var tableElm, colsCtrl, rowsCtrl, classListCtrl, data = {}, generalTableForm;
-      if (isProps === true) {
+      var tableElm;
+      var data = Helpers.extractDataFromSettings(editor, hasAdvancedTableTab(editor));
+      if (isNew === false) {
         tableElm = dom.getParent(editor.selection.getStart(), 'table');
         if (tableElm) {
-          data = extractDataFromElement$2(editor, tableElm);
+          data = Helpers.extractDataFromTableElement(editor, tableElm, hasAdvancedTableTab(editor));
+        } else {
+          if (hasAdvancedTableTab(editor)) {
+            data.borderstyle = '';
+            data.bordercolor = '';
+            data.backgroundcolor = '';
+          }
         }
       } else {
-        colsCtrl = {
-          label: 'Cols',
-          name: 'cols'
-        };
-        rowsCtrl = {
-          label: 'Rows',
-          name: 'rows'
-        };
+        data.cols = '1';
+        data.rows = '1';
+        if (hasAdvancedTableTab(editor)) {
+          data.borderstyle = '';
+          data.bordercolor = '';
+          data.backgroundcolor = '';
+        }
       }
-      if (getTableClassList(editor).length > 0) {
+      var hasClasses = getTableClassList(editor).length > 0;
+      if (hasClasses) {
         if (data.class) {
           data.class = data.class.replace(/\s*mce\-item\-table\s*/g, '');
         }
-        classListCtrl = {
+      }
+      var rowColCountItems = !isNew ? [] : [
+        {
+          type: 'input',
+          name: 'cols',
+          label: 'Cols'
+        },
+        {
+          type: 'input',
+          name: 'rows',
+          label: 'Rows'
+        }
+      ];
+      var alwaysItems = [
+        {
+          type: 'input',
+          name: 'width',
+          label: 'Width'
+        },
+        {
+          type: 'input',
+          name: 'height',
+          label: 'Height'
+        }
+      ];
+      var appearanceItems = hasAppearanceOptions(editor) ? [
+        {
+          type: 'input',
+          name: 'cellspacing',
+          label: 'Cell spacing'
+        },
+        {
+          type: 'input',
+          name: 'cellpadding',
+          label: 'Cell padding'
+        },
+        {
+          type: 'input',
+          name: 'border',
+          label: 'Border width'
+        },
+        {
+          type: 'label',
+          label: 'Caption',
+          items: [{
+              type: 'checkbox',
+              name: 'caption',
+              label: 'Show caption'
+            }]
+        }
+      ] : [];
+      var alignmentItem = [{
+          type: 'selectbox',
+          name: 'align',
+          label: 'Alignment',
+          items: [
+            {
+              text: 'None',
+              value: ''
+            },
+            {
+              text: 'Left',
+              value: 'left'
+            },
+            {
+              text: 'Center',
+              value: 'center'
+            },
+            {
+              text: 'Right',
+              value: 'right'
+            }
+          ]
+        }];
+      var classListItem = hasClasses ? [{
+          type: 'selectbox',
           name: 'class',
-          type: 'listbox',
           label: 'Class',
-          values: Helpers.buildListItems(getTableClassList(editor), function (item) {
+          items: Helpers.buildListItems(getTableClassList(editor), function (item) {
             if (item.value) {
               item.textStyle = function () {
                 return editor.formatter.getCssText({
@@ -6062,120 +6196,48 @@ var table = (function () {
               };
             }
           })
-        };
-      }
-      generalTableForm = {
-        type: 'form',
-        layout: 'flex',
-        direction: 'column',
-        labelGapCalc: 'children',
-        padding: 0,
-        items: [
+        }] : [];
+      var generalTabItems = rowColCountItems.concat(alwaysItems).concat(appearanceItems).concat(alignmentItem).concat(classListItem);
+      var generalPanel = {
+        type: 'grid',
+        columns: 2,
+        items: generalTabItems
+      };
+      var nonAdvancedForm = {
+        type: 'panel',
+        items: [generalPanel]
+      };
+      var advancedForm = {
+        type: 'tabpanel',
+        tabs: [
           {
-            type: 'form',
-            labelGapCalc: false,
-            padding: 0,
-            layout: 'grid',
-            columns: 2,
-            defaults: {
-              type: 'textbox',
-              maxWidth: 50
-            },
-            items: hasAppearanceOptions(editor) ? [
-              colsCtrl,
-              rowsCtrl,
-              {
-                label: 'Width',
-                name: 'width',
-                onchange: curry(Helpers.updateStyleField, editor)
-              },
-              {
-                label: 'Height',
-                name: 'height',
-                onchange: curry(Helpers.updateStyleField, editor)
-              },
-              {
-                label: 'Cell spacing',
-                name: 'cellspacing'
-              },
-              {
-                label: 'Cell padding',
-                name: 'cellpadding'
-              },
-              {
-                label: 'Border',
-                name: 'border'
-              },
-              {
-                label: 'Caption',
-                name: 'caption',
-                type: 'checkbox'
-              }
-            ] : [
-              colsCtrl,
-              rowsCtrl,
-              {
-                label: 'Width',
-                name: 'width',
-                onchange: curry(Helpers.updateStyleField, editor)
-              },
-              {
-                label: 'Height',
-                name: 'height',
-                onchange: curry(Helpers.updateStyleField, editor)
-              }
-            ]
+            title: 'General',
+            items: [generalPanel]
           },
-          {
-            label: 'Alignment',
-            name: 'align',
-            type: 'listbox',
-            text: 'None',
-            values: [
-              {
-                text: 'None',
-                value: ''
-              },
-              {
-                text: 'Left',
-                value: 'left'
-              },
-              {
-                text: 'Center',
-                value: 'center'
-              },
-              {
-                text: 'Right',
-                value: 'right'
-              }
-            ]
-          },
-          classListCtrl
+          Helpers.getAdvancedTab()
         ]
       };
-      if (hasAdvancedTableTab(editor)) {
-        editor.windowManager.open({
-          title: 'Table properties',
-          data: data,
-          bodyType: 'tabpanel',
-          body: [
-            {
-              title: 'General',
-              type: 'form',
-              items: generalTableForm
-            },
-            Helpers.createStyleForm(editor)
-          ],
-          onsubmit: curry(onSubmitTableForm, editor, tableElm)
-        });
-      } else {
-        editor.windowManager.open({
-          title: 'Table properties',
-          data: data,
-          body: generalTableForm,
-          onsubmit: curry(onSubmitTableForm, editor, tableElm)
-        });
-      }
+      var dialogBody = hasAdvancedTableTab(editor) ? advancedForm : nonAdvancedForm;
+      editor.windowManager.open({
+        title: 'Table Properties',
+        size: 'normal',
+        body: dialogBody,
+        onSubmit: curry(onSubmitTableForm, editor, tableElm),
+        buttons: [
+          {
+            type: 'cancel',
+            name: 'cancel',
+            text: 'Cancel'
+          },
+          {
+            type: 'submit',
+            name: 'save',
+            text: 'Save',
+            primary: true
+          }
+        ],
+        initialData: data
+      });
     };
     var TableDialog = { open: open$2 };
 
@@ -6184,15 +6246,21 @@ var table = (function () {
       var isRoot = getIsRoot(editor);
       var eraseTable = function () {
         var cell = Element$$1.fromDom(editor.dom.getParent(editor.selection.getStart(), 'th,td'));
-        var table = TableLookup.table(cell, isRoot);
-        table.filter(not(isRoot)).each(function (table) {
+        var tableOpt = TableLookup.table(cell, isRoot);
+        tableOpt.filter(not(isRoot)).each(function (table) {
           var cursor = Element$$1.fromText('');
           after(table, cursor);
           remove$2(table);
-          var rng = editor.dom.createRng();
-          rng.setStart(cursor.dom(), 0);
-          rng.setEnd(cursor.dom(), 0);
-          editor.selection.setRng(rng);
+          if (editor.dom.isEmpty(editor.getBody())) {
+            editor.setContent('');
+            editor.selection.setCursorLocation();
+          } else {
+            var rng = editor.dom.createRng();
+            rng.setStart(cursor.dom(), 0);
+            rng.setEnd(cursor.dom(), 0);
+            editor.selection.setRng(rng);
+            editor.nodeChanged();
+          }
         });
       };
       var getSelectionStartCell = function () {
@@ -6301,8 +6369,8 @@ var table = (function () {
         editor.addCommand(name, func);
       });
       each$3({
-        mceInsertTable: curry(TableDialog.open, editor),
-        mceTableProps: curry(TableDialog.open, editor, true),
+        mceInsertTable: curry(TableDialog.open, editor, true),
+        mceTableProps: curry(TableDialog.open, editor, false),
         mceTableRowProps: curry(RowDialog.open, editor),
         mceTableCellProps: curry(CellDialog.open, editor)
       }, function (func, name) {
@@ -6440,19 +6508,20 @@ var table = (function () {
 
     var mkEvent = function (target, x, y, stop, prevent, kill, raw) {
       return {
-        'target': constant(target),
-        'x': constant(x),
-        'y': constant(y),
-        'stop': stop,
-        'prevent': prevent,
-        'kill': kill,
-        'raw': constant(raw)
+        target: constant(target),
+        x: constant(x),
+        y: constant(y),
+        stop: stop,
+        prevent: prevent,
+        kill: kill,
+        raw: constant(raw)
       };
     };
     var handle = function (filter, handler) {
       return function (rawEvent) {
-        if (!filter(rawEvent))
+        if (!filter(rawEvent)) {
           return;
+        }
         var target = Element$$1.fromDom(rawEvent.target);
         var stop = function () {
           rawEvent.stopPropagation();
@@ -7051,9 +7120,9 @@ var table = (function () {
     };
 
     var adt = Adt.generate([
-      { 'before': ['element'] },
+      { before: ['element'] },
       {
-        'on': [
+        on: [
           'element',
           'offset'
         ]
@@ -7274,10 +7343,11 @@ var table = (function () {
     var rtl$2 = adt$1.rtl;
 
     var searchForPoint = function (rectForOffset, x, y, maxX, length) {
-      if (length === 0)
+      if (length === 0) {
         return 0;
-      else if (x === maxX)
+      } else if (x === maxX) {
         return length - 1;
+      }
       var xDelta = maxX;
       for (var i = 1; i < length; i++) {
         var rect = rectForOffset(i);
@@ -7297,14 +7367,14 @@ var table = (function () {
     };
 
     var locateOffset = function (doc, textnode, x, y, rect) {
-      var rangeForOffset = function (offset) {
+      var rangeForOffset = function (o) {
         var r = doc.dom().createRange();
-        r.setStart(textnode.dom(), offset);
+        r.setStart(textnode.dom(), o);
         r.collapse(true);
         return r;
       };
-      var rectForOffset = function (offset) {
-        var r = rangeForOffset(offset);
+      var rectForOffset = function (o) {
+        var r = rangeForOffset(o);
         return r.getBoundingClientRect();
       };
       var length = get$3(textnode).length;
@@ -7377,8 +7447,9 @@ var table = (function () {
 
     var caretPositionFromPoint = function (doc, x, y) {
       return Option.from(doc.dom().caretPositionFromPoint(x, y)).bind(function (pos) {
-        if (pos.offsetNode === null)
+        if (pos.offsetNode === null) {
           return Option.none();
+        }
         var r = doc.dom().createRange();
         r.setStart(pos.offsetNode, pos.offset);
         r.collapse();
@@ -7414,15 +7485,16 @@ var table = (function () {
 
     var beforeSpecial = function (element, offset) {
       var name$$1 = name(element);
-      if ('input' === name$$1)
+      if ('input' === name$$1) {
         return Situ.after(element);
-      else if (!contains([
+      } else if (!contains([
           'br',
           'img'
-        ], name$$1))
+        ], name$$1)) {
         return Situ.on(element, offset);
-      else
+      } else {
         return offset === 0 ? Situ.before(element) : Situ.after(element);
+      }
     };
     var preprocessRelative = function (startSitu, finishSitu) {
       var start = startSitu.fold(Situ.before, beforeSpecial, Situ.after);
@@ -7651,14 +7723,14 @@ var table = (function () {
     };
 
     var isSafari = PlatformDetection$1.detect().browser.isSafari();
-    var get$b = function (_doc) {
-      var doc = _doc !== undefined ? _doc.dom() : document;
+    var get$b = function (_DOC) {
+      var doc = _DOC !== undefined ? _DOC.dom() : document;
       var x = doc.body.scrollLeft || doc.documentElement.scrollLeft;
       var y = doc.body.scrollTop || doc.documentElement.scrollTop;
       return Position(x, y);
     };
-    var by = function (x, y, _doc) {
-      var doc = _doc !== undefined ? _doc.dom() : document;
+    var by = function (x, y, _DOC) {
+      var doc = _DOC !== undefined ? _DOC.dom() : document;
       var win = doc.defaultView;
       win.scrollBy(x, y);
     };
@@ -8024,9 +8096,6 @@ var table = (function () {
     };
 
     var universe$2 = DomUniverse();
-    var gather = function (element, prune, transform) {
-      return Gather.gather(universe$2, element, prune, transform);
-    };
     var before$4 = function (element, isRoot) {
       return Gather.before(universe$2, element, isRoot);
     };
@@ -8046,7 +8115,6 @@ var table = (function () {
       return Gather.walk(universe$2, item, mode, direction, _rules);
     };
     var DomGather = {
-      gather: gather,
       before: before$4,
       after: after$5,
       seekLeft: seekLeft$1,
@@ -8813,100 +8881,112 @@ var table = (function () {
       return { get: get };
     };
 
-    var each$4 = global$1.each;
     var addButtons = function (editor) {
-      var menuItems = [];
-      each$4('inserttable tableprops deletetable | cell row column'.split(' '), function (name) {
-        if (name === '|') {
-          menuItems.push({ text: '-' });
-        } else {
-          menuItems.push(editor.menuItems[name]);
+      editor.ui.registry.addMenuButton('table', {
+        tooltip: 'Table',
+        icon: 'table',
+        fetch: function (callback) {
+          return callback('inserttable tableprops deletetable | cell row column');
         }
       });
-      editor.addButton('table', {
-        type: 'menubutton',
-        title: 'Table',
-        menu: menuItems
-      });
-      function cmd(command) {
+      var cmd = function (command) {
         return function () {
-          editor.execCommand(command);
+          return editor.execCommand(command);
         };
-      }
-      editor.addButton('tableprops', {
-        title: 'Table properties',
-        onclick: cmd('mceTableProps'),
+      };
+      editor.ui.registry.addButton('tableprops', {
+        tooltip: 'Table properties',
+        onAction: cmd('mceTableProps'),
         icon: 'table'
       });
-      editor.addButton('tabledelete', {
-        title: 'Delete table',
-        onclick: cmd('mceTableDelete')
+      editor.ui.registry.addButton('tabledelete', {
+        tooltip: 'Delete table',
+        onAction: cmd('mceTableDelete'),
+        icon: 'table-delete-table'
       });
-      editor.addButton('tablecellprops', {
-        title: 'Cell properties',
-        onclick: cmd('mceTableCellProps')
+      editor.ui.registry.addButton('tablecellprops', {
+        tooltip: 'Cell properties',
+        onAction: cmd('mceTableCellProps'),
+        icon: 'table-cell-properties'
       });
-      editor.addButton('tablemergecells', {
-        title: 'Merge cells',
-        onclick: cmd('mceTableMergeCells')
+      editor.ui.registry.addButton('tablemergecells', {
+        tooltip: 'Merge cells',
+        onAction: cmd('mceTableMergeCells'),
+        icon: 'table-merge-cells'
       });
-      editor.addButton('tablesplitcells', {
-        title: 'Split cell',
-        onclick: cmd('mceTableSplitCells')
+      editor.ui.registry.addButton('tablesplitcells', {
+        tooltip: 'Split cell',
+        onAction: cmd('mceTableSplitCells'),
+        icon: 'table-split-cells'
       });
-      editor.addButton('tableinsertrowbefore', {
-        title: 'Insert row before',
-        onclick: cmd('mceTableInsertRowBefore')
+      editor.ui.registry.addButton('tableinsertrowbefore', {
+        tooltip: 'Insert row before',
+        onAction: cmd('mceTableInsertRowBefore'),
+        icon: 'table-insert-row-above'
       });
-      editor.addButton('tableinsertrowafter', {
-        title: 'Insert row after',
-        onclick: cmd('mceTableInsertRowAfter')
+      editor.ui.registry.addButton('tableinsertrowafter', {
+        tooltip: 'Insert row after',
+        onAction: cmd('mceTableInsertRowAfter'),
+        icon: 'table-insert-row-after'
       });
-      editor.addButton('tabledeleterow', {
-        title: 'Delete row',
-        onclick: cmd('mceTableDeleteRow')
+      editor.ui.registry.addButton('tabledeleterow', {
+        tooltip: 'Delete row',
+        onAction: cmd('mceTableDeleteRow'),
+        icon: 'table-delete-row'
       });
-      editor.addButton('tablerowprops', {
-        title: 'Row properties',
-        onclick: cmd('mceTableRowProps')
+      editor.ui.registry.addButton('tablerowprops', {
+        tooltip: 'Row properties',
+        onAction: cmd('mceTableRowProps'),
+        icon: 'table-row-properties'
       });
-      editor.addButton('tablecutrow', {
-        title: 'Cut row',
-        onclick: cmd('mceTableCutRow')
+      editor.ui.registry.addButton('tableinsertcolbefore', {
+        tooltip: 'Insert column before',
+        onAction: cmd('mceTableInsertColBefore'),
+        icon: 'table-insert-column-before'
       });
-      editor.addButton('tablecopyrow', {
-        title: 'Copy row',
-        onclick: cmd('mceTableCopyRow')
+      editor.ui.registry.addButton('tableinsertcolafter', {
+        tooltip: 'Insert column after',
+        onAction: cmd('mceTableInsertColAfter'),
+        icon: 'table-insert-column-after'
       });
-      editor.addButton('tablepasterowbefore', {
-        title: 'Paste row before',
-        onclick: cmd('mceTablePasteRowBefore')
+      editor.ui.registry.addButton('tabledeletecol', {
+        tooltip: 'Delete column',
+        onAction: cmd('mceTableDeleteCol'),
+        icon: 'table-delete-column'
       });
-      editor.addButton('tablepasterowafter', {
-        title: 'Paste row after',
-        onclick: cmd('mceTablePasteRowAfter')
+      editor.ui.registry.addButton('tablecutrow', {
+        tooltip: 'Cut row',
+        onAction: cmd('mceTableCutRow'),
+        icon: 'temporary-placeholder'
       });
-      editor.addButton('tableinsertcolbefore', {
-        title: 'Insert column before',
-        onclick: cmd('mceTableInsertColBefore')
+      editor.ui.registry.addButton('tablecopyrow', {
+        tooltip: 'Copy row',
+        onAction: cmd('mceTableCopyRow'),
+        icon: 'temporary-placeholder'
       });
-      editor.addButton('tableinsertcolafter', {
-        title: 'Insert column after',
-        onclick: cmd('mceTableInsertColAfter')
+      editor.ui.registry.addButton('tablepasterowbefore', {
+        tooltip: 'Paste row before',
+        onAction: cmd('mceTablePasteRowBefore'),
+        icon: 'temporary-placeholder'
       });
-      editor.addButton('tabledeletecol', {
-        title: 'Delete column',
-        onclick: cmd('mceTableDeleteCol')
+      editor.ui.registry.addButton('tablepasterowafter', {
+        tooltip: 'Paste row after',
+        onAction: cmd('mceTablePasteRowAfter'),
+        icon: 'temporary-placeholder'
       });
     };
     var addToolbars = function (editor) {
       var isTable = function (table) {
-        var selectorMatched = editor.dom.is(table, 'table') && editor.getBody().contains(table);
-        return selectorMatched;
+        return editor.dom.is(table, 'table') && editor.getBody().contains(table);
       };
       var toolbar = getToolbar(editor);
       if (toolbar.length > 0) {
-        editor.addContextToolbar(isTable, toolbar.join(' '));
+        editor.ui.registry.addContextToolbar('table', {
+          predicate: isTable,
+          items: toolbar,
+          scope: 'node',
+          position: 'node'
+        });
       }
     };
     var Buttons = {
@@ -8915,291 +8995,229 @@ var table = (function () {
     };
 
     var addMenuItems = function (editor, selections) {
-      var targets = Option.none();
-      var tableCtrls = [];
-      var cellCtrls = [];
-      var mergeCtrls = [];
-      var unmergeCtrls = [];
+      var targets = Option.none;
       var noTargetDisable = function (ctrl) {
-        ctrl.disabled(true);
+        ctrl.setDisabled(true);
       };
       var ctrlEnable = function (ctrl) {
-        ctrl.disabled(false);
+        ctrl.setDisabled(false);
       };
-      var pushTable = function () {
-        var self = this;
-        tableCtrls.push(self);
-        targets.fold(function () {
-          noTargetDisable(self);
+      var setEnabled = function (api) {
+        targets().fold(function () {
+          noTargetDisable(api);
         }, function (targets) {
-          ctrlEnable(self);
+          ctrlEnable(api);
         });
+        return function () {
+        };
       };
-      var pushCell = function () {
-        var self = this;
-        cellCtrls.push(self);
-        targets.fold(function () {
-          noTargetDisable(self);
+      var setEnabledMerge = function (api) {
+        targets().fold(function () {
+          noTargetDisable(api);
         }, function (targets) {
-          ctrlEnable(self);
+          api.setDisabled(targets.mergable().isNone());
         });
+        return function () {
+        };
       };
-      var pushMerge = function () {
-        var self = this;
-        mergeCtrls.push(self);
-        targets.fold(function () {
-          noTargetDisable(self);
+      var setEnabledUnmerge = function (api) {
+        targets().fold(function () {
+          noTargetDisable(api);
         }, function (targets) {
-          self.disabled(targets.mergable().isNone());
+          api.setDisabled(targets.unmergable().isNone());
         });
+        return function () {
+        };
       };
-      var pushUnmerge = function () {
-        var self = this;
-        unmergeCtrls.push(self);
-        targets.fold(function () {
-          noTargetDisable(self);
-        }, function (targets) {
-          self.disabled(targets.unmergable().isNone());
-        });
-      };
-      var setDisabledCtrls = function () {
-        targets.fold(function () {
-          each(tableCtrls, noTargetDisable);
-          each(cellCtrls, noTargetDisable);
-          each(mergeCtrls, noTargetDisable);
-          each(unmergeCtrls, noTargetDisable);
-        }, function (targets) {
-          each(tableCtrls, ctrlEnable);
-          each(cellCtrls, ctrlEnable);
-          each(mergeCtrls, function (mergeCtrl) {
-            mergeCtrl.disabled(targets.mergable().isNone());
-          });
-          each(unmergeCtrls, function (unmergeCtrl) {
-            unmergeCtrl.disabled(targets.unmergable().isNone());
-          });
-        });
-      };
-      editor.on('init', function () {
-        editor.on('nodechange', function (e) {
+      var resetTargets = function () {
+        targets = cached(function () {
           var cellOpt = Option.from(editor.dom.getParent(editor.selection.getStart(), 'th,td'));
-          targets = cellOpt.bind(function (cellDom) {
+          return cellOpt.bind(function (cellDom) {
             var cell = Element$$1.fromDom(cellDom);
             var table = TableLookup.table(cell);
             return table.map(function (table) {
               return TableTargets.forMenu(selections, table, cell);
             });
           });
-          setDisabledCtrls();
         });
-      });
-      var generateTableGrid = function () {
-        var html = '';
-        html = '<table role="grid" class="mce-grid mce-grid-border" aria-readonly="true">';
-        for (var y = 0; y < 10; y++) {
-          html += '<tr>';
-          for (var x = 0; x < 10; x++) {
-            html += '<td role="gridcell" tabindex="-1"><a id="mcegrid' + (y * 10 + x) + '" href="#" ' + 'data-mce-x="' + x + '" data-mce-y="' + y + '"></a></td>';
-          }
-          html += '</tr>';
-        }
-        html += '</table>';
-        html += '<div class="mce-text-center" role="presentation">1 x 1</div>';
-        return html;
       };
-      var selectGrid = function (editor, tx, ty, control) {
-        var table = control.getEl().getElementsByTagName('table')[0];
-        var x, y, focusCell, cell, active;
-        var rtl = control.isRtl() || control.parent().rel === 'tl-tr';
-        table.nextSibling.innerHTML = tx + 1 + ' x ' + (ty + 1);
-        if (rtl) {
-          tx = 9 - tx;
-        }
-        for (y = 0; y < 10; y++) {
-          for (x = 0; x < 10; x++) {
-            cell = table.rows[y].childNodes[x].firstChild;
-            active = (rtl ? x >= tx : x <= tx) && y <= ty;
-            editor.dom.toggleClass(cell, 'mce-active', active);
-            if (active) {
-              focusCell = cell;
-            }
-          }
-        }
-        return focusCell.parentNode;
-      };
-      var insertTable = hasTableGrid(editor) === false ? {
-        text: 'Table',
-        icon: 'table',
-        context: 'table',
-        onclick: cmd('mceInsertTable')
-      } : {
-        text: 'Table',
-        icon: 'table',
-        context: 'table',
-        ariaHideMenu: true,
-        onclick: function (e) {
-          if (e.aria) {
-            this.parent().hideAll();
-            e.stopImmediatePropagation();
-            editor.execCommand('mceInsertTable');
-          }
-        },
-        onshow: function () {
-          selectGrid(editor, 0, 0, this.menu.items()[0]);
-        },
-        onhide: function () {
-          var elements = this.menu.items()[0].getEl().getElementsByTagName('a');
-          editor.dom.removeClass(elements, 'mce-active');
-          editor.dom.addClass(elements[0], 'mce-active');
-        },
-        menu: [{
-            type: 'container',
-            html: generateTableGrid(),
-            onPostRender: function () {
-              this.lastX = this.lastY = 0;
-            },
-            onmousemove: function (e) {
-              var target = e.target;
-              var x, y;
-              if (target.tagName.toUpperCase() === 'A') {
-                x = parseInt(target.getAttribute('data-mce-x'), 10);
-                y = parseInt(target.getAttribute('data-mce-y'), 10);
-                if (this.isRtl() || this.parent().rel === 'tl-tr') {
-                  x = 9 - x;
-                }
-                if (x !== this.lastX || y !== this.lastY) {
-                  selectGrid(editor, x, y, e.control);
-                  this.lastX = x;
-                  this.lastY = y;
-                }
-              }
-            },
-            onclick: function (e) {
-              var self = this;
-              if (e.target.tagName.toUpperCase() === 'A') {
-                e.preventDefault();
-                e.stopPropagation();
-                self.parent().cancel();
-                editor.undoManager.transact(function () {
-                  InsertTable.insert(editor, self.lastX + 1, self.lastY + 1);
-                });
-                editor.addVisual();
-              }
-            }
-          }]
-      };
-      function cmd(command) {
+      editor.on('nodechange', resetTargets);
+      var cmd = function (command) {
         return function () {
-          editor.execCommand(command);
+          return editor.execCommand(command);
         };
-      }
+      };
+      var insertTableAction = function (_a) {
+        var numRows = _a.numRows, numColumns = _a.numColumns;
+        editor.undoManager.transact(function () {
+          InsertTable.insert(editor, numColumns, numRows);
+        });
+        editor.addVisual();
+      };
       var tableProperties = {
         text: 'Table properties',
-        context: 'table',
-        onPostRender: pushTable,
-        onclick: cmd('mceTableProps')
+        onSetup: setEnabled,
+        onAction: cmd('mceTableProps')
       };
       var deleteTable = {
         text: 'Delete table',
-        context: 'table',
-        onPostRender: pushTable,
-        cmd: 'mceTableDelete'
+        icon: 'table-delete-table',
+        onSetup: setEnabled,
+        onAction: cmd('mceTableDelete')
       };
       var row = {
+        type: 'nestedmenuitem',
         text: 'Row',
-        context: 'table',
-        menu: [
-          {
-            text: 'Insert row before',
-            onclick: cmd('mceTableInsertRowBefore'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Insert row after',
-            onclick: cmd('mceTableInsertRowAfter'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Delete row',
-            onclick: cmd('mceTableDeleteRow'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Row properties',
-            onclick: cmd('mceTableRowProps'),
-            onPostRender: pushCell
-          },
-          { text: '-' },
-          {
-            text: 'Cut row',
-            onclick: cmd('mceTableCutRow'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Copy row',
-            onclick: cmd('mceTableCopyRow'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Paste row before',
-            onclick: cmd('mceTablePasteRowBefore'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Paste row after',
-            onclick: cmd('mceTablePasteRowAfter'),
-            onPostRender: pushCell
-          }
-        ]
+        getSubmenuItems: function () {
+          return [
+            {
+              type: 'menuitem',
+              text: 'Insert row before',
+              icon: 'table-insert-row-above',
+              onAction: cmd('mceTableInsertRowBefore'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Insert row after',
+              icon: 'table-insert-row-after',
+              onAction: cmd('mceTableInsertRowAfter'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Delete row',
+              icon: 'table-delete-row',
+              onAction: cmd('mceTableDeleteRow'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Row properties',
+              icon: 'table-row-properties',
+              onAction: cmd('mceTableRowProps'),
+              onSetup: setEnabled
+            },
+            { type: 'separator' },
+            {
+              type: 'menuitem',
+              text: 'Cut row',
+              onAction: cmd('mceTableCutRow'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Copy row',
+              onAction: cmd('mceTableCopyRow'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Paste row before',
+              onAction: cmd('mceTablePasteRowBefore'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Paste row after',
+              onAction: cmd('mceTablePasteRowAfter'),
+              onSetup: setEnabled
+            }
+          ];
+        }
       };
       var column = {
+        type: 'nestedmenuitem',
         text: 'Column',
-        context: 'table',
-        menu: [
-          {
-            text: 'Insert column before',
-            onclick: cmd('mceTableInsertColBefore'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Insert column after',
-            onclick: cmd('mceTableInsertColAfter'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Delete column',
-            onclick: cmd('mceTableDeleteCol'),
-            onPostRender: pushCell
-          }
-        ]
+        getSubmenuItems: function () {
+          return [
+            {
+              type: 'menuitem',
+              text: 'Insert column before',
+              icon: 'table-insert-column-before',
+              onAction: cmd('mceTableInsertColBefore'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Insert column after',
+              icon: 'table-insert-column-after',
+              onAction: cmd('mceTableInsertColAfter'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Delete column',
+              icon: 'table-delete-column',
+              onAction: cmd('mceTableDeleteCol'),
+              onSetup: setEnabled
+            }
+          ];
+        }
       };
       var cell = {
-        separator: 'before',
+        type: 'nestedmenuitem',
         text: 'Cell',
-        context: 'table',
-        menu: [
-          {
-            text: 'Cell properties',
-            onclick: cmd('mceTableCellProps'),
-            onPostRender: pushCell
-          },
-          {
-            text: 'Merge cells',
-            onclick: cmd('mceTableMergeCells'),
-            onPostRender: pushMerge
-          },
-          {
-            text: 'Split cell',
-            onclick: cmd('mceTableSplitCells'),
-            onPostRender: pushUnmerge
-          }
-        ]
+        getSubmenuItems: function () {
+          return [
+            {
+              type: 'menuitem',
+              text: 'Cell properties',
+              icon: 'table-cell-properties',
+              onAction: cmd('mceTableCellProps'),
+              onSetup: setEnabled
+            },
+            {
+              type: 'menuitem',
+              text: 'Merge cells',
+              icon: 'table-merge-cells',
+              onAction: cmd('mceTableMergeCells'),
+              onSetup: setEnabledMerge
+            },
+            {
+              type: 'menuitem',
+              text: 'Split cell',
+              icon: 'table-split-cells',
+              onAction: cmd('mceTableSplitCells'),
+              onSetup: setEnabledUnmerge
+            }
+          ];
+        }
       };
-      editor.addMenuItem('inserttable', insertTable);
-      editor.addMenuItem('tableprops', tableProperties);
-      editor.addMenuItem('deletetable', deleteTable);
-      editor.addMenuItem('row', row);
-      editor.addMenuItem('column', column);
-      editor.addMenuItem('cell', cell);
+      if (hasTableGrid(editor) === false) {
+        editor.ui.registry.addMenuItem('inserttable', {
+          text: 'Table',
+          icon: 'table',
+          onAction: cmd('mceInsertTable')
+        });
+      } else {
+        editor.ui.registry.addNestedMenuItem('inserttable', {
+          text: 'Table',
+          icon: 'table',
+          getSubmenuItems: function () {
+            return [{
+                type: 'fancymenuitem',
+                fancytype: 'inserttable',
+                onAction: insertTableAction
+              }];
+          }
+        });
+      }
+      editor.ui.registry.addMenuItem('tableprops', tableProperties);
+      editor.ui.registry.addMenuItem('deletetable', deleteTable);
+      editor.ui.registry.addNestedMenuItem('row', row);
+      editor.ui.registry.addNestedMenuItem('column', column);
+      editor.ui.registry.addNestedMenuItem('cell', cell);
+      editor.ui.registry.addContextMenu('table', {
+        update: function () {
+          resetTargets();
+          return targets().fold(function () {
+            return '';
+          }, function () {
+            return 'cell row column | tableprops deletetable';
+          });
+        }
+      });
     };
     var MenuItems = { addMenuItems: addMenuItems };
 

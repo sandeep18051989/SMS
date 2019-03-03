@@ -11,7 +11,7 @@
     <h1>BLOG ACTIVITIES</h1>
     <p>Our school blog activities</p>
 </div>
-<div class="row">
+<div class="row hover-content">
     @foreach (var blog in Model)
     {
         <div class="col-md-4 mb-4">
@@ -22,7 +22,7 @@
                             @(blog.Name)
                         </a>
                     </h4>
-                    @{ var description = (!string.IsNullOrEmpty(blog.BlogHtml) ? blog.BlogHtml.Length > 200 ? ("<p class='card-text'>" + blog.BlogHtml.Substring(0, 200) + "...</p>") : ("<p class='card-text'>" + blog.BlogHtml + "</p>") : ("<p class='card-text'>" + (blog.Subject) + "</p>")); }<p class='card-text'></p><p class='card-text'></p><p class='card-text'></p>
+                    @{ var description = (!string.IsNullOrEmpty(blog.BlogHtml) ? blog.BlogHtml.Length > 200 ? ("<p class='card-text'>" + blog.BlogHtml.Substring(0, 200) + "...</p>") : ("<p class='card-text'>" + blog.BlogHtml + "</p>") : ("<p class='card-text'>" + (blog.Subject) + "</p>")); }
                     @Html.Raw(description)
                 </div>
                 <div class="mdb-color lighten-3 text-center">
@@ -49,5 +49,6 @@
                 </div>
             </div>
         </div>
-                        }
+     }
+    <a href="@Url.Action("List", "Blog", new { @Area="" })" class="btn btn-sm btn-outline-info btn-view-all text-black-50 pull-right"><b>VIEW ALL</b></a>
 </div>
