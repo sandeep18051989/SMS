@@ -118,6 +118,7 @@ namespace EF.Services
             builder.RegisterType<SocialPluginService>().As<ISocialPluginService>().InstancePerLifetimeScope();
             builder.RegisterType<SocialAuthorizer>().As<ISocialAuthorizer>().InstancePerLifetimeScope();
             builder.RegisterType<OpenAuthenticationService>().As<IOpenAuthenticationService>().InstancePerLifetimeScope();
+            builder.RegisterType<LicenseService>().As<ILicenseService>().InstancePerLifetimeScope();
 
             builder.RegisterType<CountryReverseGeocodeService>().As<ICountryReverseGeocodeService>().InstancePerLifetimeScope();
 			if (!DatabaseHelper.DatabaseIsInstalled())

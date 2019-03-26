@@ -112,3 +112,4 @@ E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\System.Web.WebPages.Razo
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.dll
 E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.pdb
 E:\My Documents\Training Projects\Sms\EF.Core\bin\Debug\Autofac.pdb
+E:\My Documents\Training Projects\Sms\EF.Core\obj\Debug\EF.Core.csprojResolveAssemblyReference.cache

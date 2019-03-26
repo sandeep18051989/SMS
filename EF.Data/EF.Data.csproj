@@ -74,6 +74,7 @@
     <Compile Include="IDbContext.cs" />
     <Compile Include="Mapping\AcadmicYearMap.cs" />
     <Compile Include="Mapping\AllowanceMap.cs" />
+    <Compile Include="Mapping\LicenseMap.cs" />
     <Compile Include="Mapping\ClassRoomDivisionMap.cs" />
     <Compile Include="Mapping\ClassRoomMap.cs" />
     <Compile Include="Mapping\BlogVideoMap.cs" />

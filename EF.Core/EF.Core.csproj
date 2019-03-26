@@ -108,6 +108,7 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="DatabaseSettings.cs" />
+    <Compile Include="Data\License.cs" />
     <Compile Include="Data\ClassRoomDivision.cs" />
     <Compile Include="Data\BlogVideo.cs" />
     <Compile Include="Data\SocialProvider.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Data\Event.cs" />
     <Compile Include="Data\Product.cs" />
     <Compile Include="Data\InstallDatabase.cs" />
+    <Compile Include="Enums\LicenseStatus.cs" />
     <Compile Include="Enums\BookStatus.cs" />
     <Compile Include="Enums\DifficultyLevel.cs" />
     <Compile Include="Enums\DisplayAreas.cs" />

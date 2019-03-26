@@ -150,6 +150,8 @@
     <Compile Include="Culture\CultureHelper.cs" />
     <Compile Include="Culture\ICutltureHelper.cs" />
     <Compile Include="NameValueToken.cs" />
+    <Compile Include="Service\LicenseService.cs" />
+    <Compile Include="Service\ILicenseService.cs" />
     <Compile Include="Social\ISocialModelFactory.cs" />
     <Compile Include="Social\ISocialSettingService.cs" />
     <Compile Include="Social\SocialModelFactory.cs" />

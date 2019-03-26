@@ -51,6 +51,9 @@ namespace SMS
             // Initialize CMS Context
             ContextHelper.Initialize(false);
             AreaRegistration.RegisterAllAreas();
+
+            System.Web.Http.GlobalConfiguration.Configure(WebApiConfig.Register);
+
             RegisterRoutes(RouteTable.Routes);
             ControllerBuilder.Current.DefaultNamespaces.Add("SMS.Controllers");
             BundleConfig.RegisterBundles(BundleTable.Bundles);
